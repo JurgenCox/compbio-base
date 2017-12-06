@@ -1,127 +1,167 @@
-using System.Text;
-using System.Runtime.InteropServices;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Drmaa {
     public class JobTemplate{
-        private readonly DrmaaJobTemplate instance;
+        private readonly DrmaaJobTemplate _instance;
+        private readonly Dictionary<string, object> _attributesCache = new Dictionary<string, object>();
 
-        public string JobEnvironment {
-            get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.JobEnvironment);
+        public void InvalidateAttributesCache()
+        {
+            _attributesCache.Clear();
+        }
+        
+        public Dictionary<string, string> JobEnvironment {
+            get
+            {
+                var envStrings = GetAttributes(Attributes.JobEnvironment);
+                return envStrings.Select(x => x.Split('=')).ToDictionary(x => x[0], y => y[1]);
             }
 
-            set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.JobEnvironment, value);
+            set
+            {
+                var attrs = value.Select(x => $"{x.Key}={x.Value}").ToArray();
+                SetAttributes(Attributes.JobEnvironment, attrs);
             }
         }
 
         public string InputPath {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.InputPath);
+                return GetAttribute(Attributes.InputPath);
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.InputPath, value);
+                SetAttribute(Attributes.InputPath, value);
             }
         }
 
         public string OutputPath {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.OutputPath);
+                return GetAttribute(Attributes.OutputPath);
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.OutputPath, value);
+                SetAttribute(Attributes.OutputPath, value);
             }
         }
 
         public string ErrorPath {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.ErrorPath);
+                return GetAttribute(Attributes.ErrorPath);
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.ErrorPath, value);
+                SetAttribute(Attributes.ErrorPath, value);
             }
         }
 
         public bool JoinFiles {
             get { 
-                return DrmaaWrapper.DrmaaToBool(DrmaaWrapper.GetAttribute(instance, Attributes.JoinFiles));
+                return DrmaaWrapper.DrmaaToBool(GetAttribute(Attributes.JoinFiles));
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.JoinFiles, DrmaaWrapper.BoolToDrmaa(value));
+                SetAttribute(Attributes.JoinFiles, DrmaaWrapper.BoolToDrmaa(value));
             }
         }
 
         public string[] Arguments {
             get { 
-                return DrmaaWrapper.GetAttributes(instance, Attributes.Argv); 
+                return GetAttributes( Attributes.Argv); 
             }
 
             set { 
-                DrmaaWrapper.SetAttributes(instance, Attributes.Argv, value); 
+                SetAttributes(Attributes.Argv, value); 
             }
         }
 
         public string RemoteCommand {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.RemoteCommand); 
+                return GetAttribute(Attributes.RemoteCommand); 
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.RemoteCommand, value); 
+                SetAttribute(Attributes.RemoteCommand, value); 
             }
         }
 
         public string JobSubmissionState {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.JobSubmissionState); 
+                return GetAttribute(Attributes.JobSubmissionState); 
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.JobSubmissionState, value); 
+                SetAttribute(Attributes.JobSubmissionState, value); 
             }
         }
 
         public string WorkingDirectory {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.WorkingDirectory); 
+                return GetAttribute(Attributes.WorkingDirectory); 
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.WorkingDirectory, value); 
+                SetAttribute(Attributes.WorkingDirectory, value); 
             }
         }
 
         public string NativeSpecification {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.NativeSpecification); 
+                return GetAttribute(Attributes.NativeSpecification); 
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.NativeSpecification, value); 
+                SetAttribute(Attributes.NativeSpecification, value); 
             }
         }
 
         public string JobName {
             get { 
-                return DrmaaWrapper.GetAttribute(instance, Attributes.JobName); 
+                return GetAttribute(Attributes.JobName); 
             }
 
             set { 
-                DrmaaWrapper.SetAttribute(instance, Attributes.JobName, value); 
+                SetAttribute(Attributes.JobName, value); 
             }
         }
-
+        
+        private string GetAttribute(string name)
+        {
+            if (_attributesCache.ContainsKey(name))
+            {
+                return _attributesCache[name] as string;
+            }
+            return DrmaaWrapper.GetAttribute(_instance, name);
+        } 
+        
+        private string[] GetAttributes(string name)
+        {
+            if (_attributesCache.ContainsKey(name))
+            {
+                return _attributesCache[name] as string[];
+            }
+            return DrmaaWrapper.GetAttributes(_instance, name);
+        } 
+        
+        private void SetAttribute(string name, string value)
+        {
+            DrmaaWrapper.SetAttribute(_instance, name, value);
+            _attributesCache[name] = value;
+        }
+        
+        private void SetAttributes(string name, string[] value)
+        {
+            DrmaaWrapper.SetAttributes(_instance, name, value);
+            _attributesCache[name] = value;
+        } 
+        
+        
         internal JobTemplate(DrmaaJobTemplate instance){
-            this.instance = instance;
+            _instance = instance;
         }
 
         public string Submit(){
-            return DrmaaWrapper.RunJob(instance);
+            return DrmaaWrapper.RunJob(_instance);
         }
     }
 }
