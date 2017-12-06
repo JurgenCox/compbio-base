@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Drmaa;
+using Action = Drmaa.Action;
+
 
 namespace BaseLibS.Util {
 	public abstract class WorkDispatcher {
@@ -12,13 +16,25 @@ namespace BaseLibS.Util {
 		private readonly int nTasks;
 		private Thread[] workThreads;
 		private Process[] externalProcesses;
+		private string[] queuedJobIds;
 		private Stack<int> toBeProcessed;
 		private readonly string infoFolder;
 		private readonly bool dotNetCore;
 		private readonly int numInternalThreads;
+		
+		// TODO: remove in release
+		private static bool sessionInited = false;
 
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
-			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1) { }
+			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
+		{
+			// TODO: remove in release
+			if (Environment.GetEnvironmentVariable("MQ_CALC_TYPE") == "queue")
+			{
+				CalculationType = CalculationType.Queueing;	
+			}
+			
+		}
 
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
 			bool dotNetCore, int numInternalThreads) {
@@ -52,6 +68,22 @@ namespace BaseLibS.Util {
 					}
 				}
 			}
+
+			if (CalculationType == CalculationType.Queueing && queuedJobIds != null)
+			{
+				foreach (string jobId in queuedJobIds)
+				{
+					try
+					{
+						Session.JobControl(jobId, Action.Terminate);
+					}
+					catch (DrmaaException ex)
+					{
+						Console.Error.WriteLine(ex.ToString());
+					}
+					
+				}
+			}
 		}
 
 		public static bool IsRunning(Process process) {
@@ -64,13 +96,25 @@ namespace BaseLibS.Util {
 			return true;
 		}
 
-		public void Start() {
+		public void Start()
+		{
+			Console.WriteLine(
+				$"type: {GetType()}, CalculationType: {CalculationType}, nThreads: {Nthreads}, nTasks: {nTasks}, numIntenalThreads: {numInternalThreads}");
+			
+			// TODO: remove in release, move Session.Init() to upper level  
+			if (CalculationType == CalculationType.Queueing && !sessionInited)
+			{
+				Session.Init();
+				sessionInited = true;
+			}
 			toBeProcessed = new Stack<int>();
 			for (int index = nTasks - 1; index >= 0; index--) {
 				toBeProcessed.Push(index);
 			}
 			workThreads = new Thread[Nthreads];
 			externalProcesses = new Process[Nthreads];
+			queuedJobIds = new string[Nthreads];
+			
 			for (int i = 0; i < Nthreads; i++) {
 				workThreads[i] = new Thread(Work) {Name = "Thread " + i + " of " + GetType().Name};
 				workThreads[i].Start(i);
@@ -138,15 +182,72 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads) {
-			throw new NotImplementedException();
-			//Submit to queue and block until finished.
+		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads)
+		{	
+			string cmd = GetCommandFilename().Trim('"'); 
+			
+			// TODO: refactor to a function?
+			List<string> args = new List<string>();			
+			args.AddRange(GetLogArgs(taskIndex, taskIndex));
+			args.Add(Id.ToString());
+			args.AddRange(GetStringArgs(taskIndex));
+			
+			var jobTemplate = Session.AllocateJobTemplate();
+			if (IsRunningOnMono() && !dotNetCore)
+			{
+				jobTemplate.RemoteCommand = "mono";
+				args.InsertRange(0, new[] {"--optimize=all,float32", "--server", cmd});
+			}
+			else
+			{
+				jobTemplate.RemoteCommand = cmd;
+			}
+			string jobName = $"{GetFilename()}_{taskIndex}_{threadIndex}";
+			
+			// TODO: Is it ok to get native spec (num of threads and other resources) via envvar?
+			string nativeSpec = (Environment.GetEnvironmentVariable("MQ_DRMAA") ?? "")
+				.Replace("{threads}", numInternalThreads.ToString());
+			
+//			string nativeSpec = $" -l nodes=1:ppn={numInternalThreads}";
+			
+			// TODO: Separate folder for job stdout/stderr?
+			string outPath = Path.Combine(infoFolder, $"{jobName}.out");
+			string errPath = Path.Combine(infoFolder, $"{jobName}.err");
+			
+			
+			jobTemplate.Arguments = args.ToArray();
+			jobTemplate.OutputPath = outPath;
+			jobTemplate.ErrorPath = errPath;
+//			jobTemplate.NativeSpecification = $"-pe openmpi {40 * (numInternalThreads/40 + 1)} -l h_rt=300";
+			jobTemplate.NativeSpecification = nativeSpec;
+//			jobTemplate.NativeSpecification = "-pe openmpi 40 -l h_rt=604800";
+			jobTemplate.JobName = jobName;
+			Console.WriteLine($"Submitting: cmd: {jobTemplate.RemoteCommand}, args: {string.Join(" ", args.Select(x => $"\"{x}\""))}");
+			Console.WriteLine($"Submitting: outPath: {outPath}");
+			Console.WriteLine($"Submitting: errPath: {errPath}");
+			Console.WriteLine($"Submitting: nativeSpec: {nativeSpec}");
+			Console.WriteLine($"Submitting: jobName: {jobName}");
+
+			// TODO: non atomic operation
+			string jobId = jobTemplate.Submit();
+			queuedJobIds[threadIndex] = jobId;
+			
+			Console.WriteLine($"Submitted job {jobName} with id: {jobId}");
+			var status = Session.WaitForJob(jobId);
+			if (status != Status.Done)
+			{
+				if (File.Exists(errPath))
+				{
+					Console.Error.WriteLine(File.ReadAllText(errPath));		
+				}
+				throw new Exception($"Exception during execution of external job: {jobName}, jobId: {jobId}, status: {status}");
+			}
 		}
 
 		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex) {
 			bool isUnix = FileUtils.IsUnix();
 			string cmd = GetCommandFilename();
-			string args = GetLogArgs(taskIndex, taskIndex) + GetCommandArguments(taskIndex);
+			string args = GetLogArgsString(taskIndex, taskIndex) + GetCommandArguments(taskIndex);
 			ProcessStartInfo psi = IsRunningOnMono() && !dotNetCore
 				? new ProcessStartInfo("mono", " --optimize=all,float32 --server " + cmd + " " + args)
 				: new ProcessStartInfo(cmd, args);
@@ -156,6 +257,7 @@ namespace BaseLibS.Util {
 					psi.EnvironmentVariables["MONO_GC_PARAMS"] = "max-heap-size=" + MaxHeapSizeGb + "g";
 				}
 			}
+			Console.WriteLine($"Process run: {cmd} {args}");
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
@@ -201,9 +303,17 @@ namespace BaseLibS.Util {
 			return b.ToString();
 		}
 
-		private string GetLogArgs(int taskIndex, int id) {
-			return
-				$"\"{infoFolder}\" \"{GetFilename()}\" \"{id}\" \"{GetName(taskIndex)}\" \"{GetComment(taskIndex)}\" \"Process\" ";
+		private string[] GetLogArgs(int taskIndex, int id)
+		{
+			return new string[]
+			{
+				infoFolder, GetFilename(), taskIndex.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
+			};
+		}
+		
+		private string GetLogArgsString(int taskIndex, int id)
+		{
+			return string.Join(" ", GetLogArgs(taskIndex, id).Select(x => $"\"{x}\""))+" ";
 		}
 
 		private string GetFilename() {
