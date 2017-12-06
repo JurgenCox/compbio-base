@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -6,8 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Drmaa;
-using Action = Drmaa.Action;
+using DrmaaNet;
+using Action = DrmaaNet.Action;
 
 
 namespace BaseLibS.Util {
@@ -182,65 +183,78 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads)
-		{	
+		private JobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads)
+		{
 			string cmd = GetCommandFilename().Trim('"'); 
 			
 			// TODO: refactor to a function?
-			List<string> args = new List<string>();			
+			List<string> args = new List<string>{"--optimize=all,float32", "--server", cmd};
 			args.AddRange(GetLogArgs(taskIndex, taskIndex));
 			args.Add(Id.ToString());
 			args.AddRange(GetStringArgs(taskIndex));
-			
-			var jobTemplate = Session.AllocateJobTemplate();
-			if (IsRunningOnMono() && !dotNetCore)
-			{
-				jobTemplate.RemoteCommand = "mono";
-				args.InsertRange(0, new[] {"--optimize=all,float32", "--server", cmd});
-			}
-			else
-			{
-				jobTemplate.RemoteCommand = cmd;
-			}
+
 			string jobName = $"{GetFilename()}_{taskIndex}_{threadIndex}";
 			
 			// TODO: Is it ok to get native spec (num of threads and other resources) via envvar?
+			//			string nativeSpec = $" -l nodes=1:ppn={numInternalThreads}";
+			// "-pe openmpi 40 -l h_rt=604800";
 			string nativeSpec = (Environment.GetEnvironmentVariable("MQ_DRMAA") ?? "")
 				.Replace("{threads}", numInternalThreads.ToString());
 			
-//			string nativeSpec = $" -l nodes=1:ppn={numInternalThreads}";
+			string outPath = Path.Combine(infoFolder, $"{jobName}.out"); // TODO: Separate folder for job stdout/stderr?
+			string errPath = Path.Combine(infoFolder, $"{jobName}.err"); // TODO: Separate folder for job stdout/stderr?\
 			
-			// TODO: Separate folder for job stdout/stderr?
-			string outPath = Path.Combine(infoFolder, $"{jobName}.out");
-			string errPath = Path.Combine(infoFolder, $"{jobName}.err");
+			// TODO: refactor to a function?
+			Dictionary<string, string> env = new Dictionary<string, string>();
+			foreach (DictionaryEntry entry in Environment.GetEnvironmentVariables())
+			{
+				env[entry.Key.ToString()] = entry.Value.ToString();
+			}	
 			
-			
+			JobTemplate jobTemplate = Session.AllocateJobTemplate();						
+			jobTemplate.RemoteCommand = "mono"; // TODO: mono may be not in PATH 
 			jobTemplate.Arguments = args.ToArray();
 			jobTemplate.OutputPath = outPath;
 			jobTemplate.ErrorPath = errPath;
-//			jobTemplate.NativeSpecification = $"-pe openmpi {40 * (numInternalThreads/40 + 1)} -l h_rt=300";
+			jobTemplate.JobEnvironment = env;
 			jobTemplate.NativeSpecification = nativeSpec;
-//			jobTemplate.NativeSpecification = "-pe openmpi 40 -l h_rt=604800";
 			jobTemplate.JobName = jobName;
-			Console.WriteLine($"Submitting: cmd: {jobTemplate.RemoteCommand}, args: {string.Join(" ", args.Select(x => $"\"{x}\""))}");
-			Console.WriteLine($"Submitting: outPath: {outPath}");
-			Console.WriteLine($"Submitting: errPath: {errPath}");
-			Console.WriteLine($"Submitting: nativeSpec: {nativeSpec}");
-			Console.WriteLine($"Submitting: jobName: {jobName}");
+			return jobTemplate;
+		}
+		
+		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads)
+		{
+			JobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
+			Console.WriteLine($"Submitting: cmd: {jobTemplate.RemoteCommand}");
+			Console.WriteLine($"Submitting: jobName: {jobTemplate.JobName}");
+			Console.WriteLine($"Submitting: args: {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}");
+			Console.WriteLine($"Submitting: outPath: {jobTemplate.OutputPath}");
+			Console.WriteLine($"Submitting: errPath: {jobTemplate.ErrorPath}");
+			Console.WriteLine($"Submitting: nativeSpec: {jobTemplate.NativeSpecification}");
+			
 			// TODO: non atomic operation
 			string jobId = jobTemplate.Submit();
 			queuedJobIds[threadIndex] = jobId;
 			
-			Console.WriteLine($"Submitted job {jobName} with id: {jobId}");
+			Console.WriteLine($"Submitted job {jobTemplate.JobName} with id: {jobId}");
 			var status = Session.WaitForJob(jobId);
 			if (status != Status.Done)
 			{
-				if (File.Exists(errPath))
+				if (File.Exists(jobTemplate.ErrorPath))
 				{
-					Console.Error.WriteLine(File.ReadAllText(errPath));		
+					Console.Error.WriteLine(File.ReadAllText(jobTemplate.ErrorPath));		
 				}
-				throw new Exception($"Exception during execution of external job: {jobName}, jobId: {jobId}, status: {status}");
+				throw new Exception($"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
+			}
+			if (File.Exists(jobTemplate.ErrorPath))
+			{
+				File.Delete(jobTemplate.ErrorPath);
+			}
+			
+			if (File.Exists(jobTemplate.OutputPath))
+			{
+				File.Delete(jobTemplate.OutputPath);
 			}
 		}
 
