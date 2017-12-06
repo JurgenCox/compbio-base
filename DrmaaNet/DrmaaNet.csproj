@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Drmaa\DrmaaExecutor.cs" />
     <Compile Include="Drmaa\DrmaaWrapper.cs" />
+    <Compile Include="Drmaa\DrmaaWrapperInternal.cs" />
     <Compile Include="Drmaa\JobTemplate.cs" />
     <Compile Include="Drmaa\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
