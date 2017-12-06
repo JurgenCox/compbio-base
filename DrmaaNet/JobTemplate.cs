@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Drmaa {
+namespace DrmaaNet {
     public class JobTemplate{
         private readonly DrmaaJobTemplate _instance;
         private readonly Dictionary<string, object> _attributesCache = new Dictionary<string, object>();

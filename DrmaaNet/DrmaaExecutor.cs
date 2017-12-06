@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Drmaa {
+namespace DrmaaNet {
     public class DrmaaExecutor{
         private class Job{
             readonly string JobId;

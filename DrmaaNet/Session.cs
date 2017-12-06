@@ -1,4 +1,4 @@
-namespace Drmaa{
+namespace DrmaaNet{
     public class Session{
         public static void Init(string contact=null){
             DrmaaWrapper.Init(contact);
