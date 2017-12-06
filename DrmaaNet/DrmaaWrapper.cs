@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Drmaa
+namespace DrmaaNet
 {
     public class DrmaaException : Exception
     {

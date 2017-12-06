@@ -39,12 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drmaa\DrmaaExecutor.cs" />
-    <Compile Include="Drmaa\DrmaaWrapper.cs" />
-    <Compile Include="Drmaa\DrmaaWrapperInternal.cs" />
-    <Compile Include="Drmaa\JobTemplate.cs" />
-    <Compile Include="Drmaa\Session.cs" />
+    <Compile Include="DrmaaExecutor.cs" />
+    <Compile Include="DrmaaWrapper.cs" />
+    <Compile Include="DrmaaWrapperInternal.cs" />
+    <Compile Include="JobTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Drmaa" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
