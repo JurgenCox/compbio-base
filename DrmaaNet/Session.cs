@@ -20,5 +20,10 @@ namespace DrmaaNet{
         {
             return DrmaaWrapper.Wait(jobId, timeout);
         }
+
+        public static void Exit(string contact=null)
+        {
+            DrmaaWrapper.Exit(contact);
+        }
     }
 }
