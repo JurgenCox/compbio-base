@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace DrmaaNet {
@@ -9,6 +10,37 @@ namespace DrmaaNet {
         public void InvalidateAttributesCache()
         {
             _attributesCache.Clear();
+        }
+
+        public string ReadStderr()
+        {
+            if (File.Exists(ErrorPath))
+            {
+                return File.ReadAllText(ErrorPath);
+            }
+            return "";
+        }
+        
+        public string ReadStdout()
+        {
+            if (File.Exists(OutputPath))
+            {
+                return File.ReadAllText(OutputPath);
+            }
+            return "";
+        }
+        
+        public void Cleanup()
+        {
+            if (File.Exists(ErrorPath))
+            {
+                File.Delete(ErrorPath);
+            }
+			
+            if (File.Exists(OutputPath))
+            {
+                File.Delete(OutputPath);
+            }
         }
         
         public Dictionary<string, string> JobEnvironment {
