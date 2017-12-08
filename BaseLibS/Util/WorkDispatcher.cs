@@ -30,7 +30,7 @@ namespace BaseLibS.Util {
 			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
 		{
 			// TODO: remove in release
-			if (Environment.GetEnvironmentVariable("MQ_CALC_TYPE") == "queue")
+//			if (Environment.GetEnvironmentVariable("MQ_CALC_TYPE") == "queue")
 			{
 				CalculationType = CalculationType.Queueing;	
 			}
@@ -48,6 +48,7 @@ namespace BaseLibS.Util {
 				Directory.CreateDirectory(infoFolder);
 			}
 			CalculationType = calculationType;
+			CalculationType = CalculationType.Queueing;
 		}
 
 		public int MaxHeapSizeGb { get; set; } 
@@ -226,36 +227,35 @@ namespace BaseLibS.Util {
 		{
 			JobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
-			Console.WriteLine($"Submitting: cmd: {jobTemplate.RemoteCommand}");
-			Console.WriteLine($"Submitting: jobName: {jobTemplate.JobName}");
-			Console.WriteLine($"Submitting: args: {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}");
-			Console.WriteLine($"Submitting: outPath: {jobTemplate.OutputPath}");
-			Console.WriteLine($"Submitting: errPath: {jobTemplate.ErrorPath}");
-			Console.WriteLine($"Submitting: nativeSpec: {jobTemplate.NativeSpecification}");
+			Console.WriteLine("Created jobTemplate:");
+			Console.WriteLine($@"  cmd:        {jobTemplate.RemoteCommand}
+  jobName:    {jobTemplate.JobName}
+  args:       {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}
+  outPath:    {jobTemplate.OutputPath}
+  errPath:    {jobTemplate.ErrorPath}
+  nativeSpec: {jobTemplate.NativeSpecification}");
 			
-			// TODO: non atomic operation
+			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
 			string jobId = jobTemplate.Submit();
 			queuedJobIds[threadIndex] = jobId;
 			
-			Console.WriteLine($"Submitted job {jobTemplate.JobName} with id: {jobId}");
-			var status = Session.WaitForJob(jobId);
-			if (status != Status.Done)
+			Console.WriteLine($"Submitted job \"{jobTemplate.JobName}\" with id: {jobId}");
+			try
 			{
-				if (File.Exists(jobTemplate.ErrorPath))
+				var status = Session.WaitForJob(jobId);
+				if (status != Status.Done)
 				{
-					Console.Error.WriteLine(File.ReadAllText(jobTemplate.ErrorPath));		
+					Console.Error.WriteLine(jobTemplate.ReadStderr());
+					throw new Exception($"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
 				}
-				throw new Exception($"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
 			}
-			if (File.Exists(jobTemplate.ErrorPath))
+			finally
 			{
-				File.Delete(jobTemplate.ErrorPath);
+				// TODO: Maybe introduce flag (cleanup or not, for debugging purposes)
+				jobTemplate.Cleanup();
 			}
-			
-			if (File.Exists(jobTemplate.OutputPath))
-			{
-				File.Delete(jobTemplate.OutputPath);
-			}
+
+		
 		}
 
 		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex) {
@@ -263,6 +263,7 @@ namespace BaseLibS.Util {
 			string cmd = GetCommandFilename();
 			string args = GetLogArgsString(taskIndex, taskIndex) + GetCommandArguments(taskIndex);
 			ProcessStartInfo psi = IsRunningOnMono() && !dotNetCore
+			                       // http://www.mono-project.com/docs/about-mono/releases/4.0.0/#floating-point-optimizations
 				? new ProcessStartInfo("mono", " --optimize=all,float32 --server " + cmd + " " + args)
 				: new ProcessStartInfo(cmd, args);
 			if (isUnix) {
