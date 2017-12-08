@@ -23,9 +23,6 @@ namespace BaseLibS.Util {
 		private readonly bool dotNetCore;
 		private readonly int numInternalThreads;
 		
-		// TODO: remove in release
-		private static bool sessionInited = false;
-
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
 			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
 		{
@@ -81,10 +78,11 @@ namespace BaseLibS.Util {
 					}
 					catch (DrmaaException ex)
 					{
+						// TODO: handle DrmaaExceptions
 						Console.Error.WriteLine(ex.ToString());
 					}
-					
 				}
+				Session.Exit();
 			}
 		}
 
@@ -104,10 +102,9 @@ namespace BaseLibS.Util {
 				$"type: {GetType()}, CalculationType: {CalculationType}, nThreads: {Nthreads}, nTasks: {nTasks}, numIntenalThreads: {numInternalThreads}");
 			
 			// TODO: remove in release, move Session.Init() to upper level  
-			if (CalculationType == CalculationType.Queueing && !sessionInited)
+			if (CalculationType == CalculationType.Queueing)
 			{
 				Session.Init();
-				sessionInited = true;
 			}
 			toBeProcessed = new Stack<int>();
 			for (int index = nTasks - 1; index >= 0; index--) {
@@ -135,6 +132,7 @@ namespace BaseLibS.Util {
 					break;
 				}
 			}
+			Session.Exit();
 		}
 
 		public string GetMessagePrefix() {
