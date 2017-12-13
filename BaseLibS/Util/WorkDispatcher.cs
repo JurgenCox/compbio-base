@@ -27,10 +27,10 @@ namespace BaseLibS.Util {
 			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
 		{
 			// TODO: remove in release
-//			if (Environment.GetEnvironmentVariable("MQ_CALC_TYPE") == "queue")
-			{
+//			if (Environment.GetEnvironmentVariable("MQ_DRMAA") != null)
+//			{
 				CalculationType = CalculationType.Queueing;	
-			}
+//			}
 			
 		}
 
@@ -44,7 +44,8 @@ namespace BaseLibS.Util {
 			if (!string.IsNullOrEmpty(infoFolder) && !Directory.Exists(infoFolder)) {
 				Directory.CreateDirectory(infoFolder);
 			}
-			CalculationType = calculationType;
+//			CalculationType = calculationType;
+			// TODO: remove in release
 			CalculationType = CalculationType.Queueing;
 		}
 
@@ -132,7 +133,14 @@ namespace BaseLibS.Util {
 					break;
 				}
 			}
-			Session.Exit();
+//			if (CalculationType == CalculationType.Queueing)
+//			{
+//				Session.Exit();	
+//			}
+			// TODO: waiting for fs sync
+			Thread.Sleep(10000);
+
+			
 		}
 
 		public string GetMessagePrefix() {
@@ -200,8 +208,10 @@ namespace BaseLibS.Util {
 			string nativeSpec = (Environment.GetEnvironmentVariable("MQ_DRMAA") ?? "")
 				.Replace("{threads}", numInternalThreads.ToString());
 			
-			string outPath = Path.Combine(infoFolder, $"{jobName}.out"); // TODO: Separate folder for job stdout/stderr?
-			string errPath = Path.Combine(infoFolder, $"{jobName}.err"); // TODO: Separate folder for job stdout/stderr?\
+			// TODO: Separate folder for job stdout/stderr? Randomize names
+			string outPath = Path.Combine(infoFolder, $"{jobName}.out"); 
+			// TODO: Separate folder for job stdout/stderr? Randomize names
+			string errPath = Path.Combine(infoFolder, $"{jobName}.err"); 
 			
 			// TODO: refactor to a function?
 			Dictionary<string, string> env = new Dictionary<string, string>();
@@ -213,8 +223,8 @@ namespace BaseLibS.Util {
 			JobTemplate jobTemplate = Session.AllocateJobTemplate();						
 			jobTemplate.RemoteCommand = "mono"; // TODO: mono may be not in PATH 
 			jobTemplate.Arguments = args.ToArray();
-			jobTemplate.OutputPath = outPath;
-			jobTemplate.ErrorPath = errPath;
+			jobTemplate.OutputPath = $":{outPath}";
+			jobTemplate.ErrorPath = $":{errPath}";
 			jobTemplate.JobEnvironment = env;
 			jobTemplate.NativeSpecification = nativeSpec;
 			jobTemplate.JobName = jobName;
@@ -225,32 +235,41 @@ namespace BaseLibS.Util {
 		{
 			JobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
-			Console.WriteLine("Created jobTemplate:");
-			Console.WriteLine($@"  cmd:        {jobTemplate.RemoteCommand}
-  jobName:    {jobTemplate.JobName}
-  args:       {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}
-  outPath:    {jobTemplate.OutputPath}
-  errPath:    {jobTemplate.ErrorPath}
-  nativeSpec: {jobTemplate.NativeSpecification}");
 			
 			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
 			string jobId = jobTemplate.Submit();
 			queuedJobIds[threadIndex] = jobId;
 			
-			Console.WriteLine($"Submitted job \"{jobTemplate.JobName}\" with id: {jobId}");
+//			Console.WriteLine($"Submitted job \"{jobTemplate.JobName}\" with id: {jobId}");
+			Console.WriteLine($@"Created jobTemplate:
+  parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
+  cmd:        {jobTemplate.RemoteCommand}
+  jobName:    {jobTemplate.JobName}
+  args:       {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}
+  outPath:    {jobTemplate.OutputPath}
+  errPath:    {jobTemplate.ErrorPath}
+  nativeSpec: {jobTemplate.NativeSpecification}
+Submitted job {jobTemplate.JobName} with id: {jobId}
+");
+
 			try
 			{
-				var status = Session.WaitForJob(jobId);
+				var status = Session.WaitForJobBlocking(jobId);
 				if (status != Status.Done)
 				{
-					Console.Error.WriteLine(jobTemplate.ReadStderr());
-					throw new Exception($"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
+					Console.Error.WriteLine($"{jobTemplate.JobName}, jobId: {jobId}: \n"+jobTemplate.ReadStderr());
+					throw new Exception(
+						$"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
+				}
+				else
+				{
+					Console.WriteLine($"Job \"{jobTemplate.JobName}\" with id {jobId} finished successfully");
 				}
 			}
 			finally
 			{
 				// TODO: Maybe introduce flag (cleanup or not, for debugging purposes)
-				jobTemplate.Cleanup();
+//				jobTemplate.Cleanup();
 			}
 
 		

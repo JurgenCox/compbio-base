@@ -1,7 +1,21 @@
+using System;
+
 namespace DrmaaNet{
-    public class Session{
+    public static class Session
+    {        
+        private static bool _inited;
+        
+        
         public static void Init(string contact=null){
+            if (_inited)
+            {
+                Console.Error.WriteLine("DRMAA session is already initialized");
+                return;
+            }
+            //TODO: remove in release
+            Console.WriteLine($"Initializing DRMAA session, contact: {contact}");
             DrmaaWrapper.Init(contact);
+            _inited = true;
         }
 
         public static Status JobStatus(string jobId){
@@ -16,7 +30,7 @@ namespace DrmaaNet{
             return new JobTemplate(DrmaaWrapper.AllocateJobTemplate());
         }
 
-        public static Status WaitForJob(string jobId, int timeout=-1)
+        public static Status WaitForJobBlocking(string jobId, long timeout=DrmaaWrapper.WaitForever)
         {
             return DrmaaWrapper.Wait(jobId, timeout);
         }
@@ -24,6 +38,7 @@ namespace DrmaaNet{
         public static void Exit(string contact=null)
         {
             DrmaaWrapper.Exit(contact);
+            _inited = false;
         }
     }
 }
