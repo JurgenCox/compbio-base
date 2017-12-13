@@ -1,3 +1,4 @@
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,20 +15,12 @@ namespace DrmaaNet {
 
         public string ReadStderr()
         {
-            if (File.Exists(ErrorPath))
-            {
-                return File.ReadAllText(ErrorPath);
-            }
-            return "";
+            return ReadIfExists(ErrorPath.TrimStart(':'));
         }
         
         public string ReadStdout()
         {
-            if (File.Exists(OutputPath))
-            {
-                return File.ReadAllText(OutputPath);
-            }
-            return "";
+            return ReadIfExists(OutputPath.TrimStart(':'));
         }
         
         public void Cleanup()
@@ -155,6 +148,15 @@ namespace DrmaaNet {
             set { 
                 SetAttribute(Attributes.JobName, value); 
             }
+        }
+
+        private string ReadIfExists(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                return File.ReadAllText(filePath);
+            }
+            return "";
         }
         
         private string GetAttribute(string name)

@@ -64,6 +64,8 @@ namespace DrmaaNet
 
     internal static class DrmaaWrapper
     {
+        internal const long WaitForever = -1;
+
         public static void Init(String contact)
         {
             StringBuilder error = new StringBuilder(1024);
@@ -233,7 +235,7 @@ namespace DrmaaNet
             return nativeBool ? "y" : "n";
         }
 
-        public static Status Wait(string jobId, int timeout = -1)
+        public static Status Wait(string jobId, long timeout = -1)
         {
             StringBuilder error = new StringBuilder(1024);
             StringBuilder jobIdOut = new StringBuilder(1024);
