@@ -26,11 +26,6 @@ namespace BaseLibS.Util {
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
 			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
 		{
-			// TODO: remove in release
-//			if (Environment.GetEnvironmentVariable("MQ_DRMAA") != null)
-//			{
-				CalculationType = CalculationType.Queueing;	
-//			}
 			
 		}
 
@@ -44,9 +39,14 @@ namespace BaseLibS.Util {
 			if (!string.IsNullOrEmpty(infoFolder) && !Directory.Exists(infoFolder)) {
 				Directory.CreateDirectory(infoFolder);
 			}
-//			CalculationType = calculationType;
+			CalculationType = calculationType;
+			
 			// TODO: remove in release
-			CalculationType = CalculationType.Queueing;
+			if (Environment.GetEnvironmentVariable("MQ_CALC_TYPE") == "queue")
+			{
+				CalculationType = CalculationType.Queueing;	
+			}
+			
 		}
 
 		public int MaxHeapSizeGb { get; set; } 
@@ -137,8 +137,15 @@ namespace BaseLibS.Util {
 //			{
 //				Session.Exit();	
 //			}
+			
 			// TODO: waiting for fs sync
-			Thread.Sleep(10000);
+			// TODO: remove in release
+			string sleepTime = Environment.GetEnvironmentVariable("MQ_WORK_SLEEP");
+			if (sleepTime != null)
+			{
+				Thread.Sleep(int.Parse(sleepTime));	
+			}
+			
 
 			
 		}
@@ -207,21 +214,25 @@ namespace BaseLibS.Util {
 			// "-pe openmpi 40 -l h_rt=604800";
 			string nativeSpec = (Environment.GetEnvironmentVariable("MQ_DRMAA") ?? "")
 				.Replace("{threads}", numInternalThreads.ToString());
+
+			string randSuffix = Guid.NewGuid().ToString();
 			
 			// TODO: Separate folder for job stdout/stderr? Randomize names
-			string outPath = Path.Combine(infoFolder, $"{jobName}.out"); 
+			string outPath = Path.Combine(infoFolder, $"{jobName}.{randSuffix}.out"); 
 			// TODO: Separate folder for job stdout/stderr? Randomize names
-			string errPath = Path.Combine(infoFolder, $"{jobName}.err"); 
+			string errPath = Path.Combine(infoFolder, $"{jobName}.{randSuffix}.err"); 
 			
 			// TODO: refactor to a function?
 			Dictionary<string, string> env = new Dictionary<string, string>();
 			foreach (DictionaryEntry entry in Environment.GetEnvironmentVariables())
 			{
 				env[entry.Key.ToString()] = entry.Value.ToString();
-			}	
+			}
+
+			string monoBinEnv = Environment.GetEnvironmentVariable("MQ_MONO_BIN");
 			
 			JobTemplate jobTemplate = Session.AllocateJobTemplate();						
-			jobTemplate.RemoteCommand = "mono"; // TODO: mono may be not in PATH 
+			jobTemplate.RemoteCommand = monoBinEnv ?? "mono"; // TODO: mono may be not in PATH 
 			jobTemplate.Arguments = args.ToArray();
 			jobTemplate.OutputPath = $":{outPath}";
 			jobTemplate.ErrorPath = $":{errPath}";
@@ -240,7 +251,6 @@ namespace BaseLibS.Util {
 			string jobId = jobTemplate.Submit();
 			queuedJobIds[threadIndex] = jobId;
 			
-//			Console.WriteLine($"Submitted job \"{jobTemplate.JobName}\" with id: {jobId}");
 			Console.WriteLine($@"Created jobTemplate:
   parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
   cmd:        {jobTemplate.RemoteCommand}
@@ -269,7 +279,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			finally
 			{
 				// TODO: Maybe introduce flag (cleanup or not, for debugging purposes)
-//				jobTemplate.Cleanup();
+				jobTemplate.Cleanup();
 			}
 
 		
