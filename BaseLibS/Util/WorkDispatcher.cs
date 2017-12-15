@@ -83,7 +83,8 @@ namespace BaseLibS.Util {
 						Console.Error.WriteLine(ex.ToString());
 					}
 				}
-				Session.Exit();
+				// TODO: move Session Init/Exit code to upper level
+//				Session.Exit();
 			}
 		}
 
@@ -98,10 +99,7 @@ namespace BaseLibS.Util {
 		}
 
 		public void Start()
-		{
-			Console.WriteLine(
-				$"type: {GetType()}, CalculationType: {CalculationType}, nThreads: {Nthreads}, nTasks: {nTasks}, numIntenalThreads: {numInternalThreads}");
-			
+		{			
 			// TODO: remove in release, move Session.Init() to upper level  
 			if (CalculationType == CalculationType.Queueing)
 			{
@@ -133,6 +131,7 @@ namespace BaseLibS.Util {
 					break;
 				}
 			}
+			// TODO: move Session Init/Exit code to upper level
 //			if (CalculationType == CalculationType.Queueing)
 //			{
 //				Session.Exit();	
@@ -209,20 +208,18 @@ namespace BaseLibS.Util {
 
 			string jobName = $"{GetFilename()}_{taskIndex}_{threadIndex}";
 			
-			// TODO: Is it ok to get native spec (num of threads and other resources) via envvar?
-			//			string nativeSpec = $" -l nodes=1:ppn={numInternalThreads}";
-			// "-pe openmpi 40 -l h_rt=604800";
+			// TODO: Decide how we setting nativeSpecification variable. Current implementation done via EnvVars
 			string nativeSpec = (Environment.GetEnvironmentVariable("MQ_DRMAA") ?? "")
 				.Replace("{threads}", numInternalThreads.ToString());
 
 			string randSuffix = Guid.NewGuid().ToString();
 			
-			// TODO: Separate folder for job stdout/stderr? Randomize names
+			// TODO: Separate folder for job stdout/stderr?
 			string outPath = Path.Combine(infoFolder, $"{jobName}.{randSuffix}.out"); 
-			// TODO: Separate folder for job stdout/stderr? Randomize names
+			// TODO: Separate folder for job stdout/stderr?
 			string errPath = Path.Combine(infoFolder, $"{jobName}.{randSuffix}.err"); 
 			
-			// TODO: refactor to a function?
+			// Copying parent environment
 			Dictionary<string, string> env = new Dictionary<string, string>();
 			foreach (DictionaryEntry entry in Environment.GetEnvironmentVariables())
 			{
@@ -246,11 +243,11 @@ namespace BaseLibS.Util {
 		{
 			JobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
-			
 			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
 			string jobId = jobTemplate.Submit();
 			queuedJobIds[threadIndex] = jobId;
 			
+			// TODO: remove debug messages from future release
 			Console.WriteLine($@"Created jobTemplate:
   parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
   cmd:        {jobTemplate.RemoteCommand}
