@@ -5,15 +5,12 @@ namespace DrmaaNet{
     {        
         private static bool _inited;
         
-        
         public static void Init(string contact=null){
             if (_inited)
             {
                 Console.Error.WriteLine("DRMAA session is already initialized");
                 return;
             }
-            //TODO: remove in release
-            Console.WriteLine($"Initializing DRMAA session, contact: {contact}");
             DrmaaWrapper.Init(contact);
             _inited = true;
         }
