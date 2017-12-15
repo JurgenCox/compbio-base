@@ -226,10 +226,8 @@ namespace BaseLibS.Util {
 				env[entry.Key.ToString()] = entry.Value.ToString();
 			}
 
-			string monoBinEnv = Environment.GetEnvironmentVariable("MQ_MONO_BIN");
-			
 			JobTemplate jobTemplate = Session.AllocateJobTemplate();						
-			jobTemplate.RemoteCommand = monoBinEnv ?? "mono"; // TODO: mono may be not in PATH 
+			jobTemplate.RemoteCommand = "mono"; 
 			jobTemplate.Arguments = args.ToArray();
 			jobTemplate.OutputPath = $":{outPath}";
 			jobTemplate.ErrorPath = $":{errPath}";
