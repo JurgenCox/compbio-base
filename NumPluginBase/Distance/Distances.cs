@@ -4,7 +4,10 @@ using BaseLibS.Util;
 
 namespace NumPluginBase.Distance{
 	public static class Distances{
-		private static readonly IDistance[] allDistances = InitDistances();
+        /// <summary>
+        /// Return all distances found dynamically from plugins implementing <see cref="IDistance"/>.
+        /// </summary>
+		public static readonly IDistance[] AllDistances = InitDistances();
 
 		private static IDistance[] InitDistances(){
 			return FileUtils.GetPlugins<IDistance>(NumPluginUtils.pluginNames, true);
@@ -35,23 +38,23 @@ namespace NumPluginBase.Distance{
 		}
 
 		private static string[] GetAllNames(){
-			string[] result = new string[allDistances.Length];
+			string[] result = new string[AllDistances.Length];
 			for (int i = 0; i < result.Length; i++){
-				result[i] = allDistances[i].Name;
+				result[i] = AllDistances[i].Name;
 			}
 			return result;
 		}
 
 		private static Parameters[] GetAllParameters(){
-			Parameters[] result = new Parameters[allDistances.Length];
+			Parameters[] result = new Parameters[AllDistances.Length];
 			for (int i = 0; i < result.Length; i++){
-				result[i] = allDistances[i].Parameters;
+				result[i] = AllDistances[i].Parameters;
 			}
 			return result;
 		}
 
 		private static IDistance GetDistanceFunction(int index, Parameters param){
-			IDistance kf = (IDistance) allDistances[index].Clone();
+			IDistance kf = (IDistance) AllDistances[index].Clone();
 			kf.Parameters = param;
 			return kf;
 		}

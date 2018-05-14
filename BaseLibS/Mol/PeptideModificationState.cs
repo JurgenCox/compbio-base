@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -106,6 +105,7 @@ namespace BaseLibS.Mol{
 
 		public void SetModificationAt(int index, ushort value){
 			Modifications[index] = value;
+			Hash = 0;
 		}
 
 		public static PeptideModificationState Read(BinaryReader reader){
@@ -382,7 +382,7 @@ namespace BaseLibS.Mol{
 		}
 
 		public string UshortToString(ushort u){
-			return u == ushort.MaxValue ? "A" : u.ToString(CultureInfo.InvariantCulture);
+			return u == ushort.MaxValue ? "A" : u.ToString();
 		}
 
 		public static PeptideModificationState FillFixedModifications(string sequence, IDictionary<char, ushort> fmods){

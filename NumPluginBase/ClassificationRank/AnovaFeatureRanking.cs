@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BaseLibS.Api;
 using BaseLibS.Num;
-using BaseLibS.Num.Test.Univariate.NSamples;
+using BaseLibS.Num.Test.Univariate.NSample;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 
@@ -51,7 +51,8 @@ namespace NumPluginBase.ClassificationRank{
 			}
 			double statistic;
 			double pvalS0;
-			OneWayAnovaTest.TestImpl(data, out statistic, s0, out pvalS0);
+			double[] gmeans;
+			OneWayAnovaTest.TestImpl(data, out statistic, s0, out pvalS0, out gmeans);
 			return pvalS0;
 		}
 

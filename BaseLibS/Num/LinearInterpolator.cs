@@ -215,5 +215,16 @@ namespace BaseLibS.Num{
 			}
 			writer.Close();
 		}
+
+		public LinearInterpolator Minus() {
+			return new LinearInterpolator((double[])xvals.Clone(), Negate((double[])yvals.Clone()));
+		}
+
+		private double[] Negate(double[] doubles) {
+			for (int i = 0; i < doubles.Length; i++) {
+				doubles[i] *= -1;
+			}
+			return doubles;
+		}
 	}
 }

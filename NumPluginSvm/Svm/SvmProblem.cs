@@ -4,9 +4,9 @@ using BaseLibS.Num.Vector;
 namespace NumPluginSvm.Svm{
 	public class SvmProblem{
 		public BaseVector[] x;
-		public float[] y;
+		public double[] y;
 
-		public SvmProblem(IList<BaseVector> x, float[] y){
+		public SvmProblem(IList<BaseVector> x, double[] y){
 			this.x = new BaseVector[x.Count];
 			this.y = y;
 			for (int i = 0; i < this.x.Length; i++){
@@ -18,7 +18,7 @@ namespace NumPluginSvm.Svm{
 		public int Count => x.Length;
 
 		public SvmProblem Copy(){
-			SvmProblem newProb = new SvmProblem{x = new BaseVector[Count], y = new float[Count]};
+			SvmProblem newProb = new SvmProblem{x = new BaseVector[Count], y = new double[Count]};
 			for (int i = 0; i < Count; ++i){
 				newProb.x[i] = x[i].Copy();
 				newProb.y[i] = y[i];
@@ -27,7 +27,7 @@ namespace NumPluginSvm.Svm{
 		}
 
 		public SvmProblem ExtractFeatures(int[] indices){
-			SvmProblem reducedData = new SvmProblem{x = new BaseVector[Count], y = new float[Count]};
+			SvmProblem reducedData = new SvmProblem{x = new BaseVector[Count], y = new double[Count]};
 			for (int i = 0; i < Count; i++){
 				reducedData.x[i] = x[i].SubArray(indices);
 				reducedData.y[i] = y[i];

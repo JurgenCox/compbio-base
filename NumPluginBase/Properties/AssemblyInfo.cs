@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NumPluginBase")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Numerical classes for MaxQuant and Perseus")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Max-Planck-Institute of Biochemistry")]
 [assembly: AssemblyProduct("NumPluginBase")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]

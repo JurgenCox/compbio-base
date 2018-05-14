@@ -7,7 +7,9 @@ namespace BaseLibS.Data{
 		private CacheElem<Tk, Tv> last;
 		private readonly Dictionary<Tk, CacheElem<Tk, Tv>> map = new Dictionary<Tk, CacheElem<Tk, Tv>>();
 		private int maxEntries = 1000*1000;
-		public int MaxEntries { get { return maxEntries; } set { maxEntries = value; } }
+		public int MaxEntries { get => maxEntries;
+			set => maxEntries = value;
+		}
 
 		public bool ContainsKey(Tk key){
 			return map.ContainsKey(key);

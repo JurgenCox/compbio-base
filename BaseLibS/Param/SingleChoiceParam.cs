@@ -1,11 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace BaseLibS.Param{
 	[Serializable]
 	public class SingleChoiceParam : Parameter<int>{
 		public IList<string> Values { get; set; }
-		public SingleChoiceParam(string name) : this(name, 0){}
+
+        /// <summary>
+        /// only for xml serialization
+        /// </summary>
+	    private SingleChoiceParam() : this("") { }
+
+	    public SingleChoiceParam(string name) : this(name, 0){}
 
 		public SingleChoiceParam(string name, int value) : base(name){
 			Value = value;
@@ -34,5 +41,23 @@ namespace BaseLibS.Param{
 			Value = 0;
 		}
 		public override ParamType Type => ParamType.Server;
+
+	    public override void ReadXml(XmlReader reader)
+	    {
+            ReadBasicAttributes(reader);
+            reader.ReadStartElement();
+	        Value = reader.ReadElementContentAsInt();
+	        Values = reader.ReadInto(new List<string>()).ToArray();
+            reader.ReadEndElement();
+	    }
+
+	    public override void WriteXml(XmlWriter writer)
+	    {
+            WriteBasicAttributes(writer);
+            writer.WriteStartElement("Value");
+            writer.WriteValue(Value);
+            writer.WriteEndElement();
+            writer.WriteValues("Values", Values);
+	    }
 	}
 }

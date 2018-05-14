@@ -2,12 +2,11 @@
 
 namespace BaseLibS.Mol{
 	public class TaxonomyRanks{
-		public static TaxonomyRank[] mainRanks = new[]{
+		public static TaxonomyRank[] mainRanks = {
 			TaxonomyRank.Superkingdom, TaxonomyRank.Kingdom, TaxonomyRank.Phylum, TaxonomyRank.Class, TaxonomyRank.Order,
 			TaxonomyRank.Family, TaxonomyRank.Genus, TaxonomyRank.Species
 		};
-		public static string[] mainRankStrings = new[]
-		{"Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"};
+		public static string[] mainRankStrings = {"Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"};
 
 		public static TaxonomyRank FromString(string s){
 			switch (s){

@@ -4,8 +4,9 @@ using BaseLibS.Num.Vector;
 
 namespace BaseLibS.Num.Matrix{
 	[Serializable]
-	public class FloatMatrixIndexer : MatrixIndexer{
-		private float[,] vals;
+    public class FloatMatrixIndexer : MatrixIndexer
+    {
+        private float[,] vals;
 		public FloatMatrixIndexer(){}
 
 		public FloatMatrixIndexer(float[,] vals){
@@ -26,8 +27,13 @@ namespace BaseLibS.Num.Matrix{
 			return vals == null ? new FloatMatrixIndexer() : new FloatMatrixIndexer(ArrayUtils.Transpose(vals));
 		}
 
-		public override void Set(float[,] value){
-			vals = value;
+		public override void Set(double[,] value) {
+			vals = new float[value.GetLength(0),value.GetLength(1)];
+			for (int i = 0; i < value.GetLength(0); i++) {
+				for (int j = 0; j < value.GetLength(1); j++) {
+					vals[i, j] = (float)value[i, j];
+				}
+			}
 		}
 
 		public override BaseVector GetRow(int row){
@@ -101,17 +107,23 @@ namespace BaseLibS.Num.Matrix{
 			return true;
 		}
 
-		public override int RowCount => vals.GetLength(0);
-		public override int ColumnCount => vals.GetLength(1);
+		public override int RowCount => vals?.GetLength(0) ?? 0;
+		public override int ColumnCount => vals?.GetLength(1) ?? 0;
 
-		public override float this[int i, int j]{
-			get { return !IsInitialized() ? float.NaN : vals[i, j]; }
-			set{
-				if (!IsInitialized()){
-					return;
-				}
-				vals[i, j] = value;
+		public override double this[int i, int j]{
+			get => vals[i, j];
+			set => vals[i, j] = (float)value;
+		}
+
+		public override double Get(int i, int j){
+			return !IsInitialized() ? float.NaN : vals[i, j];
+		}
+
+		public override void Set(int i, int j, double value){
+			if (!IsInitialized()){
+				return;
 			}
+			vals[i, j] = (float)value;
 		}
 
 		public override void Dispose(){
@@ -121,5 +133,6 @@ namespace BaseLibS.Num.Matrix{
 		public override object Clone(){
 			return vals == null ? new FloatMatrixIndexer(null) : new FloatMatrixIndexer((float[,]) vals.Clone());
 		}
-	}
+
+    }
 }

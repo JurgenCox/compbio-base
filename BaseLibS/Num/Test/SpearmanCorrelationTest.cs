@@ -1,8 +1,15 @@
 using System;
+using BaseLibS.Num.Distrib;
 
 namespace BaseLibS.Num.Test{
 	public class SpearmanCorrelationTest{
-		public const double epsilon = 5E-16;
+		public static double Test(double r, int n){
+			double bothtails;
+			double lefttail;
+			double righttail;
+			Test(r, n, out bothtails, out lefttail, out righttail);
+			return bothtails;
+		}
 
 		public static void Test(double r, int n, out double bothtails, out double lefttail, out double righttail){
 			if (n < 5){
@@ -42,7 +49,7 @@ namespace BaseLibS.Num.Test{
 		private static double Spearmantail5(double s){
 			double result;
 			if (s < 0.000e+00){
-				result = Studenttdistribution(3, -s);
+				result = StudentsT.Cumulative(3, -s);
 				return result;
 			}
 			if (s >= 3.580e+00){
@@ -100,7 +107,7 @@ namespace BaseLibS.Num.Test{
 		private static double Spearmantail6(double s){
 			double result;
 			if (s < 1.001e+00){
-				result = Studenttdistribution(4, -s);
+				result = StudentsT.Cumulative(4, -s);
 				return result;
 			}
 			if (s >= 5.663e+00){
@@ -154,7 +161,7 @@ namespace BaseLibS.Num.Test{
 		private static double Spearmantail7(double s){
 			double result;
 			if (s < 1.001e+00){
-				result = Studenttdistribution(5, -s);
+				result = StudentsT.Cumulative(5, -s);
 				return result;
 			}
 			if (s >= 8.159e+00){
@@ -236,7 +243,7 @@ namespace BaseLibS.Num.Test{
 		private static double Spearmantail8(double s){
 			double result;
 			if (s < 2.001e+00){
-				result = Studenttdistribution(6, -s);
+				result = StudentsT.Cumulative(6, -s);
 				return result;
 			}
 			if (s >= 1.103e+01){
@@ -314,7 +321,7 @@ namespace BaseLibS.Num.Test{
 		private static double Spearmantail9(double s){
 			double result;
 			if (s < 2.001e+00){
-				result = Studenttdistribution(7, -s);
+				result = StudentsT.Cumulative(7, -s);
 				return result;
 			}
 			if (s >= 9.989e+00){
@@ -433,105 +440,7 @@ namespace BaseLibS.Num.Test{
 			if (n == 9){
 				return Spearmantail9(-t);
 			}
-			return Studenttdistribution(n - 2, t);
-		}
-
-		/*************************************************************************
-	Student's t distribution
-
-	Computes the integral from minus infinity to t of the Student
-	t distribution with integer k > 0 degrees of freedom:
-
-										 t
-										 -
-										| |
-				 -                      |         2   -(k+1)/2
-				| ( (k+1)/2 )           |  (     x   )
-		  ----------------------        |  ( 1 + --- )        dx
-						-               |  (      k  )
-		  sqrt( k pi ) | ( k/2 )        |
-									  | |
-									   -
-									  -inf.
-
-	Relation to incomplete beta integral:
-
-		   1 - stdtr(k,t) = 0.5 * incbet( k/2, 1/2, z )
-	where
-		   z = k/(k + t**2).
-
-	For t < -2, this is the method of computation.  For higher t,
-	a direct method is derived from integration by parts.
-	Since the function is symmetric about t=0, the area under the
-	right tail of the density is found by calling the function
-	with -t instead of t.
-
-	ACCURACY:
-
-	Tested at random 1 <= k <= 25.  The "domain" refers to t.
-						 Relative error:
-	arithmetic   domain     # trials      peak         rms
-	   IEEE     -100,-2      50000       5.9e-15     1.4e-15
-	   IEEE     -2,100      500000       2.7e-15     4.9e-17
-
-	Cephes Math Library Release 2.8:  June, 2000
-	Copyright 1984, 1987, 1995, 2000 by Stephen L. Moshier
-	*************************************************************************/
-
-		public static double Studenttdistribution(int k, double t){
-			System.Diagnostics.Debug.Assert(k > 0, "Domain error in StudentTDistribution");
-			if (t == 0){
-				return 0.5;
-			}
-			double rk;
-			double z;
-			if (t < -2.0){
-				rk = k;
-				z = rk/(rk + t*t);
-				return 0.5*NumRecipes.Betai(0.5*rk, 0.5, z);
-			}
-			double x;
-			if (t < 0){
-				x = -t;
-			} else{
-				x = t;
-			}
-			rk = k;
-			z = 1.0 + x*x/rk;
-			double f;
-			double tz;
-			double p;
-			int j;
-			if (k%2 != 0){
-				double xsqk = x/Math.Sqrt(rk);
-				p = Math.Atan(xsqk);
-				if (k > 1){
-					f = 1.0;
-					tz = 1.0;
-					j = 3;
-					while (j <= k - 2 & tz/f > epsilon){
-						tz = tz*((j - 1)/(z*j));
-						f = f + tz;
-						j = j + 2;
-					}
-					p = p + f*xsqk/z;
-				}
-				p = p*2.0/Math.PI;
-			} else{
-				f = 1.0;
-				tz = 1.0;
-				j = 2;
-				while (j <= k - 2 & tz/f > epsilon){
-					tz = tz*((j - 1)/(z*j));
-					f = f + tz;
-					j = j + 2;
-				}
-				p = f*x/Math.Sqrt(z*rk);
-			}
-			if (t < 0){
-				p = -p;
-			}
-			return 0.5 + 0.5*p;
+			return StudentsT.Cumulative(n - 2, t);
 		}
 	}
 }

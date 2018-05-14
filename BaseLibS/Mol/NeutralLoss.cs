@@ -19,9 +19,13 @@ namespace BaseLibS.Mol{
 		}
 
 		[XmlAttribute("name")]
-		public string Name { get { return name; } set { name = value; } }
+		public string Name { get => name;
+			set => name = value;
+		}
 		[XmlAttribute("shortname")]
-		public string ShortName { get { return shortname; } set { shortname = value; } }
+		public string ShortName { get => shortname;
+			set => shortname = value;
+		}
 		[XmlIgnore]
 		public double DeltaMass{
 			get{
@@ -37,9 +41,11 @@ namespace BaseLibS.Mol{
 				}
 				return deltamass;
 			}
-			set { deltamass = value; }
+			set => deltamass = value;
 		}
 		[XmlAttribute("composition")]
-		public string Composition { get { return composition; } set { composition = value; } }
+		public string Composition { get => composition;
+			set => composition = value;
+		}
 	}
 }

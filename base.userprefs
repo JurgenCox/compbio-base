@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="BaseLib\Forms\Base\BasicControl.cs">
+    <Files>
+      <File FileName="BaseLib\Forms\CheckedListBoxControl.cs" Line="1" Column="1" />
+      <File FileName="BaseLib\Forms\Base\BasicControl.cs" Line="7" Column="30" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+</Properties>

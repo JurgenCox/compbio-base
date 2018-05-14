@@ -17,8 +17,8 @@ namespace NumPluginBase.Kernel{
 		public string Name => "RBF";
 
 		public Parameters Parameters{
-			get { return new Parameters(new DoubleParam("Sigma", Sigma){Help = "Standard deviation parameter."}); }
-			set { Sigma = value.GetParam<double>("Sigma").Value; }
+			get => new Parameters(new DoubleParam("Sigma", Sigma){Help = "Standard deviation parameter."});
+			set => Sigma = value.GetParam<double>("Sigma").Value;
 		}
 
 		public double Evaluate(BaseVector xi, BaseVector xj, double xSquarei, double xSquarej){

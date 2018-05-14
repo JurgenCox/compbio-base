@@ -1,7 +1,6 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
-using BaseLib.Graphic;
+using BaseLibS.Graph;
 
 namespace BaseLib.Forms.Base{
 	[Obsolete]
@@ -34,7 +33,7 @@ namespace BaseLib.Forms.Base{
 		public virtual void DoPaint(IGraphics g) {}
 
 		public virtual void DoPaintBackground(IGraphics g){
-			g.FillRectangle(new SolidBrush(BackColor), 0, 0, Width, Height);
+			g.FillRectangle(new Brush2(Color2.FromArgb(BackColor.A, BackColor.R, BackColor.G, BackColor.B) ), 0, 0, Width, Height);
 		}
 
 		protected virtual void OnMouseDragged(MouseEventArgs e) {}

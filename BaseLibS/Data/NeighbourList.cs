@@ -3,6 +3,9 @@ using System.Linq;
 using BaseLibS.Num;
 
 namespace BaseLibS.Data{
+    /// <summary>
+    /// Graph structure based on dictionaries of node neighbors.
+    /// </summary>
 	public class NeighbourList{
 		private readonly Dictionary<int, HashSet<int>> neighborList = new Dictionary<int, HashSet<int>>();
 
@@ -13,12 +16,21 @@ namespace BaseLibS.Data{
 
 		public bool IsEmptyAt(int i) { return !neighborList.ContainsKey(i); }
 
+        /// <summary>
+        /// Get connected component and remove it from NeighbourList
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
 		public int[] GetClusterAt(int i){
 			int[] cluster = GetClusterAtNoRemove(i);
 			RemoveCluster(cluster);
 			return cluster;
 		}
 
+        /// <summary>
+        /// Get all connected components
+        /// </summary>
+        /// <returns></returns>
 		public int[][] GetAllClusters(){
 			List<int[]> result = new List<int[]>();
 			while (neighborList.Count > 0){
@@ -28,11 +40,16 @@ namespace BaseLibS.Data{
 		}
 
 		public void RemoveCluster(int[] cluster){
-			foreach (int c in cluster.Where(c => neighborList.ContainsKey(c))){
+			foreach (int c in cluster){
 				neighborList.Remove(c);
 			}
 		}
 
+        /// <summary>
+        /// Get connected component at node i
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
 		public int[] GetClusterAtNoRemove(int i){
 			HashSet<int> cluster = new HashSet<int>();
 			Stack<int> todo = new Stack<int>();

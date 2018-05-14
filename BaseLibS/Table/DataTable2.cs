@@ -1,17 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace BaseLibS.Table{
 	[Serializable]
-	public class DataTable2 : TableModelImpl, IDataTable{
+	public sealed class DataTable2 : TableModelImpl, IDataTable{
 		public Collection<DataRow2> Rows { get; private set; }
-		public DataTable2(string name) : this(name, "") {}
+		public DataTable2(string name) : this(name, ""){}
 
-		public DataTable2(string name, string description){
+		public DataTable2(string name, string description) : base(name, description){
 			Rows = new Collection<DataRow2>();
-			Name = name;
-			Description = description;
+		}
+
+		private DataTable2(SerializationInfo info, StreamingContext ctxt) : base(info, ctxt){
+			DataTable2Ser s = (DataTable2Ser)info.GetValue("Rows", typeof(DataTable2Ser));
+			Rows = s.GetData();
+		}
+
+		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+		public override void GetObjectData(SerializationInfo info, StreamingContext context){
+			base.GetObjectData(info, context);
+			DataTable2Ser s = new DataTable2Ser(Rows, columnTypes);
+			info.AddValue("Rows", s, typeof(DataTable2Ser));
 		}
 
 		public DataRow2 NewRow(){
@@ -30,22 +42,22 @@ namespace BaseLibS.Table{
 			Rows.Clear();
 		}
 
-		public void Close() {}
-		public override int RowCount => Rows.Count;
+		public void Close(){}
+		public override long RowCount => Rows.Count;
 
-		public override object GetEntry(int row, int column){
+		public override object GetEntry(long row, int column){
 			if (row < 0 || row >= Rows.Count){
 				return null;
 			}
 			try{
-				return Rows[row][column];
+				return Rows[(int)row][column];
 			} catch (Exception){
 				return null;
 			}
 		}
 
-		public override void SetEntry(int row, int column, object value){
-			Rows[row][column] = value;
+		public override void SetEntry(long row, int column, object value){
+			Rows[(int)row][column] = value;
 		}
 
 		public void RemoveRow(DataRow2 row){
@@ -75,7 +87,7 @@ namespace BaseLibS.Table{
 		}
 
 		public DataRow2 GetRow(int index){
-			if (index < 0) {
+			if (index < 0){
 				return null;
 			}
 			return Rows[index];

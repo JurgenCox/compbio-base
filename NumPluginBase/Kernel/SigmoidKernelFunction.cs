@@ -8,7 +8,7 @@ namespace NumPluginBase.Kernel{
 	public class SigmoidKernelFunction : IKernelFunction{
 		private double Gamma { get; set; }
 		private double Offset { get; set; }
-		public SigmoidKernelFunction() : this(0.01, 0) { }
+		public SigmoidKernelFunction() : this(0.01, 0){}
 
 		public SigmoidKernelFunction(double gamma, double coef){
 			Gamma = gamma;
@@ -19,21 +19,22 @@ namespace NumPluginBase.Kernel{
 		public string Name => "Sigmoid";
 
 		public Parameters Parameters{
-			get{
-				return
-					new Parameters(new Parameter[]{
-						new DoubleParam("Gamma", Gamma){Help = "Coefficient in front of the scalar product."},
-						new DoubleParam("Offset", Offset){Help = "Shift parameter."}
-					});
-			}
+			get => new Parameters(new DoubleParam("Gamma", Gamma){Help = "Coefficient in front of the scalar product."},
+				new DoubleParam("Offset", Offset){Help = "Shift parameter."});
 			set{
 				Gamma = value.GetParam<double>("Gamma").Value;
 				Offset = value.GetParam<double>("Offset").Value;
 			}
 		}
 
-		public double Evaluate(BaseVector xi, BaseVector xj, double xSquarei, double xSquarej) { return Math.Tanh(Gamma*xi.Dot(xj) + Offset); }
-		public object Clone() { return new SigmoidKernelFunction(Gamma, Offset); }
+		public double Evaluate(BaseVector xi, BaseVector xj, double xSquarei, double xSquarej){
+			return Math.Tanh(Gamma*xi.Dot(xj) + Offset);
+		}
+
+		public object Clone(){
+			return new SigmoidKernelFunction(Gamma, Offset);
+		}
+
 		public string Description => "";
 		public float DisplayRank => 3;
 		public bool IsActive => true;

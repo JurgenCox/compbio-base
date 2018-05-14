@@ -33,36 +33,52 @@ namespace BaseLibS.Util{
 		/// not exist it is created.
 		/// </summary>
 		/// <param name="path">The path where the lock-file is to be written.</param>
-		public LockFile(string path){
+		public LockFile(string path, Random r = null){
 			handle = null;
-			lockFilePath = path + "\\" + ".lock";
-			random = new Random();
-			Directory.CreateDirectory(path);
+			lockFilePath = Path.Combine(path, ".lock");
+		    random = r ?? new Random();
+            Directory.CreateDirectory(path);
 		}
 
-		// implementation
-		/// <summary>
-		/// Creates the actual lock-file, securing exclusive usage of the required resources in a multi-process
-		/// system. A maximum waiting time can be set to wait for gaining the lock on the file, which is set
-		/// to infinity with the value -1 (ie the process waits indefinitely).
-		/// </summary>
-		/// <returns>True when the lock has succeeded, false otherwise.</returns>
-		public void Lock(){
-			Thread.Sleep(random.Next(1, 5000));
-			do{
-				try{
-					handle = File.Create(lockFilePath, 1024, FileOptions.DeleteOnClose | FileOptions.Asynchronous);
-				} catch (Exception){}
-				Thread.Sleep(5000);
-			} while (handle == null);
+        // implementation
+        /// <summary>
+        /// Creates the actual lock-file, securing exclusive usage of the required resources in a multi-process
+        /// system. A maximum waiting time can be set to wait for gaining the lock on the file, which is set
+        /// to infinity with the value -1 (ie the process waits indefinitely).
+        /// </summary>
+        /// <returns>True when the lock has succeeded, false otherwise.</returns>
+        public void Lock(){
+		    Thread.Sleep(random.Next(1000, 10000));
+		    while (true) {
+		        if (!File.Exists(lockFilePath)) {
+		            try {
+		                handle = AcquireFileStream(lockFilePath);
+		                break;
+		            } catch (Exception) {
+		                handle = null;
+		            }
+		        }
+		        Thread.Sleep(5000);
+		    }
 		}
 
-		/// <summary>
-		/// Releases the lock-file so other processes can grab the resources.
-		/// </summary>
-		public void Release(){
-			handle.Close();
-			handle = null;
-		}
+	    private static FileStream AcquireFileStream(string lockPath) {
+	        return new FileStream(
+	            lockPath,
+	            FileMode.Create,
+	            FileAccess.ReadWrite,
+	            FileShare.None,
+	            bufferSize: 32,
+	            options: FileOptions.None);
+	    }
+
+        /// <summary>
+        /// Releases the lock-file so other processes can grab the resources.
+        /// </summary>
+        public void Release() {
+		    handle.Close();
+		    File.Delete(lockFilePath);
+		    handle = null;
+        }
 	}
 }

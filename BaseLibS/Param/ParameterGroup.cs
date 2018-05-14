@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace BaseLibS.Param{
 	[Serializable]
-	public class ParameterGroup{
+	public class ParameterGroup : IXmlSerializable{
 		private readonly List<Parameter> parameters = new List<Parameter>();
 		private string name;
 		private bool collapsedDefault;
@@ -24,8 +27,8 @@ namespace BaseLibS.Param{
 		}
 
 		public bool CollapsedDefault{
-			get { return collapsedDefault; }
-			set { collapsedDefault = value; }
+			get => collapsedDefault;
+			set => collapsedDefault = value;
 		}
 
 		public string[] Markup{
@@ -50,8 +53,8 @@ namespace BaseLibS.Param{
 		}
 
 		public string Name{
-			get { return name; }
-			set { name = value; }
+			get => name;
+			set => name = value;
 		}
 
 		public List<Parameter> ParameterList => parameters;
@@ -103,6 +106,36 @@ namespace BaseLibS.Param{
 		public void ResetDefaults(){
 			foreach (Parameter parameter in parameters){
 				parameter.ResetDefault();
+			}
+		}
+
+		public XmlSchema GetSchema(){
+			throw new NotImplementedException();
+		}
+
+		public void ReadXml(XmlReader reader)
+		{
+		    Name = reader.GetAttribute("Name");
+		    CollapsedDefault = bool.Parse(reader.GetAttribute("CollapsedDefault"));
+			bool isEmpty = reader.IsEmptyElement;
+			reader.ReadStartElement();
+			if (!isEmpty){
+				while (reader.NodeType == XmlNodeType.Element){
+					Type type = Type.GetType(reader.GetAttribute("Type"));
+					Parameter param = (Parameter) new XmlSerializer(type).Deserialize(reader);
+					parameters.Add(param);
+				}
+				reader.ReadEndElement();
+			}
+		}
+
+		public void WriteXml(XmlWriter writer){
+			writer.WriteAttributeString("Name", Name);
+			writer.WriteStartAttribute("CollapsedDefault");
+			writer.WriteValue(CollapsedDefault);
+			writer.WriteEndAttribute();
+			foreach (Parameter parameter in parameters.ToArray()){
+				new XmlSerializer(parameter.GetType()).Serialize(writer, parameter);
 			}
 		}
 	}

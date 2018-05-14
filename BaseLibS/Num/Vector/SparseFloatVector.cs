@@ -39,7 +39,151 @@ namespace BaseLibS.Num.Vector{
 			this.length = length;
 		}
 
+		public override BaseVector Minus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[other.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = -other[i];
+				}
+				for (int i = 0; i < indices.Length; i++){
+					result[indices[i]] += values[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			if (other is FloatArrayVector){
+				float[] result = new float[other.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = -(float) other[i];
+				}
+				for (int i = 0; i < indices.Length; i++){
+					result[indices[i]] += values[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is BoolArrayVector){
+				float[] result = new float[length];
+				for (int i = 0; i < indices.Length; i++){
+					result[indices[i]] = values[i];
+				}
+				BoolArrayVector b = (BoolArrayVector) other;
+				for (int i = 0; i < length; i++){
+					if (b.values[i]){
+						result[i]--;
+					}
+				}
+			}
+			if (other is SparseFloatVector){
+				SparseFloatVector o = (SparseFloatVector) other;
+				int[] newIndices = ArrayUtils.UniqueValues(ArrayUtils.Concat(indices, o.indices));
+				float[] newValues = new float[newIndices.Length];
+				for (int i = 0; i < newValues.Length; i++){
+					int ind1 = Array.BinarySearch(indices, newIndices[i]);
+					if (ind1 >= 0){
+						newValues[i] += values[ind1];
+					}
+					int ind2 = Array.BinarySearch(o.indices, newIndices[i]);
+					if (ind2 >= 0){
+						newValues[i] -= o.values[ind2];
+					}
+				}
+				return new SparseFloatVector(newIndices, newValues, length);
+			}
+			if (other is SparseBoolVector){
+				SparseBoolVector o = (SparseBoolVector) other;
+				int[] newIndices = ArrayUtils.UniqueValues(ArrayUtils.Concat(indices, o.indices));
+				float[] newValues = new float[newIndices.Length];
+				for (int i = 0; i < newValues.Length; i++){
+					int ind1 = Array.BinarySearch(indices, newIndices[i]);
+					if (ind1 >= 0){
+						newValues[i] += values[ind1];
+					}
+					int ind2 = Array.BinarySearch(o.indices, newIndices[i]);
+					if (ind2 >= 0){
+						newValues[i]--;
+					}
+				}
+				return new SparseFloatVector(newIndices, newValues, length);
+			}
+			throw new Exception("Never get here.");
+		}
+
+		public override BaseVector Plus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[other.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = other[i];
+				}
+				for (int i = 0; i < indices.Length; i++){
+					result[indices[i]] += values[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			if (other is FloatArrayVector){
+				float[] result = new float[other.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = (float) other[i];
+				}
+				for (int i = 0; i < indices.Length; i++){
+					result[indices[i]] += values[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is BoolArrayVector){
+				float[] result = new float[length];
+				for (int i = 0; i < indices.Length; i++){
+					result[indices[i]] = values[i];
+				}
+				BoolArrayVector b = (BoolArrayVector) other;
+				for (int i = 0; i < length; i++){
+					if (b.values[i]){
+						result[i]++;
+					}
+				}
+			}
+			if (other is SparseFloatVector){
+				SparseFloatVector o = (SparseFloatVector) other;
+				int[] newIndices = ArrayUtils.UniqueValues(ArrayUtils.Concat(indices, o.indices));
+				float[] newValues = new float[newIndices.Length];
+				for (int i = 0; i < newValues.Length; i++){
+					int ind1 = Array.BinarySearch(indices, newIndices[i]);
+					if (ind1 >= 0){
+						newValues[i] += values[ind1];
+					}
+					int ind2 = Array.BinarySearch(o.indices, newIndices[i]);
+					if (ind2 >= 0){
+						newValues[i] += o.values[ind2];
+					}
+				}
+				return new SparseFloatVector(newIndices, newValues, length);
+			}
+			if (other is SparseBoolVector){
+				SparseBoolVector o = (SparseBoolVector) other;
+				int[] newIndices = ArrayUtils.UniqueValues(ArrayUtils.Concat(indices, o.indices));
+				float[] newValues = new float[newIndices.Length];
+				for (int i = 0; i < newValues.Length; i++){
+					int ind1 = Array.BinarySearch(indices, newIndices[i]);
+					if (ind1 >= 0){
+						newValues[i] += values[ind1];
+					}
+					int ind2 = Array.BinarySearch(o.indices, newIndices[i]);
+					if (ind2 >= 0){
+						newValues[i]++;
+					}
+				}
+				return new SparseFloatVector(newIndices, newValues, length);
+			}
+			throw new Exception("Never get here.");
+		}
+
 		public override int Length => length;
+
+		public override BaseVector Mult(double d){
+			float[] newValues = (float[]) values.Clone();
+			for (int i = 0; i < newValues.Length; i++){
+				newValues[i] *= (float) d;
+			}
+			return new SparseFloatVector((int[]) indices.Clone(), newValues, length);
+		}
 
 		public override BaseVector Copy(){
 			int[] newIndices = new int[indices.Length];
@@ -73,6 +217,10 @@ namespace BaseLibS.Num.Vector{
 				}
 			}
 			return false;
+		}
+
+		public override double[] Unpack(){
+			return ArrayUtils.ToDoubles(this);
 		}
 
 		public override void Dispose(){
@@ -336,7 +484,7 @@ namespace BaseLibS.Num.Vector{
 			return sum;
 		}
 
-		public override bool IsNanOrInf(){
+		public override bool IsNaNOrInf(){
 			if (values.Length < length){
 				return false;
 			}

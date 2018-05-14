@@ -21,9 +21,9 @@ namespace NumPluginBase.Classification{
 			this.distance = distance;
 		}
 
-		public override float[] PredictStrength(BaseVector xTest){
+		public override double[] PredictStrength(BaseVector xTest){
 			int[] inds = GetNeighborInds(x, xTest, k, distance);
-			float[] result = new float[ngroups];
+			double[] result = new double[ngroups];
 			foreach (int ind in inds){
 				foreach (int i in y[ind]){
 					result[i]++;

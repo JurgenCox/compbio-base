@@ -2,9 +2,7 @@
 
 namespace BaseLibS.Mol{
 	public class TaxonomyItem{
-		private readonly int taxId;
 		private readonly int parentTaxId;
-		private readonly TaxonomyRank rank;
 		private int divisionId;
 		private int geneticCodeId;
 		private int mitoGeneticCodeId;
@@ -13,20 +11,16 @@ namespace BaseLibS.Mol{
 
 		public TaxonomyItem(int taxId, int parentTaxId, TaxonomyRank rank, int divisionId, int geneticCodeId,
 			int mitoGeneticCodeId){
-			this.taxId = taxId;
+			this.TaxId = taxId;
 			this.parentTaxId = parentTaxId;
-			this.rank = rank;
+			this.Rank = rank;
 			this.divisionId = divisionId;
 			this.geneticCodeId = geneticCodeId;
 			this.mitoGeneticCodeId = mitoGeneticCodeId;
 		}
 
-		public TaxonomyRank Rank{
-			get { return rank; }
-		}
-		public int TaxId{
-			get { return taxId; }
-		}
+		public TaxonomyRank Rank { get; }
+		public int TaxId { get; }
 
 		public void AddName(string name, TaxonomyNameType nameType){
 			names.Add(name);
@@ -43,7 +37,7 @@ namespace BaseLibS.Mol{
 		}
 
 		public TaxonomyItem GetParentOfRank(TaxonomyRank rank1){
-			if (rank1 == rank){
+			if (rank1 == Rank){
 				return this;
 			}
 			if (!TaxonomyItems.taxId2Item.ContainsKey(parentTaxId)){

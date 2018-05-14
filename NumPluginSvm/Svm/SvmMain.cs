@@ -5,9 +5,9 @@ using BaseLibS.Num.Vector;
 
 namespace NumPluginSvm.Svm{
 	public class SvmMain{
-		public static Random rand = new Random();
+		public static Random rand = new Random(7);
 
-		internal static void Info(String s){
+		internal static void Info(string s){
 			Console.Write(s);
 		}
 
@@ -204,7 +204,7 @@ namespace NumPluginSvm.Svm{
 		}
 
 		// Platt's binary SVM Probablistic Output: an improvement from Lin et al.
-		private static void SigmoidTrain(int l, IList<double> decValues, IList<float> labels, IList<double> probAb){
+		private static void SigmoidTrain(int l, IList<double> decValues, IList<double> labels, IList<double> probAb){
 			double prior1 = 0, prior0 = 0;
 			int i;
 			for (i = 0; i < l; i++){
@@ -396,7 +396,7 @@ namespace NumPluginSvm.Svm{
 				int end = (i + 1)*prob.Count/nrFold;
 				int j;
 				int count = prob.Count - (end - begin);
-				SvmProblem subprob = new SvmProblem{x = new BaseVector[count], y = new float[count]};
+				SvmProblem subprob = new SvmProblem{x = new BaseVector[count], y = new double[count]};
 				int k = 0;
 				for (j = 0; j < begin; j++){
 					subprob.x[k] = prob.x[perm[j]];
@@ -633,7 +633,7 @@ namespace NumPluginSvm.Svm{
 						int si = start[i], sj = start[j];
 						int ci = count[i], cj = count[j];
 						int c = ci + cj;
-						SvmProblem subProb = new SvmProblem{x = new BaseVector[c], y = new float[c]};
+						SvmProblem subProb = new SvmProblem{x = new BaseVector[c], y = new double[c]};
 						int k;
 						for (k = 0; k < ci; k++){
 							subProb.x[k] = x[si + k];
@@ -824,7 +824,7 @@ namespace NumPluginSvm.Svm{
 				int end = foldStart[i + 1];
 				int j;
 				int count = l - (end - begin);
-				SvmProblem subprob = new SvmProblem{x = new BaseVector[count], y = new float[count]};
+				SvmProblem subprob = new SvmProblem{x = new BaseVector[count], y = new double[count]};
 				int k = 0;
 				for (j = 0; j < begin; j++){
 					subprob.x[k] = prob.x[perm[j]];
@@ -866,9 +866,9 @@ namespace NumPluginSvm.Svm{
 			return 0;
 		}
 
-		public static float SvmPredictValues(SvmModel model, BaseVector x, double[] decValues){
+		public static double SvmPredictValues(SvmModel model, BaseVector x, double[] decValues){
 			if (model.l == 0){
-				return float.NaN;
+				return double.NaN;
 			}
 			if (model.param.svmType == SvmType.OneClass || model.param.svmType == SvmType.EpsilonSvr ||
 				model.param.svmType == SvmType.NuSvr){
@@ -882,7 +882,7 @@ namespace NumPluginSvm.Svm{
 				if (model.param.svmType == SvmType.OneClass){
 					return sum > 0 ? 1 : -1;
 				}
-				return (float) sum;
+				return sum;
 			}
 			int nrClass = model.nrClass;
 			int l = model.l;
@@ -946,7 +946,7 @@ namespace NumPluginSvm.Svm{
 			return kf.Evaluate(x, y, sx, sy);
 		}
 
-		public static float SvmPredict(SvmModel model, BaseVector x){
+		public static double SvmPredict(SvmModel model, BaseVector x){
 			int nrClass = model.nrClass;
 			double[] decValues;
 			if (model.param.svmType == SvmType.OneClass || model.param.svmType == SvmType.EpsilonSvr ||
@@ -955,11 +955,11 @@ namespace NumPluginSvm.Svm{
 			} else{
 				decValues = new double[nrClass*(nrClass - 1)/2];
 			}
-			float predResult = SvmPredictValues(model, x, decValues);
+			double predResult = SvmPredictValues(model, x, decValues);
 			return predResult;
 		}
 
-		public static float SvmPredictProbability(SvmModel model, BaseVector x, double[] probEstimates){
+		public static double SvmPredictProbability(SvmModel model, BaseVector x, double[] probEstimates){
 			if ((model.param.svmType == SvmType.CSvc || model.param.svmType == SvmType.NuSvc) && model.probA != null &&
 				model.probB != null){
 				int nrClass = model.nrClass;

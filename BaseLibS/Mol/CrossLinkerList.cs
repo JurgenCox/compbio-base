@@ -6,6 +6,8 @@ namespace BaseLibS.Mol{
 	public class CrossLinkerList{
 		private CrossLinker[] crosslinks;
 		[System.Xml.Serialization.XmlElementAttribute("crosslink", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-		public CrossLinker[] Crosslinks { get { return crosslinks; } set { crosslinks = value; } }
+		public CrossLinker[] Crosslinks { get => crosslinks;
+			set => crosslinks = value;
+		}
 	}
 }

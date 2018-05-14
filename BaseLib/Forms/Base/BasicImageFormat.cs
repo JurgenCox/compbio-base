@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using BaseLib.Graphic;
+using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Util;
 
@@ -26,7 +27,7 @@ namespace BaseLib.Forms.Base{
 			(filename, width, height) => new BitmapGraphics(filename, width, height, ImageFormat.Tiff));
 		public static readonly BasicImageFormat wmf = new BasicImageFormat(new[]{".wmf"}, "WMF Windows Meta File",
 			(filename, width, height) => new BitmapGraphics(filename, width, height, ImageFormat.Wmf));
-		public static readonly BasicImageFormat[] allFormats = new[] { png, pdf, gif, jpeg, tiff, wmf, bmp, emf };// svg
+		public static readonly BasicImageFormat[] allFormats = { png, pdf, gif, jpeg, tiff, wmf, bmp, emf };// svg
 		private static readonly Dictionary<string, BasicImageFormat> map = new Dictionary<string, BasicImageFormat>();
 
 		static BasicImageFormat(){

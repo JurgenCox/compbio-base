@@ -1,12 +1,14 @@
-﻿using BaseLibS.Api;
+﻿using System;
+using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 using NumPluginBase.Kernel;
 using NumPluginSvm.Svm;
 
 namespace NumPluginSvm{
-	public class SvmRegression : IRegressionMethod{
-		public RegressionModel Train(BaseVector[] x, float[] y, Parameters param, int nthreads){
+	public class SvmRegression : RegressionMethod{
+		public override RegressionModel Train(BaseVector[] x, int[] nominal, double[] y, Parameters param, int nthreads, Action<double> reportProgress) {
+			x = ClassificationMethod.ToOneHotEncoding(x, nominal);
 			ParameterWithSubParams<int> kernelParam = param.GetParamWithSubParams<int>("Kernel");
 			SvmParameter sp = new SvmParameter{
 				kernelFunction = KernelFunctions.GetKernelFunction(kernelParam.Value, kernelParam.GetSubParameters()),
@@ -17,14 +19,13 @@ namespace NumPluginSvm{
 			return new SvmRegressionModel(model);
 		}
 
-		public Parameters Parameters
+		public override Parameters Parameters
 			=>
-				new Parameters(new Parameter[]
-				{KernelFunctions.GetKernelParameters(), new DoubleParam("C", 100){Help = SvmClassification.cHelp}});
+				new Parameters(KernelFunctions.GetKernelParameters(), new DoubleParam("C", 100){Help = SvmClassification.cHelp});
 
-		public string Name => "Support vector machine";
-		public string Description => "";
-		public float DisplayRank => 0;
-		public bool IsActive => true;
+		public override string Name => "Support vector machine";
+		public override string Description => "";
+		public override float DisplayRank => 0;
+		public override bool IsActive => true;
 	}
 }

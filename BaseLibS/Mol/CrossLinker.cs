@@ -31,19 +31,31 @@ namespace BaseLibS.Mol{
 			}
 		}
 
-		[XmlAttribute("specificity")]
-		public string Specificity { get; set; }
+		[XmlAttribute("specificity1")]
+		public string Specificity1 { get; set; }
 
-		[XmlAttribute("proteinNterm")]
-		public bool ProteinNterm { get; set; }
+		[XmlAttribute("proteinNterm1")]
+		public bool DoesCrosslinkProteinNterm1 { get; set; }
 
-		[XmlAttribute("proteinCterm")]
-		public bool ProteinCterm { get; set; }
+		[XmlAttribute("proteinCterm1")]
+		public bool DoesCrosslinkProteinCterm1 { get; set; }
 
-		[XmlElement("position", typeof (ModificationPosition))]
-		public ModificationPosition Position { get; set; } = ModificationPosition.anywhere;
+	    [XmlElement("position1", typeof(ModificationPosition))]
+	    public ModificationPosition Position1 { get; set; } = ModificationPosition.anywhere;
 
-		public override bool Equals(object obj){
+        [XmlAttribute("specificity2")]
+	    public string Specificity2 { get; set; }
+
+	    [XmlAttribute("proteinNterm2")]
+	    public bool DoesCrosslinkProteinNterm2 { get; set; }
+
+	    [XmlAttribute("proteinCterm2")]
+	    public bool DoesCrosslinkProteinCterm2 { get; set; }
+
+	    [XmlElement("position2", typeof(ModificationPosition))]
+	    public ModificationPosition Position2 { get; set; } = ModificationPosition.anywhere;
+
+        public override bool Equals(object obj){
 			if (this == obj){
 				return true;
 			}

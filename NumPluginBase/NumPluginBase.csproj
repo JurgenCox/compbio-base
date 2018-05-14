@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NumPluginBase</RootNamespace>
     <AssemblyName>NumPluginBase</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,9 +30,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationRank\AnovaFeatureRanking.cs" />
@@ -44,6 +47,7 @@
     <Compile Include="Classification\KnnClassificationModel.cs" />
     <Compile Include="Distance\CanberraDistance.cs" />
     <Compile Include="Distance\CosineDistance.cs" />
+    <Compile Include="Distance\GenericDistanceMatrix.cs" />
     <Compile Include="Distance\LpDistance.cs" />
     <Compile Include="Distance\Distances.cs" />
     <Compile Include="Distance\EuclideanDistance.cs" />

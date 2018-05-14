@@ -3,14 +3,22 @@ using System.Xml.Serialization;
 namespace BaseLibS.Mol{
 	public class ModificationSite{
 		[XmlAttribute("site")]
-		public string Site { get { return "" + Aa; } set { Aa = value[0]; } }
+		public string Site{
+			get => "" + Aa;
+			set => Aa = value[0];
+		}
+
 		[XmlIgnore]
 		public char Aa { get; set; }
-        [XmlArrayItem("neutralloss")]
+
+		[XmlArrayItem("neutralloss")]
 		public NeutralLoss[] neutralloss_collection { get; set; }
-        [XmlArrayItem("diagnostic")]
+
+		[XmlArrayItem("diagnostic")]
 		public DiagnosticPeak[] diagnostic_collection { get; set; }
-		public bool HasNeutralLoss { get { return neutralloss_collection != null && neutralloss_collection.Length != 0; } }
-		public bool HasDiagnosticPeak { get { return diagnostic_collection != null && diagnostic_collection.Length != 0; } }
+
+		public bool HasNeutralLoss => neutralloss_collection != null && neutralloss_collection.Length != 0;
+
+		public bool HasDiagnosticPeak => diagnostic_collection != null && diagnostic_collection.Length != 0;
 	}
 }

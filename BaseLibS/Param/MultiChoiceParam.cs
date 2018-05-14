@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
 using BaseLibS.Num;
 using BaseLibS.Util;
 
@@ -12,7 +13,12 @@ namespace BaseLibS.Param{
 		public List<string[]> DefaultSelections { get; set; }
 		public MultiChoiceParam(string name) : this(name, new int[0]){}
 
-		public MultiChoiceParam(string name, int[] value) : base(name){
+        /// <summary>
+        /// for xml serialization only
+        /// </summary>
+	    private MultiChoiceParam() : this("", new int[0]) { }
+
+	    public MultiChoiceParam(string name, int[] value) : base(name){
 			Value = value;
 			Default = new int[Value.Length];
 			for (int i = 0; i < Value.Length; i++){
@@ -25,7 +31,7 @@ namespace BaseLibS.Param{
 		}
 
 		public override string StringValue{
-			get { return StringUtils.Concat(";", ArrayUtils.SubArray(Values, Value)); }
+			get => StringUtils.Concat(";", ArrayUtils.SubArray(Values, Value));
 			set{
 				if (value.Trim().Length == 0){
 					Value = new int[0];
@@ -86,5 +92,25 @@ namespace BaseLibS.Param{
 			Value = indices.ToArray();
 		}
 		public override ParamType Type => ParamType.Server;
+
+	    public override void ReadXml(XmlReader reader)
+	    {
+            ReadBasicAttributes(reader);
+	        reader.MoveToAttribute("Repeats");
+	        Repeats = reader.ReadContentAsBoolean();
+            reader.ReadStartElement();
+	        Value = reader.ReadInto(new List<int>()).ToArray();
+	        Values = reader.ReadInto(new List<string>()).ToArray();
+            reader.ReadEndElement();
+	    }
+
+	    public override void WriteXml(XmlWriter writer)
+	    {
+            WriteBasicAttributes(writer);
+            writer.WriteStartAttribute("Repeats");
+            writer.WriteValue(Repeats);
+            writer.WriteValues("Value", Value);
+            writer.WriteValues("Values", Values);
+	    }
 	}
 }

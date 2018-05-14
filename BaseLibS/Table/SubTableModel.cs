@@ -17,7 +17,7 @@ namespace BaseLibS.Table{
 			return baseModel.GetColumnRenderer(columns?[column] ?? column);
 		}
 
-		public int RowCount => rows.Length;
+		public long RowCount => rows.Length;
 		public int ColumnCount => columns?.Length ?? baseModel.ColumnCount;
 		public string Name => baseModel.Name;
 		public string Description => baseModel.Description;
@@ -42,15 +42,15 @@ namespace BaseLibS.Table{
 			return baseModel.GetColumnWidth(columns?[column] ?? column);
 		}
 
-		public object GetEntry(int row, int column){
+		public object GetEntry(long row, int column){
 			return baseModel.GetEntry(rows[row], columns?[column] ?? column);
 		}
 
-		public object GetEntry(int row, string colname){
+		public object GetEntry(long row, string colname){
 			return GetEntry(row, GetColumnIndex(colname));
 		}
 
-		public void SetEntry(int row, int column, object value){
+		public void SetEntry(long row, int column, object value){
 			baseModel.SetEntry(rows[row], columns?[column] ?? column, value);
 		}
 

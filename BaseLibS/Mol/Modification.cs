@@ -8,8 +8,6 @@ namespace BaseLibS.Mol{
 		private double deltaMass = double.NaN;
 		private ModificationSite[] sites = new ModificationSite[0];
 		private Dictionary<char, ModificationSite> sitesMap;
-		private char[] sitesArray;
-		private char[] sitesArraySorted;
 
 		[XmlAttribute("reporterCorrectionM2")]
 		public double ReporterCorrectionM2 { get; set; }
@@ -37,11 +35,14 @@ namespace BaseLibS.Mol{
 				}
 				return deltaMass;
 			}
-			set { deltaMass = value; }
+			set => deltaMass = value;
 		}
 
 		[XmlAttribute("composition")]
 		public string Composition { get; set; }
+
+		[XmlAttribute("filename"), XmlIgnore]
+		public string Filename { get; set; }
 
 		/// <summary>
 		/// Equivalent Unimod id
@@ -58,13 +59,13 @@ namespace BaseLibS.Mol{
 		[XmlElement("modification_site")]
 		public ModificationSite[] Sites{
 			set{
-				sites = value;
+				sites = value ?? new ModificationSite[0];
 				sitesMap = new Dictionary<char, ModificationSite>();
-				foreach (var modificationSite in sites){
+				foreach (ModificationSite modificationSite in sites){
 					sitesMap.Add(modificationSite.Aa, modificationSite);
 				}
 			}
-			get { return sites; }
+			get => sites;
 		}
 
 		/// <summary>
@@ -102,7 +103,7 @@ namespace BaseLibS.Mol{
 			=> Position == ModificationPosition.proteinNterm || Position == ModificationPosition.proteinCterm;
 
 		public ModificationSite GetSite(char aa){
-			return sitesMap[aa];
+			return sitesMap.ContainsKey(aa) ? sitesMap[aa] : null;
 		}
 
 		public override bool Equals(object obj){
@@ -158,27 +159,6 @@ namespace BaseLibS.Mol{
 			return result;
 		}
 
-		public char[] GetSiteArray(){
-			if (sitesArray == null){
-				sitesArray = new char[sites.Length];
-				for (int i = 0; i < sitesArray.Length; i++){
-					sitesArray[i] = sites[i].Aa;
-				}
-			}
-			return sitesArray;
-		}
-
-		public char[] GetSiteArraySorted(){
-			if (sitesArraySorted == null){
-				sitesArraySorted = new char[sites.Length];
-				for (int i = 0; i < sitesArraySorted.Length; i++){
-					sitesArraySorted[i] = sites[i].Aa;
-				}
-				Array.Sort(sitesArraySorted);
-			}
-			return sitesArraySorted;
-		}
-
 		public string GetFormula(){
 			string formula = Composition;
 			formula = formula.Replace("(", "");
@@ -216,8 +196,8 @@ namespace BaseLibS.Mol{
 				if (!labelingDiff1.IsIsotopicLabel && !labelingDiff2.IsIsotopicLabel){
 					return false;
 				}
-				Molecule d1 = labelingDiff1.NaturalVersion;
-				Molecule d2 = labelingDiff2.NaturalVersion;
+				Molecule d1 = labelingDiff1.GetUnlabeledVersion();
+				Molecule d2 = labelingDiff2.GetUnlabeledVersion();
 				Tuple<Molecule, Molecule> d = Molecule.GetDifferences(d1, d2);
 				return d.Item1.IsEmpty && d.Item2.IsEmpty;
 			}

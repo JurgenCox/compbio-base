@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace BaseLibS.Table{
 	/// <summary>
@@ -8,24 +10,59 @@ namespace BaseLibS.Table{
 	/// between the full implementations of <code>ITableModel</code>.
 	/// </summary>
 	[Serializable]
-	public abstract class TableModelImpl : ITableModel{
+	public abstract class TableModelImpl : ITableModel, ISerializable{
+		public string Name { get; set; }
+		public string Description { get; set; }
 		protected readonly List<string> columnNames = new List<string>();
-		protected readonly List<int> columnWidths = new List<int>();
+		private readonly List<int> columnWidths = new List<int>();
 		protected readonly List<ColumnType> columnTypes = new List<ColumnType>();
-		protected readonly List<RenderTableCell> cellRenderers = new List<RenderTableCell>();
-		protected readonly List<string> columnDescriptions = new List<string>();
-		protected readonly List<string> annotationRowNames = new List<string>();
-		protected readonly List<string> annotationRowDescriptions = new List<string>();
+		private readonly List<RenderTableCell> cellRenderers = new List<RenderTableCell>();
+		private readonly List<string> columnDescriptions = new List<string>();
+		private readonly List<string> annotationRowNames = new List<string>();
+		private readonly List<string> annotationRowDescriptions = new List<string>();
 		private readonly Collection<DataAnnotationRow> annotationRows = new Collection<DataAnnotationRow>();
 		protected readonly Dictionary<string, int> nameMapping = new Dictionary<string, int>();
-		public int ColumnCount => columnNames.Count;
+
+		protected TableModelImpl(string name, string description){
+			Name = name;
+			Description = description;
+		}
+
+		protected TableModelImpl(SerializationInfo info, StreamingContext ctxt){
+			Name = info.GetString("Name");
+			Description = info.GetString("Description");
+			columnNames = (List<string>) info.GetValue("columnNames", typeof (List<string>));
+			columnWidths = (List<int>) info.GetValue("columnWidths", typeof (List<int>));
+			columnTypes = (List<ColumnType>) info.GetValue("columnTypes", typeof (List<ColumnType>));
+			cellRenderers = (List<RenderTableCell>) info.GetValue("cellRenderers", typeof (List<RenderTableCell>));
+			columnDescriptions = (List<string>) info.GetValue("columnDescriptions", typeof (List<string>));
+			annotationRowNames = (List<string>) info.GetValue("annotationRowNames", typeof (List<string>));
+			annotationRowDescriptions = (List<string>) info.GetValue("annotationRowDescriptions", typeof (List<string>));
+			annotationRows =
+				(Collection<DataAnnotationRow>) info.GetValue("annotationRows", typeof (Collection<DataAnnotationRow>));
+			nameMapping = (Dictionary<string, int>) info.GetValue("nameMapping", typeof (Dictionary<string, int>));
+		}
+
+		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+		public virtual void GetObjectData(SerializationInfo info, StreamingContext context){
+			info.AddValue("Name", Name);
+			info.AddValue("Description", Description);
+			info.AddValue("columnNames", columnNames, typeof (List<string>));
+			info.AddValue("columnWidths", columnWidths, typeof (List<int>));
+			info.AddValue("columnTypes", columnTypes, typeof (List<ColumnType>));
+			info.AddValue("cellRenderers", cellRenderers, typeof (List<RenderTableCell>));
+			info.AddValue("columnDescriptions", columnDescriptions, typeof (List<string>));
+			info.AddValue("annotationRowNames", annotationRowNames, typeof (List<string>));
+			info.AddValue("annotationRowDescriptions", annotationRowDescriptions, typeof (List<string>));
+			info.AddValue("annotationRows", annotationRows, typeof (Collection<DataAnnotationRow>));
+			info.AddValue("nameMapping", nameMapping, typeof (Dictionary<string, int>));
+		}
 
 		public RenderTableCell GetColumnRenderer(int col){
 			return cellRenderers[col];
 		}
 
-		public string Name { get; set; }
-		public string Description { get; set; }
+		public int ColumnCount => columnNames.Count;
 
 		public int GetColumnWidth(int col){
 			return columnWidths[col];
@@ -51,7 +88,7 @@ namespace BaseLibS.Table{
 			return nameMapping.ContainsKey(colName) ? nameMapping[colName] : -1;
 		}
 
-		public object GetEntry(int row, string colname){
+		public object GetEntry(long row, string colname){
 			int colInd = GetColumnIndex(colname);
 			return colInd < 0 ? null : GetEntry(row, colInd);
 		}
@@ -64,9 +101,9 @@ namespace BaseLibS.Table{
 			SetEntry(row, colInd, value);
 		}
 
-		public abstract int RowCount { get; }
-		public abstract object GetEntry(int row, int column);
-		public abstract void SetEntry(int row, int column, object value);
+		public abstract long RowCount { get; }
+		public abstract object GetEntry(long row, int column);
+		public abstract void SetEntry(long row, int column, object value);
 
 		public DataAnnotationRow NewAnnotationRow(){
 			return new DataAnnotationRow(columnNames.Count, nameMapping);
@@ -96,12 +133,15 @@ namespace BaseLibS.Table{
 			return GetAnnotationRowValue(index, GetColumnIndex(colname));
 		}
 
-		public void AddColumn(string colName, int width, ColumnType columnType, string description){
+		public void AddColumn(string colName, int width, ColumnType columnType, string description) {
 			AddColumn(colName, width, columnType, description, null);
 		}
 
-		public void AddColumn(string colName, int width, ColumnType columnType, string description,
-			RenderTableCell renderer){
+		public void AddColumn(string colName, int width, ColumnType columnType) {
+			AddColumn(colName, width, columnType, null, null);
+		}
+
+		public void AddColumn(string colName, int width, ColumnType columnType, string description, RenderTableCell renderer){
 			if (nameMapping.ContainsKey(colName)){
 				return;
 			}

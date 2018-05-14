@@ -38,23 +38,23 @@ namespace BaseLibS.Parse.Uniprot{
 			}
 		}
 
-		public void Write(BinaryWriter writer) {
+		public void Write(BinaryWriter writer){
 			writer.Write(FeatureId);
 			writer.Write(FeatureDescription);
 			writer.Write(FeatureStatus);
 			writer.Write(FeatureBegin);
 			writer.Write(FeatureEnd);
 			writer.Write(originals.Count);
-			foreach (string t in originals) {
+			foreach (string t in originals){
 				writer.Write(t);
 			}
 			writer.Write(variations.Count);
-			foreach (string t in variations) {
+			foreach (string t in variations){
 				writer.Write(t);
 			}
 		}
 
-		public UniprotFeature(string[] u) {
+		public UniprotFeature(string[] u){
 			FeatureId = u[0];
 			FeatureDescription = u[1];
 			FeatureStatus = u[2];
@@ -110,15 +110,16 @@ namespace BaseLibS.Parse.Uniprot{
 			if (ReferenceEquals(this, other)){
 				return true;
 			}
-			return Equals(other.FeatureDescription, FeatureDescription) && Equals(other.FeatureStatus, FeatureStatus) &&
-				Equals(other.FeatureId, FeatureId);
+			return other.FeatureDescription != null && other.FeatureStatus != null && other.FeatureId != null &&
+					other.FeatureDescription.Equals(FeatureDescription) && other.FeatureStatus.Equals(FeatureStatus) &&
+					other.FeatureId.Equals(FeatureId);
 		}
 
 		public override int GetHashCode(){
 			unchecked{
-				int result = (FeatureDescription != null ? FeatureDescription.GetHashCode() : 0);
-				result = (result*397) ^ (FeatureStatus != null ? FeatureStatus.GetHashCode() : 0);
-				result = (result*397) ^ (FeatureId != null ? FeatureId.GetHashCode() : 0);
+				int result = FeatureDescription?.GetHashCode() ?? 0;
+				result = (result*397) ^ (FeatureStatus?.GetHashCode() ?? 0);
+				result = (result*397) ^ (FeatureId?.GetHashCode() ?? 0);
 				return result;
 			}
 		}
@@ -128,7 +129,12 @@ namespace BaseLibS.Parse.Uniprot{
 			FeatureEnd = featureEnd1;
 		}
 
-		public void AddFeatureVariation(string variation) { variations.Add(variation); }
-		public void AddFeatureOriginal(string original) { originals.Add(original); }
+		public void AddFeatureVariation(string variation){
+			variations.Add(variation);
+		}
+
+		public void AddFeatureOriginal(string original){
+			originals.Add(original);
+		}
 	}
 }

@@ -2,20 +2,22 @@
 using System.Drawing.Imaging;
 
 namespace BaseLib.Graphic{
-	internal sealed class BitmapGraphics : WindowsBasedGraphics{
-		private readonly Bitmap bmap;
+	public sealed class BitmapGraphics : WindowsBasedGraphics{
+		public Bitmap Bitmap { get; }
 		private readonly string filename;
 		private readonly ImageFormat imageFormat;
+		public BitmapGraphics(int width, int height) : this(null, width, height, null){}
 
-		internal BitmapGraphics(string filename, int width, int height, ImageFormat imageFormat) : base(null){
-			bmap = new Bitmap(width, height);
-			gc = Graphics.FromImage(bmap);
+		public BitmapGraphics(string filename, int width, int height, ImageFormat imageFormat) : base(null){
+			Bitmap = new Bitmap(width, height);
+			gc = Graphics.FromImage(Bitmap);
 			this.filename = filename;
 			this.imageFormat = imageFormat;
 		}
 
 		public override void Close(){
-			bmap.Save(filename, imageFormat);
+			//TODO: this seems to write EMF or WMF as PNG. (Issue Perseus-104)
+			Bitmap.Save(filename, imageFormat);
 		}
 	}
 }

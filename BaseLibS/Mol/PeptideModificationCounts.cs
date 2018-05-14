@@ -29,6 +29,8 @@ namespace BaseLibS.Mol{
 			}
 		}
 
+		public bool IsEmpty => ModificationTypes.Length == 0;
+
 		public PeptideModificationCounts Add(PeptideModificationCounts other){
 			ushort[] allTypes = ArrayUtils.UniqueValues(ArrayUtils.Concat(ModificationTypes, other.ModificationTypes));
 			ushort[] allCounts = new ushort[allTypes.Length];

@@ -6,8 +6,9 @@ using BaseLibS.Param;
 
 namespace NumPluginBase.Classification{
 	public class FisherLdaClassification : ClassificationMethod{
-		public override ClassificationModel Train(BaseVector[] x, int[][] y, int ngroups, Parameters param, int nthreads,
-			Action<double> reportProgress){
+		public override ClassificationModel Train(BaseVector[] x, int[] nominal, int[][] y, int ngroups, Parameters param, int nthreads,
+			Action<double> reportProgress) {
+			x = ToOneHotEncoding(x, nominal);
 			int n = x.Length;
 			int p = x[0].Length;
 			int[] groupCounts = new int[ngroups];

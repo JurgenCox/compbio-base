@@ -6,10 +6,10 @@ using BaseLibS.Util;
 
 namespace NumPluginBase.Regression{
 	public static class RegressionMethods{
-		private static readonly IRegressionMethod[] allMethods = InitRegressionMethod();
+		private static readonly RegressionMethod[] allMethods = InitRegressionMethod();
 
-		private static IRegressionMethod[] InitRegressionMethod(){
-			return FileUtils.GetPlugins<IRegressionMethod>(NumPluginUtils.pluginNames, true);
+		private static RegressionMethod[] InitRegressionMethod(){
+			return FileUtils.GetPlugins<RegressionMethod>(NumPluginUtils.pluginNames, true);
 		}
 
 		public static string[] GetAllNames(){
@@ -28,12 +28,12 @@ namespace NumPluginBase.Regression{
 			return result;
 		}
 
-		public static IRegressionMethod Get(int index){
+		public static RegressionMethod Get(int index){
 			return allMethods[index];
 		}
 
-		public static IRegressionMethod GetByName(string name){
-			foreach (IRegressionMethod method in allMethods.Where(method => method.Name.Equals(name))){
+		public static RegressionMethod GetByName(string name){
+			foreach (RegressionMethod method in allMethods.Where(method => method.Name.Equals(name))){
 				return method;
 			}
 			throw new Exception("Unknown type: " + name);

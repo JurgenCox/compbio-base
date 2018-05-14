@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
+using BaseLibS.Graph.Image.Formats.Png;
 using BaseLibS.Util;
 
 namespace BaseLibS.Parse.Uniprot{
@@ -160,8 +161,8 @@ namespace BaseLibS.Parse.Uniprot{
                 isoformToEnst = new Dictionary<string, List<string>>();
 			} else if (qName.Equals("dbReference")){
 				inDbRef = true;
-				dbReferenceType = attrs["type"];
-				dbReferenceId = attrs["id"];
+			    dbReferenceType = attrs["type"];
+			    dbReferenceId = attrs["id"];
 				entry.AddDbEntry(dbReferenceType, dbReferenceId);
             } else if (qName.Equals("molecule") && dbReferenceType.Equals("Ensembl")){
                 molecule = new StringBuilder();

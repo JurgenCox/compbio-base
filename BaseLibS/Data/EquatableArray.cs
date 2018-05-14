@@ -1,6 +1,8 @@
-﻿using BaseLibS.Num;
+﻿using System;
+using BaseLibS.Num;
 
 namespace BaseLibS.Data{
+	[Serializable]
 	public class EquatableArray<T>{
 		public T[] Array { get; }
 

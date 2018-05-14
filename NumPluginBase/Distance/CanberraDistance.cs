@@ -133,9 +133,9 @@ namespace NumPluginBase.Distance{
 		}
 
 		public object Clone() { return new CanberraDistance(); }
-		public string Name { get { return "Canberra"; } }
-		public string Description { get { return ""; } }
-		public float DisplayRank { get { return 7; } }
-		public bool IsActive { get { return true; } }
+		public string Name => "Canberra";
+		public string Description => "";
+		public float DisplayRank => 7;
+		public bool IsActive => true;
 	}
 }

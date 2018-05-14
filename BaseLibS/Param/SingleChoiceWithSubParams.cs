@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Xml;
+using System.Xml.Serialization;
+using BaseLibS.Util;
 
 namespace BaseLibS.Param{
 	[Serializable]
 	public class SingleChoiceWithSubParams : ParameterWithSubParams<int>{
 		public IList<string> Values { get; set; }
 		public IList<Parameters> SubParams { get; set; }
-		public SingleChoiceWithSubParams(string name) : this(name, 0){}
+
+        /// <summary>
+        /// for xml serialization only
+        /// </summary>
+	    private SingleChoiceWithSubParams() : this("") { }
+
+	    public SingleChoiceWithSubParams(string name) : this(name, 0){}
 
 		public SingleChoiceWithSubParams(string name, int value) : base(name){
 			TotalWidth = 1000F;
@@ -19,8 +27,8 @@ namespace BaseLibS.Param{
 		}
 
 		public override string StringValue{
-			get { return Value.ToString(CultureInfo.InvariantCulture); }
-			set { Value = int.Parse(value); }
+			get => Parser.ToString(Value);
+			set => Value = Parser.Int(value);
 		}
 
 		public override void ResetSubParamValues(){
@@ -85,5 +93,31 @@ namespace BaseLibS.Param{
 			}
 		}
 		public override ParamType Type => ParamType.Server;
+
+	    public override void ReadXml(XmlReader reader)
+	    {
+            ReadBasicAttributes(reader);
+            reader.ReadStartElement();
+	        Value = reader.ReadElementContentAsInt();
+	        Values = reader.ReadInto(new List<string>());
+	        SubParams = reader.ReadIntoNested(new List<Parameters>());
+            reader.ReadEndElement();
+	    }
+
+	    public override void WriteXml(XmlWriter writer)
+	    {
+	        WriteBasicAttributes(writer);
+            writer.WriteStartElement("Value");
+            writer.WriteValue(Value);
+            writer.WriteEndElement();
+            writer.WriteValues("Values", Values);
+            XmlSerializer serializer = new XmlSerializer(typeof(Parameters));
+            writer.WriteStartElement("SubParams");
+	        foreach (Parameters parameters in SubParams)
+	        {
+	            serializer.Serialize(writer, parameters);
+	        }
+            writer.WriteEndElement();
+	    }
 	}
 }

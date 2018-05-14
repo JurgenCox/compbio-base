@@ -12,7 +12,14 @@ namespace BaseLibS.Table{
 			this.nameMapping = nameMapping;
 		}
 
-		public object this[int column] { get { return ItemArray[column]; } set { ItemArray[column] = value; } }
-		public object this[string colName] { get { return ItemArray[nameMapping[colName]]; } set { ItemArray[nameMapping[colName]] = value; } }
+		public object this[int column]{
+			get => ItemArray[column];
+			set => ItemArray[column] = value;
+		}
+
+		public object this[string colName]{
+			get => ItemArray[nameMapping[colName]];
+			set => ItemArray[nameMapping[colName]] = value;
+		}
 	}
 }

@@ -17,9 +17,9 @@ namespace NumPluginBase.Classification{
 			this.ngroups = ngroups;
 		}
 
-		public override float[] PredictStrength(BaseVector x){
+		public override double[] PredictStrength(BaseVector x){
 			double[] projectedTest = MatrixUtils.VectorTimesMatrix(x, projection);
-			float[] distances = new float[ngroups];
+			double[] distances = new double[ngroups];
 			IDistance distance = new EuclideanDistance();
 			for (int j = 0; j < ngroups; j++){
 				distances[j] = -(float) distance.Get(projectedTest, projectedGroupMeans[j]);

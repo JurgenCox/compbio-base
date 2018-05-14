@@ -1,4 +1,5 @@
 using System;
+using BaseLibS.Num.Distrib;
 
 namespace BaseLibS.Num.Test{
 	public class PearsonCorrelationTest{
@@ -22,7 +23,7 @@ namespace BaseLibS.Num.Test{
 				return;
 			}
 			double t = r*Math.Sqrt((n - 2)/(1 - r*r));
-			double p = SpearmanCorrelationTest.Studenttdistribution(n - 2, t);
+			double p = StudentsT.Cumulative(n - 2, t);
 			bothtails = 2*Math.Min(p, 1 - p);
 			lefttail = p;
 			righttail = 1 - p;

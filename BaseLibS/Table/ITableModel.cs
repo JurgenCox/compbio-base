@@ -1,8 +1,10 @@
+using BaseLibS.Graph;
+
 namespace BaseLibS.Table{
-	public delegate void RenderTableCell(object g, bool selected, object o, int width, int x1, int y1);
+	public delegate void RenderTableCell(IGraphics g, bool selected, object o, int width, int x1, int y1);
 
 	public interface ITableModel {
-		int RowCount { get; }
+		long RowCount { get; }
 		int ColumnCount { get; }
 		string Name { get; }
 		string Description { get; }
@@ -12,10 +14,10 @@ namespace BaseLibS.Table{
 		ColumnType GetColumnType(int column);
 		int GetColumnWidth(int column);
 		RenderTableCell GetColumnRenderer(int column);
-		object GetEntry(int row, int column);
-		object GetEntry(int row, string colname);
+		object GetEntry(long row, int column);
+		object GetEntry(long row, string colname);
 		int GetColumnIndex(string columnName);
-		void SetEntry(int row, int column, object value);
+		void SetEntry(long row, int column, object value);
 		int AnnotationRowsCount { get; }
 		string GetAnnotationRowName(int index);
 		string GetAnnotationRowDescription(int index);

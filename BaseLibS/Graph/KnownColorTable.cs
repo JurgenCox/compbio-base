@@ -33,7 +33,7 @@
 		}
 
 		private static void InitColorTable(){
-			int[] values = new int[((int) KnownColor.MenuHighlight) + 1];
+			int[] values = new int[(int) KnownColor.MenuHighlight + 1];
 			UpdateSystemColors(values);
 			values[(int) KnownColor.Transparent] = 0x00FFFFFF;
 			values[(int) KnownColor.AliceBlue] = unchecked((int) 0xFFF0F8FF);

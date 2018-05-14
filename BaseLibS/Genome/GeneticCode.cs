@@ -66,7 +66,7 @@ namespace BaseLibS.Genome{
 		}
 
 		private static GeneticCode[] InitCodes(){
-			GeneticCode[] g = new[]{
+			GeneticCode[] g = {
 				new GeneticCode("Standard", "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
 					"---M---------------M---------------M----------------------------",
 					"TTTTTTTTTTTTTTTTCCCCCCCCCCCCCCCCAAAAAAAAAAAAAAAAGGGGGGGGGGGGGGGG",

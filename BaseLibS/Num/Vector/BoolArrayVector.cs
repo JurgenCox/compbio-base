@@ -13,7 +13,125 @@ namespace BaseLibS.Num.Vector{
 			this.values = values;
 		}
 
+		public override BaseVector Minus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] -= other[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			if (other is FloatArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is BoolArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseFloatVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseBoolVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			throw new Exception("Never get here.");
+		}
+
+		public override BaseVector Plus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] += other[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			if (other is FloatArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is BoolArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseFloatVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseBoolVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (values[i]){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			throw new Exception("Never get here.");
+		}
+
 		public override int Length => values.Length;
+
+		public override BaseVector Mult(double d){
+			float[] result = new float[Length];
+			for (int i = 0; i < Length; i++){
+				if (values[i]){
+					result[i] = (float) d;
+				}
+			}
+			return new FloatArrayVector(result);
+		}
 
 		public override BaseVector Copy(){
 			bool[] newValues = new bool[Length];
@@ -22,7 +140,7 @@ namespace BaseLibS.Num.Vector{
 		}
 
 		public override double this[int i]{
-			get { return values[i] ? 1 : 0; }
+			get => values[i] ? 1 : 0;
 			set{
 				if (value != 1 && value != 0){
 					throw new Exception("Illegal value.");
@@ -73,7 +191,9 @@ namespace BaseLibS.Num.Vector{
 		internal static double Dot(BoolArrayVector x, BoolArrayVector y){
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
-				if (x.values[i] && y.values[i]) sum ++;
+				if (x.values[i] && y.values[i]){
+					sum ++;
+				}
 			}
 			return sum;
 		}
@@ -145,11 +265,15 @@ namespace BaseLibS.Num.Vector{
 			return false;
 		}
 
+		public override double[] Unpack(){
+			return ArrayUtils.ToDoubles(this);
+		}
+
 		public override void Dispose(){
 			values = null;
 		}
 
-		public override bool IsNanOrInf(){
+		public override bool IsNaNOrInf(){
 			return false;
 		}
 	}

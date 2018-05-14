@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BaseLibS.Num{
 	public static class DensityEstimation{
-		public static void CalcRanges(IList<float> xvals, IList<float> yvals, out double xmin, out double xmax,
+		public static void CalcRanges(IList<double> xvals, IList<double> yvals, out double xmin, out double xmax,
 			out double ymin, out double ymax){
 			xmin = double.MaxValue;
 			xmax = double.MinValue;
@@ -34,7 +34,7 @@ namespace BaseLibS.Num{
 			ymax += 0.05*dy;
 		}
 
-		public static void CalcRanges(IList<float> xvals, IList<float> yvals, IList<float> zvals, out double xmin,
+		public static void CalcRanges(IList<double> xvals, IList<double> yvals, IList<double> zvals, out double xmin,
 			out double xmax, out double ymin, out double ymax, out double zmin, out double zmax){
 			xmin = double.MaxValue;
 			xmax = double.MinValue;
@@ -77,9 +77,9 @@ namespace BaseLibS.Num{
 			zmax += 0.05*dz;
 		}
 
-		public static float[,] GetValuesOnGrid(IList<float> xvals, double minx, double xStep, int xCount, IList<float> yvals,
+		public static double[,] GetValuesOnGrid(IList<double> xvals, double minx, double xStep, int xCount, IList<double> yvals,
 			double miny, double yStep, int yCount){
-			float[,] vals = new float[xCount,yCount];
+			double[,] vals = new double[xCount,yCount];
 			if (xvals == null || yvals == null){
 				return vals;
 			}
@@ -106,18 +106,18 @@ namespace BaseLibS.Num{
 				int yind = (int) Math.Floor((yval - miny)/yStep);
 				for (int ii = Math.Max(xind - dx, 0); ii <= Math.Min(xind + dx, xCount - 1); ii++){
 					for (int jj = Math.Max(yind - dy, 0); jj <= Math.Min(yind + dy, yCount - 1); jj++){
-						double[] w = new double[]{ii - xind, jj - yind};
+						double[] w = {ii - xind, jj - yind};
 						double[] b = NumUtils.MatrixTimesVector(hinv, w);
-						vals[ii, jj] += (float) NumUtils.StandardGaussian(b);
+						vals[ii, jj] += NumUtils.StandardGaussian(b);
 					}
 				}
 			}
 			return vals;
 		}
 
-		public static float[,,] GetValuesOnGrid(IList<float> xvals, double minx, double xStep, int xCount, IList<float> yvals,
-			double miny, double yStep, int yCount, IList<float> zvals, double minz, double zStep, int zCount){
-			float[,,] vals = new float[xCount,yCount,zCount];
+		public static double[,,] GetValuesOnGrid(IList<double> xvals, double minx, double xStep, int xCount, IList<double> yvals,
+			double miny, double yStep, int yCount, IList<double> zvals, double minz, double zStep, int zCount){
+			double[,,] vals = new double[xCount,yCount,zCount];
 			if (xvals == null || yvals == null || zvals == null){
 				return vals;
 			}
@@ -156,9 +156,9 @@ namespace BaseLibS.Num{
 				for (int ii = Math.Max(xind - dx, 0); ii <= Math.Min(xind + dx, xCount - 1); ii++){
 					for (int jj = Math.Max(yind - dy, 0); jj <= Math.Min(yind + dy, yCount - 1); jj++){
 						for (int kk = Math.Max(zind - dz, 0); kk <= Math.Min(zind + dz, zCount - 1); kk++){
-							double[] w = new double[]{ii - xind, jj - yind, kk - zind};
+							double[] w = {ii - xind, jj - yind, kk - zind};
 							double[] b = NumUtils.MatrixTimesVector(hinv, w);
-							vals[ii, jj, kk] += (float) NumUtils.StandardGaussian(b);
+							vals[ii, jj, kk] += NumUtils.StandardGaussian(b);
 						}
 					}
 				}
@@ -166,8 +166,8 @@ namespace BaseLibS.Num{
 			return vals;
 		}
 
-		public static void DivideByMaximum(float[,] m){
-			float max = 0;
+		public static void DivideByMaximum(double[,] m){
+			double max = 0;
 			for (int i = 0; i < m.GetLength(0); i++){
 				for (int j = 0; j < m.GetLength(1); j++){
 					if (m[i, j] > max){

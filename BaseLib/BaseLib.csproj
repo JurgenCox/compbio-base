@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E18D8469-F79D-4E28-A6F7-6DEA53300175}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <ProjectGuid>{0AA0CC08-A585-4E52-AB91-2683D5C76EF2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BaseLib</RootNamespace>
     <AssemblyName>BaseLib</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,88 +34,145 @@
     <Reference Include="itextsharp">
       <HintPath>..\DLLs\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\Axis\AxisMouseMode.cs" />
-    <Compile Include="Forms\Axis\AxisPositioning.cs" />
-    <Compile Include="Forms\Axis\AxisZoomType.cs" />
-    <Compile Include="Forms\Axis\NumericAxis.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Axis\NumericAxisPropertiesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Axis\NumericAxisPropertiesForm.Designer.cs">
-      <DependentUpon>NumericAxisPropertiesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Axis\NumericAxisView.cs" />
-    <Compile Include="Forms\Base\BasicColumnStyle.cs" />
-    <Compile Include="Forms\Base\BasicColumnStyles.cs" />
     <Compile Include="Forms\Base\BasicControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\Base\BasicImageFormat.cs" />
-    <Compile Include="Forms\Base\BasicMouseEventArgs.cs" />
-    <Compile Include="Forms\Base\BasicRowStyle.cs" />
-    <Compile Include="Forms\Base\BasicRowStyles.cs" />
-    <Compile Include="Forms\Base\BasicSizeType.cs" />
-    <Compile Include="Forms\Base\BasicTableLayoutStyle.cs" />
-    <Compile Include="Forms\Base\BasicTableLayoutView.cs" />
     <Compile Include="Forms\Base\BasicUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Base\BasicView.cs" />
     <Compile Include="Forms\Base\FormUtil.cs" />
-    <Compile Include="Forms\Base\IPrintable.cs" />
     <Compile Include="Forms\Base\Printing.cs" />
-    <Compile Include="Forms\Base\UnsafeBitmap.cs" />
-    <Compile Include="Forms\Chars.cs" />
-    <Compile Include="Forms\Colors\ColorScale.cs">
+    <Compile Include="Forms\CheckedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Colors\ColorScale.Designer.cs">
+    <Compile Include="Forms\CheckedListControl.Designer.cs">
+      <DependentUpon>CheckedListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ColorScale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ColorScale.Designer.cs">
       <DependentUpon>ColorScale.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Colors\ColorsForm.cs">
+    <Compile Include="Forms\ColorsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Colors\ColorsForm.Designer.cs">
+    <Compile Include="Forms\ColorsForm.Designer.cs">
       <DependentUpon>ColorsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Colors\ColorStrip.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Forms\ColorStripView.cs" />
+    <Compile Include="Forms\DictionaryIntValueControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Colors\ColorStripView.cs" />
-    <Compile Include="Forms\GridType.cs" />
-    <Compile Include="Forms\Table\HelpLabel.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Forms\DictionaryIntValueControl.Designer.cs">
+      <DependentUpon>DictionaryIntValueControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Table\HelpLabel.Designer.cs">
-      <DependentUpon>HelpLabel.cs</DependentUpon>
+    <Compile Include="Forms\DictionaryIntValueForm.cs">
+      <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\DictionaryIntValueForm.Designer.cs">
+      <DependentUpon>DictionaryIntValueForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditParseRuleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditParseRuleForm.Designer.cs">
+      <DependentUpon>EditParseRuleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditTaxonomyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditTaxonomyForm.Designer.cs">
+      <DependentUpon>EditTaxonomyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FastaFilesParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\FastaFilesParamControl.Designer.cs">
+      <DependentUpon>FastaFilesParamControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FileParameterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\FileParameterControl.Designer.cs">
+      <DependentUpon>FileParameterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FilterForm.Designer.cs">
+      <DependentUpon>FilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FolderParameterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\FolderParameterControl.Designer.cs">
+      <DependentUpon>FolderParameterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormUtils.cs" />
+    <Compile Include="Forms\ListSelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ListSelectorControl.Designer.cs">
+      <DependentUpon>ListSelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Ms1LabelPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Ms1LabelPanel.Designer.cs">
+      <DependentUpon>Ms1LabelPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultiFileParameterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\MultiFileParameterControl.Designer.cs">
+      <DependentUpon>MultiFileParameterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultiListSelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\MultiListSelectorControl.Designer.cs">
+      <DependentUpon>MultiListSelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NumericAxisPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NumericAxisPropertiesForm.Designer.cs">
+      <DependentUpon>NumericAxisPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NumericAxisView.cs" />
     <Compile Include="Forms\PlanePropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\PlanePropertiesForm.Designer.cs">
       <DependentUpon>PlanePropertiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PatternMatchParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\PatternMatchParamControl.Designer.cs">
+      <DependentUpon>PatternMatchParamControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RegexReplaceParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\RegexReplaceParamControl.Designer.cs">
+      <DependentUpon>RegexReplaceParamControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Scroll\CompoundScrollableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\Scroll\HorizontalScrollBarView.cs" />
-    <Compile Include="Forms\Scroll\IScrollableControl.cs" />
     <Compile Include="Forms\Scroll\ScrollableControlColumnFooterView.cs" />
     <Compile Include="Forms\Scroll\ScrollableControlColumnHeaderView.cs" />
     <Compile Include="Forms\Scroll\ScrollableControlColumnSpacerView.cs" />
@@ -130,23 +184,24 @@
     <Compile Include="Forms\Scroll\ScrollableControlRowSpacerView.cs" />
     <Compile Include="Forms\Scroll\ScrollableControlSmallCornerView.cs" />
     <Compile Include="Forms\Scroll\ScrollBarState.cs" />
+    <Compile Include="Forms\Scroll\ScrollBarView.cs" />
     <Compile Include="Forms\Scroll\ScrollComponentView.cs" />
     <Compile Include="Forms\Scroll\SimpleScrollableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\Scroll\SimpleScrollableControlMainView.cs" />
     <Compile Include="Forms\Scroll\VerticalScrollBarView.cs" />
-    <Compile Include="Param\RegexParamWpf.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Wpf\ITableSelectionAgent.cs" />
-    <Compile Include="Forms\Table\ListSelector.cs">
+    <Compile Include="Forms\SliderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Table\ListSelector.Designer.cs">
-      <DependentUpon>ListSelector.cs</DependentUpon>
+    <Compile Include="Forms\SliderControl.Designer.cs">
+      <DependentUpon>SliderControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wpf\PasteSelectionWindow.xaml.cs">
-      <DependentUpon>PasteSelectionWindow.xaml</DependentUpon>
+    <Compile Include="Forms\SubSelectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\SubSelectionControl.Designer.cs">
+      <DependentUpon>SubSelectionControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Table\FindForm.cs">
       <SubType>Form</SubType>
@@ -154,507 +209,145 @@
     <Compile Include="Forms\Table\FindForm.Designer.cs">
       <DependentUpon>FindForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Table\HelpLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Table\HelpLabel.Designer.cs">
+      <DependentUpon>HelpLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Table\ITableSelectionAgent.cs" />
+    <Compile Include="Forms\Table\ListSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Table\ListSelector.Designer.cs">
+      <DependentUpon>ListSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Table\PasteSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Table\PasteSelectionForm.Designer.cs">
+      <DependentUpon>PasteSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Table\SelectColumnsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Table\SelectColumnsForm.Designer.cs">
       <DependentUpon>SelectColumnsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Table\TableViewWf.cs">
+    <Compile Include="Forms\Table\TableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Table\TableView.Designer.cs">
+      <DependentUpon>TableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Table\TableViewControlModel.cs" />
+    <Compile Include="Forms\Table\TableViewSelectionAgentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Table\TableViewSelectionAgentForm.Designer.cs">
+      <DependentUpon>TableViewSelectionAgentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TestParseRuleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TestParseRuleForm.Designer.cs">
+      <DependentUpon>TestParseRuleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UnsafeBitmap.cs" />
+    <Compile Include="Graphic\BaseDrawControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Graphic\BitmapGraphics.cs" />
     <Compile Include="Graphic\CGraphics.cs" />
-    <Compile Include="Graphic\ColorConstants.cs" />
-    <Compile Include="Graphic\IGraphics.cs" />
+    <Compile Include="Graphic\ExportGraphics.cs" />
+    <Compile Include="Graphic\GraphUtils.cs" />
     <Compile Include="Graphic\PdfGraphics.cs" />
+    <Compile Include="Graphic\PdfGraphicUtils.cs" />
     <Compile Include="Graphic\Svg.cs" />
     <Compile Include="Graphic\SvgGraphics.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
-    <Compile Include="Param\BoolParamWpf.cs" />
-    <Compile Include="Param\BoolWithSubParamsWpf.cs" />
-    <Compile Include="Param\DictionaryIntValueParamWpf.cs" />
-    <Compile Include="Param\DoubleParamWpf.cs" />
-    <Compile Include="Param\FileParamWpf.cs" />
-    <Compile Include="Param\FolderParamWpf.cs" />
-    <Compile Include="Param\IntParamWpf.cs" />
-    <Compile Include="Param\LabelParamWpf.cs" />
-    <Compile Include="Param\Ms1LabelParamWpf.cs" />
-    <Compile Include="Param\MultiChoiceMultiBinParamWpf.cs" />
-    <Compile Include="Param\MultiChoiceParamWpf.cs" />
-    <Compile Include="Param\MultiFileParamWpf.cs" />
-    <Compile Include="Param\MultiStringParamWpf.cs" />
-    <Compile Include="Param\ParameterGroupPanel.cs" />
-    <Compile Include="Param\ParameterGroupPanel.Designer.cs">
-      <DependentUpon>ParameterGroupPanel.cs</DependentUpon>
+    <Compile Include="Param\BoolParamWf.cs" />
+    <Compile Include="Param\BoolWithSubParamsWf.cs" />
+    <Compile Include="Param\DictionaryIntValueParamWf.cs" />
+    <Compile Include="Param\DoubleParamWf.cs" />
+    <Compile Include="Param\FastaFilesParamWf.cs" />
+    <Compile Include="Param\FileParamWf.cs" />
+    <Compile Include="Param\FolderParamWf.cs" />
+    <Compile Include="Param\IntParamWf.cs" />
+    <Compile Include="Param\LabelParamWf.cs" />
+    <Compile Include="Param\Ms1LabelParamWf.cs" />
+    <Compile Include="Param\MultiChoiceMultiBinParamWf.cs" />
+    <Compile Include="Param\MultiChoiceParamWf.cs" />
+    <Compile Include="Param\MultiFileParamWf.cs" />
+    <Compile Include="Param\MultiStringParamWf.cs" />
+    <Compile Include="Param\ParameterForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Param\ParameterPanel.cs" />
-    <Compile Include="Param\ParameterWindow.xaml.cs">
-      <DependentUpon>ParameterWindow.xaml</DependentUpon>
+    <Compile Include="Param\ParameterForm.Designer.cs">
+      <DependentUpon>ParameterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Param\SingleChoiceParamWpf.cs" />
-    <Compile Include="Param\SingleChoiceWithSubParamsWpf.cs" />
-    <Compile Include="Param\StringParamWpf.cs" />
-    <Compile Include="Param\WpfParameterFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
+    <Compile Include="Param\ParameterGroupPanel.cs">
+      <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Param\ParameterPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Param\RegexMatchParamWf.cs" />
+    <Compile Include="Param\RegexReplaceParamWf.cs" />
+    <Compile Include="Param\ServerParameterFactory.cs" />
+    <Compile Include="Param\SingleChoiceParamWf.cs" />
+    <Compile Include="Param\SingleChoiceWithSubParamsWf.cs" />
+    <Compile Include="Param\StringParamWf.cs" />
+    <Compile Include="Param\WinFormsParameterFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    <Compile Include="Query\DoubleQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Query\SymbolTypeQueryWindow.xaml.cs">
-      <DependentUpon>SymbolTypeQueryWindow.xaml</DependentUpon>
+    <Compile Include="Query\DoubleQueryForm.Designer.cs">
+      <DependentUpon>DoubleQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Query\FolderQueryWindow.xaml.cs">
-      <DependentUpon>FolderQueryWindow.xaml</DependentUpon>
+    <Compile Include="Query\FolderQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Query\IntMinMaxQueryWindow.xaml.cs">
-      <DependentUpon>IntMinMaxQueryWindow.xaml</DependentUpon>
+    <Compile Include="Query\FolderQueryForm.Designer.cs">
+      <DependentUpon>FolderQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Query\DoubleQueryWindow.xaml.cs">
-      <DependentUpon>DoubleQueryWindow.xaml</DependentUpon>
+    <Compile Include="Query\IntMinMaxQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Query\SingleChoiceQueryWindow.xaml.cs">
-      <DependentUpon>SingleChoiceQueryWindow.xaml</DependentUpon>
+    <Compile Include="Query\IntMinMaxQueryForm.Designer.cs">
+      <DependentUpon>IntMinMaxQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Symbol\DashStyles.cs" />
-    <Compile Include="Symbol\LineProperties.cs" />
-    <Compile Include="Symbol\Symbol3DProperties.cs" />
-    <Compile Include="Symbol\SymbolLineProperties.cs" />
-    <Compile Include="Symbol\SymbolProperties.cs" />
-    <Compile Include="Symbol\SymbolType.cs" />
-    <Compile Include="Symbol\SymbolTypeCircle.cs" />
-    <Compile Include="Symbol\SymbolTypeCross.cs" />
-    <Compile Include="Symbol\SymbolTypeDiagonalCross.cs" />
-    <Compile Include="Symbol\SymbolTypeDiamond.cs" />
-    <Compile Include="Symbol\SymbolTypeFilledCircle.cs" />
-    <Compile Include="Symbol\SymbolTypeFilledDiamond.cs" />
-    <Compile Include="Symbol\SymbolTypeFilledSquare.cs" />
-    <Compile Include="Symbol\SymbolTypeFilledTriangle.cs" />
-    <Compile Include="Symbol\SymbolTypeHorizontalDash.cs" />
-    <Compile Include="Symbol\SymbolTypeSquare.cs" />
-    <Compile Include="Symbol\SymbolTypeStar.cs" />
-    <Compile Include="Symbol\SymbolTypeTriangle.cs" />
-    <Compile Include="Graphic\GraphUtils.cs" />
-    <Compile Include="Wpf\CheckedListBoxControl.xaml.cs">
-      <DependentUpon>CheckedListBoxControl.xaml</DependentUpon>
+    <Compile Include="Query\IntQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wpf\CommonCommands.cs" />
-    <Compile Include="Wpf\DictionaryIntValueControl.xaml.cs">
-      <DependentUpon>DictionaryIntValueControl.xaml</DependentUpon>
+    <Compile Include="Query\IntQueryForm.Designer.cs">
+      <DependentUpon>IntQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wpf\DictionaryIntValuePopup.xaml.cs">
-      <DependentUpon>DictionaryIntValuePopup.xaml</DependentUpon>
+    <Compile Include="Query\SingleChoiceQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wpf\FileParameterControl.xaml.cs">
-      <DependentUpon>FileParameterControl.xaml</DependentUpon>
+    <Compile Include="Query\SingleChoiceQueryForm.Designer.cs">
+      <DependentUpon>SingleChoiceQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wpf\FilterWindow.xaml.cs">
-      <DependentUpon>FilterWindow.xaml</DependentUpon>
+    <Compile Include="Query\StringQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wpf\FolderParameterControl.xaml.cs">
-      <DependentUpon>FolderParameterControl.xaml</DependentUpon>
+    <Compile Include="Query\StringQueryForm.Designer.cs">
+      <DependentUpon>StringQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wpf\IScrollRegistrationTarget.cs" />
-    <Compile Include="Wpf\ListBoxSelector.cs" />
-    <Compile Include="Wpf\ListSelectorControl.xaml.cs">
-      <DependentUpon>ListSelectorControl.xaml</DependentUpon>
+    <Compile Include="Query\SymbolTypeQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wpf\Ms1LabelPanel.xaml.cs">
-      <DependentUpon>Ms1LabelPanel.xaml</DependentUpon>
+    <Compile Include="Query\SymbolTypeQueryForm.Designer.cs">
+      <DependentUpon>SymbolTypeQueryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wpf\MultiFileParameterControl.xaml.cs">
-      <DependentUpon>MultiFileParameterControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\MultiListSelectorControl.xaml.cs">
-      <DependentUpon>MultiListSelectorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\RegexParamControl.xaml.cs">
-      <DependentUpon>RegexParamControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\SubSelectionControl.xaml.cs">
-      <DependentUpon>SubSelectionControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Query\StringQueryWindow.xaml.cs">
-      <DependentUpon>StringQueryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\NumericUpDownControl.xaml.cs">
-      <DependentUpon>NumericUpDownControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Query\IntQueryWindow.xaml.cs">
-      <DependentUpon>IntQueryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\ScrollableWindowsFormsHost .cs" />
-    <Compile Include="Wpf\TableView.xaml.cs">
-      <DependentUpon>TableView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\TableViewSelectionAgentWindow.xaml.cs">
-      <DependentUpon>TableViewSelectionAgentWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Wpf\WpfUtils.cs" />
-    <EmbeddedResource Include="Forms\Axis\NumericAxisPropertiesForm.resx">
-      <DependentUpon>NumericAxisPropertiesForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Colors\ColorScale.resx">
-      <DependentUpon>ColorScale.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Colors\ColorsForm.resx">
-      <DependentUpon>ColorsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Table\HelpLabel.resx">
-      <DependentUpon>HelpLabel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PlanePropertiesForm.resx">
-      <DependentUpon>PlanePropertiesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Table\ListSelector.resx">
-      <DependentUpon>ListSelector.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Table\FindForm.resx">
-      <DependentUpon>FindForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Table\SelectColumnsForm.resx">
-      <DependentUpon>SelectColumnsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Table\TableViewWf.resx">
-      <DependentUpon>TableViewWf.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Param\ParameterGroupPanel.resx">
-      <DependentUpon>ParameterGroupPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\A.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\arrowDown.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\arrowUp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\C.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\D.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\E.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\F.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\G.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\H.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\I.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\K.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\L.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\M.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\minus.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\N.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\P.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\plus.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Q.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\question.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\question1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\R.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\S.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\T.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\V.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\W.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Y.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Wpf\PasteSelectionWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Param\ParameterWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Query\SymbolTypeQueryWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Query\FolderQueryWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Query\IntMinMaxQueryWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Query\DoubleQueryWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Query\SingleChoiceQueryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\CheckedListBoxControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\DictionaryIntValueControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Wpf\DictionaryIntValuePopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\FileParameterControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Wpf\FilterWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\FolderParameterControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Wpf\ListSelectorControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Wpf\Ms1LabelPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\MultiFileParameterControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Wpf\MultiListSelectorControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Wpf\RegexParamControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\SubSelectionControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Query\StringQueryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\NumericUpDownControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Query\IntQueryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\TableView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Wpf\TableViewSelectionAgentWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\A1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrowDown1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrowUp1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\C1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\D1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\E1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\F1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\G1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\H1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\I1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\K1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\L1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\M1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\minus1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\N1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\P1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\plus1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Q1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\question2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\question11.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\R1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\S1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\T1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\V1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\W1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Y1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\question12.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\minMaxRibbon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pdf-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\tools.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\pdf.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\exit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save_as.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\new.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\open_in_new_window.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\info.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\open.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\merge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\minus-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\plus-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrowCorner.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\monitors.png" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseLibS\BaseLibS.csproj">
@@ -663,283 +356,128 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\char_a.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_asterisk.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_b.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_backslash.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_c.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_colon.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_d.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_e.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_equal.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_exclamation.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_f.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_fullstop.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_g.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_h.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_hash.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_i.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_j.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_k.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_l.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_m.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_minus.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_n.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_o.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_p.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_percent.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_plus.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_q.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_question.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_r.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_s.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_slash.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_t.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_tilde.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_u.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_underscore.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_v.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_w.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_x.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_y.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char_z.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char0.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char2.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char3.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char4.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char5.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char6.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char7.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char8.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\char9.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chara.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charb.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charc.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chard.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chare.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charf.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charg.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charh.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chari.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charj.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chark.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charl.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charm.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charn.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charo.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charp.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charq.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charr.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chars.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chart.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charu.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charv.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charw.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charx.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chary.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\charz.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\rotate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\dice.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sheepButton.Image.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\upload64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Save-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bottom.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\top.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bottom1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\down1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\top1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\up1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\filter2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Perseus.jpg" />
+    <EmbeddedResource Include="Forms\CheckedListControl.resx">
+      <DependentUpon>CheckedListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ColorScale.resx">
+      <DependentUpon>ColorScale.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ColorsForm.resx">
+      <DependentUpon>ColorsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DictionaryIntValueControl.resx">
+      <DependentUpon>DictionaryIntValueControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DictionaryIntValueForm.resx">
+      <DependentUpon>DictionaryIntValueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditParseRuleForm.resx">
+      <DependentUpon>EditParseRuleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditTaxonomyForm.resx">
+      <DependentUpon>EditTaxonomyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FastaFilesParamControl.resx">
+      <DependentUpon>FastaFilesParamControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FileParameterControl.resx">
+      <DependentUpon>FileParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FilterForm.resx">
+      <DependentUpon>FilterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FolderParameterControl.resx">
+      <DependentUpon>FolderParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ListSelectorControl.resx">
+      <DependentUpon>ListSelectorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultiFileParameterControl.resx">
+      <DependentUpon>MultiFileParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NumericAxisPropertiesForm.resx">
+      <DependentUpon>NumericAxisPropertiesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PlanePropertiesForm.resx">
+      <DependentUpon>PlanePropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PatternMatchParamControl.resx">
+      <DependentUpon>PatternMatchParamControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RegexReplaceParamControl.resx">
+      <DependentUpon>RegexReplaceParamControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SliderControl.resx">
+      <DependentUpon>SliderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SubSelectionControl.resx">
+      <DependentUpon>SubSelectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\FindForm.resx">
+      <DependentUpon>FindForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\HelpLabel.resx">
+      <DependentUpon>HelpLabel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\ListSelector.resx">
+      <DependentUpon>ListSelector.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\PasteSelectionForm.resx">
+      <DependentUpon>PasteSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\SelectColumnsForm.resx">
+      <DependentUpon>SelectColumnsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\TableView.resx">
+      <DependentUpon>TableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\TableViewSelectionAgentForm.resx">
+      <DependentUpon>TableViewSelectionAgentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TestParseRuleForm.resx">
+      <DependentUpon>TestParseRuleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Param\ParameterForm.resx">
+      <DependentUpon>ParameterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Param\ParameterGroupPanel.resx">
+      <DependentUpon>ParameterGroupPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\DoubleQueryForm.resx">
+      <DependentUpon>DoubleQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\FolderQueryForm.resx">
+      <DependentUpon>FolderQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\IntMinMaxQueryForm.resx">
+      <DependentUpon>IntMinMaxQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\IntQueryForm.resx">
+      <DependentUpon>IntQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\SingleChoiceQueryForm.resx">
+      <DependentUpon>SingleChoiceQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\StringQueryForm.resx">
+      <DependentUpon>StringQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\SymbolTypeQueryForm.resx">
+      <DependentUpon>SymbolTypeQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question12.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

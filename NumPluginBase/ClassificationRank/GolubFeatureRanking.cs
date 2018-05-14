@@ -67,7 +67,7 @@ namespace NumPluginBase.ClassificationRank{
 				means[i] = ArrayUtils.Mean(ArrayUtils.ExtractValidValues(ArrayUtils.SubArray(x, y[i])));
 				stdevs[i] = ArrayUtils.StandardDeviation(ArrayUtils.ExtractValidValues(ArrayUtils.SubArray(x, y[i])));
 			}
-			var modelWeights = new double[ngroups];
+			double[] modelWeights = new double[ngroups];
 			int modelCount = 0;
 			for (int m = 0; m < ngroups; ++m){
 				for (int m2 = m + 1; m2 < ngroups; ++m2){

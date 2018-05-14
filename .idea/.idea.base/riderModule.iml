@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../BaseLib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../BaseLibS" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NumPluginBase" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../NumPluginSvm" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../BaseLib/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../BaseLib/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../BaseLibS/BaseLibS.Test/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../BaseLibS/BaseLibS.Test/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../BaseLibS/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../BaseLibS/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NumPluginBase/NumPluginBase.Test/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NumPluginBase/NumPluginBase.Test/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NumPluginBase/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NumPluginBase/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NumPluginSvm/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../NumPluginSvm/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

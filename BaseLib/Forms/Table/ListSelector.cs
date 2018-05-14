@@ -24,7 +24,9 @@ namespace BaseLib.Forms.Table{
 			ResizeRedraw = true;
 		}
 
-		public bool Repeats { get { return repeats; } set { repeats = value; } }
+		public bool Repeats { get => repeats;
+			set => repeats = value;
+		}
 
 		private void DownButtonMouseUp(object sender, MouseEventArgs e){
 			downThread.Abort();
@@ -270,7 +272,7 @@ namespace BaseLib.Forms.Table{
 		}
 
 		public bool HasMoveButtons{
-			get { return topButton.Visible; }
+			get => topButton.Visible;
 			set{
 				topButton.Visible = value;
 				upButton.Visible = value;

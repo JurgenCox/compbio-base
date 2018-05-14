@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using BaseLibS.Num.Space;
 
 namespace BaseLibS.Graph{
 	[Serializable, DebuggerDisplay("{NameAndArgbValue}")]
 	public struct Color2{
-		public static readonly Color2 empty = new Color2();
+		public static readonly Color2 Empty = new Color2();
 		// static list of known colors... 
 		public static Color2 Transparent => new Color2(KnownColor.Transparent);
 		public static Color2 AliceBlue => new Color2(KnownColor.AliceBlue);
@@ -156,7 +157,7 @@ namespace BaseLibS.Graph{
 		private const short stateValueMask = stateArgbValueValid;
 		private const short stateNameValid = 0x0008;
 		private const int notDefinedValue = 0;
-        // Shift count and bit mask for A, R, G, B components in ARGB mode! 
+		// Shift count and bit mask for A, R, G, B components in ARGB mode! 
 		private const int argbAlphaShift = 24;
 		private const int argbRedShift = 16;
 		private const int argbGreenShift = 8;
@@ -208,6 +209,34 @@ namespace BaseLibS.Graph{
 		/// Gets the alpha component value for this <code>Color2</code>.
 		/// </summary>
 		public byte A => (byte) ((Value >> argbAlphaShift) & 0xFF);
+
+		/// <summary>
+		/// Gets the red component value for the given <code>value</code>.
+		/// </summary>
+		public static byte GetR(int value){
+			return (byte) ((value >> argbRedShift) & 0xFF);
+		}
+
+		/// <summary>
+		/// Gets the green component value for the given <code>value</code>.
+		/// </summary>
+		public static byte GetG(int value){
+			return (byte) ((value >> argbGreenShift) & 0xFF);
+		}
+
+		/// <summary>
+		/// Gets the blue component value for the given <code>value</code>.
+		/// </summary>
+		public static byte GetB(int value){
+			return (byte) ((value >> argbBlueShift) & 0xFF);
+		}
+
+		/// <summary>
+		/// Gets the alpha component value for the given <code>value</code>.
+		/// </summary>
+		public static byte GetA(int value){
+			return (byte) ((value >> argbAlphaShift) & 0xFF);
+		}
 
 		/// <summary>
 		/// Specifies whether this <code>Color2</code> is a known (predefined) color.
@@ -265,7 +294,7 @@ namespace BaseLibS.Graph{
 		/// <summary>
 		///     Actual color to be rendered. 
 		/// </summary>
-		private int Value{
+		public int Value{
 			get{
 				if ((state & stateValueMask) != 0){
 					return value;
@@ -297,12 +326,57 @@ namespace BaseLibS.Graph{
 			return new Color2(argb, stateArgbValueValid, 0);
 		}
 
+		public Vector4F ToVector4(){
+			return new Vector4F(R/255F, G/255F, B/255F, A/255F);
+		}
+
+		public static Color2 FromHexString(string hex){
+			// assuming AARRGGBB
+			hex = hex.StartsWith("#") ? hex.Substring(1) : hex;
+			if (hex.Length != 8 && hex.Length != 6 && hex.Length != 3){
+				throw new ArgumentException("Hexadecimal string is not in the correct format.", nameof(hex));
+			}
+			int r;
+			int g;
+			int b;
+			int a;
+			if (hex.Length == 8){
+				r = Convert.ToByte(hex.Substring(2, 2), 16);
+				g = Convert.ToByte(hex.Substring(4, 2), 16);
+				b = Convert.ToByte(hex.Substring(6, 2), 16);
+				a = Convert.ToByte(hex.Substring(0, 2), 16);
+			} else if (hex.Length == 6){
+				r = Convert.ToByte(hex.Substring(0, 2), 16);
+				g = Convert.ToByte(hex.Substring(2, 2), 16);
+				b = Convert.ToByte(hex.Substring(4, 2), 16);
+				a = 255;
+			} else{
+				string rh = char.ToString(hex[0]);
+				string gh = char.ToString(hex[1]);
+				string bh = char.ToString(hex[2]);
+				r = Convert.ToByte(rh + rh, 16);
+				g = Convert.ToByte(gh + gh, 16);
+				b = Convert.ToByte(bh + bh, 16);
+				a = 255;
+			}
+			return FromArgb(a, r, g, b);
+		}
+
+		public static Color2 FromVector4(Vector4F vector){
+			Vector4F clamped = Vector4F.Clamp(vector, Vector4F.Zero, Vector4F.One)*255F;
+			byte r = (byte) Math.Round(clamped.X);
+			byte g = (byte) Math.Round(clamped.Y);
+			byte b = (byte) Math.Round(clamped.Z);
+			byte a = (byte) Math.Round(clamped.W);
+			return FromArgb(a, r, g, b);
+		}
+
 		/// <summary>
 		///       Creates a Color from its 32-bit component (alpha, red, green, and blue) values.
 		/// </summary>
 		public static Color2 FromArgb(int alpha, int red, int green, int blue){
-			return new Color2((int)MakeArgb(CheckByte(alpha), CheckByte(red), CheckByte(green), CheckByte(blue)), stateArgbValueValid,
-				0);
+			return new Color2((int) MakeArgb(CheckByte(alpha), CheckByte(red), CheckByte(green), CheckByte(blue)),
+				stateArgbValueValid, 0);
 		}
 
 		/// <summary>
@@ -310,7 +384,23 @@ namespace BaseLibS.Graph{
 		///       the new specified alpha value.
 		/// </summary>
 		public static Color2 FromArgb(int alpha, Color2 baseColor){
-			return new Color2((int)MakeArgb(CheckByte(alpha), baseColor.R, baseColor.G, baseColor.B), stateArgbValueValid, 0);
+			return new Color2((int) MakeArgb(CheckByte(alpha), baseColor.R, baseColor.G, baseColor.B), stateArgbValueValid, 0);
+		}
+
+		public static Color2 Darker(Color2 baseColor, int n){
+			return
+				new Color2(
+					(int)
+						MakeArgb(CheckByte(baseColor.A), CheckByte(Math.Max(0, baseColor.R - n)), CheckByte(Math.Max(0, baseColor.G - n)),
+							CheckByte(Math.Max(0, baseColor.B - n))), stateArgbValueValid, 0);
+		}
+
+		public static Color2 Lighter(Color2 baseColor, int n){
+			return
+				new Color2(
+					(int)
+						MakeArgb(CheckByte(baseColor.A), CheckByte(Math.Min(255, baseColor.R + n)),
+							CheckByte(Math.Min(255, baseColor.G + n)), CheckByte(Math.Min(255, baseColor.B + n))), stateArgbValueValid, 0);
 		}
 
 		/// <summary>
@@ -438,6 +528,53 @@ namespace BaseLibS.Graph{
 		/// 
 		public int ToArgb(){
 			return Value;
+		}
+
+		public byte[] ToBytes(){
+			return new[]{R, G, B, A};
+		}
+
+		public int GetPackedValue(){
+			return Value;
+		}
+
+		private static readonly Lazy<Color2[]> safeColors = new Lazy<Color2[]>(GetWebSafeColors);
+		public static Color2[] WebSafeColors => safeColors.Value;
+
+		private static Color2[] GetWebSafeColors(){
+			return new[]{
+				AliceBlue, AntiqueWhite, Aqua, Aquamarine, Azure, Beige, Bisque, Black, BlanchedAlmond, Blue, BlueViolet, Brown,
+				BurlyWood, CadetBlue, Chartreuse, Chocolate, Coral, CornflowerBlue, Cornsilk, Crimson, Cyan, DarkBlue, DarkCyan,
+				DarkGoldenrod, DarkGray, DarkGreen, DarkKhaki, DarkMagenta, DarkOliveGreen, DarkOrange, DarkOrchid, DarkRed,
+				DarkSalmon, DarkSeaGreen, DarkSlateBlue, DarkSlateGray, DarkTurquoise, DarkViolet, DeepPink, DeepSkyBlue, DimGray,
+				DodgerBlue, Firebrick, FloralWhite, ForestGreen, Fuchsia, Gainsboro, GhostWhite, Gold, Goldenrod, Gray, Green,
+				GreenYellow, Honeydew, HotPink, IndianRed, Indigo, Ivory, Khaki, Lavender, LavenderBlush, LawnGreen, LemonChiffon,
+				LightBlue, LightCoral, LightCyan, LightGoldenrodYellow, LightGray, LightGreen, LightPink, LightSalmon, LightSeaGreen,
+				LightSkyBlue, LightSlateGray, LightSteelBlue, LightYellow, Lime, LimeGreen, Linen, Magenta, Maroon, MediumAquamarine,
+				MediumBlue, MediumOrchid, MediumPurple, MediumSeaGreen, MediumSlateBlue, MediumSpringGreen, MediumTurquoise,
+				MediumVioletRed, MidnightBlue, MintCream, MistyRose, Moccasin, NavajoWhite, Navy, OldLace, Olive, OliveDrab, Orange,
+				OrangeRed, Orchid, PaleGoldenrod, PaleGreen, PaleTurquoise, PaleVioletRed, PapayaWhip, PeachPuff, Peru, Pink, Plum,
+				PowderBlue, Purple, Red, RosyBrown, RoyalBlue, SaddleBrown, Salmon, SandyBrown, SeaGreen, SeaShell, Sienna, Silver,
+				SkyBlue, SlateBlue, SlateGray, Snow, SpringGreen, SteelBlue, Tan, Teal, Thistle, Tomato, Transparent, Turquoise,
+				Violet, Wheat, White, WhiteSmoke, Yellow, YellowGreen
+			};
+		}
+
+		public static implicit operator Color2(YCbCr2 color){
+			float y = color.Y;
+			float cb = color.Cb - 128;
+			float cr = color.Cr - 128;
+			byte r = Clamp((byte) (y + 1.402*cr), 0, 255);
+			byte g = Clamp((byte) (y - 0.34414*cb - 0.71414*cr), 0, 255);
+			byte b = Clamp((byte) (y + 1.772*cb), 0, 255);
+			return FromArgb(r, g, b);
+		}
+
+		public static byte Clamp(byte value, byte min, byte max){
+			if (value > max){
+				return max;
+			}
+			return value < min ? min : value;
 		}
 
 		public override string ToString(){

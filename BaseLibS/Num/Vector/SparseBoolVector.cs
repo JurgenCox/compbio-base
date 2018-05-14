@@ -7,7 +7,7 @@ namespace BaseLibS.Num.Vector{
 		/// <summary>
 		/// Indices of elements with value 1. Values not covered by the indices are 0. Indices are sorted.
 		/// </summary>
-		private int[] indices;
+		internal int[] indices;
 
 		/// <summary>
 		/// Total length of the vector.
@@ -30,7 +30,123 @@ namespace BaseLibS.Num.Vector{
 			this.length = length;
 		}
 
+		public override BaseVector Minus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] -= other[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			if (other is FloatArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is BoolArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseFloatVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseBoolVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] -= (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			throw new Exception("Never get here.");
+		}
+
+		public override BaseVector Plus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] += other[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			if (other is FloatArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is BoolArrayVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseFloatVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			if (other is SparseBoolVector){
+				float[] result = new float[Length];
+				for (int i = 0; i < Length; i++){
+					if (this[i] == 1){
+						result[i] = 1;
+					}
+					result[i] += (float) other[i];
+				}
+				return new FloatArrayVector(result);
+			}
+			throw new Exception("Never get here.");
+		}
+
 		public override int Length => length;
+
+		public override BaseVector Mult(double d){
+			float[] values = new float[indices.Length];
+			for (int i = 0; i < values.Length; i++){
+				values[i] = (float) d;
+			}
+			return new SparseFloatVector((int[]) indices.Clone(), values, length);
+		}
 
 		public override BaseVector Copy(){
 			int[] newIndices = new int[indices.Length];
@@ -57,11 +173,15 @@ namespace BaseLibS.Num.Vector{
 			return false;
 		}
 
+		public override double[] Unpack(){
+			return ArrayUtils.ToDoubles(this);
+		}
+
 		public override void Dispose(){
 			indices = null;
 		}
 
-		public override bool IsNanOrInf(){
+		public override bool IsNaNOrInf(){
 			return false;
 		}
 
@@ -74,7 +194,6 @@ namespace BaseLibS.Num.Vector{
 				if (value != 1 && value != 0){
 					throw new Exception("Illegal value.");
 				}
-
 				int ind = Array.BinarySearch(indices, i);
 				if (ind >= 0){
 					if (value == 1){

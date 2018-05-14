@@ -1,89 +1,87 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Forms;
 using BaseLibS.Param;
 
-namespace BaseLib.Param{
-	public class ParameterPanel : UserControl{
+namespace BaseLib.Param {
+	public class ParameterPanel : UserControl {
 		public Parameters Parameters { get; private set; }
-		private Grid grid;
 		public bool Collapsible { get; set; }
 		public bool CollapsedDefault { get; set; }
 		private ParameterGroupPanel[] parameterGroupPanels;
 
-		public ParameterPanel(){
+		public ParameterPanel() {
 			Collapsible = true;
 		}
 
-		public float Init(Parameters parameters1){
+		public float Init(Parameters parameters1) {
 			return Init(parameters1, 250F, 1050);
 		}
 
-		public float Init(Parameters parameters1, float paramNameWidth, int totalWidth){
+		public float Init(Parameters parameters1, float paramNameWidth, int totalWidth) {
+			foreach (Control control in Controls) {
+				control?.Dispose();
+			}
+			Controls.Clear();
 			Parameters = parameters1;
-			Parameters.Convert(WpfParameterFactory.Convert);
+			Parameters.Convert(WinFormsParameterFactory.Convert);
 			int nrows = Parameters.GroupCount;
 			parameterGroupPanels = new ParameterGroupPanel[nrows];
-			grid = new Grid();
-			grid.ColumnDefinitions.Clear();
-			grid.ColumnDefinitions.Add(new ColumnDefinition());
+			TableLayoutPanel grid = new TableLayoutPanel {AutoScroll = true};
+			grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 			grid.Name = "tableLayoutPanel";
-			grid.RowDefinitions.Clear();
-			float totalHeight = 0;
-			for (int i = 0; i < nrows; i++){
-				float h = parameters1.GetGroup(i).Height + 26;
-				grid.RowDefinitions.Add(new RowDefinition{Height = new GridLength(h, GridUnitType.Pixel)});
-				totalHeight += h + 6;
+			int totalHeight = 0;
+			for (int i = 0; i < nrows; i++) {
+				int h = (int) (parameters1.GetGroup(i).Height + 26);
+				grid.RowStyles.Add(new RowStyle(SizeType.Absolute, h));
+				totalHeight += h;
 			}
-			grid.RowDefinitions.Add(new RowDefinition{Height = new GridLength(100, GridUnitType.Star)});
+			grid.RowStyles.Add(new RowStyle(SizeType.AutoSize, 100));
 			grid.Width = totalWidth;
-			grid.Height = (int) totalHeight;
-			for (int i = 0; i < nrows; i++){
-				AddParameterGroup(parameters1.GetGroup(i), i, paramNameWidth, totalWidth);
+			grid.Height = totalHeight;
+			for (int i = 0; i < nrows; i++) {
+				AddParameterGroup(parameters1.GetGroup(i), i, paramNameWidth, totalWidth, grid);
 			}
-			Content = grid;
+			grid.Dock = DockStyle.Fill;
+			Controls.Add(grid);
 			Name = "ParameterPanel";
 			Width = totalWidth;
 			Height = totalHeight;
 			return totalHeight;
 		}
 
-		public void SetParameters(){
+		private void AddParameterGroup(ParameterGroup p, int i, float paramNameWidth, int totalWidth, TableLayoutPanel grid) {
+			ParameterGroupPanel pgp = new ParameterGroupPanel();
+			parameterGroupPanels[i] = pgp;
+			pgp.Init(p, paramNameWidth, totalWidth);
+			pgp.Dock = DockStyle.Fill;
+			if (p.Name == null) {
+				grid.Controls.Add(pgp, 0, i);
+			} else {
+				GroupBox gb = new GroupBox {
+					Text = p.Name,
+					Margin = new Padding(3),
+					Padding = new Padding(3),
+					Dock = DockStyle.Fill,
+				};
+				gb.Controls.Add(pgp);
+				grid.Controls.Add(gb, 0, i);
+			}
+		}
+
+		public void SetParameters() {
 			Parameters p1 = Parameters;
-			for (int i = 0; i < p1.GroupCount; i++){
+			for (int i = 0; i < p1.GroupCount; i++) {
 				p1.GetGroup(i).SetParametersFromConrtol();
 			}
 		}
 
-		private void AddParameterGroup(ParameterGroup p, int i, float paramNameWidth, int totalWidth){
-			ParameterGroupPanel pgp = new ParameterGroupPanel();
-			parameterGroupPanels[i] = pgp;
-			pgp.Init(p, paramNameWidth, totalWidth);
-			if (p.Name == null){
-				Grid.SetColumn(pgp, 0);
-				Grid.SetRow(pgp, i);
-				grid.Children.Add(pgp);
-			} else{
-				GroupBox gb = new GroupBox{Header = p.Name, Margin = new Thickness(3), Padding = new Thickness(3), Content = pgp};
-				Grid.SetColumn(gb, 0);
-				Grid.SetRow(gb, i);
-				grid.Children.Add(gb);
-			}
-		}
-
-		public void RegisterScrollViewer(ScrollViewer scrollViewer){
-			foreach (ParameterGroupPanel panel in parameterGroupPanels){
-				panel.RegisterScrollViewer(scrollViewer);
-			}
-		}
-
-		public void Disable(){
-			foreach (ParameterGroupPanel parameterGroupPanel in parameterGroupPanels){
+		public void Disable() {
+			foreach (ParameterGroupPanel parameterGroupPanel in parameterGroupPanels) {
 				parameterGroupPanel.Disable();
 			}
 		}
 
-		public void Enable(){
-			foreach (ParameterGroupPanel parameterGroupPanel in parameterGroupPanels){
+		public void Enable() {
+			foreach (ParameterGroupPanel parameterGroupPanel in parameterGroupPanels) {
 				parameterGroupPanel.Enable();
 			}
 		}

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using BaseLibS.Data;
+using BaseLibS.Num.Func;
 using BaseLibS.Num.Test;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num{
 	public static class NumUtils{
-		public static readonly double log10 = Math.Log(10);
-
 		/// <summary>
 		/// Creates all partitions of exactly <code>nItems</code> items into <code>nClasses</code> classes. 
 		/// </summary>
@@ -53,55 +52,6 @@ namespace BaseLibS.Num{
 			for (int i = 0; i <= x.remainder; i++){
 				Partition(x.Add(i), allPartitions, len, validPartition, task);
 			}
-		}
-
-		public static double Multinomial(int n, int[] partition){
-			return Math.Exp(LnMultinomial(n, partition));
-		}
-
-		public static double LnMultinomial(int a, int[] bs){
-			double result = Gammln(a + 1);
-			foreach (int t in bs){
-				result -= Gammln(t + 1);
-			}
-			return result;
-		}
-
-		private static readonly double[] gammlnCof = new[]{
-			76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2,
-			-0.5395239384953e-5
-		};
-
-		public static double Gammln(double xx){
-			double x;
-			int j;
-			double y = x = xx;
-			double tmp = x + 5.5;
-			tmp -= (x + 0.5)*Math.Log(tmp);
-			double ser = 1.000000000190015;
-			for (j = 0; j <= 5; j++){
-				ser += gammlnCof[j]/++y;
-			}
-			return -tmp + Math.Log(2.5066282746310005*ser/x);
-		}
-
-		public static double Gasdev(ref bool iset, ref double gset, Random random){
-			if (!iset){
-				double rsq;
-				double v1;
-				double v2;
-				do{
-					v1 = 2.0*random.NextDouble() - 1.0;
-					v2 = 2.0*random.NextDouble() - 1.0;
-					rsq = v1*v1 + v2*v2;
-				} while (rsq >= 1.0 || rsq == 0.0);
-				double fac = Math.Sqrt(-2.0*Math.Log(rsq)/rsq);
-				gset = v1*fac;
-				iset = true;
-				return v2*fac;
-			}
-			iset = false;
-			return gset;
 		}
 
 		public static int[][] GetCombinations(int n, int k, int max, out bool incomplete){
@@ -176,7 +126,7 @@ namespace BaseLibS.Num{
 				return x;
 			}
 			try{
-				int sign = (x > 0) ? 1 : -1;
+				int sign = x > 0 ? 1 : -1;
 				x = Math.Abs(x);
 				int w = (int) Math.Ceiling(Math.Log(x)/Math.Log(10));
 				if (w - n > 0){
@@ -186,7 +136,7 @@ namespace BaseLibS.Num{
 				}
 				if (w - n < 0){
 					double fact = Math.Round(Math.Pow(10, n - w));
-					if (Double.IsInfinity(fact)){
+					if (double.IsInfinity(fact)){
 						return 0;
 					}
 					x = Math.Round(x*fact)/Math.Pow(10, n - w);
@@ -204,7 +154,7 @@ namespace BaseLibS.Num{
 				return "0";
 			}
 			if (double.IsNaN(x) || double.IsInfinity(x)){
-				return x.ToString(CultureInfo.InvariantCulture);
+				return Parser.ToString(x);
 			}
 			try{
 				string prefix = x < 0 ? "-" : "";
@@ -229,7 +179,7 @@ namespace BaseLibS.Num{
 			}
 		}
 
-		public static string Shift(long l, int m){
+		private static string Shift(long l, int m){
 			string s = "" + l;
 			if (l == 0){
 				return s;
@@ -262,54 +212,6 @@ namespace BaseLibS.Num{
 				end--;
 			}
 			return s.Substring(0, end);
-		}
-
-		public static string ShiftOld(long l, int m){
-			return "" + l/Math.Pow(10, m);
-		}
-
-		public static void GetValidPairs(IList<float> x, IList<float> y, out float[] x1, out float[] y1){
-			List<float> x2 = new List<float>();
-			List<float> y2 = new List<float>();
-			for (int i = 0; i < x.Count; i++){
-				if (!float.IsNaN(x[i]) && !float.IsInfinity(x[i]) && !float.IsNaN(y[i]) && !float.IsInfinity(y[i])){
-					x2.Add(x[i]);
-					y2.Add(y[i]);
-				}
-			}
-			x1 = x2.ToArray();
-			y1 = y2.ToArray();
-		}
-
-		public static void GetValidTriples(IList<float> x, IList<float> y, IList<float> z, out float[] x1, out float[] y1,
-			out float[] z1){
-			List<float> x2 = new List<float>();
-			List<float> y2 = new List<float>();
-			List<float> z2 = new List<float>();
-			for (int i = 0; i < x.Count; i++){
-				if (!float.IsNaN(x[i]) && !float.IsInfinity(x[i]) && !float.IsNaN(y[i]) && !float.IsInfinity(y[i]) &&
-					!float.IsNaN(z[i]) && !float.IsInfinity(z[i])){
-					x2.Add(x[i]);
-					y2.Add(y[i]);
-					z2.Add(z[i]);
-				}
-			}
-			x1 = x2.ToArray();
-			y1 = y2.ToArray();
-			z1 = z2.ToArray();
-		}
-
-		public static void GetValidPairs(IList<double> x, IList<double> y, out double[] x1, out double[] y1){
-			List<double> x2 = new List<double>();
-			List<double> y2 = new List<double>();
-			for (int i = 0; i < x.Count; i++){
-				if (!double.IsNaN(x[i]) && !double.IsInfinity(x[i]) && !double.IsNaN(y[i]) && !double.IsInfinity(y[i])){
-					x2.Add(x[i]);
-					y2.Add(y[i]);
-				}
-			}
-			x1 = x2.ToArray();
-			y1 = y2.ToArray();
 		}
 
 		public static void PolynomialFit(double[] x, double[] y, int degree, out double[] a){
@@ -653,7 +555,7 @@ namespace BaseLibS.Num{
 					d /= Math.Abs(yt[j]);
 				}
 				if (Math.Abs(d) > rofuncEps){
-					sum += (d >= 0.0 ? xt[j] : -xt[j]);
+					sum += d >= 0.0 ? xt[j] : -xt[j];
 				}
 			}
 			return sum;
@@ -745,7 +647,7 @@ namespace BaseLibS.Num{
 			double bb = (ndata*sxy - sx*sy)/del;
 			for (j = 0; j < ndata; j++){
 				double temp = y[j] - (bb*x[j]);
-				chisq += (temp*temp);
+				chisq += temp*temp;
 			}
 			double sigb = Math.Sqrt(chisq/del);
 			double b1 = bb;
@@ -843,7 +745,7 @@ namespace BaseLibS.Num{
 			return cov;
 		}
 
-		public static double[,] CalcCovariance(IList<float>[] data){
+		public static double[,] CalcCovariance(IList<double>[] data){
 			int n = data[0].Count;
 			int p = data.Length;
 			double[] means = new double[p];
@@ -1111,7 +1013,7 @@ namespace BaseLibS.Num{
 			if (x < 0.0 || a <= 0.0){
 				throw new Exception("Invalid arguments in routine gammq");
 			}
-			if (x < (a + 1.0)){
+			if (x < a + 1.0){
 				Gser(ref gamser, a, x, out gln);
 				return gamser;
 			}
@@ -1147,7 +1049,7 @@ namespace BaseLibS.Num{
 
 		public static void Gcf(ref double gammcf, double a, double x, out double gln){
 			int i;
-			gln = Gammln(a);
+			gln = Gamma.LnValue(a);
 			double b = x + 1.0 - a;
 			double c = 1.0/gcfFpmin;
 			double d = 1.0/b;
@@ -1177,7 +1079,7 @@ namespace BaseLibS.Num{
 		}
 
 		public static void Gser(ref double gamser, double a, double x, out double gln){
-			gln = Gammln(a);
+			gln = Gamma.LnValue(a);
 			if (x <= 0.0){
 				if (x < 0.0){
 					throw new Exception("x less than 0 in routine gser");
@@ -1200,23 +1102,8 @@ namespace BaseLibS.Num{
 			throw new Exception("a too large, ITMAX too small in routine gser");
 		}
 
-		public static double Bico(long n, long k){
-			return Math.Round(Math.Exp(Factln(n) - Factln(k) - Factln(n - k)));
-		}
-
-		private static readonly double[] aaa = new double[15001];
-
-		public static double Factln(long n){
-			if (n < 0){
-				throw new Exception("Negative factorial in routine factln");
-			}
-			if (n <= 1){
-				return 0.0;
-			}
-			if (n <= 15000){
-				return aaa[n] != 0 ? aaa[n] : (aaa[n] = Gammln(n + 1.0));
-			}
-			return Gammln(n + 1.0);
+		public static float Clamp(float x, float min, float max){
+			return Math.Min(Math.Max(x, min), max);
 		}
 
 		public static int[][] CalcCollapse(string[] names){
@@ -1426,11 +1313,11 @@ namespace BaseLibS.Num{
 		/// <returns>Rank array</returns>
 		private static double[] Rank(List<double> x, out List<int> sumDuplicates){
 			sumDuplicates = new List<int>();
-			var xx = x.Select((a, b) => new KeyValuePair<double, int>(a, b)).OrderBy(a => a.Key).ToList();
-			var xSortedIndex = xx.Select(a => a.Value).ToArray();
-			var xSorted = xx.Select(a => a.Key).ToArray();
-			var n = xSorted.Length;
-			var result = new double[n];
+			List<KeyValuePair<double, int>> xx = x.Select((a, b) => new KeyValuePair<double, int>(a, b)).OrderBy(a => a.Key).ToList();
+			int[] xSortedIndex = xx.Select(a => a.Value).ToArray();
+			double[] xSorted = xx.Select(a => a.Key).ToArray();
+			int n = xSorted.Length;
+			double[] result = new double[n];
 			int duplicates = 0, sumRank = 0, i;
 			for (i = 0; i < n; i++){
 				sumRank += i;
@@ -1448,6 +1335,35 @@ namespace BaseLibS.Num{
 				}
 			}
 			return result;
+		}
+
+		public static double Gaussian(double x, double sigma){
+			return  Math.Exp(-x*x/(2*sigma*sigma))/ (Math.Sqrt(2*Math.PI)*sigma);
+		}
+
+		public static double SinC(double x){
+			const double epsilon = .00001F;
+			if (Math.Abs(x) > epsilon){
+				x *= Math.PI;
+				return Clean(Math.Sin(x)/x);
+			}
+			return 1.0f;
+		}
+
+		private static double Clean(double x) {
+			const double epsilon = .00001F;
+			return Math.Abs(x) < epsilon ? 0F : x;
+		}
+
+		public static int Clamp(int value, int min, int max){
+			if (value > max){
+				return max;
+			}
+			return value < min ? min : value;
+		}
+
+		public static double Determinant2X2(double[,] m) {
+			return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0];
 		}
 	}
 }

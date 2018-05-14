@@ -12,7 +12,7 @@ namespace NumPluginSvm{
             this.model = model;
         }
 
-        public override float Predict(BaseVector x){
+        public override double Predict(BaseVector x){
             return SvmMain.SvmPredict(model, x);
         }
     }

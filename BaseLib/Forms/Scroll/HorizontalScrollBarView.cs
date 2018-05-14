@@ -1,68 +1,44 @@
 using System;
-using System.Drawing;
 using System.Threading;
-using BaseLib.Forms.Base;
-using BaseLib.Graphic;
+using BaseLibS.Graph;
 
-namespace BaseLib.Forms.Scroll{
-	internal sealed class HorizontalScrollBarView : BasicView{
-		private readonly IScrollableControl main;
-		private ScrollBarState state = ScrollBarState.Neutral;
-		private Bitmap firstMark;
-		private Bitmap firstMarkHighlight;
-		private Bitmap firstMarkPress;
-		private Bitmap secondMark;
-		private Bitmap secondMarkHighlight;
-		private Bitmap secondMarkPress;
-		private Bitmap bar;
-		private Bitmap barHighlight;
-		private Bitmap barPress;
-		private int dragStart = -1;
-		private int visibleDragStart = -1;
+namespace BaseLib.Forms.Scroll {
+	internal sealed class HorizontalScrollBarView : ScrollBarView {
 		private Thread leftThread;
 		private Thread rightThread;
+		internal HorizontalScrollBarView(IScrollableControl main, float sfx) : base(main, sfx) { }
 
-		internal HorizontalScrollBarView(IScrollableControl main) {
-			this.main = main;
-		}
-
-		protected internal override void OnResize(EventArgs e, int width, int height) {
-			bar = null;
-		}
-
-		protected internal override void OnPaintBackground(IGraphics g, int width, int height) {
-			Pen p = new Pen(Color.FromArgb(172, 168, 153));
+		public override void OnPaintBackground(IGraphics g, int width, int height) {
+			Pen2 p = new Pen2(Color2.FromArgb(172, 168, 153));
 			g.DrawLine(p, 0, height - 1, width, height - 1);
-			int[] start = new[]{243, 241, 236};
-			int[] end = new[]{254, 254, 251};
-			int[][] rgbs = FormUtil.InterpolateRgb(start, end, CompoundScrollableControl.scrollBarWidth - 2);
-			for (int i = 0; i < CompoundScrollableControl.scrollBarWidth - 2; i++){
-				p = new Pen(Color.FromArgb(rgbs[0][i], rgbs[1][i], rgbs[2][i]));
+			int[][] rgbs = GraphUtil.InterpolateRgb(243, 241, 236, 254, 254, 251, ScrollBarWidth - 2);
+			for (int i = 0; i < ScrollBarWidth - 2; i++) {
+				p = new Pen2(Color2.FromArgb(rgbs[0][i], rgbs[1][i], rgbs[2][i]));
 				g.DrawLine(p, 0, i + 1, width, i + 1);
 			}
-			p = new Pen(Color.FromArgb(238, 237, 229));
+			p = new Pen2(Color2.FromArgb(238, 237, 229));
 			g.DrawLine(p, 0, 0, width, 0);
 			g.DrawLine(p, 0, height - 2, width, height - 2);
 		}
 
-		protected internal override void OnPaint(IGraphics g, int width, int height) {
-			PaintFirstMark(g, CompoundScrollableControl.scrollBarWidth);
-			PaintSecondMark(g, CompoundScrollableControl.scrollBarWidth, width);
-			PaintBar(g, CompoundScrollableControl.scrollBarWidth, width);
+		public override void OnPaint(IGraphics g, int width, int height) {
+			PaintFirstMark(g, ScrollBarWidth);
+			PaintSecondMark(g, ScrollBarWidth, width);
+			PaintBar(g, ScrollBarWidth, width);
 		}
 
-		private void PaintBar(IGraphics g, int scrollBarWid, int width){
-			if (!HasBar){
+		private void PaintBar(IGraphics g, int scrollBarWid, int width) {
+			if (!HasBar) {
 				return;
 			}
-			if (bar != null && CalcBarSize(width) != bar.Width){
+			if (bar != null && CalcBarSize(width) != bar.Width) {
 				bar = null;
 			}
-			if (bar == null){
+			if (bar == null) {
 				CreateBar(scrollBarWid, width);
 			}
 			int h = CalcBarStart(width);
-			switch (state){
+			switch (state) {
 				case ScrollBarState.HighlightBar:
 					g.DrawImageUnscaled(barHighlight, h, 1);
 					break;
@@ -75,13 +51,13 @@ namespace BaseLib.Forms.Scroll{
 			}
 		}
 
-		private bool HasBar { get { return main.VisibleWidth < main.TotalWidth; } }
+		private bool HasBar => main.VisibleWidth / main.ZoomFactor < main.TotalWidth();
 
-		private void PaintFirstMark(IGraphics g, int scrollBarWid){
-			if (firstMark == null){
+		private void PaintFirstMark(IGraphics g, int scrollBarWid) {
+			if (firstMark == null) {
 				CreateFirstMark(scrollBarWid);
 			}
-			switch (state){
+			switch (state) {
 				case ScrollBarState.HighlightFirstBox:
 					g.DrawImageUnscaled(firstMarkHighlight, 0, 1);
 					break;
@@ -94,12 +70,12 @@ namespace BaseLib.Forms.Scroll{
 			}
 		}
 
-		private void PaintSecondMark(IGraphics g, int scrollBarWid, int width){
-			if (secondMark == null){
+		private void PaintSecondMark(IGraphics g, int scrollBarWid, int width) {
+			if (secondMark == null) {
 				CreateSecondMark(scrollBarWid);
 			}
 			int h = scrollBarWid - 1;
-			switch (state){
+			switch (state) {
 				case ScrollBarState.HighlightSecondBox:
 					g.DrawImageUnscaled(secondMarkHighlight, width - h, 1);
 					break;
@@ -112,95 +88,66 @@ namespace BaseLib.Forms.Scroll{
 			}
 		}
 
-		private void CreateBar(int scrollBarWid, int width){
+		private void CreateBar(int scrollBarWid, int width) {
 			int w = CalcBarSize(width);
 			int h = scrollBarWid - 2;
-			UnsafeBitmap b = new UnsafeBitmap(w, h);
-			b.LockBitmap();
-			FormUtil.FillShadedRectangle(b, w, h);
-			UnsafeBitmap bh = b.Lighter();
-			UnsafeBitmap bp = b.Darker();
-			b.UnlockBitmap();
-			bh.UnlockBitmap();
-			bp.UnlockBitmap();
-			bar = b.Bitmap;
-			bar.MakeTransparent();
-			barHighlight = bh.Bitmap;
-			barHighlight.MakeTransparent();
-			barPress = bp.Bitmap;
-			barPress.MakeTransparent();
+			Bitmap2 b = new Bitmap2(w, h);
+			GraphUtil.FillShadedRectangle(b, w, h);
+			bar = b;
+			barHighlight = b.Lighter();
+			barPress = b.Darker();
 		}
 
-		private int CalcBarStart(int width){
-			int hx = width - 2*CompoundScrollableControl.scrollBarWidth + 2;
-			if (hx <= 0){
-				return CompoundScrollableControl.scrollBarWidth - 1;
+		private int CalcBarStart(int width) {
+			int hx = width - 2 * ScrollBarWidth + 2;
+			if (hx <= 0) {
+				return ScrollBarWidth - 1;
 			}
-			int w = (int) Math.Round(hx*(main.VisibleX/(double) (main.TotalWidth - 1)));
-			w = Math.Min(w, hx - 5);
-			return Math.Max(0, w) + CompoundScrollableControl.scrollBarWidth - 1;
+			int w = (int) Math.Round(hx * (main.VisibleX / (double) (main.TotalWidth() - 1)));
+			w = Math.Min(w, hx - MinBarSize);
+			return Math.Max(0, w) + ScrollBarWidth - 1;
 		}
 
-		private int CalcBarEnd(int width){
-			int hx = width - 2*CompoundScrollableControl.scrollBarWidth + 2;
-			if (hx <= 0){
-				return CompoundScrollableControl.scrollBarWidth - 1;
+		private int CalcBarEnd(int width) {
+			int hx = width - 2 * ScrollBarWidth + 2;
+			if (hx <= 0) {
+				return ScrollBarWidth - 1;
 			}
-			return Math.Min(hx, (int) Math.Round(hx*((main.VisibleX + main.VisibleWidth)/(double) (main.TotalWidth - 1)))) +
-				CompoundScrollableControl.scrollBarWidth - 1;
+			return Math.Min(hx,
+				       (int) Math.Round(hx * ((main.VisibleX + main.VisibleWidth / main.ZoomFactor) /
+				                              (double) (main.TotalWidth() - 1)))) + ScrollBarWidth - 1;
 		}
 
-		private int CalcBarSize(int width){
-			int hx = width - 2*CompoundScrollableControl.scrollBarWidth + 2;
-			if (hx <= 0){
-				return 5;
-			}
-			return Math.Max(5, CalcBarEnd(width) - CalcBarStart(width));
+		private int CalcBarSize(int width) {
+			int hx = width - 2 * ScrollBarWidth + 2;
+			return hx <= 0 ? MinBarSize : Math.Max(MinBarSize, CalcBarEnd(width) - CalcBarStart(width));
 		}
 
-		private void CreateFirstMark(int scrollBarWid){
+		private void CreateFirstMark(int scrollBarWid) {
 			int w = scrollBarWid - 1;
 			int h = scrollBarWid - 2;
-			UnsafeBitmap b = new UnsafeBitmap(w, h);
-			b.LockBitmap();
-			FormUtil.FillShadedRectangle(b, w, h);
-			UnsafeBitmap bh = b.Lighter();
-			UnsafeBitmap bp = b.Darker();
-			b.UnlockBitmap();
-			bh.UnlockBitmap();
-			bp.UnlockBitmap();
-			firstMark = b.Bitmap;
-			firstMark.MakeTransparent();
-			firstMarkHighlight = bh.Bitmap;
-			firstMarkHighlight.MakeTransparent();
-			firstMarkPress = bp.Bitmap;
-			firstMarkPress.MakeTransparent();
+			Bitmap2 b = new Bitmap2(w, h);
+			GraphUtil.FillShadedRectangle(b, w, h);
+			firstMark = b;
+			firstMarkHighlight = b.Lighter();
+			firstMarkPress = b.Darker();
 		}
 
-		private void CreateSecondMark(int scrollBarWid){
+		private void CreateSecondMark(int scrollBarWid) {
 			int w = scrollBarWid - 1;
 			int h = scrollBarWid - 2;
-			UnsafeBitmap b = new UnsafeBitmap(w, h);
-			b.LockBitmap();
-			FormUtil.FillShadedRectangle(b, w, h);
-			UnsafeBitmap bh = b.Lighter();
-			UnsafeBitmap bp = b.Darker();
-			b.UnlockBitmap();
-			bh.UnlockBitmap();
-			bp.UnlockBitmap();
-			secondMark = b.Bitmap;
-			secondMark.MakeTransparent();
-			secondMarkHighlight = bh.Bitmap;
-			secondMarkHighlight.MakeTransparent();
-			secondMarkPress = bp.Bitmap;
-			secondMarkPress.MakeTransparent();
+			Bitmap2 b = new Bitmap2(w, h);
+			GraphUtil.FillShadedRectangle(b, w, h);
+			secondMark = b;
+			secondMarkHighlight = b.Lighter();
+			secondMarkPress = b.Darker();
 		}
 
-		protected internal override void OnMouseMoved(BasicMouseEventArgs e) {
+		public override void OnMouseMoved(BasicMouseEventArgs e) {
 			ScrollBarState newState = ScrollBarState.Neutral;
-			if (e.X < CompoundScrollableControl.scrollBarWidth - 1) {
+			if (e.X < ScrollBarWidth - 1) {
 				newState = ScrollBarState.HighlightFirstBox;
-			} else if (e.X > e.Width - CompoundScrollableControl.scrollBarWidth) {
+			} else if (e.X > e.Width - ScrollBarWidth) {
 				newState = ScrollBarState.HighlightSecondBox;
 			} else if (HasBar) {
 				int s = CalcBarStart(e.Width);
@@ -215,17 +162,17 @@ namespace BaseLib.Forms.Scroll{
 			}
 		}
 
-		protected internal override void OnMouseIsDown(BasicMouseEventArgs e) {
+		public override void OnMouseIsDown(BasicMouseEventArgs e) {
 			ScrollBarState newState = ScrollBarState.Neutral;
-			if (e.X < CompoundScrollableControl.scrollBarWidth - 1) {
+			if (e.X < ScrollBarWidth - 1) {
 				newState = ScrollBarState.PressFirstBox;
-				MoveLeft(main.DeltaX);
-				leftThread = new Thread(() => WalkLeft(main.DeltaX));
+				MoveLeft(main.DeltaX());
+				leftThread = new Thread(() => WalkLeft(main.DeltaX()));
 				leftThread.Start();
-			} else if (e.X > e.Width - CompoundScrollableControl.scrollBarWidth) {
+			} else if (e.X > e.Width - ScrollBarWidth) {
 				newState = ScrollBarState.PressSecondBox;
-				MoveRight(main.DeltaX);
-				rightThread = new Thread(() => WalkRight(main.DeltaX));
+				MoveRight(main.DeltaX());
+				rightThread = new Thread(() => WalkRight(main.DeltaX()));
 				rightThread.Start();
 			} else if (HasBar) {
 				int s = CalcBarStart(e.Width);
@@ -235,12 +182,12 @@ namespace BaseLib.Forms.Scroll{
 					dragStart = e.X;
 					visibleDragStart = main.VisibleX;
 				} else if (e.X < s) {
-					MoveLeft(main.VisibleWidth);
-					leftThread = new Thread(() => WalkLeft(main.VisibleWidth));
+					MoveLeft((int) (main.VisibleWidth / main.ZoomFactor));
+					leftThread = new Thread(() => WalkLeft((int) (main.VisibleWidth / main.ZoomFactor)));
 					leftThread.Start();
 				} else {
-					MoveRight(main.VisibleWidth);
-					rightThread = new Thread(() => WalkRight(main.VisibleWidth));
+					MoveRight((int) (main.VisibleWidth / main.ZoomFactor));
+					rightThread = new Thread(() => WalkRight((int) (main.VisibleWidth / main.ZoomFactor)));
 					rightThread.Start();
 				}
 			}
@@ -255,7 +202,7 @@ namespace BaseLib.Forms.Scroll{
 		}
 
 		private void MoveRight(int delta) {
-			main.VisibleX = Math.Min(main.TotalWidth - main.VisibleWidth, main.VisibleX + delta);
+			main.VisibleX = (int) Math.Min(main.TotalWidth() - main.VisibleWidth / main.ZoomFactor, main.VisibleX + delta);
 		}
 
 		private void WalkLeft(int delta) {
@@ -269,6 +216,7 @@ namespace BaseLib.Forms.Scroll{
 		}
 
 		// ReSharper restore FunctionNeverReturns
+
 		private void WalkRight(int delta) {
 			Thread.Sleep(400);
 			while (true) {
@@ -280,19 +228,20 @@ namespace BaseLib.Forms.Scroll{
 		}
 
 		// ReSharper restore FunctionNeverReturns
-		protected internal override void OnMouseDragged(BasicMouseEventArgs e) {
+
+		public override void OnMouseDragged(BasicMouseEventArgs e) {
 			if (state != ScrollBarState.PressBar) {
 				return;
 			}
-			int hx = e.Width - 2 * CompoundScrollableControl.scrollBarWidth + 2;
-			int x = visibleDragStart + (int)Math.Round((e.X - dragStart) / (double)hx * main.TotalWidth);
+			int hx = e.Width - 2 * ScrollBarWidth + 2;
+			int x = visibleDragStart + (int) Math.Round((e.X - dragStart) / (double) hx * main.TotalWidth());
 			x = Math.Max(0, x);
-			x = Math.Min(main.TotalWidth - main.VisibleWidth, x);
+			x = (int) Math.Min(main.TotalWidth() - main.VisibleWidth / main.ZoomFactor, x);
 			main.VisibleX = x;
 			Invalidate();
 		}
 
-		protected internal override void OnMouseIsUp(BasicMouseEventArgs e) {
+		public override void OnMouseIsUp(BasicMouseEventArgs e) {
 			if (leftThread != null) {
 				leftThread.Abort();
 				leftThread = null;
@@ -307,7 +256,7 @@ namespace BaseLib.Forms.Scroll{
 			Invalidate();
 		}
 
-		protected internal override void OnMouseLeave(EventArgs e) {
+		public override void OnMouseLeave(EventArgs e) {
 			if (state == ScrollBarState.PressBar) {
 				return;
 			}

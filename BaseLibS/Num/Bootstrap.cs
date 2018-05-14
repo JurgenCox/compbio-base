@@ -7,7 +7,7 @@ namespace BaseLibS.Num{
 		public const int nBoots = 150;
 		private static readonly int[,][] bootstrapBuffer = new int[bootstrapBufferLen,maxBootstrapVectorLen][];
 		private static int count;
-		public static Random random = new Random();
+		public static Random random = new Random(7);
 
 		static Bootstrap(){
 			for (int i = 0; i < bootstrapBufferLen; i++){

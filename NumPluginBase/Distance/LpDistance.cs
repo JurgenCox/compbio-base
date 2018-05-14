@@ -10,7 +10,9 @@ namespace NumPluginBase.Distance{
 		private double P { get; set; }
 		public LpDistance() : this(1.5) { }
 		public LpDistance(double p) { P = p; }
-		public Parameters Parameters { set { P = value.GetParam<double>("P").Value; } get { return new Parameters(new DoubleParam("P", 1.5)); } }
+		public Parameters Parameters { set => P = value.GetParam<double>("P").Value;
+			get => new Parameters(new DoubleParam("P", 1.5));
+		}
 		public double Get(IList<float> x, IList<float> y) { return Calc(x, y); }
 		public double Get(IList<double> x, IList<double> y) { return Calc(x, y); }
 		public double Get(BaseVector x, BaseVector y) { return Calc(x, y); }

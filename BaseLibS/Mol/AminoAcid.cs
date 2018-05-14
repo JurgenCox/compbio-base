@@ -1,12 +1,12 @@
 namespace BaseLibS.Mol{
 	public class AminoAcid : Molecule{
 		internal readonly bool isStandard;
-		public string Abbreviation { get; private set; }
-		public string Type { get; private set; }
+		public string Abbreviation { get; }
+		public string Type { get; }
 		public char Letter { get; }
-		public double Occurence { get; private set; }
-		public string[] Codons { get; private set; }
-		public double Gravy { get; private set; }
+		public double Occurence { get; }
+		public string[] Codons { get; }
+		public double Gravy { get; }
 
 		internal AminoAcid(string empiricalFormula, string name, string abbreviation, char letter, double occurence,
 			string[] codons, string type, bool isStandard, double gravy) : base(empiricalFormula){

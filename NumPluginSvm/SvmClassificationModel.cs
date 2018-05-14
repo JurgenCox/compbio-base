@@ -14,16 +14,16 @@ namespace NumPluginSvm{
 			this.invert = invert;
 		}
 
-		public override float[] PredictStrength(BaseVector x){
+		public override double[] PredictStrength(BaseVector x){
 			if (models.Length == 1){
-				float[] result = new float[2];
+				double[] result = new double[2];
 				double[] decVal = new double[1];
 				SvmMain.SvmPredictValues(models[0], x, decVal);
 				result[0] = invert[0] ? -(float)decVal[0] : (float)decVal[0];
 				result[1] = -result[0];
 				return result;
 			}
-			float[] result1 = new float[models.Length];
+			double[] result1 = new double[models.Length];
 			for (int i = 0; i < result1.Length; i++){
 				double[] decVal = new double[1];
 				SvmMain.SvmPredictValues(models[i], x, decVal);

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace BaseLibS.Param{
 	[Serializable]
-	public class Parameters{
+	public class Parameters : IXmlSerializable {
 		private readonly List<ParameterGroup> paramGroups = new List<ParameterGroup>();
 
 		public Parameters(IList<Parameter> param, string name){
@@ -11,7 +14,10 @@ namespace BaseLibS.Param{
 		}
 
 		public Parameters(Parameter param) : this(new[]{param}){}
-		public Parameters(IList<Parameter> param) : this(param, null){}
+
+	    public Parameters(params Parameter[] param) : this(param, null) { }
+	    public Parameters(string name, params Parameter[] param) : this(param, name) { }
+	    public Parameters(IList<Parameter> param) : this(param, null){}
 		public Parameters(){}
 
 		public void Convert(Func<Parameter, Parameter> map){
@@ -193,5 +199,31 @@ namespace BaseLibS.Param{
 			}
 			return null;
 		}
+
+	    public XmlSchema GetSchema() { return null; }
+
+	    public void ReadXml(XmlReader reader)
+	    {
+	        XmlSerializer serializer = new XmlSerializer(typeof(ParameterGroup));
+	        bool isEmpty = reader.IsEmptyElement;
+	        reader.ReadStartElement();
+	        if (!isEmpty)
+	        {
+	            while (reader.NodeType == XmlNodeType.Element)
+	            {
+	                paramGroups.Add((ParameterGroup) serializer.Deserialize(reader));
+	            }
+	            reader.ReadEndElement();
+	        }
+	    }
+
+	    public void WriteXml(XmlWriter writer)
+	    {
+	        foreach (ParameterGroup paramGrp in paramGroups)
+	        {
+                XmlSerializer paramSerializer = new XmlSerializer(paramGrp.GetType());
+	            paramSerializer.Serialize(writer, paramGrp);
+	        }
+	    }
 	}
 }

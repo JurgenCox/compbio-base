@@ -1,10 +1,15 @@
 ﻿using System;
-using System.Globalization;
+using BaseLibS.Util;
 
 namespace BaseLibS.Param{
 	[Serializable]
 	public class BoolParam : Parameter<bool>{
-		public BoolParam(string name) : this(name, false){}
+        /// <summary>
+        /// for xml serialization only
+        /// </summary>
+	    public BoolParam() : this("") { }
+
+	    public BoolParam(string name) : this(name, false){}
 
 		public BoolParam(string name, bool value) : base(name){
 			Value = value;
@@ -12,8 +17,8 @@ namespace BaseLibS.Param{
 		}
 
 		public override string StringValue{
-			get { return Value.ToString(CultureInfo.InvariantCulture); }
-			set { Value = bool.Parse(value); }
+			get => Parser.ToString(Value);
+			set => Value = bool.Parse(value);
 		}
 
 		public override void Clear(){

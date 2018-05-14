@@ -5,7 +5,13 @@ using BaseLibS.Util;
 namespace BaseLibS.Param{
 	[Serializable]
 	public class MultiStringParam : Parameter<string[]>{
-		public MultiStringParam(string name) : this(name, new string[0]){}
+
+        /// <summary>
+        /// for xml serialization only
+        /// </summary>
+	    private MultiStringParam() : this("") { }
+
+	    public MultiStringParam(string name) : this(name, new string[0]){}
 
 		public MultiStringParam(string name, string[] value) : base(name){
 			Value = value;
@@ -16,7 +22,7 @@ namespace BaseLibS.Param{
 		}
 
 		public override string StringValue{
-			get { return StringUtils.Concat(",", Value); }
+			get => StringUtils.Concat(",", Value);
 			set{
 				if (value.Trim().Length == 0){
 					Value = new string[0];

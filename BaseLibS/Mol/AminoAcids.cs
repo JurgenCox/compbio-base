@@ -86,7 +86,12 @@ namespace BaseLibS.Mol{
 
 		public static readonly AminoAcid gap = new AminoAcid("", "Gap", "Gap", '_', 0.0, new string[0], "", false, 0.0);
 
-		public static readonly AminoAcid[] aminoAcids = new[]{
+		public static readonly AminoAcid[] standardAminoAcids = {
+			alanine, arginine, asparagine, asparticAcid, cysteine, glutamine, glutamicAcid, glycine, histidine, isoleucine,
+			leucine, lysine, methionine, phenylalanine, proline, serine, threonine, tryptophan, tyrosine, valine
+		};
+
+		public static readonly AminoAcid[] aminoAcids = {
 			alanine, arginine, asparagine, asparticAcid, cysteine, glutamine, glutamicAcid, glycine, histidine, isoleucine,
 			leucine, lysine, methionine, phenylalanine, proline, serine, threonine, tryptophan, tyrosine, valine, selenocysteine,
 			pyrrolysine
@@ -185,8 +190,17 @@ namespace BaseLibS.Mol{
 			return result;
 		}
 
+		public static double CalcMonoisotopicMass(string sequence, string[] mods) {
+			Modification[] modifications = Tables.ToModifications(mods);
+			return CalcMonoisotopicMass(sequence, modifications);
+		}
+
+		public static double CalcMonoisotopicMass(string sequence, Modification[] modifications) {
+			return CalcMonoisotopicMass(sequence, modifications, false, false);
+		}
+
 		public static double CalcMonoisotopicMass(string sequence, Modification[] modifications, bool isProteinNterm,
-			bool isProteinCterm){
+				bool isProteinCterm) {
 			double m = CalcMonoisotopicMass(sequence);
 			m += GetFixedModificationMass(sequence, modifications, isProteinNterm, isProteinCterm);
 			return m;

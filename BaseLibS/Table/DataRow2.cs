@@ -5,17 +5,25 @@ namespace BaseLibS.Table{
 	[Serializable]
 	public class DataRow2{
 		public object[] ItemArray { get; set; }
-		private readonly Dictionary<string, int> nameMapping;
+		internal readonly Dictionary<string, int> nameMapping;
 
 		public DataRow2(int count, Dictionary<string, int> nameMapping){
 			ItemArray = new object[count];
 			this.nameMapping = nameMapping;
 		}
 
-		public object this[int column] { get { return ItemArray[column]; } set { ItemArray[column] = value; } }
+		internal DataRow2(object[] itemArray, Dictionary<string, int> nameMapping){
+			ItemArray = itemArray;
+			this.nameMapping = nameMapping;
+		}
+
+		public object this[int column]{
+			get => ItemArray[column];
+			set => ItemArray[column] = value;
+		}
 
 		public object this[string colName]{
-			get { return ItemArray[nameMapping[colName]]; }
+			get => ItemArray[nameMapping[colName]];
 			set{
 				if (!nameMapping.ContainsKey(colName)){
 					throw new Exception("Unknown column: " + colName);

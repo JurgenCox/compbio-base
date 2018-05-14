@@ -10,7 +10,45 @@ namespace BaseLibS.Num.Vector{
 			this.values = values;
 		}
 
+		public override BaseVector Minus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[values.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = values[i] - other[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			float[] result1 = (float[]) values.Clone();
+			for (int i = 0; i < other.Length; i++){
+				result1[i] -= (float) other[i];
+			}
+			return new FloatArrayVector(result1);
+		}
+
+		public override BaseVector Plus(BaseVector other){
+			if (other is DoubleArrayVector){
+				double[] result = new double[values.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = values[i] + other[i];
+				}
+				return new DoubleArrayVector(result);
+			}
+			float[] result1 = (float[]) values.Clone();
+			for (int i = 0; i < other.Length; i++){
+				result1[i] += (float) other[i];
+			}
+			return new FloatArrayVector(result1);
+		}
+
 		public override int Length => values.Length;
+
+		public override BaseVector Mult(double d){
+			float[] result = (float[]) values.Clone();
+			for (int i = 0; i < result.Length; i++){
+				result[i] *= (float) d;
+			}
+			return new FloatArrayVector(result);
+		}
 
 		public override BaseVector Copy(){
 			float[] newValues = new float[Length];
@@ -19,8 +57,8 @@ namespace BaseLibS.Num.Vector{
 		}
 
 		public override double this[int i]{
-			get { return values[i]; }
-			set { values[i] = (float) value; }
+			get => values[i];
+			set => values[i] = (float) value;
 		}
 
 		public override double Dot(BaseVector y){
@@ -105,11 +143,15 @@ namespace BaseLibS.Num.Vector{
 			return false;
 		}
 
+		public override double[] Unpack(){
+			return ArrayUtils.ToDoubles(values);
+		}
+
 		public override void Dispose(){
 			values = null;
 		}
 
-		public override bool IsNanOrInf(){
+		public override bool IsNaNOrInf(){
 			foreach (float value in values){
 				if (!float.IsNaN(value) && !float.IsInfinity(value)){
 					return false;

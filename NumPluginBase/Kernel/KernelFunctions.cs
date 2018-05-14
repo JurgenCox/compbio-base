@@ -33,7 +33,7 @@ namespace NumPluginBase.Kernel{
 		}
 
 		public static IKernelFunction GetKernelFunction(int index, Parameters param){
-			IKernelFunction kf = ((IKernelFunction) allKernelFunctions[index].Clone());
+			IKernelFunction kf = (IKernelFunction) allKernelFunctions[index].Clone();
 			kf.Parameters = param;
 			return kf;
 		}

@@ -11,9 +11,24 @@ namespace BaseLibS.Num.Vector{
 		public abstract double Dot(BaseVector vec);
 
 		/// <summary>
+		/// Multiplication with a scalar.
+		/// </summary>
+		public abstract BaseVector Mult(double d);
+
+		/// <summary>
 		/// Produces a deep copy of this vector.
 		/// </summary>
 		public abstract BaseVector Copy();
+
+		/// <summary>
+		/// Calculates this vector minus the other.
+		/// </summary>
+		public abstract BaseVector Minus(BaseVector other);
+
+		/// <summary>
+		/// Calculates this vector plus the other.
+		/// </summary>
+		public abstract BaseVector Plus(BaseVector other);
 
 		/// <summary>
 		/// Number of elements in this vector.
@@ -43,7 +58,12 @@ namespace BaseLibS.Num.Vector{
 		/// <summary>
 		/// True if all entries are NaN or Infinity.
 		/// </summary>
-		public abstract bool IsNanOrInf();
+		public abstract bool IsNaNOrInf();
+
+		/// <summary>
+		/// Unpack the vector elements sinto a double array.
+		/// </summary>
+		public abstract double[] Unpack();
 
 		/// <summary>
 		/// Performs tasks associated with freeing, releasing, or resetting resources.
@@ -54,7 +74,6 @@ namespace BaseLibS.Num.Vector{
 		/// Returns an enumerator that iterates through the collection.
 		/// </summary>
 		public abstract IEnumerator<double> GetEnumerator();
-
 
 		/// <summary>
 		/// Returns an enumerator that iterates through the collection.

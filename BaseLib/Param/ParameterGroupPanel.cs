@@ -1,41 +1,41 @@
-using System.Windows;
-using System.Windows.Controls;
-using BaseLib.Wpf;
+﻿using System.Windows.Forms;
 using BaseLibS.Param;
 using BaseLibS.Util;
 
 namespace BaseLib.Param{
-	public partial class ParameterGroupPanel : UserControl{
+	public class ParameterGroupPanel : UserControl{
+		private readonly ToolTip toolTip1 = new ToolTip();
 		public ParameterGroup ParameterGroup { get; private set; }
-		private Grid grid;
-		public void Init(ParameterGroup parameters1) { Init(parameters1, 200F, 1050); }
+		private TableLayoutPanel grid;
+
+		public void Init(ParameterGroup parameters1){
+			Init(parameters1, 200F, 1050);
+		}
 
 		public void Init(ParameterGroup parameters1, float paramNameWidth, int totalWidth){
+			//float sfx = FormUtils.GetDpiScale(CreateGraphics());
+			float sfx = 1;
 			ParameterGroup = parameters1;
 			int nrows = ParameterGroup.Count;
-			grid = new Grid{
-				HorizontalAlignment = HorizontalAlignment.Left,
-				VerticalAlignment = VerticalAlignment.Top
-			};
-			grid.ColumnDefinitions.Add(new ColumnDefinition{
-				Width = new GridLength(paramNameWidth, GridUnitType.Pixel)
-			});
-			grid.ColumnDefinitions.Add(new ColumnDefinition{
-				Width = new GridLength(totalWidth - paramNameWidth, GridUnitType.Pixel)
-			});
-			grid.Margin = new Thickness(0);
-			for (int i = 0; i < nrows; i++){
-				float h = ParameterGroup[i].Visible ? ParameterGroup[i].Height : 0;
-				grid.RowDefinitions.Add(new RowDefinition{Height = new GridLength(h, GridUnitType.Pixel)});
+			grid = new TableLayoutPanel();
+			grid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, paramNameWidth));
+			grid.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, totalWidth - paramNameWidth));
+			grid.Margin = new Padding(0);
+			for (int i = 0; i < nrows; i++) {
+				Parameter p = ParameterGroup[i];
+				float h = p.Height * sfx;
+				grid.RowStyles.Add(new RowStyle(SizeType.Absolute, h));
 			}
+			grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
 			for (int i = 0; i < nrows; i++){
 				AddParameter(ParameterGroup[i], i);
 			}
-			AddChild(grid);
+			grid.Controls.Add(new Control(), 0, nrows);
+			Controls.Add(grid);
 			Name = "ParameterPanel";
-			Margin = new Thickness(0, 3, 0, 3);
-			VerticalAlignment = VerticalAlignment.Top;
-			HorizontalAlignment = HorizontalAlignment.Left;
+			Margin = new Padding(0, 3, 0, 3);
+			grid.Dock = DockStyle.Fill;
+			Dock = DockStyle.Fill;
 		}
 
 		public void SetParameters(){
@@ -46,31 +46,29 @@ namespace BaseLib.Param{
 		}
 
 		private void AddParameter(Parameter p, int i){
-			TextBlock txt1 = new TextBlock{
-				Text = p.Name,
-				FontSize = 12,
-				FontWeight = FontWeights.Regular,
-				VerticalAlignment = VerticalAlignment.Top
-			};
-			ToolTipService.SetShowDuration(txt1, 400000);
+			Label txt1 = new Label{Text = p.Name};
 			if (!string.IsNullOrEmpty(p.Help)){
-				txt1.ToolTip = StringUtils.ReturnAtWhitespace(p.Help);
+				toolTip1.SetToolTip(txt1, StringUtils.ReturnAtWhitespace(p.Help));
 			}
-			Grid.SetColumn(txt1, 0);
-			Grid.SetRow(txt1, i);
-			UIElement c = (UIElement)p.CreateControl() ?? new Control();
-			Grid.SetColumn(c, 1);
-			Grid.SetRow(c, i);
-			grid.Children.Add(txt1);
-			grid.Children.Add(c);
-		}
-		public void RegisterScrollViewer(ScrollViewer scrollViewer){
-			foreach (var child in grid.Children){
-				(child as IScrollRegistrationTarget)?.RegisterScrollViewer(scrollViewer);
+			object o = p.CreateControl();
+			if (o is Control){
+				Control c = (Control) o;
+				c.Dock = DockStyle.Fill;
+				c.Margin = new Padding(0);
+				c.Visible = p.Visible;
+				grid.Controls.Add(c, 1, i);
 			}
+			txt1.Dock = DockStyle.Fill;
+			txt1.Visible = p.Visible;
+			grid.Controls.Add(txt1, 0, i);
 		}
 
-		public void Enable() { grid.IsEnabled = true; }
-		public void Disable() { grid.IsEnabled = false; }
+		public void Enable(){
+			grid.Enabled = true;
+		}
+
+		public void Disable(){
+			grid.Enabled = false;
+		}
 	}
 }

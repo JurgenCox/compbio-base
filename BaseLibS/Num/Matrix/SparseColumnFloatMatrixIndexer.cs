@@ -23,21 +23,21 @@ namespace BaseLibS.Num.Matrix{
 			}
 		}
 
-		public override void Set(float[,] value){
+		public override void Set(double[,] value) {
 			nrows = value.GetLength(0);
 			vals = new SparseFloatVector[value.GetLength(1)];
-			for (int i = 0; i < vals.Length; i++){
+			for (int i = 0; i < vals.Length; i++) {
 				List<int> v = new List<int>();
-				for (int j = 0; j < nrows; j++){
-					if (value[j, i] == 0){
+				for (int j = 0; j < nrows; j++) {
+					if (value[j, i] == 0) {
 						continue;
 					}
 					v.Add(j);
 				}
 				int[] v1 = v.ToArray();
 				float[] x = new float[v1.Length];
-				for (int j = 0; j < v1.Length; j++){
-					x[j] = value[v1[j], i];
+				for (int j = 0; j < v1.Length; j++) {
+					x[j] = (float)value[v1[j], i];
 				}
 				vals[i] = new SparseFloatVector(v1, x, nrows);
 			}
@@ -112,15 +112,23 @@ namespace BaseLibS.Num.Matrix{
 		}
 
 		public override bool IsNanOrInfColumn(int column){
-			return vals[column].IsNanOrInf();
+			return vals[column].IsNaNOrInf();
 		}
 
 		public override int RowCount => nrows;
 		public override int ColumnCount => vals.Length;
 
-		public override float this[int i, int j]{
-			get { return (float) vals[j][i]; }
-			set { vals[j][i] = value; }
+		public override double this[int i, int j]{
+			get => vals[j][i];
+			set => vals[j][i] = value;
+		}
+
+		public override double Get(int i, int j){
+			return vals[j][i];
+		}
+
+		public override void Set(int i, int j, double value){
+			vals[j][i] = value;
 		}
 
 		public override void Dispose(){

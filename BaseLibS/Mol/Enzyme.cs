@@ -9,8 +9,8 @@ namespace BaseLibS.Mol{
 
 		[XmlArray("specificity")]
 		public string[] Specificity{
-			get { return ArrayUtils.ToArray(specificity); }
-			set { specificity = new HashSet<string>(value); }
+			get => ArrayUtils.ToArray(specificity);
+			set => specificity = new HashSet<string>(value);
 		}
 
 		public bool Cleaves(char c1, char c2){

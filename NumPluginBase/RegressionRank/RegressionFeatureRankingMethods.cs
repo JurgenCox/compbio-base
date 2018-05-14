@@ -6,8 +6,8 @@ using BaseLibS.Util;
 
 namespace NumPluginBase.RegressionRank{
 	public static class RegressionFeatureRankingMethods{
-		private static readonly IRegressionFeatureRankingMethod[] allMethods = InitRankingMethods();
-		private static IRegressionFeatureRankingMethod[] InitRankingMethods() { return FileUtils.GetPlugins<IRegressionFeatureRankingMethod>(NumPluginUtils.pluginNames, true); }
+		private static readonly RegressionFeatureRankingMethod[] allMethods = InitRankingMethods();
+		private static RegressionFeatureRankingMethod[] InitRankingMethods() { return FileUtils.GetPlugins<RegressionFeatureRankingMethod>(NumPluginUtils.pluginNames, true); }
 
 		public static string[] GetAllNames(){
 			string[] result = new string[allMethods.Length];
@@ -25,10 +25,10 @@ namespace NumPluginBase.RegressionRank{
 			return result;
 		}
 
-		public static IRegressionFeatureRankingMethod Get(int index) { return allMethods[index]; }
+		public static RegressionFeatureRankingMethod Get(int index) { return allMethods[index]; }
 
-		public static IRegressionFeatureRankingMethod GetByName(string name){
-			foreach (IRegressionFeatureRankingMethod method in allMethods.Where(method => method.Name.Equals(name))){
+		public static RegressionFeatureRankingMethod GetByName(string name){
+			foreach (RegressionFeatureRankingMethod method in allMethods.Where(method => method.Name.Equals(name))){
 				return method;
 			}
 			throw new Exception("Unknown type: " + name);

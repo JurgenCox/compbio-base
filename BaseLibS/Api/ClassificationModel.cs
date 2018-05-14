@@ -17,14 +17,14 @@ namespace BaseLibS.Api{
 		/// </summary>
 		/// <param name="x">Test instance</param>
 		/// <returns>Prediction strength for the different classes. The one with the biggest value is the assigned class.</returns>
-		public abstract float[] PredictStrength(BaseVector x);
+		public abstract double[] PredictStrength(BaseVector x);
 
 		public int PredictClass(BaseVector x){
 			return ArrayUtils.MaxInd(PredictStrength(x));
 		}
 
 		public int[] PredictClasses(BaseVector x){
-			float[] w = PredictStrength(x);
+			double[] w = PredictStrength(x);
 			List<int> result = new List<int>();
 			for (int i = 0; i < w.Length; i++){
 				if (w[i] > 0){

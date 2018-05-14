@@ -9,8 +9,8 @@ namespace BaseLibS.Mol{
 
 		[System.Xml.Serialization.XmlElementAttribute("modification", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
 		public Modification[] Modifications{
-			get { return modifications; }
-			set { modifications = value; }
+			get => modifications;
+			set => modifications = value;
 		}
 	}
 }
