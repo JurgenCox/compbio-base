@@ -1,21 +1,18 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 using System.Text;
+using BaseLibS.Parse;
 using BaseLibS.Util;
 using NUnit.Framework;
 
-namespace BaseLibS.Test.Util {
+namespace BaseLibS.Test.Parse
+{
 	[TestFixture]
-	public class FileUtilsTest {
+	public class TabSepTest
+	{
 		[Test]
-		public void TestAnnot()
-		{
-		    var executablePath = FileUtils.executablePath;
-            Assert.IsNotNull(executablePath);
-
-		}
-		[Test]
-		public void TestGetSeekableGzipStream()
+		public void TestGetColumnNamesFromGzippedFile()
 		{
 			var lines = new[]
 			{
@@ -29,10 +26,8 @@ namespace BaseLibS.Test.Util {
 			{
 				memory.CopyTo(gzip);
 			}
-			using (var reader = FileUtils.GetReader(tmpFile, true))
-			{
-				Assert.IsTrue(reader.BaseStream.CanSeek);
-			}
+			var columnNames = TabSep.GetColumnNames(tmpFile, ' ');
+			CollectionAssert.AreEqual(new [] {"Col_1", "Col_2"}, columnNames);
 		}
 	}
 }

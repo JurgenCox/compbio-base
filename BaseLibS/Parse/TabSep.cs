@@ -280,7 +280,7 @@ namespace BaseLibS.Parse {
 
 		public static string[] GetColumnNames(string filename, int nskip, HashSet<string> commentPrefix,
 			HashSet<string> commentPrefixExceptions, Dictionary<string, string[]> annotationRows, char separator) {
-			StreamReader reader = FileUtils.GetReader(filename);
+			StreamReader reader = FileUtils.GetReader(filename, true);
 			string[] titles = GetColumnNames(reader, nskip, commentPrefix, commentPrefixExceptions, annotationRows, separator);
 			reader.Close();
 			return titles;
