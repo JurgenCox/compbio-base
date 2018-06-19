@@ -1,5 +1,5 @@
 ﻿namespace BaseLibS.Graph{
-	internal enum KnownColor{
+	public enum KnownColor{
 		ActiveBorder = 1,
 		ActiveCaption = 2,
 		ActiveCaptionText = 3,
