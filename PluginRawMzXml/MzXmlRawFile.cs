@@ -65,6 +65,11 @@ namespace PluginRawMzXml {
 				intensities[i] = spectrum[1, i];
 			}
 		}
+
+		protected override double[] Index2K0(int scanNumber, double[] imsInds) {
+			return null;
+		}
+
 		protected override ScanInfo GetInfoForScanNumber(int scanNumber) {
 			if (!preInitialized) {
 				PreInit();

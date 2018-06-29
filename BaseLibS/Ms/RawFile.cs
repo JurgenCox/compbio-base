@@ -100,6 +100,7 @@ namespace BaseLibS.Ms{
 		public double MaxIntensity => Math.Max(posLayer.MaxIntensity, negLayer.MaxIntensity);
 		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
 			bool readCentroids, out double[] masses, out double[] intensities, double resolution, double mzMin, double mzMax);
+		protected internal abstract double[] Index2K0(int scanNumber, double[] imsInds);
 		protected internal void GetSpectrum(int scanNumber, bool readCentroids, out double[] masses, out double[] intensities){
 			GetSpectrum(scanNumber, scanNumber, 0, 0, readCentroids, out masses, out intensities, 0, double.NaN, double.NaN);
 		}

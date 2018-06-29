@@ -513,6 +513,10 @@ namespace BaseLibS.Ms {
 			rawFile.GetSpectrum(Ms1ScanNumbers[index], readCentroids, out masses, out intensities);
 		}
 
+		public double[] Index2K0Ms1(int index, double[] imsInds) {
+			return rawFile.Index2K0(Ms1ScanNumbers[index],imsInds);
+		}
+
 		public void GetMs1SpectrumArray(int index, int imsIndexMin, int imsIndexMax, bool readCentroids, out double[] masses,
 			out double[] intensities, double resolution, double mzMin, double mzMax) {
 			if (index >= Ms1ScanNumbers.Length) {
