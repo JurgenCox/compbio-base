@@ -28,10 +28,10 @@
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.okButton = new System.Windows.Forms.Button();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
+			this.taxIdTextBox = new System.Windows.Forms.TextBox();
+			this.taxNameTextBox = new System.Windows.Forms.TextBox();
+			this.gtButton = new System.Windows.Forms.Button();
+			this.ltButton = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
@@ -100,10 +100,10 @@
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.Controls.Add(this.textBox1, 0, 0);
-			this.tableLayoutPanel3.Controls.Add(this.textBox2, 3, 0);
-			this.tableLayoutPanel3.Controls.Add(this.button1, 1, 0);
-			this.tableLayoutPanel3.Controls.Add(this.button2, 2, 0);
+			this.tableLayoutPanel3.Controls.Add(this.taxIdTextBox, 0, 0);
+			this.tableLayoutPanel3.Controls.Add(this.taxNameTextBox, 3, 0);
+			this.tableLayoutPanel3.Controls.Add(this.gtButton, 1, 0);
+			this.tableLayoutPanel3.Controls.Add(this.ltButton, 2, 0);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
@@ -113,45 +113,45 @@
 			this.tableLayoutPanel3.Size = new System.Drawing.Size(866, 50);
 			this.tableLayoutPanel3.TabIndex = 1;
 			// 
-			// textBox1
+			// taxIdTextBox
 			// 
-			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox1.Location = new System.Drawing.Point(0, 0);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(0);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(213, 38);
-			this.textBox1.TabIndex = 0;
+			this.taxIdTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.taxIdTextBox.Location = new System.Drawing.Point(0, 0);
+			this.taxIdTextBox.Margin = new System.Windows.Forms.Padding(0);
+			this.taxIdTextBox.Name = "taxIdTextBox";
+			this.taxIdTextBox.Size = new System.Drawing.Size(213, 38);
+			this.taxIdTextBox.TabIndex = 0;
 			// 
-			// textBox2
+			// taxNameTextBox
 			// 
-			this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox2.Location = new System.Drawing.Point(319, 0);
-			this.textBox2.Margin = new System.Windows.Forms.Padding(0);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(547, 38);
-			this.textBox2.TabIndex = 1;
+			this.taxNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.taxNameTextBox.Location = new System.Drawing.Point(319, 0);
+			this.taxNameTextBox.Margin = new System.Windows.Forms.Padding(0);
+			this.taxNameTextBox.Name = "taxNameTextBox";
+			this.taxNameTextBox.Size = new System.Drawing.Size(547, 38);
+			this.taxNameTextBox.TabIndex = 1;
 			// 
-			// button1
+			// gtButton
 			// 
-			this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.button1.Location = new System.Drawing.Point(213, 0);
-			this.button1.Margin = new System.Windows.Forms.Padding(0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(53, 50);
-			this.button1.TabIndex = 2;
-			this.button1.Text = "→";
-			this.button1.UseVisualStyleBackColor = true;
+			this.gtButton.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gtButton.Location = new System.Drawing.Point(213, 0);
+			this.gtButton.Margin = new System.Windows.Forms.Padding(0);
+			this.gtButton.Name = "gtButton";
+			this.gtButton.Size = new System.Drawing.Size(53, 50);
+			this.gtButton.TabIndex = 2;
+			this.gtButton.Text = "→";
+			this.gtButton.UseVisualStyleBackColor = true;
 			// 
-			// button2
+			// ltButton
 			// 
-			this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.button2.Location = new System.Drawing.Point(266, 0);
-			this.button2.Margin = new System.Windows.Forms.Padding(0);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(53, 50);
-			this.button2.TabIndex = 3;
-			this.button2.Text = "←";
-			this.button2.UseVisualStyleBackColor = true;
+			this.ltButton.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ltButton.Location = new System.Drawing.Point(266, 0);
+			this.ltButton.Margin = new System.Windows.Forms.Padding(0);
+			this.ltButton.Name = "ltButton";
+			this.ltButton.Size = new System.Drawing.Size(53, 50);
+			this.ltButton.TabIndex = 3;
+			this.ltButton.Text = "←";
+			this.ltButton.UseVisualStyleBackColor = true;
 			// 
 			// EditTaxonomyForm
 			// 
@@ -180,9 +180,9 @@
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.TextBox textBox2;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.TextBox taxIdTextBox;
+		private System.Windows.Forms.TextBox taxNameTextBox;
+		private System.Windows.Forms.Button gtButton;
+		private System.Windows.Forms.Button ltButton;
 	}
 }

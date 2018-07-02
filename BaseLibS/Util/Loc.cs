@@ -399,8 +399,11 @@ namespace BaseLibS.Util {
 		public static string MaxQuant {
 			get {
 				switch (TwoLettName) {
+					case chinese: return "最大量化";
 					case hebrew: return "מקסימום";
+					case japanese: return "最大量";
 					case spanish: return "MaxiQuanta";
+					case turkish: return "MaksimumQuant";
 					default: return "MaxQuant";
 				}
 			}

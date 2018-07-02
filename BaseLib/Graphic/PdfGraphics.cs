@@ -6,7 +6,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 
 namespace BaseLib.Graphic {
-	public class PdfGraphics : IGraphics, IPdfGraphics {
+	public class PdfGraphics : IGraphics {
 		private float currentWidth;
 		private float currentHeight;
 		private readonly float originalWidth;
@@ -27,7 +27,7 @@ namespace BaseLib.Graphic {
 			document.AddSubject("");
 			try {
 				writer = PdfWriter.GetInstance(document, stream);
-				document.Open();
+                document.Open();
 				PdfContentByte content = writer.DirectContent;
 				template = topTemplate = content.CreateTemplate(width, height);
 				content.AddTemplate(template, 0, -20);

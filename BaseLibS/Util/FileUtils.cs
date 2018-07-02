@@ -204,10 +204,16 @@ namespace BaseLibS.Util {
 			return new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read));
 		}
 
-		public static StreamReader GetReader(string filename) {
+		public static StreamReader GetReader(string filename, bool seekable = false) {
 			if (filename.ToLower().EndsWith(".gz")) {
 				Stream fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
 				Stream stream = new GZipStream(fileStream, CompressionMode.Decompress);
+				if (seekable)
+				{
+					var memory = new MemoryStream();
+					stream.CopyTo(memory);
+					stream = memory;
+				}
 				return new StreamReader(stream);
 			}
 			return new StreamReader(filename);

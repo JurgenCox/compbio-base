@@ -250,7 +250,6 @@
     <Compile Include="Graph\ICompoundScrollableControl.cs" />
     <Compile Include="Graph\ICompoundScrollableControlModel.cs" />
     <Compile Include="Graph\IGraphics.cs" />
-    <Compile Include="Graph\IPdfGraphics.cs" />
     <Compile Include="Graph\IPrintable.cs" />
     <Compile Include="Graph\IScrollableControl.cs" />
     <Compile Include="Graph\IScrollableControlModel.cs" />
@@ -513,6 +512,7 @@
     <Compile Include="Util\ComparableList.cs" />
     <Compile Include="Util\DocumentType.cs" />
     <Compile Include="Util\FileUtils.cs" />
+    <Compile Include="Util\InputParameter.cs" />
     <Compile Include="Util\Loc.cs" />
     <Compile Include="Util\Parser.cs" />
     <Compile Include="Util\StreamBackwardReader.cs" />

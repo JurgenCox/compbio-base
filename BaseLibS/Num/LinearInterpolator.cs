@@ -4,7 +4,7 @@ using System.IO;
 namespace BaseLibS.Num{
 	[Serializable]
 	public class LinearInterpolator{
-		private double[] xvals;
+		public double[] xvals;
 		private double[] yvals;
 
 		public LinearInterpolator(double[] xvals, double[] yvals){

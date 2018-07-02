@@ -1981,7 +1981,9 @@ namespace BaseLibS.Num {
 		/// <param name="b">The second array.</param>
 		/// <returns>True when their contents are equal, false otherwise.</returns>
 		public static bool EqualArrays<T>(IList<T> a, IList<T> b) {
-			if (a.Count != b.Count) {
+		    if (a == null && b == null) return true;
+		    if (a == null || b == null) return false;
+            if (a.Count != b.Count) {
 				return false;
 			}
 			for (int i = 0; i < a.Count; i++) {
@@ -1993,7 +1995,9 @@ namespace BaseLibS.Num {
 		}
 
 		public static bool EqualArraysOfArrays<T>(IList<T[]> a, IList<T[]> b) {
-			if (a.Count != b.Count) {
+		    if (a == null && b == null) return true;
+		    if (a == null || b == null) return false;
+            if (a.Count != b.Count) {
 				return false;
 			}
 			for (int i = 0; i < a.Count; i++) {

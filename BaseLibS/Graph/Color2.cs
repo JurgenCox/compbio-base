@@ -414,7 +414,7 @@ namespace BaseLibS.Graph{
 		/// <summary>
 		///       Creates a <code>Color2</code> from the specified <code>KnownColor</code> . 
 		/// </summary>
-		internal static Color2 FromKnownColor(KnownColor color){
+		public static Color2 FromKnownColor(KnownColor color){
 			return new Color2(color);
 		}
 

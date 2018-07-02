@@ -16,7 +16,7 @@ namespace BaseLibS.Mol {
 		private static Dictionary<string, Modification> isobaricLabelModifications;
 		private static List<Modification> neucodeModificationList;
 		private static Modification[] modificationList;
-		public static Dictionary<string, SequenceDatabase> Databases => databases ?? (databases = ReadDatabases());
+		internal static Dictionary<string, SequenceDatabase> Databases => databases ?? (databases = ReadDatabases());
 		public static Dictionary<string, Enzyme> Enzymes => enzymes ?? (enzymes = ReadProteases());
 		public static Dictionary<string, CrossLinker> CrossLinkers => crossLinkers ?? (crossLinkers = ReadCrossLinks());
 
@@ -89,74 +89,53 @@ namespace BaseLibS.Mol {
 			}
 		}
 
-		public static bool ContainsDatabase(string path) {
+		internal static bool ContainsDatabase(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
 			return Databases.ContainsKey(s);
 		}
 
-		public static string GetIdentifierParseRule(string path) {
+		internal static string GetIdentifierParseRule(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
-			string pr = ReadParseRuleFromFile(path);
-			if (pr != null) {
-				return pr;
-			}
 			return !Databases.ContainsKey(s) ? ">(.*)" : Databases[s].IdentifierParseRule;
 		}
 
-		public static string GetDescriptionParseRule(string path) {
+		internal static string GetDescriptionParseRule(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
 			return !Databases.ContainsKey(s) ? "" : Databases[s].DescriptionParseRule;
 		}
 
-		public static string GetTaxonomyParseRule(string path) {
+		internal static string GetTaxonomyParseRule(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
 			return !Databases.ContainsKey(s) ? "" : Databases[s].TaxonomyParseRule;
 		}
 
-		public static string GetVariationParseRule(string path) {
+		internal static string GetVariationParseRule(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
 			return !Databases.ContainsKey(s) ? "" : Databases[s].VariationParseRule;
 		}
 
-		public static string GetModificationParseRule(string path) {
+		internal static string GetModificationParseRule(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
 			return !Databases.ContainsKey(s) ? "" : Databases[s].ModificationParseRule;
 		}
 
-		public static string GetTaxonomyId(string path) {
+		internal static string GetTaxonomyId(string path) {
 			string s = path.Contains(Path.DirectorySeparatorChar)
 				? path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1)
 				: path;
 			return !Databases.ContainsKey(s) ? "" : Databases[s].Taxid;
-		}
-
-		public static bool FileContainsParseRule(string fastaFile) {
-			StreamReader reader = new StreamReader(fastaFile);
-			string line = reader.ReadLine();
-			reader.Close();
-			return line != null && line.StartsWith("#");
-		}
-
-		public static string ReadParseRuleFromFile(string fastaFile) {
-			StreamReader reader = new StreamReader(fastaFile);
-			string line = reader.ReadLine();
-			reader.Close();
-			if (line == null || !line.StartsWith("#")) {
-				return null;
-			}
-			return line.Substring(1);
 		}
 
 		public static string[] GetEnzymes() {
@@ -171,7 +150,7 @@ namespace BaseLibS.Mol {
 			return tmp;
 		}
 
-		public static string[] GetDatabases() {
+		public static string[] GetDatabasesO() {
 			string[] tmp = Databases.Keys.ToArray();
 			Array.Sort(tmp);
 			return tmp;
@@ -445,14 +424,6 @@ namespace BaseLibS.Mol {
 			return result;
 		}
 
-		public static bool[] ContainsDatabases(string[] fastaFiles) {
-			bool[] result = new bool[fastaFiles.Length];
-			for (int j = 0; j < result.Length; j++) {
-				result[j] = ContainsDatabase(fastaFiles[j]);
-			}
-			return result;
-		}
-
 		public static string[] GetIdentifierParseRules(FastaFileInfo[] fastaFiles) {
 			string[] parseRules = new string[fastaFiles.Length];
 			for (int j = 0; j < parseRules.Length; j++) {
@@ -489,14 +460,6 @@ namespace BaseLibS.Mol {
 			string[] parseRules = new string[fastaFiles.Length];
 			for (int j = 0; j < parseRules.Length; j++) {
 				parseRules[j] = fastaFiles[j].modificationParseRule;
-			}
-			return parseRules;
-		}
-
-		public static string[] GetTaxonomyIds(string[] fastaFiles) {
-			string[] parseRules = new string[fastaFiles.Length];
-			for (int j = 0; j < parseRules.Length; j++) {
-				parseRules[j] = GetTaxonomyId(fastaFiles[j]);
 			}
 			return parseRules;
 		}

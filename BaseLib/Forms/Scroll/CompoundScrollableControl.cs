@@ -168,6 +168,7 @@ namespace BaseLib.Forms.Scroll{
 		public Action<IGraphics> OnPaintMiddleCornerView { get; set; }
 		private readonly ToolTip columnViewToolTip = new ToolTip();
 		private readonly float sfx;
+		public bool HasOverview { get; set; } = true;
 		public CompoundScrollableControl(){
 			sfx = FormUtils.GetDpiScale(CreateGraphics());
 			InitializeComponent2();

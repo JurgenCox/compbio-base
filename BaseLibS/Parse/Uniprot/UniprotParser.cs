@@ -1,11 +1,9 @@
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
-using BaseLibS.Graph.Image.Formats.Png;
 using BaseLibS.Util;
 
 namespace BaseLibS.Parse.Uniprot{

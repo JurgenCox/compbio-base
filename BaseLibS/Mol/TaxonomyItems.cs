@@ -11,6 +11,9 @@ namespace BaseLibS.Mol{
 		public static Dictionary<int, TaxonomyItem> taxId2Item;
 		public static Dictionary<string, TaxonomyItem> name2Item;
 
+		public static void WarmUp() {
+			//do nothing
+		}
 		public static TaxonomyItem[] Init(){
 			StreamReader reader = GetReader(Resources.nodes_dmp);
 			string line;

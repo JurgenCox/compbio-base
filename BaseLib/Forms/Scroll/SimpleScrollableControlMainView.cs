@@ -34,10 +34,12 @@ namespace BaseLib.Forms.Scroll {
 			}
 			main.OnPaintMainView?.Invoke(g1, main.VisibleX, main.VisibleY, width, height, false);
 			GraphUtil.PaintZoomButtons(g, width, height, state);
-			GraphUtil.PaintOverview(g, main.TotalSize, main.VisibleWin,
-				(overviewWidth, overviewHeight) => main.overviewBitmap ??
-				                                   (main.overviewBitmap = CreateOverviewBitmap(overviewWidth, overviewHeight)),
-				main.ZoomFactor, main.ZoomFactor, false);
+			if (main.HasOverview) {
+				GraphUtil.PaintOverview(g, main.TotalSize, main.VisibleWin,
+					(overviewWidth, overviewHeight) => main.overviewBitmap ??
+					                                   (main.overviewBitmap = CreateOverviewBitmap(overviewWidth, overviewHeight)),
+					main.ZoomFactor, main.ZoomFactor, false);
+			}
 		}
 
 		public override void OnMouseMoved(BasicMouseEventArgs e) {

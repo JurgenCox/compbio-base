@@ -30,5 +30,6 @@ namespace BaseLibS.Graph{
 		Action<IGraphics, int, int, int, int, bool> OnPaintMainView { get; set; }
 		void ExportGraphic(string name, bool showDialog);
 		float DpiScale { get; }
+		bool HasOverview { get; set; }
 	}
 }

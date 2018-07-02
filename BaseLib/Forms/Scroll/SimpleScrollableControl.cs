@@ -26,6 +26,7 @@ namespace BaseLib.Forms.Scroll{
 		public Action<EventArgs> OnMouseLeaveMainView { get; set; }
 		public Action<BasicMouseEventArgs> OnMouseMoveMainView { get; set; }
 		public float ZoomFactor { get; set; } = 1;
+		public bool HasOverview { get; set; } = true;
 		internal Bitmap2 overviewBitmap;
 		public event ZoomChangeHandler2 OnZoomChanged;
 		private readonly float sfx;
