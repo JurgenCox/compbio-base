@@ -206,7 +206,9 @@ namespace BaseLib.Param{
 			        Help = q.Help,
 			        Visible = q.Visible,
 			        Default = q.Default,
-			        Url = q.Url
+			        HasVariationData = q.HasVariationData,
+			        HasModifications = q.HasModifications,
+					Url = q.Url
 		        };
 		        foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
 			        b.ValueChanged += act;

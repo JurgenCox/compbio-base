@@ -43,15 +43,21 @@ namespace BaseLib.Forms {
 			};
 			taxonomyRuleButton.Click += (sender, args) => { ParseRuleButtonClick("Taxonomy", new string[0], new string[0]); };
 			taxonomyIdButton.Click += TaxonomyIdButtonOnClick;
-			testButton.Click += TestButtonOnClick;
 			if (hasVariationData) {
-				variationRuleButton.Click += (sender, args) => { ParseRuleButtonClick("Variation", new string[0], new string[0]); };
+				variationRuleButton.Click += (sender, args) => {
+					ParseRuleButtonClick("Variation", 
+						new[] { @">[^\s]+\s+(.+)" }, 
+						new[] { ">ID r0:A1C;r1:D2E" });
+				};
 			}
 			if (hasModifications) {
 				modificationRuleButton.Click += (sender, args) => {
-					ParseRuleButtonClick("Modification", new string[0], new string[0]);
+					ParseRuleButtonClick("Modification", 
+						new string[0], 
+						new string[0]);
 				};
 			}
+			testButton.Click += TestButtonOnClick;
 		}
 
 		private void ParseRuleButtonClick(string ruleName, string[] rules, string[] descriptions) {
@@ -111,13 +117,16 @@ namespace BaseLib.Forms {
 			tableLayoutPanel2.Controls.Add(descriptionRuleButton, 6, 0);
 			tableLayoutPanel2.Controls.Add(taxonomyRuleButton, 8, 0);
 			tableLayoutPanel2.Controls.Add(taxonomyIdButton, 10, 0);
-			tableLayoutPanel2.Controls.Add(testButton, 12, 0);
+			int z = 12;
 			if (hasVariationData) {
-				tableLayoutPanel2.Controls.Add(variationRuleButton, 14, 0);
+				tableLayoutPanel2.Controls.Add(variationRuleButton, z, 0);
+				z += 2;
 			}
 			if (hasModifications) {
-				tableLayoutPanel2.Controls.Add(variationRuleButton, hasVariationData ? 16 : 14, 0);
+				tableLayoutPanel2.Controls.Add(modificationRuleButton, z, 0);
+				z += 2;
 			}
+			tableLayoutPanel2.Controls.Add(testButton, z, 0);
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
 			tableLayoutPanel2.Margin = new Padding(0);
@@ -135,7 +144,7 @@ namespace BaseLib.Forms {
 			addButton.Name = "addButton";
 			addButton.Size = new System.Drawing.Size(220, 50);
 			addButton.TabIndex = 0;
-			addButton.Text = "Add";
+			addButton.Text = @"Add";
 			addButton.UseVisualStyleBackColor = true;
 			// 
 			// removeButton
@@ -146,7 +155,7 @@ namespace BaseLib.Forms {
 			removeButton.Name = "removeButton";
 			removeButton.Size = new System.Drawing.Size(220, 50);
 			removeButton.TabIndex = 1;
-			removeButton.Text = "Remove";
+			removeButton.Text = @"Remove";
 			removeButton.UseVisualStyleBackColor = true;
 			// 
 			// identifierRuleButton
@@ -157,7 +166,7 @@ namespace BaseLib.Forms {
 			identifierRuleButton.Name = "identifierRuleButton";
 			identifierRuleButton.Size = new System.Drawing.Size(220, 50);
 			identifierRuleButton.TabIndex = 2;
-			identifierRuleButton.Text = "Identifier rule";
+			identifierRuleButton.Text = @"Identifier rule";
 			identifierRuleButton.UseVisualStyleBackColor = true;
 			// 
 			// descriptionRuleButton
@@ -168,7 +177,7 @@ namespace BaseLib.Forms {
 			descriptionRuleButton.Name = "descriptionRuleButton";
 			descriptionRuleButton.Size = new System.Drawing.Size(220, 50);
 			descriptionRuleButton.TabIndex = 3;
-			descriptionRuleButton.Text = "Description rule";
+			descriptionRuleButton.Text = @"Description rule";
 			descriptionRuleButton.UseVisualStyleBackColor = true;
 			// 
 			// taxonomyRuleButton
@@ -179,19 +188,8 @@ namespace BaseLib.Forms {
 			taxonomyRuleButton.Name = "taxonomyRuleButton";
 			taxonomyRuleButton.Size = new System.Drawing.Size(220, 50);
 			taxonomyRuleButton.TabIndex = 4;
-			taxonomyRuleButton.Text = "Taxonomy rule";
+			taxonomyRuleButton.Text = @"Taxonomy rule";
 			taxonomyRuleButton.UseVisualStyleBackColor = true;
-			// 
-			// testButton
-			// 
-			testButton.Dock = DockStyle.Fill;
-			testButton.Location = new System.Drawing.Point(1380, 0);
-			testButton.Margin = new Padding(0);
-			testButton.Name = "testButton";
-			testButton.Size = new System.Drawing.Size(220, 50);
-			testButton.TabIndex = 5;
-			testButton.Text = "Test";
-			testButton.UseVisualStyleBackColor = true;
 			// 
 			// taxonomyIdButton
 			// 
@@ -200,50 +198,66 @@ namespace BaseLib.Forms {
 			taxonomyIdButton.Margin = new Padding(0);
 			taxonomyIdButton.Name = "taxonomyIdButton";
 			taxonomyIdButton.Size = new System.Drawing.Size(220, 50);
-			taxonomyIdButton.TabIndex = 6;
-			taxonomyIdButton.Text = "Taxonomy ID";
+			taxonomyIdButton.TabIndex = 5;
+			taxonomyIdButton.Text = @"Taxonomy ID";
 			taxonomyIdButton.UseVisualStyleBackColor = true;
+			int j = 6;
 			if (hasVariationData) {
 				// 
 				// variationRuleButton
-				// 
+				//
 				variationRuleButton.Dock = DockStyle.Fill;
-				variationRuleButton.Location = new System.Drawing.Point(1150, 0);
+				variationRuleButton.Location = new System.Drawing.Point(j * 230, 0);
 				variationRuleButton.Margin = new Padding(0);
 				variationRuleButton.Name = "variationRuleButton";
 				variationRuleButton.Size = new System.Drawing.Size(220, 50);
-				variationRuleButton.TabIndex = 6;
-				variationRuleButton.Text = "Variation rule";
+				variationRuleButton.TabIndex = j;
+				variationRuleButton.Text = @"Variation rule";
 				variationRuleButton.UseVisualStyleBackColor = true;
+				j++;
 			}
 			if (hasModifications) {
 				// 
 				// modificationRuleButton
-				// 
+				//
 				modificationRuleButton.Dock = DockStyle.Fill;
-				modificationRuleButton.Location = new System.Drawing.Point(1150, 0);
+				modificationRuleButton.Location = new System.Drawing.Point(j * 230, 0);
 				modificationRuleButton.Margin = new Padding(0);
 				modificationRuleButton.Name = "modificationRuleButton";
 				modificationRuleButton.Size = new System.Drawing.Size(220, 50);
-				modificationRuleButton.TabIndex = 6;
-				modificationRuleButton.Text = "Modification rule";
+				modificationRuleButton.TabIndex = j;
+				modificationRuleButton.Text = @"Modification rule";
 				modificationRuleButton.UseVisualStyleBackColor = true;
+				j++;
 			}
+			// 
+			// testButton
+			//
+			testButton.Dock = DockStyle.Fill;
+			testButton.Location = new System.Drawing.Point(j * 230, 0);
+			testButton.Margin = new Padding(0);
+			testButton.Name = "testButton";
+			testButton.Size = new System.Drawing.Size(220, 50);
+			testButton.TabIndex = j;
+			testButton.Text = @"Test";
+			testButton.UseVisualStyleBackColor = true;
 			tableLayoutPanel2.ResumeLayout(false);
 		}
 
 		private void TestButtonOnClick(object sender, EventArgs eventArgs) {
 			int[] sel = tableView1.GetSelectedRows();
 			if (sel.Length != 1) {
-				MessageBox.Show("Please select exactly one row.");
+				MessageBox.Show(@"Please select exactly one row.");
 				return;
 			}
 			int ind = sel[0];
-			string path = (string) table.GetEntry(ind, 0);
-			string identifierRule = (string) table.GetEntry(ind, 1);
-			string descriptionRule = (string) table.GetEntry(ind, 2);
-			string taxonomyRule = (string) table.GetEntry(ind, 3);
-			TestParseRulesForm f = new TestParseRulesForm(path, identifierRule, descriptionRule, taxonomyRule);
+			string path = (string)table.GetEntry(ind, "Fasta file path");
+			string identifierRule = (string)table.GetEntry(ind, "Identifier rule");
+			string descriptionRule = (string)table.GetEntry(ind, "Description rule");
+			string taxonomyRule = (string)table.GetEntry(ind, "Taxonomy rule");
+			TestParseRulesForm f = new TestParseRulesForm(path, identifierRule, descriptionRule, taxonomyRule,
+				hasVariationData ? (string)table.GetEntry(ind, "Variation rule") : null,
+				hasModifications ? (string)table.GetEntry(ind, "Modification rule") : null);
 			f.ShowDialog();
 		}
 
@@ -295,17 +309,17 @@ namespace BaseLib.Forms {
 
 		private DataTable2 CreateTable() {
 			table = new DataTable2("fasta file table");
-			table.AddColumn("Fasta file path", 285, ColumnType.Text, "Path to the fasta file used in the Andromeda searches.");
-			table.AddColumn("Identifier rule", 85, ColumnType.Text);
+			table.AddColumn("Fasta file path", 250, ColumnType.Text, "Path to the fasta file used in the Andromeda searches.");
+			table.AddColumn("Identifier rule", 100, ColumnType.Text);
 			table.AddColumn("Description rule", 100, ColumnType.Text);
-			table.AddColumn("Taxonomy rule", 95, ColumnType.Text);
-			table.AddColumn("Taxonomy ID", 90, ColumnType.Text);
-			table.AddColumn("Organism", 90, ColumnType.Text);
+			table.AddColumn("Taxonomy rule", 100, ColumnType.Text);
+			table.AddColumn("Taxonomy ID", 100, ColumnType.Text);
+			table.AddColumn("Organism", 100, ColumnType.Text);
 			if (hasVariationData) {
-				table.AddColumn("Variation rule", 95, ColumnType.Text);
+				table.AddColumn("Variation rule", 100, ColumnType.Text);
 			}
 			if (hasModifications) {
-				table.AddColumn("Modification rule", 95, ColumnType.Text);
+				table.AddColumn("Modification rule", 100, ColumnType.Text);
 			}
 			return table;
 		}
@@ -349,7 +363,7 @@ namespace BaseLib.Forms {
 				taxonomyId = GetUniprotTaxonomyId(fileName);
 				return;
 			}
-			identifierRule = @">.*\|(.*)\|";
+			identifierRule = @">([^\s]*)";
 			taxonomyId = "";
 		}
 
