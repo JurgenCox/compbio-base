@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using BaseLib.Query;
 using BaseLibS.Mol;
 using BaseLibS.Table;
 using BaseLibS.Util;
@@ -14,6 +15,7 @@ namespace BaseLib.Forms {
 		private TableLayoutPanel tableLayoutPanel2;
 		private Button addButton;
 		private Button removeButton;
+		private Button changeFolderButton;
 		private Button identifierRuleButton;
 		private Button descriptionRuleButton;
 		private Button taxonomyRuleButton;
@@ -30,6 +32,7 @@ namespace BaseLib.Forms {
 			tableView1.TableModel = CreateTable();
 			addButton.Click += AddButton_OnClick;
 			removeButton.Click += RemoveButton_OnClick;
+			changeFolderButton.Click += ChangeFolderButton_OnClick;
 			identifierRuleButton.Click += (sender, args) => {
 				ParseRuleButtonClick("Identifier",
 					new[] {@">.*\|(.*)\|", @">(gi\|[0-9]*)", @">IPI:([^\| .]*)", @">(.*)", @">([^ ]*)", @">([^\t]*)"},
@@ -58,6 +61,37 @@ namespace BaseLib.Forms {
 				};
 			}
 			testButton.Click += TestButtonOnClick;
+			DragDrop += FormDragDrop;
+			DragEnter += FormDragEnter;
+		}
+
+		private void FormDragDrop(object sender, DragEventArgs e) {
+			string[] sourceList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+			List<string> selectedSourceList = new List<string>();
+			string[] fastaExt = FileUtils.fastaFilter.Split('|')[1].Split(';');
+			for (int i = 0; i < fastaExt.Length; i++) {
+				fastaExt[i] = fastaExt[i].TrimStart('*');
+			}
+			foreach (string source in sourceList) {
+				if (!File.Exists(source)) continue;
+				string sourceExt = Path.GetExtension(source);
+				bool flag = true;
+				foreach (string ext in fastaExt) {
+					flag = flag && (sourceExt != ext);
+				}
+				if (!flag) selectedSourceList.Add(Path.GetFullPath(source));
+			}
+			if (selectedSourceList.Count == 0) return;
+			AddFastaFiles(selectedSourceList.ToArray());
+		}
+
+		private static void FormDragEnter(object sender, DragEventArgs e) {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+				string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+				e.Effect = fileList.Length > 0 ? DragDropEffects.Copy : DragDropEffects.None;
+			} else {
+				e.Effect = DragDropEffects.None;
+			}
 		}
 
 		private void ParseRuleButtonClick(string ruleName, string[] rules, string[] descriptions) {
@@ -78,9 +112,11 @@ namespace BaseLib.Forms {
 		}
 
 		private void InitializeComponent2() {
+			AllowDrop = true;
 			tableLayoutPanel2 = new TableLayoutPanel();
 			addButton = new Button();
 			removeButton = new Button();
+			changeFolderButton = new Button();
 			identifierRuleButton = new Button();
 			descriptionRuleButton = new Button();
 			taxonomyRuleButton = new Button();
@@ -97,7 +133,7 @@ namespace BaseLib.Forms {
 			// 
 			// tableLayoutPanel2
 			// 
-			int nbuttons = 7;
+			int nbuttons = 8;
 			if (hasVariationData) {
 				nbuttons++;
 			}
@@ -113,11 +149,12 @@ namespace BaseLib.Forms {
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 			tableLayoutPanel2.Controls.Add(addButton, 0, 0);
 			tableLayoutPanel2.Controls.Add(removeButton, 2, 0);
-			tableLayoutPanel2.Controls.Add(identifierRuleButton, 4, 0);
-			tableLayoutPanel2.Controls.Add(descriptionRuleButton, 6, 0);
-			tableLayoutPanel2.Controls.Add(taxonomyRuleButton, 8, 0);
-			tableLayoutPanel2.Controls.Add(taxonomyIdButton, 10, 0);
-			int z = 12;
+			tableLayoutPanel2.Controls.Add(changeFolderButton, 4, 0);
+			tableLayoutPanel2.Controls.Add(identifierRuleButton, 6, 0);
+			tableLayoutPanel2.Controls.Add(descriptionRuleButton, 8, 0);
+			tableLayoutPanel2.Controls.Add(taxonomyRuleButton, 10, 0);
+			tableLayoutPanel2.Controls.Add(taxonomyIdButton, 12, 0);
+			int z = 14;
 			if (hasVariationData) {
 				tableLayoutPanel2.Controls.Add(variationRuleButton, z, 0);
 				z += 2;
@@ -158,50 +195,61 @@ namespace BaseLib.Forms {
 			removeButton.Text = @"Remove";
 			removeButton.UseVisualStyleBackColor = true;
 			// 
+			// changeFolderButton
+			// 
+			changeFolderButton.Dock = DockStyle.Fill;
+			changeFolderButton.Location = new System.Drawing.Point(460, 0);
+			changeFolderButton.Margin = new Padding(0);
+			changeFolderButton.Name = "changeFolderButton";
+			changeFolderButton.Size = new System.Drawing.Size(220, 50);
+			changeFolderButton.TabIndex = 2;
+			changeFolderButton.Text = @"Change folder";
+			changeFolderButton.UseVisualStyleBackColor = true;
+			// 
 			// identifierRuleButton
 			// 
 			identifierRuleButton.Dock = DockStyle.Fill;
-			identifierRuleButton.Location = new System.Drawing.Point(460, 0);
+			identifierRuleButton.Location = new System.Drawing.Point(690, 0);
 			identifierRuleButton.Margin = new Padding(0);
 			identifierRuleButton.Name = "identifierRuleButton";
 			identifierRuleButton.Size = new System.Drawing.Size(220, 50);
-			identifierRuleButton.TabIndex = 2;
+			identifierRuleButton.TabIndex = 3;
 			identifierRuleButton.Text = @"Identifier rule";
 			identifierRuleButton.UseVisualStyleBackColor = true;
 			// 
 			// descriptionRuleButton
 			// 
 			descriptionRuleButton.Dock = DockStyle.Fill;
-			descriptionRuleButton.Location = new System.Drawing.Point(690, 0);
+			descriptionRuleButton.Location = new System.Drawing.Point(920, 0);
 			descriptionRuleButton.Margin = new Padding(0);
 			descriptionRuleButton.Name = "descriptionRuleButton";
 			descriptionRuleButton.Size = new System.Drawing.Size(220, 50);
-			descriptionRuleButton.TabIndex = 3;
+			descriptionRuleButton.TabIndex = 4;
 			descriptionRuleButton.Text = @"Description rule";
 			descriptionRuleButton.UseVisualStyleBackColor = true;
 			// 
 			// taxonomyRuleButton
 			// 
 			taxonomyRuleButton.Dock = DockStyle.Fill;
-			taxonomyRuleButton.Location = new System.Drawing.Point(920, 0);
+			taxonomyRuleButton.Location = new System.Drawing.Point(1150, 0);
 			taxonomyRuleButton.Margin = new Padding(0);
 			taxonomyRuleButton.Name = "taxonomyRuleButton";
 			taxonomyRuleButton.Size = new System.Drawing.Size(220, 50);
-			taxonomyRuleButton.TabIndex = 4;
+			taxonomyRuleButton.TabIndex = 5;
 			taxonomyRuleButton.Text = @"Taxonomy rule";
 			taxonomyRuleButton.UseVisualStyleBackColor = true;
 			// 
 			// taxonomyIdButton
 			// 
 			taxonomyIdButton.Dock = DockStyle.Fill;
-			taxonomyIdButton.Location = new System.Drawing.Point(1150, 0);
+			taxonomyIdButton.Location = new System.Drawing.Point(1380, 0);
 			taxonomyIdButton.Margin = new Padding(0);
 			taxonomyIdButton.Name = "taxonomyIdButton";
 			taxonomyIdButton.Size = new System.Drawing.Size(220, 50);
-			taxonomyIdButton.TabIndex = 5;
+			taxonomyIdButton.TabIndex = 6;
 			taxonomyIdButton.Text = @"Taxonomy ID";
 			taxonomyIdButton.UseVisualStyleBackColor = true;
-			int j = 6;
+			int j = 7;
 			if (hasVariationData) {
 				// 
 				// variationRuleButton
@@ -310,6 +358,7 @@ namespace BaseLib.Forms {
 		private DataTable2 CreateTable() {
 			table = new DataTable2("fasta file table");
 			table.AddColumn("Fasta file path", 250, ColumnType.Text, "Path to the fasta file used in the Andromeda searches.");
+			table.AddColumn("Exists", 50, ColumnType.Text);
 			table.AddColumn("Identifier rule", 100, ColumnType.Text);
 			table.AddColumn("Description rule", 100, ColumnType.Text);
 			table.AddColumn("Taxonomy rule", 100, ColumnType.Text);
@@ -324,8 +373,28 @@ namespace BaseLib.Forms {
 			return table;
 		}
 
+		private void ChangeFolderButton_OnClick(object sender, EventArgs e) {
+			int[] sel = tableView1.GetSelectedRows();
+			if (sel.Length == 0) {
+				MessageBox.Show(Loc.PleaseSelectSomeRows);
+				return;
+			}
+			FolderQueryForm fqw = new FolderQueryForm(Path.GetDirectoryName((string)table.GetRow(sel[0])["Fasta file path"]));
+			if (!Directory.Exists(fqw.Value)) return;
+			if (fqw.ShowDialog() == DialogResult.OK) {
+				foreach (int i in sel) {
+					DataRow2 row = table.GetRow(i);
+					string name = (string)row["Fasta file path"];
+					string newFile = Path.Combine(Path.GetFullPath(fqw.Value), Path.GetFileName(name));
+					row["Fasta file path"] = newFile;
+					row["Exists"] = File.Exists(newFile).ToString();
+				}
+			}
+			tableView1.Invalidate(true);
+		}
+
 		private void AddButton_OnClick(object sender, EventArgs e) {
-			OpenFileDialog ofd = new OpenFileDialog {Multiselect = true, Filter = Filter};
+			OpenFileDialog ofd = new OpenFileDialog { Multiselect = true, Filter = Filter };
 			if (ofd.ShowDialog() == DialogResult.OK) {
 				AddFastaFiles(ofd.FileNames);
 			}
@@ -399,6 +468,7 @@ namespace BaseLib.Forms {
 			string taxonomyId, string variationRule, string modificationRule) {
 			DataRow2 row = table.NewRow();
 			row["Fasta file path"] = fileName;
+			row["Exists"] = File.Exists(fileName).ToString();
 			row["Identifier rule"] = identifierRule;
 			row["Description rule"] = descriptionRule;
 			row["Taxonomy rule"] = taxonomyRule;
@@ -444,20 +514,15 @@ namespace BaseLib.Forms {
 			get {
 				string[][] result = new string[table.RowCount][];
 				for (int i = 0; i < result.Length; i++) {
-					result[i] = new string[7];
-					for (int j = 0; j < 5; j++) {
-						result[i][j] = (string) table.GetEntry(i, j);
-					}
-					if (hasVariationData) {
-						result[i][5] = (string) table.GetEntry(i, "Variation rule");
-					} else {
-						result[i][5] = "";
-					}
-					if (hasModifications) {
-						result[i][6] = (string) table.GetEntry(i, "Modification rule");
-					} else {
-						result[i][6] = "";
-					}
+					result[i] = new[] {
+						(string) table.GetEntry(i, "Fasta file path"),
+						(string) table.GetEntry(i, "Identifier rule"),
+						(string) table.GetEntry(i, "Description rule"),
+						(string) table.GetEntry(i, "Taxonomy rule"),
+						(string) table.GetEntry(i, "Taxonomy ID"),
+						hasVariationData ? (string) table.GetEntry(i, "Variation rule") : "",
+						hasModifications ? (string) table.GetEntry(i, "Modification rule") : ""
+					};
 				}
 				return result;
 			}
