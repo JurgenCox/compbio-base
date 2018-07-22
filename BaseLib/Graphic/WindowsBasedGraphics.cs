@@ -221,8 +221,7 @@ namespace BaseLib.Graphic {
 		}
 
 		public void DrawString(string s, Font2 font, Brush2 brush, Rectangle2 rectangleF, StringFormat2 format) {
-			gc.DrawString(s, GraphUtils.ToFont(font), GetBrush(brush), ToRectangleF(rectangleF),
-				GraphUtils.ToStringFormat(format));
+			gc.DrawString(s, GraphUtils.ToFont(font), GetBrush(brush), ToRectangleF(rectangleF), GraphUtils.ToStringFormat(format));
 		}
 
 		public void DrawString(string s, Font2 font, Brush2 brush, Point2 location) {
@@ -234,8 +233,7 @@ namespace BaseLib.Graphic {
 		}
 
 		public void DrawString(string s, Font2 font, Brush2 brush, Point2 point, StringFormat2 format) {
-			gc.DrawString(s, GraphUtils.ToFont(font), GetBrush(brush), GraphUtils.ToPointF(point),
-				GraphUtils.ToStringFormat(format));
+			gc.DrawString(s, GraphUtils.ToFont(font), GetBrush(brush), GraphUtils.ToPointF(point), GraphUtils.ToStringFormat(format));
 		}
 
 		public void DrawImage(Bitmap2 image, float x, float y, float width, float height) {
@@ -298,11 +296,11 @@ namespace BaseLib.Graphic {
 			};
 		}
 
-		private static Brush GetBrush(Brush2 b) {
+		public static Brush GetBrush(Brush2 b) {
 			return new SolidBrush(Color.FromArgb(b.Color.A, b.Color.R, b.Color.G, b.Color.B));
 		}
 
-		private static PointF[] ToPointsF(Point2[] p) {
+		public static PointF[] ToPointsF(Point2[] p) {
 			PointF[] result = new PointF[p.Length];
 			for (int i = 0; i < result.Length; i++) {
 				result[i] = GraphUtils.ToPointF(p[i]);
@@ -310,7 +308,7 @@ namespace BaseLib.Graphic {
 			return result;
 		}
 
-		private static GraphicsPath GetGraphicsPath(GraphicsPath2 path) {
+		public static GraphicsPath GetGraphicsPath(GraphicsPath2 path) {
 			byte[] types = new byte[path.PathPoints.Length];
 			for (int i = 1; i < types.Length; i++) {
 				types[i] = 1;
@@ -318,7 +316,7 @@ namespace BaseLib.Graphic {
 			return new GraphicsPath(ToPointsF(path.PathPoints), new byte[path.PathPoints.Length]);
 		}
 
-		private static RectangleF ToRectangleF(Rectangle2 rectangle) {
+		public static RectangleF ToRectangleF(Rectangle2 rectangle) {
 			return new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 		}
 	}

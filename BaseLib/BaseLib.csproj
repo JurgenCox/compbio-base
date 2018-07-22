@@ -34,6 +34,9 @@
     <Reference Include="itextsharp">
       <HintPath>..\DLLs\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="SVG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SvgNet.1.0.8\lib\net40\SVG.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -265,6 +268,7 @@
     <Compile Include="Graphic\PdfGraphicUtils.cs" />
     <Compile Include="Graphic\Svg.cs" />
     <Compile Include="Graphic\SvgGraphics.cs" />
+    <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
     <Compile Include="Param\BoolParamWf.cs" />
     <Compile Include="Param\BoolWithSubParamsWf.cs" />
@@ -477,6 +481,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\question12.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

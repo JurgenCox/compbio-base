@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using System.Windows.Forms;
+using BaseLib.Graphic;
+using BaseLibS.Graph;
+using Path = System.IO.Path;
 
 namespace SvgGraphicsTest
 {
@@ -9,10 +12,14 @@ namespace SvgGraphicsTest
 		{
 			InitializeComponent();
 			var tmpFile = Path.GetTempFileName();
-			using (var writer = new StreamWriter(tmpFile))
-			{
-				writer.Write("<!DOCTYPE html>\r\n<html>\r\n<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\"/></head><body>\r\n\r\n<svg height=\"100\" width=\"100\">\r\n  <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"black\" stroke-width=\"3\" fill=\"red\" />\r\n  Sorry, your browser does not support inline SVG.  \r\n</svg> \r\n \r\n</body>\r\n</html>");
-			}
+			var graphics = new SvgGraphics2(tmpFile);
+			graphics.FillEllipse(Brushes2.Red, 0, 0, 20, 20);
+			graphics.TranslateTransform(50, 50);
+			graphics.FillEllipse(Brushes2.Green, 0, 0, 20, 20);
+			graphics.DrawString("Write horizontal text", new Font2("Arial", 12), Brushes2.Black, 30, 30);
+			graphics.RotateTransform(90);
+			graphics.DrawString("Write vertical text", new Font2("Arial", 12), Brushes2.Black, 30, 30);
+			graphics.Close();
 			var content = File.ReadAllText(tmpFile);
 			webBrowser.DocumentText = content;
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
+using System.Linq;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Num;
@@ -11,7 +12,7 @@ namespace BaseLib.Forms.Base{
 		public static readonly BasicImageFormat pdf = new BasicImageFormat(new[]{".pdf"}, "PDF Portable Document Format",
 			(filename, width, height) => new PdfGraphics(filename, width, height));
 		public static readonly BasicImageFormat svg = new BasicImageFormat(new[]{".svg"}, "SVG Scalable Vector Graphics",
-			(filename, width, height) => new SvgGraphics(filename, width, height));
+			(filename, width, height) => new SvgGraphics2(filename));
 		public static readonly BasicImageFormat bmp = new BasicImageFormat(new[]{".bmp"}, "BMP Windows Bitmap",
 			(filename, width, height) => new BitmapGraphics(filename, width, height, ImageFormat.Bmp));
 		public static readonly BasicImageFormat emf = new BasicImageFormat(new[]{".emf"}, "EMF Windows Enhanced Meta File",
@@ -27,7 +28,7 @@ namespace BaseLib.Forms.Base{
 			(filename, width, height) => new BitmapGraphics(filename, width, height, ImageFormat.Tiff));
 		public static readonly BasicImageFormat wmf = new BasicImageFormat(new[]{".wmf"}, "WMF Windows Meta File",
 			(filename, width, height) => new BitmapGraphics(filename, width, height, ImageFormat.Wmf));
-		public static readonly BasicImageFormat[] allFormats = { png, pdf, gif, jpeg, tiff, wmf, bmp, emf };// svg
+		public static readonly BasicImageFormat[] allFormats = { png, pdf, svg, gif, jpeg, tiff, wmf, bmp, emf };
 		private static readonly Dictionary<string, BasicImageFormat> map = new Dictionary<string, BasicImageFormat>();
 
 		static BasicImageFormat(){
@@ -61,8 +62,8 @@ namespace BaseLib.Forms.Base{
 		}
 
 		internal string GetFilterImpl(){
-			string ext = StringUtils.Concat(";", extensions);
-			return description + "|" + ext;
+			string exts = string.Join(";", extensions.Select(ext => $"*{ext.Trim()}").ToArray());
+			return $"{description}|{exts}";
 		}
 	}
 }

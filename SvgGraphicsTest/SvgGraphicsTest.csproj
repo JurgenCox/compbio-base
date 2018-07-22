@@ -78,5 +78,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseLibS\BaseLibS.csproj">
+      <Project>{1744226E-9EEC-4E1C-A231-96743695240F}</Project>
+      <Name>BaseLibS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseLib\BaseLib.csproj">
+      <Project>{0AA0CC08-A585-4E52-AB91-2683D5C76EF2}</Project>
+      <Name>BaseLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
