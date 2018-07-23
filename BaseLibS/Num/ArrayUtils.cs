@@ -361,6 +361,18 @@ namespace BaseLibS.Num {
 			return 0.5 * (x[o[n / 2 - 1]] + x[o[n / 2]]);
 		}
 
+		public static double MedianLogspace(IList<double> x) {
+			int n = x.Count;
+			if (n == 0) {
+				return double.NaN;
+			}
+			int[] o = Order(x);
+			if (n % 2 == 1) {
+				return x[o[n / 2]];
+			}
+			return Math.Exp(0.5 * (Math.Log(x[o[n / 2 - 1]])  + Math.Log(x[o[n / 2]])));
+		}
+
 		public static float Median(IList<float> x) {
 			int n = x.Count;
 			if (n == 0) {
