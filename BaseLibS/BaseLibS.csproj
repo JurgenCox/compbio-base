@@ -427,6 +427,7 @@
     <Compile Include="Num\Vector\DoubleArrayVector.cs" />
     <Compile Include="Num\Vector\FloatArrayVector.cs" />
     <Compile Include="Num\Vector\SparseFloatVector.cs" />
+    <Compile Include="Param\EmptyParam.cs" />
     <Compile Include="Param\BoolParam.cs" />
     <Compile Include="Param\BoolWithSubParams.cs" />
     <Compile Include="Param\DictionaryIntValueParam.cs" />

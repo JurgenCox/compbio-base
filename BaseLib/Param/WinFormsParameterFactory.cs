@@ -38,17 +38,27 @@ namespace BaseLib.Param{
 				}
 				return b;
 			}
-			if (p is BoolParam){
-				BoolParam q = (BoolParam) p;
-				BoolParamWf b = new BoolParamWf(q.Name, q.Value){
+			if (p is BoolParam) {
+				BoolParam q = (BoolParam)p;
+				BoolParamWf b = new BoolParamWf(q.Name, q.Value) {
 					Help = q.Help,
 					Visible = q.Visible,
 					Default = q.Default,
 					Url = q.Url
 				};
-				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
 					b.ValueChanged += act;
 				}
+				return b;
+			}
+			if (p is EmptyParam) {
+				EmptyParam q = (EmptyParam)p;
+				EmptyParamWf b = new EmptyParamWf(q.Name) {
+					Help = q.Help,
+					Visible = q.Visible,
+					Default = q.Default,
+					Url = q.Url
+				};
 				return b;
 			}
 			if (p is BoolWithSubParams){

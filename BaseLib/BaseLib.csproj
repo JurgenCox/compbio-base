@@ -270,6 +270,7 @@
     <Compile Include="Graphic\SvgGraphics.cs" />
     <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
+    <Compile Include="Param\EmptyParamWf.cs" />
     <Compile Include="Param\BoolParamWf.cs" />
     <Compile Include="Param\BoolWithSubParamsWf.cs" />
     <Compile Include="Param\DictionaryIntValueParamWf.cs" />
