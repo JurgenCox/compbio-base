@@ -166,6 +166,8 @@ namespace BaseLibS.Mol{
 					return TaxonomyRank.Subtribe;
 				case "subkingdom":
 					return TaxonomyRank.Subkingdom;
+				case "cohort":
+					return TaxonomyRank.Cohort;
 				default:
 					throw new Exception("Unknown rank: " + s);
 			}

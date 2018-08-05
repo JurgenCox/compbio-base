@@ -234,7 +234,7 @@ namespace BaseLibS.Util {
 					case spanish: return "Encontrar";
 					case swedish: return "Hitta";
 					case tamil: return "கண்டுபிடிக்க";
-					case turkish: return "bulmak";
+					case turkish: return "Bulmak";
 					default: return "Find";
 				}
 			}
