@@ -68,6 +68,9 @@ namespace BaseLibS.Util {
 		}
 
 		public static string ToString(object x) {
+			if (x == null) {
+				return "";
+			}
 			if (x is IConvertible) {
 				return ((IConvertible) x).ToString(CultureInfo.InvariantCulture);
 			}
