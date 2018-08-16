@@ -436,6 +436,7 @@
     <Compile Include="Param\FileParam.cs" />
     <Compile Include="Param\FolderParam.cs" />
     <Compile Include="Param\IntParam.cs" />
+    <Compile Include="Param\IsobaricLabelsParam.cs" />
     <Compile Include="Param\LabelParam.cs" />
     <Compile Include="Param\Ms1LabelParam.cs" />
     <Compile Include="Param\MultiChoiceMultiBinParam.cs" />

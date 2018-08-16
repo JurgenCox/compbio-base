@@ -222,6 +222,21 @@ namespace BaseLib.Param{
 				}
 				return b;
 			}
+			if (p is IsobaricLabelsParam) {
+				IsobaricLabelsParam q = (IsobaricLabelsParam)p;
+				IsobaricLabelsParamWf b = new IsobaricLabelsParamWf(q.Name, q.Value) {
+					Help = q.Help,
+					Visible = q.Visible,
+					Default = q.Default,
+					HasVariationData = q.HasVariationData,
+					HasModifications = q.HasModifications,
+					Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
+					b.ValueChanged += act;
+				}
+				return b;
+			}
 			if (p is MultiStringParam){
 				MultiStringParam q = (MultiStringParam) p;
 				MultiStringParamWf b = new MultiStringParamWf(q.Name, q.Value){

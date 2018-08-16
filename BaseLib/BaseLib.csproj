@@ -123,6 +123,12 @@
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormUtils.cs" />
+    <Compile Include="Forms\IsobaricLabelsParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\IsobaricLabelsParamControl.Designer.cs">
+      <DependentUpon>IsobaricLabelsParamControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ListSelectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -279,6 +285,7 @@
     <Compile Include="Param\FileParamWf.cs" />
     <Compile Include="Param\FolderParamWf.cs" />
     <Compile Include="Param\IntParamWf.cs" />
+    <Compile Include="Param\IsobaricLabelsParamWf.cs" />
     <Compile Include="Param\LabelParamWf.cs" />
     <Compile Include="Param\Ms1LabelParamWf.cs" />
     <Compile Include="Param\MultiChoiceMultiBinParamWf.cs" />
@@ -395,6 +402,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FolderParameterControl.resx">
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IsobaricLabelsParamControl.resx">
+      <DependentUpon>IsobaricLabelsParamControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ListSelectorControl.resx">
       <DependentUpon>ListSelectorControl.cs</DependentUpon>
