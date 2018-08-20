@@ -68,6 +68,32 @@ namespace BaseLibS.Mol {
 			}
 		}
 
+		public static Dictionary<string, Modification> InternalIsobaricLabelModifications {
+			get {
+				Dictionary<string, Modification> mods = IsobaricLabelModifications;
+				Dictionary<string, Modification> result = new Dictionary<string, Modification>();
+				foreach (KeyValuePair<string, Modification> pair in mods) {
+					if (pair.Value.IsInternal) {
+						result.Add(pair.Key, pair.Value);
+					}
+				}
+				return result;
+			}
+		}
+
+		public static Dictionary<string, Modification> TerminalIsobaricLabelModifications {
+			get {
+				Dictionary<string, Modification> mods = IsobaricLabelModifications;
+				Dictionary<string, Modification> result = new Dictionary<string, Modification>();
+				foreach (KeyValuePair<string, Modification> pair in mods) {
+					if (!pair.Value.IsInternal) {
+						result.Add(pair.Key, pair.Value);
+					}
+				}
+				return result;
+			}
+		}
+
 		public static Modification[] ModificationList {
 			get {
 				lock (lockMods) {

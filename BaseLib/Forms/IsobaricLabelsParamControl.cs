@@ -81,6 +81,13 @@ namespace BaseLib.Forms {
 
 		private void AddButtonOnClick(object sender, EventArgs eventArgs) {
 			DataRow2 row = table.NewRow();
+			row["Internal label"] = "";
+			row["Terminal label"] = "";
+			row["Correction factor -2 [%]"] = 0d;
+			row["Correction factor -1 [%]"] = 0d;
+			row["Correction factor +1 [%]"] = 0d;
+			row["Correction factor +2 [%]"] = 0d;
+			row["TMT like"] = true;
 			table.AddRow(row);
 			tableView1.Invalidate(true);
 		}
@@ -95,7 +102,28 @@ namespace BaseLib.Forms {
 			tableView1.Invalidate(true);
 		}
 
-		private void EditButtonOnClick(object sender, EventArgs eventArgs) { }
+		private void EditButtonOnClick(object sender, EventArgs eventArgs) {
+			int[] sel = tableView1.GetSelectedRows();
+			if (sel.Length != 1) {
+				MessageBox.Show("Please select exactly one row.");
+				return;
+			}
+			DataRow2 row = table.GetRow(sel[0]);
+			IsobaricLabelsEditForm f = new IsobaricLabelsEditForm((string) row[0], (string) row[1], (double) row[2],
+				(double) row[3], (double) row[4], (double) row[5], (bool) row[6]);
+			f.ShowDialog();
+			if (f.DialogResult != DialogResult.OK) {
+				return;
+			}
+			row[0] = f.InternalLabel;
+			row[1] = f.TerminalLabel;
+			row[2] = f.CorrectionFactorM2;
+			row[3] = f.CorrectionFactorM1;
+			row[4] = f.CorrectionFactorP1;
+			row[5] = f.CorrectionFactorP2;
+			row[6] = f.TmtLike;
+			tableView1.Invalidate(true);
+		}
 
 		private void InitializeComponent2() {
 			tableLayoutPanel2 = new TableLayoutPanel();
@@ -116,14 +144,8 @@ namespace BaseLib.Forms {
 			tableLayoutPanel2.Controls.Add(removeButton, 2, 0);
 			tableLayoutPanel2.Controls.Add(editButton, 4, 0);
 			for (int i = 0; i < defaults.Length; i++) {
-				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 6 + 2*i, 0);
+				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 6 + 2 * i, 0);
 			}
-
-
-			//tableLayoutPanel2.Controls.Add(identifierRuleButton, 6, 0);
-			//tableLayoutPanel2.Controls.Add(descriptionRuleButton, 8, 0);
-			//tableLayoutPanel2.Controls.Add(taxonomyRuleButton, 10, 0);
-			//tableLayoutPanel2.Controls.Add(taxonomyIdButton, 12, 0);
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
 			tableLayoutPanel2.Margin = new Padding(0);
@@ -168,32 +190,83 @@ namespace BaseLib.Forms {
 			tableLayoutPanel2.ResumeLayout(false);
 		}
 
-		private static Control CreateDefaultButton(IsobaricLabelingDefault def) {
+		private Control CreateDefaultButton(IsobaricLabelingDefault def) {
 			Button button = new Button {
 				Dock = DockStyle.Fill,
 				Location = new System.Drawing.Point(230, 0),
 				Margin = new Padding(0),
-				Name = "removeButton",
+				Name = "button",
 				Size = new System.Drawing.Size(220, 50),
 				TabIndex = 1,
 				Text = def.Name,
 				UseVisualStyleBackColor = true
 			};
+			button.Click += (sender, args) => { SetDefaults(def); };
 			return button;
+		}
+
+		private void SetDefaults(IsobaricLabelingDefault def) {
+			table.Clear();
+			for (int i = 0; i < def.Count; i++) {
+				DataRow2 row = table.NewRow();
+				row[0] = def.GetInternalLabel(i);
+				row[1] = def.GetTerminalLabel(i);
+				row[2] = 0d;
+				row[3] = 0d;
+				row[4] = 0d;
+				row[5] = 0d;
+				row[6] = def.IsLikelyTmtLike(i);
+				table.AddRow(row);
+			}
+			tableView1.Invalidate(true);
 		}
 
 		private DataTable2 CreateTable() {
 			table = new DataTable2("isobaric labels table");
-			table.AddColumn("Internal label", 120, ColumnType.Text, "");
-			table.AddColumn("Terminal label", 120, ColumnType.Text, "");
-			table.AddColumn("Correction factor -2 [%]", 100, ColumnType.Numeric);
-			table.AddColumn("Correction factor -1 [%]", 100, ColumnType.Numeric);
-			table.AddColumn("Correction factor +1 [%]", 100, ColumnType.Numeric);
-			table.AddColumn("Correction factor +2 [%]", 100, ColumnType.Numeric);
+			table.AddColumn("Internal label", 130, ColumnType.Text, "");
+			table.AddColumn("Terminal label", 130, ColumnType.Text, "");
+			table.AddColumn("Correction factor -2 [%]", 80, ColumnType.Numeric);
+			table.AddColumn("Correction factor -1 [%]", 80, ColumnType.Numeric);
+			table.AddColumn("Correction factor +1 [%]", 80, ColumnType.Numeric);
+			table.AddColumn("Correction factor +2 [%]", 80, ColumnType.Numeric);
 			table.AddColumn("TMT like", 60, ColumnType.Boolean);
 			return table;
 		}
 
-		public string[][] Value { get; set; }
+		public string[][] Value {
+			get {
+				string[][] result = new string[table.RowCount][];
+				for (int i = 0; i < result.Length; i++) {
+					result[i] = new[] {
+						(string) table.GetEntry(i, "Internal label"), (string) table.GetEntry(i, "Terminal label"),
+						((double) table.GetEntry(i, "Correction factor -2 [%]")).ToString(),
+						((double) table.GetEntry(i, "Correction factor -1 [%]")).ToString(),
+						((double) table.GetEntry(i, "Correction factor +1 [%]")).ToString(),
+						((double) table.GetEntry(i, "Correction factor +2 [%]")).ToString(),
+						((bool) table.GetEntry(i, "TMT like")).ToString()
+					};
+				}
+				return result;
+			}
+			set {
+				table.Clear();
+				foreach (string[] t in value) {
+					AddLabel(t[0], t[1], t[2], t[3], t[4], t[5], t[6]);
+				}
+			}
+		}
+
+		private void AddLabel(string internalLabel, string terminalLabel, string correctionFactorM2,
+			string correctionFactorM1, string correctionFactorP1, string correctionFactorP2, string tmtLike) {
+			DataRow2 row = table.NewRow();
+			row[0] = internalLabel;
+			row[1] = terminalLabel;
+			row[2] = Parser.Double(correctionFactorM2);
+			row[3] = Parser.Double(correctionFactorM1);
+			row[4] = Parser.Double(correctionFactorP1);
+			row[5] = Parser.Double(correctionFactorP2);
+			row[6] = Parser.Bool(tmtLike);
+			table.AddRow(row);
+		}
 	}
 }
