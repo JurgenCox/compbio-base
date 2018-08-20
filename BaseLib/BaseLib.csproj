@@ -123,6 +123,13 @@
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormUtils.cs" />
+    <Compile Include="Forms\IsobaricLabelingDefault.cs" />
+    <Compile Include="Forms\IsobaricLabelsEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IsobaricLabelsEditForm.Designer.cs">
+      <DependentUpon>IsobaricLabelsEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\IsobaricLabelsParamControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -402,6 +409,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FolderParameterControl.resx">
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IsobaricLabelsEditForm.resx">
+      <DependentUpon>IsobaricLabelsEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\IsobaricLabelsParamControl.resx">
       <DependentUpon>IsobaricLabelsParamControl.cs</DependentUpon>
