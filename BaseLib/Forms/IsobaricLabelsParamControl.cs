@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using BaseLibS.Mol;
 using BaseLibS.Table;
 using BaseLibS.Util;
 
@@ -109,19 +110,20 @@ namespace BaseLib.Forms {
 				return;
 			}
 			DataRow2 row = table.GetRow(sel[0]);
-			IsobaricLabelsEditForm f = new IsobaricLabelsEditForm((string) row[0], (string) row[1], (double) row[2],
-				(double) row[3], (double) row[4], (double) row[5], (bool) row[6]);
+			IsobaricLabelsEditForm f = new IsobaricLabelsEditForm(new IsobaricLabelInfo( (string) row[0], (string) row[1], (double) row[2],
+				(double) row[3], (double) row[4], (double) row[5], (bool) row[6]));
 			f.ShowDialog();
 			if (f.DialogResult != DialogResult.OK) {
 				return;
 			}
-			row[0] = f.InternalLabel;
-			row[1] = f.TerminalLabel;
-			row[2] = f.CorrectionFactorM2;
-			row[3] = f.CorrectionFactorM1;
-			row[4] = f.CorrectionFactorP1;
-			row[5] = f.CorrectionFactorP2;
-			row[6] = f.TmtLike;
+			IsobaricLabelInfo info = f.Info;
+			row[0] = info.internalLabel;
+			row[1] = info.terminalLabel;
+			row[2] = info.correctionFactorM2;
+			row[3] = info.correctionFactorM1;
+			row[4] = info.correctionFactorP1;
+			row[5] = info.correctionFactorP2;
+			row[6] = info.tmtLike;
 			tableView1.Invalidate(true);
 		}
 
