@@ -16,6 +16,7 @@ namespace BaseLibS.Util {
 		public abstract string ElementTypeName { get; }
 		public abstract object DefaultValue { get; }
 		public abstract bool IsFastaFileInfo { get; }
+		public abstract bool IsIsobaricLabelInfo { get; }
 	}
 
 	public class InputParameter<T> : InputParameter {
@@ -49,6 +50,15 @@ namespace BaseLibS.Util {
 					return "FastaFileInfo";
 				}
 				throw new Exception("Unknown type: " + t);
+			}
+		}
+
+		public override bool IsIsobaricLabelInfo {
+			get {
+				if (IsArray) {
+					return Type.GetElementType() == typeof(IsobaricLabelInfo);
+				}
+				return Type == typeof(IsobaricLabelInfo);
 			}
 		}
 
