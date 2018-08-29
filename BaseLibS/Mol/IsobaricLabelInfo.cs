@@ -22,6 +22,9 @@ namespace BaseLibS.Mol {
 		public double correctionFactorP2;
 		public bool tmtLike;
 
+		public IsobaricLabelInfo(string[] values) : this(values[0], values[1], Parser.Double(values[2]),
+			Parser.Double(values[3]), Parser.Double(values[4]), Parser.Double(values[5]), Parser.Bool(values[6])) { }
+
 		public IsobaricLabelInfo(string internalLabel, string terminalLabel, double correctionFactorM2,
 			double correctionFactorM1, double correctionFactorP1, double correctionFactorP2, bool tmtLike) {
 			map = new Dictionary<string, InputParameter>();
