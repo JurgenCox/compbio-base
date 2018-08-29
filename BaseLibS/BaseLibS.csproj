@@ -276,6 +276,7 @@
     <Compile Include="Graph\MoveButtonState.cs" />
     <Compile Include="Graph\ZoomButtonState.cs" />
     <Compile Include="Mol\AminoAcidLabel.cs" />
+    <Compile Include="Mol\IsobaricLabelInfo.cs" />
     <Compile Include="Mol\LabelModification.cs" />
     <Compile Include="Mol\Modification2.cs" />
     <Compile Include="Mol\ProteinAnnotation.cs" />
