@@ -417,6 +417,19 @@ namespace BaseLibS.Mol {
 			return result;
 		}
 
+		public static Modification[] ToModifications(IList<IsobaricLabelInfo> info) {
+			List<string> modNames = new List<string>();
+			foreach (IsobaricLabelInfo x in info) {
+				if (!string.IsNullOrEmpty(x.internalLabel)) {
+					modNames.Add(x.internalLabel);
+				}
+				if (!string.IsNullOrEmpty(x.terminalLabel)) {
+					modNames.Add(x.terminalLabel);
+				}
+			}
+			return ToModifications(modNames);
+		}
+
 		public static Modification[] ToModifications(IList<ushort> mods) {
 			Modification[] result = new Modification[mods.Count];
 			for (int i = 0; i < result.Length; i++) {

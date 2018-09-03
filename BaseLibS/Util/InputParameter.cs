@@ -49,6 +49,9 @@ namespace BaseLibS.Util {
 				if (t == typeof(FastaFileInfo)) {
 					return "FastaFileInfo";
 				}
+				if (t == typeof(IsobaricLabelInfo)) {
+					return "IsobaricLabelInfo";
+				}
 				throw new Exception("Unknown type: " + t);
 			}
 		}

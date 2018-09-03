@@ -21,6 +21,7 @@ namespace BaseLibS.Mol {
 		public double correctionFactorP1;
 		public double correctionFactorP2;
 		public bool tmtLike;
+		public IsobaricLabelInfo() : this("", "", 0, 0, 0, 0, true) { }
 
 		public IsobaricLabelInfo(string[] values) : this(values[0], values[1], Parser.Double(values[2]),
 			Parser.Double(values[3]), Parser.Double(values[4]), Parser.Double(values[5]), Parser.Bool(values[6])) { }
