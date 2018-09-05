@@ -361,6 +361,49 @@ namespace BaseLibS.Num {
 			return 0.5 * (x[o[n / 2 - 1]] + x[o[n / 2]]);
 		}
 
+		public static double WeightedMedian(IList<double> x, IList<double> weights) {
+			return WeightedMedian(x, weights, false);
+		}
+
+		/// <param name="x">Not assumed to be in order.</param>
+		/// <param name="weights">Weights are assumed to sum up to 1.</param>
+		/// <param name="logAverage"></param>
+		/// <returns>The weighted median.</returns>
+		public static double WeightedMedian(IList<double> x, IList<double> weights, bool logAverage) {
+			int n = x.Count;
+			if (n == 0) {
+				return double.NaN;
+			}
+			if (n == 1) {
+				return x[0];
+			}
+			if (n == 2) {
+				if (weights[0] == weights[1]) {
+					return logAverage ? LogAverage(x[0], x[1]) : 0.5 * (x[0] + x[1]);
+				}
+				return weights[0] > weights[1] ? x[0] : x[1];
+			}
+			int[] o = Order(x);
+			double[] cumulativeWeights = new double[n];
+			cumulativeWeights[0] = weights[o[0]];
+			for (int i = 1; i < n; i++) {
+				cumulativeWeights[i] = cumulativeWeights[i - 1] + weights[o[i]];
+			}
+			int ind = Array.BinarySearch(cumulativeWeights, 0.5);
+			if (ind >= 0) {
+				int ind1 = o[ind];
+				int ind2 = o[ind + 1];
+				double w1 = weights[ind1];
+				double w2 = weights[ind2];
+				if (w1 == w2) {
+					return logAverage ? LogAverage(x[ind1], x[ind2]) : 0.5 * (x[ind1] + x[ind2]);
+				}
+				return w1 > w2 ? x[ind1] : x[ind2];
+			}
+			int a = -1 - ind;
+			return x[o[a - 1]];
+		}
+
 		public static double MedianLogspace(IList<double> x) {
 			int n = x.Count;
 			if (n == 0) {
@@ -370,7 +413,11 @@ namespace BaseLibS.Num {
 			if (n % 2 == 1) {
 				return x[o[n / 2]];
 			}
-			return Math.Exp(0.5 * (Math.Log(x[o[n / 2 - 1]])  + Math.Log(x[o[n / 2]])));
+			return LogAverage(x[o[n / 2 - 1]], x[o[n / 2]]);
+		}
+
+		public static double LogAverage(double x1, double x2) {
+			return Math.Exp(0.5 * (Math.Log(x1) + Math.Log(x2)));
 		}
 
 		public static float Median(IList<float> x) {
@@ -504,16 +551,16 @@ namespace BaseLibS.Num {
 			return result;
 		}
 
-        /// <summary>
-        /// Set of all ints in [0, length] not contained in present
-        /// </summary>
+		/// <summary>
+		/// Set of all ints in [0, length] not contained in present
+		/// </summary>
 		public static int[] Complement(IList<int> present, int length) {
 			return Complement(new HashSet<int>(present), length);
 		}
 
-        /// <summary>
-        /// Set of all ints in [0, length] not contained in present
-        /// </summary>
+		/// <summary>
+		/// Set of all ints in [0, length] not contained in present
+		/// </summary>
 		public static int[] Complement(HashSet<int> present, int length) {
 			List<int> result = new List<int>();
 			for (int i = 0; i < length; i++) {
@@ -617,42 +664,37 @@ namespace BaseLibS.Num {
 			return max;
 		}
 
-        /// <summary>
-        /// Create a sublist by indexing with an indicator. If the indicator is longer than the values,
-        /// superfluous entries will be ignored.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="values"></param>
-        /// <param name="indicator"></param>
-        /// <returns></returns>
-	    public static List<T> SubList<T>(this IEnumerable<T> values, IEnumerable<bool> indicator)
-	    {
-	        var result = new List<T>();
-	        using (var valueIter = values.GetEnumerator())
-	        using (var indIter = indicator.GetEnumerator())
-	        {
-	            while (valueIter.MoveNext() && indIter.MoveNext())
-	            {
-	                if (indIter.Current)
-	                {
-	                    result.Add(valueIter.Current);
-	                }
-	            }
-                if (valueIter.MoveNext())
-                {
-                    throw new ArgumentException($"{nameof(indicator)} was exhausted before all values were enumerated.");
-                }
-	        }
-	        return result;
-	    }
+		/// <summary>
+		/// Create a sublist by indexing with an indicator. If the indicator is longer than the values,
+		/// superfluous entries will be ignored.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="values"></param>
+		/// <param name="indicator"></param>
+		/// <returns></returns>
+		public static List<T> SubList<T>(this IEnumerable<T> values, IEnumerable<bool> indicator) {
+			var result = new List<T>();
+			using (var valueIter = values.GetEnumerator())
+			using (var indIter = indicator.GetEnumerator()) {
+				while (valueIter.MoveNext() && indIter.MoveNext()) {
+					if (indIter.Current) {
+						result.Add(valueIter.Current);
+					}
+				}
+				if (valueIter.MoveNext()) {
+					throw new ArgumentException($"{nameof(indicator)} was exhausted before all values were enumerated.");
+				}
+			}
+			return result;
+		}
 
-        /// <summary>
-        /// Create a sublist by extracting all provided indices.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="indices"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Create a sublist by extracting all provided indices.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <param name="indices"></param>
+		/// <returns></returns>
 		public static List<T> SubList<T>(this IList<T> list, int[] indices) {
 			List<T> result = new List<T>();
 			foreach (int index in indices) {
@@ -768,15 +810,15 @@ namespace BaseLibS.Num {
 			return result;
 		}
 
-        /// <summary>
-        /// Extracts the subarray from the position <code>startIndex</code> to the position <code>stopIndex</code> (exclusive).
-        /// </summary>
-        /// <typeparam name="T">Arbitrary type of the array elements.</typeparam>
-        /// <param name="array">The input array.</param>
-        /// <param name="startIndex">Start position of the output array.</param>
-        /// <param name="stopIndex">Exclusive stop position of the output array.</param>
-        /// <returns>The subarrry.</returns>
-        public static T[] SubArray<T>(IList<T> array, int startIndex, int stopIndex) {
+		/// <summary>
+		/// Extracts the subarray from the position <code>startIndex</code> to the position <code>stopIndex</code> (exclusive).
+		/// </summary>
+		/// <typeparam name="T">Arbitrary type of the array elements.</typeparam>
+		/// <param name="array">The input array.</param>
+		/// <param name="startIndex">Start position of the output array.</param>
+		/// <param name="stopIndex">Exclusive stop position of the output array.</param>
+		/// <returns>The subarrry.</returns>
+		public static T[] SubArray<T>(IList<T> array, int startIndex, int stopIndex) {
 			int len = stopIndex - startIndex;
 			T[] result = new T[len];
 			for (int i = 0; i < len; i++) {
@@ -1165,9 +1207,7 @@ namespace BaseLibS.Num {
 		///     An array of indices such that if x is accessed with those indices the values are in
 		///     ascending (or to be more precise, non-decending) order.
 		/// </returns>
-		public static int[] Order<T0, T1>(IList<T0> x, IList<T1> y)
-			where T0 : IComparable<T0>
-			where T1 : IComparable<T1> {
+		public static int[] Order<T0, T1>(IList<T0> x, IList<T1> y) where T0 : IComparable<T0> where T1 : IComparable<T1> {
 			if (x == null || y == null || x.Count != y.Count) {
 				return null;
 			}
@@ -1192,8 +1232,7 @@ namespace BaseLibS.Num {
 		///     An array of indices such that if x is accessed with those indices the values are in
 		///     ascending (or to be more precise, non-decending) order.
 		/// </returns>
-		public static int[] Order<T0, T1, T2>(IList<T0> x, IList<T1> y, IList<T2> z)
-			where T0 : IComparable<T0>
+		public static int[] Order<T0, T1, T2>(IList<T0> x, IList<T1> y, IList<T2> z) where T0 : IComparable<T0>
 			where T1 : IComparable<T1>
 			where T2 : IComparable<T2> {
 			if (x == null || y == null || z == null || x.Count != y.Count || x.Count != z.Count) {
@@ -1264,9 +1303,8 @@ namespace BaseLibS.Num {
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
-		private static void SortImpl<T0, T1>(IList<T0> first, IList<T1> second, int[] orderDest, int[] orderSrc, int low, int high)
-			where T0 : IComparable<T0>
-			where T1 : IComparable<T1> {
+		private static void SortImpl<T0, T1>(IList<T0> first, IList<T1> second, int[] orderDest, int[] orderSrc, int low,
+			int high) where T0 : IComparable<T0> where T1 : IComparable<T1> {
 			if (low >= high) {
 				return;
 			}
@@ -1293,16 +1331,16 @@ namespace BaseLibS.Num {
 				} else {
 					switch (first[orderSrc[tLow]].CompareTo(first[orderSrc[tHigh]])) {
 						case -1:
-						orderDest[i] = orderSrc[tLow++];
-						break;
+							orderDest[i] = orderSrc[tLow++];
+							break;
 						case 0:
-						orderDest[i] = second[orderSrc[tLow]].CompareTo(second[orderSrc[tHigh]]) <= 0 ?
-							orderSrc[tLow++] :
-							orderSrc[tHigh++];
-						break;
+							orderDest[i] = second[orderSrc[tLow]].CompareTo(second[orderSrc[tHigh]]) <= 0
+								? orderSrc[tLow++]
+								: orderSrc[tHigh++];
+							break;
 						case 1:
-						orderDest[i] = orderSrc[tHigh++];
-						break;
+							orderDest[i] = orderSrc[tHigh++];
+							break;
 					}
 				}
 			}
@@ -1311,10 +1349,8 @@ namespace BaseLibS.Num {
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
-		private static void SortImpl<T0, T1, T2>(IList<T0> first, IList<T1> second, IList<T2> third, int[] orderDest, int[] orderSrc, int low, int high)
-			where T0 : IComparable<T0>
-			where T1 : IComparable<T1>
-			where T2 : IComparable<T2> {
+		private static void SortImpl<T0, T1, T2>(IList<T0> first, IList<T1> second, IList<T2> third, int[] orderDest,
+			int[] orderSrc, int low, int high) where T0 : IComparable<T0> where T1 : IComparable<T1> where T2 : IComparable<T2> {
 			if (low >= high) {
 				return;
 			}
@@ -1341,26 +1377,26 @@ namespace BaseLibS.Num {
 				} else {
 					switch (first[orderSrc[tLow]].CompareTo(first[orderSrc[tHigh]])) {
 						case -1:
-						orderDest[i] = orderSrc[tLow++];
-						break;
-						case 0:
-						switch (second[orderSrc[tLow]].CompareTo(second[orderSrc[tHigh]])) {
-							case -1:
 							orderDest[i] = orderSrc[tLow++];
 							break;
-							case 0:
-							orderDest[i] = third[orderSrc[tLow]].CompareTo(third[orderSrc[tHigh]]) <= 0 ?
-								orderSrc[tLow++] :
-								orderSrc[tHigh++];
+						case 0:
+							switch (second[orderSrc[tLow]].CompareTo(second[orderSrc[tHigh]])) {
+								case -1:
+									orderDest[i] = orderSrc[tLow++];
+									break;
+								case 0:
+									orderDest[i] = third[orderSrc[tLow]].CompareTo(third[orderSrc[tHigh]]) <= 0
+										? orderSrc[tLow++]
+										: orderSrc[tHigh++];
+									break;
+								case 1:
+									orderDest[i] = orderSrc[tHigh++];
+									break;
+							}
 							break;
-							case 1:
+						case 1:
 							orderDest[i] = orderSrc[tHigh++];
 							break;
-						}
-						break;
-						case 1:
-						orderDest[i] = orderSrc[tHigh++];
-						break;
 					}
 				}
 			}
@@ -1821,13 +1857,13 @@ namespace BaseLibS.Num {
 			}
 		}
 
-        /// <summary>
-        /// Index of last element &gt; value in sorted array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Index of last element &gt; value in sorted array.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int FloorIndex<T>(T[] array, T value) where T : IComparable<T> {
 			int n = array.Length;
 			if (n == 0) {
@@ -1849,13 +1885,13 @@ namespace BaseLibS.Num {
 			return -2 - a;
 		}
 
-        /// <summary>
-        /// Index of first element &lt; value in sorted array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Index of first element &lt; value in sorted array.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int CeilIndex<T>(T[] array, T value) where T : IComparable<T> {
 			int n = array.Length;
 			if (n == 0) {
@@ -1877,13 +1913,13 @@ namespace BaseLibS.Num {
 			return -1 - a;
 		}
 
-        /// <summary>
-        /// Index of last element &gt; value in sorted array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Index of last element &gt; value in sorted array.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int FloorIndex<T>(List<T> array, T value) where T : IComparable<T> {
 			int n = array.Count;
 			if (n == 0) {
@@ -1905,13 +1941,13 @@ namespace BaseLibS.Num {
 			return -2 - a;
 		}
 
-        /// <summary>
-        /// Index of first element &lt; value in sorted array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Index of first element &lt; value in sorted array.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int CeilIndex<T>(List<T> array, T value) where T : IComparable<T> {
 			int n = array.Count;
 			if (n == 0) {
@@ -1933,42 +1969,38 @@ namespace BaseLibS.Num {
 			return -1 - a;
 		}
 
-        /// <summary>
-        /// Index of last element &gt; value in sorted array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ilist"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Index of last element &gt; value in sorted array.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="ilist"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int FloorIndex<T>(IList<T> ilist, T value) where T : IComparable<T> {
-            if (ilist is T[] array)
-            {
-                return FloorIndex(array, value);
-            }
-            if (ilist is List<T> list)
-            {
-                return FloorIndex(list, value);
-            }
-            return FloorIndex(ilist.ToArray(), value);
-        }
+			if (ilist is T[] array) {
+				return FloorIndex(array, value);
+			}
+			if (ilist is List<T> list) {
+				return FloorIndex(list, value);
+			}
+			return FloorIndex(ilist.ToArray(), value);
+		}
 
-        /// <summary>
-        /// Index of first element &lt; value in sorted array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ilist"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Index of first element &lt; value in sorted array.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="ilist"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int CeilIndex<T>(IList<T> ilist, T value) where T : IComparable<T> {
-            if (ilist is T[] array)
-            {
-                return CeilIndex(array, value);
-            }
-            if (ilist is List<T> list)
-            {
-                return CeilIndex(list, value);
-            }
-            return CeilIndex(ilist.ToArray(), value);
+			if (ilist is T[] array) {
+				return CeilIndex(array, value);
+			}
+			if (ilist is List<T> list) {
+				return CeilIndex(list, value);
+			}
+			return CeilIndex(ilist.ToArray(), value);
 		}
 
 		/// <summary>
@@ -1993,9 +2025,9 @@ namespace BaseLibS.Num {
 		/// <param name="b">The second array.</param>
 		/// <returns>True when their contents are equal, false otherwise.</returns>
 		public static bool EqualArrays<T>(IList<T> a, IList<T> b) {
-		    if (a == null && b == null) return true;
-		    if (a == null || b == null) return false;
-            if (a.Count != b.Count) {
+			if (a == null && b == null) return true;
+			if (a == null || b == null) return false;
+			if (a.Count != b.Count) {
 				return false;
 			}
 			for (int i = 0; i < a.Count; i++) {
@@ -2007,9 +2039,9 @@ namespace BaseLibS.Num {
 		}
 
 		public static bool EqualArraysOfArrays<T>(IList<T[]> a, IList<T[]> b) {
-		    if (a == null && b == null) return true;
-		    if (a == null || b == null) return false;
-            if (a.Count != b.Count) {
+			if (a == null && b == null) return true;
+			if (a == null || b == null) return false;
+			if (a.Count != b.Count) {
 				return false;
 			}
 			for (int i = 0; i < a.Count; i++) {
@@ -2230,7 +2262,8 @@ namespace BaseLibS.Num {
 			if (b == 0) {
 				return b;
 			}
-			if (b >= n) { //can only happen if the array contains NaNs
+			if (b >= n) {
+				//can only happen if the array contains NaNs
 				return -1;
 			}
 			if (array[b] < 2 * value - array[b - 1]) {
@@ -2264,7 +2297,8 @@ namespace BaseLibS.Num {
 			if (b == 0) {
 				return b;
 			}
-			if (b >= n) { //can only happen if the array contains NaNs
+			if (b >= n) {
+				//can only happen if the array contains NaNs
 				return -1;
 			}
 			if (array[b] < 2 * value - array[b - 1]) {
@@ -2779,7 +2813,7 @@ namespace BaseLibS.Num {
 			}
 			Histogram(data1, out double[] x, out double[] y, false, false);
 			int maxInd = MaxInd(y);
-			double max2 = y[maxInd]*0.5;
+			double max2 = y[maxInd] * 0.5;
 			int leftInd = maxInd;
 			while (y[leftInd] > max2) {
 				if (leftInd == 0) {
@@ -2789,19 +2823,18 @@ namespace BaseLibS.Num {
 			}
 			int rightInd = maxInd;
 			while (y[rightInd] > max2) {
-				if (rightInd == y.Length-1) {
+				if (rightInd == y.Length - 1) {
 					return double.NaN;
 				}
 				rightInd++;
 			}
-			double leftX = GetXval(x[leftInd], y[leftInd], x[leftInd+1], y[leftInd+1], max2);
+			double leftX = GetXval(x[leftInd], y[leftInd], x[leftInd + 1], y[leftInd + 1], max2);
 			double rightX = GetXval(x[rightInd - 1], y[rightInd - 1], x[rightInd], y[rightInd], max2);
 			return rightX - leftX;
-
 		}
 
 		private static double GetXval(double x1, double y1, double x2, double y2, double y) {
-			return x1 +(x2-x1)/(y2-y1)* (y - y1);
+			return x1 + (x2 - x1) / (y2 - y1) * (y - y1);
 		}
 
 		public static HashSet<T> ToHashSet<T>(IEnumerable<T> x) {
@@ -3016,10 +3049,9 @@ namespace BaseLibS.Num {
 
 		public static string[] UnpackArrayOfStrings(string values, int[] inds) {
 			string[] data = new string[inds.Length];
-		    if (string.IsNullOrEmpty(values))
-		    {
-		        return data;
-		    }
+			if (string.IsNullOrEmpty(values)) {
+				return data;
+			}
 			for (int i = 0; i < inds.Length - 1; i++) {
 				int len = inds[i + 1] - inds[i];
 				if (len > 0) {
