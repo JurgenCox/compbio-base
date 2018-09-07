@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using BaseLib.Forms;
 using BaseLibS.Param;
 
@@ -25,7 +26,7 @@ namespace BaseLib.Param {
 		}
 
 		public override object CreateControl() {
-			return control = new IsobaricLabelsParamControl();
+			return control = new IsobaricLabelsParamControl{Value = Value};
 		}
 	}
 }
