@@ -8,6 +8,10 @@ namespace BaseLibS.Num{
 
 		public static double TukeyBiweight(IList<double> x) {
 			int length = x.Count;
+			if (length == 0)
+			{
+				return double.NaN;
+			}
 			double median;
 			double[] buffer = new double[length];
 			double s;
