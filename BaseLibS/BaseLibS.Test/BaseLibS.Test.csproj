@@ -53,6 +53,7 @@
     <Compile Include="Data\NeighbourListTest.cs" />
     <Compile Include="Ms\SpectrumTest.cs" />
     <Compile Include="Num\ArrayUtilsTest.cs" />
+    <Compile Include="Num\TukeyBiweightCalcTest.cs" />
     <Compile Include="Parse\TabSepTest.cs" />
     <Compile Include="SerializationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
