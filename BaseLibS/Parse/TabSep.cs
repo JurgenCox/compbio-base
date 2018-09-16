@@ -192,8 +192,18 @@ namespace BaseLibS.Parse {
 			return HasColumn(columnName, filename, 0, separator);
 		}
 
+		public static bool HasColumnCaseInsensitive(string columnName, string filename, char separator,
+			out string matchColumnName) {
+			return HasColumnCaseInsensitive(columnName, filename, 0, separator, out matchColumnName);
+		}
+
 		public static bool HasColumn(string columnName, string filename, int nskip, char separator) {
 			return HasColumn(columnName, filename, nskip, null, null, separator);
+		}
+
+		public static bool HasColumnCaseInsensitive(string columnName, string filename, int nskip, char separator,
+			out string matchColumnName) {
+			return HasColumnCaseInsensitive(columnName, filename, nskip, null, null, separator, out matchColumnName);
 		}
 
 		public static bool HasColumn(string columnName, string filename, int nskip, HashSet<string> commentPrefix,
