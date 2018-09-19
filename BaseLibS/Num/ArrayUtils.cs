@@ -401,7 +401,10 @@ namespace BaseLibS.Num {
 				return w1 > w2 ? x[ind1] : x[ind2];
 			}
 			int a = -1 - ind;
-			return x[o[a - 1]];
+			if (a >= o.Length) {
+				a = o.Length - 1;
+			}
+			return x[o[a]];
 		}
 
 		public static double MedianLogspace(IList<double> x) {
