@@ -292,11 +292,13 @@ namespace BaseLib.Graphic
 
 		public void DrawImage(Bitmap2 image, float x, float y, float width, float height)
 		{
+			// TODO SvgNet implementation creates one rectangle for each pixel which is super slow for heatmap. Instead base64 encode png and embed as inkscape does.
 			_svgGraphics.DrawImage(GraphUtils.ToBitmap(image), x, y, width, height);
 		}
 
 		public void DrawImageUnscaled(Bitmap2 image, float x, float y)
 		{
+			// TODO SvgNet implementation creates one rectangle for each pixel which is super slow for heatmap. Instead base64 encode png and embed as inkscape does.
 			_svgGraphics.DrawImageUnscaled(GraphUtils.ToBitmap(image), (int) x, (int) y);
 		}
 
