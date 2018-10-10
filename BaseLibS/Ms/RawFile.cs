@@ -98,12 +98,21 @@ namespace BaseLibS.Ms{
 		public double Ms2MassMin => Math.Min(posLayer.Ms2MassMin, negLayer.Ms2MassMin);
 		public double Ms2MassMax => Math.Max(posLayer.Ms2MassMax, negLayer.Ms2MassMax);
 		public double MaxIntensity => Math.Max(posLayer.MaxIntensity, negLayer.MaxIntensity);
+
 		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
 			bool readCentroids, out double[] masses, out double[] intensities, double resolution, double mzMin, double mzMax);
-		protected internal abstract double[] Index2K0(int scanNumber, double[] imsInds);
+
 		protected internal void GetSpectrum(int scanNumber, bool readCentroids, out double[] masses, out double[] intensities){
 			GetSpectrum(scanNumber, scanNumber, 0, 0, readCentroids, out masses, out intensities, 0, double.NaN, double.NaN);
 		}
+
+		/// <summary>
+		/// 1/k0 is an alternative indexing for ion mobility.
+		/// The regular <code>imsInds</code> refer to the ion mobility bin which is not transferable between runs.
+		/// 1/k0 is howeber transferable between runs.
+		/// </summary>
+		protected internal abstract double[] Index2K0(int scanNumber, double[] imsInds);
+
 		/// <summary>
 		/// Default implementation does nothing more than to call PathIsValid, which examines three conditions:
 		/// (1) the path exists, (2) it is a file or folder as expected by IsFolderBased, and (3) it ends with
