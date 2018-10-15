@@ -90,7 +90,7 @@ namespace PluginRawMzMl
 		public override void Dispose()
 		{
 			base.Dispose();
-			_reader.Dispose();
+			_reader?.Dispose();
 		}
 
 		/// <summary>
