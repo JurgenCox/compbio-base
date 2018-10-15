@@ -75,6 +75,7 @@ namespace PluginRawMzMl
 			preInitialized = true;
 			_reader = File.OpenText(Path);
 			PreInitOffset();
+			_reader.DiscardBufferedData();
 			_reader.BaseStream.Seek(0, SeekOrigin.Begin);
 			using (var xml = XmlReader.Create(_reader))
 			{
@@ -124,6 +125,7 @@ namespace PluginRawMzMl
 		/// </summary>
 		private IndexListType ReadIndexList(long indexListOffset)
 		{
+			_reader.DiscardBufferedData();
 			_reader.BaseStream.Seek(indexListOffset, SeekOrigin.Begin);
 			using (var xml = MzmlXmlReader(_reader))
 			{
@@ -182,6 +184,7 @@ namespace PluginRawMzMl
 		private long FindIndexListOffsetSafe()
 		{
 			long indexListOffset;
+			_reader.DiscardBufferedData();
 			_reader.BaseStream.Seek(0, SeekOrigin.Begin);
 			using (var xml = XmlReader.Create(_reader))
 			{
@@ -246,11 +249,15 @@ namespace PluginRawMzMl
 
 		private SpectrumType DeserializeSpectrum(int scanNumber)
 		{
-			_reader.BaseStream.Seek(_offset[scanNumber].Value, SeekOrigin.Begin);
+			var offset = _offset[scanNumber];
+			_reader.DiscardBufferedData();
+			_reader.BaseStream.Seek(offset.Value, SeekOrigin.Begin);
 			using (var xml = MzmlXmlReader(_reader))
 			{
 				xml.Read();
-				return (SpectrumType)Xml.SpectrumSerializer.Deserialize(xml);
+				var spectrum = (SpectrumType)Xml.SpectrumSerializer.Deserialize(xml);
+				Debug.Assert(offset.idRef.Equals(spectrum.id));
+				return spectrum;
 			}
 		}
 

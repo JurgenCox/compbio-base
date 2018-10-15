@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Globalization;
 using System.IO;
 using NUnit.Framework;
 using PluginRawMzMl;
@@ -25,7 +26,7 @@ namespace PluginRawMzML.Test
 				var posLayer = raw.GetPosLayer();
 				for (int i = 0; i < raw.LastScanNumber; i++)
 				{
-					var spec = posLayer.GetMs1Spectrum(0, false);
+					var spec = posLayer.GetMs1Spectrum(i, false);
 				}
 			}
 		}
