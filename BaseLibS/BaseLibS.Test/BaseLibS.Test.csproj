@@ -60,6 +60,7 @@
     <Compile Include="ClusteringTest.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="Util\FileUtilsTest.cs" />
+    <Compile Include="Util\StreamBackwardReaderTest.cs" />
     <Compile Include="Util\StringUtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>

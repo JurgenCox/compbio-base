@@ -38,7 +38,6 @@ namespace BaseLibS.Ms{
 			posLayer = new RawFileLayer(this, true);
 			negLayer = new RawFileLayer(this, false);
 		}
-		protected abstract double MaximumIntensity { get; }
 		/// <summary>
 		/// In the implementations, several methods start with the block if (!preInitialized){ PreInit(); }, 
 		/// and this method normally ends with the statement preInitialized = true;
@@ -238,6 +237,7 @@ namespace BaseLibS.Ms{
 		private void InitFromRawFileImpl(){
 			InfoLists posInfoList = new InfoLists();
 			InfoLists negInfoList = new InfoLists();
+			var maximumIntensity = 0.0;
 			for (int scanNum = FirstScanNumber; scanNum <= LastScanNumber; scanNum++){
 				if (FirstScanNumber > LastScanNumber){
 					break;
@@ -251,9 +251,10 @@ namespace BaseLibS.Ms{
 				} else{
 					negInfoList.Add(scanInfo, scanNum);
 				}
+				maximumIntensity = Math.Max(maximumIntensity, scanInfo.basepeakIntensity);
 			}
-			posLayer.SetData(posInfoList, MaximumIntensity);
-			negLayer.SetData(negInfoList, MaximumIntensity);
+			posLayer.SetData(posInfoList, maximumIntensity);
+			negLayer.SetData(negInfoList, maximumIntensity);
 		}
 		/// <summary>
 		/// Write indexVersion, Application.ProductVersion, posLayer, negLayer, and (if NeedsGrid) gridInfo to IndexFilename.

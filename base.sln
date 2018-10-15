@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvgGraphicsTest", "SvgGraph
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzMl", "PluginRawMzMl\PluginRawMzMl.csproj", "{538EB9D0-0AE6-4C3E-B2DF-CEFFD7ED2553}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzML.Test", "PluginRawMzMl\PluginRawMzML.Test\PluginRawMzML.Test.csproj", "{9C356101-DE67-467D-AC23-FF877D634E25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,12 @@ Global
 		{538EB9D0-0AE6-4C3E-B2DF-CEFFD7ED2553}.Internal|Any CPU.Build.0 = Release|Any CPU
 		{538EB9D0-0AE6-4C3E-B2DF-CEFFD7ED2553}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{538EB9D0-0AE6-4C3E-B2DF-CEFFD7ED2553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C356101-DE67-467D-AC23-FF877D634E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C356101-DE67-467D-AC23-FF877D634E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C356101-DE67-467D-AC23-FF877D634E25}.Internal|Any CPU.ActiveCfg = Release|Any CPU
+		{9C356101-DE67-467D-AC23-FF877D634E25}.Internal|Any CPU.Build.0 = Release|Any CPU
+		{9C356101-DE67-467D-AC23-FF877D634E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C356101-DE67-467D-AC23-FF877D634E25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

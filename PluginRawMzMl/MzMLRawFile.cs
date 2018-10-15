@@ -3,95 +3,255 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Permissions;
-using System.Xml.Serialization;
+using System.Text.RegularExpressions;
+using System.Xml;
 using BaseLibS.Ms;
+using BaseLibS.Util;
 using zlib;
+using Exception = System.Exception;
 
 namespace PluginRawMzMl
 {
-    public class MzMLRawFile : RawFile
-    {
-	    private indexedmzML _indexedmzML;
-	    private SpectrumListType _spectrumList => _indexedmzML.mzML.run.spectrumList;
+	/// <summary>
+	/// Implementation of the indexed .mzml raw file format. Call <see cref="Dispose"/> when
+	/// not used anymore!
+	/// </summary>
+	/// <remarks>
+	/// The implementation relies on the automatically generated mzML1_1_1_idx.cs code
+	/// and tries to avoid manual xml parsing.
+	///
+	/// The aim of the implementation was to have a low memory footprint, therefore
+	/// not the entire mzml is parsed at once but rather only parts are parsed
+	/// and spectra are read from file on demand.
+	/// </remarks>
+	public class MzMLRawFile : RawFile
+	{
+		private OffsetType[] _offset;
+		private Dictionary<string, InstrumentConfigurationType> _instrumentConfigurations;
+		private string _defaultInstrumentConfigurationRef;
+		/// <summary>
+		/// Open reader to <see cref="RawFile.Path"/>.
+		/// Should not be closed manually!
+		/// </summary>
+		private StreamReader _reader;
 
-	    protected override double MaximumIntensity
-	    {
-		    get
-		    {
-			    if (!preInitialized)
-			    {
-				    PreInit();
-			    }
-			    var maximumIntensity = _indexedmzML.mzML.run.spectrumList.spectrum.Max(spectrum =>
-					Convert.ToDouble(spectrum.cvParam.SingleOrDefault(cvParam => cvParam.name.Equals("base peak intensity"))?.value ?? "NaN"));
-			    return maximumIntensity;
-		    }
-	    }
-	    protected override void PreInit()
-	    {
-		    using (var reader = new StreamReader(Path))
-		    {
-			    var serializer = new XmlSerializer(typeof(indexedmzML));
-			    _indexedmzML = serializer.Deserialize(reader) as indexedmzML;
-		    }
-		    preInitialized = true;
-	    }
-
-	    public override string Suffix => ".mzml";
-	    public override bool IsFolderBased => false;
-	    public override string Name => "MzML file";
-	    public override MsInstrument DefaultInstrument { get; }
-	    public override bool IsInstalled => true;
-	    public override bool NeedsGrid => false;
-	    public override bool HasIms => false;
-	    public override string InstallMessage => "No install necessary";
+		public override string Suffix => ".mzML";
+		public override bool IsFolderBased => false;
+		public override string Name => "mzML";
+		public override MsInstrument DefaultInstrument { get; }
+		public override bool IsInstalled => true;
+		public override bool NeedsGrid => false;
+		public override bool HasIms => false;
+		public override string InstallMessage => "No installation necessary";
 
 		/// <remarks>
 		///	There seems to be no 'scan number' in mzML.
 		/// Scan numbers are therefore assigned by indexing the <see cref="RunType.spectrumList"/>.
 		/// This only makes sense if there is only a single scan in <see cref="SpectrumType.scanList"/>.
 		/// </remarks>
-	    public override int FirstScanNumber => 0;
+		public override int FirstScanNumber => 0;
 
-	    public override int LastScanNumber
-	    {
-		    get
-		    {
-			    if (!preInitialized)
-			    {
-					PreInit();
-			    }
-			    return  Convert.ToInt32(_indexedmzML.mzML.run.spectrumList.count) - 1;
-		    }
-	    }
-
-	    protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax, bool readCentroids,
-		    out double[] masses, out double[] intensities, double resolution, double mzMin, double mzMax)
-	    {
-		    if (!preInitialized)
-		    {
-				PreInit();
-		    }
-			if (scanNumberMin >= Convert.ToInt32(_spectrumList.count))
+		public override int LastScanNumber
+		{
+			get
 			{
-				throw new ArgumentException($"{nameof(scanNumberMin)} cannot be larger than {nameof(_spectrumList.count)} of {_spectrumList.count}.");
+				if (!preInitialized)
+				{
+					PreInit();
+				}
+				return _offset.Length - 1;
 			}
-			var spectrum = _spectrumList.spectrum[scanNumberMin];
-		    var binary = spectrum.binaryDataArrayList.binaryDataArray;
-		    var binaryParameters = binary.Select(array => Parameters(array.cvParam, array.referenceableParamGroupRef)).ToList();
-		    masses = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
-		    try
-		    {
-			    intensities = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
-		    }
-		    catch (Exception e)
-		    {
+		}
+
+		/// <summary>
+		/// Pre-initialize the raw file. Should be called before accessing any fields, properties or methods.
+		/// 
+		/// 1. Look for <code>indexListOffset</code> tag
+		/// 2. Seek indexList
+		/// 3. Deserialize indexList
+		/// </summary>
+		protected override void PreInit()
+		{
+			preInitialized = true;
+			_reader = File.OpenText(Path);
+			PreInitOffset();
+			_reader.BaseStream.Seek(0, SeekOrigin.Begin);
+			using (var xml = XmlReader.Create(_reader))
+			{
+				// This might take longer than expected if <instrumentConfigurationList> is at the end of file rather than beginning.
+				xml.ReadToDescendant(Xml.InstrumentConfigurationListElementName);
+				var instrumentConfigurationList = (InstrumentConfigurationListType) Xml.InstrumentConfigurationListSerializer.Deserialize(xml);
+				_instrumentConfigurations = instrumentConfigurationList.instrumentConfiguration.ToDictionary(config => config.id, config => config);
+				xml.ReadToFollowing(Xml.RunElementName);
+				_defaultInstrumentConfigurationRef = xml.GetAttribute(Xml.DefaultInstrumentConfigurationRefAttributeName);
+			}
+		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+			_reader.Dispose();
+		}
+
+		/// <summary>
+		/// Initialize <see cref="_offset"/>.
+		/// </summary>
+		private void PreInitOffset()
+		{
+			IndexListType indexList;
+			// Try unsafe
+			var indexListOffset = FindIndexListOffsetUnsafe();
+			if (indexListOffset >= 0)
+			{
+				indexList = ReadIndexList(indexListOffset);
+			}
+			else // Fall back to safe
+			{
+				indexListOffset = FindIndexListOffsetSafe();
+				indexList = ReadIndexList(indexListOffset);
+			}
+
+			_offset = indexList.index?.SingleOrDefault(index => index.name == IndexTypeName.spectrum)?.offset;
+			if (_offset == null)
+			{
+				throw new Exception(
+					$"mzML rawfile {System.IO.Path.GetFileNameWithoutExtension(Path)} did not contain {nameof(IndexTypeName.spectrum)} index.");
+			}
+		}
+
+		/// <summary>
+		/// Seek the location of the indexList according to the offset and deserialize the list.
+		/// </summary>
+		private IndexListType ReadIndexList(long indexListOffset)
+		{
+			_reader.BaseStream.Seek(indexListOffset, SeekOrigin.Begin);
+			using (var xml = MzmlXmlReader(_reader))
+			{
+				xml.Read();
+				var indexList = (IndexListType)Xml.IndexListSerializer.Deserialize(xml);
+				return indexList;
+			}
+		}
+
+		/// <summary>
+		/// Create XmlReader suitable for reading from the middle of the file.
+		/// The mzml namespace is added manually.
+		/// </summary>
+		private XmlReader MzmlXmlReader(TextReader reader)
+		{
+			var settings = new XmlReaderSettings { NameTable = new NameTable() };
+			var xmlns = new XmlNamespaceManager(settings.NameTable);
+			xmlns.AddNamespace("", "http://psi.hupo.org/ms/mzml");
+			var context = new XmlParserContext(null, xmlns, "", XmlSpace.Default);
+			return XmlReader.Create(reader, settings, context);
+		}
+
+		/// <summary>
+		/// Find index list offset in an unsafe way by reading from the end of the file
+		/// and manually parsing the xml tags.
+		///
+		/// This is hopefully faster than <see cref="FindIndexListOffsetSafe"/>.
+		/// </summary>
+		private long FindIndexListOffsetUnsafe()
+		{
+			var target = new Regex(@"<indexListOffset>(?<indexListOffset>\d+)</indexListOffset>");
+			var wentTooFar = new Regex("</indexList>");
+			using (var reader = new StreamBackwardReader(Path))
+			{
+				foreach (var line in reader.ReadLines())
+				{
+					var match = target.Match(line);
+					if (match.Success)
+					{
+						return long.TryParse(match.Groups["indexListOffset"].Value, out long indexListOffset) ? indexListOffset : -1;
+					}
+					if (wentTooFar.IsMatch(line))
+					{
+						return -1;
+					}
+				}
+			}
+			return -1;
+		}
+
+		/// <summary>
+		/// Find index list offset in a safe manner using <see cref="XmlReader"/>.
+		///
+		/// This is hopefully safter than <see cref="FindIndexListOffsetUnsafe"/>.
+		/// </summary>
+		private long FindIndexListOffsetSafe()
+		{
+			long indexListOffset;
+			_reader.BaseStream.Seek(0, SeekOrigin.Begin);
+			using (var xml = XmlReader.Create(_reader))
+			{
+				var isIndexedMzML = xml.ReadToFollowing(Xml.IndexedmzMLElementName);
+				if (!isIndexedMzML)
+				{
+					throw new ArgumentException($"mzML without index not supported. Could not find 'indexedmzML' tag in {Path}.");
+				}
+
+				var hasOffset = xml.ReadToDescendant(Xml.IndexListOffsetElementName);
+				if (!hasOffset)
+				{
+					throw new ArgumentException($"Could not find indexListOffset tag required by indexed mzML standard in {Path}.");
+				}
+
+				var indexListReader = xml.ReadSubtree();
+				var maybeIndexList = (long?)Xml.IndexListOffsetSerializer.Deserialize(indexListReader);
+				if (!maybeIndexList.HasValue)
+				{
+					throw new ArgumentException($"Could not parse indexListOffset required by indexed mzML standard in {Path}.");
+				}
+
+				indexListOffset = maybeIndexList.Value;
+			}
+
+			return indexListOffset;
+		}
+
+
+		protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax, bool readCentroids,
+			out double[] masses, out double[] intensities, double resolution, double mzMin, double mzMax)
+		{
+			if (!preInitialized)
+			{
+				PreInit();
+			}
+			if (scanNumberMin != scanNumberMax)
+			{
+				throw new ArgumentException("No idea what to do for a range of scan numbers.");
+			}
+			var scanNumber = scanNumberMin;
+			var spectrum = DeserializeSpectrum(scanNumber);
+			if (int.TryParse(spectrum.scanList?.count, out var scanListCount) && scanListCount > 1)
+			{
+				throw new ArgumentException($"Unsupported mzml feature: Found more than one {nameof(ScanListType)} in {nameof(SpectrumType)} {spectrum.id}.");	
+			}
+			var binary = spectrum.binaryDataArrayList.binaryDataArray;
+			var binaryParameters = binary.Select(Parameters).ToList();
+			masses = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
+			try
+			{
+				intensities = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
+			}
+			catch (Exception e)
+			{
 				// TODO Errors seem to be associated mainly with short int arrays which can't be decompressed...
 				Console.WriteLine($"Failed to read intensities for {spectrum.id}:{spectrum.index}:{e.Message}");
 				Debug.WriteLine($"Failed to read intensities for {spectrum.id}:{spectrum.index}:{e.Message}");
 				intensities = new double[masses.Length];
-		    }
+			}
+		}
+
+		private SpectrumType DeserializeSpectrum(int scanNumber)
+		{
+			_reader.BaseStream.Seek(_offset[scanNumber].Value, SeekOrigin.Begin);
+			using (var xml = MzmlXmlReader(_reader))
+			{
+				xml.Read();
+				return (SpectrumType)Xml.SpectrumSerializer.Deserialize(xml);
+			}
 		}
 
 		private static bool TryGetNumpressCompressionType(Dictionary<string, string> parameters, out string compressionType)
@@ -172,33 +332,33 @@ namespace PluginRawMzMl
 		    return values;
 	    }
 
-	    // TODO what does this do? seems to return null for many raw files.
-	    protected override double[] Index2K0(int scanNumber, double[] imsInds)
-	    {
-		    return null;
-	    }
+		protected override double[] Index2K0(int scanNumber, double[] imsInds)
+		{
+			// ion-mobility only...
+			return null;
+		}
 
-	    protected override ScanInfo GetInfoForScanNumber(int scanNumber)
-	    {
+		protected override ScanInfo GetInfoForScanNumber(int scanNumber)
+		{
 		    if (!preInitialized)
 		    {
 				PreInit();
 		    }
-		    if (scanNumber >= Convert.ToInt32(_spectrumList.count))
+		    if (scanNumber >= Convert.ToInt32(_offset.Length))
 		    {
 				throw new ArgumentException();
 		    }
-		    var spectrum = _spectrumList.spectrum[scanNumber];
-		    var parameters = Parameters(spectrum.cvParam, spectrum.referenceableParamGroupRef);
+			var spectrum = DeserializeSpectrum(scanNumber);
+		    var parameters = Parameters(spectrum);
 		    var msLevel = MsLevel(parameters, scanNumber);
 		    var scanList = spectrum.scanList;
-		    var scanListParameters = Parameters(scanList.cvParam, scanList.referenceableParamGroupRef);
+		    var scanListParameters = Parameters(scanList);
 		    if (!scanListParameters.ContainsKey(CV.NO_COMBINATION))
 		    {
 			    throw new NotImplementedException($"{nameof(spectrum.scanList)} should have 'no combination' parameter");
 		    }
 		    var scan = spectrum.scanList.scan.Single();
-		    var scanParameters = Parameters(scan.cvParam, scan.referenceableParamGroupRef);
+			var scanParameters = Parameters(scan);
 		    var analyzer = MassAnalyzer(scanNumber, scan);
 		    var scanInfo = new ScanInfo
 			{
@@ -224,7 +384,7 @@ namespace PluginRawMzMl
 		    if (spectrum.precursorList != null)
 		    {
 			    var precursor = spectrum.precursorList.precursor.Single();
-			    var activationParameters = Parameters(precursor.activation.cvParam, precursor.activation.referenceableParamGroupRef);
+			    var activationParameters = Parameters(precursor.activation);
 			    scanInfo.energy = GetParameterOrNaN(CV.COLLISION_ENERGY, activationParameters);
 			    FragmentationTypeEnum fragmentationType;
 			    if (activationParameters.ContainsKey(CV.COLLISION_INDUCED_DISSOCIATION))
@@ -240,14 +400,14 @@ namespace PluginRawMzMl
 					throw new ArgumentException($"Could not identify fragmentation type for spectrum {scanNumber}.");
 			    }
 			    scanInfo.ms2FragType = fragmentationType;
-			    var isolationWindowParameters = Parameters(precursor.isolationWindow.cvParam, precursor.isolationWindow.referenceableParamGroupRef);
+			    var isolationWindowParameters = Parameters(precursor.isolationWindow);
 			    scanInfo.ms2MonoMz = double.NaN; // TODO taken from internal SciexWiffRawFile implementation
 			    scanInfo.ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
 			    scanInfo.ms2IsolationMin = scanInfo.ms2ParentMz - Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]);
 			    scanInfo.ms2IsolationMin = scanInfo.ms2ParentMz + Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]);
 		    }
 		    return scanInfo;
-	    }
+		}
 
 	    private static double GetParameterOrNaN(string name, Dictionary<string, string> parameters)
 	    {
@@ -265,13 +425,10 @@ namespace PluginRawMzMl
 		/// </summary>
 	    private MassAnalyzerEnum MassAnalyzer(int scanNumber, ScanType scan)
 	    {
-		    var instrumentConfigurationRef =
-			    scan.instrumentConfigurationRef ?? _indexedmzML.mzML.run.defaultInstrumentConfigurationRef;
-		    var instrumentConfiguration =
-			    _indexedmzML.mzML.instrumentConfigurationList.instrumentConfiguration.Single(conf =>
-				    conf.id.Equals(instrumentConfigurationRef));
+		    var instrumentConfigurationRef = scan.instrumentConfigurationRef ?? _defaultInstrumentConfigurationRef;
+		    var instrumentConfiguration = _instrumentConfigurations[instrumentConfigurationRef];
 		    var analyzerComponent = instrumentConfiguration.componentList.analyzer.Last();
-		    var analyzerParameters = Parameters(analyzerComponent.cvParam, analyzerComponent.referenceableParamGroupRef);
+		    var analyzerParameters = Parameters(analyzerComponent);
 		    MassAnalyzerEnum analyzer;
 			if (analyzerParameters.ContainsKey(CV.FOURIER_TRANSFORM_ION_CYCLOTRON_RESONANCE_MASS_SPECTROMETER))
 		    {
@@ -318,15 +475,16 @@ namespace PluginRawMzMl
 	    }
 
 	    /// <summary>
-		/// Create (name, value) dictionary from local <see cref="CVParamType"/> and global <see cref="ReferenceableParamGroupRefType"/>,
-		/// which are resolved automatically.
+		/// Create (name, value) dictionary from local <see cref="CVParamType"/>.
+		/// Global <see cref="ReferenceableParamGroupRefType"/> references are not resolved and an exception is thrown.
 		/// </summary>
-	    Dictionary<string, string> Parameters(CVParamType[] parameters, ReferenceableParamGroupRefType[] parameterReferences)
+	    Dictionary<string, string> Parameters(ParamGroupType paramGroup)
 		{
-		    var commonParameters = parameterReferences?.SelectMany(reftype =>
-			    _indexedmzML.mzML.referenceableParamGroupList.referenceableParamGroup.Single(x => x.id.Equals(reftype.@ref)).cvParam)
-			    ?? new CVParamType[0];
-		    return parameters.Concat(commonParameters).ToDictionary(param => param.accession, param => param.value);
-	    }
-    }
+			if ((paramGroup.referenceableParamGroupRef?.Length ?? 0) > 0)
+			{
+				throw new ArgumentException($"mzml feature {nameof(paramGroup.referenceableParamGroupRef)} is not supported by this software.");
+			}
+			return paramGroup.cvParam.ToDictionary(param => param.accession, param => param.value);
+		}
+	}
 }
