@@ -223,7 +223,7 @@ namespace PluginRawMzMl
 			}
 			if (scanNumberMin != scanNumberMax)
 			{
-				throw new ArgumentException("No idea what to do for a range of scan numbers.");
+				throw new NotImplementedException("TODO: No idea what to do for a range of scan numbers.");
 			}
 			var scanNumber = scanNumberMin;
 			var spectrum = DeserializeSpectrum(scanNumber);
@@ -234,17 +234,7 @@ namespace PluginRawMzMl
 			var binary = spectrum.binaryDataArrayList.binaryDataArray;
 			var binaryParameters = binary.Select(Parameters).ToList();
 			masses = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
-			try
-			{
-				intensities = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
-			}
-			catch (Exception e)
-			{
-				// TODO Errors seem to be associated mainly with short int arrays which can't be decompressed...
-				Console.WriteLine($"Failed to read intensities for {spectrum.id}:{spectrum.index}:{e.Message}");
-				Debug.WriteLine($"Failed to read intensities for {spectrum.id}:{spectrum.index}:{e.Message}");
-				intensities = new double[masses.Length];
-			}
+			intensities = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 		}
 
 		private SpectrumType DeserializeSpectrum(int scanNumber)
@@ -261,6 +251,9 @@ namespace PluginRawMzMl
 			}
 		}
 
+		/// <summary>
+		/// Check if the parameter dictionary contains at least on CV term associated with ms-numpress <see cref="CV.NUMPRESS_ALL"/>.
+		/// </summary>
 		private static bool TryGetNumpressCompressionType(Dictionary<string, string> parameters, out string compressionType)
 		{
 			compressionType = CV.NUMPRESS_ALL.SingleOrDefault(parameters.ContainsKey);
@@ -298,6 +291,9 @@ namespace PluginRawMzMl
 			throw new Exception($"Could not identify compression type of {name}.");
 		}
 
+		/// <summary>
+		/// Decompress the binary array using zlib.
+		/// </summary>
 	    private static byte[] DecompressZlib(byte[] binaryArray)
 	    {
 		    byte[] deflated;
@@ -320,6 +316,10 @@ namespace PluginRawMzMl
 		    return deflated;
 	    }
 
+		/// <summary>
+		/// Convert the uncompressed byte array into an array of doubles according to the data type
+		/// specified in the parameters, e.g. <see cref="CV.FLOAT_64_BIT"/>.
+		/// </summary>
 	    private static double[] FromUncompressedByteArray(Dictionary<string, string> mzParameters, byte[] binaryArray)
 	    {
 		    int bytesUsed;
@@ -418,14 +418,17 @@ namespace PluginRawMzMl
 		    }
 		    return scanInfo;
 		}
-
+		
+		/// <summary>
+		/// Get parameter by name and try to parse it as double. Otherwise return NaN.
+		/// </summary>
 	    private static double GetParameterOrNaN(string name, Dictionary<string, string> parameters)
 	    {
-		    if (!parameters.TryGetValue(name, out var lowestMz))
+		    if (!parameters.TryGetValue(name, out var value))
 		    {
-			    lowestMz = "NaN";
+			    value = "NaN";
 		    }
-		    return Convert.ToDouble(lowestMz);
+		    return Convert.ToDouble(value);
 	    }
 
 	    /// <summary>

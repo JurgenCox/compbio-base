@@ -28,8 +28,11 @@ namespace PluginRawMzML.Test
 				for (int i = 0; i < raw.LastScanNumber; i++)
 				{
 					var spec = posLayer.GetMs1Spectrum(i, false);
-					var ms2spec = posLayer.GetMs2Spectrum(i, false);
 					var ints = spec.Intensities;
+					if (i < posLayer.Ms2Count)
+					{
+						var ms2spec = posLayer.GetMs2Spectrum(i, false);
+					}
 				}
 			}
 		}
