@@ -267,6 +267,9 @@ namespace PluginRawMzMl
 			return !string.IsNullOrEmpty(compressionType);
 		}
 
+		/// <summary>
+		/// Decompress binary array with the given name using the appropriate compression algorithm.
+		/// </summary>
 		private static double[] FromBinaryArray(string name, BinaryDataArrayType[] binary, List<Dictionary<string, string>> binaryParameters)
 	    {
 		    var index = binaryParameters.FindIndex(parameters => parameters.ContainsKey(name));
