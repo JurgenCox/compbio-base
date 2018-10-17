@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using BaseLibS.Ms;
+using BaseLibS.Num;
 using BaseLibS.Util;
 using zlib;
 using Exception = System.Exception;
@@ -229,13 +230,15 @@ namespace PluginRawMzMl
 			var spectrum = DeserializeSpectrum(scanNumber);
 			if (int.TryParse(spectrum.scanList?.count, out var scanListCount) && scanListCount > 1)
 			{
-				throw new ArgumentException($"Unsupported mzml feature: Found more than one {nameof(ScanListType)} in {nameof(SpectrumType)} {spectrum.id}.");	
+				throw new ArgumentException(
+					$"Unsupported mzml feature: Found more than one {nameof(ScanListType)} in {nameof(SpectrumType)} {spectrum.id}.");
 			}
 			var binary = spectrum.binaryDataArrayList.binaryDataArray;
 			var binaryParameters = binary.Select(Parameters).ToList();
 			masses = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
 			intensities = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 		}
+
 
 		private SpectrumType DeserializeSpectrum(int scanNumber)
 		{
@@ -391,6 +394,15 @@ namespace PluginRawMzMl
 				rawOvFtT = double.NaN,
 				rt = Convert.ToDouble(scanParameters[CV.SCAN_START_TIME]),
 			};
+			if (double.IsNaN(scanInfo.min) || double.IsNaN(scanInfo.max))
+			{
+				var binary = spectrum.binaryDataArrayList.binaryDataArray;
+				var binaryParameters = binary.Select(Parameters).ToList();
+				var masses = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
+				ArrayUtils.MinMax(masses, out var min, out var max);
+				scanInfo.min = min;
+				scanInfo.max = max;
+			}
 		    if (spectrum.precursorList != null)
 		    {
 			    var precursor = spectrum.precursorList.precursor.Single();
