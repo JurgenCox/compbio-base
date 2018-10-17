@@ -36,15 +36,15 @@ namespace BaseLibS.Mol{
 			return names[0];
 		}
 
-		public TaxonomyItem GetParentOfRank(TaxonomyRank rank1){
+		public TaxonomyItem GetParentOfRank(TaxonomyItems taxonomyItems, TaxonomyRank rank1){
 			if (rank1 == Rank){
 				return this;
 			}
-			if (!TaxonomyItems.taxId2Item.ContainsKey(parentTaxId)){
+			if (!taxonomyItems.taxId2Item.ContainsKey(parentTaxId)){
 				return null;
 			}
-			TaxonomyItem parent = TaxonomyItems.taxId2Item[parentTaxId];
-			return parent.GetParentOfRank(rank1);
+			TaxonomyItem parent = taxonomyItems.taxId2Item[parentTaxId];
+			return parent.GetParentOfRank(taxonomyItems, rank1);
 		}
 	}
 }

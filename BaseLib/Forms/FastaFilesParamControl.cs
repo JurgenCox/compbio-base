@@ -24,7 +24,13 @@ namespace BaseLib.Forms {
 		private Button variationRuleButton;
 		private Button modificationRuleButton;
 
-		public FastaFilesParamControl(bool hasVariationData, bool hasModifications) {
+		private readonly Func<TaxonomyItems> _getTaxonomyItems;
+		private TaxonomyItems TaxonomyItems => _getTaxonomyItems();
+
+
+		public FastaFilesParamControl(bool hasVariationData, bool hasModifications, Func<TaxonomyItems> getTaxonomyItems)
+		{
+			_getTaxonomyItems = getTaxonomyItems;
 			this.hasVariationData = hasVariationData;
 			this.hasModifications = hasModifications;
 			InitializeComponent();
@@ -315,7 +321,7 @@ namespace BaseLib.Forms {
 				MessageBox.Show(Loc.PleaseSelectSomeRows);
 				return;
 			}
-			EditTaxonomyForm f = new EditTaxonomyForm();
+			EditTaxonomyForm f = new EditTaxonomyForm(_getTaxonomyItems);
 			f.ShowDialog();
 			if (f.DialogResult == DialogResult.OK) {
 				int colInd = table.GetColumnIndex("Taxonomy ID");
