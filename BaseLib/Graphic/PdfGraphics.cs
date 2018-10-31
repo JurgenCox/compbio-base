@@ -336,7 +336,7 @@ namespace BaseLib.Graphic {
 					template.SetLineDash(0f);
 					break;
 				case DashStyle2.Dash:
-					template.SetLineDash(pen.DashPattern, pen.DashOffset);
+					template.SetLineDash(2.0f, pen.DashOffset);
 					break;
 				case DashStyle2.Custom:
 					template.SetLineDash(pen.DashPattern, pen.DashOffset);
