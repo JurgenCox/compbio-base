@@ -45,6 +45,7 @@
     <Compile Include="Classification\FisherLdaClassificationModel.cs" />
     <Compile Include="Classification\KnnClassification.cs" />
     <Compile Include="Classification\KnnClassificationModel.cs" />
+    <Compile Include="Distance\AbstractDistance.cs" />
     <Compile Include="Distance\CanberraDistance.cs" />
     <Compile Include="Distance\CosineDistance.cs" />
     <Compile Include="Distance\GenericDistanceMatrix.cs" />
