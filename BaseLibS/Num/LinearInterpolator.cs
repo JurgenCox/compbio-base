@@ -87,12 +87,30 @@ namespace BaseLibS.Num{
 				dydx = 0;
 				return yvals[0];
 			}
-			if (x <= xvals[0]){
-				return Interpolate(xvals[0], xvals[1], yvals[0], yvals[1], x, out dydx);
+
+			int i;
+			if (x <= xvals[0])
+			{
+				for (i = 1; i < xvals.Length; i++)
+				{
+					if (xvals[i] != xvals[0])
+					{
+						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x, out dydx);						
+					}
+				} 
+				throw new Exception("Values are the same");
 			}
 			if (x >= xvals[xvals.Length - 1]){
-				return Interpolate(xvals[xvals.Length - 2], xvals[xvals.Length - 1], yvals[xvals.Length - 2],
-					yvals[xvals.Length - 1], x, out dydx);
+				for (i = xvals.Length - 2; i >= 0 ; i--)
+				{
+					if (xvals[i] != xvals[xvals.Length - 1])
+					{
+						return Interpolate(xvals[i], xvals[xvals.Length - 1], 
+							               yvals[i], yvals[xvals.Length - 1], 
+							               x, out dydx);					
+					}
+				} 
+				throw new Exception("Values are the same");
 			}
 			int a = Array.BinarySearch(xvals, x);
 			if (a >= 0){
@@ -112,12 +130,29 @@ namespace BaseLibS.Num{
 			if (xvals.Length == 1){
 				return yvals[0];
 			}
-			if (x <= xvals[0]){
-				return Interpolate(xvals[0], xvals[1], yvals[0], yvals[1], x);
+			int i;
+			if (x <= xvals[0])
+			{
+				for (i = 1; i < xvals.Length; i++)
+				{
+					if (xvals[i] != xvals[0])
+					{
+						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x);						
+					}
+				} 
+				throw new Exception("Values are the same");
 			}
 			if (x >= xvals[xvals.Length - 1]){
-				return Interpolate(xvals[xvals.Length - 2], xvals[xvals.Length - 1], yvals[xvals.Length - 2],
-					yvals[xvals.Length - 1], x);
+				for (i = xvals.Length - 2; i >= 0 ; i--)
+				{
+					if (xvals[i] != xvals[xvals.Length - 1])
+					{
+						return Interpolate(xvals[i], xvals[xvals.Length - 1], 
+							yvals[i], yvals[xvals.Length - 1], 
+							x);					
+					}
+				} 
+				throw new Exception("Values are the same");
 			}
 			int a = Array.BinarySearch(xvals, x);
 			return a >= 0 ? yvals[a] : Interpolate(xvals[-2 - a], xvals[-1 - a], yvals[-2 - a], yvals[-1 - a], x);
@@ -139,17 +174,36 @@ namespace BaseLibS.Num{
 				dyda[0] = 1;
 				return yvals[0];
 			}
-			if (x <= xvals[0]){
-				dyda[0] = Dy1(xvals[0], xvals[1], x);
-				dyda[1] = Dy2(xvals[0], xvals[1], x);
-				return Interpolate(xvals[0], xvals[1], yvals[0], yvals[1], x);
+			int i;
+			if (x <= xvals[0])
+			{
+				for (i = 1; i < xvals.Length; i++)
+				{
+					if (xvals[i] != xvals[0])
+					{
+						dyda[0] = Dy1(xvals[0], xvals[i], x);
+						dyda[i] = Dy2(xvals[0], xvals[i], x);
+						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x);					
+					}
+				} 
+				throw new Exception("Values are the same");
 			}
 			if (x >= xvals[xvals.Length - 1]){
-				dyda[xvals.Length - 2] = Dy1(xvals[xvals.Length - 2], xvals[xvals.Length - 1], x);
-				dyda[xvals.Length - 1] = Dy2(xvals[xvals.Length - 2], xvals[xvals.Length - 1], x);
-				return Interpolate(xvals[xvals.Length - 2], xvals[xvals.Length - 1], yvals[xvals.Length - 2],
-					yvals[xvals.Length - 1], x);
+				for (i = xvals.Length - 2; i >= 0 ; i--)
+				{
+					if (xvals[i] != xvals[xvals.Length - 1])
+					{
+						dyda[i] = Dy1(i, xvals[xvals.Length - 1], x);
+						dyda[xvals.Length - 1] = Dy2(xvals[i], xvals[xvals.Length - 1], x);
+						
+						return Interpolate(xvals[i], xvals[xvals.Length - 1], 
+							yvals[i], yvals[xvals.Length - 1], 
+							x);					
+					}
+				} 
+				throw new Exception("Values are the same");
 			}
+			
 			int a = Array.BinarySearch(xvals, x);
 			if (a >= 0){
 				dyda[a] = 1;
