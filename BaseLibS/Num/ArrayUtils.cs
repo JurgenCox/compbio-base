@@ -137,6 +137,25 @@ namespace BaseLibS.Num {
 		/// </summary>
 		/// <param name="x">The input array. It may contain NaN and infinity values.</param>
 		/// <returns>The maximum.</returns>
+		public static double Max(IList<double[]> x) {
+			if (x == null || x.Count == 0) {
+				return double.NaN;
+			}
+			double max = double.MinValue;
+			foreach (double[] val1 in x) {
+				double val = Max(val1);
+				if (val > max) {
+					max = val;
+				}
+			}
+			return max;
+		}
+
+		/// <summary>
+		///     Determines the biggest number in the input array.
+		/// </summary>
+		/// <param name="x">The input array. It may contain NaN and infinity values.</param>
+		/// <returns>The maximum.</returns>
 		public static double Max(IList<double> x) {
 			if (x == null || x.Count == 0) {
 				return double.NaN;
@@ -2997,6 +3016,22 @@ namespace BaseLibS.Num {
 			return true;
 		}
 
+		public static bool[] Or(IList<bool> x, IList<bool> y) {
+			bool[] result = new bool[x.Count];
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = x[i] || y[i];
+			}
+			return result;
+		}
+
+		public static bool[] And(IList<bool> x, IList<bool> y) {
+			bool[] result = new bool[x.Count];
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = x[i] && y[i];
+			}
+			return result;
+		}
+
 		public static void PackArrayOfArrays<T>(T[][] data, out T[] value, out int[] ind) {
 			List<T> values = new List<T>();
 			List<int> inds = new List<int>();
@@ -3072,6 +3107,14 @@ namespace BaseLibS.Num {
 				}
 			}
 			return data;
+		}
+
+		public static Dictionary<T1, T2> CopyDict<T1, T2>(Dictionary<T1, T2> x) {
+			Dictionary<T1, T2> result = new Dictionary<T1, T2>();
+			foreach (KeyValuePair<T1, T2> pair in x) {
+				result.Add(pair.Key, pair.Value);
+			}
+			return result;
 		}
 	}
 }
