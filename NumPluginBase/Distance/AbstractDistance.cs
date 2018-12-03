@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 
 namespace NumPluginBase.Distance {
+	[Serializable]
 	public abstract class AbstractDistance : IDistance {
 		public abstract object Clone();
 		public abstract string Name { get; }
