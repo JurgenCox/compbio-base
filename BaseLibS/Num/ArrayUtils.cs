@@ -1210,11 +1210,8 @@ namespace BaseLibS.Num {
 				return null;
 			}
 			int[] order = ConsecutiveInts(x.Count);
-			const int low = 0;
-			int high = order.Length - 1;
-			int[] dummy = new int[order.Length];
-			Array.Copy(order, dummy, order.Length);
-			SortImpl(x, order, dummy, low, high);
+			T[] dummy = x.ToArray();
+			Array.Sort(dummy, order);
 			return order;
 		}
 
@@ -1293,7 +1290,7 @@ namespace BaseLibS.Num {
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
-		private static void SortImpl<T>(IList<T> data, int[] orderDest, int[] orderSrc, int low, int high)
+		public static void SortImpl<T>(IList<T> data, int[] orderDest, int[] orderSrc, int low, int high)
 			where T : IComparable<T> {
 			if (low >= high) {
 				return;
