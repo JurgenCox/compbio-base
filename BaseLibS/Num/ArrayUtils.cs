@@ -2151,11 +2151,20 @@ namespace BaseLibS.Num {
 			return sorted;
 		}
 
-		public static double Sum(IList<double> x) {
+		public static double Sum(IList<double> x){
 			int n = x.Count;
 			double sum = 0;
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++){
 				sum += x[i];
+			}
+			return sum;
+		}
+
+		public static double Sum(IList<double[]> x){
+			int n = x.Count;
+			double sum = 0;
+			for (int i = 0; i < n; i++){
+				sum += Sum(x[i]);
 			}
 			return sum;
 		}
