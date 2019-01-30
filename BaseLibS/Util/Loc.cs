@@ -194,7 +194,7 @@ namespace BaseLibS.Util {
 					case polish: return "&Plik";
 					case portuguese: return "&Arquivo";
 					case romanian: return "&Fişier";
-					case russian: return "&файл";
+					case russian: return "&Файл";
 					case spanish: return "&Archivo";
 					case swedish: return "&Fil";
 					case tamil: return "&கோப்பு";
@@ -230,7 +230,7 @@ namespace BaseLibS.Util {
 					case polish: return "Odnaleźć";
 					case portuguese: return "Encontrar";
 					case romanian: return "Găsi";
-					case russian: return "найти";
+					case russian: return "Найти";
 					case spanish: return "Encontrar";
 					case swedish: return "Hitta";
 					case tamil: return "கண்டுபிடிக்க";
@@ -292,7 +292,7 @@ namespace BaseLibS.Util {
 			get {
 				switch (TwoLettName) {
 					case arabic: return "مساعدة&";
-					case bulgarian: return "&Помогне";
+					case bulgarian: return "&Помощь";
 					case chinese: return "&帮帮我";
 					case czech: return "&Pomoc";
 					case danish: return "&Hjælp";
@@ -350,7 +350,7 @@ namespace BaseLibS.Util {
 					case polish: return "pozycja";
 					case portuguese: return "item";
 					case romanian: return "articol";
-					case russian: return "пункт";
+					case russian: return "элемент";
 					case spanish: return "ít";
 					case swedish: return "Artikel";
 					case tamil: return "உருப்படியை";
@@ -386,7 +386,7 @@ namespace BaseLibS.Util {
 					case polish: return "przedmiotów";
 					case portuguese: return "Unid";
 					case romanian: return "articole";
-					case russian: return "Предметы";
+					case russian: return "элем."; // Different values have different plural forms
 					case spanish: return "artículos";
 					case swedish: return "objekt";
 					case tamil: return "பொருட்களை";
@@ -615,7 +615,7 @@ namespace BaseLibS.Util {
 					case polish: return "Zapisz";
 					case portuguese: return "Salvar";
 					case romanian: return "Salvează";
-					case russian: return "сохранить";
+					case russian: return "Сохранить";
 					case spanish: return "guardar";
 					case swedish: return "Spara";
 					case tamil: return "காப்பாற்ற";
@@ -651,7 +651,7 @@ namespace BaseLibS.Util {
 					case polish: return "Zapisz jako";
 					case portuguese: return "Salvar como";
 					case romanian: return "Salvează ca";
-					case russian: return "сохранить как";
+					case russian: return "Сохранить как";
 					case spanish: return "guardar como";
 					case swedish: return "Spara som";
 					case tamil: return "சேமி";
@@ -795,7 +795,7 @@ namespace BaseLibS.Util {
 					case polish: return "Początek";
 					case portuguese: return "Começar";
 					case romanian: return "Start";
-					case russian: return "Начало";
+					case russian: return "Начать";
 					case spanish: return "Comienzo";
 					case swedish: return "Start";
 					case tamil: return "தொடக்கம்";
@@ -867,7 +867,7 @@ namespace BaseLibS.Util {
 					case polish: return "&Przybory";
 					case portuguese: return "&Ferramentas";
 					case romanian: return "&Unelte";
-					case russian: return "&инструменты";
+					case russian: return "&Инструменты";
 					case spanish: return "&Herramientas";
 					case swedish: return "&Verktyg";
 					case tamil: return "&கருவிகள்";
