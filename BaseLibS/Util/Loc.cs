@@ -90,7 +90,7 @@ namespace BaseLibS.Util {
 					case spanish: return "Cancelar";
 					case swedish: return "Annullera";
 					case tamil: return "ரத்து";
-					case turkish: return "İptal etmek";
+					case turkish: return "İptal";
 					default: return "Cancel";
 				}
 			}
@@ -118,7 +118,7 @@ namespace BaseLibS.Util {
 					case latvian: return "Vai tiešām vēlaties iziet?";
 					case lithuanian: return "Ar tikrai norite išeiti?";
 					case norwegian: return "Vil du virkelig avslutte?";
-					case persian: return "آیا واقعا می خواهید خروج کنید؟";
+					case persian: return "آیا واقعا می خواهید خارج شوید؟";
 					case polish: return "Czy naprawdę chcesz wyjść?";
 					case portuguese: return "Você realmente quer sair?";
 					case romanian: return "Chiar vrei să ieși?";
@@ -126,13 +126,52 @@ namespace BaseLibS.Util {
 					case spanish: return "¿Realmente quieres salir?";
 					case swedish: return "Vill du verkligen avsluta?";
 					case tamil: return "நீங்கள் உண்மையில் வெளியேற விரும்புகிறீர்களா?";
-					case turkish: return "Gerçekten çıkmak istiyor musun?";
+					case turkish: return "Gerçekten çıkmak istiyor musunuz?";
 					default: return "Do you really want to exit?";
 				}
 			}
 		}
 
-		public static string Exit {
+	    public static string DoYouReallyWantToExitPerseus
+	    {
+	        get
+	        {
+	            switch (TwoLettName)
+	            {
+	                case arabic: return "هل ترغب في حفظ أي تغييرات قبل الخروج؟";
+	                case bulgarian: return "Искате ли да запазите всички промени, преди да излезете?";
+	                case chinese: return "您想在退出之前保存所有更改吗？";
+	                case czech: return "Chcete uložit změny předtím, než opustíte?";
+	                case danish: return "Vil du gerne gemme nogen ændringer, før du afslutter?";
+	                case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u afsluit?";
+	                case estonian: return "Kas soovite enne väljumist salvestada kõik muudatused?";
+	                case finnish: return "Haluatko tallentaa muutokset ennen poistumista?";
+	                case french: return "Voulez-vous enregistrer les modifications avant de quitter?";
+	                case german: return "Möchten Sie Änderungen speichern, bevor Sie den Vorgang beenden?";
+	                case greek: return "Θέλετε να αποθηκεύσετε τις αλλαγές πριν από την έξοδο;";
+	                case hebrew: return "האם ברצונך לשמור שינויים לפני היציאה?";
+	                case hindi: return "बाहर निकलने से पहले क्या आप कोई बदलाव सहेजना चाहेंगे?";
+	                case italian: return "Vuoi salvare eventuali modifiche prima di uscire?";
+	                case japanese: return "終了する前に変更を保存しますか？";
+	                case korean: return "종료하기 전에 변경 사항을 저장 하시겠습니까?";
+	                case latvian: return "Vai vēlaties izmainīt izmaiņas pirms iziešanas?";
+	                case lithuanian: return "Ar norite ištrinti bet kokius pakeitimus prieš išvykdami?";
+	                case norwegian: return "Vil du lagre eventuelle endringer før du avslutter?";
+	                case persian: return "آیا می خواهید قبل از خروج تغییرات خود را ذخیره کنید؟";
+	                case polish: return "Czy chcesz zapisać jakieś zmiany przed wyjściem?";
+	                case portuguese: return "Você gostaria de salvar as alterações antes de sair?";
+	                case romanian: return "Doriți să salvați toate modificările înainte de a ieși?";
+	                case russian: return "Хотите сохранить какие-либо изменения перед выходом?";
+	                case spanish: return "¿Te gustaría guardar algún cambio antes de salir?";
+	                case swedish: return "Vill du spara några ändringar innan du avslutar?";
+	                case tamil: return "நீங்கள் வெளியேறும் முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
+	                case turkish: return "Çıkmadan önce değişikliklerini kaydetmek ister misiniz?";
+	                default: return "Would you like to save any changes before you exit?";
+	            }
+	        }
+	    }
+
+        public static string Exit {
 			get {
 				switch (TwoLettName) {
 					case arabic: return "ىخرج&";
@@ -162,7 +201,7 @@ namespace BaseLibS.Util {
 					case spanish: return "&Salida";
 					case swedish: return "&Utgång";
 					case tamil: return "&வெளியேறு";
-					case turkish: return "&çıkış";
+					case turkish: return "&Çıkış";
 					default: return "&Exit";
 				}
 			}
@@ -226,7 +265,7 @@ namespace BaseLibS.Util {
 					case latvian: return "Atrast";
 					case lithuanian: return "Rasti";
 					case norwegian: return "Finne";
-					case persian: return "پیدا کردن";
+					case persian: return "پیدا کن";
 					case polish: return "Odnaleźć";
 					case portuguese: return "Encontrar";
 					case romanian: return "Găsi";
@@ -234,7 +273,7 @@ namespace BaseLibS.Util {
 					case spanish: return "Encontrar";
 					case swedish: return "Hitta";
 					case tamil: return "கண்டுபிடிக்க";
-					case turkish: return "Bulmak";
+					case turkish: return "Bul";
 					default: return "Find";
 				}
 			}
@@ -318,7 +357,7 @@ namespace BaseLibS.Util {
 					case spanish: return "&Ayuda";
 					case swedish: return "&Hjälpa";
 					case tamil: return "&உதவி";
-					case turkish: return "&Yardım et";
+					case turkish: return "&Yardım";
 					default: return "&Help";
 				}
 			}
@@ -382,7 +421,7 @@ namespace BaseLibS.Util {
 					case latvian: return "Priekšmetus";
 					case lithuanian: return "Daiktai";
 					case norwegian: return "elementer";
-					case persian: return "موارد";
+					case persian: return "آیتم ها ";
 					case polish: return "przedmiotów";
 					case portuguese: return "Unid";
 					case romanian: return "articole";
@@ -390,7 +429,7 @@ namespace BaseLibS.Util {
 					case spanish: return "artículos";
 					case swedish: return "objekt";
 					case tamil: return "பொருட்களை";
-					case turkish: return "ürün";
+					case turkish: return "maddeler";
 					default: return "items";
 				}
 			}
@@ -547,7 +586,7 @@ namespace BaseLibS.Util {
 					case spanish: return "Por favor seleccione algunas filas.";
 					case swedish: return "Var god välj några rader.";
 					case tamil: return "சில வரிசைகளைத் தேர்ந்தெடுக்கவும்.";
-					case turkish: return "Lütfen bazı satırları seçin.";
+					case turkish: return "Lütfen satır seçiniz.";
 					default: return "Please select some rows.";
 				}
 			}
@@ -611,7 +650,7 @@ namespace BaseLibS.Util {
 					case latvian: return "Saglabāt";
 					case lithuanian: return "Išsaugoti";
 					case norwegian: return "lagre";
-					case persian: return "ذخیره به";
+					case persian: return "ذخیره";
 					case polish: return "Zapisz";
 					case portuguese: return "Salvar";
 					case romanian: return "Salvează";
@@ -619,7 +658,7 @@ namespace BaseLibS.Util {
 					case spanish: return "guardar";
 					case swedish: return "Spara";
 					case tamil: return "காப்பாற்ற";
-					case turkish: return "Farklı";
+					case turkish: return "Kaydet";
 					default: return "Save";
 				}
 			}
@@ -719,7 +758,7 @@ namespace BaseLibS.Util {
 					case latvian: return "Izvēlēts";
 					case lithuanian: return "pasirinkta";
 					case norwegian: return "valgt";
-					case persian: return "انتخاب شد";
+					case persian: return "انتخاب شده";
 					case polish: return "wybrany";
 					case portuguese: return "selecionado";
 					case romanian: return "selectat";
@@ -791,7 +830,7 @@ namespace BaseLibS.Util {
 					case latvian: return "Sākt";
 					case lithuanian: return "Pradėti";
 					case norwegian: return "Start";
-					case persian: return "شروع کنید";
+					case persian: return "شروع";
 					case polish: return "Początek";
 					case portuguese: return "Começar";
 					case romanian: return "Start";
@@ -799,7 +838,7 @@ namespace BaseLibS.Util {
 					case spanish: return "Comienzo";
 					case swedish: return "Start";
 					case tamil: return "தொடக்கம்";
-					case turkish: return "Başlama";
+					case turkish: return "Başla";
 					default: return "Start";
 				}
 			}
