@@ -157,9 +157,14 @@ namespace BaseLibS.Util {
 				}
 			}
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
-			externalProcesses[threadIndex] = new Process {StartInfo = psi};
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
+			psi.RedirectStandardError = true;
+			psi.RedirectStandardOutput = true;
+			var externalProcess = new Process {StartInfo = psi};
+			externalProcess.OutputDataReceived += (sender, eventArgs) => { Console.WriteLine(eventArgs.Data); };
+			externalProcess.ErrorDataReceived += (sender, eventArgs) => { Console.Error.WriteLine(eventArgs.Data); };
+			externalProcesses[threadIndex] = externalProcess;
 			externalProcesses[threadIndex].Start();
 			int processid = externalProcesses[threadIndex].Id;
 			externalProcesses[threadIndex].WaitForExit();

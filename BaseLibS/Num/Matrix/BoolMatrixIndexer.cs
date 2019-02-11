@@ -2,9 +2,8 @@
 
 namespace BaseLibS.Num.Matrix {
 	[Serializable]
-    public class BoolMatrixIndexer : IBoolMatrixIndexer
-    {
-        private bool[,] vals;
+	public class BoolMatrixIndexer : IBoolMatrixIndexer {
+		private bool[,] vals;
 
 		public BoolMatrixIndexer(bool[,] vals) {
 			this.vals = vals;
@@ -76,7 +75,7 @@ namespace BaseLibS.Num.Matrix {
 		public int ColumnCount => vals.GetLength(1);
 
 		public bool this[int i, int j] {
-		    get => vals[i, j];
+			get => vals[i, j];
 			set => vals[i, j] = value;
 		}
 
@@ -88,31 +87,24 @@ namespace BaseLibS.Num.Matrix {
 			return vals == null ? new BoolMatrixIndexer(null) : new BoolMatrixIndexer((bool[,]) vals.Clone());
 		}
 
-        public bool Equals(IBoolMatrixIndexer other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-            if (!IsInitialized() && !other.IsInitialized())
-            {
-                return true;
-            }
-            if (!other.IsInitialized())
-            {
-                return false;
-            }
-            for (int i = 0; i < RowCount; i++)
-            {
-                for (int j = 0; j < ColumnCount; j++)
-                {
-                    if (this[i, j] != other[i, j])
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+		public bool Equals(IBoolMatrixIndexer other) {
+			if (other == null) {
+				return false;
+			}
+			if (!IsInitialized() && !other.IsInitialized()) {
+				return true;
+			}
+			if (!other.IsInitialized()) {
+				return false;
+			}
+			for (int i = 0; i < RowCount; i++) {
+				for (int j = 0; j < ColumnCount; j++) {
+					if (this[i, j] != other[i, j]) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 	}
 }

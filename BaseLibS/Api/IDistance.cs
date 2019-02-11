@@ -44,9 +44,10 @@ namespace BaseLibS.Api{
 		/// <param name="data2">The matrix from which the second row/column is taken.</param>
 		/// <param name="index1">The row/column index in the first matrix.</param>
 		/// <param name="index2">The row/column index in the second matrix.</param>
-		/// <param name="access">Specifes whether the kernel function is evaluated on row or column vectors.</param>
+		/// <param name="access1">Specifes whether the distance is evaluated on row or column vectors of the first matrix.</param>
+		/// <param name="access2">Specifes whether the distance is evaluated on row or column vectors of the second matrix.</param>
 		/// <returns></returns>
-		double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access);
+		double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1, MatrixAccess access2);
 
 		/// <summary>
 		/// This method returns the distance between two row or column vectors in two matrices.
@@ -57,8 +58,11 @@ namespace BaseLibS.Api{
 		/// <param name="data2">The matrix from which the second row/column is taken.</param>
 		/// <param name="index1">The row/column index in the first matrix.</param>
 		/// <param name="index2">The row/column index in the second matrix.</param>
-		/// <param name="access">Specifes whether the kernel function is evaluated on row or column vectors.</param>
+		/// <param name="access1">Specifes whether the distance is evaluated on row or column vectors of the first matrix.</param>
+		/// <param name="access2">Specifes whether the distance is evaluated on row or column vectors of the second matrix.</param>
 		/// <returns></returns>
-		double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access);
+		double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access1, MatrixAccess access2);
+
+		bool IsAngular { get; }
 	}
 }

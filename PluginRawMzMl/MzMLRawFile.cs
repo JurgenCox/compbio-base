@@ -426,7 +426,7 @@ namespace PluginRawMzMl
 			    scanInfo.ms2MonoMz = double.NaN; // TODO taken from internal SciexWiffRawFile implementation
 			    scanInfo.ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
 			    scanInfo.ms2IsolationMin = scanInfo.ms2ParentMz - Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]);
-			    scanInfo.ms2IsolationMin = scanInfo.ms2ParentMz + Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]);
+			    scanInfo.ms2IsolationMax = scanInfo.ms2ParentMz + Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]);
 		    }
 		    return scanInfo;
 		}

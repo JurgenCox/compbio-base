@@ -4,143 +4,121 @@ using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 
-namespace NumPluginBase.Distance{
+namespace NumPluginBase.Distance {
 	[Serializable]
-	public class LpDistance : IDistance{
+	public class LpDistance : AbstractDistance {
 		private double P { get; set; }
 		public LpDistance() : this(1.5) { }
-		public LpDistance(double p) { P = p; }
-		public Parameters Parameters { set => P = value.GetParam<double>("P").Value;
+
+		public LpDistance(double p) {
+			P = p;
+		}
+
+		public override Parameters Parameters {
+			set => P = value.GetParam<double>("P").Value;
 			get => new Parameters(new DoubleParam("P", 1.5));
 		}
-		public double Get(IList<float> x, IList<float> y) { return Calc(x, y); }
-		public double Get(IList<double> x, IList<double> y) { return Calc(x, y); }
-		public double Get(BaseVector x, BaseVector y) { return Calc(x, y); }
 
-		public double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access){
-			if (access == MatrixAccess.Rows){
-				int n = data1.GetLength(1);
-				int c = 0;
-				double sum = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[index1, i] - data2[index2, i];
-					if (!double.IsNaN(d)){
-						sum += Math.Abs(d);
-						c++;
-					}
-				}
-				if (c == 0){
-					return double.NaN;
-				}
-				return sum/c*n;
-			} else{
-				int n = data1.GetLength(0);
-				int c = 0;
-				double sum = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[i, index1] - data2[i, index2];
-					if (!double.IsNaN(d)){
-						sum += Math.Abs(d);
-						c++;
-					}
-				}
-				if (c == 0){
-					return double.NaN;
-				}
-				return sum/c*n;
-			}
+		public override double Get(IList<float> x, IList<float> y) {
+			return Calc(x, y, P);
 		}
 
-		public double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access){
-			if (access == MatrixAccess.Rows){
-				int n = data1.GetLength(1);
-				int c = 0;
-				double sum = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[index1, i] - data2[index2, i];
-					if (!double.IsNaN(d)){
-						sum += Math.Abs(d);
-						c++;
-					}
-				}
-				if (c == 0){
-					return double.NaN;
-				}
-				return sum/c*n;
-			} else{
-				int n = data1.GetLength(0);
-				int c = 0;
-				double sum = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[i, index1] - data2[i, index2];
-					if (!double.IsNaN(d)){
-						sum += Math.Abs(d);
-						c++;
-					}
-				}
-				if (c == 0){
-					return double.NaN;
-				}
-				return sum/c*n;
-			}
+		public override double Get(IList<double> x, IList<double> y) {
+			return Calc(x, y, P);
 		}
 
-		//TODO
-		public static double Calc(BaseVector x, BaseVector y){
+		public override double Get(BaseVector x, BaseVector y) {
+			return Calc(x, y, P);
+		}
+
+		public override double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1,
+			MatrixAccess access2) {
+			int n = data1.GetLength(access1 == MatrixAccess.Rows ? 1 : 0);
+			int c = 0;
+			double sum = 0;
+			for (int i = 0; i < n; i++) {
+				double d1 = access1 == MatrixAccess.Rows ? data1[index1, i] : data1[i, index1];
+				double d2 = access2 == MatrixAccess.Rows ? data2[index2, i] : data2[i, index2];
+				double d = d1 - d2;
+				if (!double.IsNaN(d)) {
+					sum += Math.Pow(Math.Abs(d), P);
+					c++;
+				}
+			}
+			return c == 0 ? double.NaN : Math.Pow(sum / c * n, 1.0 / P);
+		}
+
+		public override double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access1,
+			MatrixAccess access2) {
+			int n = data1.GetLength(access1 == MatrixAccess.Rows ? 1 : 0);
+			int c = 0;
+			double sum = 0;
+			for (int i = 0; i < n; i++) {
+				double d1 = access1 == MatrixAccess.Rows ? data1[index1, i] : data1[i, index1];
+				double d2 = access2 == MatrixAccess.Rows ? data2[index2, i] : data2[i, index2];
+				double d = d1 - d2;
+				if (!double.IsNaN(d)) {
+					sum += Math.Pow(Math.Abs(d), P);
+					c++;
+				}
+			}
+			if (c == 0) {
+				return double.NaN;
+			}
+			return c == 0 ? double.NaN : Math.Pow(sum / c * n, 1.0 / P);
+		}
+
+		public static double Calc(BaseVector x, BaseVector y, double p) {
 			int n = x.Length;
 			int c = 0;
 			double sum = 0;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				double d = x[i] - y[i];
-				if (!double.IsNaN(d)){
-					sum += Math.Abs(d);
+				if (!double.IsNaN(d)) {
+					sum += Math.Pow(Math.Abs(d), p);
 					c++;
 				}
 			}
-			if (c == 0){
-				return double.NaN;
-			}
-			return sum/c*n;
+			return c == 0 ? double.NaN : Math.Pow(sum / c * n, 1.0 / p);
 		}
 
-		public static double Calc(IList<double> x, IList<double> y){
+		public static double Calc(IList<double> x, IList<double> y, double p) {
 			int n = x.Count;
 			int c = 0;
 			double sum = 0;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				double d = x[i] - y[i];
-				if (!double.IsNaN(d)){
-					sum += Math.Abs(d);
+				if (!double.IsNaN(d)) {
+					sum += Math.Pow(Math.Abs(d), p);
 					c++;
 				}
 			}
-			if (c == 0){
-				return double.NaN;
-			}
-			return sum/c*n;
+			return c == 0 ? double.NaN : Math.Pow(sum / c * n, 1.0 / p);
 		}
 
-		public static double Calc(IList<float> x, IList<float> y){
+		public static double Calc(IList<float> x, IList<float> y, double p) {
 			int n = x.Count;
 			int c = 0;
 			double sum = 0;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				double d = x[i] - y[i];
-				if (!double.IsNaN(d)){
-					sum += Math.Abs(d);
+				if (!double.IsNaN(d)) {
+					sum += Math.Pow(Math.Abs(d), p);
 					c++;
 				}
 			}
-			if (c == 0){
-				return double.NaN;
-			}
-			return sum/c*n;
+			return c == 0 ? double.NaN : Math.Pow(sum / c * n, 1.0 / p);
 		}
 
-		public object Clone() { return new LpDistance(P); }
-		public string Name => "Lp";
-		public string Description => "";
-		public float DisplayRank => 3;
-		public bool IsActive => true;
+		public override bool IsAngular => false;
+
+		public override object Clone() {
+			return new LpDistance(P);
+		}
+
+		public override string Name => "Lp";
+		public override string Description => "";
+		public override float DisplayRank => 3;
+		public override bool IsActive => true;
 	}
 }

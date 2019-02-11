@@ -137,6 +137,25 @@ namespace BaseLibS.Num {
 		/// </summary>
 		/// <param name="x">The input array. It may contain NaN and infinity values.</param>
 		/// <returns>The maximum.</returns>
+		public static double Max(IList<double[]> x) {
+			if (x == null || x.Count == 0) {
+				return double.NaN;
+			}
+			double max = double.MinValue;
+			foreach (double[] val1 in x) {
+				double val = Max(val1);
+				if (val > max) {
+					max = val;
+				}
+			}
+			return max;
+		}
+
+		/// <summary>
+		///     Determines the biggest number in the input array.
+		/// </summary>
+		/// <param name="x">The input array. It may contain NaN and infinity values.</param>
+		/// <returns>The maximum.</returns>
 		public static double Max(IList<double> x) {
 			if (x == null || x.Count == 0) {
 				return double.NaN;
@@ -366,7 +385,7 @@ namespace BaseLibS.Num {
 		}
 
 		/// <param name="x">Not assumed to be in order.</param>
-		/// <param name="weights">Weights are assumed to sum up to 1.</param>
+		/// <param name="weights">Weights are not assumed to sum up to 1.</param>
 		/// <param name="logAverage"></param>
 		/// <returns>The weighted median.</returns>
 		public static double WeightedMedian(IList<double> x, IList<double> weights, bool logAverage) {
@@ -382,6 +401,10 @@ namespace BaseLibS.Num {
 					return logAverage ? LogAverage(x[0], x[1]) : 0.5 * (x[0] + x[1]);
 				}
 				return weights[0] > weights[1] ? x[0] : x[1];
+			}
+			double sum = Sum(weights);
+			for (int i = 0; i < weights.Count; i++) {
+				weights[i] /= sum;
 			}
 			int[] o = Order(x);
 			double[] cumulativeWeights = new double[n];
@@ -685,7 +708,8 @@ namespace BaseLibS.Num {
 					}
 				}
 				if (valueIter.MoveNext()) {
-					throw new ArgumentException($"{nameof(indicator)} was exhausted before all values were enumerated.");
+					throw new ArgumentException(
+						$"{nameof(indicator)} was exhausted before all values were enumerated.");
 				}
 			}
 			return result;
@@ -830,7 +854,8 @@ namespace BaseLibS.Num {
 			return result;
 		}
 
-		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized, bool cumulative) {
+		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
+			bool cumulative) {
 			data = Remove(data, double.NaN);
 			int n = data.Count;
 			if (n == 0) {
@@ -852,7 +877,8 @@ namespace BaseLibS.Num {
 			Histogram(data, out x, out y, normalized, cumulative, h);
 		}
 
-		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized, bool cumulative) {
+		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
+			bool cumulative) {
 			data = Remove(data, float.NaN);
 			int n = data.Count;
 			if (n == 0) {
@@ -993,8 +1019,8 @@ namespace BaseLibS.Num {
 			return result.ToArray();
 		}
 
-		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized, bool cumulative,
-			double h, double min, double max) {
+		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
+			bool cumulative, double h, double min, double max) {
 			int n = data.Count;
 			double span = max - min;
 			int nbins = (int) Math.Max(Math.Round(span / h), 1);
@@ -1028,8 +1054,8 @@ namespace BaseLibS.Num {
 			}
 		}
 
-		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized, bool cumulative,
-			double h, double min, double max) {
+		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
+			bool cumulative, double h, double min, double max) {
 			int n = data.Count;
 			double span = max - min;
 			int nbins = (int) Math.Max(Math.Round(span / h), 1);
@@ -1063,8 +1089,8 @@ namespace BaseLibS.Num {
 			}
 		}
 
-		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized, bool cumulative,
-			double h) {
+		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
+			bool cumulative, double h) {
 			double min;
 			double max;
 			MinMax(data, out min, out max);
@@ -1078,8 +1104,8 @@ namespace BaseLibS.Num {
 			Histogram(data, out x, out y, normalized, cumulative, h, min, max);
 		}
 
-		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized, bool cumulative,
-			double h) {
+		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
+			bool cumulative, double h) {
 			float min;
 			float max;
 			MinMax(data, out min, out max);
@@ -1191,11 +1217,8 @@ namespace BaseLibS.Num {
 				return null;
 			}
 			int[] order = ConsecutiveInts(x.Count);
-			const int low = 0;
-			int high = order.Length - 1;
-			int[] dummy = new int[order.Length];
-			Array.Copy(order, dummy, order.Length);
-			SortImpl(x, order, dummy, low, high);
+			T[] dummy = x.ToArray();
+			Array.Sort(dummy, order);
 			return order;
 		}
 
@@ -1210,7 +1233,8 @@ namespace BaseLibS.Num {
 		///     An array of indices such that if x is accessed with those indices the values are in
 		///     ascending (or to be more precise, non-decending) order.
 		/// </returns>
-		public static int[] Order<T0, T1>(IList<T0> x, IList<T1> y) where T0 : IComparable<T0> where T1 : IComparable<T1> {
+		public static int[] Order<T0, T1>(IList<T0> x, IList<T1> y)
+			where T0 : IComparable<T0> where T1 : IComparable<T1> {
 			if (x == null || y == null || x.Count != y.Count) {
 				return null;
 			}
@@ -1274,7 +1298,7 @@ namespace BaseLibS.Num {
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
-		private static void SortImpl<T>(IList<T> data, int[] orderDest, int[] orderSrc, int low, int high)
+		public static void SortImpl<T>(IList<T> data, int[] orderDest, int[] orderSrc, int low, int high)
 			where T : IComparable<T> {
 			if (low >= high) {
 				return;
@@ -1306,8 +1330,8 @@ namespace BaseLibS.Num {
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
-		private static void SortImpl<T0, T1>(IList<T0> first, IList<T1> second, int[] orderDest, int[] orderSrc, int low,
-			int high) where T0 : IComparable<T0> where T1 : IComparable<T1> {
+		private static void SortImpl<T0, T1>(IList<T0> first, IList<T1> second, int[] orderDest, int[] orderSrc,
+			int low, int high) where T0 : IComparable<T0> where T1 : IComparable<T1> {
 			if (low >= high) {
 				return;
 			}
@@ -1353,7 +1377,9 @@ namespace BaseLibS.Num {
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
 		private static void SortImpl<T0, T1, T2>(IList<T0> first, IList<T1> second, IList<T2> third, int[] orderDest,
-			int[] orderSrc, int low, int high) where T0 : IComparable<T0> where T1 : IComparable<T1> where T2 : IComparable<T2> {
+			int[] orderSrc, int low, int high) where T0 : IComparable<T0>
+			where T1 : IComparable<T1>
+			where T2 : IComparable<T2> {
 			if (low >= high) {
 				return;
 			}
@@ -2096,7 +2122,8 @@ namespace BaseLibS.Num {
 			return x;
 		}
 
-		public static IList<T> UniqueValuesAndCounts<T>(IList<T> array, out IList<int> counters) where T : IComparable<T> {
+		public static IList<T> UniqueValuesAndCounts<T>(IList<T> array, out IList<int> counters)
+			where T : IComparable<T> {
 			T[] unique = UniqueValues(array);
 			counters = new List<int>();
 			foreach (T u in unique) {
@@ -2137,6 +2164,15 @@ namespace BaseLibS.Num {
 			double sum = 0;
 			for (int i = 0; i < n; i++) {
 				sum += x[i];
+			}
+			return sum;
+		}
+
+		public static double Sum(IList<double[]> x) {
+			int n = x.Count;
+			double sum = 0;
+			for (int i = 0; i < n; i++) {
+				sum += Sum(x[i]);
 			}
 			return sum;
 		}
@@ -2997,6 +3033,22 @@ namespace BaseLibS.Num {
 			return true;
 		}
 
+		public static bool[] Or(IList<bool> x, IList<bool> y) {
+			bool[] result = new bool[x.Count];
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = x[i] || y[i];
+			}
+			return result;
+		}
+
+		public static bool[] And(IList<bool> x, IList<bool> y) {
+			bool[] result = new bool[x.Count];
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = x[i] && y[i];
+			}
+			return result;
+		}
+
 		public static void PackArrayOfArrays<T>(T[][] data, out T[] value, out int[] ind) {
 			List<T> values = new List<T>();
 			List<int> inds = new List<int>();
@@ -3072,6 +3124,14 @@ namespace BaseLibS.Num {
 				}
 			}
 			return data;
+		}
+
+		public static Dictionary<T1, T2> CopyDict<T1, T2>(Dictionary<T1, T2> x) {
+			Dictionary<T1, T2> result = new Dictionary<T1, T2>();
+			foreach (KeyValuePair<T1, T2> pair in x) {
+				result.Add(pair.Key, pair.Value);
+			}
+			return result;
 		}
 	}
 }
