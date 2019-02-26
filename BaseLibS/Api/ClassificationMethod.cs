@@ -6,7 +6,7 @@ using BaseLibS.Param;
 namespace BaseLibS.Api {
 	public abstract class ClassificationMethod : INamedListItem {
 		/// <summary>
-		/// Create a classification model based on the given training data x with group assignments in y..
+		/// Create a classification model based on the given training data x with group assignments in y.
 		/// </summary>
 		/// <param name="x">The training data for which the group assignment is known. <code>x.Length</code> 
 		/// is the number of training instances. All <code>BaseVector</code> instances in the array must have 
