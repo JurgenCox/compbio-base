@@ -443,6 +443,7 @@
     <Compile Include="Param\MultiChoiceMultiBinParam.cs" />
     <Compile Include="Param\MultiChoiceParam.cs" />
     <Compile Include="Param\MultiFileParam.cs" />
+    <Compile Include="Param\MultiShapeParam.cs" />
     <Compile Include="Param\MultiStringParam.cs" />
     <Compile Include="Param\Parameter.cs" />
     <Compile Include="Param\ParameterGroup.cs" />
@@ -453,6 +454,7 @@
     <Compile Include="Param\RegexMatchParam.cs" />
     <Compile Include="Param\SerializableDictionary.cs" />
     <Compile Include="Param\SerializationHelper.cs" />
+    <Compile Include="Param\ShapeParam.cs" />
     <Compile Include="Param\SingleChoiceParam.cs" />
     <Compile Include="Param\SingleChoiceWithSubParams.cs" />
     <Compile Include="Param\RegexReplaceParam.cs" />

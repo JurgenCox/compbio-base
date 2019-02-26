@@ -4,15 +4,15 @@ using BaseLibS.Util;
 
 namespace BaseLibS.Param {
 	[Serializable]
-	public class MultiStringParam : Parameter<string[]> {
+	public class MultiShapeParam : Parameter<string[]> {
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private MultiStringParam() : this("") { }
+		private MultiShapeParam() : this("") { }
 
-		public MultiStringParam(string name) : this(name, new string[0]) { }
+		public MultiShapeParam(string name) : this(name, new string[0]) { }
 
-		public MultiStringParam(string name, string[] value) : base(name) {
+		public MultiShapeParam(string name, string[] value) : base(name) {
 			Value = value;
 			Default = new string[Value.Length];
 			for (int i = 0; i < Value.Length; i++) {

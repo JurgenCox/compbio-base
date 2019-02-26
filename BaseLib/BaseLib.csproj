@@ -299,6 +299,7 @@
     <Compile Include="Param\MultiChoiceMultiBinParamWf.cs" />
     <Compile Include="Param\MultiChoiceParamWf.cs" />
     <Compile Include="Param\MultiFileParamWf.cs" />
+    <Compile Include="Param\MultiShapeParamWf.cs" />
     <Compile Include="Param\MultiStringParamWf.cs" />
     <Compile Include="Param\ParameterForm.cs">
       <SubType>Form</SubType>
@@ -315,6 +316,7 @@
     <Compile Include="Param\RegexMatchParamWf.cs" />
     <Compile Include="Param\RegexReplaceParamWf.cs" />
     <Compile Include="Param\ServerParameterFactory.cs" />
+    <Compile Include="Param\ShapeParamWf.cs" />
     <Compile Include="Param\SingleChoiceParamWf.cs" />
     <Compile Include="Param\SingleChoiceWithSubParamsWf.cs" />
     <Compile Include="Param\StringParamWf.cs" />
