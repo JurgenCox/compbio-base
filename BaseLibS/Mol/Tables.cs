@@ -68,6 +68,32 @@ namespace BaseLibS.Mol {
 			}
 		}
 
+		public static Dictionary<string, Modification> InternalIsobaricLabelModifications {
+			get {
+				Dictionary<string, Modification> mods = IsobaricLabelModifications;
+				Dictionary<string, Modification> result = new Dictionary<string, Modification>();
+				foreach (KeyValuePair<string, Modification> pair in mods) {
+					if (pair.Value.IsInternal) {
+						result.Add(pair.Key, pair.Value);
+					}
+				}
+				return result;
+			}
+		}
+
+		public static Dictionary<string, Modification> TerminalIsobaricLabelModifications {
+			get {
+				Dictionary<string, Modification> mods = IsobaricLabelModifications;
+				Dictionary<string, Modification> result = new Dictionary<string, Modification>();
+				foreach (KeyValuePair<string, Modification> pair in mods) {
+					if (!pair.Value.IsInternal) {
+						result.Add(pair.Key, pair.Value);
+					}
+				}
+				return result;
+			}
+		}
+
 		public static Modification[] ModificationList {
 			get {
 				lock (lockMods) {
@@ -389,6 +415,19 @@ namespace BaseLibS.Mol {
 				result[i] = Modifications[modNames[i]];
 			}
 			return result;
+		}
+
+		public static Modification[] ToModifications(IList<IsobaricLabelInfo> info) {
+			List<string> modNames = new List<string>();
+			foreach (IsobaricLabelInfo x in info) {
+				if (!string.IsNullOrEmpty(x.internalLabel)) {
+					modNames.Add(x.internalLabel);
+				}
+				if (!string.IsNullOrEmpty(x.terminalLabel)) {
+					modNames.Add(x.terminalLabel);
+				}
+			}
+			return ToModifications(modNames);
 		}
 
 		public static Modification[] ToModifications(IList<ushort> mods) {

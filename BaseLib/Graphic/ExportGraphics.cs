@@ -53,7 +53,7 @@ namespace BaseLib.Graphic{
 						}
 					}
 					stream = new FileStream(filename, FileMode.CreateNew);
-					graphics = new SvgGraphics(stream, width, height);
+					graphics = new SvgGraphics2(stream);
 					break;
 				case ".pdf":
 					if (File.Exists(filename)){

@@ -28,6 +28,7 @@
 		SpeciesGroup,
 		SpeciesSubgroup,
 		Subtribe,
-		Subkingdom
+		Subkingdom,
+		Cohort
 	}
 }

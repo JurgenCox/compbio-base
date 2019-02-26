@@ -4,124 +4,116 @@ using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 
-namespace NumPluginBase.Distance{
+namespace NumPluginBase.Distance {
 	[Serializable]
-	public class EuclideanDistance : IDistance{
-		public Parameters Parameters { set { } get { return new Parameters(); } }
-		public double Get(IList<float> x, IList<float> y) { return Calc(x, y); }
-		public double Get(IList<double> x, IList<double> y) { return Calc(x, y); }
-		public double Get(BaseVector x, BaseVector y) { return Calc(x, y); }
-
-		public double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access){
-			if (access == MatrixAccess.Rows){
-				int n = data1.GetLength(1);
-				double sum = 0;
-				int c = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[index1, i] - data2[index2, i];
-					if (double.IsNaN(d)){
-						continue;
-					}
-					sum += d*d;
-					c++;
-				}
-				return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
-			} else{
-				int n = data1.GetLength(0);
-				double sum = 0;
-				int c = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[i, index1] - data2[i, index2];
-					if (double.IsNaN(d)){
-						continue;
-					}
-					sum += d*d;
-					c++;
-				}
-				return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
-			}
+	public class EuclideanDistance : AbstractDistance {
+		public override Parameters Parameters {
+			set { }
+			get { return new Parameters(); }
 		}
 
-		public double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access){
-			if (access == MatrixAccess.Rows){
-				int n = data1.GetLength(1);
-				double sum = 0;
-				int c = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[index1, i] - data2[index2, i];
-					if (double.IsNaN(d)){
-						continue;
-					}
-					sum += d*d;
-					c++;
-				}
-				return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
-			} else{
-				int n = data1.GetLength(0);
-				double sum = 0;
-				int c = 0;
-				for (int i = 0; i < n; i++){
-					double d = data1[i, index1] - data2[i, index2];
-					if (double.IsNaN(d)){
-						continue;
-					}
-					sum += d*d;
-					c++;
-				}
-				return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
-			}
+		public override double Get(IList<float> x, IList<float> y) {
+			return Calc(x, y);
 		}
 
-		public static double Calc(IList<float> x, IList<float> y){
+		public override double Get(IList<double> x, IList<double> y) {
+			return Calc(x, y);
+		}
+
+		public override double Get(BaseVector x, BaseVector y) {
+			return Calc(x, y);
+		}
+
+		public override double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1,
+			MatrixAccess access2) {
+			int n = data1.GetLength(access1 == MatrixAccess.Rows ? 1 : 0);
+			double sum = 0;
+			int c = 0;
+			for (int i = 0; i < n; i++) {
+				double d1 = access1 == MatrixAccess.Rows ? data1[index1, i] : data1[i, index1];
+				double d2 = access2 == MatrixAccess.Rows ? data2[index2, i] : data2[i, index2];
+				double d = d1 - d2;
+				if (double.IsNaN(d)) {
+					continue;
+				}
+				sum += d * d;
+				c++;
+			}
+			return c == 0 ? double.NaN : Math.Sqrt(sum / c * n);
+		}
+
+		public override double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access1,
+			MatrixAccess access2) {
+			int n = data1.GetLength(access1 == MatrixAccess.Rows ? 1 : 0);
+			double sum = 0;
+			int c = 0;
+			for (int i = 0; i < n; i++) {
+				double d1 = access1 == MatrixAccess.Rows ? data1[index1, i] : data1[i, index1];
+				double d2 = access2 == MatrixAccess.Rows ? data2[index2, i] : data2[i, index2];
+				double d = d1 - d2;
+				if (double.IsNaN(d)) {
+					continue;
+				}
+				sum += d * d;
+				c++;
+			}
+			return c == 0 ? double.NaN : Math.Sqrt(sum / c * n);
+		}
+
+		public static double Calc(IList<float> x, IList<float> y) {
 			int n = x.Count;
 			double sum = 0;
 			int c = 0;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				double d = x[i] - y[i];
-				if (double.IsNaN(d)){
+				if (double.IsNaN(d)) {
 					continue;
 				}
-				sum += d*d;
+				sum += d * d;
 				c++;
 			}
-			return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
+			return c == 0 ? double.NaN : Math.Sqrt(sum / c * n);
 		}
 
-		public static double Calc(IList<double> x, IList<double> y){
+		public static double Calc(IList<double> x, IList<double> y) {
 			int n = x.Count;
 			double sum = 0;
 			int c = 0;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				double d = x[i] - y[i];
-				if (double.IsNaN(d)){
+				if (double.IsNaN(d)) {
 					continue;
 				}
-				sum += d*d;
+				sum += d * d;
 				c++;
 			}
-			return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
+			return c == 0 ? double.NaN : Math.Sqrt(sum / c * n);
 		}
 
-		//TODO
-		public static double Calc(BaseVector x, BaseVector y){
+		public static double Calc(BaseVector x, BaseVector y) {
 			int n = x.Length;
 			double sum = 0;
 			int c = 0;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				double d = x[i] - y[i];
-				if (double.IsNaN(d)){
+				if (double.IsNaN(d)) {
 					continue;
 				}
-				sum += d*d;
+				sum += d * d;
 				c++;
 			}
-			return c == 0 ? double.NaN : Math.Sqrt(sum/c*n);
+			return c == 0 ? double.NaN : Math.Sqrt(sum / c * n);
 		}
 
-		public object Clone() { return new EuclideanDistance(); }
-		public string Name => "Euclidean";
-		public string Description => "";
-		public float DisplayRank => 0;
-		public bool IsActive => true;
+		public override bool IsAngular => false;
+
+		public override object Clone() {
+			return new EuclideanDistance();
+		}
+
+		public override string Name => "Euclidean";
+		public override string Description => "";
+		public override float DisplayRank => 0;
+		public override bool IsActive => true;
 	}
 }

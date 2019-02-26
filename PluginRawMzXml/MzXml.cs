@@ -421,7 +421,7 @@ namespace PluginRawMzXml {
 			while (!line.Contains("<indexOffset>")) {
 				line += s.ReadLine();
 			}
-			s.Close();
+			s.Dispose();
 			long indexOffset = Parser.Uint(regexInteger.Match(line).Groups[1].ToString());
 			// load the offset table
 			StreamReader stream = new StreamReader(filename);

@@ -4,8 +4,11 @@ using BaseLibS.Mol;
 using BaseLibS.Util;
 
 namespace BaseLib.Forms {
-	public partial class EditTaxonomyForm : Form {
-		public EditTaxonomyForm() {
+	public partial class EditTaxonomyForm : Form
+	{
+		private readonly Func<TaxonomyItems> _getTaxonomyItems;
+		private TaxonomyItems TaxonomyItems => _getTaxonomyItems();
+		public EditTaxonomyForm(Func<TaxonomyItems> taxonomyItems) {
 			InitializeComponent();
 			cancelButton.Click += (sender, args) => {
 				DialogResult = DialogResult.Cancel;
@@ -17,6 +20,7 @@ namespace BaseLib.Forms {
 			};
 			gtButton.Click += GtButton_OnClick;
 			ltButton.Click += LtButton_OnClick;
+			_getTaxonomyItems = taxonomyItems;
 		}
 		public int Id {
 			get {

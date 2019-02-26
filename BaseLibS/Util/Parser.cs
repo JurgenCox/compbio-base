@@ -35,6 +35,30 @@ namespace BaseLibS.Util {
 			return uint.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
+		public static short Short(string s) {
+			return short.Parse(s, NumberStyles.Any, CultureInfo.InvariantCulture);
+		}
+
+		public static bool TryShort(string s, out short x) {
+			return short.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+		}
+
+		public static bool Bool(string s) {
+			return bool.Parse(s);
+		}
+
+		public static bool TryBool(string s, out bool x) {
+			return bool.TryParse(s, out x);
+		}
+
+		public static byte Byte(string s) {
+			return byte.Parse(s, NumberStyles.Any, CultureInfo.InvariantCulture);
+		}
+
+		public static bool TryByte(string s, out byte x) {
+			return byte.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+		}
+
 		public static decimal Decimal(string s) {
 			return decimal.Parse(s, NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
@@ -44,6 +68,9 @@ namespace BaseLibS.Util {
 		}
 
 		public static string ToString(object x) {
+			if (x == null) {
+				return "";
+			}
 			if (x is IConvertible) {
 				return ((IConvertible) x).ToString(CultureInfo.InvariantCulture);
 			}

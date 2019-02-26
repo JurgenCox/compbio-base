@@ -1,11 +1,13 @@
 ﻿using System;
 using BaseLib.Forms;
+using BaseLibS.Mol;
 using BaseLibS.Param;
 
 namespace BaseLib.Param {
 	[Serializable]
 	public class FastaFilesParamWf : FastaFilesParam {
 		[NonSerialized] private FastaFilesParamControl control;
+
 		internal FastaFilesParamWf(string name) : base(name) { }
 		internal FastaFilesParamWf(string name, string[][] value) : base(name, value) { }
 		public override ParamType Type => ParamType.WinForms;
@@ -25,7 +27,7 @@ namespace BaseLib.Param {
 		}
 
 		public override object CreateControl() {
-			return control = new FastaFilesParamControl(HasVariationData, HasModifications);
+			return control = new FastaFilesParamControl(HasVariationData, HasModifications, TaxonomyItems.GetTaxonomyItems);
 		}
 	}
 }

@@ -29,9 +29,7 @@ namespace BaseLibS.Parse {
 			for (int i = 0; i < d.Length; i++) {
 				d[i] = new double[x[i].Length];
 				for (int j = 0; j < d[i].Length; j++) {
-					d[i][j] = Parser.TryDouble(x[i][j], out double w)
-						? w
-						: defaultValue;
+					d[i][j] = Parser.TryDouble(x[i][j], out double w) ? w : defaultValue;
 				}
 			}
 			return d;
@@ -59,8 +57,7 @@ namespace BaseLibS.Parse {
 			return d;
 		}
 
-		public static bool[] GetBoolColumn(string columnName, string filename, bool defaultValue, int nskip,
-			char separator) {
+		public static bool[] GetBoolColumn(string columnName, string filename, bool defaultValue, int nskip, char separator) {
 			string[] x = GetColumn(columnName, filename, nskip, separator);
 			bool[] d = new bool[x.Length];
 			for (int i = 0; i < d.Length; i++) {
@@ -195,12 +192,34 @@ namespace BaseLibS.Parse {
 			return HasColumn(columnName, filename, 0, separator);
 		}
 
+		public static bool HasColumnCaseInsensitive(string columnName, string filename, char separator,
+			out string matchColumnName) {
+			return HasColumnCaseInsensitive(columnName, filename, 0, separator, out matchColumnName);
+		}
+
 		public static bool HasColumn(string columnName, string filename, int nskip, char separator) {
 			return HasColumn(columnName, filename, nskip, null, null, separator);
 		}
 
+		public static bool HasColumnCaseInsensitive(string columnName, string filename, int nskip, char separator,
+			out string matchColumnName) {
+			return HasColumnCaseInsensitive(columnName, filename, nskip, null, null, separator, out matchColumnName);
+		}
+
 		public static bool HasColumn(string columnName, string filename, int nskip, HashSet<string> commentPrefix,
 			HashSet<string> commentPrefixExceptions, char separator) {
+			return HasColumnImpl(columnName, filename, nskip, commentPrefix, commentPrefixExceptions, separator, false,
+				out string _);
+		}
+
+		public static bool HasColumnCaseInsensitive(string columnName, string filename, int nskip,
+			HashSet<string> commentPrefix, HashSet<string> commentPrefixExceptions, char separator, out string matchColumnName) {
+			return HasColumnImpl(columnName, filename, nskip, commentPrefix, commentPrefixExceptions, separator, true,
+				out matchColumnName);
+		}
+
+		private static bool HasColumnImpl(string columnName, string filename, int nskip, HashSet<string> commentPrefix,
+			HashSet<string> commentPrefixExceptions, char separator, bool caseInsensitive, out string matchColumnName) {
 			StreamReader reader = FileUtils.GetReader(filename);
 			for (int i = 0; i < nskip; i++) {
 				reader.ReadLine();
@@ -213,11 +232,20 @@ namespace BaseLibS.Parse {
 			}
 			reader.Close();
 			string[] titles = line.Split(separator);
+			if (caseInsensitive) {
+				columnName = columnName.ToLower();
+			}
 			foreach (string t in titles) {
-				if (t.Trim().Equals(columnName)) {
+				string v = t.Trim();
+				if (caseInsensitive) {
+					v = v.ToLower();
+				}
+				if (v.Equals(columnName)) {
+					matchColumnName = t;
 					return true;
 				}
 			}
+			matchColumnName = null;
 			return false;
 		}
 
@@ -321,10 +349,9 @@ namespace BaseLibS.Parse {
 		}
 
 		public static bool IsCommentLine(string line, IEnumerable<string> prefix, HashSet<string> prefixExceptions) {
-		    if (line == null)
-		    {
-		        return false;
-		    }
+			if (line == null) {
+				return false;
+			}
 			if (string.IsNullOrEmpty(line)) {
 				return true;
 			}

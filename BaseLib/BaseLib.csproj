@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BaseLib</RootNamespace>
     <AssemblyName>BaseLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,9 @@
   <ItemGroup>
     <Reference Include="itextsharp">
       <HintPath>..\DLLs\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SVG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SvgNet.1.0.8\lib\net40\SVG.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -120,6 +124,19 @@
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormUtils.cs" />
+    <Compile Include="Forms\IsobaricLabelingDefault.cs" />
+    <Compile Include="Forms\IsobaricLabelsEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IsobaricLabelsEditForm.Designer.cs">
+      <DependentUpon>IsobaricLabelsEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\IsobaricLabelsParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\IsobaricLabelsParamControl.Designer.cs">
+      <DependentUpon>IsobaricLabelsParamControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ListSelectorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -265,7 +282,9 @@
     <Compile Include="Graphic\PdfGraphicUtils.cs" />
     <Compile Include="Graphic\Svg.cs" />
     <Compile Include="Graphic\SvgGraphics.cs" />
+    <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
+    <Compile Include="Param\EmptyParamWf.cs" />
     <Compile Include="Param\BoolParamWf.cs" />
     <Compile Include="Param\BoolWithSubParamsWf.cs" />
     <Compile Include="Param\DictionaryIntValueParamWf.cs" />
@@ -274,11 +293,13 @@
     <Compile Include="Param\FileParamWf.cs" />
     <Compile Include="Param\FolderParamWf.cs" />
     <Compile Include="Param\IntParamWf.cs" />
+    <Compile Include="Param\IsobaricLabelsParamWf.cs" />
     <Compile Include="Param\LabelParamWf.cs" />
     <Compile Include="Param\Ms1LabelParamWf.cs" />
     <Compile Include="Param\MultiChoiceMultiBinParamWf.cs" />
     <Compile Include="Param\MultiChoiceParamWf.cs" />
     <Compile Include="Param\MultiFileParamWf.cs" />
+    <Compile Include="Param\MultiShapeParamWf.cs" />
     <Compile Include="Param\MultiStringParamWf.cs" />
     <Compile Include="Param\ParameterForm.cs">
       <SubType>Form</SubType>
@@ -295,6 +316,7 @@
     <Compile Include="Param\RegexMatchParamWf.cs" />
     <Compile Include="Param\RegexReplaceParamWf.cs" />
     <Compile Include="Param\ServerParameterFactory.cs" />
+    <Compile Include="Param\ShapeParamWf.cs" />
     <Compile Include="Param\SingleChoiceParamWf.cs" />
     <Compile Include="Param\SingleChoiceWithSubParamsWf.cs" />
     <Compile Include="Param\StringParamWf.cs" />
@@ -391,6 +413,12 @@
     <EmbeddedResource Include="Forms\FolderParameterControl.resx">
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IsobaricLabelsEditForm.resx">
+      <DependentUpon>IsobaricLabelsEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IsobaricLabelsParamControl.resx">
+      <DependentUpon>IsobaricLabelsParamControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ListSelectorControl.resx">
       <DependentUpon>ListSelectorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -477,6 +505,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\question12.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

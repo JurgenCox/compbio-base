@@ -6,15 +6,15 @@ using BaseLibS.Properties;
 using BaseLibS.Util;
 
 namespace BaseLibS.Mol{
-	public static class TaxonomyItems{
-		public static TaxonomyItem[] taxonomyItems = Init();
-		public static Dictionary<int, TaxonomyItem> taxId2Item;
-		public static Dictionary<string, TaxonomyItem> name2Item;
+	public class TaxonomyItems
+	{
+		private static TaxonomyItems _taxonomyItems;
+		public static Func<TaxonomyItems> GetTaxonomyItems => () => _taxonomyItems ?? (_taxonomyItems = new TaxonomyItems());
+		public TaxonomyItem[] taxonomyItems;
+		public Dictionary<int, TaxonomyItem> taxId2Item;
+		public Dictionary<string, TaxonomyItem> name2Item;
 
-		public static void WarmUp() {
-			//do nothing
-		}
-		public static TaxonomyItem[] Init(){
+		public TaxonomyItems(){
 			StreamReader reader = GetReader(Resources.nodes_dmp);
 			string line;
 			List<TaxonomyItem> result = new List<TaxonomyItem>();
@@ -50,10 +50,10 @@ namespace BaseLibS.Mol{
 					name2Item.Add(low, item);
 				}
 			}
-			return result.ToArray();
+			taxonomyItems = result.ToArray();
 		}
 
-		public static TaxonomyItem[] GetItemsOfRank(TaxonomyRank rank){
+		public TaxonomyItem[] GetItemsOfRank(TaxonomyRank rank){
 			List<TaxonomyItem> x = new List<TaxonomyItem>();
 			foreach (TaxonomyItem ti in taxonomyItems){
 				if (ti.Rank == rank){
@@ -166,12 +166,14 @@ namespace BaseLibS.Mol{
 					return TaxonomyRank.Subtribe;
 				case "subkingdom":
 					return TaxonomyRank.Subkingdom;
+				case "cohort":
+					return TaxonomyRank.Cohort;
 				default:
 					throw new Exception("Unknown rank: " + s);
 			}
 		}
 
-		public static string GetTaxonomyIdOfRank(string taxonomyId, TaxonomyRank rank){
+		public string GetTaxonomyIdOfRank(string taxonomyId, TaxonomyRank rank){
 			int id;
 			if (!Parser.TryInt(taxonomyId, out id)){
 				return taxonomyId;

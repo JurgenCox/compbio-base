@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
-namespace BaseLibS.Parse.Uniprot
-{
+namespace BaseLibS.Parse.Uniprot {
     [Serializable]
 	public class DbReferenceType{
 		public static DbReferenceType go = new DbReferenceType("go");
@@ -201,8 +200,14 @@ namespace BaseLibS.Parse.Uniprot
 		public static DbReferenceType WBParaSite = new DbReferenceType("wbparasite");
 		public static DbReferenceType IMGTGENEDB = new DbReferenceType("imgt_gene-db");
 		public static DbReferenceType SAM = new DbReferenceType("sam");
+	    public static DbReferenceType ProteomicsDB = new DbReferenceType("proteomicsdb");
+	    public static DbReferenceType VGNC = new DbReferenceType("vgnc");
+	    public static DbReferenceType CarbonylDB = new DbReferenceType("carbonyldb");
+		public static DbReferenceType GlyConnect = new DbReferenceType("glyconnect");
+		public static DbReferenceType ComplexPortal = new DbReferenceType("complexportal");
+		public static DbReferenceType MoonDB = new DbReferenceType("moondb");
 
-        public static string[] allDbReferenceTypeStrings;
+		public static string[] allDbReferenceTypeStrings;
 		public static DbReferenceType[] allDbReferenceTypes = CreateDbReferenceTypeList();
 
 		private static DbReferenceType[] CreateDbReferenceTypeList(){
@@ -399,8 +404,14 @@ namespace BaseLibS.Parse.Uniprot
                 CollecTF,
                 WBParaSite,
 			    IMGTGENEDB,
-                SAM
-            };
+                SAM,
+				ProteomicsDB,
+				VGNC,
+				CarbonylDB,
+				GlyConnect,
+				ComplexPortal,
+				MoonDB
+			};
 
 			allDbReferenceTypeStrings = new string[ft.Count];
 			for (int i = 0; i < allDbReferenceTypeStrings.Length; i++){

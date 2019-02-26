@@ -13,16 +13,20 @@ namespace BaseLib.Forms {
 		private readonly string identifierParseRule;
 		private readonly string descriptionParseRule;
 		private readonly string taxonomyParseRule;
+		private readonly string variationParseRule;
+		private readonly string modificationParseRule;
 		private readonly DataTable2 tableModel;
 
 		public TestParseRulesForm(string filePath, string identifierParseRule, string descriptionParseRule,
-			string taxonomyParseRule) {
+			string taxonomyParseRule, string variationParseRule, string modificationParseRule) {
 			InitializeComponent();
 			this.filePath = filePath;
 			this.identifierParseRule = identifierParseRule;
 			this.descriptionParseRule = descriptionParseRule;
 			this.taxonomyParseRule = taxonomyParseRule;
-			tableModel = CreateTable();
+			this.variationParseRule = variationParseRule;
+			this.modificationParseRule = modificationParseRule;
+			tableModel = CreateTable(!string.IsNullOrEmpty(variationParseRule), !string.IsNullOrEmpty(modificationParseRule));
 			mainTable.TableModel = tableModel;
 			testButton.Click += TestButton_OnClick;
 			TestButton_OnClick(null, null);
@@ -54,29 +58,28 @@ namespace BaseLib.Forms {
 			TestFile(minEntry, maxEntry);
 		}
 
-		private static DataTable2 CreateTable() {
+		private static DataTable2 CreateTable(bool hasVariation, bool hasModification) {
 			DataTable2 t = new DataTable2("databases");
-			t.AddColumn("Header", 110, ColumnType.Text, "");
-			t.AddColumn("Sequence", 110, ColumnType.Text, "");
-			t.AddColumn("Identifier", 80, ColumnType.Text, "");
-			t.AddColumn("Description", 80, ColumnType.Text, "");
-			t.AddColumn("Taxonomy ID", 80, ColumnType.Text, "");
+			t.AddColumn("Header", 250, ColumnType.Text, "");
+			t.AddColumn("Sequence", 100, ColumnType.Text, "");
+			t.AddColumn("Identifier", 100, ColumnType.Text, "");
+			t.AddColumn("Description", 100, ColumnType.Text, "");
+			t.AddColumn("Taxonomy ID", 100, ColumnType.Text, "");
+			if (hasVariation) {
+				t.AddColumn("Variation", 100, ColumnType.Text, "");
+			}
+			if (hasModification) {
+				t.AddColumn("Modification", 100, ColumnType.Text, "");
+			}
 			return t;
 		}
 
 		private void TestFile(int minEntry, int maxEntry) {
-			Regex nameRegex = null;
-			if (!string.IsNullOrEmpty(identifierParseRule)) {
-				nameRegex = new Regex(identifierParseRule);
-			}
-			Regex descriptionRegex = null;
-			if (!string.IsNullOrEmpty(descriptionParseRule)) {
-				descriptionRegex = new Regex(descriptionParseRule);
-			}
-			Regex taxonomyRegex = null;
-			if (!string.IsNullOrEmpty(taxonomyParseRule)) {
-				taxonomyRegex = new Regex(taxonomyParseRule);
-			}
+			Regex nameRegex = !string.IsNullOrEmpty(identifierParseRule) ? new Regex(identifierParseRule) : null;
+			Regex descriptionRegex = !string.IsNullOrEmpty(descriptionParseRule) ? new Regex(descriptionParseRule) : null;
+			Regex taxonomyRegex = !string.IsNullOrEmpty(taxonomyParseRule) ? new Regex(taxonomyParseRule) : null;
+			Regex variationRegex = !string.IsNullOrEmpty(variationParseRule) ? new Regex(variationParseRule) : null;
+			Regex modificationRegex = !string.IsNullOrEmpty(modificationParseRule) ? new Regex(modificationParseRule) : null;
 			string[] headers;
 			string[] sequences;
 			GetDataFromFile(filePath, minEntry, maxEntry, out headers, out sequences);
@@ -94,6 +97,12 @@ namespace BaseLib.Forms {
 				}
 				if (taxonomyRegex != null) {
 					r["Taxonomy ID"] = taxonomyRegex.Match(header).Groups[1].ToString();
+				}
+				if (variationRegex != null) {
+					r["Variation"] = variationRegex.Match(header).Groups[1].ToString();
+				}
+				if (modificationRegex != null) {
+					r["Modification"] = modificationRegex.Match(header).Groups[1].ToString();
 				}
 				tableModel.AddRow(r);
 			}
