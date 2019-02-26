@@ -831,7 +831,7 @@ namespace BaseLibS.Util {
 			"names", "proteins", "positions within proteins", "leading proteins", "leading razor protein", "md sequence",
 			"md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities", "dp proteins",
 			"dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number", "pages",
-			"modified sequence", "formula", "formula2", "geneid", "chr"
+			"modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[] {
