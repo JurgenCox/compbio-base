@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace BaseLibS.Num {
 	/// <summary>
@@ -123,6 +124,20 @@ namespace BaseLibS.Num {
 		public double NextGaussian(double mean, double stddev) {
 			double x = Gasdev();
 			return x * stddev + mean;
+		}
+
+		public char NextChar(char min, char max) {
+			int n = max - min + 1;
+			int r = Next(n);
+			return (char)(min + r);
+		}
+
+		public string NextString(char min, char max, int length) {
+			StringBuilder b = new StringBuilder();
+			for (int i = 0; i < length; i++) {
+				b.Append(NextChar(min, max));
+			}
+			return b.ToString();
 		}
 
 		/// <summary>
