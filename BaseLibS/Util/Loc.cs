@@ -171,6 +171,84 @@ namespace BaseLibS.Util {
 	        }
 	    }
 
+        public static string DoYouReallyWantToDiscardPerseusSessionLoadSession
+        {
+            get
+            {
+                switch (TwoLettName)
+                {
+                    case arabic: return "هل ترغب في حفظ أي تغييرات قبل تحميل الجلسة؟";
+                    case bulgarian: return "Искате ли да запазите всички промени, преди да заредите сесията?";
+                    case chinese: return "是否要在加载会话之前保存所有更改？";
+                    case czech: return "Chcete uložit změny před načtením relace?";
+                    case danish: return "Vil du gerne gemme eventuelle ændringer, før du indlæser sessionen?";
+                    case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u de sessie laadt?";
+                    case estonian: return "Kas soovite enne sessiooni laadimist salvestada kõik muudatused?";
+                    case finnish: return "Haluatko tallentaa muutokset ennen istunnon lataamista?";
+                    case french: return "Voulez-vous enregistrer les modifications avant de charger la session?";
+                    case german: return "Möchten Sie Änderungen speichern, bevor Sie die Sitzung laden?";
+                    case greek: return "Θέλετε να αποθηκεύσετε οποιεσδήποτε αλλαγές πριν φορτώσετε τη σύνοδο;";
+                    case hebrew: return "האם תרצה לשמור שינויים לפני טעינת ההפעלה?";
+                    case hindi: return "क्या आप सत्र को लोड करने से पहले कोई परिवर्तन सहेजना चाहेंगे?";
+                    case italian: return "Vuoi salvare le modifiche prima di caricare la sessione?";
+                    case japanese: return "セッションをロードする前に変更を保存しますか？";
+                    case korean: return "세션을로드하기 전에 변경 사항을 저장 하시겠습니까?";
+                    case latvian: return "Vai vēlaties saglabāt izmaiņas pirms sesijas ielādes?";
+                    case lithuanian: return "Ar norite išsaugoti pakeitimus prieš įkeliant seansą?";
+                    case norwegian: return "Vil du lagre eventuelle endringer før du laster inn økten?";
+                    case persian: return "آیا می خواهید قبل از بارگذاری جلسه، تغییرات را ذخیره کنید؟";
+                    case polish: return "Czy chcesz zapisać zmiany przed załadowaniem sesji?";
+                    case portuguese: return "Você gostaria de salvar as alterações antes de carregar a sessão?";
+                    case romanian: return "Doriți să salvați toate modificările înainte de a încărca sesiunea?";
+                    case russian: return "Хотите ли вы сохранить какие-либо изменения перед загрузкой сеанса?";
+                    case spanish: return "¿Le gustaría guardar algún cambio antes de cargar la sesión?";
+                    case swedish: return "Vill du spara några ändringar innan du laddar upp sessionen?";
+                    case tamil: return "அமர்வை ஏற்றுவதற்கு முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
+                    case turkish: return "Oturumu yüklemeden önce herhangi bir değişikliği kaydetmek ister misiniz?";
+                    default: return "Would you like to save any changes before you load the session?";
+                }
+            }
+        }
+
+        public static string DoYouReallyWantToDiscardPerseusSessionNewSession
+        {
+            get
+            {
+                switch (TwoLettName)
+                {
+                    case arabic: return "هل ترغب في حفظ أي تغييرات قبل بدء جلسة جديدة؟";
+                    case bulgarian: return "Искате ли да запазите всички промени, преди да започнете нова сесия?";
+                    case chinese: return "您是否要在开始新会话之前保存所有更改？";
+                    case czech: return "Chcete uložit změny před zahájením nové relace?";
+                    case danish: return "Vil du gerne gemme eventuelle ændringer, før du starter en ny session?";
+                    case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u een nieuwe sessie start?";
+                    case estonian: return "Kas soovite enne uue seansi alustamist salvestada kõik muudatused?";
+                    case finnish: return "Haluatko tallentaa muutokset ennen uuden istunnon aloittamista?";
+                    case french: return "Voulez-vous enregistrer les modifications avant de commencer une nouvelle session?";
+                    case german: return "Möchten Sie Änderungen speichern, bevor Sie eine neue Sitzung beginnen?";
+                    case greek: return "Θέλετε να αποθηκεύσετε τις αλλαγές πριν ξεκινήσετε μια νέα συνεδρία;";
+                    case hebrew: return "האם ברצונך לשמור שינויים לפני שתתחיל הפעלה חדשה?";
+                    case hindi: return "क्या आप नया सत्र शुरू करने से पहले कोई बदलाव करना चाहेंगे?";
+                    case italian: return "Desideri salvare le modifiche prima di iniziare una nuova sessione?";
+                    case japanese: return "新しいセッションを開始する前に変更を保存しますか？";
+                    case korean: return "새 세션을 시작하기 전에 변경 사항을 저장 하시겠습니까?";
+                    case latvian: return "Vai vēlaties saglabāt izmaiņas pirms jaunas sesijas sākšanas?";
+                    case lithuanian: return "Ar norite išsaugoti bet kokius pakeitimus prieš pradedant naują sesiją?";
+                    case norwegian: return "Vil du lagre eventuelle endringer før du starter en ny sesjon?";
+                    case persian: return "آیا میخواهید قبل از شروع یک جلسه جدید تغییرات را ذخیره کنید؟";
+                    case polish: return "Czy chcesz zapisać zmiany przed rozpoczęciem nowej sesji?";
+                    case portuguese: return "Você gostaria de salvar as alterações antes de iniciar uma nova sessão?";
+                    case romanian: return "Doriți să salvați toate modificările înainte de a începe o nouă sesiune?";
+                    case russian: return "Хотите ли вы сохранить какие-либо изменения перед началом нового сеанса?";
+                    case spanish: return "¿Desea guardar los cambios antes de comenzar una nueva sesión?";
+                    case swedish: return "Vill du spara några ändringar innan du börjar en ny session?";
+                    case tamil: return "புதிய அமர்வு தொடங்குவதற்கு முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
+                    case turkish: return "Yeni bir oturuma başlamadan önce değişiklikleri kaydetmek ister misiniz?";
+                    default: return "Would you like to save any changes before you start a new session?";
+                }
+            }
+        }
+
         public static string Exit {
 			get {
 				switch (TwoLettName) {
