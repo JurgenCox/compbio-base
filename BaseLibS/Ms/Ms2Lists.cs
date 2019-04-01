@@ -31,5 +31,6 @@ namespace BaseLibS.Ms{
 		public List<double> agcList = new List<double>();
 		public List<double> agcFillList = new List<double>();
 		public List<int> nImsScans = new List<int>();
+		public List<int> windowGroupList = new List<int>();
 	}
 }
