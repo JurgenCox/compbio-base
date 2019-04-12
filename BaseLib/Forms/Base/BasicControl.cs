@@ -68,7 +68,6 @@ namespace BaseLib.Forms.Base {
 
 		protected sealed override void OnMouseMove(MouseEventArgs e) {
 			SetStyle(ControlStyles.Selectable, true);
-			Focus();
 			base.OnMouseMove(e);
 			if (mouseDown) {
 				view.OnMouseDragged(new BasicMouseEventArgs(e.X, e.Y, e.Button == MouseButtons.Left, Width, Height,
