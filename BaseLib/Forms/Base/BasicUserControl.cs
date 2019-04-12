@@ -21,7 +21,6 @@ namespace BaseLib.Forms.Base{
 
 		protected override void OnMouseMove(MouseEventArgs e){
 			SetStyle(ControlStyles.Selectable, true);
-			Focus();
 			base.OnMouseMove(e);
 			if (mouseDown){
 				OnMouseDragged(e);
