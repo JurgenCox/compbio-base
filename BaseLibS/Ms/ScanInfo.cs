@@ -31,5 +31,6 @@
 		public double emIntenseComp;
 		public double rawOvFtT;
 	    public int nImsScans;
+	    public int windowGroup;
     }
 }

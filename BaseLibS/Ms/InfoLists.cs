@@ -104,6 +104,7 @@ namespace BaseLibS.Ms{
 					ms2Lists.rawOvFtT.Add(scanInfo.rawOvFtT);
 					ms2Lists.agcFillList.Add(scanInfo.agcFill);
 					ms2Lists.nImsScans.Add(scanInfo.nImsScans);
+					ms2Lists.windowGroupList.Add(scanInfo.windowGroup);
 					break;
 				case MsLevel.Ms3:
 					if (scanInfo.min < ms3Lists.massMin){

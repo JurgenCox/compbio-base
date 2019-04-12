@@ -206,6 +206,9 @@ namespace BaseLibS.Parse.Uniprot {
 		public static DbReferenceType GlyConnect = new DbReferenceType("glyconnect");
 		public static DbReferenceType ComplexPortal = new DbReferenceType("complexportal");
 		public static DbReferenceType MoonDB = new DbReferenceType("moondb");
+		public static DbReferenceType Rhea = new DbReferenceType("rhea");
+		public static DbReferenceType jPOST = new DbReferenceType("jpost");
+		public static DbReferenceType UniLectin = new DbReferenceType("unilectin");
 
 		public static string[] allDbReferenceTypeStrings;
 		public static DbReferenceType[] allDbReferenceTypes = CreateDbReferenceTypeList();
@@ -410,8 +413,11 @@ namespace BaseLibS.Parse.Uniprot {
 				CarbonylDB,
 				GlyConnect,
 				ComplexPortal,
-				MoonDB
-			};
+				MoonDB,
+			    Rhea,
+                jPOST,
+			    UniLectin
+            };
 
 			allDbReferenceTypeStrings = new string[ft.Count];
 			for (int i = 0; i < allDbReferenceTypeStrings.Length; i++){
@@ -436,7 +442,7 @@ namespace BaseLibS.Parse.Uniprot {
                 throw new Exception("Unknown DbReference type: " + s);
             }
             return allDbReferenceTypes[index];
-		}
+		} 
 
 		public string UniprotName { get; set; }
 		public int Index { get; set; }
