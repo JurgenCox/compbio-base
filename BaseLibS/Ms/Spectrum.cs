@@ -44,25 +44,37 @@ namespace BaseLibS.Ms {
 			return ArrayUtils.FloorIndex(Masses, mass);
 		}
 
-		public int GetClosestIndex(double mass, bool outOfRangeIsInvalid) {
-			if (double.IsNaN(mass) || double.IsInfinity(mass)) {
-				return -1;
+		/// <summary>
+		/// Index of the sorted array masses closes to the mass value 
+		/// </summary>
+		public int GetClosestIndex(double mass, bool outOfRangeIsInvalid)
+		{
+			if (double.IsNaN(mass) || double.IsInfinity(mass)) return -1;
+
+			if (mass <= MinMass) return outOfRangeIsInvalid ? -1 : 0;
+
+			if (mass >= MaxMass) return outOfRangeIsInvalid ? -1 : Count - 1;
+
+			int i = Masses.Length / 2;
+			var d = mass - Masses[i];
+			var s = d > 0 ? 1 : -1;
+
+			while (i >= 0 && i < Masses.Length)
+			{
+				var v = (mass - Masses[i]);
+
+				if ((v <= 0) == (d <= 0))
+				{
+					d = v;
+					i += s;
+				}
+				else if (v * v < d * d) return i;
+				else return i - s;
 			}
-			if (mass <= MinMass) {
-				return outOfRangeIsInvalid ? -1 : 0;
-			}
-			if (mass >= MaxMass) {
-				return outOfRangeIsInvalid ? -1 : Count - 1;
-			}
-			int index = Array.BinarySearch(Masses, mass); //TODO: invalid operation
-			if (index >= 0) {
-				return index;
-			}
-			index = -2 - index;
-			if (Math.Abs(GetMass(index) - mass) < Math.Abs(GetMass(index + 1) - mass)) {
-				return index;
-			}
-			return index + 1;
+
+			if (i < 0) return 0;
+			if (i >= Masses.Length) return 0;
+			return i;
 		}
 
 		public double GetMass(int index) {
