@@ -380,26 +380,42 @@ namespace BaseLibS.Ms {
 			if (double.IsNaN(rt) || double.IsInfinity(rt)) {
 				return -1;
 			}
-			if (Ms1Rt.Length == 0) {
-				return -1;
+
+			if (Ms1Rt == null) return -1;
+			lock (Ms1Rt)
+			{
+				if (Ms1Rt.Length == 0)
+				{
+					return -1;
+				}
+
+				if (rt < StartTimeMs1 || rt > EndTimeMs1)
+				{
+					return -1;
+				}
+
+				if (rt <= Ms1Rt[0])
+				{
+					return 0;
+				}
+
+				if (rt >= Ms1Rt[Ms1Rt.Length - 1])
+				{
+					return Ms1Rt.Length - 1;
+				}
+
+				int a = Array.BinarySearch(Ms1Rt, rt);
+				if (a >= 0)
+				{
+					return a;
+				}
+
+				if (2 * rt < Ms1Rt[-a - 1] + Ms1Rt[-a - 2])
+				{
+					return -a - 2;
+				}
+				return -a - 1;
 			}
-			if (rt < StartTimeMs1 || rt > EndTimeMs1) {
-				return -1;
-			}
-			if (rt <= Ms1Rt[0]) {
-				return 0;
-			}
-			if (rt >= Ms1Rt[Ms1Rt.Length - 1]) {
-				return Ms1Rt.Length - 1;
-			}
-			int a = Array.BinarySearch(Ms1Rt, rt);
-			if (a >= 0) {
-				return a;
-			}
-			if (2 * rt < Ms1Rt[-a - 1] + Ms1Rt[-a - 2]) {
-				return -a - 2;
-			}
-			return -a - 1;
 		}
 
 		public int GetMs2IndexFromRt(double rt) {
