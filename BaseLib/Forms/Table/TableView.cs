@@ -364,7 +364,17 @@ namespace BaseLib.Forms.Table {
 			return tableViewWf.GetSelectedRow();
 		}
 
-		public void ScrollToRow(int row) {
+        public int[] GetSelectedAll()
+        {
+            return tableViewWf.GetSelectedAll();
+        }
+
+        public int GetSelectedAll1()
+        {
+            return tableViewWf.GetSelectedAll1();
+        }
+
+        public void ScrollToRow(int row) {
 			tableViewWf.ScrollToRow(row);
 		}
 

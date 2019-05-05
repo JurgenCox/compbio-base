@@ -1022,7 +1022,35 @@ namespace BaseLib.Forms.Table {
 			SetSelection(x);
 		}
 
-		public long SelectedCount {
+        public int GetSelectedAll1()
+        {
+            int[] sel = GetSelectedAll();
+            if (sel.Length == 0)
+            {
+                return -1;
+            }
+            return sel[0];
+        }
+
+        public int[] GetSelectedAll()
+        {
+            if (model == null)
+            {
+                return new int[0];
+            }
+            CheckSizes();
+            List<int> result = new List<int>();
+            bool[] x = new bool[RowCount];
+            for (int i = 0; i < x.Length; i++)
+            {
+
+                result.Add(i);
+
+            }
+            return result.ToArray();
+        }
+
+        public long SelectedCount {
 			get {
 				if (modelRowSel == null) {
 					return 0;
