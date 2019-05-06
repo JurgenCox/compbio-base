@@ -1019,14 +1019,65 @@ namespace BaseLibS.Num{
 			}
 			Gcf(ref gammcf, a, x, out gln);
 			return 1.0 - gammcf;
-		}
+        }
 
-		/// <summary>
-		/// Returns the incomplete gamma function Q(a,x) = 1 - P(a,x)
-		/// </summary>
-		public static double Gammq(double a, double x){
+        //the lower incomplete regularised gamma function
+        //P(a, x) is the cumulative distribution function for Gamma random
+        //variables with shape parameter<i>a</i> and scale parameter 1.
+        // valid for non negative values of a and real number of x
+        public static double LowerGammp(double a, double x)
+        {
+            double gamser = double.NaN;
+            double gammcf = double.NaN;
+            double gln;
+            if ( a <= 0.0)
+            {
+                throw new Exception("Invalid arguments in routine gammq");
+            }
+            if (x < a + 1.0)
+            {
+                Gser(ref gamser, a, x, out gln);
+                return gamser;
+            }
+            Gcf(ref gammcf, a, x, out gln);
+            return 1.0 - gammcf;
+        }
+
+        //the upper incomplete regularised gamma function
+        //Q(a, x) = 1 − P(a, x).
+        // valid for non negative values of a and real number of x
+        public static double UpperGammq(double a, double x)
+        {
+            
+            if (a <= 0.0)
+            {
+                throw new Exception("Invalid arguments in routine gammq");
+            }
+            if (x < (a + 1.0))
+            {
+                double gamser = double.NaN;
+                double gln;
+                Gser(ref gamser, a, x, out gln);
+                return 1.0 - gamser;
+            }
+            else
+            {
+                double gammcf = double.NaN;
+                double gln;
+                Gcf(ref gammcf, a, x, out gln);
+                return gammcf;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Returns the incomplete gamma function Q(a,x) = 1 - P(a,x)
+        /// </summary>
+        public static double Gammq(double a, double x){
 			if (x < 0.0 || a <= 0.0){
-				throw new Exception("Invalid arguments in routine gammq");
+                
+                    throw new Exception("Invalid arguments in routine gammq");
 			}
 			if (x < (a + 1.0)){
 				double gamser = double.NaN;
