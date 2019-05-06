@@ -15,7 +15,9 @@ namespace BaseLibS.Num.Matrix {
 			vals = new bool[nrows, ncols];
 		}
 
-		public IBoolMatrixIndexer Transpose() {
+
+
+        public IBoolMatrixIndexer Transpose() {
 			return vals == null ? new BoolMatrixIndexer() : new BoolMatrixIndexer(ArrayUtils.Transpose(vals));
 		}
 
