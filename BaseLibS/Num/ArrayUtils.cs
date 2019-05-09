@@ -2276,41 +2276,79 @@ namespace BaseLibS.Num {
 			return array;
 		}
 
-		public static int ClosestIndex(double[] array, double value) {
-			if (double.IsNaN(value)) {
-				return -1;
+		public static int ClosestIndex(double[] array, double value)
+		{
+			if (array == null) return -1;
+			lock (array)
+			{
+				if (double.IsNaN(value))
+				{
+					return -1;
+				}
+
+				int n = array.Length;
+				if (n == 0)
+				{
+					return -1;
+				}
+
+				if (n == 1)
+				{
+					return 0;
+				}
+
+				if (value > array[n - 1])
+				{
+					return n - 1;
+				}
+
+				if (value < array[0])
+				{
+					return 0;
+				}
+
+
+				var comparerDouble = new ComparerDouble();
+				int a = Array.BinarySearch<double>(array, 0, array.Length, value, comparerDouble);
+
+				if (a >= 0)
+				{
+					return a;
+				}
+
+				int b = -1 - a;
+				if (b == 0)
+				{
+					return b;
+				}
+
+				if (b >= n)
+				{
+					//can only happen if the array contains NaNs
+					return -1;
+				}
+
+				if (array[b] < 2 * value - array[b - 1])
+				{
+					return b;
+				}
+
+				return b - 1;
+			
 			}
-			int n = array.Length;
-			if (n == 0) {
-				return -1;
-			}
-			if (n == 1) {
-				return 0;
-			}
-			if (value > array[n - 1]) {
-				return n - 1;
-			}
-			if (value < array[0]) {
-				return 0;
-			}
-			int a = Array.BinarySearch(array, value);
-			if (a >= 0) {
-				return a;
-			}
-			int b = -1 - a;
-			if (b == 0) {
-				return b;
-			}
-			if (b >= n) {
-				//can only happen if the array contains NaNs
-				return -1;
-			}
-			if (array[b] < 2 * value - array[b - 1]) {
-				return b;
-			}
-			return b - 1;
 		}
 
+		private class ComparerDouble : IComparer<double>
+		{
+			public int Compare(double x, double y)
+			{
+				if (x > y) return 1;
+				if (x < y) return -1;
+				return 0;
+			}
+		}
+		
+		
 		public static int ClosestIndex(float[] array, float value) {
 			if (float.IsNaN(value)) {
 				return -1;

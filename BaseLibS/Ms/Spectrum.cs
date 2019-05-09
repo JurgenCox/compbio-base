@@ -49,34 +49,39 @@ namespace BaseLibS.Ms {
 		/// </summary>
 		public int GetClosestIndex(double mass, bool outOfRangeIsInvalid)
 		{
-			if (double.IsNaN(mass) || double.IsInfinity(mass)) return -1;
-
-			if (mass <= MinMass) return outOfRangeIsInvalid ? -1 : 0;
-
-			if (mass >= MaxMass) return outOfRangeIsInvalid ? -1 : Count - 1;
-
-			int i = Masses.Length / 2;
-			var d = mass - Masses[i];
-			var s = d > 0 ? 1 : -1;
-
-			while (i >= 0 && i < Masses.Length)
-			{
-				var v = (mass - Masses[i]);
-
-				if ((v <= 0) == (d <= 0))
-				{
-					d = v;
-					i += s;
-				}
-				else if (v * v < d * d) return i;
-				else return i - s;
+			if (double.IsNaN(mass) || double.IsInfinity(mass)) {
+				return -1;
 			}
-
-			if (i < 0) return 0;
-			if (i >= Masses.Length) return 0;
-			return i;
+			if (mass <= MinMass) {
+				return outOfRangeIsInvalid ? -1 : 0;
+			}
+			if (mass >= MaxMass) {
+				return outOfRangeIsInvalid ? -1 : Count - 1;
+			}
+		
+			var comparerDouble = new ComparerDouble();
+			int index = Array.BinarySearch<double>(Masses, 0, Masses.Length, mass, comparerDouble);
+			
+			if (index >= 0) {
+				return index;
+			}
+			index = -2 - index;
+			if (Math.Abs(GetMass(index) - mass) < Math.Abs(GetMass(index + 1) - mass)) {
+				return index;
+			}
+			return index + 1;
 		}
 
+		private class ComparerDouble : IComparer<double>
+		{
+			public int Compare(double x, double y)
+			{
+				if (x > y) return 1;
+				if (x < y) return -1;
+				return 0;
+			}
+		}
+		
 		public double GetMass(int index) {
 			return Masses.Length > 0 ? Masses[index] : double.NaN;
 		}
