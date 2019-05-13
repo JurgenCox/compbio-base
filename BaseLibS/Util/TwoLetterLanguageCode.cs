@@ -30,5 +30,11 @@
 		protected const string swedish = "sv";
 		protected const string tamil = "ta";
 		protected const string turkish = "tr";
+
+		public static readonly string[] allLanguages = {
+			arabic, bulgarian, chinese, czech, danish, dutch, english, estonian, finnish, french, german, greek, hebrew,
+			hindi, italian, japanese, korean, latvian, lithuanian, norwegian, persian, polish, portuguese, romanian,
+			russian, spanish, swedish, tamil, turkish
+		};
 	}
 }

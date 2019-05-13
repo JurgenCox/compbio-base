@@ -517,6 +517,25 @@ namespace BaseLibS.Num {
 			return ind;
 		}
 
+		public static (int, int) MaxInd(double[,] x) {
+			int n0 = x.GetLength(0);
+			int n1 = x.GetLength(1);
+			double max = double.MinValue;
+			int ind0 = -1;
+			int ind1 = -1;
+			for (int i = 0; i < n0; i++) {
+				for (int j = 0; j < n1; j++) {
+					double val = x[i, j];
+					if (val > max) {
+						max = val;
+						ind0 = i;
+						ind1 = j;
+					}
+				}
+			}
+			return (ind0, ind1);
+		}
+
 		public static double[] ToDoubles(IList<float> floats) {
 			double[] result = new double[floats.Count];
 			for (int i = 0; i < result.Length; i++) {
@@ -2276,79 +2295,53 @@ namespace BaseLibS.Num {
 			return array;
 		}
 
-		public static int ClosestIndex(double[] array, double value)
-		{
+		public static int ClosestIndex(double[] array, double value) {
 			if (array == null) return -1;
-			lock (array)
-			{
-				if (double.IsNaN(value))
-				{
+			lock (array) {
+				if (double.IsNaN(value)) {
 					return -1;
 				}
-
 				int n = array.Length;
-				if (n == 0)
-				{
+				if (n == 0) {
 					return -1;
 				}
-
-				if (n == 1)
-				{
+				if (n == 1) {
 					return 0;
 				}
-
-				if (value > array[n - 1])
-				{
+				if (value > array[n - 1]) {
 					return n - 1;
 				}
-
-				if (value < array[0])
-				{
+				if (value < array[0]) {
 					return 0;
 				}
-
-
 				var comparerDouble = new ComparerDouble();
 				int a = Array.BinarySearch<double>(array, 0, array.Length, value, comparerDouble);
-
-				if (a >= 0)
-				{
+				if (a >= 0) {
 					return a;
 				}
-
 				int b = -1 - a;
-				if (b == 0)
-				{
+				if (b == 0) {
 					return b;
 				}
-
-				if (b >= n)
-				{
+				if (b >= n) {
 					//can only happen if the array contains NaNs
 					return -1;
 				}
-
-				if (array[b] < 2 * value - array[b - 1])
-				{
+				if (array[b] < 2 * value - array[b - 1]) {
 					return b;
 				}
-
 				return b - 1;
-			
 			}
 		}
 
-		private class ComparerDouble : IComparer<double>
-		{
-			public int Compare(double x, double y)
-			{
+		private class ComparerDouble : IComparer<double> {
+			public int Compare(double x, double y) {
 				if (x > y) return 1;
 				if (x < y) return -1;
 				return 0;
 			}
 		}
-		
-		
+
 		public static int ClosestIndex(float[] array, float value) {
 			if (float.IsNaN(value)) {
 				return -1;
