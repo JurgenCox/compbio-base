@@ -363,6 +363,22 @@ namespace BaseLibS.Mol {
 			return result;
 		}
 
+		public double CalcMass() {
+			double mass = 0;
+			if (NTermModification != ushort.MaxValue) {
+				mass += Tables.ModificationList[NTermModification].DeltaMass;
+			}
+			if (CTermModification != ushort.MaxValue) {
+				mass += Tables.ModificationList[CTermModification].DeltaMass;
+			}
+			foreach (ushort t in Modifications) {
+				if (t != ushort.MaxValue) {
+					mass += Tables.ModificationList[t].DeltaMass;
+				}
+			}
+			return mass;
+		}
+
 		public void Dispose() {
 			//Modifications = null;
 			//IsDisposed = true;
