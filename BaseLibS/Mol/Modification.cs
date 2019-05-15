@@ -3,23 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace BaseLibS.Mol{
-	public class Modification : StorableItem{
+namespace BaseLibS.Mol {
+	public class Modification : StorableItem {
 		private double deltaMass = double.NaN;
 		private ModificationSite[] sites = new ModificationSite[0];
 		private Dictionary<char, ModificationSite> sitesMap;
-
-		[XmlAttribute("reporterCorrectionM2")]
-		public double ReporterCorrectionM2 { get; set; }
-
-		[XmlAttribute("reporterCorrectionM1")]
-		public double ReporterCorrectionM1 { get; set; }
-
-		[XmlAttribute("reporterCorrectionP1")]
-		public double ReporterCorrectionP1 { get; set; }
-
-		[XmlAttribute("reporterCorrectionP2")]
-		public double ReporterCorrectionP2 { get; set; }
+		[XmlAttribute("reporterCorrectionM2")] public double ReporterCorrectionM2 { get; set; }
+		[XmlAttribute("reporterCorrectionM1")] public double ReporterCorrectionM1 { get; set; }
+		[XmlAttribute("reporterCorrectionP1")] public double ReporterCorrectionP1 { get; set; }
+		[XmlAttribute("reporterCorrectionP2")] public double ReporterCorrectionP2 { get; set; }
 
 		[XmlAttribute("reporterCorrectionType")]
 		public bool ReporterCorrectionType { get; set; }
@@ -28,9 +20,9 @@ namespace BaseLibS.Mol{
 		/// Monoisotopic mass
 		/// </summary>
 		[XmlAttribute("delta_mass"), XmlIgnore]
-		public double DeltaMass{
-			get{
-				if (double.IsNaN(deltaMass)){
+		public double DeltaMass {
+			get {
+				if (double.IsNaN(deltaMass)) {
 					deltaMass = ChemElements.GetMassFromComposition(Composition);
 				}
 				return deltaMass;
@@ -38,11 +30,8 @@ namespace BaseLibS.Mol{
 			set => deltaMass = value;
 		}
 
-		[XmlAttribute("composition")]
-		public string Composition { get; set; }
-
-		[XmlAttribute("filename"), XmlIgnore]
-		public string Filename { get; set; }
+		[XmlAttribute("composition")] public string Composition { get; set; }
+		[XmlAttribute("filename"), XmlIgnore] public string Filename { get; set; }
 
 		/// <summary>
 		/// Equivalent Unimod id
@@ -53,15 +42,15 @@ namespace BaseLibS.Mol{
 		/// <summary>
 		/// Position of Modification
 		/// </summary>
-		[XmlElement("position", typeof (ModificationPosition))]
+		[XmlElement("position", typeof(ModificationPosition))]
 		public ModificationPosition Position { get; set; } = ModificationPosition.anywhere;
 
 		[XmlElement("modification_site")]
-		public ModificationSite[] Sites{
-			set{
+		public ModificationSite[] Sites {
+			set {
 				sites = value ?? new ModificationSite[0];
 				sitesMap = new Dictionary<char, ModificationSite>();
-				foreach (ModificationSite modificationSite in sites){
+				foreach (ModificationSite modificationSite in sites) {
 					sitesMap.Add(modificationSite.Aa, modificationSite);
 				}
 			}
@@ -71,86 +60,86 @@ namespace BaseLibS.Mol{
 		/// <summary>
 		/// Determines if this is a standard modification, a label or an isobaric label, etc
 		/// </summary>
-		[XmlElement("type", typeof (ModificationType))]
+		[XmlElement("type", typeof(ModificationType))]
 		public ModificationType ModificationType { get; set; } = ModificationType.Standard;
 
-		[XmlElement("terminus_type", typeof (NewTerminusType))]
+		[XmlElement("terminus_type", typeof(NewTerminusType))]
 		public NewTerminusType NewTerminusType { get; set; } = NewTerminusType.none;
 
 		public int AaCount => sites.Length;
 		public string Abbreviation => Name.Substring(0, 2).ToLower();
 		public bool IsPhosphorylation => Math.Abs(deltaMass - 79.96633) < 0.0001;
 
-		public bool IsInternal
-			=>
-				Position == ModificationPosition.anywhere || Position == ModificationPosition.notNterm ||
-				Position == ModificationPosition.notCterm || Position == ModificationPosition.notTerm;
+		public bool IsInternal =>
+			Position == ModificationPosition.anywhere || Position == ModificationPosition.notNterm ||
+			Position == ModificationPosition.notCterm || Position == ModificationPosition.notTerm;
 
-		public bool IsNterminal => Position == ModificationPosition.anyNterm || Position == ModificationPosition.proteinNterm;
-		public bool IsCterminal => Position == ModificationPosition.anyCterm || Position == ModificationPosition.proteinCterm;
+		public bool IsNterminal =>
+			Position == ModificationPosition.anyNterm || Position == ModificationPosition.proteinNterm;
 
-		public bool IsNterminalStep
-			=>
-				Position == ModificationPosition.anyNterm || Position == ModificationPosition.proteinNterm ||
-				Position == ModificationPosition.anywhere || Position == ModificationPosition.notCterm;
+		public bool IsCterminal =>
+			Position == ModificationPosition.anyCterm || Position == ModificationPosition.proteinCterm;
 
-		public bool IsCterminalStep
-			=>
-				Position == ModificationPosition.anyCterm || Position == ModificationPosition.proteinCterm ||
-				Position == ModificationPosition.anywhere || Position == ModificationPosition.notNterm;
+		public bool IsNterminalStep =>
+			Position == ModificationPosition.anyNterm || Position == ModificationPosition.proteinNterm ||
+			Position == ModificationPosition.anywhere || Position == ModificationPosition.notCterm;
 
-		public bool IsProteinTerminal
-			=> Position == ModificationPosition.proteinNterm || Position == ModificationPosition.proteinCterm;
+		public bool IsCterminalStep =>
+			Position == ModificationPosition.anyCterm || Position == ModificationPosition.proteinCterm ||
+			Position == ModificationPosition.anywhere || Position == ModificationPosition.notNterm;
 
-		public ModificationSite GetSite(char aa){
+		public bool IsProteinTerminal =>
+			Position == ModificationPosition.proteinNterm || Position == ModificationPosition.proteinCterm;
+
+		public ModificationSite GetSite(char aa) {
 			return sitesMap.ContainsKey(aa) ? sitesMap[aa] : null;
 		}
 
-		public override bool Equals(object obj){
-			if (this == obj){
+		public override bool Equals(object obj) {
+			if (this == obj) {
 				return true;
 			}
-			if (obj is Modification){
+			if (obj is Modification) {
 				return (((Modification) obj).Name != Name);
 			}
 			return false;
 		}
 
-		public override int GetHashCode(){
+		public override int GetHashCode() {
 			return Name.GetHashCode();
 		}
 
-		public bool HasAa(char aa){
-			foreach (ModificationSite x in sites){
-				if (x.Aa == aa){
+		public bool HasAa(char aa) {
+			foreach (ModificationSite x in sites) {
+				if (x.Aa == aa) {
 					return true;
 				}
 			}
 			return false;
 		}
 
-		public char GetAaAt(int j){
+		public char GetAaAt(int j) {
 			return sites[j].Aa;
 		}
 
-		public static string[] ToStrings(Modification[] mods){
+		public static string[] ToStrings(Modification[] mods) {
 			string[] result = new string[mods.Length];
-			for (int i = 0; i < mods.Length; i++){
+			for (int i = 0; i < mods.Length; i++) {
 				result[i] = mods[i].Name;
 			}
 			return result;
 		}
 
-		public override string ToString(){
+		public override string ToString() {
 			return Name;
 		}
 
-		public static Dictionary<char, ushort> ToDictionary(Modification[] modifications){
+		public static Dictionary<char, ushort> ToDictionary(Modification[] modifications) {
 			Dictionary<char, ushort> result = new Dictionary<char, ushort>();
-			foreach (Modification modification in modifications.Where(modification => modification.IsInternal)){
-				for (int i = 0; i < modification.AaCount; i++){
+			foreach (Modification modification in modifications.Where(modification => modification.IsInternal)) {
+				for (int i = 0; i < modification.AaCount; i++) {
 					char c = modification.GetAaAt(i);
-					if (result.ContainsKey(c)){
+					if (result.ContainsKey(c)) {
 						throw new ArgumentException("Conflicting modifications.");
 					}
 					result.Add(c, modification.Index);
@@ -159,7 +148,7 @@ namespace BaseLibS.Mol{
 			return result;
 		}
 
-		public string GetFormula(){
+		public string GetFormula() {
 			string formula = Composition;
 			formula = formula.Replace("(", "");
 			formula = formula.Replace(")", "");
@@ -168,10 +157,10 @@ namespace BaseLibS.Mol{
 			return formula;
 		}
 
-		public bool HasNeutralLoss{
-			get{
-				foreach (ModificationSite site in sites){
-					if (site.HasNeutralLoss){
+		public bool HasNeutralLoss {
+			get {
+				foreach (ModificationSite site in sites) {
+					if (site.HasNeutralLoss) {
 						return true;
 					}
 				}
@@ -179,21 +168,21 @@ namespace BaseLibS.Mol{
 			}
 		}
 
-		public bool IsIsotopicLabel{
-			get{
-				if (ModificationType == ModificationType.IsobaricLabel || IsStandardVarMod(ModificationType)){
+		public bool IsIsotopicLabel {
+			get {
+				if (ModificationType == ModificationType.IsobaricLabel || IsStandardVarMod(ModificationType)) {
 					return false;
 				}
 				return IsIsotopicMod;
 			}
 		}
 
-		public bool IsIsotopicMod{
-			get{
+		public bool IsIsotopicMod {
+			get {
 				Tuple<Molecule, Molecule> x = Molecule.GetDifferences(new Molecule(), new Molecule(GetFormula()));
 				Molecule labelingDiff1 = x.Item1;
 				Molecule labelingDiff2 = x.Item2;
-				if (!labelingDiff1.IsIsotopicLabel && !labelingDiff2.IsIsotopicLabel){
+				if (!labelingDiff1.IsIsotopicLabel && !labelingDiff2.IsIsotopicLabel) {
 					return false;
 				}
 				Molecule d1 = labelingDiff1.GetUnlabeledVersion();
@@ -203,12 +192,12 @@ namespace BaseLibS.Mol{
 			}
 		}
 
-		public static bool IsStandardVarMod(ushort m){
+		public static bool IsStandardVarMod(ushort m) {
 			return m < Tables.ModificationList.Length && IsStandardVarMod(Tables.ModificationList[m].ModificationType);
 		}
 
-		public static bool IsStandardVarMod(ModificationType type){
-			switch (type){
+		public static bool IsStandardVarMod(ModificationType type) {
+			switch (type) {
 				case ModificationType.Standard:
 				case ModificationType.AaSubstitution:
 				case ModificationType.Glycan:
@@ -218,15 +207,26 @@ namespace BaseLibS.Mol{
 			return false;
 		}
 
-		public Molecule GetMolecule(){
+		public Molecule GetMolecule() {
 			return new Molecule(GetFormula());
 		}
 
-		public static bool IsIsobaricLabelMod(ushort m){
-			if (m >= Tables.ModificationList.Length){
+		public static bool IsIsobaricLabelMod(ushort m) {
+			if (m >= Tables.ModificationList.Length) {
 				return false;
 			}
 			return Tables.ModificationList[m].ModificationType == ModificationType.IsobaricLabel;
+		}
+
+		public static Modification[] FromStrings(IList<string> modNames) {
+			if (modNames == null) {
+				return new Modification[0];
+			}
+			Modification[] result = new Modification[modNames.Count];
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = Tables.Modifications[modNames[i]];
+			}
+			return result;
 		}
 	}
 }
