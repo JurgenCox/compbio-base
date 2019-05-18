@@ -484,9 +484,7 @@ namespace BaseLibS.Num {
 			if (n <= 3) {
 				return Median(data);
 			}
-			double[] x;
-			double[] y;
-			Histogram(data, out x, out y, false, false);
+			Histogram(data, out double[] x, out double[] y, false, false);
 			int ind = MaxInd(y);
 			return x[ind];
 		}
@@ -496,9 +494,7 @@ namespace BaseLibS.Num {
 			if (n <= 3) {
 				return Median(data);
 			}
-			double[] x;
-			double[] y;
-			Histogram(data, out x, out y, false, false);
+			Histogram(data, out double[] x, out double[] y, false, false);
 			int ind = MaxInd(y);
 			return x[ind];
 		}
@@ -1110,9 +1106,7 @@ namespace BaseLibS.Num {
 
 		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative, double h) {
-			double min;
-			double max;
-			MinMax(data, out min, out max);
+			MinMax(data, out double min, out double max);
 			if (min == max) {
 				Histogram(data, out x, out y, normalized, cumulative, 0.1, min - 0.05, max + 0.05);
 			}
@@ -1125,9 +1119,7 @@ namespace BaseLibS.Num {
 
 		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative, double h) {
-			float min;
-			float max;
-			MinMax(data, out min, out max);
+			MinMax(data, out float min, out float max);
 			if (min == max) {
 				Histogram(data, out x, out y, normalized, cumulative, 0.1, min - 0.05, max + 0.05);
 			}
@@ -1722,8 +1714,7 @@ namespace BaseLibS.Num {
 		}
 
 		public static double MeanAndStddev(IList<float> vals, out double stddev, bool useMedian) {
-			int validCount;
-			return MeanAndStddev(vals, out stddev, out validCount, useMedian);
+			return MeanAndStddev(vals, out stddev, out int validCount, useMedian);
 		}
 
 		public static double MeanAndStddev(IList<float> vals, out double stddev, out int validCount) {
@@ -2314,8 +2305,7 @@ namespace BaseLibS.Num {
 				if (value < array[0]) {
 					return 0;
 				}
-				var comparerDouble = new ComparerDouble();
-				int a = Array.BinarySearch<double>(array, 0, array.Length, value, comparerDouble);
+				int a = Array.BinarySearch(array, 0, array.Length, value);
 				if (a >= 0) {
 					return a;
 				}
@@ -2334,11 +2324,41 @@ namespace BaseLibS.Num {
 			}
 		}
 
-		private class ComparerDouble : IComparer<double> {
-			public int Compare(double x, double y) {
-				if (x > y) return 1;
-				if (x < y) return -1;
-				return 0;
+		public static int ClosestIndex(List<double> array, double value) {
+			if (array == null) return -1;
+			lock (array) {
+				if (double.IsNaN(value)) {
+					return -1;
+				}
+				int n = array.Count;
+				if (n == 0) {
+					return -1;
+				}
+				if (n == 1) {
+					return 0;
+				}
+				if (value > array[n - 1]) {
+					return n - 1;
+				}
+				if (value < array[0]) {
+					return 0;
+				}
+				int a = array.BinarySearch(value);
+				if (a >= 0) {
+					return a;
+				}
+				int b = -1 - a;
+				if (b == 0) {
+					return b;
+				}
+				if (b >= n) {
+					//can only happen if the array contains NaNs
+					return -1;
+				}
+				if (array[b] < 2 * value - array[b - 1]) {
+					return b;
+				}
+				return b - 1;
 			}
 		}
 
@@ -2787,9 +2807,7 @@ namespace BaseLibS.Num {
 		}
 
 		public static float[] Zscore(IList<float> vals, bool useMedian) {
-			int validCount;
-			double stddev;
-			double mean = MeanAndStddev(vals, out stddev, out validCount, useMedian);
+			double mean = MeanAndStddev(vals, out double stddev, out int validCount, useMedian);
 			float[] result = new float[vals.Count];
 			if (validCount < 3) {
 				for (int i = 0; i < result.Length; i++) {
