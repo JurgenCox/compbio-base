@@ -412,11 +412,17 @@ namespace BaseLibS.Mol {
 		}
 
 		public static (string, PeptideModificationState) FromString(string s) {
+			SplitTermini(s, out string nt, out string ct, out string r);
+			return FromString(nt, ct, r);
+		}
+
+		public static void SplitTermini(string s, out string nt, out string ct, out string r) {
 			if (!s.StartsWith("_")) {
+				nt = null;
+				ct = null;
+				r = null;
 				throw new Exception("Wrong input format.");
 			}
-			string nt;
-			string r;
 			if (s[1] == '(') {
 				nt = s.Substring(0, s.IndexOf(')') + 1);
 				r = s.Substring(s.IndexOf(')') + 1);
@@ -424,7 +430,6 @@ namespace BaseLibS.Mol {
 				nt = s.Substring(0, 1);
 				r = s.Substring(1);
 			}
-			string ct;
 			if (r[r.Length - 1] == ')') {
 				ct = r.Substring(r.LastIndexOf('('));
 				r = r.Substring(0, r.LastIndexOf('('));
@@ -432,10 +437,9 @@ namespace BaseLibS.Mol {
 				ct = r.Substring(r.Length - 1);
 				r = r.Substring(0, r.Length - 1);
 			}
-			return FromString(nt, ct, r);
 		}
 
-		private static (string, PeptideModificationState) FromString(string nt, string ct, string s) {
+		public static string[] SplitMainSequence(string s) {
 			List<string> q = new List<string>();
 			while (s.Length > 0) {
 				if (s[1] == '(') {
@@ -448,7 +452,11 @@ namespace BaseLibS.Mol {
 					s = s.Substring(1);
 				}
 			}
-			return FromString(nt, ct, q.ToArray());
+			return q.ToArray();
+		}
+
+		private static (string, PeptideModificationState) FromString(string nt, string ct, string s) {
+			return FromString(nt, ct, SplitMainSequence(s));
 		}
 
 		private static (string, PeptideModificationState) FromString(string nt, string ct, string[] q) {
