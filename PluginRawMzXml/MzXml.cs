@@ -474,6 +474,12 @@ namespace PluginRawMzXml {
 			stream.DiscardBufferedData();
 			// read the scan element
 			string line;
+
+			do
+			{
+				line = stream.ReadLine();
+			} while (!line.Contains("<scan") && !line.Contains(" num=\""+scannumber+"\""));
+			
 			do {
 				line = stream.ReadLine();
 			} while (!line.Contains("<peaks"));
