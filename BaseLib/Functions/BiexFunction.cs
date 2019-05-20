@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BaseLib.Functions
 {
     public class BiexFunction
     {
-        public double TopScale(IList<double> values)
+        public double TopBiex(IList<double> values, double topscale, double a, double w)
         {
+            MessageBox.Show("topscale:" + topscale + "a:" + a + "w:" + w);
             double[] result = new double[values.Count];
             double largest = result[0];
             for (int i = 1; i < result.Length; i++)
@@ -18,19 +20,6 @@ namespace BaseLib.Functions
                     largest = result[i];
             }
             return largest;
-        }
-
-
-        public double MinScale(IList<double> values)
-        {
-            double[] result = new double[values.Count];
-            double min = result[0];
-            for (int i = 1; i < result.Length; i++)
-            {
-                if (result[i] < min)
-                    min = result[i];
-            }
-            return min;
         }
 
     }

@@ -23,12 +23,35 @@ namespace BaseLib.Functions
         public BiexTransform()
         {
             InitializeComponent();
+            this.basisText.Text = "0";
+            this.NegText.Text = "0";
+            trackbasis.ValueChanged += new System.EventHandler(trackbasis_ValueChanged);
+            NegValues.ValueChanged += new System.EventHandler(NegValues_ValueChanged);
+            minvalue.TextChanged += new System.EventHandler(minvalue_TextChanged);
+            this.Controls.Add(this.trackbasis);
+            this.Controls.Add(this.NegValues);
         }
 
-    
+        private void trackbasis_ValueChanged(object sender, System.EventArgs e)
+        {
+            basisText.Text = trackbasis.Value.ToString();
+            takebasisvalue(trackbasis.Value);
+        }
+         public int takebasisvalue(int ciao)
+        {
+            int boh = ciao;
+            return boh;
+        }
 
-        public string TextBoxMinValue { get { return minvalue.Text; } set { minvalue.Text = value; } }
-        public string TextBoxMaxValue { get { return maxvalue.Text; } set { maxvalue.Text = value; } }
+        private void NegValues_ValueChanged(object sender, System.EventArgs e)
+        {
+            NegText.Text = NegValues.Value.ToString();
+        }
+
+        private void minvalue_TextChanged(object sender, System.EventArgs e)
+        {
+            minvalue.Text = MinValue.ToString();
+        }
 
         public string MinValue {  get { return minvalue.Text; } set { minvalue.Text = value; } }
         public string MaxValue {  get { return maxvalue.Text; } set { maxvalue.Text = value; } }
@@ -45,22 +68,22 @@ namespace BaseLib.Functions
 
         private void basisvalue_Click(object sender, EventArgs e)
         {
-            basisvalue.Text = trackbasis.Value.ToString();
+     
         }
 
         private void trackbasis_Scroll(object sender, EventArgs e)
         {
-            basisvalue.Text = trackbasis.Value.ToString();
+          
         }
 
         private void NegValues_Scroll(object sender, EventArgs e)
         {
-            n_value.Text = NegValues.Value.ToString();
+        
         }
 
         private void n_value_Click(object sender, EventArgs e)
         {
-            n_value.Text = NegValues.Value.ToString();
+          
         }
     }
 }

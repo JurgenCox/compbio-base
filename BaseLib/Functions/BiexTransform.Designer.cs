@@ -37,12 +37,12 @@
             this.NegValues = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.basisvalue = new System.Windows.Forms.Label();
             this.Basisiname = new System.Windows.Forms.Label();
-            this.n_value = new System.Windows.Forms.Label();
             this.negTitle = new System.Windows.Forms.Label();
             this.cancel_button = new System.Windows.Forms.Button();
             this.apply_button = new System.Windows.Forms.Button();
+            this.NegText = new System.Windows.Forms.TextBox();
+            this.basisText = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackbasis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NegValues)).BeginInit();
             this.SuspendLayout();
@@ -124,16 +124,6 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "label5";
             // 
-            // basisvalue
-            // 
-            this.basisvalue.AutoSize = true;
-            this.basisvalue.Location = new System.Drawing.Point(441, 138);
-            this.basisvalue.Name = "basisvalue";
-            this.basisvalue.Size = new System.Drawing.Size(13, 13);
-            this.basisvalue.TabIndex = 10;
-            this.basisvalue.Text = "0";
-            this.basisvalue.Click += new System.EventHandler(this.basisvalue_Click);
-            // 
             // Basisiname
             // 
             this.Basisiname.AutoSize = true;
@@ -142,16 +132,6 @@
             this.Basisiname.Size = new System.Drawing.Size(63, 13);
             this.Basisiname.TabIndex = 11;
             this.Basisiname.Text = "Width Basis";
-            // 
-            // n_value
-            // 
-            this.n_value.AutoSize = true;
-            this.n_value.Location = new System.Drawing.Point(175, 138);
-            this.n_value.Name = "n_value";
-            this.n_value.Size = new System.Drawing.Size(13, 13);
-            this.n_value.TabIndex = 12;
-            this.n_value.Text = "0";
-            this.n_value.Click += new System.EventHandler(this.n_value_Click);
             // 
             // negTitle
             // 
@@ -180,17 +160,31 @@
             this.apply_button.Text = "Apply";
             this.apply_button.UseVisualStyleBackColor = true;
             // 
+            // NegText
+            // 
+            this.NegText.Location = new System.Drawing.Point(128, 131);
+            this.NegText.Name = "NegText";
+            this.NegText.Size = new System.Drawing.Size(60, 20);
+            this.NegText.TabIndex = 16;
+            // 
+            // basisText
+            // 
+            this.basisText.Location = new System.Drawing.Point(407, 131);
+            this.basisText.Name = "basisText";
+            this.basisText.Size = new System.Drawing.Size(58, 20);
+            this.basisText.TabIndex = 17;
+            // 
             // BiexTransform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(477, 207);
+            this.Controls.Add(this.basisText);
+            this.Controls.Add(this.NegText);
             this.Controls.Add(this.apply_button);
             this.Controls.Add(this.cancel_button);
             this.Controls.Add(this.negTitle);
-            this.Controls.Add(this.n_value);
             this.Controls.Add(this.Basisiname);
-            this.Controls.Add(this.basisvalue);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.NegValues);
@@ -221,9 +215,9 @@
         public System.Windows.Forms.TextBox maxvalue;
         public System.Windows.Forms.TrackBar trackbasis;
         public System.Windows.Forms.TrackBar NegValues;
-        public System.Windows.Forms.Label basisvalue;
-        public System.Windows.Forms.Label n_value;
         public System.Windows.Forms.Button cancel_button;
         public System.Windows.Forms.Button apply_button;
+        public System.Windows.Forms.TextBox NegText;
+        public System.Windows.Forms.MaskedTextBox basisText;
     }
 }
