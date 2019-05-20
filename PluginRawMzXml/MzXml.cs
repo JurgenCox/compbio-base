@@ -452,7 +452,7 @@ namespace PluginRawMzXml {
 			string line;
 			do {
 				line = stream.ReadLine();
-			} while (!line.Contains("<scan"));
+			} while (!line.Contains("<scan") || !line.Contains(" num=\""+scannumber+"\""));
 			StringBuilder scanData = new StringBuilder(line);
 			do {
 				line = stream.ReadLine();
@@ -461,7 +461,7 @@ namespace PluginRawMzXml {
 			stream.Close();
 			string scan = scanData.ToString();
 			int indexStart = scan.IndexOf("<scan", StringComparison.InvariantCulture);
-			return scan.Substring(indexStart, (scan.IndexOf("<peaks", StringComparison.InvariantCulture) - 1) - indexStart) +
+			return scan.Substring(indexStart, (scan.IndexOf("<peaks", StringComparison.InvariantCulture) ) - indexStart) +
 			       "</scan>";
 		}
 
@@ -478,7 +478,7 @@ namespace PluginRawMzXml {
 			do
 			{
 				line = stream.ReadLine();
-			} while (!line.Contains("<scan") && !line.Contains(" num=\""+scannumber+"\""));
+			} while (!line.Contains("<scan") || !line.Contains(" num=\""+scannumber+"\""));
 			
 			do {
 				line = stream.ReadLine();
