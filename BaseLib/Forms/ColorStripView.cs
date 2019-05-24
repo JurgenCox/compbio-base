@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
@@ -11,6 +12,42 @@ namespace BaseLib.Forms{
 		First,
 		Second,
 		Both
+	}
+
+
+	public static class ColorPalettes
+	{
+		public static  (Color2 color, double position)[] MaxQuant =
+		{
+			(Color2.White, 0.2), (Color2.Yellow, 0.4),(Color2.Green, 0.85)
+		};
+		public static  (Color2 color, double position)[] Rainbow =
+		{
+			(Color2.White, 0.0),
+			(Color2.Violet,0.125),
+			(Color2.Indigo, 0.25),
+			(Color2.Blue, 0.375),
+			(Color2.Green, 0.5),
+			(Color2.Yellow, 0.625),
+			(Color2.Orange, 0.75),
+			(Color2.Red, 0.875)
+		};
+		
+		
+		public static  (Color2 color, double position)[] Jet =
+		{
+			(Color2.White, 0.0),
+			(Color2.Indigo,0.1),
+			(Color2.Blue, 0.2),
+			(Color2.DodgerBlue, 0.3),
+			(Color2.Cyan, 0.4),
+			(Color2.PaleGreen, 0.5),
+			(Color2.YellowGreen, 0.6),
+			(Color2.Orange, 0.7),
+			(Color2.DarkOrange, 0.8),
+			(Color2.Red, 0.9),
+			(Color2.Brown, 1.0)
+		};
 	}
 
 	public sealed class ColorStripView : BasicView{
@@ -36,13 +73,20 @@ namespace BaseLib.Forms{
 		internal int mouseStartPos = -1;
 		internal bool hasMoved;
 
-		public ColorStripView(){
+		public ColorStripView((Color2 color, double position)[] palette = null){
 			Positions = new List<double>();
 			Colors = new List<Color2>();
-			if (Colors.Count == 0){
-				AddColor(Color2.White, 0.2);
-				AddColor(Color2.Yellow, 0.4);
-				AddColor(Color2.Green, 0.85);
+			
+			LoadPalette(ColorPalettes.MaxQuant);
+		}
+
+		public void LoadPalette((Color2 color, double position)[] palette)
+		{
+			Positions.Clear();
+			Colors.Clear();
+			foreach (var tuple in palette)
+			{
+				AddColor(tuple.color, tuple.position);
 			}
 		}
 

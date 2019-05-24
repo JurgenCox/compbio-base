@@ -77,8 +77,8 @@ namespace PluginRawMzXml {
 				intenseCompFactor = double.NaN,
 				emIntenseComp = double.NaN,
 				rawOvFtT = double.NaN,
-				positiveIonMode = true,
-				basepeakIntensity = 0,
+				positiveIonMode = scanHeader.Polarity=="+",
+				basepeakIntensity = scanHeader.BasePeakIntensity,
 				msLevel = scanHeader.MsLevel == 1 ? MsLevel.Ms1 : MsLevel.Ms2,
 				min = scanHeader.LowMz, // TODO low resolution value...
 				max = scanHeader.HighMz, // TODO low resolution value...
