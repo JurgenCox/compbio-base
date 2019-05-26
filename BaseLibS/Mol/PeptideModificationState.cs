@@ -423,29 +423,62 @@ namespace BaseLibS.Mol {
 				r = null;
 				throw new Exception("Wrong input format.");
 			}
-			if (s[1] == '(') {
-				nt = s.Substring(0, s.IndexOf(')') + 1);
-				r = s.Substring(s.IndexOf(')') + 1);
+			if (s.Length > 1 && s[1] == '(') {
+				int closingIndex = GetClosingIndex(s);
+				nt = s.Substring(0, closingIndex + 1);
+				r = s.Substring(closingIndex + 1);
 			} else {
 				nt = s.Substring(0, 1);
 				r = s.Substring(1);
 			}
 			if (r[r.Length - 1] == ')') {
-				ct = r.Substring(r.LastIndexOf('('));
-				r = r.Substring(0, r.LastIndexOf('('));
+				int openingIndex = GetOpeningIndex(r);
+				ct = r.Substring(openingIndex);
+				r = r.Substring(0, openingIndex);
 			} else {
 				ct = r.Substring(r.Length - 1);
 				r = r.Substring(0, r.Length - 1);
 			}
 		}
 
+		private static int GetClosingIndex(string s) {
+			int l = 0;
+			for (int i = 0; i < s.Length; i++) {
+				if (s[i] == '(') {
+					l++;
+				} else if (s[i] == ')') {
+					if (l <= 1) {
+						return i;
+					}
+					l--;
+				}
+			}
+			return s.IndexOf(')');
+		}
+
+		private static int GetOpeningIndex(string s) {
+			int l = 0;
+			for (int i = s.Length - 1; i >= 0; i--) {
+				if (s[i] == ')') {
+					l++;
+				} else if (s[i] == '(') {
+					if (l <= 1) {
+						return i;
+					}
+					l--;
+				}
+			}
+			return s.LastIndexOf('('); //TODO
+		}
+
 		public static string[] SplitMainSequence(string s) {
 			List<string> q = new List<string>();
 			while (s.Length > 0) {
-				if (s[1] == '(') {
-					string w = s.Substring(0, s.IndexOf(')') + 1);
+				if (s.Length > 1 && s[1] == '(') {
+					int closingIndex = GetClosingIndex(s);
+					string w = s.Substring(0, closingIndex + 1);
 					q.Add(w);
-					s = s.Substring(s.IndexOf(')') + 1);
+					s = s.Substring(closingIndex + 1);
 				} else {
 					string w = s.Substring(0, 1);
 					q.Add(w);
