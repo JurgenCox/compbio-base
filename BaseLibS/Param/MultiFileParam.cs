@@ -15,6 +15,9 @@ namespace BaseLibS.Param{
 	    public MultiFileParam(string name) : this(name, new string[0]){}
 
 		public MultiFileParam(string name, string[] value) : base(name){
+			if (value == null) {
+				value = new string[0];
+			}
 			Value = value;
 			Default = new string[Value.Length];
 			for (int i = 0; i < Value.Length; i++){
