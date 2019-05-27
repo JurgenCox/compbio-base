@@ -271,12 +271,24 @@
       <DependentUpon>TestParseRuleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UnsafeBitmap.cs" />
-    <Compile Include="Functions\BiexFunction.cs" />
+    <Compile Include="Functions\ArchSinFunctions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Functions\ArchSinFunctions.Designer.cs">
+      <DependentUpon>ArchSinFunctions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Functions\CyTOFfunctions.cs" />
     <Compile Include="Functions\BiexTransform.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Functions\BiexTransform.Designer.cs">
       <DependentUpon>BiexTransform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Functions\HyperlogTransform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Functions\HyperlogTransform.Designer.cs">
+      <DependentUpon>HyperlogTransform.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphic\BaseDrawControl.cs">
       <SubType>UserControl</SubType>

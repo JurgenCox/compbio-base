@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BaseLib.Functions
 {
-    public class BiexFunction
+    public class CyTOFfunctions
     {
         public double TopBiex(IList<double> values, double topscale, double a, double w)
         {
