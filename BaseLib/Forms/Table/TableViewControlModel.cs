@@ -1031,6 +1031,23 @@ namespace BaseLib.Forms.Table {
             }
             return sel[0];
         }
+         public List<int> GetSelectedAllList()
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            CheckSizes();
+            List<int> result = new List<int>();
+            bool[] x = new bool[RowCount];
+            for (int i = 0; i < x.Length; i++)
+            {
+
+                result.Add(i);
+
+            }
+            return result;
+        }
 
         public int[] GetSelectedAll()
         {
@@ -1283,8 +1300,37 @@ namespace BaseLib.Forms.Table {
 			}
 			writer.Close();
 		}
+        public StreamWriter ExportMatrixPolygon(DataTable2 model, StreamWriter writer)
+        {
+            
+            StringBuilder line = new StringBuilder();
+            if (model.ColumnCount > 0)
+            {
+                line.Append(model.GetColumnName(0));
+            }
+            for (int i = 1; i < model.ColumnCount; i++)
+            {
+                line.Append("\t" + model.GetColumnName(i));
+            }
+            writer.WriteLine(line.ToString());
+            for (int j = 0; j < model.RowCount; j++)
+            {
+                line = new StringBuilder();
+                if (model.ColumnCount > 0)
+                {
+                    line.Append(model.GetEntry(j, 0));
+                }
+                for (int i = 1; i < model.ColumnCount; i++)
+                {
+                    line.Append("\t" + model.GetEntry(j, i));
+                }
+                writer.WriteLine(line.ToString());
+            }
+           // writer.Close();
+            return writer;
+        }
 
-		private void RenderCell(IGraphics g, bool selected, int row, int col, int width, int x1, int y1) {
+        private void RenderCell(IGraphics g, bool selected, int row, int col, int width, int x1, int y1) {
 			object o = model.GetEntry(row, col);
 			RenderTableCell render = model.GetColumnRenderer(col);
 			if (render != null) {

@@ -494,6 +494,9 @@
     <EmbeddedResource Include="Functions\BiexTransform.resx">
       <DependentUpon>BiexTransform.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Functions\HyperlogTransform.resx">
+      <DependentUpon>HyperlogTransform.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Param\ParameterForm.resx">
       <DependentUpon>ParameterForm.cs</DependentUpon>
     </EmbeddedResource>

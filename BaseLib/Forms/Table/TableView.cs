@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using BaseLib.Forms.Scroll;
 using BaseLibS.Num;
@@ -367,6 +368,16 @@ namespace BaseLib.Forms.Table {
         public int[] GetSelectedAll()
         {
             return tableViewWf.GetSelectedAll();
+        }
+
+        public List<int> GetSelectedAllList()
+        {
+            return tableViewWf.GetSelectedAllList();
+        }
+
+        public StreamWriter ExportMatrixPolygon(DataTable2 model, StreamWriter writer)
+        {
+            return tableViewWf.ExportMatrixPolygon(model, writer);
         }
 
         public int GetSelectedAll1()
