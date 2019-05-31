@@ -95,7 +95,8 @@ namespace BaseLib.Forms{
 			ColorStrip.InitColors(colors, positions);
 		}
 
-		public AxisPositioning Positioning{
+
+        public AxisPositioning Positioning{
 			get => axis.Positioning;
 			set => axis.Positioning = value;
 		}

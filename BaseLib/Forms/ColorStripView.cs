@@ -142,7 +142,8 @@ namespace BaseLib.Forms{
 			Positions.Add(position);
 		}
 
-		public void InitColors(Color2[] newColors, double[] newPositions){
+
+        public void InitColors(Color2[] newColors, double[] newPositions){
 			Colors.Clear();
 			Colors.AddRange(newColors);
 			Positions.Clear();
@@ -150,7 +151,8 @@ namespace BaseLib.Forms{
 			precalcColors = null;
 		}
 
-		public override void OnPaint(IGraphics g, int width, int height) {
+
+        public override void OnPaint(IGraphics g, int width, int height) {
 			if (oldLength != GetLength(width, height)){
 				refreshColors = true;
 			}
