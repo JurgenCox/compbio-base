@@ -41,6 +41,7 @@
     <Compile Include="ClassificationRank\ClassificationFeatureRankingMethods.cs" />
     <Compile Include="ClassificationRank\GolubFeatureRanking.cs" />
     <Compile Include="Classification\ClassificationMethods.cs" />
+    <Compile Include="Classification\ClassificationUtil.cs" />
     <Compile Include="Classification\FisherLdaClassification.cs" />
     <Compile Include="Classification\FisherLdaClassificationModel.cs" />
     <Compile Include="Classification\KnnClassification.cs" />
