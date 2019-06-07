@@ -1296,6 +1296,45 @@ namespace BaseLibS.Ms {
 			}
 		}
 
+		private bool? _isDia;
+		public bool CheckIfDia()
+		{
+			if (_isDia==null) _isDia = CheckForRepeatingMs2Windows();
+				
+			return (bool) _isDia; 
+		}
+
+		private bool CheckForRepeatingMs2Windows()
+		{
+			if (Ms2Count == 0) return false;
+			
+			// find first minimum 
+			double minValue = Ms2IsolationMzMin[Ms2Count - 1];
+			int minPos = -1;
+			for (int i = Ms2Count - 2; i >= 0; i--)
+			{
+				var value = Ms2IsolationMzMin[i];
+				if (Ms2IsolationMzMin[i] > minValue) break;
+
+				minValue = value;
+				minPos = i;
+			}
+
+			if (minPos == -1) return false;
+			
+			int hits = 1;
+			for (int i = minPos - 1; i >= 0; i--)
+			{
+				var value = Ms2IsolationMzMin[i];
+				if (value < minValue) return false;
+				if (Math.Abs(value - minValue) < Double.Epsilon) hits++;
+				if (hits >= 3) return true;
+			}
+			return false;
+		}
+		
+		
+
 		public int[][] GetDiaMs2Indices() {
 			if (Ms2Count == 0) {
 				return new int[0][];
