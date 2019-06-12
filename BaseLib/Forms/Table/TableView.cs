@@ -375,6 +375,11 @@ namespace BaseLib.Forms.Table {
             return tableViewWf.GetSelectedAllList();
         }
 
+        public string[] GetColumnNames()
+        {
+            return tableViewWf.GetColumnNames();
+        }
+
         public StreamWriter ExportMatrixPolygon(DataTable2 model, StreamWriter writer)
         {
             return tableViewWf.ExportMatrixPolygon(model, writer);

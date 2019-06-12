@@ -72,7 +72,7 @@ namespace BaseLibS.Table{
 			return columnNames[col];
 		}
 
-		public bool IsColumnEditable(int column){
+        public bool IsColumnEditable(int column){
 			return false;
 		}
 

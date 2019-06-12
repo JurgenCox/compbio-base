@@ -1270,7 +1270,7 @@ namespace BaseLib.Forms.Table {
 			return false;
 		}
 
-		private string[] GetColumnNames() {
+		public string[] GetColumnNames() {
 			string[] result = new string[TableModel.ColumnCount];
 			for (int i = 0; i < result.Length; i++) {
 				result[i] = TableModel.GetColumnName(i);
