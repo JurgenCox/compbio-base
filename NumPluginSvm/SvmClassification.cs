@@ -30,8 +30,7 @@ namespace NumPluginSvm {
 				svmType = SvmType.CSvc,
 				c = param.GetParam<double>("C").Value
 			};
-			bool[] invert;
-			SvmProblem[] problems = CreateProblems(x, y, ngroups, out invert);
+			SvmProblem[] problems = CreateProblems(x, y, ngroups, out bool[] invert);
 			SvmModel[] models = new SvmModel[problems.Length];
 			ThreadDistributor td =
 				new ThreadDistributor(nthreads, models.Length, i => { models[i] = SvmMain.SvmTrain(problems[i], sp); }) {
