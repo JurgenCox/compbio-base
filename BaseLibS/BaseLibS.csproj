@@ -317,6 +317,7 @@
     <Compile Include="Num\Cluster\HierarchicalClusterNode.cs" />
     <Compile Include="Num\Cluster\KmeansClustering.cs" />
     <Compile Include="Num\Cluster\KmedoidClustering.cs" />
+    <Compile Include="Num\DensityEstimationType.cs" />
     <Compile Include="Num\Distrib\StudentsT.cs" />
     <Compile Include="Num\Func\Factorial.cs" />
     <Compile Include="Num\Func\IncompleteBeta.cs" />

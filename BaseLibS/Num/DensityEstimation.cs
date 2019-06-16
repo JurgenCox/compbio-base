@@ -3,29 +3,9 @@ using System.Collections.Generic;
 
 namespace BaseLibS.Num {
 	public static class DensityEstimation {
-		public static (double[] dvals, double[] pvals) Calc(double[] xvals, double[] yvals, int points, int typeInd) {
-			GetValidPairs(xvals, yvals, out double[] xvals1, out double[] yvals1);
-			CalcRanges(xvals1, yvals1, out double xmin, out double xmax, out double ymin, out double ymax);
-			double[,] values = GetValuesOnGrid(xvals1, xmin, (xmax - xmin) / points, points, yvals1, ymin,
-				(ymax - ymin) / points, points);
-			if (typeInd == 1) {
-				MakeConditional1(values);
-			}
-			if (typeInd == 2) {
-				MakeConditional2(values);
-			}
-			if (typeInd == 3) {
-				MakeConditional3(values);
-			}
-			DivideByMaximum(values);
-			double[] xmat = new double[points];
-			for (int i = 0; i < points; i++) {
-				xmat[i] = xmin + i * (xmax - xmin) / points;
-			}
-			double[] ymat = new double[points];
-			for (int i = 0; i < points; i++) {
-				ymat[i] = ymin + i * (ymax - ymin) / points;
-			}
+		public static (double[] dvals, double[] pvals) CalcDensitiesAtData(double[] xvals, double[] yvals, int points,
+			DensityEstimationType type) {
+			(double[,] values, double[] xmat, double[] ymat) = CalcDensityOnGrid(xvals, yvals, points, type);
 			double[,] percvalues = CalcExcludedPercentage(values);
 			double[] dvals = new double[xvals.Length];
 			double[] pvals = new double[xvals.Length];
@@ -43,6 +23,33 @@ namespace BaseLibS.Num {
 				}
 			}
 			return (dvals, pvals);
+		}
+
+		public static (double[,], double[], double[]) CalcDensityOnGrid(double[] xvals, double[] yvals, int points,
+			DensityEstimationType type) {
+			GetValidPairs(xvals, yvals, out double[] xvals1, out double[] yvals1);
+			CalcRanges(xvals1, yvals1, out double xmin, out double xmax, out double ymin, out double ymax);
+			double[,] values = GetValuesOnGrid(xvals1, xmin, (xmax - xmin) / points, points, yvals1, ymin,
+				(ymax - ymin) / points, points);
+			if (type == DensityEstimationType.DivideByX) {
+				MakeConditional1(values);
+			}
+			if (type == DensityEstimationType.DivideByY) {
+				MakeConditional2(values);
+			}
+			if (type == DensityEstimationType.DivideByXY) {
+				MakeConditional3(values);
+			}
+			DivideByMaximum(values);
+			double[] xmat = new double[points];
+			for (int i = 0; i < points; i++) {
+				xmat[i] = xmin + i * (xmax - xmin) / points;
+			}
+			double[] ymat = new double[points];
+			for (int i = 0; i < points; i++) {
+				ymat[i] = ymin + i * (ymax - ymin) / points;
+			}
+			return (values, xmat, ymat);
 		}
 
 		public static void CalcRanges(IList<double> xvals, IList<double> yvals, out double xmin, out double xmax,
@@ -314,6 +321,42 @@ namespace BaseLibS.Num {
 			}
 			x1 = x2.ToArray();
 			y1 = y2.ToArray();
+		}
+
+		public static (double[], double[], double[], double[]) Regression(double[] xvals, double[] yvals) {
+			(double[,] values, double[] xmat, double[] ymat) =
+				CalcDensityOnGrid(xvals, yvals, 300, DensityEstimationType.DivideByX);
+			double[] yfit = new double[xvals.Length];
+			double[] yupper = new double[xvals.Length];
+			double[] ylower = new double[xvals.Length];
+			for (int i = 0; i < xmat.Length; i++) {
+				int maxInd = -1;
+				double maxVal = double.MinValue;
+				for (int j = 0; j < ymat.Length; j++) {
+					if (values[i, j] > maxVal) {
+						maxVal = values[i, j];
+						maxInd = j;
+					}
+				}
+				yfit[i] = ymat[maxInd];
+				int upperInd = ymat.Length;
+				for (int j = maxInd; j < ymat.Length; j++) {
+					if (values[i, j] < 0.5 * maxVal) {
+						upperInd = j;
+						break;
+					}
+				}
+				yupper[i] = upperInd == ymat.Length ? ymat[upperInd - 1] : ymat[upperInd];
+				int lowerInd = -1;
+				for (int j = maxInd; j >= 0; j--) {
+					if (values[i, j] < 0.5 * maxVal) {
+						lowerInd = j;
+						break;
+					}
+				}
+				ylower[i] = lowerInd == -1 ? ymat[0] : ymat[lowerInd];
+			}
+			return (xmat, yfit, ylower, yupper);
 		}
 	}
 }
