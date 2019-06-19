@@ -4,6 +4,7 @@ using BaseLibS.Num;
 using BaseLibS.Util;
 
 namespace BaseLibS.Mol{
+	[Serializable]
 	public class PeptideModificationCounts{
 		private int hash;
 		public ushort[] ModificationTypes { get; private set; }

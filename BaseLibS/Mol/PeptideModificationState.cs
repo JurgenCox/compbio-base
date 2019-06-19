@@ -6,6 +6,7 @@ using System.Text;
 using BaseLibS.Num;
 
 namespace BaseLibS.Mol {
+	[Serializable]
 	public class PeptideModificationState {
 		public int Hash { get; set; }
 		public ushort[] Modifications { get; set; }
