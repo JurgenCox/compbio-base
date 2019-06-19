@@ -25,8 +25,9 @@ namespace BaseLib.Functions
         public BiexTransform()
         {
             InitializeComponent();
-            this.NegValues.Minimum = 34;
-            this.NegValues.Maximum = 133;
+            this.NegValues.Minimum = 0;
+            this.NegValues.Maximum = 300;
+            this.NegValues.TickFrequency = 10;
             this.trackbasis.Minimum = 25;
             this.trackbasis.Maximum = 455;
             extranegvalue = this.NegValues.Minimum;
@@ -43,6 +44,7 @@ namespace BaseLib.Functions
             cancel_button.Click += cancel_button_OnClick;
             this.Controls.Add(this.trackbasis);
             this.Controls.Add(this.NegValues);
+
         }
 
         private void apply_button_OnClick(object sender, EventArgs e)
