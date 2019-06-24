@@ -14,7 +14,7 @@ namespace BaseLib.Functions
     public partial class ArcHyper : Form
     {
 
-        public bool Ok { get; set; }
+    //    public bool Ok { get; set; }
         public double widthbasisvalue = 0;
         public ArcHyper(string title, double minValue, double maxValue)
         {
@@ -27,7 +27,10 @@ namespace BaseLib.Functions
             this.NegValues.Value = 0.5;
             this.trackbasis.Minimum = 25;
             this.trackbasis.Maximum = 455;
-
+            // Make button1's dialog result OK.
+            okButton.DialogResult = DialogResult.OK;
+            // Make button2's dialog result Cancel.
+           cancelButton.DialogResult = DialogResult.Cancel;
             widthbasisvalue = this.trackbasis.Minimum;
             this.basisText.Text = trackbasis.Minimum.ToString();
             trackbasis.ValueChanged += new System.EventHandler(trackbasis_ValueChanged);
@@ -95,16 +98,16 @@ namespace BaseLib.Functions
             set => maxValueTextBox.Text = "" + value;
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        public void okButton_Click(object sender, EventArgs e)
         {
-            Ok = true;
-            Close();
+         //   Ok = true;
+         //   Close();
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
+        public void cancelButton_Click(object sender, EventArgs e)
         {
-            Ok = false;
-            Close();
+        //    Ok = false;
+        //    Close();
         }
     }
 }
