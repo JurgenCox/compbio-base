@@ -680,36 +680,6 @@ namespace BaseLib.Forms{
 			}
 		}
 
-        public void refreaxis(string ciao, double min, double max)
-        {
-            using (ArcHyper f = new ArcHyper(ciao, min, max))
-            {
-                DialogResult dr = f.ShowDialog();
-                //   f.ShowDialog();
-                double newMin = -(Math.Pow(10, -(0.50)) * 10);
-                MessageBox.Show(newMin.ToString());
-                Text = f.Title;
-                //   double newMin = -(Math.Pow(10, -(0.50)) * 10);
-                if (dr == DialogResult.OK)
-                {
-                    MessageBox.Show("ciao");
-                    ZoomMin = newMin;
-                //    ZoomMax = newMax;
-                    TotalMin = newMin;
-                //    TotalMax = newMax;
-                    FireZoomChanged();
-                    Invalidate();
-
-                }
-                if (dr == DialogResult.Cancel)
-                {
-                    MessageBox.Show("boh");
-                }
-
-                f.Dispose();
-            }
-            return;
-        }
 
 		public override void OnMouseIsUp(BasicMouseEventArgs e){
 			if (Configurable && !e.IsMainButton){

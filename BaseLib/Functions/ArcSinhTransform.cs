@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace BaseLib.Functions
 {
-    public partial class ArcHyper : Form
+    public partial class ArcSinhTransform : Form
     {
 
     //    public bool Ok { get; set; }
         public double widthbasisvalue = 0;
-        public ArcHyper(string title, double minValue, double maxValue)
+        public ArcSinhTransform(string title, double minValue, double maxValue)
         {
             InitializeComponent();
             MinValue = minValue;
