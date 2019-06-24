@@ -41,26 +41,27 @@
             this.plusMinValue = new System.Windows.Forms.Button();
             this.plusMaxValue = new System.Windows.Forms.Button();
             this.minusMaxValue = new System.Windows.Forms.Button();
+            this.refreshdata = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // minValueTextBox
             // 
-            this.minValueTextBox.Location = new System.Drawing.Point(57, 217);
+            this.minValueTextBox.Location = new System.Drawing.Point(44, 346);
             this.minValueTextBox.Name = "minValueTextBox";
             this.minValueTextBox.Size = new System.Drawing.Size(168, 20);
             this.minValueTextBox.TabIndex = 0;
             // 
             // maxValueTextBox
             // 
-            this.maxValueTextBox.Location = new System.Drawing.Point(357, 217);
+            this.maxValueTextBox.Location = new System.Drawing.Point(357, 346);
             this.maxValueTextBox.Name = "maxValueTextBox";
             this.maxValueTextBox.Size = new System.Drawing.Size(168, 20);
             this.maxValueTextBox.TabIndex = 1;
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(430, 267);
+            this.okButton.Location = new System.Drawing.Point(430, 372);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(95, 27);
             this.okButton.TabIndex = 6;
@@ -69,7 +70,7 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(324, 267);
+            this.cancelButton.Location = new System.Drawing.Point(329, 372);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(95, 27);
             this.cancelButton.TabIndex = 7;
@@ -88,7 +89,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 220);
+            this.label1.Location = new System.Drawing.Point(9, 353);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 9;
@@ -97,7 +98,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(321, 220);
+            this.label2.Location = new System.Drawing.Point(321, 353);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 10;
@@ -117,13 +118,13 @@
             this.panel1.Controls.Add(this.label8);
             this.panel1.Location = new System.Drawing.Point(15, 37);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(510, 141);
+            this.panel1.Size = new System.Drawing.Size(510, 244);
             this.panel1.TabIndex = 16;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(174, 61);
+            this.label8.Location = new System.Drawing.Point(193, 127);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(125, 13);
             this.label8.TabIndex = 0;
@@ -132,7 +133,7 @@
             // minusMinValue
             // 
             this.minusMinValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.minusMinValue.Location = new System.Drawing.Point(15, 188);
+            this.minusMinValue.Location = new System.Drawing.Point(12, 316);
             this.minusMinValue.Name = "minusMinValue";
             this.minusMinValue.Size = new System.Drawing.Size(23, 23);
             this.minusMinValue.TabIndex = 17;
@@ -142,7 +143,7 @@
             // plusMinValue
             // 
             this.plusMinValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plusMinValue.Location = new System.Drawing.Point(44, 188);
+            this.plusMinValue.Location = new System.Drawing.Point(44, 316);
             this.plusMinValue.Name = "plusMinValue";
             this.plusMinValue.Size = new System.Drawing.Size(23, 23);
             this.plusMinValue.TabIndex = 18;
@@ -152,7 +153,7 @@
             // plusMaxValue
             // 
             this.plusMaxValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plusMaxValue.Location = new System.Drawing.Point(502, 188);
+            this.plusMaxValue.Location = new System.Drawing.Point(502, 316);
             this.plusMaxValue.Name = "plusMaxValue";
             this.plusMaxValue.Size = new System.Drawing.Size(23, 23);
             this.plusMaxValue.TabIndex = 19;
@@ -162,18 +163,28 @@
             // minusMaxValue
             // 
             this.minusMaxValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.minusMaxValue.Location = new System.Drawing.Point(473, 188);
+            this.minusMaxValue.Location = new System.Drawing.Point(473, 316);
             this.minusMaxValue.Name = "minusMaxValue";
             this.minusMaxValue.Size = new System.Drawing.Size(23, 23);
             this.minusMaxValue.TabIndex = 20;
             this.minusMaxValue.Text = "-";
             this.minusMaxValue.UseVisualStyleBackColor = true;
             // 
+            // refreshdata
+            // 
+            this.refreshdata.Location = new System.Drawing.Point(12, 287);
+            this.refreshdata.Name = "refreshdata";
+            this.refreshdata.Size = new System.Drawing.Size(516, 23);
+            this.refreshdata.TabIndex = 21;
+            this.refreshdata.Text = "refresh Data";
+            this.refreshdata.UseVisualStyleBackColor = true;
+            // 
             // LinearTransform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 316);
+            this.ClientSize = new System.Drawing.Size(540, 411);
+            this.Controls.Add(this.refreshdata);
             this.Controls.Add(this.minusMaxValue);
             this.Controls.Add(this.plusMaxValue);
             this.Controls.Add(this.plusMinValue);
@@ -212,5 +223,6 @@
         private System.Windows.Forms.Button plusMinValue;
         private System.Windows.Forms.Button plusMaxValue;
         private System.Windows.Forms.Button minusMaxValue;
+        private System.Windows.Forms.Button refreshdata;
     }
 }

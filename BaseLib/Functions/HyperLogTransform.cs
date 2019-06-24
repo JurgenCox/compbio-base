@@ -14,14 +14,23 @@ namespace BaseLib.Functions
     public partial class HyperLogTransform : Form
     {
 
-    //    public bool Ok { get; set; }
         public double widthbasisvalue = 0;
+        public double minvalueclick = 0;
+        public double maxvalueclick = 0;
         public HyperLogTransform(string title, double minValue, double maxValue)
         {
             InitializeComponent();
             MinValue = minValue;
             MaxValue = maxValue;
+            minvalueclick = minValue;
+            maxvalueclick = maxValue;
+            minValueTextBox.Text = minvalueclick.ToString();
+            maxValueTextBox.Text = maxvalueclick.ToString();
             Title = title;
+            minusMinValue.Click += minusMinValue_OnClick;
+            minusMaxValue.Click += minusMaxValue_OnClick;
+            plusMinValue.Click += plusMinValue_OnClick;
+            plusMaxValue.Click += plusMaxValue_OnClick;
             this.NegValues.Minimum = 0.00;
             this.NegValues.Maximum = 3.00;
             this.NegValues.Value = 0.5;
@@ -39,6 +48,30 @@ namespace BaseLib.Functions
             this.Controls.Add(this.NegValues);
 
             this.NegText.Text = (this.NegValues.Value).ToString();
+        }
+
+        private void minusMinValue_OnClick(object sender, EventArgs e)
+        {
+            minvalueclick = minvalueclick + (-(Math.Pow(10, (-0.10)) * 10));
+            minValueTextBox.Text = minvalueclick.ToString();
+        }
+
+        private void minusMaxValue_OnClick(object sender, EventArgs e)
+        {
+            maxvalueclick = maxvalueclick + (-(Math.Pow(10, (-0.10)) * 10));
+            maxValueTextBox.Text = maxvalueclick.ToString();
+        }
+
+        private void plusMinValue_OnClick(object sender, EventArgs e)
+        {
+            minvalueclick = minvalueclick + ((Math.Pow(10, (-0.10)) * 10));
+            minValueTextBox.Text = minvalueclick.ToString();
+        }
+
+        private void plusMaxValue_OnClick(object sender, EventArgs e)
+        {
+            maxvalueclick = maxvalueclick + ((Math.Pow(10, (-0.10)) * 10));
+            maxValueTextBox.Text = maxvalueclick.ToString();
         }
 
         private void trackbasis_ValueChanged(object sender, System.EventArgs e)

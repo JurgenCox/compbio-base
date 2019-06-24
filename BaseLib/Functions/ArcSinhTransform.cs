@@ -13,20 +13,23 @@ namespace BaseLib.Functions
 {
     public partial class ArcSinhTransform : Form
     {
-
-    //    public bool Ok { get; set; }
         public double widthbasisvalue = 0;
+        public double maxvalueclick = 0;
         public ArcSinhTransform(string title, double minValue, double maxValue)
         {
             InitializeComponent();
             MinValue = minValue;
             MaxValue = maxValue;
+            maxvalueclick = maxValue;
             Title = title;
             this.NegValues.Minimum = 0.00;
             this.NegValues.Maximum = 3.00;
             this.NegValues.Value = 0.5;
             this.trackbasis.Minimum = 25;
             this.trackbasis.Maximum = 455;
+            maxValueTextBox.Text = maxvalueclick.ToString();
+            minusMaxValue.Click += minusMaxValue_OnClick;
+            plusMaxValue.Click += plusMaxValue_OnClick;
             // Make button1's dialog result OK.
             okButton.DialogResult = DialogResult.OK;
             // Make button2's dialog result Cancel.
@@ -39,6 +42,19 @@ namespace BaseLib.Functions
             this.Controls.Add(this.NegValues);
 
             this.NegText.Text = (this.NegValues.Value).ToString();
+        }
+
+
+        private void minusMaxValue_OnClick(object sender, EventArgs e)
+        {
+            maxvalueclick = maxvalueclick + (-(Math.Pow(10, (-0.10)) * 10));
+            maxValueTextBox.Text = maxvalueclick.ToString();
+        }
+
+        private void plusMaxValue_OnClick(object sender, EventArgs e)
+        {
+            maxvalueclick = maxvalueclick + ((Math.Pow(10, (-0.10)) * 10));
+            maxValueTextBox.Text = maxvalueclick.ToString();
         }
 
         private void trackbasis_ValueChanged(object sender, System.EventArgs e)
@@ -98,16 +114,5 @@ namespace BaseLib.Functions
             set => maxValueTextBox.Text = "" + value;
         }
 
-        public void okButton_Click(object sender, EventArgs e)
-        {
-         //   Ok = true;
-         //   Close();
-        }
-
-        public void cancelButton_Click(object sender, EventArgs e)
-        {
-        //    Ok = false;
-        //    Close();
-        }
     }
 }
