@@ -188,7 +188,7 @@
             this.Controls.Add(this.maxValueTextBox);
             this.Controls.Add(this.minValueTextBox);
             this.Name = "LinearTransform";
-            this.Text = "Transform";
+            this.Text = "Linear Transform";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
