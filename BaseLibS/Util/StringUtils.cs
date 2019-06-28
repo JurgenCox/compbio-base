@@ -3,20 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using BaseLibS.Num.Test;
 
 namespace BaseLibS.Util {
 	public static class StringUtils {
 		/// <summary>
 		/// The digits 0 to 9 as subscripts.
 		/// </summary>
-		private static readonly char[] subscripts =
-			{'\u2080', '\u2081', '\u2082', '\u2083', '\u2084', '\u2085', '\u2086', '\u2087', '\u2088', '\u2089'};
+		private static readonly char[] subscripts = {
+			'\u2080', '\u2081', '\u2082', '\u2083', '\u2084', '\u2085', '\u2086', '\u2087', '\u2088', '\u2089'
+		};
 
 		/// <summary>
 		/// The digits 0 to 9 as superscripts.
 		/// </summary>
-		private static readonly char[] superscripts =
-			{'\u2070', '\u00b9', '\u00b2', '\u00b3', '\u2074', '\u2075', '\u2076', '\u2077', '\u2078', '\u2079'};
+		private static readonly char[] superscripts = {
+			'\u2070', '\u00b9', '\u00b2', '\u00b3', '\u2074', '\u2075', '\u2076', '\u2077', '\u2078', '\u2079'
+		};
 
 		/// <summary>
 		/// Returns a string containing a representation of the given integer as superscript.
@@ -546,7 +549,9 @@ namespace BaseLibS.Util {
 		/// Contains all the invalid characters of strings for R. These can be replaced
 		/// with the appropriate values with the function <see cref="Replace(string,string[][])"/>.
 		/// </summary>
-		public static readonly string[][] invalidR = {new[] {"\t", ";"}, new[] {"\"", ""}, new[] {"'", ""}, new[] {"?", ""}};
+		public static readonly string[][] invalidR = {
+			new[] {"\t", ";"}, new[] {"\"", ""}, new[] {"'", ""}, new[] {"?", ""}
+		};
 
 		/// <summary>
 		/// Replaces the occurances in the given string of the chs[][0] vector with the chs[][1]. Predefined
@@ -816,61 +821,70 @@ namespace BaseLibS.Util {
 
 		public static readonly HashSet<string> categoricalColDefaultNames = new HashSet<string>(new[] {
 			"pfam names", "gocc names", "gomf names", "gobp names", "kegg pathway names", "chromosome", "strand",
-			"interpro name", "prints name", "prosite name", "smart name", "sequence motifs", "reactome", "transcription factors",
-			"microrna", "scop class", "scop fold", "scop superfamily", "scop family", "phospho motifs", "mim", "pdb", "intact",
-			"corum", "motifs", "best motif", "reverse", "contaminant", "potential contaminant", "only identified by site",
-			"type", "amino acid", "raw file", "experiment", "charge", "modifications", "md modification", "dp aa", "dp decoy",
-			"dp modification", "fraction", "dp cluster index", "authors", "publication", "year", "publisher", "geography",
-			"geography id", "identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
-			"isotope cluster index", "flagged", "from chebi", "completed"
+			"interpro name", "prints name", "prosite name", "smart name", "sequence motifs", "reactome",
+			"transcription factors", "microrna", "scop class", "scop fold", "scop superfamily", "scop family",
+			"phospho motifs", "mim", "pdb", "intact", "corum", "motifs", "best motif", "reverse", "contaminant",
+			"potential contaminant", "only identified by site", "type", "amino acid", "raw file", "experiment",
+			"charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification", "fraction",
+			"dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
+			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
+			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[] {
-			"protein ids", "protein", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl", "ensg",
-			"ensp", "enst", "mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence", "orf name",
-			"names", "proteins", "positions within proteins", "leading proteins", "leading razor protein", "md sequence",
-			"md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities", "dp proteins",
-			"dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number", "pages",
-			"modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file"
+			"protein ids", "protein", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl",
+			"ensg", "ensp", "enst", "mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence",
+			"orf name", "names", "proteins", "positions within proteins", "leading proteins", "leading razor protein",
+			"md sequence", "md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities",
+			"dp proteins", "dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number",
+			"pages", "modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[] {
 			"length", "position", "total position", "peptides (seq)", "razor peptides (seq)", "unique peptides (seq)",
-			"localization prob", "size", "p value", "benj. hoch. fdr", "score", "delta score", "combinatorics", "intensity",
-			"score for localization", "pep", "m/z", "mass", "resolution", "uncalibrated - calibrated m/z [ppm]",
-			"mass error [ppm]", "uncalibrated mass error [ppm]", "uncalibrated - calibrated m/z [da]", "mass error [da]",
-			"uncalibrated mass error [da]", "max intensity m/z 0", "retention length", "retention time",
-			"calibrated retention time", "calibrated retention time start", "calibrated retention time finish",
-			"retention time calibration", "match time difference", "match q-value", "match score", "number of data points",
-			"number of scans", "number of isotopic peaks", "pif", "fraction of total spectrum", "base peak fraction",
-			"ms/ms count", "ms/ms m/z", "md base scan number", "md mass error", "md time difference", "dp mass difference",
-			"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number", "dp mod scan number",
-			"dp cluster mass", "dp cluster mass sd", "dp cluster size total", "dp cluster size forward",
-			"dp cluster size reverse", "dp peptide length difference", "dn score", "dn normalized score", "dn nterm mass",
-			"dn cterm mass", "dn missing mass", "dn score diff", "views", "estimated minutes watched", "average view duration",
-			"average percentage viewed", "subscriber views", "subscriber minutes watched", "clicks", "clickable impressions",
-			"click through rate", "closes", "closable impressions", "close rate", "impressions", "likes", "likes added",
-			"likes removed", "dislikes", "dislikes added", "dislikes removed", "shares", "comments", "favorites",
-			"favorites added", "favorites removed", "subscribers", "subscribers gained", "subscribers lost",
-			"average view duration (minutes)", "scan number", "ion injection time", "total ion current", "base peak intensity",
-			"elapsed time", "precursor full scan number", "precursor intensity", "precursor apex fraction",
-			"precursor apex offset", "precursor apex offset time", "scan event number", "scan index", "ms scan index",
-			"ms scan number", "agc fill", "parent intensity fraction", "intens comp factor", "ctcd comp", "rawovftt",
-			"cycle time", "dead time", "basepeak intensity", "mass calibration", "peak length", "isotope pattern length",
-			"multiplet length", "peaks / s", "single peaks / s", "isotope patterns / s", "single isotope patterns / s",
-			"multiplets / s", "identified multiplets / s", "multiplet identification rate [%]", "ms/ms / s",
-			"identified ms/ms / s", "ms/ms identification rate [%]", "mass fractional part", "mass deficit",
-			"mass precision [ppm]", "max intensity m/z 1", "retention length (fwhm)", "min scan number", "max scan number",
-			"lys count", "arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count", "jitter",
+			"localization prob", "size", "p value", "benj. hoch. fdr", "score", "delta score", "combinatorics",
+			"intensity", "score for localization", "pep", "m/z", "mass", "resolution",
+			"uncalibrated - calibrated m/z [ppm]", "mass error [ppm]", "uncalibrated mass error [ppm]",
+			"uncalibrated - calibrated m/z [da]", "mass error [da]", "uncalibrated mass error [da]",
+			"max intensity m/z 0", "retention length", "retention time", "calibrated retention time",
+			"calibrated retention time start", "calibrated retention time finish", "retention time calibration",
+			"match time difference", "match q-value", "match score", "number of data points", "number of scans",
+			"number of isotopic peaks", "pif", "fraction of total spectrum", "base peak fraction", "ms/ms count",
+			"ms/ms m/z", "md base scan number", "md mass error", "md time difference", "dp mass difference",
+			"dp time difference", "dp score", "dp pep", "dp positional probability", "dp base scan number",
+			"dp mod scan number", "dp cluster mass", "dp cluster mass sd", "dp cluster size total",
+			"dp cluster size forward", "dp cluster size reverse", "dp peptide length difference", "dn score",
+			"dn normalized score", "dn nterm mass", "dn cterm mass", "dn missing mass", "dn score diff", "views",
+			"estimated minutes watched", "average view duration", "average percentage viewed", "subscriber views",
+			"subscriber minutes watched", "clicks", "clickable impressions", "click through rate", "closes",
+			"closable impressions", "close rate", "impressions", "likes", "likes added", "likes removed", "dislikes",
+			"dislikes added", "dislikes removed", "shares", "comments", "favorites", "favorites added",
+			"favorites removed", "subscribers", "subscribers gained", "subscribers lost",
+			"average view duration (minutes)", "scan number", "ion injection time", "total ion current",
+			"base peak intensity", "elapsed time", "precursor full scan number", "precursor intensity",
+			"precursor apex fraction", "precursor apex offset", "precursor apex offset time", "scan event number",
+			"scan index", "ms scan index", "ms scan number", "agc fill", "parent intensity fraction",
+			"intens comp factor", "ctcd comp", "rawovftt", "cycle time", "dead time", "basepeak intensity",
+			"mass calibration", "peak length", "isotope pattern length", "multiplet length", "peaks / s",
+			"single peaks / s", "isotope patterns / s", "single isotope patterns / s", "multiplets / s",
+			"identified multiplets / s", "multiplet identification rate [%]", "ms/ms / s", "identified ms/ms / s",
+			"ms/ms identification rate [%]", "mass fractional part", "mass deficit", "mass precision [ppm]",
+			"max intensity m/z 1", "retention length (fwhm)", "min scan number", "max scan number", "lys count",
+			"arg count", "intensity", "intensity h", "intensity m", "intensity l", "r count", "k count", "jitter",
 			"closest known m/z", "delta [ppm]", "delta [mda]", "uncalibrated delta [ppm]", "uncalibrated delta [mda]",
 			"recalibration curve [ppm]", "recalibration curve [mda]", "q-value", "number of frames", "min frame number",
 			"max frame number", "ion mobility index", "ion mobility index length", "ion mobility index length (fwhm)",
 			"isotope correlation", "peptides", "razor + unique peptides", "unique peptides", "sequence coverage [%]",
-			"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]", "dm [mda]", "dm [ppm]",
-			"time [sec]", "du", "isotope index", "start", "end"
+			"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]", "dm [mda]",
+			"dm [ppm]", "time [sec]", "du", "isotope index", "start", "end", "intensity corr.",
+			"spearman intensity corr.", "rt", "drt", "k0_inv", "dk0_inv", "precursor", "fragment 1", "fragment 2",
+			"fragment 3", "fragment 4", "fragment 5", "fragment 6", "fragment 7", "svm score", "q-value",
+			"precursor mass", "precursor mass error", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "dm1", "dm2", "dm3",
+			"dm4", "dm5", "dm6", "dm7"
 		});
 
-		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]
-			{"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)", "protein group ids"});
+		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[] {
+			"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)", "protein group ids"
+		});
 	}
 }
