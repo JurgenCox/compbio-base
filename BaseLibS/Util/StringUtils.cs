@@ -827,7 +827,8 @@ namespace BaseLibS.Util {
 			"charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification", "fraction",
 			"dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
-			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice"
+			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
+			"fullpeptidename", "proteinname", "potentialoutlier"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[] {
@@ -836,7 +837,9 @@ namespace BaseLibS.Util {
 			"orf name", "names", "proteins", "positions within proteins", "leading proteins", "leading razor protein",
 			"md sequence", "md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities",
 			"dp proteins", "dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number",
-			"pages", "modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file"
+			"pages", "modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file",
+			"transition_group_id", "peptide_group_label", "run_id", "id" ,
+			"aggr_prec_fragment_annotation","aggr_fragment_annotation"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[] {
@@ -876,10 +879,22 @@ namespace BaseLibS.Util {
 			"isotope correlation", "peptides", "razor + unique peptides", "unique peptides", "sequence coverage [%]",
 			"unique sequence coverage [%]", "unique + razor sequence coverage [%]", "mol. weight [kda]", "dm [mda]",
 			"dm [ppm]", "time [sec]", "du", "isotope index", "start", "end", "intensity corr.",
-			"spearman intensity corr.", "rt", "drt", "k0_inv", "dk0_inv", "precursor", "fragment 1", "fragment 2",
-			"fragment 3", "fragment 4", "fragment 5", "fragment 6", "fragment 7", "svm score", "q-value",
-			"precursor mass", "precursor mass error", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "dm1", "dm2", "dm3",
-			"dm4", "dm5", "dm6", "dm7"
+			"spearman intensity corr.", "rt", "drt", "k0_inv", "dk0_inv", "precursor", "fragment1", "fragment2",
+			"fragment3", "fragment4", "fragment5", "fragment6", "fragment7", "svm score", "q-value", "precursor mass",
+			"precursor mass error", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "dm1", "dm2", "dm3", "dm4", "dm5", "dm6",
+			"dm7", "masserror_ppm", "assay_rt", "delta_rt", "var_bseries_score", "var_dotprod_score",
+			"var_intensity_score", "var_isotope_correlation_score", "var_isotope_overlap_score", "var_library_corr",
+			"var_library_dotprod", "var_library_manhattan", "var_library_rmsd", "var_library_rootmeansquare",
+			"var_library_sangle", "var_log_sn_score", "var_manhatt_score", "var_massdev_score",
+			"var_massdev_score_weighted", "var_norm_rt_score", "var_xcorr_coelution", "var_xcorr_coelution_weighted",
+			"var_xcorr_shape", "var_xcorr_shape_weighted", "var_im_xcorr_shape", "var_im_xcorr_coelution",
+			"var_im_delta_score", "var_im_ms1_delta_score", "im_drift", "im_drift_weighted", "var_yseries_score",
+			"var_elution_model_fit_score", "var_ms1_ppm_diff", "var_ms1_isotope_corr", "var_ms1_isotope_overlap",
+			"var_ms1_xcorr_coelution", "var_xcorr_shape", "d_score", "p_value", "q_value", "rt_fwhm", "leftwidth",
+			"main_var_xx_swath_prelim_score", "norm_rt", "nr_peaks", "peak_apices_sum", "rightwidth", "rt_score",
+			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
+			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex",
+			"peak_group_rank", "initialpeakquality", "mc"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[] {
