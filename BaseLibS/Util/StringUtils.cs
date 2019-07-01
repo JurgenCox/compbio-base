@@ -827,8 +827,7 @@ namespace BaseLibS.Util {
 			"charge", "modifications", "md modification", "dp aa", "dp decoy", "dp modification", "fraction",
 			"dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
-			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
-			"fullpeptidename", "proteinname", "potentialoutlier"
+			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[] {
@@ -838,8 +837,8 @@ namespace BaseLibS.Util {
 			"md sequence", "md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities",
 			"dp proteins", "dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number",
 			"pages", "modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file",
-			"transition_group_id", "peptide_group_label", "run_id", "id" ,
-			"aggr_prec_fragment_annotation","aggr_fragment_annotation"
+			"transition_group_id", "peptide_group_label", "run_id", "id", "proteinname", "fullpeptidename",
+			"aggr_prec_fragment_annotation", "aggr_fragment_annotation", "potentialoutlier"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[] {
@@ -893,8 +892,8 @@ namespace BaseLibS.Util {
 			"var_ms1_xcorr_coelution", "var_xcorr_shape", "d_score", "p_value", "q_value", "rt_fwhm", "leftwidth",
 			"main_var_xx_swath_prelim_score", "norm_rt", "nr_peaks", "peak_apices_sum", "rightwidth", "rt_score",
 			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
-			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex",
-			"peak_group_rank", "initialpeakquality", "mc"
+			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex", "peak_group_rank",
+			"initialpeakquality", "mc"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[] {
