@@ -597,7 +597,7 @@ namespace BaseLib.Forms{
 			SetZoomFromView(length/3, length*2/3, length);
 		}
 
-		public void ZoomOut(int length){
+        public void ZoomOut(int length){
 			SetZoomFromView(-length/3, length*4/3, length);
 		}
 

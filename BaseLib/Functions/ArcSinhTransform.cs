@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace BaseLib.Functions
 {
@@ -82,6 +83,17 @@ namespace BaseLib.Functions
             set => titleTextBox.Text = value;
         }
 
+        public double ExtraNeg
+        {
+            get => Double.Parse(NegText.Text, CultureInfo.InvariantCulture);
+            set => NegText.Text = "" + value;
+        }
+
+        public double GetMaximumZoom
+        {
+            get => Double.Parse(maxValueTextBox.Text, CultureInfo.InvariantCulture);
+            set => maxValueTextBox.Text = "" + value;
+        }
 
 
 
