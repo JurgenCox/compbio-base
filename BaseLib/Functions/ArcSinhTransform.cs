@@ -95,12 +95,6 @@ namespace BaseLib.Functions
             set => maxValueTextBox.Text = "" + value;
         }
 
-        public int GetWidthZero
-        {
-            get => Int32.Parse(maxValueTextBox.Text, CultureInfo.InvariantCulture);
-            set => basisText.Text = "" + value;
-        }
-
 
 
         public double MinValue

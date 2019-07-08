@@ -8,13 +8,7 @@ namespace BaseLibS.Graph{
 		public byte[] PathTypes => pathTypes.ToArray();
 		public int PointCount => pathPoints.Count;
 
-        public void DrawPolygon(Pen2 pen, Point2[] points)
-        {
-            foreach (Point2 st in points)
-                AddLine(st.X, st.Y, );
-        }
-
-        public void AddLine(Point2 p1, Point2 p2){
+		public void AddLine(Point2 p1, Point2 p2){
 			AddLine(p1.X, p1.Y, p2.X, p2.Y);
 		}
 
