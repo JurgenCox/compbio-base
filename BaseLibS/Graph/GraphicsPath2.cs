@@ -18,7 +18,7 @@ namespace BaseLibS.Graph{
 			pathTypes.Add(0);
 			pathTypes.Add(1);
 		}
-
+//
 		public void Reset(){
 			pathPoints.Clear();
 			pathTypes.Clear();
