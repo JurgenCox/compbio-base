@@ -521,6 +521,7 @@
     <Compile Include="Util\InputParameter.cs" />
     <Compile Include="Util\Loc.cs" />
     <Compile Include="Util\Parser.cs" />
+    <Compile Include="Util\Responder.cs" />
     <Compile Include="Util\StreamBackwardReader.cs" />
     <Compile Include="Util\TwoLetterLanguageCode.cs" />
     <Compile Include="Util\WorkDispatcher.cs" />
