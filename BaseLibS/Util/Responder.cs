@@ -1,6 +1,12 @@
 ﻿namespace BaseLibS.Util {
-	public abstract class Responder {
-		public abstract void Comment(string s);
-		public abstract void DoneFraction(double x);
+	public class Responder {
+		private string infoFolder;
+		private string title;
+		public Responder(string infoFolder, string title) {
+			this.infoFolder = infoFolder;
+			this.title = title;
+		}
+		public void Comment(string s) { }
+		public void DoneFraction(double x) { }
 	}
 }
