@@ -702,6 +702,13 @@ namespace BaseLibS.Util{
 			}
 		}
 
+		public static void Write(IList<double[,]> x, BinaryWriter writer){
+			writer.Write(x.Count);
+			foreach (double[,] t in x){
+				Write(t, writer);
+			}
+		}
+
 		public static void Write(double[,] x, BinaryWriter writer){
 			int n1 = x.GetLength(0);
 			int n2 = x.GetLength(1);
@@ -872,6 +879,15 @@ namespace BaseLibS.Util{
 			double[][] result = new double[n][];
 			for (int i = 0; i < n; i++){
 				result[i] = ReadDoubleArray(reader);
+			}
+			return result;
+		}
+
+		public static double[][,] Read3DDoubleArray2(BinaryReader reader){
+			int n = reader.ReadInt32();
+			double[][,] result = new double[n][,];
+			for (int i = 0; i < n; i++){
+				result[i] = Read2DDoubleArray2(reader);
 			}
 			return result;
 		}
