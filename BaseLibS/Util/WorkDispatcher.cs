@@ -95,7 +95,7 @@ namespace BaseLibS.Util {
 			return MessagePrefix + " ";
 		}
 
-		public abstract void Calculation(string[] args);
+		public abstract void Calculation(string[] args, Responder responder);
 		public virtual bool IsFallbackPosition => true;
 
 		protected virtual string GetComment(int taskIndex) {
@@ -130,7 +130,7 @@ namespace BaseLibS.Util {
 					ProcessSingleRunExternalProcess(taskIndex, threadIndex);
 					break;
 				case CalculationType.Thread:
-					Calculation(GetStringArgs(taskIndex));
+					Calculation(GetStringArgs(taskIndex), null);
 					break;
 				case CalculationType.Queueing:
 					ProcessSingleRunQueueing(taskIndex, threadIndex, numInternalThreads);

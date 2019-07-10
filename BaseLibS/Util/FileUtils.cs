@@ -709,6 +709,25 @@ namespace BaseLibS.Util{
 			}
 		}
 
+		public static void Write(IList<float[,]> x, BinaryWriter writer){
+			writer.Write(x.Count);
+			foreach (float[,] t in x){
+				Write(t, writer);
+			}
+		}
+
+		public static void Write(float[,] x, BinaryWriter writer){
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++){
+				for (int j = 0; j < n2; j++){
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+
 		public static void Write(double[,] x, BinaryWriter writer){
 			int n1 = x.GetLength(0);
 			int n2 = x.GetLength(1);
@@ -892,6 +911,15 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
+		public static float[][,] Read3DFloatArray2(BinaryReader reader){
+			int n = reader.ReadInt32();
+			float[][,] result = new float[n][,];
+			for (int i = 0; i < n; i++){
+				result[i] = Read2DFloatArray2(reader);
+			}
+			return result;
+		}
+
 		public static double[,] Read2DDoubleArray2(BinaryReader reader){
 			int n1 = reader.ReadInt32();
 			int n2 = reader.ReadInt32();
@@ -899,6 +927,18 @@ namespace BaseLibS.Util{
 			for (int i = 0; i < n1; i++){
 				for (int j = 0; j < n2; j++){
 					result[i, j] = reader.ReadDouble();
+				}
+			}
+			return result;
+		}
+
+		public static float[,] Read2DFloatArray2(BinaryReader reader){
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			float[,] result = new float[n1, n2];
+			for (int i = 0; i < n1; i++){
+				for (int j = 0; j < n2; j++){
+					result[i, j] = reader.ReadSingle();
 				}
 			}
 			return result;
