@@ -501,7 +501,7 @@ namespace BaseLibS.Mol {
 			result.CTermModification = mod;
 			char[] sequence = new char[q.Length];
 			for (int i = 0; i < q.Length; i++) {
-				(sequence[i], result.Modifications[i]) = GetAaAndMod(ct);
+				(sequence[i], result.Modifications[i]) = GetAaAndMod(q[i]);
 			}
 			return (new string(sequence), result);
 		}
