@@ -288,6 +288,8 @@
     <Compile Include="Mol\TaxonomyRanks.cs" />
     <Compile Include="Mol\TerminalLabel.cs" />
     <Compile Include="Ms\CentroidApproach.cs" />
+    <Compile Include="Ms\Data\Protein\Protein.cs" />
+    <Compile Include="Ms\Data\Protein\ProteinSet.cs" />
     <Compile Include="Ms\Decoy\DecoyMode.cs" />
     <Compile Include="Ms\Decoy\DecoyStrategy.cs" />
     <Compile Include="Ms\Decoy\DecoyStrategyRandomize.cs" />
@@ -312,6 +314,7 @@
     <Compile Include="Ms\RawFileUtils.cs" />
     <Compile Include="Ms\ScanInfo.cs" />
     <Compile Include="Ms\Search\AaMutationType.cs" />
+    <Compile Include="Ms\Search\DigestionUtil.cs" />
     <Compile Include="Ms\Search\VariationMode.cs" />
     <Compile Include="Ms\SignalType.cs" />
     <Compile Include="Ms\Spectrum.cs" />
