@@ -311,6 +311,7 @@
     <Compile Include="Ms\RawFileLayer.cs" />
     <Compile Include="Ms\RawFileUtils.cs" />
     <Compile Include="Ms\ScanInfo.cs" />
+    <Compile Include="Ms\Search\AaMutationType.cs" />
     <Compile Include="Ms\Search\VariationMode.cs" />
     <Compile Include="Ms\SignalType.cs" />
     <Compile Include="Ms\Spectrum.cs" />
