@@ -288,6 +288,11 @@
     <Compile Include="Mol\TaxonomyRanks.cs" />
     <Compile Include="Mol\TerminalLabel.cs" />
     <Compile Include="Ms\CentroidApproach.cs" />
+    <Compile Include="Ms\Decoy\DecoyMode.cs" />
+    <Compile Include="Ms\Decoy\DecoyStrategy.cs" />
+    <Compile Include="Ms\Decoy\DecoyStrategyRandomize.cs" />
+    <Compile Include="Ms\Decoy\DecoyStrategyRevert.cs" />
+    <Compile Include="Ms\Decoy\DecoyStrategyReward.cs" />
     <Compile Include="Ms\FragmentationTypeEnum.cs" />
     <Compile Include="Ms\InfoLists.cs" />
     <Compile Include="Ms\IntensityDetermination.cs" />
