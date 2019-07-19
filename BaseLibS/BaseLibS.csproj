@@ -290,6 +290,9 @@
     <Compile Include="Ms\CentroidApproach.cs" />
     <Compile Include="Ms\Data\Protein\Protein.cs" />
     <Compile Include="Ms\Data\Protein\ProteinSet.cs" />
+    <Compile Include="Ms\Data\Protein\ProtInfo1.cs" />
+    <Compile Include="Ms\Data\Protein\ProtInfo3.cs" />
+    <Compile Include="Ms\Data\Protein\TmpProteinGroup.cs" />
     <Compile Include="Ms\Decoy\DecoyMode.cs" />
     <Compile Include="Ms\Decoy\DecoyStrategy.cs" />
     <Compile Include="Ms\Decoy\DecoyStrategyRandomize.cs" />
