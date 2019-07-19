@@ -309,6 +309,7 @@
     <Compile Include="Ms\MsLevel.cs" />
     <Compile Include="Ms\PasefFrameMsMsInfo.cs" />
     <Compile Include="Ms\PasefPrecursorInfo.cs" />
+    <Compile Include="Ms\PepUtils.cs" />
     <Compile Include="Ms\RawFile.cs" />
     <Compile Include="Ms\RawFileLayer.cs" />
     <Compile Include="Ms\RawFileUtils.cs" />
