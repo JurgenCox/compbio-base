@@ -37,6 +37,12 @@ namespace BaseLibS.Ms {
 		public abstract bool CutPeaksDefault { get; }
 		public abstract int GapScansDefault { get; }
 		public abstract bool CheckMassDeficitDefault { get; }
+		public abstract double DiaCorrThresholdFeatureClusteringDefault { get; }
+		public abstract double DiaInitialPrecMassTolPpmDefault { get; }
+		public abstract double DiaPrecTolPpmFeatureClusteringDefault { get; }
+		public abstract int DiaScoreNDefault { get; }
+		public abstract double DiaInitialFragMassTolPpmDefault { get; }
+		public abstract double DiaFragTolPpmFeatureClusteringDefault { get; }
 
 		public override string ToString() {
 			return Name;
