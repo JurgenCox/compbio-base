@@ -100,31 +100,146 @@ namespace PluginRawMzMl
 		/// </summary>
 		private void PreInitOffset()
 		{
-			IndexListType indexList;
-			// Try unsafe
-			var indexListOffset = FindIndexListOffsetUnsafe();
-			if (indexListOffset >= 0)
-			{
-				indexList = ReadIndexList(indexListOffset);
-			}
-			else // Fall back to safe
-			{
-				indexListOffset = FindIndexListOffsetSafe();
-				indexList = ReadIndexList(indexListOffset);
-			}
+			FileInfo offsetIndexFile = new FileInfo(Path+".offsets");
+			if (offsetIndexFile.Exists) {
+				using (StreamReader sr = new StreamReader(offsetIndexFile.OpenRead()))
+				{
+					IndexType indexType = (IndexType)Xml.IndexTypeSerializer.Deserialize(sr);
+					_offset = indexType.offset;
+				}
+            }
+			else {
+				IndexListType indexList;
+				// Try unsafe
+				var indexListOffset = FindIndexListOffsetUnsafe();
+				if (indexListOffset >= 0)
+				{
+					indexList = ReadIndexList(indexListOffset);
+				}
+				else // Fall back to safe
+				{
+					indexListOffset = FindIndexListOffsetSafe();
+					indexList = ReadIndexList(indexListOffset);
+				}
+				OffsetType[] preOffset = indexList.index?.SingleOrDefault(index => index.name == IndexTypeName.spectrum)?.offset;
+				if (preOffset == null) {
+					throw new Exception(
+						$"mzML rawfile {System.IO.Path.GetFileNameWithoutExtension(Path)} did not contain {nameof(IndexTypeName.spectrum)} index.");
+				}
+                _offset = FilterOffset(preOffset);
+				using (StreamWriter sw = new StreamWriter(offsetIndexFile.OpenWrite())) {
+					Xml.IndexTypeSerializer.Serialize(sw, new IndexType(){ name = IndexTypeName.spectrum, offset = _offset});
+                }
+            }
+        }
 
-			_offset = indexList.index?.SingleOrDefault(index => index.name == IndexTypeName.spectrum)?.offset;
-			if (_offset == null)
-			{
-				throw new Exception(
-					$"mzML rawfile {System.IO.Path.GetFileNameWithoutExtension(Path)} did not contain {nameof(IndexTypeName.spectrum)} index.");
-			}
+        /// <summary>
+        /// Align DIA ranges
+        /// TODO this is temporary solution
+        /// </summary>
+        /// <param name="preOffset"></param>
+        /// <returns></returns>
+        private OffsetType[] FilterOffset(OffsetType[] preOffset) {
+			List<int> ms1scans = new List<int>();
+			List<int> ms2scans = new List<int>();
+			List<int> ms2toms1 = new List<int>();
+            List<double> ms2IsolationMins = new List<double>();
+			List<double> ms2IsolationMaxs = new List<double>();
+
+            for (int i = 0; i < preOffset.Length; i++) {
+				SpectrumType spectrum = DeserializeSpectrum(preOffset[i]);
+				Dictionary<string, string> parameters = Parameters(spectrum);
+				MsLevel msLevel = MsLevel(parameters);
+				switch (msLevel) {
+					case BaseLibS.Ms.MsLevel.Ms1:
+						ms1scans.Add(i);
+						break;
+					case BaseLibS.Ms.MsLevel.Ms2:
+						ms2scans.Add(i);
+						ms2toms1.Add(ms1scans.Count - 1);
+                        if (spectrum.precursorList != null)
+						{
+							var precursor = spectrum.precursorList.precursor.Single();
+							var isolationWindowParameters = Parameters(precursor.isolationWindow);
+							double ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
+							ms2IsolationMins.Add(ms2ParentMz - Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]));
+							ms2IsolationMaxs.Add(ms2ParentMz + Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]));
+						}
+                        break;
+					case BaseLibS.Ms.MsLevel.Ms3:
+						throw new NotImplementedException();
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+            }
+			Dictionary<Tuple<double, double>, int> cnt = new Dictionary<Tuple<double, double>, int>();
+	        for (int i = 0; i < ms2scans.Count; i++) {
+		        Tuple<double, double> key = new Tuple<double, double>(ms2IsolationMins[i], ms2IsolationMaxs[i]);
+		        if (cnt.ContainsKey(key)) {
+			        cnt[key]++;
+		        }
+		        else {
+					cnt.Add(key, 1);
+		        }
+            }
+	        int n = ms1scans.Count;
+	        int m = 0;
+	        Dictionary<Tuple<double, double>, int> rangeIndex = new Dictionary<Tuple<double, double>, int>();
+	        foreach (KeyValuePair<Tuple<double, double>, int> kv in cnt.OrderBy(x => x.Key)) {
+		        if (kv.Value >= ms1scans.Count) {
+			        rangeIndex[kv.Key] = m++;
+		        }
+	        }
+            int[,] indexes = new int[n, m];
+            for (int i = 0; i < ms2scans.Count; i++) {
+		        Tuple<double, double> key = new Tuple<double, double>(ms2IsolationMins[i], ms2IsolationMaxs[i]);
+		        if (cnt[key] >= ms1scans.Count) {
+			        indexes[ms2toms1[i], rangeIndex[key]] = ms2scans[i];
+		        }
+            }
+
+			// If one is missing, we are copying the fake one from neighbor
+			// This is the best from worst decision!
+	        for (int i = 0; i < n; i++) {
+		        for (int j = 0; j < m; j++) {
+			        if (indexes[i, j] == 0) {
+                        int d = 1;
+                        while (i - d >= 0 || i + d < n) {
+                            if (i - d >= 0 && indexes[i - d, j] != 0) {
+                                indexes[i, j] = indexes[i - d, j];
+                                break;
+                            }
+                            if (i + d < n && indexes[i + d, j] != 0) {
+                                indexes[i, j] = indexes[i + d, j];
+                                break;
+                            }
+                            d++;
+                        }
+                        if (i - d < 0 && i + d >= n)
+                            throw new Exception("Hopeless data - no way to patch it");
+                    }
+		        }
+	        }
+
+            OffsetType[] offset = new OffsetType[n * m + ms1scans.Count];
+	        int ims1 = 0;
+	        int ims2 = 0;
+	        while ((ims1 + ims2) != offset.Length) {
+		        offset[ims1 + ims2] = preOffset[ms1scans[ims1]];
+		        ims1++;
+		        for (int i = 0; i < m; i++, ims2++) {
+			        offset[ims1 + ims2] = preOffset[indexes[ims1 - 1, i]];
+		        }
+	        }
+            return offset;
 		}
 
-		/// <summary>
-		/// Seek the location of the indexList according to the offset and deserialize the list.
-		/// </summary>
-		private IndexListType ReadIndexList(long indexListOffset)
+
+
+        /// <summary>
+        /// Seek the location of the indexList according to the offset and deserialize the list.
+        /// </summary>
+        private IndexListType ReadIndexList(long indexListOffset)
 		{
 			_reader.DiscardBufferedData();
 			_reader.BaseStream.Seek(indexListOffset, SeekOrigin.Begin);
@@ -242,7 +357,11 @@ namespace PluginRawMzMl
 
 		private SpectrumType DeserializeSpectrum(int scanNumber)
 		{
-			var offset = _offset[scanNumber];
+			return DeserializeSpectrum(_offset[scanNumber]);
+		}
+
+		private SpectrumType DeserializeSpectrum(OffsetType offset)
+		{
 			_reader.DiscardBufferedData();
 			_reader.BaseStream.Seek(offset.Value, SeekOrigin.Begin);
 			using (var xml = MzmlXmlReader(_reader))
@@ -254,10 +373,10 @@ namespace PluginRawMzMl
 			}
 		}
 
-		/// <summary>
-		/// Check if the parameter dictionary contains at least on CV term associated with ms-numpress <see cref="CV.NUMPRESS_ALL"/>.
-		/// </summary>
-		private static bool TryGetNumpressCompressionType(Dictionary<string, string> parameters, out string compressionType)
+        /// <summary>
+        /// Check if the parameter dictionary contains at least on CV term associated with ms-numpress <see cref="CV.NUMPRESS_ALL"/>.
+        /// </summary>
+        private static bool TryGetNumpressCompressionType(Dictionary<string, string> parameters, out string compressionType)
 		{
 			compressionType = CV.NUMPRESS_ALL.SingleOrDefault(parameters.ContainsKey);
 			return !string.IsNullOrEmpty(compressionType);
@@ -478,7 +597,7 @@ namespace PluginRawMzMl
 	    /// <summary>
 		/// Parse <see cref="MsLevel"/> from <see cref="SpectrumType"/> parameters.
 		/// </summary>
-	    private static MsLevel MsLevel(Dictionary<string, string> parameters, int scanNumber)
+	    private static MsLevel MsLevel(Dictionary<string, string> parameters, int scanNumber=0)
 	    {
 		    MsLevel msLevel;
 		    switch (parameters[CV.MS_LEVEL])

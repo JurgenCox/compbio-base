@@ -16,10 +16,12 @@ namespace PluginRawMzMl
 		public static XmlSerializer IndexListOffsetSerializer;
 		public static XmlSerializer IndexListSerializer;
 		public static XmlSerializer SpectrumSerializer;
-		public static XmlSerializer InstrumentConfigurationListSerializer;
+        public static XmlSerializer InstrumentConfigurationListSerializer;
+		public static XmlSerializer IndexTypeSerializer;
 
-		public const string IndexListOffsetElementName = "indexListOffset";
-		public const string IndexListElementName = "indexList";
+        public const string IndexListOffsetElementName = "indexListOffset";
+		public const string IndexTypeElementName = "indextypeOffset";
+        public const string IndexListElementName = "indexList";
 		public const string IndexedmzMLElementName = "indexedmzML";
 		public const string InstrumentConfigurationListElementName = "instrumentConfigurationList";
 		public const string SpectrumElementName = "spectrum";
@@ -34,6 +36,7 @@ namespace PluginRawMzMl
 			IndexListSerializer = CreateMzMLSerializer(IndexListElementName, typeof(IndexListType));
 			SpectrumSerializer = CreateMzMLSerializer(SpectrumElementName, typeof(SpectrumType));
 			InstrumentConfigurationListSerializer = CreateMzMLSerializer(InstrumentConfigurationListElementName, typeof(InstrumentConfigurationListType));
+			IndexTypeSerializer = CreateMzMLSerializer(IndexTypeElementName, typeof(IndexType));
 		}
 
 		private static XmlSerializer CreateMzMLSerializer(string elementName, Type type)
