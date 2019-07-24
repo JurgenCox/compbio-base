@@ -335,6 +335,7 @@
     <Compile Include="Num\Distrib\StudentsT.cs" />
     <Compile Include="Num\Func\Factorial.cs" />
     <Compile Include="Num\Func\IncompleteBeta.cs" />
+    <Compile Include="Num\kineticsmeasures.cs" />
     <Compile Include="Num\Learning\ClassificationOnSubFeatures.cs" />
     <Compile Include="Num\Learning\ClassificationWithRanking.cs" />
     <Compile Include="Num\Learning\ClassificationWithRankingMultiSizes.cs" />

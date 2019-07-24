@@ -84,7 +84,26 @@ namespace BaseLibS.Num {
 			ymax += 0.05 * dy;
 		}
 
-		public static void CalcRanges(IList<double> xvals, IList<double> yvals, IList<double> zvals, out double xmin,
+        public static void TimeCalcRanges(IList<double> xvals, out double xmin, out double xmax)
+        {
+            xmin = double.MaxValue;
+            xmax = double.MinValue;
+
+            for (int i = 0; i < xvals.Count; i++)
+            {
+                if (double.IsInfinity(xvals[i])  || double.IsNaN(xvals[i]) )
+                {  continue; }
+                if (xvals[i] < xmin)
+                {  xmin = xvals[i]; }
+                if (xvals[i] > xmax)
+                {   xmax = xvals[i];  }
+            }
+            double dx = xmax - xmin;
+            xmin -= 0.01 * dx;
+            xmax += 0.01 * dx;
+        }
+
+        public static void CalcRanges(IList<double> xvals, IList<double> yvals, IList<double> zvals, out double xmin,
 			out double xmax, out double ymin, out double ymax, out double zmin, out double zmax) {
 			xmin = double.MaxValue;
 			xmax = double.MinValue;
