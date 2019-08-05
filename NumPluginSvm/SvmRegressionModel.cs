@@ -7,7 +7,6 @@ namespace NumPluginSvm{
     [Serializable]
     public class SvmRegressionModel : RegressionModel{
         private readonly SvmModel model;
-
         public SvmRegressionModel(SvmModel model){
             this.model = model;
         }

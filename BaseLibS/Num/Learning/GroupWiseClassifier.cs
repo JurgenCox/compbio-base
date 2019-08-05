@@ -5,6 +5,7 @@ using BaseLibS.Num.Vector;
 namespace BaseLibS.Num.Learning{
 	[Serializable]
 	public class GroupWiseClassifier : ClassificationModel{
+		//This will not work for classifiers that are not serializable.
 		private readonly ClassificationModel[] classifiers;
 
 		public GroupWiseClassifier(ClassificationModel[] classifiers){

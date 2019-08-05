@@ -6,9 +6,9 @@ using BaseLibS.Util;
 
 namespace NumPluginBase.Regression{
 	public static class RegressionMethods{
-		private static readonly RegressionMethod[] allMethods = InitRegressionMethod();
+		private static readonly RegressionMethod[] allMethods = InitRegressionMethods();
 
-		private static RegressionMethod[] InitRegressionMethod(){
+		private static RegressionMethod[] InitRegressionMethods(){
 			return FileUtils.GetPlugins<RegressionMethod>(NumPluginUtils.pluginNames, true);
 		}
 

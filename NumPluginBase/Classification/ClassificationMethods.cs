@@ -6,9 +6,9 @@ using BaseLibS.Util;
 
 namespace NumPluginBase.Classification{
 	public static class ClassificationMethods{
-		private static readonly ClassificationMethod[] allMethods = InitClassificationMethod();
+		private static readonly ClassificationMethod[] allMethods = InitClassificationMethods();
 
-		private static ClassificationMethod[] InitClassificationMethod(){
+		private static ClassificationMethod[] InitClassificationMethods(){
 			return FileUtils.GetPlugins<ClassificationMethod>(NumPluginUtils.pluginNames, true);
 		}
 

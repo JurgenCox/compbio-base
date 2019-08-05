@@ -34,14 +34,22 @@ namespace BaseLibS.Api{
 			return result.ToArray();
 		}
 
-		public void Write(string filePath){
+		public virtual void Write(string filePath){
+			WriteBySerialization(filePath, this);
+		}
+
+		public virtual ClassificationModel Read(string filePath){
+			return ReadByDeserialization(filePath);
+		}
+
+		public static void WriteBySerialization(string filePath, ClassificationModel model){
 			Stream stream = File.Open(filePath, FileMode.Create);
 			BinaryFormatter bFormatter = new BinaryFormatter();
-			bFormatter.Serialize(stream, this);
+			bFormatter.Serialize(stream, model);
 			stream.Close();
 		}
 
-		public static ClassificationModel Read(string filePath){
+		public static ClassificationModel ReadByDeserialization(string filePath){
 			Stream stream = File.Open(filePath, FileMode.Open);
 			BinaryFormatter bFormatter = new BinaryFormatter();
 			ClassificationModel m = (ClassificationModel) bFormatter.Deserialize(stream);
