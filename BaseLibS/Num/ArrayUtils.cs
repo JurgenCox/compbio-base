@@ -2302,6 +2302,16 @@ namespace BaseLibS.Num{
 			return array;
 		}
 
+		public static T[,] FillArray<T>(T item, int len0, int len1){
+			T[,] array = new T[len0, len1];
+			for (int i = 0; i < len0; i++){
+				for (int j = 0; j < len0; j++){
+					array[i, j] = item;
+				}
+			}
+			return array;
+		}
+
 		public static int ClosestIndex(double[] array, double value){
 			if (array == null) return -1;
 			lock (array){
