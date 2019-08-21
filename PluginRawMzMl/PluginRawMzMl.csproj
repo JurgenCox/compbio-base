@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CV.cs" />
+    <Compile Include="MzGrid.cs" />
     <Compile Include="mzML1_1_1_idx.cs" />
     <Compile Include="MzMLRawFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
