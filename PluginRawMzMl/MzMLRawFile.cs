@@ -27,7 +27,9 @@ namespace PluginRawMzMl
 	/// </remarks>
 	public class MzMLRawFile : RawFile
 	{
-		private OffsetType[] _offset;
+		private const float nsigma = 3;
+		private MzGrid _mzGrid;
+        private OffsetType[] _offset;
 		private Dictionary<string, InstrumentConfigurationType> _instrumentConfigurations;
 		private string _defaultInstrumentConfigurationRef;
 		/// <summary>
@@ -329,8 +331,8 @@ namespace PluginRawMzMl
 			return indexListOffset;
 		}
 
-
-		protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax, bool readCentroids,
+       
+        protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax, bool readCentroids,
 			out double[] masses, out double[] intensities, double resolution, double mzMin, double mzMax)
 		{
 			if (!preInitialized)
@@ -350,12 +352,29 @@ namespace PluginRawMzMl
 			}
 			var binary = spectrum.binaryDataArrayList.binaryDataArray;
 			var binaryParameters = binary.Select(Parameters).ToList();
-			masses = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
-			intensities = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
-		}
+			double[] massesIn = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
+			double[] intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 
 
-		private SpectrumType DeserializeSpectrum(int scanNumber)
+	        resolution = 30000;
+            if (_mzGrid == null)
+	        {
+		        _mzGrid = new MzGrid(10, 1800, resolution, nsigma);
+	        }
+	        else
+	        {
+		        if (_mzGrid.Resolution != resolution)
+		        {
+			        throw new Exception($"Invalid grid resolution: {resolution}, " +
+			                            $"grid is already initialized with resolution: {_mzGrid.Resolution}");
+		        }
+	        }
+	        _mzGrid.SmoothIntensities(massesIn, intensitiesIn, out masses, out intensities);
+        }
+
+        
+
+        private SpectrumType DeserializeSpectrum(int scanNumber)
 		{
 			return DeserializeSpectrum(_offset[scanNumber]);
 		}
