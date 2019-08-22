@@ -150,6 +150,7 @@
             this.plusMinValue.TabIndex = 18;
             this.plusMinValue.Text = "+";
             this.plusMinValue.UseVisualStyleBackColor = true;
+            this.plusMinValue.Click += new System.EventHandler(this.PlusMinValue_Click);
             // 
             // minusMaxValue
             // 

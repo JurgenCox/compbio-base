@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using BaseLibS.Util;
 
 namespace BaseLib.Forms{
@@ -7,7 +8,7 @@ namespace BaseLib.Forms{
 
 		internal NumericAxisPropertiesForm(string title, double minValue, double maxValue){
 			InitializeComponent();
-			MinValue = minValue;
+            MinValue = minValue;
 			MaxValue = maxValue;
 			Title = title;
 		}
@@ -22,7 +23,9 @@ namespace BaseLib.Forms{
 			Close();
 		}
 
-		internal string Title { get => titleTextBox.Text;
+
+
+        internal string Title { get => titleTextBox.Text;
 			set => titleTextBox.Text = value;
 		}
 		internal double MinValue{
@@ -47,5 +50,12 @@ namespace BaseLib.Forms{
 			}
 			set => maxValueTextBox.Text = "" + value;
 		}
-	}
+
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            Ok = true;
+            Show();
+        }
+    }
 }

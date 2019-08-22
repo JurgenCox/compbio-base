@@ -73,6 +73,9 @@ namespace BaseLib.Functions
 
         }
 
+        private void PlusMinValue_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

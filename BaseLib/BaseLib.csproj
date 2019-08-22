@@ -69,6 +69,12 @@
     <Compile Include="Forms\ColorBrewerForm.Designer.cs">
       <DependentUpon>ColorBrewerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ColorGradientPalette.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ColorGradientPalette.Designer.cs">
+      <DependentUpon>ColorGradientPalette.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ColorScale.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -284,11 +290,11 @@
     <Compile Include="Functions\LogarithmicTransform.Designer.cs">
       <DependentUpon>LogarithmicTransform.cs</DependentUpon>
     </Compile>
-    <Compile Include="Functions\LinearTransform.cs">
+    <Compile Include="Functions\Transform.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Functions\LinearTransform.Designer.cs">
-      <DependentUpon>LinearTransform.cs</DependentUpon>
+    <Compile Include="Functions\Transform.Designer.cs">
+      <DependentUpon>Transform.cs</DependentUpon>
     </Compile>
     <Compile Include="Functions\HyperLogTransform.cs">
       <SubType>Form</SubType>
@@ -422,6 +428,9 @@
     <EmbeddedResource Include="Forms\ColorBrewerForm.resx">
       <DependentUpon>ColorBrewerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ColorGradientPalette.resx">
+      <DependentUpon>ColorGradientPalette.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ColorScale.resx">
       <DependentUpon>ColorScale.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -516,8 +525,8 @@
     <EmbeddedResource Include="Functions\LogarithmicTransform.resx">
       <DependentUpon>LogarithmicTransform.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Functions\LinearTransform.resx">
-      <DependentUpon>LinearTransform.cs</DependentUpon>
+    <EmbeddedResource Include="Functions\Transform.resx">
+      <DependentUpon>Transform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Functions\HyperLogTransform.resx">
       <DependentUpon>HyperLogTransform.cs</DependentUpon>
