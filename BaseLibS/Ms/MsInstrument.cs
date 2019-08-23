@@ -37,6 +37,7 @@ namespace BaseLibS.Ms {
 		public abstract bool CutPeaksDefault { get; }
 		public abstract int GapScansDefault { get; }
 		public abstract bool CheckMassDeficitDefault { get; }
+		public abstract CentroidPosition CentroidPosition { get; }
 		public abstract double DiaCorrThresholdFeatureClusteringDefault { get; }
 		public abstract double DiaInitialPrecMassTolPpmDefault { get; }
 		public abstract double DiaPrecTolPpmFeatureClusteringDefault { get; }

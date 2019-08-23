@@ -288,6 +288,7 @@
     <Compile Include="Mol\TaxonomyRanks.cs" />
     <Compile Include="Mol\TerminalLabel.cs" />
     <Compile Include="Ms\CentroidApproach.cs" />
+    <Compile Include="Ms\CentroidPosition.cs" />
     <Compile Include="Ms\Data\Protein\Protein.cs" />
     <Compile Include="Ms\Data\Protein\ProteinSet.cs" />
     <Compile Include="Ms\Data\Protein\ProtInfo1.cs" />
