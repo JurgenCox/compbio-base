@@ -44,6 +44,7 @@ namespace BaseLibS.Ms {
 		public abstract int DiaScoreNDefault { get; }
 		public abstract double DiaInitialFragMassTolPpmDefault { get; }
 		public abstract double DiaFragTolPpmFeatureClusteringDefault { get; }
+		public abstract double DiaMinScoreDefault { get; }
 
 		public override string ToString() {
 			return Name;
