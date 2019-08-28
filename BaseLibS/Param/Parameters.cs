@@ -6,19 +6,19 @@ using System.Xml.Serialization;
 
 namespace BaseLibS.Param{
 	[Serializable]
-	public class Parameters : IXmlSerializable {
+	public class Parameters : IXmlSerializable{
 		private readonly List<ParameterGroup> paramGroups = new List<ParameterGroup>();
 
 		public Parameters(IList<Parameter> param, string name){
 			AddParameterGroup(param, name, false);
 		}
 
-		public Parameters(Parameter param) : this(new[]{param}){}
+		public Parameters(Parameter param) : this(param != null ? new[]{param} : new Parameter[0]){ }
 
-	    public Parameters(params Parameter[] param) : this(param, null) { }
-	    public Parameters(string name, params Parameter[] param) : this(param, name) { }
-	    public Parameters(IList<Parameter> param) : this(param, null){}
-		public Parameters(){}
+		public Parameters(params Parameter[] param) : this(param, null){ }
+		public Parameters(string name, params Parameter[] param) : this(param, name){ }
+		public Parameters(IList<Parameter> param) : this(param, null){ }
+		public Parameters(){ }
 
 		public void Convert(Func<Parameter, Parameter> map){
 			foreach (ParameterGroup t in paramGroups){
@@ -200,30 +200,27 @@ namespace BaseLibS.Param{
 			return null;
 		}
 
-	    public XmlSchema GetSchema() { return null; }
+		public XmlSchema GetSchema(){
+			return null;
+		}
 
-	    public void ReadXml(XmlReader reader)
-	    {
-	        XmlSerializer serializer = new XmlSerializer(typeof(ParameterGroup));
-	        bool isEmpty = reader.IsEmptyElement;
-	        reader.ReadStartElement();
-	        if (!isEmpty)
-	        {
-	            while (reader.NodeType == XmlNodeType.Element)
-	            {
-	                paramGroups.Add((ParameterGroup) serializer.Deserialize(reader));
-	            }
-	            reader.ReadEndElement();
-	        }
-	    }
+		public void ReadXml(XmlReader reader){
+			XmlSerializer serializer = new XmlSerializer(typeof(ParameterGroup));
+			bool isEmpty = reader.IsEmptyElement;
+			reader.ReadStartElement();
+			if (!isEmpty){
+				while (reader.NodeType == XmlNodeType.Element){
+					paramGroups.Add((ParameterGroup) serializer.Deserialize(reader));
+				}
+				reader.ReadEndElement();
+			}
+		}
 
-	    public void WriteXml(XmlWriter writer)
-	    {
-	        foreach (ParameterGroup paramGrp in paramGroups)
-	        {
-                XmlSerializer paramSerializer = new XmlSerializer(paramGrp.GetType());
-	            paramSerializer.Serialize(writer, paramGrp);
-	        }
-	    }
+		public void WriteXml(XmlWriter writer){
+			foreach (ParameterGroup paramGrp in paramGroups){
+				XmlSerializer paramSerializer = new XmlSerializer(paramGrp.GetType());
+				paramSerializer.Serialize(writer, paramGrp);
+			}
+		}
 	}
 }
