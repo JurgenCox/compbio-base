@@ -982,6 +982,7 @@ namespace BaseLibS.Util{
 			using (GZipStream zipStream = new GZipStream(compressedStream, CompressionMode.Compress)){
 				zipStream.Write(data, 0, data.Length);
 				zipStream.Close();
+				compressedStream.Flush();
 				return compressedStream.ToArray();
 			}
 		}
@@ -991,6 +992,7 @@ namespace BaseLibS.Util{
 			using (GZipStream zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
 			using (MemoryStream resultStream = new MemoryStream()){
 				zipStream.CopyTo(resultStream);
+				resultStream.Flush();
 				return resultStream.ToArray();
 			}
 		}
