@@ -976,5 +976,23 @@ namespace BaseLibS.Util{
 			PlatformID pid = os.Platform;
 			return pid == PlatformID.Unix || pid == PlatformID.MacOSX;
 		}
+
+		public static byte[] Compress(byte[] data){
+			using (MemoryStream compressedStream = new MemoryStream())
+			using (GZipStream zipStream = new GZipStream(compressedStream, CompressionMode.Compress)){
+				zipStream.Write(data, 0, data.Length);
+				zipStream.Close();
+				return compressedStream.ToArray();
+			}
+		}
+
+		public static byte[] Decompress(byte[] data){
+			using (MemoryStream compressedStream = new MemoryStream(data))
+			using (GZipStream zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+			using (MemoryStream resultStream = new MemoryStream()){
+				zipStream.CopyTo(resultStream);
+				return resultStream.ToArray();
+			}
+		}
 	}
 }
