@@ -212,7 +212,7 @@ namespace BaseLibS.Util{
 				Stream fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
 				Stream stream = new GZipStream(fileStream, CompressionMode.Decompress);
 				if (seekable){
-					var memory = new MemoryStream();
+					MemoryStream memory = new MemoryStream();
 					stream.CopyTo(memory);
 					stream = memory;
 				}
@@ -977,23 +977,31 @@ namespace BaseLibS.Util{
 			return pid == PlatformID.Unix || pid == PlatformID.MacOSX;
 		}
 
-		public static byte[] Compress(byte[] data){
-			using (MemoryStream compressedStream = new MemoryStream())
-			using (GZipStream zipStream = new GZipStream(compressedStream, CompressionMode.Compress)){
-				zipStream.Write(data, 0, data.Length);
-				zipStream.Close();
-				compressedStream.Flush();
-				return compressedStream.ToArray();
+		private static int BUFFER_SIZE = 64 * 1024; //64kB
+
+		public static byte[] Compress(byte[] inputData){
+			if (inputData == null)
+				throw new ArgumentNullException("inputData must be non-null");
+			using (MemoryStream compressIntoMs = new MemoryStream()){
+				using (BufferedStream gzs = new BufferedStream(new GZipStream(compressIntoMs, CompressionMode.Compress),
+					BUFFER_SIZE)){
+					gzs.Write(inputData, 0, inputData.Length);
+				}
+				return compressIntoMs.ToArray();
 			}
 		}
 
-		public static byte[] Decompress(byte[] data){
-			using (MemoryStream compressedStream = new MemoryStream(data))
-			using (GZipStream zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-			using (MemoryStream resultStream = new MemoryStream()){
-				zipStream.CopyTo(resultStream);
-				resultStream.Flush();
-				return resultStream.ToArray();
+		public static byte[] Decompress(byte[] inputData){
+			if (inputData == null)
+				throw new ArgumentNullException("inputData must be non-null");
+			using (MemoryStream compressedMs = new MemoryStream(inputData)){
+				using (MemoryStream decompressedMs = new MemoryStream()){
+					using (BufferedStream gzs =
+						new BufferedStream(new GZipStream(compressedMs, CompressionMode.Decompress), BUFFER_SIZE)){
+						gzs.CopyTo(decompressedMs);
+					}
+					return decompressedMs.ToArray();
+				}
 			}
 		}
 	}
