@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using BaseLibS.Mol;
 using BaseLibS.Table;
@@ -70,29 +72,43 @@ namespace BaseLib.Forms {
 		private Button addButton;
 		private Button removeButton;
 		private Button editButton;
+		private Button importButton;
+		private Button exportButton;
 
-		public IsobaricLabelsParamControl() {
+        public IsobaricLabelsParamControl() {
 			InitializeComponent();
 			InitializeComponent2();
 			tableView1.TableModel = CreateTable();
 			addButton.Click += AddButtonOnClick;
 			removeButton.Click += RemoveButtonOnClick;
 			editButton.Click += EditButtonOnClick;
-		}
+	        importButton.Click += ImportButtonOnClick;
+	        exportButton.Click += ExportButtonOnClick;
+        }
+
+		private static readonly string[] header = new[] {
+			"Internal label",
+			"Terminal label",
+			"Correction factor -2 [%]",
+			"Correction factor -1 [%]",
+			"Correction factor +1 [%]",
+			"Correction factor +2 [%]",
+			"TMT like"
+		};
 
 		private void AddButtonOnClick(object sender, EventArgs eventArgs) {
 			DataRow2 row = table.NewRow();
-			row["Internal label"] = "";
-			row["Terminal label"] = "";
-			row["Correction factor -2 [%]"] = 0d;
-			row["Correction factor -1 [%]"] = 0d;
-			row["Correction factor +1 [%]"] = 0d;
-			row["Correction factor +2 [%]"] = 0d;
-			row["TMT like"] = true;
+			row[header[0]] = "";
+			row[header[1]] = "";
+			row[header[2]] = 0d;
+			row[header[3]] = 0d;
+			row[header[4]] = 0d;
+			row[header[5]] = 0d;
+			row[header[6]] = true;
 			table.AddRow(row);
 			tableView1.Invalidate(true);
 		}
-
+		
 		private void RemoveButtonOnClick(object sender, EventArgs eventArgs) {
 			int[] sel = tableView1.GetSelectedRows();
 			if (sel.Length == 0) {
@@ -103,7 +119,66 @@ namespace BaseLib.Forms {
 			tableView1.Invalidate(true);
 		}
 
-		private void EditButtonOnClick(object sender, EventArgs eventArgs) {
+		private void ImportButtonOnClick(object sender, EventArgs eventArgs) {
+			OpenFileDialog ofd = new OpenFileDialog {
+				Multiselect = false,
+				Title = @"Open a isobaric label tab-separated file",
+				FileName = @"Select a isobaric label tab-separated file",
+                Filter = @"Text file (*.txt)|*.txt",
+
+			};
+			if (ofd.ShowDialog() == DialogResult.OK) {
+				ImportLabelFile(ofd.FileName);
+			}
+        }
+
+        private void ImportLabelFile(string fileName) {
+	        using (StreamReader sr = new StreamReader(fileName)) {
+		        string line = sr.ReadLine();
+				if (string.IsNullOrEmpty(line)) return;
+                string[] hh = line.Split('\t');
+		        if (hh.Length != header.Length) return;
+		        for (int i = 0; i < header.Length; i++) {
+			        if (hh[i] != header[i]) return;
+		        }
+				List<string[]> buf = new List<string[]>(); 
+		        while (!string.IsNullOrEmpty(line = sr.ReadLine())) {
+			        string[] ll = line.Split('\t');
+					if (ll.Length != header.Length) return;
+					buf.Add(ll);
+                }
+		        if (buf.Count == 0) return;
+		        table.Clear();
+		        foreach (string[] b in buf) {
+			        AddLabel(b[0], b[1], b[2], b[3], b[4], b[5],
+				        b[6]);
+		        }
+            }
+	        tableView1.Invalidate(true);
+        }
+
+        private void ExportButtonOnClick(object sender, EventArgs eventArgs) {
+			SaveFileDialog sfd = new SaveFileDialog() {
+				Title = @"Save a isobaric label tab-separated file",
+				Filter = @"Text file (*.txt)|*.txt"
+            };
+	        if (sfd.ShowDialog() == DialogResult.OK) {
+				if (File.Exists(sfd.FileName)) File.Delete(sfd.FileName);
+		        ExportLabelFile(sfd.FileName);
+	        }
+        }
+
+		private void ExportLabelFile(string fileName) {
+			string[][] value = Value;
+			using (StreamWriter sw = new StreamWriter(fileName)) {
+				sw.WriteLine(string.Join("\t", header));
+				for (int i = 0; i < value.Length; i++) {
+					sw.WriteLine(string.Join("\t", value[i]));
+                }
+			}
+		}
+
+        private void EditButtonOnClick(object sender, EventArgs eventArgs) {
 			int[] sel = tableView1.GetSelectedRows();
 			if (sel.Length != 1) {
 				MessageBox.Show("Please select exactly one row.");
@@ -132,10 +207,12 @@ namespace BaseLib.Forms {
 			addButton = new Button();
 			removeButton = new Button();
 			editButton = new Button();
-			tableLayoutPanel2.SuspendLayout();
+			importButton = new Button();
+			exportButton = new Button();
+            tableLayoutPanel2.SuspendLayout();
 			tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-			int nbuttons = 10;
-			tableLayoutPanel2.ColumnCount = 2 * nbuttons;
+			int nbuttons = 5 + defaults.Length;
+            tableLayoutPanel2.ColumnCount = 2 * nbuttons;
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
 			for (int i = 0; i < nbuttons - 1; i++) {
 				tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));
@@ -145,8 +222,10 @@ namespace BaseLib.Forms {
 			tableLayoutPanel2.Controls.Add(addButton, 0, 0);
 			tableLayoutPanel2.Controls.Add(removeButton, 2, 0);
 			tableLayoutPanel2.Controls.Add(editButton, 4, 0);
-			for (int i = 0; i < defaults.Length; i++) {
-				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 6 + 2 * i, 0);
+			tableLayoutPanel2.Controls.Add(importButton, 6, 0);
+			tableLayoutPanel2.Controls.Add(exportButton, 8, 0);
+            for (int i = 0; i < defaults.Length; i++) {
+				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 10 + 2 * i, 0);
 			}
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
@@ -182,15 +261,38 @@ namespace BaseLib.Forms {
 			// editButton
 			// 
 			editButton.Dock = DockStyle.Fill;
-			editButton.Location = new System.Drawing.Point(230, 0);
+			editButton.Location = new System.Drawing.Point(460, 0);
 			editButton.Margin = new Padding(0);
 			editButton.Name = "editButton";
 			editButton.Size = new System.Drawing.Size(220, 50);
 			editButton.TabIndex = 1;
 			editButton.Text = @"Edit";
 			editButton.UseVisualStyleBackColor = true;
-			tableLayoutPanel2.ResumeLayout(false);
-		}
+            // 
+            // importButton
+            // 
+			importButton.Dock = DockStyle.Fill;
+			importButton.Location = new System.Drawing.Point(690, 0);
+            importButton.Margin = new Padding(0);
+			importButton.Name = "importButton";
+			importButton.Size = new System.Drawing.Size(220, 50);
+			importButton.TabIndex = 0;
+			importButton.Text = @"Import";
+			importButton.UseVisualStyleBackColor = true;
+            // 
+            // exportButton
+            // 
+			exportButton.Dock = DockStyle.Fill;
+			exportButton.Location = new System.Drawing.Point(920, 0);
+			exportButton.Margin = new Padding(0);
+			exportButton.Name = "exportButton";
+			exportButton.Size = new System.Drawing.Size(220, 50);
+			exportButton.TabIndex = 0;
+			exportButton.Text = @"Export";
+			exportButton.UseVisualStyleBackColor = true;
+
+            tableLayoutPanel2.ResumeLayout(false);
+        }
 
 		private Control CreateDefaultButton(IsobaricLabelingDefault def) {
 			Button button = new Button {
@@ -225,13 +327,13 @@ namespace BaseLib.Forms {
 
 		private DataTable2 CreateTable() {
 			table = new DataTable2("isobaric labels table");
-			table.AddColumn("Internal label", 130, ColumnType.Text, "");
-			table.AddColumn("Terminal label", 130, ColumnType.Text, "");
-			table.AddColumn("Correction factor -2 [%]", 80, ColumnType.Numeric);
-			table.AddColumn("Correction factor -1 [%]", 80, ColumnType.Numeric);
-			table.AddColumn("Correction factor +1 [%]", 80, ColumnType.Numeric);
-			table.AddColumn("Correction factor +2 [%]", 80, ColumnType.Numeric);
-			table.AddColumn("TMT like", 60, ColumnType.Boolean);
+			table.AddColumn(header[0], 130, ColumnType.Text, "");
+			table.AddColumn(header[1], 130, ColumnType.Text, "");
+			table.AddColumn(header[2], 80, ColumnType.Numeric);
+			table.AddColumn(header[3], 80, ColumnType.Numeric);
+			table.AddColumn(header[4], 80, ColumnType.Numeric);
+			table.AddColumn(header[5], 80, ColumnType.Numeric);
+			table.AddColumn(header[6], 60, ColumnType.Boolean);
 			return table;
 		}
 
@@ -240,12 +342,13 @@ namespace BaseLib.Forms {
 				string[][] result = new string[table.RowCount][];
 				for (int i = 0; i < result.Length; i++) {
 					result[i] = new[] {
-						(string) table.GetEntry(i, "Internal label"), (string) table.GetEntry(i, "Terminal label"),
-						((double) table.GetEntry(i, "Correction factor -2 [%]")).ToString(),
-						((double) table.GetEntry(i, "Correction factor -1 [%]")).ToString(),
-						((double) table.GetEntry(i, "Correction factor +1 [%]")).ToString(),
-						((double) table.GetEntry(i, "Correction factor +2 [%]")).ToString(),
-						((bool) table.GetEntry(i, "TMT like")).ToString()
+						(string) table.GetEntry(i, header[0]),
+						(string) table.GetEntry(i, header[1]),
+						((double) table.GetEntry(i, header[2])).ToString(),
+						((double) table.GetEntry(i, header[3])).ToString(),
+						((double) table.GetEntry(i, header[4])).ToString(),
+						((double) table.GetEntry(i, header[5])).ToString(),
+						((bool) table.GetEntry(i, header[6])).ToString()
 					};
 				}
 				return result;
