@@ -2302,6 +2302,14 @@ namespace BaseLibS.Num{
 			return array;
 		}
 
+		public static List<T> FillList<T>(T item, int len){
+			List<T> array = new List<T>();
+			for (int i = 0; i < len; i++){
+				array.Add(item);
+			}
+			return array;
+		}
+
 		public static T[,] FillArray<T>(T item, int len0, int len1){
 			T[,] array = new T[len0, len1];
 			for (int i = 0; i < len0; i++){
