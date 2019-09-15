@@ -499,6 +499,14 @@ namespace BaseLibS.Num{
 			return x[ind];
 		}
 
+		public static int MostFrequentValue(IList<int> data){
+			if (data.Count == 0){
+				throw new Exception("Length has to be greater than 0.");
+			}
+			int[] vals = UniqueValuesAndCounts(data, out int[] counts);
+			return vals[MaxInd(counts)];
+		}
+
 		public static int MaxInd(IList<double> x){
 			int n = x.Count;
 			double max = double.MinValue;
@@ -2148,12 +2156,13 @@ namespace BaseLibS.Num{
 			return x;
 		}
 
-		public static IList<T> UniqueValuesAndCounts<T>(IList<T> array, out IList<int> counters)
+		public static T[] UniqueValuesAndCounts<T>(IList<T> array, out int[] counters)
 			where T : IComparable<T>{
 			T[] unique = UniqueValues(array);
-			counters = new List<int>();
-			foreach (T u in unique){
-				counters.Add(array.Count(x => x.Equals(u)));
+			counters = new int[unique.Length];
+			for (int i = 0; i < unique.Length; i++){
+				T u = unique[i];
+				counters[i]= array.Count(x => x.Equals(u));
 			}
 			return unique;
 		}
