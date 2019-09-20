@@ -589,7 +589,40 @@ namespace BaseLib.Forms{
 			return !double.IsNaN(TotalMin) && !double.IsNaN(TotalMax) && VisibleMax != 0;
 		}
 
-		internal void FireZoomChanged(){
+        public void TransformAxis()
+        {
+            NumericAxisPropertiesForm f = new NumericAxisPropertiesForm(Text, IsLogarithmic ? Math.Exp(ZoomMin) : ZoomMin,
+                    IsLogarithmic ? Math.Exp(ZoomMax) : ZoomMax);
+            f.ShowDialog();
+            if (f.Ok)
+            {
+                Text = f.Title;
+                double newMin = IsLogarithmic ? Math.Log(f.MinValue) : f.MinValue;
+                double newMax = IsLogarithmic ? Math.Log(f.MaxValue) : f.MaxValue;
+                if (!double.IsNaN(newMin) && !double.IsNaN(newMax) && newMin < newMax)
+                {
+                    ZoomMin = newMin;
+                    ZoomMax = newMax;
+                    TotalMin = newMin;
+                    TotalMax = newMax;
+                    FireZoomChanged();
+                    Invalidate();
+                }
+            }
+            f.Dispose();
+        }
+
+        public double takeminforsession()
+        {
+            return ZoomMin;
+        }
+
+        public double takemaxforsession()
+        {
+            return ZoomMax;
+        }
+
+        internal void FireZoomChanged(){
 			OnZoomChange?.Invoke(this, ZoomMin, ZoomMax);
 		}
 
@@ -681,7 +714,18 @@ namespace BaseLib.Forms{
 		}
 
 
-		public override void OnMouseIsUp(BasicMouseEventArgs e){
+
+        public void SetAxis(double newMin, double newMax)
+        {
+            ZoomMin = newMin;
+            ZoomMax = newMax;
+            TotalMin = newMin;
+            TotalMax = newMax;
+            FireZoomChanged();
+            Invalidate();
+        }
+
+        public override void OnMouseIsUp(BasicMouseEventArgs e){
 			if (Configurable && !e.IsMainButton){
 				NumericAxisPropertiesForm f = new NumericAxisPropertiesForm(Text, IsLogarithmic ? Math.Exp(ZoomMin) : ZoomMin,
 					IsLogarithmic ? Math.Exp(ZoomMax) : ZoomMax);
