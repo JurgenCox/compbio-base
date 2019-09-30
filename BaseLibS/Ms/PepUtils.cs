@@ -137,10 +137,9 @@ namespace BaseLibS.Ms{
 					valids.Add(i);
 				}
 			}
-			int[] a = valids.ToArray();
-			proteinIds = ArrayUtils.SubArray(proteinIds, a);
-			pepSeqs = ArrayUtils.SubArray(pepSeqs, a);
-			isMutated = ArrayUtils.SubArray(isMutated, a);
+			proteinIds = ArrayUtils.SubArray(proteinIds, valids);
+			pepSeqs = ArrayUtils.SubArray(pepSeqs, valids);
+			isMutated = ArrayUtils.SubArray(isMutated, valids);
 		}
 
 		private static int GetContainer(int contained, IndexedBitMatrix contains){
