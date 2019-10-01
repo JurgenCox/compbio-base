@@ -89,7 +89,7 @@
 			this.addButton.Name = "addButton";
 			this.addButton.Size = new System.Drawing.Size(213, 60);
 			this.addButton.TabIndex = 0;
-			this.addButton.Text = "Add file";
+			this.addButton.Text = "Add file(s)";
 			this.addButton.UseVisualStyleBackColor = true;
 			// 
 			// removeButton
