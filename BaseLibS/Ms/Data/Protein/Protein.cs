@@ -14,7 +14,7 @@ namespace BaseLibS.Ms.Data.Protein{
 		public string FastaFileName{ get; set; }
 
 		public string TaxonomyId{ get; set; }
-		public bool Decoy{ get; }
+		public bool Decoy{ get; set; }
 		public bool Contaminant{ get; }
 		public bool Proteogenomic{ get; }
 		public string Accession{ get; set; }
