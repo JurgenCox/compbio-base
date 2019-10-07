@@ -310,7 +310,14 @@ namespace BaseLibS.Ms.Data.Protein{
 		}
 
 		public Protein Get(string name){
-			return Get(GetIndex(name));
+			try{
+				return Get(GetIndex(name));
+			} catch (Exception){
+				if (name.StartsWith("REV_")){
+					return Get(GetIndex(name.Substring(4)));
+				}
+				throw;
+			}
 		}
 
 		public bool GetIsDecoy(string name){
