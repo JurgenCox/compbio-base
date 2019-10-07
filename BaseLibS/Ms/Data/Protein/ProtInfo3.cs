@@ -6,7 +6,7 @@
 		public bool Contaminant{ get; }
 		public bool Decoy{ get; }
 
-		public ProtInfo3(Protein protein, bool isDia){
+		public ProtInfo3(Protein protein){
 			Length = protein.Length;
 			Contaminant = protein.Contaminant;
 			TaxonomyId = protein.TaxonomyId;
