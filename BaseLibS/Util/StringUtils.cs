@@ -894,7 +894,7 @@ namespace BaseLibS.Util{
 			"main_var_xx_swath_prelim_score", "norm_rt", "nr_peaks", "peak_apices_sum", "rightwidth", "rt_score",
 			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
 			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex", "peak_group_rank",
-			"initialpeakquality", "mc"
+			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
