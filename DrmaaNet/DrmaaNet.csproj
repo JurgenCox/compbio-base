@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrmaaExecutor.cs" />
     <Compile Include="DrmaaWrapper.cs" />
     <Compile Include="DrmaaWrapperInternal.cs" />
     <Compile Include="JobTemplate.cs" />
