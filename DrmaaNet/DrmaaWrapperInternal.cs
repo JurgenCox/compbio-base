@@ -25,87 +25,88 @@ namespace DrmaaNet
         public static int  DRMAA_PS_DONE = 0x30;
         public static int  DRMAA_PS_FAILED = 0x40;
 
+        private const string DllName = "libdrmaa";
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_init(String contact, StringBuilder error_diagnosis, int error_diag_len);
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_exit(StringBuilder error_diagnosis, int error_diag_len);
 
 
         
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_allocate_job_template(out IntPtr jt, StringBuilder error_diagnosis, int error_diag_len);
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_get_attribute_names(
             out IntPtr values,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_get_next_attr_name(
             IntPtr values,
             StringBuilder value, int value_len);
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_get_attribute(
             IntPtr jt,
             string name, StringBuilder value, int value_len,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_set_attribute(
             IntPtr jt,
             string name, string value,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_run_job(
             StringBuilder job_id, int job_id_len, IntPtr jt,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_control(
             string job_id, int action,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_job_ps(
             string job_id, out int remote_ps,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_set_vector_attribute(
             IntPtr jt,
             string name, string[] values,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_get_vector_attribute(
             IntPtr jt,
             string name, out IntPtr values,
             StringBuilder error_diagnosis, int error_diag_len
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_get_next_attr_value( 
             IntPtr values,
             StringBuilder value, int value_len 
         );
 
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern void drmaa_release_attr_values( 
             IntPtr values 
         );
         
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_wait(
             string job_id,
             StringBuilder job_id_out, int job_id_out_len,
@@ -113,7 +114,7 @@ namespace DrmaaNet
             StringBuilder error_diagnosis, int error_diag_len
         );
         
-        [DllImport("libdrmaa")]
+        [DllImport(DllName)]
         public static extern int drmaa_wexitstatus( 
             out int exit_status, int stat,
             StringBuilder error_diagnosis, int error_diag_len
