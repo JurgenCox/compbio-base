@@ -339,12 +339,13 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			}
 			return b.ToString();
 		}
-
+		
 		private string[] GetLogArgs(int taskIndex, int id)
 		{
-			return new string[]
+			
+			return new[]
 			{
-				infoFolder, GetFilename(), taskIndex.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
+				infoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
 			};
 		}
 		
