@@ -294,7 +294,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 					psi.EnvironmentVariables["MONO_GC_PARAMS"] = "max-heap-size=" + MaxHeapSizeGb + "g";
 				}
 			}
-			Console.WriteLine($"Process run: {cmd} {args}");
+//			Console.WriteLine($"Process run: {cmd} {args}");
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
