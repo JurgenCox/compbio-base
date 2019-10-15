@@ -400,8 +400,7 @@ namespace BaseLib.Forms.Table {
 			if (!matchCase) {
 				searchString = searchString.ToLower();
 			}
-			int[][] matchingCols;
-			int[] searchInds = FindAll(matchCase, matchWholeWord, searchString, colInds, out matchingCols);
+			int[] searchInds = FindAll(matchCase, matchWholeWord, searchString, colInds, out var matchingCols);
 			if (searchInds.Length == 0) {
 				toolStripStatusLabel1.Text = "Search string not found.";
 			}
@@ -434,8 +433,7 @@ namespace BaseLib.Forms.Table {
 			List<int[]> matchingCols2 = new List<int[]>();
 			for (int i = 0; i < tableModel.RowCount; i++) {
 				int modelInd = tableViewWf.GetModelIndex(i);
-				int[] matchingCols1;
-				if (MatchRow(modelInd, colInds, matchCase, matchWholeWord, searchString, out matchingCols1)) {
+				if (MatchRow(modelInd, colInds, matchCase, matchWholeWord, searchString, out var matchingCols1)) {
 					result.Add(i);
 					matchingCols2.Add(matchingCols1);
 				}

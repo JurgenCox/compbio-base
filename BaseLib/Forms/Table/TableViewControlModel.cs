@@ -696,8 +696,7 @@ namespace BaseLib.Forms.Table {
 				if (model == null) {
 					return;
 				}
-				string fileName;
-				if (control.SaveFileDialog(out fileName, "Text File (*.txt)|*.txt")) {
+				if (control.SaveFileDialog(out var fileName, "Text File (*.txt)|*.txt")) {
 					ExportMatrix(fileName);
 				}
 			});

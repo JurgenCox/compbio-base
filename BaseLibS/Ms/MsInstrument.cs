@@ -27,6 +27,7 @@ namespace BaseLibS.Ms {
 		public abstract double PrecursorToleranceMainSearchDefault { get; }
 		public abstract bool PrecursorToleranceUnitPpmDefault { get; }
 		public abstract int GetMinPeakLengthDefault(MsDataType dataType);
+		public abstract int GetDiaMinPeakLengthDefault(MsDataType dataType);
 		public abstract int GetMaxChargeDefault(MsDataType dataType);
 		public abstract bool IndividualPeptideMassTolerancesDefault { get; }
 		public abstract bool UseMs1CentroidsDefault { get; }

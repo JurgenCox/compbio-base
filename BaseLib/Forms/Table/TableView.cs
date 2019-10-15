@@ -8,8 +8,8 @@ using BaseLibS.Num;
 using BaseLibS.Table;
 using BaseLibS.Util;
 
-namespace BaseLib.Forms.Table {
-	public partial class TableView : UserControl {
+namespace BaseLib.Forms.Table{
+	public partial class TableView : UserControl{
 		internal static readonly List<ITableSelectionAgent> selectionAgents = new List<ITableSelectionAgent>();
 		public event EventHandler SelectionChanged;
 		private readonly CompoundScrollableControl tableView;
@@ -29,14 +29,14 @@ namespace BaseLib.Forms.Table {
 		private Panel mainPanel;
 		private ComboBox scaleFactorComboBox;
 		public float sfx;
-		public bool TextBoxIsVisible { get; private set; }
+		public bool TextBoxIsVisible{ get; private set; }
 
-		public TableView() {
+		public TableView(){
 			InitializeComponent();
 			sfx = FormUtils.GetDpiScale(CreateGraphics());
 			InitializeComponent2();
 			scaleFactorComboBox.SelectedIndex = 3;
-			tableView = new CompoundScrollableControl {Dock = DockStyle.Fill, Margin = new Padding(0)};
+			tableView = new CompoundScrollableControl{Dock = DockStyle.Fill, Margin = new Padding(0)};
 			tableViewWf = new TableViewControlModel(this);
 			tableView.Client = tableViewWf;
 			tableViewWf.SelectionChanged += (sender, args) => {
@@ -47,9 +47,11 @@ namespace BaseLib.Forms.Table {
 			textButton.Click += TextButton_OnClick;
 			selectionAgentButton.Click += SelectionAgentButton_OnClick;
 			KeyDown += (sender, args) => tableView.Focus();
-			auxTextBox = new TextBox {Dock = DockStyle.Fill, Padding = new Padding(0), Multiline = true, ReadOnly = true};
+			auxTextBox = new TextBox{
+				Dock = DockStyle.Fill, Padding = new Padding(0), Multiline = true, ReadOnly = true
+			};
 			scaleFactorComboBox.SelectedIndexChanged += (sender, args) => {
-				switch (scaleFactorComboBox.SelectedIndex) {
+				switch (scaleFactorComboBox.SelectedIndex){
 					case 0:
 						tableViewWf.UserSf = 0.25f;
 						break;
@@ -77,8 +79,8 @@ namespace BaseLib.Forms.Table {
 			};
 		}
 
-		public void SetCounts() {
-			if (tableViewWf == null) {
+		public void SetCounts(){
+			if (tableViewWf == null){
 				return;
 			}
 			long c = tableViewWf.SelectedCount;
@@ -87,7 +89,7 @@ namespace BaseLib.Forms.Table {
 			itemsLabel.Text = "" + StringUtils.WithDecimalSeparators(t) + @" " + (t == 1 ? Loc.Item : Loc.Items);
 		}
 
-		private void InitializeComponent2() {
+		private void InitializeComponent2(){
 			bool isUnix = FileUtils.IsUnix();
 			tableLayoutPanel1 = new TableLayoutPanel();
 			tableLayoutPanel2 = new TableLayoutPanel();
@@ -198,7 +200,9 @@ namespace BaseLib.Forms.Table {
 			scaleFactorComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			scaleFactorComboBox.Font = new Font("Microsoft Sans Serif", (isUnix ? 4 : 7) * sfx);
 			scaleFactorComboBox.FormattingEnabled = true;
-			scaleFactorComboBox.Items.AddRange(new object[] {"25 %", "50 %", "70 %", "100 %", "150 %", "200 %", "400 %"});
+			scaleFactorComboBox.Items.AddRange(new object[]{
+				"25 %", "50 %", "70 %", "100 %", "150 %", "200 %", "400 %"
+			});
 			scaleFactorComboBox.Location = new Point(453, 0);
 			scaleFactorComboBox.Margin = new Padding(0);
 			scaleFactorComboBox.Name = "scaleFactorComboBox";
@@ -218,8 +222,8 @@ namespace BaseLib.Forms.Table {
 			ResumeLayout(false);
 		}
 
-		public void SelectTime(double timeMs) {
-			if (selectionAgentColInd < 0) {
+		public void SelectTime(double timeMs){
+			if (selectionAgentColInd < 0){
 				return;
 			}
 			int ind = ArrayUtils.ClosestIndex(selectionAgentColVals, timeMs);
@@ -227,19 +231,19 @@ namespace BaseLib.Forms.Table {
 			SetSelectedIndex(ind);
 		}
 
-		public static void RegisterSelectionAgent(ITableSelectionAgent agent) {
+		public static void RegisterSelectionAgent(ITableSelectionAgent agent){
 			selectionAgents.Add(agent);
 		}
 
-		public static void UnregisterSelectionAgent(ITableSelectionAgent agent) {
+		public static void UnregisterSelectionAgent(ITableSelectionAgent agent){
 			selectionAgents.Remove(agent);
 		}
 
-		public bool HasSelectionAgent {
+		public bool HasSelectionAgent{
 			get => hasSelectionAgent;
-			set {
+			set{
 				hasSelectionAgent = value;
-				if (hasSelectionAgent && selectionAgents.Count > 0) {
+				if (hasSelectionAgent && selectionAgents.Count > 0){
 					selectionAgentButton.Visible = true;
 				}
 			}
@@ -249,16 +253,16 @@ namespace BaseLib.Forms.Table {
 		/// Get the table model.
 		/// Use <code>Dispatcher.Invoke(() => view.TableModel ... )</code> to access this property for a non-GUI thread
 		/// </summary>
-		public ITableModel TableModel {
+		public ITableModel TableModel{
 			get => tableViewWf.TableModel;
-			set {
+			set{
 				tableViewWf.TableModel = value;
 				SetCounts();
 			}
 		}
 
-		public void SwitchOnTextBox() {
-			if (TextBoxIsVisible) {
+		public void SwitchOnTextBox(){
+			if (TextBoxIsVisible){
 				return;
 			}
 			textButton.Text = @"↓";
@@ -275,8 +279,8 @@ namespace BaseLib.Forms.Table {
 			TextBoxIsVisible = true;
 		}
 
-		public void SwitchOffTextBox() {
-			if (!TextBoxIsVisible) {
+		public void SwitchOffTextBox(){
+			if (!TextBoxIsVisible){
 				return;
 			}
 			textButton.Text = @"↑";
@@ -290,185 +294,181 @@ namespace BaseLib.Forms.Table {
 			TextBoxIsVisible = false;
 		}
 
-		public void SetAuxText(string text) {
+		public void SetAuxText(string text){
 			auxTextBox.Text = text;
 		}
 
-		public bool MultiSelect {
+		public bool MultiSelect{
 			get => tableViewWf.MultiSelect;
 			set => tableViewWf.MultiSelect = value;
 		}
 
-		public bool Sortable {
+		public bool Sortable{
 			get => tableViewWf.Sortable;
 			set => tableViewWf.Sortable = value;
 		}
 
 		public int RowCount => tableViewWf.RowCount;
 
-		public int RowHeaderWidth {
+		public int RowHeaderWidth{
 			set => tableView.RowHeaderWidth = value;
 			get => tableView.RowHeaderWidth;
 		}
 
-		public int ColumnHeaderHeight {
-			set {
+		public int ColumnHeaderHeight{
+			set{
 				tableViewWf.origColumnHeaderHeight = value;
 				tableView.ColumnHeaderHeight = value;
 			}
 			get => tableView.ColumnHeaderHeight;
 		}
 
-		public int VisibleX {
+		public int VisibleX{
 			get => tableView.VisibleX;
 			set => tableView.VisibleX = value;
 		}
 
-		public int VisibleY {
+		public int VisibleY{
 			get => tableView.VisibleY;
 			set => tableView.VisibleY = value;
 		}
 
-		public void SetSelectedRow(int row) {
+		public void SetSelectedRow(int row){
 			tableViewWf.SetSelectedRow(row);
 		}
 
-		public void SetSelectedRow(int row, bool add, bool fire) {
+		public void SetSelectedRow(int row, bool add, bool fire){
 			tableViewWf.SetSelectedRow(row, add, fire);
 		}
 
-		public bool HasSelectedRows() {
+		public bool HasSelectedRows(){
 			return tableViewWf.HasSelectedRows();
 		}
 
-		public void SetSelectedRows(IList<int> rows) {
+		public void SetSelectedRows(IList<int> rows){
 			tableViewWf.SetSelectedRows(rows);
 		}
 
-		public void SetSelectedRows(IList<int> rows, bool add, bool fire) {
+		public void SetSelectedRows(IList<int> rows, bool add, bool fire){
 			tableViewWf.SetSelectedRows(rows, add, fire);
 		}
 
-		public void SetSelectedRowAndMove(int row) {
+		public void SetSelectedRowAndMove(int row){
 			tableViewWf.SetSelectedRowAndMove(row);
 		}
 
-		public void SetSelectedRowsAndMove(IList<int> rows) {
+		public void SetSelectedRowsAndMove(IList<int> rows){
 			tableViewWf.SetSelectedRowsAndMove(rows);
 		}
 
-		public int[] GetSelectedRows() {
+		public int[] GetSelectedRows(){
 			return tableViewWf.GetSelectedRows();
 		}
 
-		public int GetSelectedRow() {
+		public int GetSelectedRow(){
 			return tableViewWf.GetSelectedRow();
 		}
 
-        public int[] GetSelectedAll()
-        {
-            return tableViewWf.GetSelectedAll();
-        }
+		public int[] GetSelectedAll(){
+			return tableViewWf.GetSelectedAll();
+		}
 
-        public List<int> GetSelectedAllList()
-        {
-            return tableViewWf.GetSelectedAllList();
-        }
+		public List<int> GetSelectedAllList(){
+			return tableViewWf.GetSelectedAllList();
+		}
 
-        public string[] GetColumnNames()
-        {
-            return tableViewWf.GetColumnNames();
-        }
+		public string[] GetColumnNames(){
+			return tableViewWf.GetColumnNames();
+		}
 
-        public StreamWriter ExportMatrixPolygon(DataTable2 model, StreamWriter writer)
-        {
-            return tableViewWf.ExportMatrixPolygon(model, writer);
-        }
+		public StreamWriter ExportMatrixPolygon(DataTable2 model, StreamWriter writer){
+			return tableViewWf.ExportMatrixPolygon(model, writer);
+		}
 
-        public int GetSelectedAll1()
-        {
-            return tableViewWf.GetSelectedAll1();
-        }
+		public int GetSelectedAll1(){
+			return tableViewWf.GetSelectedAll1();
+		}
 
-        public void ScrollToRow(int row) {
+		public void ScrollToRow(int row){
 			tableViewWf.ScrollToRow(row);
 		}
 
-		public void BringSelectionToTop() {
+		public void BringSelectionToTop(){
 			tableViewWf.BringSelectionToTop();
 		}
 
-		public void FireSelectionChange() {
+		public void FireSelectionChange(){
 			tableViewWf.FireSelectionChange();
 		}
 
-		public bool ModelRowIsSelected(int row) {
+		public bool ModelRowIsSelected(int row){
 			return tableViewWf.ModelRowIsSelected(row);
 		}
 
-		public void ClearSelection() {
+		public void ClearSelection(){
 			tableViewWf.ClearSelection();
 		}
 
-		public void SelectAll() {
+		public void SelectAll(){
 			tableViewWf.SelectAll();
 		}
 
-		public void SetSelection(bool[] selection) {
+		public void SetSelection(bool[] selection){
 			tableViewWf.SetSelection(selection);
 		}
 
-		public void SetSelectedIndex(int index) {
+		public void SetSelectedIndex(int index){
 			tableViewWf.SetSelectedIndex(index);
 		}
 
-		public void SetSelectedViewIndex(int index) {
+		public void SetSelectedViewIndex(int index){
 			tableViewWf.SetSelectedViewIndex(index);
 		}
 
-		public void SetSelectedIndex(int index, object sender) {
+		public void SetSelectedIndex(int index, object sender){
 			tableViewWf.SetSelectedIndex(index, sender);
 		}
 
-		public object GetEntry(int row, int col) {
+		public object GetEntry(int row, int col){
 			return tableViewWf.GetEntry(row, col);
 		}
 
-		private void TextButton_OnClick(object sender, EventArgs e) {
-			if (TextBoxIsVisible) {
+		private void TextButton_OnClick(object sender, EventArgs e){
+			if (TextBoxIsVisible){
 				SwitchOffTextBox();
-			} else {
+			} else{
 				SwitchOnTextBox();
 			}
 		}
 
-		public void ClearSelectionFire() {
+		public void ClearSelectionFire(){
 			tableViewWf.ClearSelectionFire();
 		}
 
-		private void SelectionAgentButton_OnClick(object sender, EventArgs e) {
+		private void SelectionAgentButton_OnClick(object sender, EventArgs e){
 			Point p = selectionAgentButton.PointToScreen(new Point(0, 0));
-			TableViewSelectionAgentForm w = new TableViewSelectionAgentForm(TableModel) {Top = p.Y - 125, Left = p.X - 300};
-			if (w.ShowDialog() == DialogResult.OK) {
+			TableViewSelectionAgentForm w =
+				new TableViewSelectionAgentForm(TableModel){Top = p.Y - 125, Left = p.X - 300};
+			if (w.ShowDialog() == DialogResult.OK){
 				int ind1 = w.sourceBox.SelectedIndex;
 				int ind2 = w.columnBox.SelectedIndex;
-				if (ind1 >= 0 && ind2 >= 0) {
+				if (ind1 >= 0 && ind2 >= 0){
 					selectionAgent = selectionAgents[ind1];
 					selectionAgentColInd = ind2;
 					selectionAgentColVals = GetTimeVals(ind2);
 					selectionAgent.AddTable(this);
-				} else {
-					selectionAgent = null;
+				} else{
 					selectionAgentColInd = -1;
 					selectionAgentColVals = null;
 					selectionAgent.RemoveTable(this);
+					selectionAgent = null;
 				}
 			}
 		}
 
-		private double[] GetTimeVals(int ind2) {
+		private double[] GetTimeVals(int ind2){
 			double[] result = new double[TableModel.RowCount];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = (double) TableModel.GetEntry(i, ind2);
 			}
 			return result;
