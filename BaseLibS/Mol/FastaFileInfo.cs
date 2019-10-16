@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using BaseLibS.Util;
 
-namespace BaseLibS.Mol {
-	public class FastaFileInfo : IComparable<FastaFileInfo> {
-		public readonly List<InputParameter> vals = new List<InputParameter> {
+namespace BaseLibS.Mol{
+	public class FastaFileInfo : IComparable<FastaFileInfo>{
+		public readonly List<InputParameter> vals = new List<InputParameter>{
 			new InputParameter<string>("fastaFilePath", "fastaFilePath"),
 			new InputParameter<string>("identifierParseRule", "identifierParseRule"),
 			new InputParameter<string>("descriptionParseRule", "descriptionParseRule"),
@@ -15,7 +15,7 @@ namespace BaseLibS.Mol {
 		};
 
 		public readonly Dictionary<string, InputParameter> map;
-		public FastaFileInfo() : this("", "", "", "", "", "", "") { }
+		public FastaFileInfo() : this("", "", "", "", "", "", ""){ }
 		public string fastaFilePath;
 		public string identifierParseRule;
 		public string descriptionParseRule;
@@ -27,12 +27,12 @@ namespace BaseLibS.Mol {
 		public FastaFileInfo(string fastaFilePath) : this(fastaFilePath, Tables.GetIdentifierParseRule(fastaFilePath),
 			Tables.GetDescriptionParseRule(fastaFilePath), Tables.GetTaxonomyParseRule(fastaFilePath),
 			Tables.GetTaxonomyId(fastaFilePath), Tables.GetVariationParseRule(fastaFilePath),
-			Tables.GetModificationParseRule(fastaFilePath)) { }
+			Tables.GetModificationParseRule(fastaFilePath)){ }
 
 		public FastaFileInfo(string fastaFilePath, string identifierParseRule, string descriptionParseRule,
-			string taxonomyParseRule, string taxonomyId, string variationParseRule, string modificationParseRule) {
+			string taxonomyParseRule, string taxonomyId, string variationParseRule, string modificationParseRule){
 			map = new Dictionary<string, InputParameter>();
-			foreach (InputParameter val in vals) {
+			foreach (InputParameter val in vals){
 				map.Add(val.Name, val);
 			}
 			this.fastaFilePath = fastaFilePath;
@@ -44,7 +44,7 @@ namespace BaseLibS.Mol {
 			this.taxonomyId = taxonomyId;
 		}
 
-		public FastaFileInfo(string[] s) : this() {
+		public FastaFileInfo(string[] s) : this(){
 			fastaFilePath = s[0];
 			identifierParseRule = s[1];
 			descriptionParseRule = s[2];
@@ -54,74 +54,90 @@ namespace BaseLibS.Mol {
 			modificationParseRule = s[6];
 		}
 
-		public string[] ToStringArray() {
-			return new[] {
-				fastaFilePath, identifierParseRule, descriptionParseRule, taxonomyParseRule, taxonomyId, variationParseRule,
-				modificationParseRule
+		public string[] ToStringArray(){
+			return new[]{
+				fastaFilePath, identifierParseRule, descriptionParseRule, taxonomyParseRule, taxonomyId,
+				variationParseRule, modificationParseRule
 			};
 		}
 
-		public static string[] GetFastaFilePath(FastaFileInfo[] filePaths) {
+		public static string[] GetFastaFilePath(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].fastaFilePath;
 			}
 			return result;
 		}
 
-		public static string[] GetIdentifierParseRule(FastaFileInfo[] filePaths) {
+		public static string[] GetIdentifierParseRule(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].identifierParseRule;
 			}
 			return result;
 		}
 
-		public static string[] GetDescriptionParseRule(FastaFileInfo[] filePaths) {
+		public static string[] GetDescriptionParseRule(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].descriptionParseRule;
 			}
 			return result;
 		}
 
-		public static string[] GetTaxonomyParseRule(FastaFileInfo[] filePaths) {
+		public static string[] GetTaxonomyParseRule(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].taxonomyParseRule;
 			}
 			return result;
 		}
 
-		public static string[] GetTaxonomyId(FastaFileInfo[] filePaths) {
+		public static string[] GetTaxonomyId(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].taxonomyId;
 			}
 			return result;
 		}
 
-		public static string[] GetVariationParseRule(FastaFileInfo[] filePaths) {
+		public static string[] GetVariationParseRule(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].variationParseRule;
 			}
 			return result;
 		}
 
-		public static string[] GetModificationParseRule(FastaFileInfo[] filePaths) {
+		public static string[] GetModificationParseRule(FastaFileInfo[] filePaths){
 			string[] result = new string[filePaths.Length];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = filePaths[i].modificationParseRule;
 			}
 			return result;
 		}
 
-		public int CompareTo(FastaFileInfo other) {
+		public static string[][] AdaptFastaFiles(FastaFileInfo[] mqparFastaFiles){
+			string[][] result = new string[mqparFastaFiles.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = mqparFastaFiles[i].ToStringArray();
+			}
+			return result;
+		}
+
+		public static FastaFileInfo[] AdaptFastaFiles(string[][] mqparFastaFiles){
+			FastaFileInfo[] result = new FastaFileInfo[mqparFastaFiles.Length];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = new FastaFileInfo(mqparFastaFiles[i]);
+			}
+			return result;
+		}
+
+		public int CompareTo(FastaFileInfo other){
 			return String.Compare(fastaFilePath, other.fastaFilePath, StringComparison.InvariantCulture);
 		}
 
-		public override string ToString() {
+		public override string ToString(){
 			return fastaFilePath;
 		}
 	}
