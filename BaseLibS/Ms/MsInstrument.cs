@@ -46,7 +46,7 @@ namespace BaseLibS.Ms {
 		public abstract double DiaInitialFragMassTolPpmDefault { get; }
 		public abstract double DiaFragTolPpmFeatureClusteringDefault { get; }
 		public abstract double DiaMinScoreDefault { get; }
-		public abstract bool DiaPrecursorQuantDefault { get; }
+		public abstract DiaQuantMethod DiaQuantMethodDefault { get; }
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
 
 		public override string ToString() {
