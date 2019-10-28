@@ -828,24 +828,30 @@ namespace BaseLibS.Util{
 			"dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
 			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
-			"majority library index", "library indices", "species", "matched"
+			"majority library index", "library indices", "species", "matched", "crosslink type", "crosslinkingtype"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
 			"protein ids", "protein", "majority protein ids", "protein names", "gene names", "uniprot", "ensembl",
 			"ensg", "ensp", "enst", "mgi", "kegg ortholog", "dip", "hprd interactors", "sequence window", "sequence",
-			"orf name", "names", "proteins", "positions within proteins", "leading proteins", "leading razor protein",
-			"md sequence", "md proteins", "md gene names", "md protein names", "dp base sequence", "dp probabilities",
-			"dp proteins", "dp gene names", "dp protein names", "name", "dn sequence", "title", "volume", "number",
-			"pages", "modified sequence", "formula", "formula2", "geneid", "chr", "dp base raw file",
+			"sequence1", "sequence2", "orf name", "names", "proteins", "proteins1", "proteins2",
+			"positions within proteins", "leading proteins", "leading razor protein", "md sequence", "md proteins",
+			"md gene names", "md protein names", "dp base sequence", "dp probabilities", "dp proteins", "dp gene names",
+			"dp protein names", "name", "dn sequence", "title", "volume", "number", "pages", "modified sequence",
+			"modified sequence1", "modified sequence2", "formula", "formula2", "geneid", "chr", "dp base raw file",
 			"transition_group_id", "peptide_group_label", "run_id", "id", "proteinname", "fullpeptidename",
-			"aggr_prec_fragment_annotation", "aggr_fragment_annotation", "potentialoutlier"
+			"aggr_prec_fragment_annotation", "aggr_fragment_annotation", "potentialoutlier", "pro_interlink1",
+			"pep_interlink1", "aa_interlink1", "pro_interlink2", "pep_interlink2", "aa_interlink2", "pro_intralink1a",
+			"pep_intralink1a", "aa_intralink1a", "pro_intralink1b", "pep_intralink1b", "aa_intralink1b",
+			"pro_intralink2a", "pep_intralink2a", "aa_intralink2a", "pro_intralink2b", "pep_intralink2b",
+			"aa_intralink2b", "pro_unsaturated1", "pep_unsaturated1", "aa_unsaturated1", "pro_unsaturated2",
+			"pep_unsaturated2", "aa_unsaturated2", "annotation"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[]{
-			"length", "position", "total position", "peptides (seq)", "razor peptides (seq)", "unique peptides (seq)",
-			"localization prob", "size", "p value", "benj. hoch. fdr", "score", "delta score", "combinatorics",
-			"intensity", "score for localization", "pep", "m/z", "mass", "resolution",
+			"length", "length1", "length2", "position", "total position", "peptides (seq)", "razor peptides (seq)",
+			"unique peptides (seq)", "localization prob", "size", "p value", "benj. hoch. fdr", "score", "delta score",
+			"combinatorics", "intensity", "score for localization", "pep", "m/z", "mass", "resolution",
 			"uncalibrated - calibrated m/z [ppm]", "mass error [ppm]", "uncalibrated mass error [ppm]",
 			"uncalibrated - calibrated m/z [da]", "mass error [da]", "uncalibrated mass error [da]",
 			"max intensity m/z 0", "retention length", "retention time", "calibrated retention time",
@@ -894,7 +900,8 @@ namespace BaseLibS.Util{
 			"main_var_xx_swath_prelim_score", "norm_rt", "nr_peaks", "peak_apices_sum", "rightwidth", "rt_score",
 			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
 			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex", "peak_group_rank",
-			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction"
+			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction",
+			"matches1", "matches2", "partial score 1", "partial score 2"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
