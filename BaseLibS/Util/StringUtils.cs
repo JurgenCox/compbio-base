@@ -828,7 +828,7 @@ namespace BaseLibS.Util{
 			"dp cluster index", "authors", "publication", "year", "publisher", "geography", "geography id",
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
 			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
-			"majority library index", "library indices", "species"
+			"majority library index", "library indices", "species", "matched"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
