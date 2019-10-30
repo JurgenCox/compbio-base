@@ -856,7 +856,7 @@ namespace BaseLibS.Util{
 			}
 			return result;
 		}
-		
+
 		public static int[] ReadInt32Array(BinaryReader reader){
 			int n = reader.ReadInt32();
 			int[] result = new int[n];
@@ -1003,6 +1003,41 @@ namespace BaseLibS.Util{
 					return decompressedMs.ToArray();
 				}
 			}
+		}
+
+		public static void DumpNumbers(string filePath, IList<string> headings, IList<double>[] numbers){
+			if (numbers == null){
+				throw new Exception("Data is null.");
+			}
+			if (numbers.Length == 0){
+				throw new Exception("There is no data.");
+			}
+			bool hasHeadings = headings != null;
+			if (hasHeadings && headings.Count != numbers.Length){
+				throw new Exception("Array dimensions do not match.");
+			}
+			int len = numbers[0].Count;
+			for (int i = 1; i < numbers.Length; i++){
+				if (numbers[i].Count != len){
+					throw new Exception("Not all columns have the same length.");
+				}
+			}
+			StreamWriter writer = new StreamWriter(filePath);
+			if (hasHeadings){
+				writer.Write(headings[0]);
+				for (int i = 1; i < headings.Count; i++){
+					writer.Write("\t" + headings[i]);
+				}
+				writer.WriteLine();
+			}
+			for (int line = 0; line < numbers[0].Count; line++){
+				writer.Write(numbers[0][line]);
+				for (int i = 1; i < headings.Count; i++){
+					writer.Write("\t" + numbers[i][line]);
+				}
+				writer.WriteLine();
+			}
+			writer.Close();
 		}
 	}
 }
