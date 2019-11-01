@@ -846,7 +846,8 @@ namespace BaseLibS.Util{
 			"pep_intralink1a", "aa_intralink1a", "pro_intralink1b", "pep_intralink1b", "aa_intralink1b",
 			"pro_intralink2a", "pep_intralink2a", "aa_intralink2a", "pro_intralink2b", "pep_intralink2b",
 			"aa_intralink2b", "pro_unsaturated1", "pep_unsaturated1", "aa_unsaturated1", "pro_unsaturated2",
-			"pep_unsaturated2", "aa_unsaturated2", "annotation"
+			"pep_unsaturated2", "aa_unsaturated2", "annotation", "deamidation (nq) probabilities",
+			"oxidation (m) probabilities", "phospho (sty) probabilities"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[]{
@@ -902,7 +903,7 @@ namespace BaseLibS.Util{
 			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
 			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex", "peak_group_rank",
 			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction",
-			"matches1", "matches2", "partial score 1", "partial score 2"
+			"matches1", "matches2", "partial score 1", "partial score 2", "sample rt - library rt"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
