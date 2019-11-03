@@ -239,7 +239,7 @@ namespace BaseLibS.Util{
 						inTag = true;
 					}
 					if (inTag){
-						//handle filenames inside html tags
+						//handle file names inside html tags
 						if (currentLine.EndsWith(".")){
 							currentLine += currentWord;
 						} else{
@@ -491,7 +491,7 @@ namespace BaseLibS.Util{
 			new HashSet<char>(new[]{'\\', '/', ':', '*', '?', '\"', '<', '>', '|'});
 
 		/// <summary>
-		/// Replaces occurences of characters that are problematic in file names or paths with an underscore.
+		/// Replaces occurence of characters that are problematic in file names or paths with an underscore.
 		/// </summary>
 		public static string ReplaceCharactersForFilename(string str){
 			return ReplaceCharactersForFilename(str, '_');
@@ -553,7 +553,7 @@ namespace BaseLibS.Util{
 		};
 
 		/// <summary>
-		/// Replaces the occurances in the given string of the chs[][0] vector with the chs[][1]. Predefined
+		/// Replaces the occurence in the given string of the chs[][0] vector with the chs[][1]. Predefined
 		/// values can be found in <see cref="invalidR"/> and <see cref="notInFilenames"/>.
 		/// </summary>
 		/// <param name="str">The string to be converted</param>
@@ -829,7 +829,7 @@ namespace BaseLibS.Util{
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
 			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
 			"majority library index", "library indices", "species", "matched", "crosslink type", "crosslinkingtype",
-			"missed cleavages", "library index"
+			"missed cleavages", "library index", "rank", "evidence id", "protein group ids"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -907,7 +907,7 @@ namespace BaseLibS.Util{
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
-			"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)", "protein group ids"
+			"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"
 		});
 	}
 }
