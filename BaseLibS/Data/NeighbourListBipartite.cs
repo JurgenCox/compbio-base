@@ -77,8 +77,8 @@ namespace BaseLibS.Data{
 					}
 				}
 			}
-			c1 = ArrayUtils.ToArray(cluster1);
-			c2 = ArrayUtils.ToArray(cluster2);
+			c1 = cluster1.ToArray();
+			c2 = cluster2.ToArray();
 		}
 	}
 }

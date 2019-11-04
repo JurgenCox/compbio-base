@@ -542,7 +542,7 @@ namespace BaseLibS.Mol{
 			foreach (Modification modification in mods.Select(FromStrings).SelectMany(q => q)){
 				result.Add(modification);
 			}
-			return ArrayUtils.ToArray(result);
+			return result.ToArray();
 		}
 
 		// Returns first match of Abbreviation

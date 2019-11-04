@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using BaseLibS.Num;
+using System.Linq;
 
 namespace BaseLibS.Data{
 	[Serializable]
@@ -148,7 +148,7 @@ namespace BaseLibS.Data{
 		public T[] ToArray(){
 			T[] result;
 			lock (locker){
-				result = ArrayUtils.ToArray(hashSet);
+				result = hashSet.ToArray();
 			}
 			return result;
 		}

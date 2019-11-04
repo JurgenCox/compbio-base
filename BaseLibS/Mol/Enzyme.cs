@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using BaseLibS.Num;
 
 namespace BaseLibS.Mol{
 	public class Enzyme : StorableItem{
@@ -9,7 +8,7 @@ namespace BaseLibS.Mol{
 
 		[XmlArray("specificity")]
 		public string[] Specificity{
-			get => ArrayUtils.ToArray(specificity);
+			get => specificity.ToArray();
 			set => specificity = new HashSet<string>(value);
 		}
 

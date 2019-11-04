@@ -1807,12 +1807,6 @@ namespace BaseLibS.Num{
 			return result.ToArray();
 		}
 
-		public static T[] ToArray<T>(HashSet<T> set){
-			T[] array = new T[set.Count];
-			set.CopyTo(array);
-			return array;
-		}
-
 		public static double[] ToDoubles(IList<int> ints){
 			double[] result = new double[ints.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2141,7 +2135,7 @@ namespace BaseLibS.Num{
 			foreach (T ty in from tx in array from ty in tx where !hs.Contains(ty) select ty){
 				hs.Add(ty);
 			}
-			T[] x = ToArray(hs);
+			T[] x = hs.ToArray();
 			Array.Sort(x);
 			return x;
 		}
@@ -2151,7 +2145,7 @@ namespace BaseLibS.Num{
 			foreach (T ty in from ty in array where !hs.Contains(ty) select ty){
 				hs.Add(ty);
 			}
-			T[] x = ToArray(hs);
+			T[] x = hs.ToArray();
 			Array.Sort(x);
 			return x;
 		}

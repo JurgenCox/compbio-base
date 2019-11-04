@@ -158,7 +158,7 @@ namespace BaseLibS.Mol{
 								mutatesTo.Add(mutatedAa);
 							}
 						}
-						result.Add(codon, ArrayUtils.ToArray(mutatesTo));
+						result.Add(codon, mutatesTo.ToArray());
 					}
 				}
 			}

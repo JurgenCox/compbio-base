@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using BaseLibS.Num;
 
 namespace BaseLibS.Data{
     /// <summary>
@@ -65,7 +64,7 @@ namespace BaseLibS.Data{
 					}
 				}
 			}
-			return ArrayUtils.ToArray(cluster);
+			return cluster.ToArray();
 		}
 
 		private void Add2(int i, int j){

@@ -61,7 +61,7 @@ namespace BaseLibS.Util{
 			if (recursive){
 				HashSet<string> result = new HashSet<string>();
 				AddFilesWithSuffix(folder, suffixes, result);
-				return ArrayUtils.ToArray(result);
+				return result.ToArray();
 			} else{
 				HashSet<string> result = new HashSet<string>();
 				foreach (string path in Directory.GetFiles(folder)){
@@ -69,7 +69,7 @@ namespace BaseLibS.Util{
 						result.Add(path);
 					}
 				}
-				return ArrayUtils.ToArray(result);
+				return result.ToArray();
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace BaseLibS.Util{
 			if (recursive){
 				HashSet<string> result = new HashSet<string>();
 				AddSuffixes(folder, result);
-				return ArrayUtils.ToArray(result);
+				return result.ToArray();
 			} else{
 				HashSet<string> result = new HashSet<string>();
 				foreach (string path in Directory.GetFiles(folder)){
@@ -117,7 +117,7 @@ namespace BaseLibS.Util{
 					string suffix = path.Substring(ind);
 					result.Add(suffix);
 				}
-				return ArrayUtils.ToArray(result);
+				return result.ToArray();
 			}
 		}
 
