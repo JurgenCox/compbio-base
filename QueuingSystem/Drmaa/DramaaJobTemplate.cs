@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DrmaaNet {
-    public class JobTemplate{
-        private readonly DrmaaJobTemplate _instance;
+namespace QueuingSystem.Drmaa {
+    public class DrmaaJobTemplate : IJobTemplate
+    {
+        private readonly DrmaaJobTemplateInternal _instance;
         private readonly Dictionary<string, object> _attributesCache = new Dictionary<string, object>();
 
         public void InvalidateAttributesCache()
@@ -189,7 +190,7 @@ namespace DrmaaNet {
         } 
         
         
-        internal JobTemplate(DrmaaJobTemplate instance){
+        internal DrmaaJobTemplate(DrmaaJobTemplateInternal instance){
             _instance = instance;
         }
 

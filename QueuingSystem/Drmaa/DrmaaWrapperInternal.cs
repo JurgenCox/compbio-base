@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DrmaaNet
+namespace QueuingSystem.Drmaa
 {
     internal static class DrmaaWrapperInternal
     {

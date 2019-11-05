@@ -2,25 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DrmaaNet
+namespace QueuingSystem.Drmaa
 {
-    public class DrmaaException : Exception
+    public class DrmaaException : QueuingSystemException
     {
-        public readonly int code;
-        public readonly string message;
-
-        public DrmaaException(int code, string message)
+        public DrmaaException(int code, string message) : base(code, message)
         {
-            this.code = code;
-            this.message = message;
-        }
-
-        public override string ToString(){
-            return $"code: {code}, message: \"{message}\"";
         }
     }
 
-    public struct DrmaaJobTemplate
+    public struct DrmaaJobTemplateInternal
     {
         internal IntPtr instance;
     }
@@ -86,7 +77,7 @@ namespace DrmaaNet
             }
         }
 
-        public static DrmaaJobTemplate AllocateJobTemplate()
+        public static DrmaaJobTemplateInternal AllocateJobTemplate()
         {
             IntPtr instance;
             StringBuilder error = new StringBuilder(1024);
@@ -95,16 +86,16 @@ namespace DrmaaNet
             {
                 throw new DrmaaException(res, error.ToString());
             }
-            return new DrmaaJobTemplate { instance = instance };
+            return new DrmaaJobTemplateInternal { instance = instance };
         }
 
-        public static string GetAttribute(DrmaaJobTemplate jobTemplate, string name)
+        public static string GetAttribute(DrmaaJobTemplateInternal jobTemplateInternal, string name)
         {
             StringBuilder value = new StringBuilder(1024);
 
             StringBuilder error = new StringBuilder(1024);
             int res = DrmaaWrapperInternal.drmaa_get_attribute(
-                jobTemplate.instance,
+                jobTemplateInternal.instance,
                 name,
                 value,
                 value.Capacity,
@@ -117,11 +108,11 @@ namespace DrmaaNet
             return value.ToString();
         }
 
-        public static void SetAttribute(DrmaaJobTemplate jobTemplate, string name, string value)
+        public static void SetAttribute(DrmaaJobTemplateInternal jobTemplateInternal, string name, string value)
         {
             StringBuilder error = new StringBuilder(1024);
             int res = DrmaaWrapperInternal.drmaa_set_attribute(
-                jobTemplate.instance,
+                jobTemplateInternal.instance,
                 name,
                 value,
                 error,
@@ -133,7 +124,7 @@ namespace DrmaaNet
             }
         }
 
-        public static string RunJob(DrmaaJobTemplate jobTemplate)
+        public static string RunJob(DrmaaJobTemplateInternal jobTemplateInternal)
         {
             StringBuilder jobId = new StringBuilder(1024);
 
@@ -141,7 +132,7 @@ namespace DrmaaNet
             int res = DrmaaWrapperInternal.drmaa_run_job(
                 jobId,
                 jobId.Capacity,
-                jobTemplate.instance,
+                jobTemplateInternal.instance,
                 error, error.Capacity
             );
             if (res != 0)
@@ -178,11 +169,11 @@ namespace DrmaaNet
             return (Status)status;
         }
 
-        public static string[] GetAttributes(DrmaaJobTemplate jobTemplate, string name){
+        public static string[] GetAttributes(DrmaaJobTemplateInternal jobTemplateInternal, string name){
             IntPtr valuesIter;
             StringBuilder error = new StringBuilder(1024);
             int res = DrmaaWrapperInternal.drmaa_get_vector_attribute(
-                jobTemplate.instance,
+                jobTemplateInternal.instance,
                 name,
                 out valuesIter,
                 error, error.Capacity
@@ -212,11 +203,11 @@ namespace DrmaaNet
             return result.ToArray();
         }
 
-        public static void SetAttributes(DrmaaJobTemplate jobTemplate, string name, string[] values){
+        public static void SetAttributes(DrmaaJobTemplateInternal jobTemplateInternal, string name, string[] values){
             StringBuilder error = new StringBuilder(1024);
 
             int res = DrmaaWrapperInternal.drmaa_set_vector_attribute(
-                jobTemplate.instance,
+                jobTemplateInternal.instance,
                 name,
                 values,
                 error, error.Capacity

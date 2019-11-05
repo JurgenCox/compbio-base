@@ -702,9 +702,9 @@
     <None Include="Resources\nodes.dmp.gz" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DrmaaNet\DrmaaNet.csproj">
+    <ProjectReference Include="..\QueuingSystem\QueuingSystem.csproj">
       <Project>{73c27cd7-4d0f-43c5-86c1-7b534bfbfbe4}</Project>
-      <Name>DrmaaNet</Name>
+      <Name>QueuingSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

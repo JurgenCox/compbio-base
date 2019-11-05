@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Threading;
-using System.Linq;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
+using QueuingSystem.Drmaa;
 
-namespace DrmaaNet
+namespace QueuingSystem
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Session.Init();
+            var session = DrmaaSession.GetInstance();
+            
+            session.Init();
             var n = 10;
             var workDir = Directory.GetCurrentDirectory();
             var jobName = $"test_job_{n}";
-            var jt = Session.AllocateJobTemplate();
+            var jt = session.AllocateJobTemplate();
             jt.JobName = jobName;
             jt.RemoteCommand = "sleep";
             jt.Arguments = new string[]{"10", };
@@ -24,7 +23,7 @@ namespace DrmaaNet
             jt.ErrorPath = ":"+Path.Combine(workDir, $"{jobName}.err");
 
             var jobId = jt.Submit();
-            var res = Session.WaitForJobBlocking(jobId);
+            var res = session.WaitForJobBlocking(jobId);
             Console.WriteLine(res);
         }
     }

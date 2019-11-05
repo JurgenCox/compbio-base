@@ -7,21 +7,46 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using DrmaaNet;
-using Action = DrmaaNet.Action;
+using QueuingSystem;
+using Action = QueuingSystem.Action;
 
 
 namespace BaseLibS.Util {
 	public abstract class WorkDispatcher {
 		private const int initialDelay = 6;
-		private readonly int nTasks;
+		internal readonly int nTasks;
 		private Thread[] workThreads;
 		private Process[] externalProcesses;
 		private string[] queuedJobIds;
 		private Stack<int> toBeProcessed;
-		private readonly string infoFolder;
-		private readonly bool dotNetCore;
-		private readonly int numInternalThreads;
+		internal readonly string infoFolder;
+		internal readonly bool dotNetCore;
+		internal readonly int numInternalThreads;
+		private ISession _session;
+
+		private const string ClusterTypeDrmaa = "drmaa";
+		private const string ClusterTypeGeneric = "generic";
+		
+		private static ISession GetSession()
+		{
+			var type = Environment.GetEnvironmentVariable("MQ_CLUSTER_TYPE") ?? ClusterTypeDrmaa;
+			switch (type)
+			{
+				case ClusterTypeDrmaa:
+				{
+					var s = QueuingSystem.Drmaa.DrmaaSession.GetInstance();
+					s.Init();
+					return s;
+				}
+				case ClusterTypeGeneric:
+				{
+					var submitCommand = Environment.GetEnvironmentVariable("MQ_CLUSTER_SUBMIT_CMD");
+					return new QueuingSystem.GenericCluster.GenericClusterSession(submitCommand);
+				}
+				default:
+					throw new Exception($"Unknown queueing system type: {type}");
+			}
+		}
 		
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
 			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
@@ -44,7 +69,9 @@ namespace BaseLibS.Util {
 			// TODO: remove in release
 			if (Environment.GetEnvironmentVariable("MQ_CALC_TYPE") == "queue")
 			{
-				CalculationType = CalculationType.Queueing;	
+				CalculationType = CalculationType.Queueing;
+				_session = GetSession();
+				Console.WriteLine($"Using queueing session type: {_session}");
 			}
 			
 		}
@@ -75,9 +102,9 @@ namespace BaseLibS.Util {
 				{
 					try
 					{
-						Session.JobControl(jobId, Action.Terminate);
+						_session.JobControl(jobId, Action.Terminate);
 					}
-					catch (DrmaaException ex)
+					catch (QueuingSystemException ex)
 					{
 						// TODO: handle DrmaaExceptions
 						Console.Error.WriteLine(ex.ToString());
@@ -101,10 +128,10 @@ namespace BaseLibS.Util {
 		public void Start()
 		{			
 			// TODO: remove in release, move Session.Init() to upper level  
-			if (CalculationType == CalculationType.Queueing)
-			{
-				Session.Init();
-			}
+//			if (CalculationType == CalculationType.Queueing)
+//			{
+//				_session.Init();
+//			}
 			toBeProcessed = new Stack<int>();
 			for (int index = nTasks - 1; index >= 0; index--) {
 				toBeProcessed.Push(index);
@@ -162,7 +189,7 @@ namespace BaseLibS.Util {
 
 		protected abstract string Executable { get; }
 		protected abstract string ExecutableCore { get; }
-		protected abstract object[] GetArguments(int taskIndex);
+		internal abstract object[] GetArguments(int taskIndex);
 		protected abstract int Id { get; }
 		protected abstract string MessagePrefix { get; }
 
@@ -196,7 +223,7 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		private JobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads)
+		private IJobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads)
 		{
 			string cmd = GetCommandFilename().Trim('"'); 
 			
@@ -226,7 +253,7 @@ namespace BaseLibS.Util {
 				env[entry.Key.ToString()] = entry.Value.ToString();
 			}
 
-			JobTemplate jobTemplate = Session.AllocateJobTemplate();						
+			IJobTemplate jobTemplate = _session.AllocateJobTemplate();						
 			jobTemplate.RemoteCommand = "mono"; 
 			jobTemplate.Arguments = args.ToArray();
 			jobTemplate.OutputPath = $":{outPath}";
@@ -239,42 +266,42 @@ namespace BaseLibS.Util {
 		
 		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads)
 		{
-			JobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
+			IJobTemplate drmaaJobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
 			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
-			string jobId = jobTemplate.Submit();
+			string jobId = drmaaJobTemplate.Submit();
 			queuedJobIds[threadIndex] = jobId;
 			
 			// TODO: remove debug messages from future release
 			Console.WriteLine($@"Created jobTemplate:
   parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
-  cmd:        {jobTemplate.RemoteCommand}
-  jobName:    {jobTemplate.JobName}
-  args:       {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}
-  outPath:    {jobTemplate.OutputPath}
-  errPath:    {jobTemplate.ErrorPath}
-  nativeSpec: {jobTemplate.NativeSpecification}
-Submitted job {jobTemplate.JobName} with id: {jobId}
+  cmd:        {drmaaJobTemplate.RemoteCommand}
+  jobName:    {drmaaJobTemplate.JobName}
+  args:       {string.Join(" ", drmaaJobTemplate.Arguments.Select(x => $"\"{x}\""))}
+  outPath:    {drmaaJobTemplate.OutputPath}
+  errPath:    {drmaaJobTemplate.ErrorPath}
+  nativeSpec: {drmaaJobTemplate.NativeSpecification}
+Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
 ");
 
 			try
 			{
-				var status = Session.WaitForJobBlocking(jobId);
-				if (status != Status.Done)
+				var status = _session.WaitForJobBlocking(jobId);
+				if (status != Status.Success)
 				{
-					Console.Error.WriteLine($"{jobTemplate.JobName}, jobId: {jobId}: \n"+jobTemplate.ReadStderr());
+					Console.Error.WriteLine($"{drmaaJobTemplate.JobName}, jobId: {jobId}: \n"+drmaaJobTemplate.ReadStderr());
 					throw new Exception(
-						$"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
+						$"Exception during execution of external job: {drmaaJobTemplate.JobName}, jobId: {jobId}, status: {status}");
 				}
 				else
 				{
-					Console.WriteLine($"Job \"{jobTemplate.JobName}\" with id {jobId} finished successfully");
+					Console.WriteLine($"Job \"{drmaaJobTemplate.JobName}\" with id {jobId} finished successfully");
 				}
 			}
 			finally
 			{
 				// TODO: Maybe introduce flag (cleanup or not, for debugging purposes)
-				jobTemplate.Cleanup();
+				drmaaJobTemplate.Cleanup();
 			}
 
 		
