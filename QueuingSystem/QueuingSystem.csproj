@@ -8,8 +8,8 @@
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DrmaaNet</RootNamespace>
-    <AssemblyName>DrmaaNet</AssemblyName>
+    <RootNamespace>QueuingSystem</RootNamespace>
+    <AssemblyName>QueuingSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,12 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrmaaWrapper.cs" />
-    <Compile Include="DrmaaWrapperInternal.cs" />
-    <Compile Include="JobTemplate.cs" />
+    <Compile Include="Drmaa\DramaaJobTemplate.cs" />
+    <Compile Include="Drmaa\DrmaaWrapper.cs" />
+    <Compile Include="Drmaa\DrmaaWrapperInternal.cs" />
+    <Compile Include="Drmaa\DrmaaSession.cs" />
+    <Compile Include="GenericCluster\GenericClusterException.cs" />
+    <Compile Include="GenericCluster\GenericClusterJobTemplate.cs" />
+    <Compile Include="GenericCluster\GenericClusterSession.cs" />
+    <Compile Include="ISession.cs" />
+    <Compile Include="IJobTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Session.cs" />
+    <Compile Include="QueuingSystemException.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
