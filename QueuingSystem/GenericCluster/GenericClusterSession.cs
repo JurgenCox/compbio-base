@@ -15,7 +15,8 @@ namespace QueuingSystem.GenericCluster
         
 //        private readonly string statusCommand;
         private readonly string submitCommand;
-        private int _nextId = 1;
+        private static int _nextId = 1;
+        private static Array _lock = new double[0];
         
         private readonly IDictionary<string, GenericClusterJobTemplate> _submittedJobs = new ConcurrentDictionary<string, GenericClusterJobTemplate>();
         public GenericClusterSession(
@@ -27,7 +28,8 @@ namespace QueuingSystem.GenericCluster
 
         private string GetNextId()
         {
-            lock (this)
+            // TODO: use Interlocked?
+            lock (_lock)
             {
                 var res = _nextId.ToString();
                 _nextId += 1;
