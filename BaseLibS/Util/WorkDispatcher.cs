@@ -189,7 +189,7 @@ namespace BaseLibS.Util {
 
 		protected abstract string Executable { get; }
 		protected abstract string ExecutableCore { get; }
-		internal abstract object[] GetArguments(int taskIndex);
+		protected abstract object[] GetArguments(int taskIndex);
 		protected abstract int Id { get; }
 		protected abstract string MessagePrefix { get; }
 
