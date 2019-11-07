@@ -8,6 +8,9 @@ namespace QueuingSystem.Drmaa {
         private readonly DrmaaJobTemplateInternal _instance;
         private readonly Dictionary<string, object> _attributesCache = new Dictionary<string, object>();
 
+        private readonly string _nativeSpecificationTemplate;
+        private int threads = 1;
+        
         public void InvalidateAttributesCache()
         {
             _attributesCache.Clear();
@@ -91,24 +94,39 @@ namespace QueuingSystem.Drmaa {
         }
 
         public string[] Arguments {
-            get { 
-                return GetAttributes( Attributes.Argv); 
+            get
+            {
+                var res = new List<string>{};
+                var command = GetAttribute(Attributes.RemoteCommand);
+                if (command == null)
+                {
+                    return new string[0];
+                }
+                res.Add(command);
+                res.AddRange(GetAttributes(Attributes.Argv));
+                return res.ToArray();
             }
 
-            set { 
-                SetAttributes(Attributes.Argv, value); 
+            set {
+                if (value.Length == 0)
+                {
+                    return;
+                }
+
+                SetAttribute(Attributes.RemoteCommand, value[0]);
+                SetAttributes(Attributes.Argv, value.Skip(1).ToArray());
             }
         }
 
-        public string RemoteCommand {
-            get { 
-                return GetAttribute(Attributes.RemoteCommand); 
-            }
-
-            set { 
-                SetAttribute(Attributes.RemoteCommand, value); 
-            }
-        }
+//        public string RemoteCommand {
+//            get { 
+//                return GetAttribute(Attributes.RemoteCommand); 
+//            }
+//
+//            set { 
+//                SetAttribute(Attributes.RemoteCommand, value); 
+//            }
+//        }
 
         public string JobSubmissionState {
             get { 
@@ -147,6 +165,17 @@ namespace QueuingSystem.Drmaa {
 
             set { 
                 SetAttribute(Attributes.JobName, value); 
+            }
+        }
+
+        public int Threads
+        {
+            get => threads;
+            set
+            {
+                threads = value;
+                var nativeSpec = _nativeSpecificationTemplate.Replace("{threads}", threads.ToString());
+                NativeSpecification = nativeSpec;
             }
         }
 
@@ -190,8 +219,10 @@ namespace QueuingSystem.Drmaa {
         } 
         
         
-        internal DrmaaJobTemplate(DrmaaJobTemplateInternal instance){
+        internal DrmaaJobTemplate(DrmaaJobTemplateInternal instance, string nativeSpecificationTemplate)
+        {
             _instance = instance;
+            _nativeSpecificationTemplate = nativeSpecificationTemplate;
         }
 
         public string Submit(){

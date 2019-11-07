@@ -19,6 +19,7 @@ namespace QueuingSystem.Drmaa{
         }
 
         private bool _inited;
+        public string NativeSpecificationTemplate { get; set; } = "{threads}";
         
         public void Init(string contact=null){
             if (_inited)
@@ -69,7 +70,7 @@ namespace QueuingSystem.Drmaa{
         }
 
         public IJobTemplate AllocateJobTemplate(){
-            return new DrmaaJobTemplate(DrmaaWrapper.AllocateJobTemplate());
+            return new DrmaaJobTemplate(DrmaaWrapper.AllocateJobTemplate(), NativeSpecificationTemplate);
         }
 
         public QueuingSystem.Status WaitForJobBlocking(string jobId)
@@ -81,6 +82,12 @@ namespace QueuingSystem.Drmaa{
         {
             DrmaaWrapper.Exit(contact);
             _inited = false;
+        }
+
+        public string Submit(IJobTemplate jobTemplate)
+        {
+            var jobTemplateDrmaa = jobTemplate as DrmaaJobTemplate;
+            return jobTemplateDrmaa.Submit();
         }
     }
 }

@@ -28,5 +28,7 @@ namespace QueuingSystem
         Status WaitForJobBlocking(string jobId);
 
         void Exit(string contact = null);
+
+        string Submit(IJobTemplate jobTemplate);
     }
 }

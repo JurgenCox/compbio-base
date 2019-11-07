@@ -12,11 +12,10 @@ namespace QueuingSystem.GenericCluster
 //        private const string SgeStatusCommand = "qstat -j {jobId}";
         private const string SgeSubmitCommand = "qsub ";
         private const int SleepIntervalMillis = 1000;
-        
+
+        private readonly SafeIdGenerator idGenerator = new SafeIdGenerator();
 //        private readonly string statusCommand;
         private readonly string submitCommand;
-        private static int _nextId = 1;
-        private static Array _lock = new double[0];
         
         private readonly IDictionary<string, GenericClusterJobTemplate> _submittedJobs = new ConcurrentDictionary<string, GenericClusterJobTemplate>();
         public GenericClusterSession(
@@ -26,17 +25,6 @@ namespace QueuingSystem.GenericCluster
 //            this.statusCommand = statusCommand;
         }
 
-        private string GetNextId()
-        {
-            // TODO: use Interlocked?
-            lock (_lock)
-            {
-                var res = _nextId.ToString();
-                _nextId += 1;
-                return res;
-            }
-        }
-        
         public Status JobStatus(string jobId)
         {
             // noop
@@ -52,7 +40,7 @@ namespace QueuingSystem.GenericCluster
 
         public IJobTemplate AllocateJobTemplate()
         {
-            return new GenericClusterJobTemplate(GetNextId(), this);
+            return new GenericClusterJobTemplate(idGenerator.GetNextId());
         }
 
         public Status WaitForJobBlocking(string jobId)
@@ -120,7 +108,7 @@ namespace QueuingSystem.GenericCluster
         {
             var context = new Dictionary<string, object>()
             {
-                {"nativeSpec", jobTemplate.NativeSpecification},
+                {"threads", jobTemplate.Threads},
                 {"workDir", jobTemplate.WorkingDirectory},
                 {"output", jobTemplate.OutputPath},
                 {"input", jobTemplate.InputPath},
@@ -130,16 +118,18 @@ namespace QueuingSystem.GenericCluster
             
             return FormatTemplateString(submitCommand, context);
         }
-        internal string SubmitInternal(GenericClusterJobTemplate jobTemplate)
+        public string Submit(IJobTemplate jobTemplate)
         {
+            var gJobTemplate = jobTemplate as GenericClusterJobTemplate;
+            gJobTemplate.WriteJobScript();
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            var command = FormatCommand(jobTemplate);
+            var command = FormatCommand(gJobTemplate);
             var args = Util.SplitCommandLine(command).ToList();
             var argsConcatenated = string.Join(" ", args.Skip(1).Select(a => $"\"{a}\""));
             startInfo.FileName = args[0];
-            startInfo.Arguments = argsConcatenated + $" \"{jobTemplate.JobScriptPath}\"";
+            startInfo.Arguments = argsConcatenated + $" \"{gJobTemplate.JobScriptPath}\"";
             startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardOutput = true;
             startInfo.UseShellExecute = false;
@@ -159,10 +149,10 @@ namespace QueuingSystem.GenericCluster
                 throw new GenericClusterException(exitCode, message);
             }
             
-            _submittedJobs[jobTemplate.InternalId] = jobTemplate;
+            _submittedJobs[gJobTemplate.InternalId] = gJobTemplate;
 
-            Console.WriteLine($"Submitted Job: {jobTemplate.InternalId}");
-            return jobTemplate.InternalId;
+            Console.WriteLine($"Submitted Job: {gJobTemplate.InternalId}");
+            return gJobTemplate.InternalId;
         }
     }
 }

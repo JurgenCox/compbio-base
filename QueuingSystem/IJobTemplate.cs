@@ -13,12 +13,8 @@ namespace QueuingSystem
         string ErrorPath { get; set; }
         bool JoinFiles { get; set; }
         string[] Arguments { get; set; }
-        string RemoteCommand { get; set; }
-        string JobSubmissionState { get; set; }
         string WorkingDirectory { get; set; }
-        string NativeSpecification { get; set; }
         string JobName { get; set; }
-        
-        string Submit();
+        int Threads { get; set; }
     }
 }

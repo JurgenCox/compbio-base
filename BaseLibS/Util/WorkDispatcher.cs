@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using QueuingSystem;
+using QueuingSystem.Kubernetes;
 using Action = QueuingSystem.Action;
 
 
@@ -26,6 +27,7 @@ namespace BaseLibS.Util {
 
 		private const string ClusterTypeDrmaa = "drmaa";
 		private const string ClusterTypeGeneric = "generic";
+		private const string ClusterTypeKubernetes = "kubernetes";
 		
 		private static ISession GetSession()
 		{
@@ -36,12 +38,25 @@ namespace BaseLibS.Util {
 				{
 					var s = QueuingSystem.Drmaa.DrmaaSession.GetInstance();
 					s.Init();
+					var nativeSpec = Environment.GetEnvironmentVariable("MQ_DRMAA_NATIVE_SPEC");
+					if (nativeSpec != null)
+					{
+						s.NativeSpecificationTemplate = nativeSpec;
+					}
 					return s;
 				}
 				case ClusterTypeGeneric:
 				{
 					var submitCommand = Environment.GetEnvironmentVariable("MQ_CLUSTER_SUBMIT_CMD");
 					return new QueuingSystem.GenericCluster.GenericClusterSession(submitCommand);
+				}
+				case ClusterTypeKubernetes:
+				{
+					var ns = Environment.GetEnvironmentVariable("MQ_KUBERNETES_NAMESPACE") ?? "default";
+					// TODO: default container
+					var containerId = Environment.GetEnvironmentVariable("MQ_KUBERNETES_CONTAINER");
+					// TODO: config
+					return new KubernetesSession(ns, containerId);
 				}
 				default:
 					throw new Exception($"Unknown queueing system type: {type}");
@@ -228,17 +243,13 @@ namespace BaseLibS.Util {
 			string cmd = GetCommandFilename().Trim('"'); 
 			
 			// TODO: refactor to a function?
-			List<string> args = new List<string>{"--optimize=all,float32", "--server", cmd};
+			List<string> args = new List<string>{"mono", "--optimize=all,float32", "--server", cmd};
 			args.AddRange(GetLogArgs(taskIndex, taskIndex));
 			args.Add(Id.ToString());
 			args.AddRange(GetStringArgs(taskIndex));
 
 			string jobName = $"{GetFilename()}_{taskIndex}_{threadIndex}";
 			
-			// TODO: Decide how we setting nativeSpecification variable. Current implementation done via EnvVars
-			string nativeSpec = (Environment.GetEnvironmentVariable("MQ_DRMAA") ?? "")
-				.Replace("{threads}", numInternalThreads.ToString());
-
 			string randSuffix = Guid.NewGuid().ToString();
 			
 			// TODO: Separate folder for job stdout/stderr?
@@ -254,12 +265,11 @@ namespace BaseLibS.Util {
 			}
 
 			IJobTemplate jobTemplate = _session.AllocateJobTemplate();						
-			jobTemplate.RemoteCommand = "mono"; 
 			jobTemplate.Arguments = args.ToArray();
 			jobTemplate.OutputPath = $":{outPath}";
 			jobTemplate.ErrorPath = $":{errPath}";
 			jobTemplate.JobEnvironment = env;
-			jobTemplate.NativeSpecification = nativeSpec;
+			jobTemplate.Threads = numInternalThreads;
 			jobTemplate.JobName = jobName;
 			return jobTemplate;
 		}
@@ -269,18 +279,17 @@ namespace BaseLibS.Util {
 			IJobTemplate drmaaJobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
 			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
-			string jobId = drmaaJobTemplate.Submit();
+			string jobId = _session.Submit(drmaaJobTemplate);
 			queuedJobIds[threadIndex] = jobId;
 			
 			// TODO: remove debug messages from future release
 			Console.WriteLine($@"Created jobTemplate:
   parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
-  cmd:        {drmaaJobTemplate.RemoteCommand}
   jobName:    {drmaaJobTemplate.JobName}
   args:       {string.Join(" ", drmaaJobTemplate.Arguments.Select(x => $"\"{x}\""))}
   outPath:    {drmaaJobTemplate.OutputPath}
   errPath:    {drmaaJobTemplate.ErrorPath}
-  nativeSpec: {drmaaJobTemplate.NativeSpecification}
+  threads: {drmaaJobTemplate.Threads}
 Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
 ");
 

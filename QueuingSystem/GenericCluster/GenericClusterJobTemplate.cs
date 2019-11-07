@@ -11,11 +11,10 @@ namespace QueuingSystem.GenericCluster
         private readonly string jobSuccessStatusPath;
         private readonly string jobErrorStatusPath;
         private readonly string internalId;
-        private readonly GenericClusterSession session; 
-        public GenericClusterJobTemplate(string internalId, GenericClusterSession session)
+
+        public GenericClusterJobTemplate(string internalId)
         {
             this.internalId = internalId;
-            this.session = session;
             var tempDir = ".";
             var randomName = Path.GetRandomFileName();
             jobScriptPath = Path.Combine(tempDir, $"{internalId}.{randomName}.jobscript");
@@ -82,22 +81,15 @@ namespace QueuingSystem.GenericCluster
         public string ErrorPath { get; set; }
         public bool JoinFiles { get; set; }
         public string[] Arguments { get; set; }
-        public string RemoteCommand { get; set; }
-        public string JobSubmissionState { get; set; }
-        public string WorkingDirectory { get; set; }
-        public string NativeSpecification { get; set; }
+        public string WorkingDirectory { get; set; } = ".";
+        
+        public int Threads { get; set; }
         public string JobName { get; set; }
 
-        public string Submit()
-        {
-            WriteJobScript();
-            return session.SubmitInternal(this);
-        }
-
-        private void WriteJobScript()
+        public void WriteJobScript()
         {
             var args = Arguments.Select(a => $"\"{a}\"");
-            var formattedCommand = RemoteCommand + " " + string.Join(" ", args) + 
+            var formattedCommand = string.Join(" ", args) + 
                                    $" && touch \"{jobSuccessStatusPath}\" || (touch \"{jobErrorStatusPath}\"; exit 1)";
             Console.WriteLine($"Writing job script: {formattedCommand}");
             File.WriteAllText(jobScriptPath, formattedCommand);
