@@ -240,8 +240,10 @@ namespace BaseLibS.Util {
 
 		private IJobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads)
 		{
-			string cmd = GetCommandFilename().Trim('"'); 
+			string cmd = GetCommandFilename().Trim('"');
 			
+			// TODO: 
+			cmd = "/opt/MaxQuantCmd/" + Executable;
 			// TODO: refactor to a function?
 			List<string> args = new List<string>{"mono", "--optimize=all,float32", "--server", cmd};
 			args.AddRange(GetLogArgs(taskIndex, taskIndex));

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using k8s;
 using k8s.Models;
@@ -45,14 +46,14 @@ namespace QueuingSystem.Kubernetes
 
         public static Status JobToStatus(V1Job job)
         {
+            if (job.Status.Failed == job.Spec.BackoffLimit)
+            {
+                return Status.Failed;
+            }
+            
             if (job.Status.Active != null)
             {
                 return Status.Running;
-            }
-            
-            if (job.Status.Failed != null)
-            {
-                return Status.Failed;
             }
 
             if (job.Status.Succeeded != null)
@@ -102,6 +103,7 @@ namespace QueuingSystem.Kubernetes
         private V1Job CreateJob(IJobTemplate jt)
         {
             string jobName = jt.JobName ?? "";
+            jobName = Regex.Replace(jobName.ToLower(), @"[^a-z\d]", "-");
             return new V1Job
             {
                 Kind = "Job",
@@ -112,6 +114,7 @@ namespace QueuingSystem.Kubernetes
                 },
                 Spec = new V1JobSpec
                 {
+                    BackoffLimit = 1,
                     Template = new V1PodTemplateSpec
                     {
                         Spec = new V1PodSpec
