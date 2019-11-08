@@ -342,12 +342,15 @@ namespace BaseLibS.Num {
 			y1 = y2.ToArray();
 		}
 
-		public static (double[], double[], double[], double[]) Regression(double[] xvals, double[] yvals) {
+		public static (double[], double[], double[], double[]) Regression(double[] xvals, double[] yvals)
+		{
+			const int numPoints = 300;
+			
 			(double[,] values, double[] xmat, double[] ymat) =
-				CalcDensityOnGrid(xvals, yvals, 300, DensityEstimationType.DivideByX);
-			double[] yfit = new double[xvals.Length];
-			double[] yupper = new double[xvals.Length];
-			double[] ylower = new double[xvals.Length];
+				CalcDensityOnGrid(xvals, yvals, numPoints, DensityEstimationType.DivideByX);
+			double[] yfit = new double[numPoints];
+			double[] yupper = new double[numPoints];
+			double[] ylower = new double[numPoints];
 			for (int i = 0; i < xmat.Length; i++) {
 				int maxInd = -1;
 				double maxVal = double.MinValue;
