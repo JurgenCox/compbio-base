@@ -654,6 +654,7 @@
       <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
@@ -863,6 +864,9 @@
     <ProjectReference Include="..\QueuingSystem\QueuingSystem.csproj">
       <Project>{73c27cd7-4d0f-43c5-86c1-7b534bfbfbe4}</Project>
       <Name>QueuingSystem</Name>
+    <ProjectReference Include="..\DrmaaNet\DrmaaNet.csproj">
+      <Project>{73c27cd7-4d0f-43c5-86c1-7b534bfbfbe4}</Project>
+      <Name>DrmaaNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

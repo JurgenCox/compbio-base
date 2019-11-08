@@ -20,6 +20,7 @@ namespace BaseLibS.Util {
 		private Process[] externalProcesses;
 		private string[] queuedJobIds;
 		private Stack<int> toBeProcessed;
+
 		internal readonly string infoFolder;
 		internal readonly bool dotNetCore;
 		internal readonly int numInternalThreads;
@@ -87,6 +88,7 @@ namespace BaseLibS.Util {
 				CalculationType = CalculationType.Queueing;
 				_session = GetSession();
 				Console.WriteLine($"Using queueing session type: {_session}");
+				CalculationType = CalculationType.Queueing;	
 			}
 			
 		}
@@ -246,6 +248,7 @@ namespace BaseLibS.Util {
 			cmd = "/opt/MaxQuantCmd/" + Executable;
 			// TODO: refactor to a function?
 			List<string> args = new List<string>{"mono", "--optimize=all,float32", "--server", cmd};
+
 			args.AddRange(GetLogArgs(taskIndex, taskIndex));
 			args.Add(Id.ToString());
 			args.AddRange(GetStringArgs(taskIndex));
@@ -267,26 +270,32 @@ namespace BaseLibS.Util {
 			}
 
 			IJobTemplate jobTemplate = _session.AllocateJobTemplate();						
+
 			jobTemplate.Arguments = args.ToArray();
 			jobTemplate.OutputPath = $":{outPath}";
 			jobTemplate.ErrorPath = $":{errPath}";
 			jobTemplate.JobEnvironment = env;
+
 			jobTemplate.Threads = numInternalThreads;
+
 			jobTemplate.JobName = jobName;
 			return jobTemplate;
 		}
 		
 		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads)
 		{
+
 			IJobTemplate drmaaJobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
 			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
 			string jobId = _session.Submit(drmaaJobTemplate);
+
 			queuedJobIds[threadIndex] = jobId;
 			
 			// TODO: remove debug messages from future release
 			Console.WriteLine($@"Created jobTemplate:
   parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
+
   jobName:    {drmaaJobTemplate.JobName}
   args:       {string.Join(" ", drmaaJobTemplate.Arguments.Select(x => $"\"{x}\""))}
   outPath:    {drmaaJobTemplate.OutputPath}
@@ -297,6 +306,7 @@ Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
 
 			try
 			{
+
 				var status = _session.WaitForJobBlocking(jobId);
 				if (status != Status.Success)
 				{
@@ -312,6 +322,7 @@ Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
 			finally
 			{
 				// TODO: Maybe introduce flag (cleanup or not, for debugging purposes)
+
 				drmaaJobTemplate.Cleanup();
 			}
 
@@ -332,7 +343,9 @@ Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
 					psi.EnvironmentVariables["MONO_GC_PARAMS"] = "max-heap-size=" + MaxHeapSizeGb + "g";
 				}
 			}
+
 //			Console.WriteLine($"Process run: {cmd} {args}");
+
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
@@ -377,6 +390,7 @@ Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
 			}
 			return b.ToString();
 		}
+
 		
 		private string[] GetLogArgs(int taskIndex, int id)
 		{

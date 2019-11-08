@@ -24,6 +24,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzMl", "PluginRawMzMl\PluginRawMzMl.csproj", "{538EB9D0-0AE6-4C3E-B2DF-CEFFD7ED2553}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzML.Test", "PluginRawMzMl\PluginRawMzML.Test\PluginRawMzML.Test.csproj", "{9C356101-DE67-467D-AC23-FF877D634E25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrmaaNet", "DrmaaNet\DrmaaNet.csproj", "{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueuingSystem", "QueuingSystem\QueuingSystem.csproj", "{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}"
 EndProject
