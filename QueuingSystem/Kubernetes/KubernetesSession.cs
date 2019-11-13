@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using k8s;
@@ -15,18 +16,37 @@ namespace QueuingSystem.Kubernetes
         private readonly string containerId;
         private readonly HashSet<string> activeJobs = new HashSet<string>();
         private readonly SafeIdGenerator idGenerator = new SafeIdGenerator();
+        private readonly IList<(string host, string mount)> _volumes;
         
-        public KubernetesSession(string @namespace, string containerId, KubernetesClientConfiguration config = null)
+        public KubernetesSession(string @namespace, string containerId, string volumesStr, string host)
         {
             _namespace = @namespace;
             this.containerId = containerId;
-            if (config == null)
+            KubernetesClientConfiguration config = new KubernetesClientConfiguration
             {
-                config = new KubernetesClientConfiguration {  Host = "http://127.0.0.1:8001" };
-            }
-            client = new k8s.Kubernetes(config);
-        }
+                Host = host
+            };
 
+            client = new k8s.Kubernetes(config);
+            _volumes = ParseVolumes(volumesStr);
+        }
+        private static IList<(string host, string mount)> ParseVolumes(string volumesStr)
+        {
+            if (string.IsNullOrEmpty(volumesStr))
+            {
+                return new List<(string host, string mount)>();
+            }
+			
+            var tokens = volumesStr.Split(',');
+            return tokens.Select(t =>
+            {
+                var subt = t.Split(':');
+                string host = subt[0];
+                string mount = subt[1];
+                return (host, mount);
+            }).ToArray();
+        }
+        
         public Status JobStatus(string jobId)
         {
             var job = client.ReadNamespacedJobStatus(jobId, _namespace);
@@ -35,8 +55,20 @@ namespace QueuingSystem.Kubernetes
 
         public void JobControl(string jobId, Action action)
         {
-            // TODO: 
-            Console.Error.WriteLine($"Job control is not implemented for GenericClusters, jobId: {jobId}, action: {action}");
+            switch (action)
+            {
+                case Action.Suspend:
+                    Console.Error.WriteLine($"Job control is not implemented for GenericClusters, jobId: {jobId}, action: {action}");
+                    break;
+                case Action.Resume:
+                    Console.Error.WriteLine($"Job control is not implemented for GenericClusters, jobId: {jobId}, action: {action}");
+                    break;
+                case Action.Terminate:
+                    client.DeleteNamespacedJob(jobId, _namespace);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+            }
         }
 
         public IJobTemplate AllocateJobTemplate()
@@ -46,17 +78,23 @@ namespace QueuingSystem.Kubernetes
 
         public static Status JobToStatus(V1Job job)
         {
-            if (job.Status.Failed == job.Spec.BackoffLimit)
+            var status = job.Status;
+            if (status.Active == null && status.Failed != null)
             {
                 return Status.Failed;
             }
             
-            if (job.Status.Active != null)
+            if (status.Failed > job.Spec.BackoffLimit)
+            {
+                return Status.Failed;
+            }
+            
+            if (status.Active != null)
             {
                 return Status.Running;
             }
 
-            if (job.Status.Succeeded != null)
+            if (status.Succeeded != null)
             {
                 return Status.Success;
             }
@@ -65,34 +103,29 @@ namespace QueuingSystem.Kubernetes
         }
         public Status WaitForJobBlocking(string jobId)
         {
-            var watcher = client.WatchNamespacedJobAsync(jobId, _namespace).GetAwaiter().GetResult();
-            var status = Status.Unknown;
-            ManualResetEvent signal = new ManualResetEvent(false);
-            watcher.OnClosed += () =>
+            Status status = Status.Unknown;
+            string statusStrOld = "";
+            while (true)
             {
-                status = Status.Failed;
-                signal.Set();
-            };
+                var job = client.ReadNamespacedJobStatus(jobId, _namespace);
+                status = JobToStatus(job);
+                var statusStr = Newtonsoft.Json.JsonConvert.SerializeObject(job.Status);
 
-            watcher.OnError += exception =>
-            {
-                status = Status.Failed;
-                signal.Set();
-            };
-
-            watcher.OnEvent += (type, job) =>
-            {
-                var s = JobToStatus(job);
-                if (s != Status.Running)
+                if (statusStrOld != statusStr)
                 {
-                    status = s;
-                    signal.Set();
+                    Console.WriteLine($"ReadNamespacedJobStatus({jobId}) = Status: {statusStr}. Setting status to {status}");    
                 }
-            };
-            signal.WaitOne();
-            activeJobs.Remove(jobId);
-            return status;
 
+                statusStrOld = statusStr;
+                
+                if (status != Status.Running && status != Status.Queued)
+                {
+                    break;
+                }
+                Thread.Sleep(1000);
+            }
+
+            return status;
         }
 
         public void Exit(string contact = null)
@@ -104,6 +137,22 @@ namespace QueuingSystem.Kubernetes
         {
             string jobName = jt.JobName ?? "";
             jobName = Regex.Replace(jobName.ToLower(), @"[^a-z\d]", "-");
+            var volumes = _volumes.Select((v, i) => new V1Volume
+            {
+                Name = $"v{i}",
+                HostPath = new V1HostPathVolumeSource
+                {
+                    Type = "Directory",
+                    Path = v.host,
+                }
+            }).ToArray();
+            var volumeMounts = _volumes.Select((v, i) => new V1VolumeMount
+            {
+                Name = $"v{i}",
+                MountPath = v.mount,
+                                            
+            }).ToArray();
+            
             return new V1Job
             {
                 Kind = "Job",
@@ -114,7 +163,7 @@ namespace QueuingSystem.Kubernetes
                 },
                 Spec = new V1JobSpec
                 {
-                    BackoffLimit = 1,
+                    BackoffLimit = 0,
                     Template = new V1PodTemplateSpec
                     {
                         Spec = new V1PodSpec
@@ -125,9 +174,18 @@ namespace QueuingSystem.Kubernetes
                                 {
                                     Name = $"{jobName}-container",
                                     Image = containerId,
-                                    Command = jt.Arguments
+                                    Command = jt.Arguments,
+                                    VolumeMounts = volumeMounts,
+                                    Resources = new V1ResourceRequirements
+                                    {
+                                        Limits = new Dictionary<string, ResourceQuantity>()
+                                        {
+                                            ["cpu"] = new ResourceQuantity(jt.Threads.ToString())
+                                        } 
+                                    }
                                 }
                             },
+                            Volumes = volumes,
                             RestartPolicy = "Never"
                         }
                     }

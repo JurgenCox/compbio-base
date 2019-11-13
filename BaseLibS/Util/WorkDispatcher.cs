@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -28,40 +27,6 @@ namespace BaseLibS.Util {
 		private const string ClusterTypeDrmaa = "drmaa";
 		private const string ClusterTypeGeneric = "generic";
 		private const string ClusterTypeKubernetes = "kubernetes";
-		
-		private static ISession GetSession()
-		{
-			var type = Environment.GetEnvironmentVariable("MQ_CLUSTER_TYPE") ?? ClusterTypeDrmaa;
-			switch (type)
-			{
-				case ClusterTypeDrmaa:
-				{
-					var s = QueuingSystem.Drmaa.DrmaaSession.GetInstance();
-					s.Init();
-					var nativeSpec = Environment.GetEnvironmentVariable("MQ_DRMAA_NATIVE_SPEC");
-					if (nativeSpec != null)
-					{
-						s.NativeSpecificationTemplate = nativeSpec;
-					}
-					return s;
-				}
-				case ClusterTypeGeneric:
-				{
-					var submitCommand = Environment.GetEnvironmentVariable("MQ_CLUSTER_SUBMIT_CMD");
-					return new QueuingSystem.GenericCluster.GenericClusterSession(submitCommand);
-				}
-				case ClusterTypeKubernetes:
-				{
-					var ns = Environment.GetEnvironmentVariable("MQ_KUBERNETES_NAMESPACE") ?? "default";
-					// TODO: default container
-					var containerId = Environment.GetEnvironmentVariable("MQ_KUBERNETES_CONTAINER");
-					// TODO: config
-					return new KubernetesSession(ns, containerId);
-				}
-				default:
-					throw new Exception($"Unknown queueing system type: {type}");
-			}
-		}
 		
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
 			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1)
@@ -90,10 +55,47 @@ namespace BaseLibS.Util {
 			}
 			
 		}
+		private static ISession GetSession()
+		{
+			var type = Environment.GetEnvironmentVariable("MQ_CLUSTER_TYPE") ?? ClusterTypeDrmaa;
+			switch (type)
+			{
+				case ClusterTypeDrmaa:
+				{
+					var s = QueuingSystem.Drmaa.DrmaaSession.GetInstance();
+					s.Init();
+					var nativeSpec = Environment.GetEnvironmentVariable("MQ_DRMAA_NATIVE_SPEC");
+					if (nativeSpec != null)
+					{
+						s.NativeSpecificationTemplate = nativeSpec;
+					}
+					return s;
+				}
+				case ClusterTypeGeneric:
+				{
+					var submitCommand = Environment.GetEnvironmentVariable("MQ_CLUSTER_SUBMIT_CMD");
+					return new QueuingSystem.GenericCluster.GenericClusterSession(submitCommand);
+				}
+				case ClusterTypeKubernetes:
+				{
+					var ns = Environment.GetEnvironmentVariable("MQ_KUBERNETES_NAMESPACE") ?? "default";
+					var containerId = Environment.GetEnvironmentVariable("MQ_KUBERNETES_CONTAINER") ?? "mono";
+					// TODO: config
+					
+					var volumes = Environment.GetEnvironmentVariable("MQ_KUBERNETES_VOLUMES") ?? "";
+					var host = Environment.GetEnvironmentVariable("MQ_KUBERNETES_HOST");
+					return new KubernetesSession(ns, containerId, volumes, host);
+				}
+				default:
+					throw new Exception($"Unknown queueing system type: {type}");
+			}
+		}
 
 		public int MaxHeapSizeGb { get; set; } 
 
 		public int Nthreads { get; }
+
+		public int NumInternalThreads => numInternalThreads;
 
 		public void Abort() {
 			if (workThreads != null) {
@@ -242,8 +244,6 @@ namespace BaseLibS.Util {
 		{
 			string cmd = GetCommandFilename().Trim('"');
 			
-			// TODO: 
-			cmd = "/opt/MaxQuantCmd/" + Executable;
 			// TODO: refactor to a function?
 			List<string> args = new List<string>{"mono", "--optimize=all,float32", "--server", cmd};
 			args.AddRange(GetLogArgs(taskIndex, taskIndex));
@@ -279,10 +279,10 @@ namespace BaseLibS.Util {
 		
 		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads)
 		{
-			IJobTemplate drmaaJobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
+			IJobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
 			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
-			string jobId = _session.Submit(drmaaJobTemplate);
+			string jobId = _session.Submit(jobTemplate);
 			queuedJobIds[threadIndex] = jobId;
 			
 			// TODO: remove debug messages from future release
@@ -302,19 +302,19 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 				var status = _session.WaitForJobBlocking(jobId);
 				if (status != Status.Success)
 				{
-					Console.Error.WriteLine($"{drmaaJobTemplate.JobName}, jobId: {jobId}: \n"+drmaaJobTemplate.ReadStderr());
+					Console.Error.WriteLine($"{jobTemplate.JobName}, jobId: {jobId}: \n"+jobTemplate.ReadStderr());
 					throw new Exception(
-						$"Exception during execution of external job: {drmaaJobTemplate.JobName}, jobId: {jobId}, status: {status}");
+						$"Exception during execution of external job: {jobTemplate.JobName}, jobId: {jobId}, status: {status}");
 				}
 				else
 				{
-					Console.WriteLine($"Job \"{drmaaJobTemplate.JobName}\" with id {jobId} finished successfully");
+					Console.WriteLine($"Job \"{jobTemplate.JobName}\" with id {jobId} finished successfully");
 				}
 			}
 			finally
 			{
 				// TODO: Maybe introduce flag (cleanup or not, for debugging purposes)
-				drmaaJobTemplate.Cleanup();
+				jobTemplate.Cleanup();
 			}
 
 		
