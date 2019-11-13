@@ -16,5 +16,6 @@ namespace QueuingSystem
         string WorkingDirectory { get; set; }
         string JobName { get; set; }
         int Threads { get; set; }
+        long MaxMemorySize { get; set; }
     }
 }

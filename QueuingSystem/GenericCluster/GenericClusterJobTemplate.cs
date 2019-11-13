@@ -84,6 +84,7 @@ namespace QueuingSystem.GenericCluster
         public string WorkingDirectory { get; set; } = ".";
         
         public int Threads { get; set; }
+        public long MaxMemorySize { get; set; }
         public string JobName { get; set; }
 
         public void WriteJobScript()

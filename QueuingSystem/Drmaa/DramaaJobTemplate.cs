@@ -179,6 +179,8 @@ namespace QueuingSystem.Drmaa {
             }
         }
 
+        public long MaxMemorySize { get; set; }
+
         private string ReadIfExists(string filePath)
         {
             if (File.Exists(filePath))

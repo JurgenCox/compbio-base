@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -273,6 +273,7 @@ namespace BaseLibS.Util {
 			jobTemplate.JobEnvironment = env;
 			jobTemplate.Threads = numInternalThreads;
 			jobTemplate.JobName = jobName;
+			jobTemplate.MaxMemorySize = MaxHeapSizeGb * 1024 * 1024 * 1024;
 			return jobTemplate;
 		}
 		
@@ -287,12 +288,13 @@ namespace BaseLibS.Util {
 			// TODO: remove debug messages from future release
 			Console.WriteLine($@"Created jobTemplate:
   parent command line args: {string.Join(", ", Environment.GetCommandLineArgs())}
-  jobName:    {drmaaJobTemplate.JobName}
-  args:       {string.Join(" ", drmaaJobTemplate.Arguments.Select(x => $"\"{x}\""))}
-  outPath:    {drmaaJobTemplate.OutputPath}
-  errPath:    {drmaaJobTemplate.ErrorPath}
-  threads: {drmaaJobTemplate.Threads}
-Submitted job {drmaaJobTemplate.JobName} with id: {jobId}
+  jobName:    {jobTemplate.JobName}
+  args:       {string.Join(" ", jobTemplate.Arguments.Select(x => $"\"{x}\""))}
+  outPath:    {jobTemplate.OutputPath}
+  errPath:    {jobTemplate.ErrorPath}
+  threads:    {jobTemplate.Threads}
+  memory:     {jobTemplate.MaxMemorySize}
+Submitted job {jobTemplate.JobName} with id: {jobId}
 ");
 
 			try
