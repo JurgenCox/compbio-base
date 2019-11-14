@@ -903,7 +903,7 @@ namespace BaseLibS.Util{
 			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
 			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex", "peak_group_rank",
 			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction",
-			"matches1", "matches2", "partial score 1", "partial score 2", "sample rt - library rt"
+			"matches1", "matches2", "partial score 1", "partial score 2", "sample rt - library rt", "ibaq peptides"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
