@@ -91,11 +91,14 @@ namespace BaseLibS.Util {
 			}
 		}
 
+		public virtual int GetNumInternalThreads(int taskIndex)
+		{
+			return numInternalThreads;
+		}
+		
 		public int MaxHeapSizeGb { get; set; } 
 
 		public int Nthreads { get; }
-
-		public int NumInternalThreads => numInternalThreads;
 
 		public void Abort() {
 			if (workThreads != null) {
@@ -271,7 +274,7 @@ namespace BaseLibS.Util {
 			jobTemplate.OutputPath = $":{outPath}";
 			jobTemplate.ErrorPath = $":{errPath}";
 			jobTemplate.JobEnvironment = env;
-			jobTemplate.Threads = numInternalThreads;
+			jobTemplate.Threads = GetNumInternalThreads(taskIndex);
 			jobTemplate.JobName = jobName;
 			jobTemplate.MaxMemorySize = MaxHeapSizeGb * 1024 * 1024 * 1024;
 			return jobTemplate;
@@ -281,7 +284,7 @@ namespace BaseLibS.Util {
 		{
 			IJobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
-			// TODO: non atomic operation. When Abortvalled: job submmited, but queuedJobIds[threadIndex] not filled yet
+			// TODO: non atomic operation. When Aborted: job submmited, but queuedJobIds[threadIndex] not filled yet
 			string jobId = _session.Submit(jobTemplate);
 			queuedJobIds[threadIndex] = jobId;
 			
