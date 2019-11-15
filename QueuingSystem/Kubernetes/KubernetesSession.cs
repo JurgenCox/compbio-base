@@ -130,7 +130,10 @@ namespace QueuingSystem.Kubernetes
 
         public void Exit(string contact = null)
         {
-            // TODO: stop all active jobs
+            foreach (var jobId in activeJobs)
+            {
+                JobControl(jobId, Action.Terminate);
+            }
         }
 
         private V1Job CreateJob(IJobTemplate jt)
