@@ -4,7 +4,7 @@ namespace QueuingSystem.Drmaa{
     public class DrmaaSession: ISession
     {        
         private static DrmaaSession _instance;
-
+        private readonly string _contact; 
         public static DrmaaSession GetInstance()
         {
             if (_instance == null){
@@ -14,20 +14,21 @@ namespace QueuingSystem.Drmaa{
             return _instance;
         }
 
-        private DrmaaSession()
+        private DrmaaSession(string contact=null)
         {
+            _contact = contact;
         }
 
         private bool _inited;
         public string NativeSpecificationTemplate { get; set; } = "{threads}";
         
-        public void Init(string contact=null){
+        public void Init(){
             if (_inited)
             {
                 Console.Error.WriteLine("DRMAA session is already initialized");
                 return;
             }
-            DrmaaWrapper.Init(contact);
+            DrmaaWrapper.Init(_contact);
             _inited = true;
         }
 
@@ -78,9 +79,9 @@ namespace QueuingSystem.Drmaa{
             return MapStatus(DrmaaWrapper.Wait(jobId));
         }
 
-        public void Exit(string contact=null)
+        public void Exit()
         {
-            DrmaaWrapper.Exit(contact);
+            DrmaaWrapper.Exit(_contact);
             _inited = false;
         }
 

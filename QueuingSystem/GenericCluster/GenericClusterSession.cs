@@ -80,7 +80,7 @@ namespace QueuingSystem.GenericCluster
             }
         }
 
-        public void Exit(string contact = null)
+        public void Exit()
         {
             foreach (var kv in _submittedJobs)
             {

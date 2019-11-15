@@ -128,7 +128,7 @@ namespace QueuingSystem.Kubernetes
             return status;
         }
 
-        public void Exit(string contact = null)
+        public void Exit()
         {
             foreach (var jobId in activeJobs)
             {
