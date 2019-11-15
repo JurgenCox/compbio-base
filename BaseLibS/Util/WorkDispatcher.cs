@@ -91,6 +91,17 @@ namespace BaseLibS.Util {
 			}
 		}
 
+		public int GetTotalThreads()
+		{
+			int res = 0;
+			for (int i = 0; i < nTasks; i++)
+			{
+				res += GetNumInternalThreads(i);
+			}
+
+			return res;
+		}
+		
 		public virtual int GetNumInternalThreads(int taskIndex)
 		{
 			return numInternalThreads;
