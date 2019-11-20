@@ -49,8 +49,9 @@ namespace BaseLibS.Ms {
 		public abstract DiaQuantMethod DiaQuantMethodDefault { get; }
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
 		public abstract PrecursorFilterType DiaPrecursorFilterTypeDefault { get; }
-		public abstract int DiaMinOverlap { get; }
-		public abstract double DiaMinPrecursorScore { get; }
+		public abstract int DiaMinOverlapDefault { get; }
+		public abstract double DiaMinPrecursorScoreDefault { get; }
+		public abstract double DiaMinProfileCorrelationDefault { get; }
 
 		public override string ToString() {
 			return Name;
