@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,7 +15,7 @@ namespace QueuingSystem.Kubernetes
         private readonly IKubernetes client;
         private readonly string _namespace;
         private readonly string containerId;
-        private readonly HashSet<string> activeJobs = new HashSet<string>();
+        private readonly ConcurrentBag<string> activeJobs = new ConcurrentBag<string>();
         private readonly SafeIdGenerator idGenerator = new SafeIdGenerator();
         private readonly IList<(string host, string mount)> _volumes;
         
