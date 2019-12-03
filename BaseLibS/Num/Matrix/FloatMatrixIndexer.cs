@@ -5,7 +5,7 @@ using BaseLibS.Num.Vector;
 namespace BaseLibS.Num.Matrix{
 	[Serializable]
 	public class FloatMatrixIndexer : MatrixIndexer{
-		private float[,] vals;
+		private float[][,] vals;
 		private bool isConstant;
 		private readonly float constVal;
 		private int nrows;
@@ -13,6 +13,10 @@ namespace BaseLibS.Num.Matrix{
 		public FloatMatrixIndexer(){ }
 
 		public FloatMatrixIndexer(float[,] vals){
+			this.vals = new[]{vals};
+		}
+
+		public FloatMatrixIndexer(float[][,] vals){
 			this.vals = vals;
 		}
 
@@ -23,8 +27,18 @@ namespace BaseLibS.Num.Matrix{
 			this.ncols = ncols;
 		}
 
-		public override void Init(int nrows, int ncols){
-			vals = new float[nrows, ncols];
+		internal const int maxArraySize = int.MaxValue / 4;
+
+		public override void Init(int nrows1, int ncols1){
+			long ncells = (long) nrows1 * ncols1;
+			int nRowBlocks = (int) (ncells == 0 ? 1 : (ncells - 1) / maxArraySize + 1);
+			int rowBlockSize = nrows1 == 0 ? 0 : (nrows1 - 1) / nRowBlocks + 1;
+			int lastRowBlockSize = nrows1 - rowBlockSize * (nRowBlocks - 1);
+			vals = new float[nRowBlocks][,];
+			for (int i = 0; i < nRowBlocks - 1; i++){
+				vals[i] = new float[rowBlockSize, ncols1];
+			}
+			vals[nRowBlocks - 1] = new float[lastRowBlockSize, ncols1];
 			isConstant = false;
 		}
 
@@ -49,26 +63,45 @@ namespace BaseLibS.Num.Matrix{
 
 		public override void Set(double[,] value){
 			isConstant = false;
-			vals = new float[value.GetLength(0), value.GetLength(1)];
+			float[,] vals1 = new float[value.GetLength(0), value.GetLength(1)];
 			for (int i = 0; i < value.GetLength(0); i++){
 				for (int j = 0; j < value.GetLength(1); j++){
-					vals[i, j] = (float) value[i, j];
+					vals1[i, j] = (float) value[i, j];
 				}
 			}
+			this.vals = new[]{vals1};
 		}
 
 		public override BaseVector GetRow(int row){
 			float[] result = new float[ColumnCount];
-			for (int i = 0; i < result.Length; i++){
-				result[i] = isConstant ? constVal : vals[row, i];
+			if (isConstant){
+				for (int i = 0; i < result.Length; i++){
+					result[i] = constVal;
+				}
+			} else{
+				int q = vals[0].GetLength(0);
+				int row0 = row / q;
+				int row1 = row % q;
+				for (int i = 0; i < result.Length; i++){
+					result[i] = vals[row0][row1, i];
+				}
 			}
 			return new FloatArrayVector(result);
 		}
 
 		public override BaseVector GetColumn(int col){
 			float[] result = new float[RowCount];
-			for (int i = 0; i < result.Length; i++){
-				result[i] = isConstant ? constVal : vals[i, col];
+			if (isConstant){
+				for (int i = 0; i < result.Length; i++){
+					result[i] = constVal;
+				}
+			} else{
+				for (int i = 0; i < result.Length; i++){
+					int q = vals[0].GetLength(0);
+					int row0 = i / q;
+					int row1 = i % q;
+					result[i] = vals[row0][row1, col];
+				}
 			}
 			return new FloatArrayVector(result);
 		}
@@ -115,10 +148,12 @@ namespace BaseLibS.Num.Matrix{
 			if (isConstant){
 				return float.IsInfinity(constVal) || float.IsNaN(constVal);
 			}
-			for (int i = 0; i < vals.GetLength(0); i++){
-				for (int j = 0; j < vals.GetLength(1); j++){
-					if (float.IsNaN(vals[i, j]) || float.IsInfinity(vals[i, j])){
-						return true;
+			foreach (float[,] t in vals){
+				for (int j = 0; j < t.GetLength(0); j++){
+					for (int k = 0; k < t.GetLength(1); k++){
+						if (float.IsNaN(t[j, k]) || float.IsInfinity(t[j, k])){
+							return true;
+						}
 					}
 				}
 			}
@@ -129,8 +164,11 @@ namespace BaseLibS.Num.Matrix{
 			if (isConstant){
 				return float.IsInfinity(constVal) || float.IsNaN(constVal);
 			}
+			int q = vals[0].GetLength(0);
+			int row0 = row / q;
+			int row1 = row % q;
 			for (int i = 0; i < ColumnCount; i++){
-				float v = vals[row, i];
+				float v = vals[row0][row1, i];
 				if (!float.IsNaN(v) && !float.IsInfinity(v)){
 					return false;
 				}
@@ -143,7 +181,10 @@ namespace BaseLibS.Num.Matrix{
 				return float.IsInfinity(constVal) || float.IsNaN(constVal);
 			}
 			for (int i = 0; i < RowCount; i++){
-				float v = vals[i, column];
+				int q = vals[0].GetLength(0);
+				int row0 = i / q;
+				int row1 = i % q;
+				float v = vals[row0][row1, column];
 				if (!float.IsNaN(v) && !float.IsInfinity(v)){
 					return false;
 				}
@@ -151,29 +192,103 @@ namespace BaseLibS.Num.Matrix{
 			return true;
 		}
 
-		public override int RowCount => isConstant ? nrows : vals?.GetLength(0) ?? 0;
-		public override int ColumnCount => isConstant ? ncols : vals?.GetLength(1) ?? 0;
+		public override int RowCount{
+			get{
+				if (isConstant){
+					return nrows;
+				}
+				if (vals == null){
+					return 0;
+				}
+				int rows = 0;
+				foreach (float[,] f in vals){
+					rows += f.GetLength(0);
+				}
+				return rows;
+			}
+		}
+
+		public override int ColumnCount{
+			get{
+				if (isConstant){
+					return ncols;
+				}
+				if (vals == null){
+					return 0;
+				}
+				return vals[0].GetLength(1);
+			}
+		}
 
 		public override double this[int i, int j]{
-			get => isConstant ? constVal : vals[i, j];
-			set => vals[i, j] = (float) value;
+			get{
+				if (isConstant){
+					return constVal;
+				}
+				int q = vals[0].GetLength(0);
+				int row0 = i / q;
+				int row1 = i % q;
+				return vals[row0][row1, j];
+			}
+			set{
+				if (isConstant){
+					if (value == constVal){
+						return;
+					}
+					Init(nrows, ncols);
+					if (constVal != 0){
+						foreach (float[,] val in vals){
+							for (int k = 0; k < val.GetLength(0); k++){
+								for (int l = 0; l < val.GetLength(1); l++){
+									val[k, l] = constVal;
+								}
+							}
+						}
+					}
+				}
+				int q = vals[0].GetLength(0);
+				int row0 = i / q;
+				int row1 = i % q;
+				vals[row0][row1, j] = (float) value;
+			}
 		}
 
 		public override double Get(int i, int j){
 			if (isConstant){
 				return constVal;
 			}
-			return !IsInitialized() ? float.NaN : vals[i, j];
+			if (!IsInitialized()){
+				return float.NaN;
+			}
+			int q = vals[0].GetLength(0);
+			int row0 = i / q;
+			int row1 = i % q;
+			return vals[row0][row1, j];
 		}
 
 		public override void Set(int i, int j, double value){
 			if (isConstant){
-				throw new Exception("Setting value in constant matrix.");
+				if (value == constVal){
+					return;
+				}
+				Init(nrows, ncols);
+				if (constVal != 0){
+					foreach (float[,] val in vals){
+						for (int k = 0; k < val.GetLength(0); k++){
+							for (int l = 0; l < val.GetLength(1); l++){
+								val[k, l] = constVal;
+							}
+						}
+					}
+				}
 			}
 			if (!IsInitialized()){
 				return;
 			}
-			vals[i, j] = (float) value;
+			int q = vals[0].GetLength(0);
+			int row0 = i / q;
+			int row1 = i % q;
+			vals[row0][row1, j] = (float) value;
 		}
 
 		public override void Dispose(){
@@ -184,7 +299,9 @@ namespace BaseLibS.Num.Matrix{
 			if (isConstant){
 				return new FloatMatrixIndexer(constVal, nrows, ncols);
 			}
-			return vals == null ? new FloatMatrixIndexer(null) : new FloatMatrixIndexer((float[,]) vals.Clone());
+			return vals == null
+				? new FloatMatrixIndexer((float[][,]) null)
+				: new FloatMatrixIndexer((float[][,]) vals.Clone());
 		}
 	}
 }

@@ -601,14 +601,14 @@ namespace BaseLibS.Num{
 		}
 
 		/// <summary>
-		/// Set of all ints in [0, length] not contained in present
+		/// Set of all integers in [0, length] not contained in present
 		/// </summary>
 		public static int[] Complement(IList<int> present, int length){
 			return Complement(new HashSet<int>(present), length);
 		}
 
 		/// <summary>
-		/// Set of all ints in [0, length] not contained in present
+		/// Set of all integers in [0, length] not contained in present
 		/// </summary>
 		public static int[] Complement(HashSet<int> present, int length){
 			List<int> result = new List<int>();
@@ -842,13 +842,13 @@ namespace BaseLibS.Num{
 		}
 
 		/// <summary>
-		///     Extracts the subarrry from the position <code>startPos</code> on.
+		///     Extracts the sub-array from the position <code>startPos</code> on.
 		/// </summary>
 		/// <typeparam name="T">Arbitrary type of the array elements.</typeparam>
 		/// <param name="array">The input array.</param>
 		/// <param name="startPos">Start position of the output array.</param>
 		/// <returns>
-		///     The subarrry from the position <code>startPos</code> on.
+		///     The sub-array from the position <code>startPos</code> on.
 		/// </returns>
 		public static T[] SubArrayFrom<T>(T[] array, int startPos){
 			if (startPos < 0 || startPos > array.Length){
@@ -861,13 +861,13 @@ namespace BaseLibS.Num{
 		}
 
 		/// <summary>
-		/// Extracts the subarray from the position <code>startIndex</code> to the position <code>stopIndex</code> (exclusive).
+		/// Extracts the sub-array from the position <code>startIndex</code> to the position <code>stopIndex</code> (exclusive).
 		/// </summary>
 		/// <typeparam name="T">Arbitrary type of the array elements.</typeparam>
 		/// <param name="array">The input array.</param>
 		/// <param name="startIndex">Start position of the output array.</param>
 		/// <param name="stopIndex">Exclusive stop position of the output array.</param>
-		/// <returns>The subarrry.</returns>
+		/// <returns>The sub-array.</returns>
 		public static T[] SubArray<T>(IList<T> array, int startIndex, int stopIndex){
 			int len = stopIndex - startIndex;
 			T[] result = new T[len];
@@ -1229,7 +1229,7 @@ namespace BaseLibS.Num{
 		/// <param name="x">The input data to be sorted.</param>
 		/// <returns>
 		///     An array of indices such that if x is accessed with those indices the values are in
-		///     ascending (or to be more precise, non-decending) order.
+		///     ascending (or to be more precise, non-descending) order.
 		/// </returns>
 		public static int[] Order<T>(IList<T> x) where T : IComparable<T>{
 			if (x == null){
@@ -1250,7 +1250,7 @@ namespace BaseLibS.Num{
 		/// <param name="y">If the same, use this data to sort.</param>
 		/// <returns>
 		///     An array of indices such that if x is accessed with those indices the values are in
-		///     ascending (or to be more precise, non-decending) order.
+		///     ascending (or to be more precise, non-descending) order.
 		/// </returns>
 		public static int[] Order<T0, T1>(IList<T0> x, IList<T1> y)
 			where T0 : IComparable<T0> where T1 : IComparable<T1>{
@@ -1276,7 +1276,7 @@ namespace BaseLibS.Num{
 		/// <param name="y">If the same, use this data to sort.</param>
 		/// <returns>
 		///     An array of indices such that if x is accessed with those indices the values are in
-		///     ascending (or to be more precise, non-decending) order.
+		///     ascending (or to be more precise, non-descending) order.
 		/// </returns>
 		public static int[] Order<T0, T1, T2>(IList<T0> x, IList<T1> y, IList<T2> z) where T0 : IComparable<T0>
 			where T1 : IComparable<T1>
@@ -1299,7 +1299,7 @@ namespace BaseLibS.Num{
 		/// <param name="x">The input data to be sorted.</param>
 		/// <returns>
 		///     An array of indices such that if x is accessed with those indices the values are in
-		///     ascending (or to be more precise, non-decending) order.
+		///     ascending (or to be more precise, non-descending) order.
 		/// </returns>
 		public static int[] Order(BaseVector x){
 			if (x == null){
@@ -1722,7 +1722,7 @@ namespace BaseLibS.Num{
 		}
 
 		public static double MeanAndStddev(IList<float> vals, out double stddev, bool useMedian){
-			return MeanAndStddev(vals, out stddev, out int validCount, useMedian);
+			return MeanAndStddev(vals, out stddev, out int _, useMedian);
 		}
 
 		public static double MeanAndStddev(IList<float> vals, out double stddev, out int validCount){
@@ -2150,13 +2150,12 @@ namespace BaseLibS.Num{
 			return x;
 		}
 
-		public static T[] UniqueValuesAndCounts<T>(IList<T> array, out int[] counters)
-			where T : IComparable<T>{
+		public static T[] UniqueValuesAndCounts<T>(IList<T> array, out int[] counters) where T : IComparable<T>{
 			T[] unique = UniqueValues(array);
 			counters = new int[unique.Length];
 			for (int i = 0; i < unique.Length; i++){
 				T u = unique[i];
-				counters[i]= array.Count(x => x.Equals(u));
+				counters[i] = array.Count(x => x.Equals(u));
 			}
 			return unique;
 		}
@@ -2572,6 +2571,32 @@ namespace BaseLibS.Num{
 			return result;
 		}
 
+		public static T[][,] Transpose<T>(T[][,] x){
+			if (x.Length == 1){
+				return new[]{Transpose(x[0])};
+			}
+			throw new NotImplementedException();
+			//int nblocks = x.Length;
+			//int nrows = 0;
+			//foreach (T[,] t in x){
+			//	nrows += t.GetLength(0);
+			//}
+			//int ncols = x[0].GetLength(1);
+
+			//int rowBlockSize = nrows == 0 ? 0 : (nrows - 1) / nRowBlocks + 1;
+			//int lastRowBlockSize = nrows - rowBlockSize * (nRowBlocks - 1);
+
+			//T[,] result = new T[x.GetLength(1), x.GetLength(0)];
+			//for (int i = 0; i < x.GetLength(0); i++)
+			//{
+			//	for (int j = 0; j < x.GetLength(1); j++)
+			//	{
+			//		result[j, i] = x[i, j];
+			//	}
+			//}
+			//return result;
+		}
+
 		public static T[][] Transpose<T>(T[][] x){
 			if (x.Length == 0){
 				return new T[0][];
@@ -2737,12 +2762,50 @@ namespace BaseLibS.Num{
 			return result;
 		}
 
+		public static T[][,] ExtractRows<T>(T[][,] values, IList<int> rows){
+			if (values.Length == 1){
+				return new[]{ExtractRows(values[0], rows)};
+			}
+			int nrows1 = rows.Count;
+			int ncols1 = values[0].GetLength(1);
+			long ncells = (long) nrows1 * ncols1;
+			int nRowBlocks = (int) (ncells == 0 ? 1 : (ncells - 1) / FloatMatrixIndexer.maxArraySize + 1);
+			int rowBlockSize = nrows1 == 0 ? 0 : (nrows1 - 1) / nRowBlocks + 1;
+			int lastRowBlockSize = nrows1 - rowBlockSize * (nRowBlocks - 1);
+			T[][,] result = new T[nRowBlocks][,];
+			for (int i = 0; i < nRowBlocks - 1; i++){
+				result[i] = new T[rowBlockSize, ncols1];
+			}
+			result[nRowBlocks - 1] = new T[lastRowBlockSize, ncols1];
+			for (int i = 0; i < rows.Count; i++){
+				int row = rows[i];
+				int q = values[0].GetLength(0);
+				int row0 = row / q;
+				int row1 = row % q;
+				int q1 = result[0].GetLength(0);
+				int resultRow0 = i / q1;
+				int resultRow1 = i % q1;
+				for (int j = 0; j < ncols1; j++){
+					result[resultRow0][resultRow1, j] = values[row0][row1, j];
+				}
+			}
+			return result;
+		}
+
 		public static T[,] ExtractColumns<T>(T[,] values, IList<int> cols){
 			T[,] result = new T[values.GetLength(0), cols.Count];
 			for (int i = 0; i < values.GetLength(0); i++){
 				for (int j = 0; j < cols.Count; j++){
 					result[i, j] = values[i, cols[j]];
 				}
+			}
+			return result;
+		}
+
+		public static T[][,] ExtractColumns<T>(T[][,] values, IList<int> cols){
+			T[][,] result = new T[values.Length][,];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = ExtractColumns(values[i], cols);
 			}
 			return result;
 		}

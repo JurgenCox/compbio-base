@@ -98,7 +98,7 @@ namespace BaseLibS.Util{
 		/// <typeparam name="T">Type of objects to be concatenated as strings.</typeparam>
 		/// <param name="separator">A string used to separate the array members.</param>
 		/// <param name="o">The list of objects to be concatenated.</param>
-		/// <param name="maxLen">The convatenation is terminated such that the length of the resulting string will not exceed this value.</param>
+		/// <param name="maxLen">The concatenation is terminated such that the length of the resulting string will not exceed this value.</param>
 		/// <returns>The concatenated string of all string representations of the array members.</returns>
 		public static string Concat<T>(string separator, T[] o, int maxLen){
 			if (o == null || o.Length == 0){
@@ -829,7 +829,7 @@ namespace BaseLibS.Util{
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
 			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
 			"majority library index", "library indices", "species", "matched", "crosslink type", "crosslinkingtype",
-			"missed cleavages", "library index", "rank", "evidence id", "protein group ids"
+			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -903,7 +903,8 @@ namespace BaseLibS.Util{
 			"sn_ratio", "total_xic", "var_ms1_xcorr_shape", "xx_lda_prelim_score", "xx_swath_prelim_score",
 			"aggr_prec_peak_area", "aggr_prec_peak_apex", "aggr_peak_area", "aggr_peak_apex", "peak_group_rank",
 			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction",
-			"matches1", "matches2", "partial score 1", "partial score 2", "sample rt - library rt", "ibaq peptides"
+			"matches1", "matches2", "partial score 1", "partial score 2", "sample rt - library rt", "ibaq peptides",
+			"ion mobility length", "1/k0", "1/k0 length", "calibrated 1/k0", "ccs", "ccs length", "calibrated ccs"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
