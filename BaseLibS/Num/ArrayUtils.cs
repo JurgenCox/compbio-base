@@ -2969,7 +2969,13 @@ namespace BaseLibS.Num{
 		}
 
 		public static double CoefficientOfVariation(IList<double> x){
-			return StandardDeviation(x) / Mean(x);
+			List<double> y = new List<double>();
+			foreach (double d in x){
+				if (!double.IsNaN(d) && d > 0){
+					y.Add(d);
+				}
+			}
+			return StandardDeviation(y) / Mean(y);
 		}
 
 		public static double MedianAbsoluteDeviation(IList<double> x){
