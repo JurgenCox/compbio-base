@@ -260,6 +260,9 @@ namespace BaseLibS.Num {
 				}
 			}
 			for (int i = 0; i < m.Length; i++) {
+				if (m[i] == 0) {
+					continue;
+				}
 				for (int j = 0; j < values.GetLength(1); j++) {
 					values[i, j] /= m[i];
 				}
@@ -274,6 +277,9 @@ namespace BaseLibS.Num {
 				}
 			}
 			for (int i = 0; i < m.Length; i++) {
+				if (m[i] == 0) {
+					continue;
+				}
 				for (int j = 0; j < values.GetLength(0); j++) {
 					values[j, i] /= m[i];
 				}
@@ -282,7 +288,7 @@ namespace BaseLibS.Num {
 
 		public static void MakeConditional3(double[,] values) {
 			double[] m1 = new double[values.GetLength(0)];
-			double[] m2 = new double[values.GetLength(2)];
+			double[] m2 = new double[values.GetLength(1)];
 			for (int i = 0; i < m1.Length; i++) {
 				for (int j = 0; j < values.GetLength(1); j++) {
 					m1[i] += values[i, j];
@@ -290,7 +296,13 @@ namespace BaseLibS.Num {
 				}
 			}
 			for (int i = 0; i < m1.Length; i++) {
+				if (m1[i] == 0) {
+					continue;
+				}
 				for (int j = 0; j < values.GetLength(1); j++) {
+					if (m2[j] == 0) {
+						continue;
+					}
 					values[i, j] /= m1[i] * m2[j];
 				}
 			}
