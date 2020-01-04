@@ -545,7 +545,6 @@
     <Compile Include="Util\Responder.cs" />
     <Compile Include="Util\StreamBackwardReader.cs" />
     <Compile Include="Util\TwoLetterLanguageCode.cs" />
-    <Compile Include="Util\WorkDispatcher.cs" />
     <Compile Include="Util\GlobalConstants.cs" />
     <Compile Include="Util\LockFile.cs" />
     <Compile Include="Util\StringUtils.cs" />
@@ -702,12 +701,6 @@
   <ItemGroup>
     <None Include="Resources\names.dmp.gz" />
     <None Include="Resources\nodes.dmp.gz" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\QueuingSystem\QueuingSystem.csproj">
-      <Project>{73c27cd7-4d0f-43c5-86c1-7b534bfbfbe4}</Project>
-      <Name>QueuingSystem</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

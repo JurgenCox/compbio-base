@@ -6,12 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using QueuingSystem;
+using BaseLibS.Util;
 using QueuingSystem.Kubernetes;
-using Action = QueuingSystem.Action;
 
-
-namespace BaseLibS.Util {
+namespace QueuingSystem {
 	public abstract class WorkDispatcher {
 		private const int initialDelay = 6;
 		internal readonly int nTasks;

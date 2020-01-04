@@ -72,9 +72,16 @@
     <Compile Include="SafeIdGenerator.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="WorkDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseLibS\BaseLibS.csproj">
+      <Project>{1744226e-9eec-4e1c-a231-96743695240f}</Project>
+      <Name>BaseLibS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
