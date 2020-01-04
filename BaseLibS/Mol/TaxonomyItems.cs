@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using BaseLibS.Properties;
+using System.Reflection;
 using BaseLibS.Util;
 
 namespace BaseLibS.Mol{
-	public class TaxonomyItems
-	{
+	public class TaxonomyItems{
 		private static TaxonomyItems _taxonomyItems;
-		public static Func<TaxonomyItems> GetTaxonomyItems => () => _taxonomyItems ?? (_taxonomyItems = new TaxonomyItems());
+
+		public static Func<TaxonomyItems> GetTaxonomyItems =>
+			() => _taxonomyItems ?? (_taxonomyItems = new TaxonomyItems());
+
 		public TaxonomyItem[] taxonomyItems;
 		public Dictionary<int, TaxonomyItem> taxId2Item;
 		public Dictionary<string, TaxonomyItem> name2Item;
 
 		public TaxonomyItems(){
-			StreamReader reader = GetReader(Resources.nodes_dmp);
+			Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("BaseLibS.nodes.dmp.gz");
+			StreamReader reader = new StreamReader(new GZipStream(s, CompressionMode.Decompress));
 			string line;
 			List<TaxonomyItem> result = new List<TaxonomyItem>();
 			Dictionary<TaxonomyRank, List<TaxonomyItem>> counts = new Dictionary<TaxonomyRank, List<TaxonomyItem>>();
@@ -29,7 +32,8 @@ namespace BaseLibS.Mol{
 				int divisionId = Parser.Int(w[4]);
 				int geneticCodeId = Parser.Int(w[6]);
 				int mitoGeneticCodeId = Parser.Int(w[8]);
-				TaxonomyItem ti = new TaxonomyItem(taxId, parentTaxId, rank, divisionId, geneticCodeId, mitoGeneticCodeId);
+				TaxonomyItem ti = new TaxonomyItem(taxId, parentTaxId, rank, divisionId, geneticCodeId,
+					mitoGeneticCodeId);
 				result.Add(ti);
 				if (!counts.ContainsKey(rank)){
 					counts.Add(rank, new List<TaxonomyItem>());
@@ -37,7 +41,10 @@ namespace BaseLibS.Mol{
 				counts[rank].Add(ti);
 				taxId2Item.Add(taxId, ti);
 			}
-			reader = GetReader(Resources.names_dmp);
+			reader.Close();
+
+			s = Assembly.GetExecutingAssembly().GetManifestResourceStream("BaseLibS.names.dmp.gz");
+			reader = new StreamReader(new GZipStream(s, CompressionMode.Decompress));
 			while ((line = reader.ReadLine()) != null){
 				string[] w = line.Split(new[]{"\t|\t"}, StringSplitOptions.None);
 				int taxId = Parser.Int(w[0]);
@@ -183,10 +190,6 @@ namespace BaseLibS.Mol{
 			}
 			TaxonomyItem item = taxId2Item[id];
 			return "" + item.TaxId;
-		}
-
-		private static StreamReader GetReader(byte[] b){
-			return new StreamReader(new GZipStream(new MemoryStream(b), CompressionMode.Decompress));
 		}
 	}
 }

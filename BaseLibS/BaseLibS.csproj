@@ -699,6 +699,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="names.dmp.gz" />
+    <EmbeddedResource Include="nodes.dmp.gz" />
     <None Include="Resources\names.dmp.gz" />
     <None Include="Resources\nodes.dmp.gz" />
   </ItemGroup>
