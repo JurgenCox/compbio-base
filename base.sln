@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumPluginSvm", "NumPluginSv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumPluginBase", "NumPluginBase\NumPluginBase.csproj", "{352FAF61-6075-49D4-8513-3F333C518861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseLibS", "BaseLibS\BaseLibS.csproj", "{1744226E-9EEC-4E1C-A231-96743695240F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseLibS.Test", "BaseLibS\BaseLibS.Test\BaseLibS.Test.csproj", "{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumPluginBase.Test", "NumPluginBase\NumPluginBase.Test\NumPluginBase.Test.csproj", "{377B77BB-74B9-4D26-9AB2-C7CA495F6908}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseLib", "BaseLib\BaseLib.csproj", "{0AA0CC08-A585-4E52-AB91-2683D5C76EF2}"
@@ -27,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzML.Test", "Plugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueuingSystem", "QueuingSystem\QueuingSystem.csproj", "{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseLibStandard", "BaseLibStandard\BaseLibStandard.csproj", "{3267BB06-A229-4DEC-AF1F-73CE4E192CE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseLibS", "BaseLibStandard\BaseLibS.csproj", "{3267BB06-A229-4DEC-AF1F-73CE4E192CE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,18 +44,6 @@ Global
 		{352FAF61-6075-49D4-8513-3F333C518861}.Internal|Any CPU.Build.0 = Release|Any CPU
 		{352FAF61-6075-49D4-8513-3F333C518861}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{352FAF61-6075-49D4-8513-3F333C518861}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1744226E-9EEC-4E1C-A231-96743695240F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1744226E-9EEC-4E1C-A231-96743695240F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1744226E-9EEC-4E1C-A231-96743695240F}.Internal|Any CPU.ActiveCfg = Release|Any CPU
-		{1744226E-9EEC-4E1C-A231-96743695240F}.Internal|Any CPU.Build.0 = Release|Any CPU
-		{1744226E-9EEC-4E1C-A231-96743695240F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1744226E-9EEC-4E1C-A231-96743695240F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}.Internal|Any CPU.ActiveCfg = Release|Any CPU
-		{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}.Internal|Any CPU.Build.0 = Release|Any CPU
-		{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C28ADA75-26D6-4275-BBD2-03BDCB9A6E69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{377B77BB-74B9-4D26-9AB2-C7CA495F6908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{377B77BB-74B9-4D26-9AB2-C7CA495F6908}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{377B77BB-74B9-4D26-9AB2-C7CA495F6908}.Internal|Any CPU.ActiveCfg = Release|Any CPU

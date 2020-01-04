@@ -418,12 +418,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseLibS\BaseLibS.csproj">
-      <Project>{1744226e-9eec-4e1c-a231-96743695240f}</Project>
-      <Name>BaseLibS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Forms\CheckedListControl.resx">
       <DependentUpon>CheckedListControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -574,6 +568,12 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\question12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseLibStandard\BaseLibS.csproj">
+      <Project>{3267bb06-a229-4dec-af1f-73ce4e192ce8}</Project>
+      <Name>BaseLibS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -74,12 +74,11 @@
     <Compile Include="Regression\RegressionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseLibS\BaseLibS.csproj">
-      <Project>{1744226E-9EEC-4E1C-A231-96743695240F}</Project>
+    <ProjectReference Include="..\BaseLibStandard\BaseLibS.csproj">
+      <Project>{3267bb06-a229-4dec-af1f-73ce4e192ce8}</Project>
       <Name>BaseLibS</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

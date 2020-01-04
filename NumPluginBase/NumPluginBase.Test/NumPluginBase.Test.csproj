@@ -57,8 +57,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BaseLibS\BaseLibS.csproj">
-      <Project>{1744226e-9eec-4e1c-a231-96743695240f}</Project>
+    <ProjectReference Include="..\..\BaseLibStandard\BaseLibS.csproj">
+      <Project>{3267bb06-a229-4dec-af1f-73ce4e192ce8}</Project>
       <Name>BaseLibS</Name>
     </ProjectReference>
     <ProjectReference Include="..\NumPluginBase.csproj">
