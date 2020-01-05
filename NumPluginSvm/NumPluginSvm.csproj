@@ -59,8 +59,8 @@
       <Project>{3267bb06-a229-4dec-af1f-73ce4e192ce8}</Project>
       <Name>BaseLibS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NumPluginBase\NumPluginBase.csproj">
-      <Project>{352faf61-6075-49d4-8513-3f333c518861}</Project>
+    <ProjectReference Include="..\NumPluginBaseStandard\NumPluginBase.csproj">
+      <Project>{2524f38c-4070-44a2-bf6c-e9b6c3d1af02}</Project>
       <Name>NumPluginBase</Name>
     </ProjectReference>
   </ItemGroup>
