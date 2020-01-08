@@ -90,7 +90,16 @@ namespace BaseLibS.Ms{
 		public virtual PasefPrecursorInfo GetPasefPrecursorInfo(int index) {
 			return null;
 		}
-		public double StartTime => Math.Min(posLayer.StartTime, negLayer.StartTime);
+		public double StartTime
+		{
+			get
+			{
+				if (negLayer.Ms1Count + negLayer.Ms2Count + negLayer.Ms3Count == 0) return posLayer.StartTime;
+				if (posLayer.Ms1Count + posLayer.Ms2Count + posLayer.Ms3Count == 0) return negLayer.StartTime;
+				return Math.Min(posLayer.StartTime, negLayer.StartTime);
+			}
+		}
+
 		public double EndTime => Math.Max(posLayer.EndTime, negLayer.EndTime);
 		public double Ms1MassMin => Math.Min(posLayer.Ms1MassMin, negLayer.Ms1MassMin);
 		public double Ms1MassMax => Math.Max(posLayer.Ms1MassMax, negLayer.Ms1MassMax);

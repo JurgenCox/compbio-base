@@ -215,7 +215,16 @@ namespace BaseLibS.Ms {
 		public int Ms1Count => Ms1ScanNumbers.Length;
 		public int Ms2Count => Ms2ScanNumbers.Length;
 		public int Ms3Count => Ms3ScanNumbers.Length;
-		public double StartTime => Math.Min(StartTimeMs1, StartTimeMs2);
+		public double StartTime
+		{
+			get
+			{
+				if (Ms2Count == 0) return StartTimeMs1;
+				if (Ms1Count == 0) return StartTimeMs2;
+				return Math.Min(StartTimeMs1, StartTimeMs2);
+			}
+		}
+
 		public double StartTimeMs1 => Ms1Rt.Length < 1 ? 0 : 1.5f * GetMs1Time(0) - 0.5f * GetMs1Time(1);
 		public double StartTimeMs2 => Ms2Rt.Length < 1 ? 0 : 1.5f * GetMs2Time(0) - 0.5f * GetMs2Time(1);
 		public double EndTime => Math.Max(EndTimeMs1, EndTimeMs2);
