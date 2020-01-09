@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BaseLibStandard\BaseLibS.csproj" />
-    <ProjectReference Include="..\NumPluginBaseStandard\NumPluginBase.csproj" />
+    <ProjectReference Include="..\BaseLibS\BaseLibS.csproj" />
+    <ProjectReference Include="..\NumPluginBase\NumPluginBase.csproj" />
   </ItemGroup>
 
 </Project>
