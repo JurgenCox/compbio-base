@@ -8,3 +8,4 @@ A C# solution with projects containing utiliy classes that are used e.g. in MaxQ
 
 License:
 please see the LICENSE file in this folder.
+
