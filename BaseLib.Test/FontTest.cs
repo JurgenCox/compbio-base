@@ -11,9 +11,9 @@ namespace BaseLib.Test
         [Test]
         public void TestMonospaceFont()
         {
-            var font2 = new Font2("Courier New", 9);
-            var convertedFont = GraphUtils.ToFont(font2);
-            var nativeFont = new Font(FontFamily.GenericMonospace, 9);
+            Font2 font2 = new Font2("Courier New", 9);
+            Font convertedFont = GraphUtils.ToFont(font2);
+            Font nativeFont = new Font(FontFamily.GenericMonospace, 9);
             Assert.AreEqual(nativeFont.Name, convertedFont.Name);
             Assert.AreEqual(nativeFont.Size, convertedFont.Size);
         }
@@ -21,10 +21,10 @@ namespace BaseLib.Test
         [Test]
         public void TestArialUnicode()
         {
-            var font2 = new Font2("Arial Unicode MS", 9, FontStyle2.Regular);
-            var font = PdfGraphicUtils.GetFont(font2);
+            Font2 font2 = new Font2("Arial Unicode MS", 9, FontStyle2.Regular);
+            iTextSharp.text.Font font = PdfGraphicUtils.GetFont(font2);
             Assert.IsNotNull(font.BaseFont);
-            var convertedFont = GraphUtils.ToFont(font2);
+            Font convertedFont = GraphUtils.ToFont(font2);
             Assert.IsNotNull(convertedFont);
         }
     }
