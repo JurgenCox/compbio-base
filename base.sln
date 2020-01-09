@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseLib", "BaseLib\BaseLib.csproj", "{0AA0CC08-A585-4E52-AB91-2683D5C76EF2}"
 EndProject
@@ -15,13 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzMl", "PluginRawM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginRawMzML.Test", "PluginRawMzMl\PluginRawMzML.Test\PluginRawMzML.Test.csproj", "{9C356101-DE67-467D-AC23-FF877D634E25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueuingSystem", "QueuingSystem\QueuingSystem.csproj", "{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseLibS", "BaseLibStandard\BaseLibS.csproj", "{3267BB06-A229-4DEC-AF1F-73CE4E192CE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumPluginBase", "NumPluginBaseStandard\NumPluginBase.csproj", "{2524F38C-4070-44A2-BF6C-E9B6C3D1AF02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumPluginSvm", "NumPluginSvmStandard\NumPluginSvm.csproj", "{547AB369-CE74-4BC3-8B2A-341A145198EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumPluginSvm", "NumPluginSvmStandard\NumPluginSvm.csproj", "{547AB369-CE74-4BC3-8B2A-341A145198EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueingSystem", "QueueingSystem\QueueingSystem.csproj", "{7FE2D952-5476-49AE-B1E2-5270873EA8A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,12 +66,6 @@ Global
 		{9C356101-DE67-467D-AC23-FF877D634E25}.Internal|Any CPU.Build.0 = Release|Any CPU
 		{9C356101-DE67-467D-AC23-FF877D634E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C356101-DE67-467D-AC23-FF877D634E25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}.Internal|Any CPU.ActiveCfg = Debug|Any CPU
-		{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}.Internal|Any CPU.Build.0 = Debug|Any CPU
-		{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73C27CD7-4D0F-43C5-86C1-7B534BFBFBE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3267BB06-A229-4DEC-AF1F-73CE4E192CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3267BB06-A229-4DEC-AF1F-73CE4E192CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3267BB06-A229-4DEC-AF1F-73CE4E192CE8}.Internal|Any CPU.ActiveCfg = Debug|Any CPU
@@ -90,6 +84,12 @@ Global
 		{547AB369-CE74-4BC3-8B2A-341A145198EC}.Internal|Any CPU.Build.0 = Debug|Any CPU
 		{547AB369-CE74-4BC3-8B2A-341A145198EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{547AB369-CE74-4BC3-8B2A-341A145198EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE2D952-5476-49AE-B1E2-5270873EA8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE2D952-5476-49AE-B1E2-5270873EA8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE2D952-5476-49AE-B1E2-5270873EA8A0}.Internal|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE2D952-5476-49AE-B1E2-5270873EA8A0}.Internal|Any CPU.Build.0 = Debug|Any CPU
+		{7FE2D952-5476-49AE-B1E2-5270873EA8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE2D952-5476-49AE-B1E2-5270873EA8A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
