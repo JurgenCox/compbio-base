@@ -81,8 +81,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseLibStandard\BaseLibS.csproj">
-      <Project>{3267bb06-a229-4dec-af1f-73ce4e192ce8}</Project>
+    <ProjectReference Include="..\BaseLibS\BaseLibS.csproj">
+      <Project>{29ba01fe-6010-4d1a-9ab4-83c0f8db096f}</Project>
       <Name>BaseLibS</Name>
     </ProjectReference>
     <ProjectReference Include="..\BaseLib\BaseLib.csproj">
