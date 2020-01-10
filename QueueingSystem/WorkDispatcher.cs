@@ -7,9 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using BaseLibS.Util;
-using QueuingSystem.Kubernetes;
+using QueueingSystem.Drmaa;
+using QueueingSystem.GenericCluster;
+using QueueingSystem.Kubernetes;
 
-namespace QueuingSystem {
+namespace QueueingSystem {
 	public abstract class WorkDispatcher {
 		private const int initialDelay = 6;
 		internal readonly int nTasks;
@@ -60,7 +62,7 @@ namespace QueuingSystem {
 			{
 				case ClusterTypeDrmaa:
 				{
-					var s = QueuingSystem.Drmaa.DrmaaSession.GetInstance();
+					var s = DrmaaSession.GetInstance();
 					s.Init();
 					var nativeSpec = Environment.GetEnvironmentVariable("MQ_DRMAA_NATIVE_SPEC");
 					if (nativeSpec != null)
@@ -72,7 +74,7 @@ namespace QueuingSystem {
 				case ClusterTypeGeneric:
 				{
 					var submitCommand = Environment.GetEnvironmentVariable("MQ_CLUSTER_SUBMIT_CMD");
-					return new QueuingSystem.GenericCluster.GenericClusterSession(submitCommand);
+					return new GenericClusterSession(submitCommand);
 				}
 				case ClusterTypeKubernetes:
 				{

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace QueuingSystem.Drmaa {
+namespace QueueingSystem.Drmaa {
     public class DrmaaJobTemplate : IJobTemplate
     {
         private readonly DrmaaJobTemplateInternal _instance;

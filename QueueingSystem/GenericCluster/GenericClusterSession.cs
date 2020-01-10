@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace QueuingSystem.GenericCluster
+namespace QueueingSystem.GenericCluster
 {
     public class GenericClusterSession: ISession
     {

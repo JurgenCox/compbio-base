@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using QueuingSystem.Drmaa;
+using QueueingSystem.Drmaa;
 
-namespace QueuingSystem
+namespace QueueingSystem
 {
     class Program
     {

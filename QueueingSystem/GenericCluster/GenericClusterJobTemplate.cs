@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace QueuingSystem.GenericCluster
+namespace QueueingSystem.GenericCluster
 {
     public class GenericClusterJobTemplate: IJobTemplate
     {

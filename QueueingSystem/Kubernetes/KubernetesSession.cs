@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using k8s;
 using k8s.Models;
-using QueuingSystem.GenericCluster;
+using QueueingSystem.GenericCluster;
 
-namespace QueuingSystem.Kubernetes
+namespace QueueingSystem.Kubernetes
 {
     public class KubernetesSession: ISession
     {

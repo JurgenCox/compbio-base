@@ -1,6 +1,6 @@
 using System;
 
-namespace QueuingSystem.Drmaa{
+namespace QueueingSystem.Drmaa{
     public class DrmaaSession: ISession
     {        
         private static DrmaaSession _instance;
@@ -32,41 +32,41 @@ namespace QueuingSystem.Drmaa{
             _inited = true;
         }
 
-        public QueuingSystem.Status JobStatus(string jobId){
+        public QueueingSystem.Status JobStatus(string jobId){
             return MapStatus(DrmaaWrapper.JobPs(jobId));
         }
 
-        private static QueuingSystem.Status MapStatus(Status status)
+        private static QueueingSystem.Status MapStatus(Status status)
         {
             switch (status)
             {
                 case Status.Running:
-                    return QueuingSystem.Status.Running;
+                    return QueueingSystem.Status.Running;
                 case Status.Done:
-                    return QueuingSystem.Status.Success;
+                    return QueueingSystem.Status.Success;
                 case Status.Failed:
-                    return QueuingSystem.Status.Failed;
+                    return QueueingSystem.Status.Failed;
                 default:
-                    return QueuingSystem.Status.Unknown;
+                    return QueueingSystem.Status.Unknown;
             }
         }
         
-        private static Action MapAction(QueuingSystem.Action action)
+        private static Action MapAction(QueueingSystem.Action action)
         {
             switch (action)
             {
-                case QueuingSystem.Action.Suspend:
+                case QueueingSystem.Action.Suspend:
                     return Action.Suspend;
-                case QueuingSystem.Action.Resume:
+                case QueueingSystem.Action.Resume:
                     return Action.Resume;
-                case QueuingSystem.Action.Terminate:
+                case QueueingSystem.Action.Terminate:
                     return Action.Terminate;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
         }
 
-        public void JobControl(string jobId, QueuingSystem.Action action){
+        public void JobControl(string jobId, QueueingSystem.Action action){
             DrmaaWrapper.Control(jobId, MapAction(action));
         }
 
@@ -74,7 +74,7 @@ namespace QueuingSystem.Drmaa{
             return new DrmaaJobTemplate(DrmaaWrapper.AllocateJobTemplate(), NativeSpecificationTemplate);
         }
 
-        public QueuingSystem.Status WaitForJobBlocking(string jobId)
+        public QueueingSystem.Status WaitForJobBlocking(string jobId)
         {
             return MapStatus(DrmaaWrapper.Wait(jobId));
         }

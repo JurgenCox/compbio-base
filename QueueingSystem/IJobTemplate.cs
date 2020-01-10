@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace QueuingSystem
+namespace QueueingSystem
 {
     public interface IJobTemplate
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace QueuingSystem.Drmaa
+namespace QueueingSystem.Drmaa
 {
     public class DrmaaException : QueuingSystemException
     {

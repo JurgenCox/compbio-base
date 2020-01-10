@@ -1,6 +1,4 @@
-using QueuingSystem.Drmaa;
-
-namespace QueuingSystem
+namespace QueueingSystem
 {
     public enum Action
     {

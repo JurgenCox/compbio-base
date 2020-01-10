@@ -1,4 +1,4 @@
-namespace QueuingSystem.GenericCluster
+namespace QueueingSystem.GenericCluster
 {
     public class GenericClusterException: QueuingSystemException
     {
