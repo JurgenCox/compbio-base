@@ -74,7 +74,8 @@ namespace QueueingSystem.Kubernetes
 
         public IJobTemplate AllocateJobTemplate()
         {
-            return new GenericClusterJobTemplate(idGenerator.GetNextId());
+            // TODO: use own JobTemplate class
+            return new GenericClusterJobTemplate(idGenerator.GetNextId(), null);
         }
 
         public static Status JobToStatus(V1Job job)

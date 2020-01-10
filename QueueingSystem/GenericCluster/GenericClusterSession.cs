@@ -13,13 +13,18 @@ namespace QueueingSystem.GenericCluster
         private const string SgeSubmitCommand = "qsub ";
         private const int SleepIntervalMillis = 1000;
 
+        private const string defaultJobTemplateStr =
+            "#!/bin/bash\n" +
+            "{command} && touch \"{success}\" || (touch \"{error}\"; exit 1);";
+
         private readonly SafeIdGenerator idGenerator = new SafeIdGenerator();
 //        private readonly string statusCommand;
         private readonly string submitCommand;
         
         private readonly IDictionary<string, GenericClusterJobTemplate> _submittedJobs = new ConcurrentDictionary<string, GenericClusterJobTemplate>();
         public GenericClusterSession(
-            string submitCommand)
+            string submitCommand,
+            string jobTemplateStr = defaultJobTemplateStr)
         {
             this.submitCommand = submitCommand ?? SgeSubmitCommand;
 //            this.statusCommand = statusCommand;
@@ -40,7 +45,7 @@ namespace QueueingSystem.GenericCluster
 
         public IJobTemplate AllocateJobTemplate()
         {
-            return new GenericClusterJobTemplate(idGenerator.GetNextId());
+            return new GenericClusterJobTemplate(idGenerator.GetNextId(), defaultJobTemplateStr);
         }
 
         public Status WaitForJobBlocking(string jobId)
@@ -92,18 +97,6 @@ namespace QueueingSystem.GenericCluster
             _submittedJobs.Clear();
         }
 
-        private string FormatTemplateString(string template, IDictionary<string, object> context)
-        {
-            foreach (var kv in context)
-            {
-                var key = kv.Key;
-                var substitution = kv.Value;
-                template = template.Replace($"{{{key}}}", (substitution ?? "").ToString());
-            }
-
-            return template;
-        }
-        
         private string FormatCommand(GenericClusterJobTemplate jobTemplate)
         {
             var context = new Dictionary<string, object>()
@@ -116,7 +109,7 @@ namespace QueueingSystem.GenericCluster
                 {"id", jobTemplate.InternalId},
             };
             
-            return FormatTemplateString(submitCommand, context);
+            return Util.FormatTemplateString(submitCommand, context);
         }
         public string Submit(IJobTemplate jobTemplate)
         {

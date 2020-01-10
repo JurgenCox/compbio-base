@@ -11,10 +11,12 @@ namespace QueueingSystem.GenericCluster
         private readonly string jobSuccessStatusPath;
         private readonly string jobErrorStatusPath;
         private readonly string internalId;
+        private readonly string jobTemplateStr;
 
-        public GenericClusterJobTemplate(string internalId)
+        public GenericClusterJobTemplate(string internalId, string jobTemplateStr)
         {
             this.internalId = internalId;
+            this.jobTemplateStr = jobTemplateStr;
             var tempDir = ".";
             var randomName = Path.GetRandomFileName();
             jobScriptPath = Path.Combine(tempDir, $"{internalId}.{randomName}.jobscript");
@@ -89,11 +91,16 @@ namespace QueueingSystem.GenericCluster
 
         public void WriteJobScript()
         {
-            var args = Arguments.Select(a => $"\"{a}\"");
-            var formattedCommand = string.Join(" ", args) + 
-                                   $" && touch \"{jobSuccessStatusPath}\" || (touch \"{jobErrorStatusPath}\"; exit 1)";
-            Console.WriteLine($"Writing job script: {formattedCommand}");
-            File.WriteAllText(jobScriptPath, formattedCommand);
+            var command = string.Join(" ", Arguments.Select(a => $"\"{a}\""));
+            var jobScriptStr = Util.FormatTemplateString(jobTemplateStr, new Dictionary<string, object>
+            {
+                {"command", command},
+                {"success", jobSuccessStatusPath},
+                {"error", jobErrorStatusPath}
+            });
+            
+            Console.WriteLine($"Writing job script: \n{jobScriptStr}");
+            File.WriteAllText(jobScriptPath, jobScriptStr);
         }
     }
 }

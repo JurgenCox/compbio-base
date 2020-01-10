@@ -6,6 +6,18 @@ namespace QueueingSystem
 {
     public static class Util
     {
+        public static string FormatTemplateString(string template, IDictionary<string, object> context)
+        {
+            foreach (var kv in context)
+            {
+                var key = kv.Key;
+                var substitution = kv.Value;
+                template = template.Replace($"{{{key}}}", (substitution ?? "").ToString());
+            }
+
+            return template;
+        }
+        
         private static IEnumerable<string> Split(this string str, 
             Func<char, bool> controller)
         {

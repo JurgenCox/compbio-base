@@ -74,6 +74,12 @@ namespace QueueingSystem {
 				case ClusterTypeGeneric:
 				{
 					var submitCommand = Environment.GetEnvironmentVariable("MQ_CLUSTER_SUBMIT_CMD");
+					var templatePath = Environment.GetEnvironmentVariable("MQ_CLUSTER_JOB_TEMPLATE_PATH");
+					if (templatePath != null)
+					{
+						return new GenericClusterSession(submitCommand, File.ReadAllText(templatePath));
+					}
+					
 					return new GenericClusterSession(submitCommand);
 				}
 				case ClusterTypeKubernetes:
@@ -282,8 +288,8 @@ namespace QueueingSystem {
 
 			IJobTemplate jobTemplate = _session.AllocateJobTemplate();						
 			jobTemplate.Arguments = args.ToArray();
-			jobTemplate.OutputPath = $":{outPath}";
-			jobTemplate.ErrorPath = $":{errPath}";
+			jobTemplate.OutputPath = outPath;
+			jobTemplate.ErrorPath = errPath;
 			jobTemplate.JobEnvironment = env;
 			jobTemplate.Threads = GetNumInternalThreads(taskIndex);
 			jobTemplate.JobName = jobName;
