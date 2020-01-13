@@ -52,6 +52,7 @@ namespace BaseLibS.Ms {
 		public abstract int DiaMinOverlapDefault { get; }
 		public abstract double DiaMinPrecursorScoreDefault { get; }
 		public abstract double DiaMinProfileCorrelationDefault { get; }
+		public abstract bool DiaGlobalMlDefault { get; }
 
 		public override string ToString() {
 			return Name;
