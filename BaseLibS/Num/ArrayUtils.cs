@@ -815,7 +815,7 @@ namespace BaseLibS.Num{
 		/// <returns>
 		///     An array containing the elements of the input array indexed by the <code>indices</code> array.
 		/// </returns>
-		public static T[] SubArray<T>(IList<T> array, IList<int> indices){
+		public static T[] SubArray<T>(this IList<T> array, IList<int> indices){
 			T[] result = new T[indices.Count];
 			for (int i = 0; i < result.Length; i++){
 				result[i] = array[indices[i]];
@@ -832,7 +832,7 @@ namespace BaseLibS.Num{
 		/// <returns>
 		///     The first <code>len</code> elements of the input array.
 		/// </returns>
-		public static T[] SubArray<T>(T[] array, int len){
+		public static T[] SubArray<T>(this T[] array, int len){
 			if (array.Length <= len){
 				return (T[]) array.Clone();
 			}
@@ -850,7 +850,7 @@ namespace BaseLibS.Num{
 		/// <returns>
 		///     The sub-array from the position <code>startPos</code> on.
 		/// </returns>
-		public static T[] SubArrayFrom<T>(T[] array, int startPos){
+		public static T[] SubArrayFrom<T>(this T[] array, int startPos){
 			if (startPos < 0 || startPos > array.Length){
 				return null;
 			}
@@ -868,7 +868,7 @@ namespace BaseLibS.Num{
 		/// <param name="startIndex">Start position of the output array.</param>
 		/// <param name="stopIndex">Exclusive stop position of the output array.</param>
 		/// <returns>The sub-array.</returns>
-		public static T[] SubArray<T>(IList<T> array, int startIndex, int stopIndex){
+		public static T[] SubArray<T>(this IList<T> array, int startIndex, int stopIndex){
 			int len = stopIndex - startIndex;
 			T[] result = new T[len];
 			for (int i = 0; i < len; i++){
