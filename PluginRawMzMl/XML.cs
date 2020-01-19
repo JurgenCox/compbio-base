@@ -41,7 +41,7 @@ namespace PluginRawMzMl
 
 		private static XmlSerializer CreateMzMLSerializer(string elementName, Type type)
 		{
-			var indexListRootAttribute = new XmlRootAttribute
+			XmlRootAttribute indexListRootAttribute = new XmlRootAttribute
 			{
 				ElementName = elementName,
 				Namespace = MzMLNamespace

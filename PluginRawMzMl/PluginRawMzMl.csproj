@@ -6,7 +6,6 @@
   	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MSNumpress" Version="0.2.3.18" />
     <PackageReference Include="zlib.net" Version="1.0.4" />
   </ItemGroup>
   <ItemGroup>
