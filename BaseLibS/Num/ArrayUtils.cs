@@ -722,9 +722,9 @@ namespace BaseLibS.Num{
 		/// <param name="indicator"></param>
 		/// <returns></returns>
 		public static List<T> SubList<T>(this IEnumerable<T> values, IEnumerable<bool> indicator){
-			var result = new List<T>();
-			using (var valueIter = values.GetEnumerator())
-			using (var indIter = indicator.GetEnumerator()){
+			List<T> result = new List<T>();
+			using (IEnumerator<T> valueIter = values.GetEnumerator())
+			using (IEnumerator<bool> indIter = indicator.GetEnumerator()){
 				while (valueIter.MoveNext() && indIter.MoveNext()){
 					if (indIter.Current){
 						result.Add(valueIter.Current);
@@ -749,6 +749,22 @@ namespace BaseLibS.Num{
 			List<T> result = new List<T>();
 			foreach (int index in indices){
 				result.Add(list[index]);
+			}
+			return result;
+		}
+
+		public static LongList<T> SubList<T>(this LongList<T> list, long length){
+			LongList<T> result = new LongList<T>();
+			for (long i = 0; i < length; i++){
+				result.Add(list[i]);
+			}
+			return result;
+		}
+
+		public static LongList<T> SubList<T>(this LongList<T> list, long[] indices){
+			LongList<T> result = new LongList<T>();
+			for (long i = 0; i < indices.Length; i++){
+				result.Add(list[indices[i]]);
 			}
 			return result;
 		}
@@ -797,13 +813,17 @@ namespace BaseLibS.Num{
 		/// <param name="from">Start index.</param>
 		/// <param name="to">End (exclusive).</param>
 		/// <returns>The list of consecutive longs.</returns>
-		public static long[] ConsecutiveLongs(long from, long to){
+		public static LongList<long> ConsecutiveLongs(long from, long to){
 			long len = to - from;
-			long[] result = new long[len];
+			LongList<long> result = new LongList<long>();
 			for (int i = 0; i < len; i++){
-				result[i] = from + i;
+				result.Add(from + i);
 			}
 			return result;
+		}
+
+		public static LongList<long> ConsecutiveLongs(long to){
+			return ConsecutiveLongs(0, to);
 		}
 
 		/// <summary>
