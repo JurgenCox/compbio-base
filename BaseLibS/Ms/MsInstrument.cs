@@ -49,11 +49,17 @@ namespace BaseLibS.Ms {
 		public abstract DiaQuantMethod DiaQuantMethodDefault { get; }
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
 		public abstract PrecursorFilterType DiaPrecursorFilterTypeDefault { get; }
+		public abstract DiaXgBoostBoosterType DiaXgBoostBoosterTypeDefault { get; }
+		public abstract DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault { get; }
 		public abstract int DiaMinOverlapDefault { get; }
 		public abstract double DiaMinPrecursorScoreDefault { get; }
+		public abstract double DiaXgBoostBaseScoreDefault { get; }
+		public abstract double DiaXgBoostSubSampleDefault { get; }
 		public abstract double DiaMinProfileCorrelationDefault { get; }
 		public abstract bool DiaGlobalMlDefault { get; }
-	    public abstract int DiaMinChildWeightDefault { get; }
+	    public abstract int DiaXgBoostMinChildWeightDefault { get; }
+	    public abstract int DiaXgBoostMaximumTreeDepthDefault { get; }
+	    public abstract int DiaXgBoostEstimatorsDefault { get; }
 
         public override string ToString() {
 			return Name;
