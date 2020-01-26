@@ -241,7 +241,7 @@ namespace BaseLibS.Num{
 			return max;
 		}
 
-		public static int MaxInd(IList<float> x){
+		public static int MaxInd(this IList<float> x){
 			int n = x.Count;
 			float max = float.MinValue;
 			int ind = -1;
@@ -255,7 +255,7 @@ namespace BaseLibS.Num{
 			return ind;
 		}
 
-		public static int MaxInd(IList<int> x){
+		public static int MaxInd(this IList<int> x){
 			int n = x.Count;
 			int max = int.MinValue;
 			int ind = -1;
@@ -269,7 +269,7 @@ namespace BaseLibS.Num{
 			return ind;
 		}
 
-		public static int[] MaxInds(IList<int> x){
+		public static int[] MaxInds(this IList<int> x){
 			int maxVal = Max(x);
 			List<int> inds = new List<int>();
 			for (int i = 0; i < x.Count; i++){
@@ -280,7 +280,7 @@ namespace BaseLibS.Num{
 			return inds.ToArray();
 		}
 
-		public static double Mean(IList<int> x){
+		public static double Mean(this IList<int> x){
 			int n = x.Count;
 			if (n == 0){
 				return double.NaN;
@@ -292,7 +292,7 @@ namespace BaseLibS.Num{
 			return sum / n;
 		}
 
-		public static double Mean(IList<float> x){
+		public static double Mean(this IList<float> x){
 			int n = x.Count;
 			if (n == 0){
 				return double.NaN;
@@ -304,7 +304,7 @@ namespace BaseLibS.Num{
 			return sum / n;
 		}
 
-		public static double Mean(float[,] x){
+		public static double Mean(this float[,] x){
 			int n0 = x.GetLength(0);
 			int n1 = x.GetLength(1);
 			double sum = 0;
@@ -324,7 +324,7 @@ namespace BaseLibS.Num{
 			return sum / n;
 		}
 
-		public static double Mean(MatrixIndexer x){
+		public static double Mean(this MatrixIndexer x){
 			int n0 = x.RowCount;
 			int n1 = x.ColumnCount;
 			double sum = 0;
@@ -344,7 +344,7 @@ namespace BaseLibS.Num{
 			return sum / n;
 		}
 
-		public static double Mean(IList<double> x){
+		public static double Mean(this IList<double> x){
 			int n = x.Count;
 			if (n == 0){
 				return double.NaN;
@@ -356,7 +356,7 @@ namespace BaseLibS.Num{
 			return sum / n;
 		}
 
-		public static double GeometricMean(IList<double> x){
+		public static double GeometricMean(this IList<double> x){
 			int n = x.Count;
 			if (n == 0){
 				return double.NaN;
