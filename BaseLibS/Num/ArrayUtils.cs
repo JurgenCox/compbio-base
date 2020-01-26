@@ -446,7 +446,7 @@ namespace BaseLibS.Num{
 			return Math.Exp(0.5 * (Math.Log(x1) + Math.Log(x2)));
 		}
 
-		public static float Median(IList<float> x){
+		public static float Median(this IList<float> x){
 			int n = x.Count;
 			if (n == 0){
 				return float.NaN;
