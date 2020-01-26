@@ -1251,7 +1251,7 @@ namespace BaseLibS.Num{
 		///     An array of indices such that if x is accessed with those indices the values are in
 		///     ascending (or to be more precise, non-descending) order.
 		/// </returns>
-		public static int[] Order<T>(IList<T> x) where T : IComparable<T>{
+		public static int[] Order<T>(this IList<T> x) where T : IComparable<T>{
 			if (x == null){
 				return null;
 			}
@@ -1321,7 +1321,7 @@ namespace BaseLibS.Num{
 		///     An array of indices such that if x is accessed with those indices the values are in
 		///     ascending (or to be more precise, non-descending) order.
 		/// </returns>
-		public static int[] Order(BaseVector x){
+		public static int[] Order(this BaseVector x){
 			if (x == null){
 				return null;
 			}
