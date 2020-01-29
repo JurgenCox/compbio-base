@@ -513,7 +513,7 @@ namespace BaseLibS.Num{
 			int ind = -1;
 			for (int i = 0; i < n; i++){
 				double val = x[i];
-				if (val > max){
+				if (val >= max){
 					max = val;
 					ind = i;
 				}
@@ -530,7 +530,7 @@ namespace BaseLibS.Num{
 			for (int i = 0; i < n0; i++){
 				for (int j = 0; j < n1; j++){
 					double val = x[i, j];
-					if (val > max){
+					if (val >= max){
 						max = val;
 						ind0 = i;
 						ind1 = j;
