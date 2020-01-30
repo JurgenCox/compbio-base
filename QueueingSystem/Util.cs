@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace QueueingSystem
 {
@@ -56,7 +58,39 @@ namespace QueueingSystem
                     return !inQuotes && c == ' ';
                 })
                 .Select(arg => arg.Trim().TrimMatchingQuotes('\"'))
-                .Where(arg => !string.IsNullOrEmpty(arg));
+                .Where(arg => !String.IsNullOrEmpty(arg));
+        }
+
+        public static bool IsRunning(Process process) {
+            if (process == null) return false;
+            try {
+                Process.GetProcessById(process.Id);
+            } catch (Exception) {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// http://www.mono-project.com/docs/gui/winforms/porting-winforms-applications/
+        /// </summary>
+        public static bool IsRunningOnMono() => Type.GetType("Mono.Runtime") != null;
+
+        public static string IntString(int x, int n) {
+            int npos = (int) Math.Ceiling(Math.Log10(n));
+            string result = "" + x;
+            if (result.Length >= npos) {
+                return result;
+            }
+            return Repeat(npos - result.Length, "0") + result;
+        }
+
+        private static string Repeat(int n, string s) {
+            StringBuilder b = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                b.Append(s);
+            }
+            return b.ToString();
         }
     }
 }

@@ -128,7 +128,7 @@ namespace QueueingSystem {
 			}
 			if (CalculationType == CalculationType.ExternalProcess && externalProcesses != null) {
 				foreach (Process process in externalProcesses) {
-					if (process != null && IsRunning(process)) {
+					if (process != null && Util.IsRunning(process)) {
 						try {
 							process.Kill();
 						} catch (Exception) { }
@@ -153,16 +153,6 @@ namespace QueueingSystem {
 				// TODO: move Session Init/Exit code to upper level
 //				Session.Exit();
 			}
-		}
-
-		public static bool IsRunning(Process process) {
-			if (process == null) return false;
-			try {
-				Process.GetProcessById(process.Id);
-			} catch (Exception) {
-				return false;
-			}
-			return true;
 		}
 
 		public void Start()
@@ -347,7 +337,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			bool isUnix = FileUtils.IsUnix();
 			string cmd = GetCommandFilename();
 			string args = GetLogArgsString(taskIndex, taskIndex) + GetCommandArguments(taskIndex);
-			ProcessStartInfo psi = IsRunningOnMono() && !DotNetCore
+			ProcessStartInfo psi = Util.IsRunningOnMono() && !DotNetCore
 			                       // http://www.mono-project.com/docs/about-mono/releases/4.0.0/#floating-point-optimizations
 				? new ProcessStartInfo("mono", " --optimize=all,float32 --server " + cmd + " " + args)
 				: new ProcessStartInfo(cmd, args);
@@ -377,32 +367,10 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			}
 		}
 
-		/// <summary>
-		/// http://www.mono-project.com/docs/gui/winforms/porting-winforms-applications/
-		/// </summary>
-		private static bool IsRunningOnMono() => Type.GetType("Mono.Runtime") != null;
-
 		private string GetName(int taskIndex) {
-			return GetFilename() + " (" + IntString(taskIndex + 1, NTasks) + "/" + NTasks + ")";
+			return GetFilename() + " (" + Util.IntString(taskIndex + 1, NTasks) + "/" + NTasks + ")";
 		}
 
-		private static string IntString(int x, int n) {
-			int npos = (int) Math.Ceiling(Math.Log10(n));
-			string result = "" + x;
-			if (result.Length >= npos) {
-				return result;
-			}
-			return Repeat(npos - result.Length, "0") + result;
-		}
-
-		private static string Repeat(int n, string s) {
-			StringBuilder b = new StringBuilder();
-			for (int i = 0; i < n; i++) {
-				b.Append(s);
-			}
-			return b.ToString();
-		}
-		
 		private string[] GetLogArgs(int taskIndex, int id)
 		{
 			
