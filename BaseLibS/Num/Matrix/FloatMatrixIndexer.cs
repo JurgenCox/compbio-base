@@ -299,9 +299,14 @@ namespace BaseLibS.Num.Matrix{
 			if (isConstant){
 				return new FloatMatrixIndexer(constVal, nrows, ncols);
 			}
-			return vals == null
-				? new FloatMatrixIndexer((float[][,]) null)
-				: new FloatMatrixIndexer((float[][,]) vals.Clone());
+			if (vals == null){
+				return new FloatMatrixIndexer((float[][,]) null);
+			}
+			float[][,] v = new float[vals.Length][,];
+			for (int i = 0; i < v.Length; i++){
+				v[i] = (float[,]) vals[i].Clone();
+			}
+			return new FloatMatrixIndexer((float[][,]) vals.Clone());
 		}
 	}
 }
