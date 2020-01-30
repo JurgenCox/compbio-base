@@ -14,13 +14,12 @@ using QueueingSystem.Kubernetes;
 namespace QueueingSystem {
 	public abstract class WorkDispatcher {
 		private const int initialDelay = 6;
-		internal readonly int nTasks;
 		private Thread[] workThreads;
 		private Process[] externalProcesses;
 		private string[] queuedJobIds;
 		private Stack<int> toBeProcessed;
-		internal readonly string infoFolder;
-		internal readonly bool dotNetCore;
+		public string InfoFolder { get; }
+		public bool DotNetCore { get; }
 		internal readonly int numInternalThreads;
 		private ISession _session;
 
@@ -38,9 +37,9 @@ namespace QueueingSystem {
 			bool dotNetCore, int numInternalThreads) {
 			Nthreads = Math.Min(nThreads, nTasks);
 			this.numInternalThreads = numInternalThreads;
-			this.nTasks = nTasks;
-			this.infoFolder = infoFolder;
-			this.dotNetCore = dotNetCore;
+			NTasks = nTasks;
+			this.InfoFolder = infoFolder;
+			this.DotNetCore = dotNetCore;
 			if (!string.IsNullOrEmpty(infoFolder) && !Directory.Exists(infoFolder)) {
 				Directory.CreateDirectory(infoFolder);
 			}
@@ -100,7 +99,7 @@ namespace QueueingSystem {
 		public int GetTotalThreads()
 		{
 			int res = 0;
-			for (int i = 0; i < nTasks; i++)
+			for (int i = 0; i < NTasks; i++)
 			{
 				res += GetNumInternalThreads(i);
 			}
@@ -113,10 +112,14 @@ namespace QueueingSystem {
 			return numInternalThreads;
 		}
 		
+		public CalculationType CalculationType { get; }
+		
 		public int MaxHeapSizeGb { get; set; } 
 
 		public int Nthreads { get; }
-
+	
+		public int NTasks { get; }
+		
 		public void Abort() {
 			if (workThreads != null) {
 				foreach (Thread t in workThreads.Where(t => t != null)) {
@@ -170,7 +173,7 @@ namespace QueueingSystem {
 //				_session.Init();
 //			}
 			toBeProcessed = new Stack<int>();
-			for (int index = nTasks - 1; index >= 0; index--) {
+			for (int index = NTasks - 1; index >= 0; index--) {
 				toBeProcessed.Push(index);
 			}
 			workThreads = new Thread[Nthreads];
@@ -275,9 +278,9 @@ namespace QueueingSystem {
 			string randSuffix = Guid.NewGuid().ToString();
 			
 			// TODO: Separate folder for job stdout/stderr?
-			string outPath = Path.Combine(infoFolder, $"{jobName}.{randSuffix}.out"); 
+			string outPath = Path.Combine(InfoFolder, $"{jobName}.{randSuffix}.out"); 
 			// TODO: Separate folder for job stdout/stderr?
-			string errPath = Path.Combine(infoFolder, $"{jobName}.{randSuffix}.err"); 
+			string errPath = Path.Combine(InfoFolder, $"{jobName}.{randSuffix}.err"); 
 			
 			// Copying parent environment
 			Dictionary<string, string> env = new Dictionary<string, string>();
@@ -344,7 +347,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			bool isUnix = FileUtils.IsUnix();
 			string cmd = GetCommandFilename();
 			string args = GetLogArgsString(taskIndex, taskIndex) + GetCommandArguments(taskIndex);
-			ProcessStartInfo psi = IsRunningOnMono() && !dotNetCore
+			ProcessStartInfo psi = IsRunningOnMono() && !DotNetCore
 			                       // http://www.mono-project.com/docs/about-mono/releases/4.0.0/#floating-point-optimizations
 				? new ProcessStartInfo("mono", " --optimize=all,float32 --server " + cmd + " " + args)
 				: new ProcessStartInfo(cmd, args);
@@ -380,7 +383,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 		private static bool IsRunningOnMono() => Type.GetType("Mono.Runtime") != null;
 
 		private string GetName(int taskIndex) {
-			return GetFilename() + " (" + IntString(taskIndex + 1, nTasks) + "/" + nTasks + ")";
+			return GetFilename() + " (" + IntString(taskIndex + 1, NTasks) + "/" + NTasks + ")";
 		}
 
 		private static string IntString(int x, int n) {
@@ -405,27 +408,25 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			
 			return new[]
 			{
-				infoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
+				InfoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
 			};
 		}
 		
-		private string GetLogArgsString(int taskIndex, int id)
+		public string GetLogArgsString(int taskIndex, int id)
 		{
 			return string.Join(" ", GetLogArgs(taskIndex, id).Select(x => $"\"{x}\""))+" ";
 		}
 
-		private string GetFilename() {
+		public string GetFilename() {
 			return GetMessagePrefix().Trim().Replace("/", "").Replace("(", "_").Replace(")", "_").Replace(" ", "_");
 		}
 
-		private string GetCommandFilename() {
-			return "\"" + FileUtils.executablePath + Path.DirectorySeparatorChar + (dotNetCore ? ExecutableCore : Executable) +
+		public string GetCommandFilename() {
+			return "\"" + FileUtils.executablePath + Path.DirectorySeparatorChar + (DotNetCore ? ExecutableCore : Executable) +
 			       "\"";
 		}
 
-		private CalculationType CalculationType { get; }
-
-		private string GetCommandArguments(int taskIndex) {
+		public string GetCommandArguments(int taskIndex) {
 			object[] o = GetArguments(taskIndex);
 			string[] args = new string[o.Length + 1];
 			args[0] = $"\"{Id}\"";
