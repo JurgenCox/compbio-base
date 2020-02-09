@@ -22,9 +22,9 @@ namespace BaseLibS.Num.Matrix{
 
 		public BoolMatrixIndexer(){ }
 
-		public void Init(int nrows, int ncols){
+		public void Init(int nrows1, int ncols1){
 			isConstant = false;
-			vals = new bool[nrows, ncols];
+			vals = new bool[nrows1, ncols1];
 		}
 
 		public IBoolMatrixIndexer Transpose(){
@@ -112,7 +112,21 @@ namespace BaseLibS.Num.Matrix{
 
 		public bool this[int i, int j]{
 			get => isConstant ? constVal : vals[i, j];
-			set => vals[i, j] = value;
+			set{
+				if (isConstant && value != constVal){
+					vals = new bool[nrows,ncols];
+					if (constVal){
+						for (int k = 0; k < nrows; k++){
+							for (int l = 0; l < ncols; l++){
+								vals[k, l] = constVal;
+							}
+						}
+					}
+					vals[i, j] = value;
+					isConstant = false;
+				}
+				vals[i, j] = value;
+			}
 		}
 
 		public void Dispose(){
