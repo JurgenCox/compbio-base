@@ -306,7 +306,7 @@ namespace BaseLibS.Num.Matrix{
 			for (int i = 0; i < v.Length; i++){
 				v[i] = (float[,]) vals[i].Clone();
 			}
-			return new FloatMatrixIndexer((float[][,]) vals.Clone());
+			return new FloatMatrixIndexer(v);
 		}
 	}
 }
