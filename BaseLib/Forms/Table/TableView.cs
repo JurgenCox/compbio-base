@@ -30,6 +30,7 @@ namespace BaseLib.Forms.Table{
 		private ComboBox scaleFactorComboBox;
 		public float sfx;
 		public bool TextBoxIsVisible{ get; private set; }
+		public  EventHandler<int> DoubleClickOnRow;
 
 		public TableView(){
 			InitializeComponent();
@@ -43,6 +44,8 @@ namespace BaseLib.Forms.Table{
 				SelectionChanged?.Invoke(sender, args);
 				SetCounts();
 			};
+
+			tableViewWf.DoubleClickOnRow += (sender, i) => DoubleClickOnRow?.Invoke(this, i);
 			mainPanel.Controls.Add(tableView);
 			textButton.Click += TextButton_OnClick;
 			selectionAgentButton.Click += SelectionAgentButton_OnClick;

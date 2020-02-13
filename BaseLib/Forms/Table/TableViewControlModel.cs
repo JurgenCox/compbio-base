@@ -26,6 +26,7 @@ namespace BaseLib.Forms.Table {
 		private static readonly Brush2 selectHeader4Brush = new Brush2(Color2.FromArgb(222, 223, 216));
 		private bool multiSelect = true;
 		public event EventHandler SelectionChanged;
+		public  EventHandler<int> DoubleClickOnRow;
 		private int[] columnWidthSums;
 		private int[] columnWidthSumsOld;
 		private ITableModel model;
@@ -89,6 +90,7 @@ namespace BaseLib.Forms.Table {
 			origColumnHeaderHeight = 26;
 			UpdateScaling();
 			InitContextMenu();
+			
 			control1.OnMouseIsDownMainView = e => {
 				if (!control1.Enabled) {
 					return;
@@ -196,6 +198,8 @@ namespace BaseLib.Forms.Table {
 					if (model == null || row >= model.RowCount || row < 0) {
 						return;
 					}
+					
+					DoubleClickOnRow?.Invoke(this, row);
 				}
 				//TODO: edit
 			};
