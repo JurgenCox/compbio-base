@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using BaseLibS.Util;
 
@@ -14,86 +15,106 @@ namespace BaseLibS.Ms{
 		/// Counter incremented when format used for index files is changed, to avoid using stale index files.
 		/// </summary>
 		private const int indexVersion = 24;
+
 		/// <summary>
 		/// Backing field to the Path property.
 		/// </summary>
 		private string path;
+
 		/// <summary>
 		/// Ensures that method PreInit is only called once.
 		/// </summary>
 		protected bool preInitialized; // initialized to default value, which is false
+
 		/// <summary>
 		/// The RawFileLayer for positive ions.
 		/// </summary>
 		protected RawFileLayer posLayer;
+
 		/// <summary>
 		/// The RawFileLayer for negative ions.
 		/// </summary>
 		protected RawFileLayer negLayer;
+
 		/// <summary>
 		/// Not used yet (2014-04-01), but will be soon.
 		/// </summary>
 		protected MassGridInfo gridInfo;
+
 		protected RawFile(){
 			posLayer = new RawFileLayer(this, true);
 			negLayer = new RawFileLayer(this, false);
 		}
+
 		/// <summary>
 		/// In the implementations, several methods start with the block if (!preInitialized){ PreInit(); }, 
 		/// and this method normally ends with the statement preInitialized = true;
 		/// </summary>
 		protected abstract void PreInit();
+
 		/// <summary>
 		/// The case-insensitive suffix of the raw data files, e.g., .d, .mzxml, .wiff, or .raw.
 		/// Please specify in lower case.
 		/// </summary>
-		public abstract string Suffix { get; }
+		public abstract string Suffix{ get; }
+
 		/// <summary>
 		/// True if the path to a raw data set should be a folder (directory); false if it should be a simple file.
 		/// </summary>
-		public abstract bool IsFolderBased { get; }
-		public abstract string Name { get; }
+		public abstract bool IsFolderBased{ get; }
+
+		public abstract string Name{ get; }
+
 		/// <summary>
 		/// Every raw data implementation has its own implementation of MsInstrument.
 		/// </summary>
-		public abstract MsInstrument DefaultInstrument { get; }
+		public abstract MsInstrument DefaultInstrument{ get; }
+
 		/// <summary>
 		/// A self-contained raw file reader will simply return true, but some readers depend on external programs,
 		/// and these will only return true if those programs are also installed. At this time, the most important 
 		/// dependence of this kind is the dependence of Thermo on MSFileReader. This is only checked when new raw
 		/// data sources are being loaded.
 		/// </summary>
-		public abstract bool IsInstalled { get; }
-		public abstract bool NeedsGrid { get; }
-		public abstract bool HasIms { get; }
+		public abstract bool IsInstalled{ get; }
+
+		public abstract bool NeedsGrid{ get; }
+		public abstract bool HasIms{ get; }
+
 		/// <summary>
 		/// The message to be returned if a required RawFile class is not completely installed.
 		/// </summary>
-		public abstract string InstallMessage { get; }
+		public abstract string InstallMessage{ get; }
+
 		/// <summary>
 		/// First scan in iteration over all scan numbers in InitFromRawFileImpl.
 		/// </summary>
-		public abstract int FirstScanNumber { get; }
+		public abstract int FirstScanNumber{ get; }
+
 		/// <summary>
 		/// Last scan in iteration over all scan numbers in InitFromRawFileImpl.
 		/// </summary>
-		public abstract int LastScanNumber { get; }
+		public abstract int LastScanNumber{ get; }
+
 		/// <summary>
 		/// Sum of Ms1Count from the two layers. No usages found!
 		/// </summary>
 		public int Ms1Count => posLayer.Ms1Count + negLayer.Ms1Count;
+
 		public virtual int PasefMsmsCount => 0;
-		public virtual PasefFrameMsMsInfo GetPasefMsmsInfo(int index) {
+
+		public virtual PasefFrameMsMsInfo GetPasefMsmsInfo(int index){
 			return null;
 		}
+
 		public virtual int PasefPrecursorCount => 0;
-		public virtual PasefPrecursorInfo GetPasefPrecursorInfo(int index) {
+
+		public virtual PasefPrecursorInfo GetPasefPrecursorInfo(int index){
 			return null;
 		}
-		public double StartTime
-		{
-			get
-			{
+
+		public double StartTime{
+			get{
 				if (negLayer.Ms1Count + negLayer.Ms2Count + negLayer.Ms3Count == 0) return posLayer.StartTime;
 				if (posLayer.Ms1Count + posLayer.Ms2Count + posLayer.Ms3Count == 0) return negLayer.StartTime;
 				return Math.Min(posLayer.StartTime, negLayer.StartTime);
@@ -107,11 +128,14 @@ namespace BaseLibS.Ms{
 		public double Ms2MassMax => Math.Max(posLayer.Ms2MassMax, negLayer.Ms2MassMax);
 		public double MaxIntensity => Math.Max(posLayer.MaxIntensity, negLayer.MaxIntensity);
 
-		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out double[] intensities, double resolution, double mzMin, double mzMax);
+		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin,
+			int imsIndexMax, bool readCentroids, out double[] masses, out double[] intensities, double resolution,
+			double mzMin, double mzMax);
 
-		protected internal void GetSpectrum(int scanNumber, bool readCentroids, out double[] masses, out double[] intensities){
-			GetSpectrum(scanNumber, scanNumber, 0, 0, readCentroids, out masses, out intensities, 0, double.NaN, double.NaN);
+		protected internal void GetSpectrum(int scanNumber, bool readCentroids, out double[] masses,
+			out double[] intensities){
+			GetSpectrum(scanNumber, scanNumber, 0, 0, readCentroids, out masses, out intensities, 0, double.NaN,
+				double.NaN);
 		}
 
 		/// <summary>
@@ -135,6 +159,7 @@ namespace BaseLibS.Ms{
 		public virtual bool IsSuitableFile(string path1){
 			return PathIsValid(path1);
 		}
+
 		/// <summary>
 		/// Examines argument to determine if it has the characteristics expected of a valid raw data file or folder.
 		/// true is returned if and only if three conditions are met: (1) the path exists, (2) it is a file or folder
@@ -158,12 +183,14 @@ namespace BaseLibS.Ms{
 			}
 			return true;
 		}
+
 		/// <summary>
 		/// Create a ScanInfo object with information on the scan with the given number.
 		/// </summary>
 		/// <param name="scanNumber"></param>
 		/// <returns></returns>
 		protected abstract ScanInfo GetInfoForScanNumber(int scanNumber);
+
 		/// <summary>
 		/// Path to the raw data file in proprietary format. Value is set immediately after creation 
 		/// of the RawFile and is never modified. It is used in the RawFile* implementations of the
@@ -183,6 +210,7 @@ namespace BaseLibS.Ms{
 				path = value;
 			}
 		}
+
 		/// <summary>
 		/// From the name of the raw data file of this RawFile, create the name of the corresponding 
 		/// index file by changing the suffix to "index". (Immutable, since Path can only be set once.)
@@ -196,7 +224,9 @@ namespace BaseLibS.Ms{
 				return System.IO.Path.ChangeExtension(path, "index");
 			}
 		}
+
 		private readonly object locker = new object();
+
 		/// <summary>
 		/// Called only by CreateRawFile. Mostly just calls InitFromRawFile.
 		/// </summary>
@@ -217,6 +247,7 @@ namespace BaseLibS.Ms{
 				}
 			}
 		}
+
 		/// <summary>
 		/// Call InitFromRawFileImpl and, if appropriate, PreInit and InitMassGrid. 
 		/// Only called from Init, which is only called from CreateRawFile.
@@ -230,13 +261,15 @@ namespace BaseLibS.Ms{
 				InitMassGrid();
 			}
 		}
+
 		private void InitMassGrid(){
 			Dictionary<int, double> mins = new Dictionary<int, double>();
 			RawFileUtils.InitMassGrid(posLayer, mins);
 			RawFileUtils.InitMassGrid(negLayer, mins);
-			double[] values = RawFileUtils.MakeMonotone(mins, out var indices);
+			double[] values = RawFileUtils.MakeMonotone(mins, out int[] indices);
 			RawFileUtils.Interpolate(ref indices, ref values);
 		}
+
 		/// <summary>
 		/// Extract ScanInfo from this RawFile for each scan and add it to the posLayer or negLayer RawFileLayer of this RawFile.
 		/// 
@@ -245,7 +278,9 @@ namespace BaseLibS.Ms{
 		private void InitFromRawFileImpl(){
 			InfoLists posInfoList = new InfoLists();
 			InfoLists negInfoList = new InfoLists();
-			var maximumIntensity = 0.0;
+			double maximumIntensity = 0.0;
+			bool hasFaims = false;
+			HashSet<double> faimsVoltages = new HashSet<double>();
 			for (int scanNum = FirstScanNumber; scanNum <= LastScanNumber; scanNum++){
 				if (FirstScanNumber > LastScanNumber){
 					break;
@@ -254,6 +289,10 @@ namespace BaseLibS.Ms{
 				if (scanInfo == null){
 					continue;
 				}
+				if (scanInfo.faimsVoltageOn){
+					hasFaims = true;
+					faimsVoltages.Add(scanInfo.faimsCv);
+				}
 				if (scanInfo.positiveIonMode){
 					posInfoList.Add(scanInfo, scanNum);
 				} else{
@@ -261,9 +300,12 @@ namespace BaseLibS.Ms{
 				}
 				maximumIntensity = Math.Max(maximumIntensity, scanInfo.basepeakIntensity);
 			}
-			posLayer.SetData(posInfoList, maximumIntensity);
-			negLayer.SetData(negInfoList, maximumIntensity);
+			double[] voltages = faimsVoltages.ToArray();
+			Array.Sort(voltages);
+			posLayer.SetData(posInfoList, maximumIntensity, hasFaims, voltages);
+			negLayer.SetData(negInfoList, maximumIntensity, hasFaims, voltages);
 		}
+
 		/// <summary>
 		/// Write indexVersion, Application.ProductVersion, posLayer, negLayer, and (if NeedsGrid) gridInfo to IndexFilename.
 		/// Called only from Init, which is called only from CreateRawFile.
@@ -284,6 +326,7 @@ namespace BaseLibS.Ms{
 				writer?.Close();
 			}
 		}
+
 		/// <summary>
 		/// Whether the pre-existing index file has the format of the current version of the software.
 		/// </summary>
@@ -302,6 +345,7 @@ namespace BaseLibS.Ms{
 				reader?.Close();
 			}
 		}
+
 		/// <summary>
 		/// Set posLayer, negLayer, and (if NeedsGrid) gridInfo from IndexFilename.
 		/// The work is done by RawFileLayer(reader, this) and MassGridInfo(reader).
@@ -312,7 +356,8 @@ namespace BaseLibS.Ms{
 			BinaryReader reader = null;
 			try{
 				reader = FileUtils.GetBinaryReader(IndexFilename);
-				int indexVers = reader.ReadInt32(); // dummy var because we already know the answer from IndexVersionIsCurrent()
+				int indexVers =
+					reader.ReadInt32(); // dummy var because we already know the answer from IndexVersionIsCurrent()
 				string version = reader.ReadString(); // dummy var because the following if-block is commented out
 				//if (!version.Equals(Application.ProductVersion)){
 				//    throw new Exception("Wrong version");
@@ -326,15 +371,18 @@ namespace BaseLibS.Ms{
 				reader?.Close();
 			}
 		}
+
 		public virtual void Dispose(){
 			posLayer?.Dispose();
 			posLayer = null;
 			negLayer?.Dispose();
 			negLayer = null;
 		}
+
 		public RawFileLayer GetPosLayer(){
 			return posLayer;
 		}
+
 		public RawFileLayer GetLayer(bool positiveMode){
 			return positiveMode ? posLayer : negLayer;
 		}
