@@ -117,7 +117,7 @@ namespace BaseLibS.Ms{
 		/// <summary>
 		/// 1/k0 is an alternative indexing for ion mobility.
 		/// The regular <code>imsInds</code> refer to the ion mobility bin which is not transferable between runs.
-		/// 1/k0 is howeber transferable between runs.
+		/// 1/k0 is however transferable between runs.
 		/// </summary>
 		protected internal abstract double[] Index2K0(int scanNumber, double[] imsInds);
 
@@ -127,7 +127,7 @@ namespace BaseLibS.Ms{
 		/// the string given in Suffix. When this is not sufficient to distinguish every vendor, this method
 		/// must be overridden in the concrete implementations. In particular, raw data from both Agilent and
 		/// Bruker is stored in folders with the suffix .d, so AgilentRawFile overrides this method to check for
-		/// the existence of a subdirectory named AcqData, and BrukerRawFileSqlite checks for the existence of
+		/// the existence of a sub-directory named AcqData, and BrukerRawFileSqlite checks for the existence of
 		/// a file named analysis.baf. Used only by FindSuitableTemplate.
 		/// </summary>
 		/// <param name="path1"></param>
@@ -234,8 +234,7 @@ namespace BaseLibS.Ms{
 			Dictionary<int, double> mins = new Dictionary<int, double>();
 			RawFileUtils.InitMassGrid(posLayer, mins);
 			RawFileUtils.InitMassGrid(negLayer, mins);
-			int[] indices;
-			double[] values = RawFileUtils.MakeMonotone(mins, out indices);
+			double[] values = RawFileUtils.MakeMonotone(mins, out var indices);
 			RawFileUtils.Interpolate(ref indices, ref values);
 		}
 		/// <summary>
