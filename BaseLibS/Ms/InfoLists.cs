@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 
 namespace BaseLibS.Ms{
-	/// <summary>
-	/// Fields, other than allMassRanges, are Ms1Lists, SimLists, and Ms2Lists, only one of which 
-	/// is actually given values, depending on the value of scanInfo.msLevel.
-	/// </summary>
 	public class InfoLists{
 		public readonly Ms1Lists ms1Lists;
 		public readonly Ms2Lists ms2Lists;
@@ -13,9 +9,6 @@ namespace BaseLibS.Ms{
 		public readonly Dictionary<double, object> allMassRanges;
 		public readonly List<int> currentMs2Inds = new List<int>();
 
-		/// <summary>
-		/// Constructor does not set any data, except passing the firstScanNumber arg to the SimLists constructor.
-		/// </summary>
 		public InfoLists(){
 			ms1Lists = new Ms1Lists();
 			ms2Lists = new Ms2Lists();
@@ -23,50 +16,52 @@ namespace BaseLibS.Ms{
 			allMassRanges = new Dictionary<double, object>();
 		}
 
-		/// <summary>
-		/// Take the ScanInfo object and add its contents to the field simLists, ms1Lists, or ms2Lists, 
-		/// depending on the values of the msLevel and isSim fields of the ScanInfo.
-		/// </summary>
-		/// <param name="scanInfo">an object containing details about this scan</param>
-		/// <param name="scanNum">the unique number of this scan</param>
+		public InfoLists(Ms1Lists ms1Lists, Ms2Lists ms2Lists, Ms3Lists ms3Lists,
+			Dictionary<double, object> allMassRanges){
+			this.ms1Lists = ms1Lists;
+			this.ms2Lists = ms2Lists;
+			this.ms3Lists = ms3Lists;
+			this.allMassRanges = allMassRanges;
+		}
+
 		public void Add(ScanInfo scanInfo, int scanNum){
 			switch (scanInfo.msLevel){
 				case MsLevel.Ms1:
-					//if (!scanInfo.isSim){
-						currentMs2Inds.Clear();
-						if (scanInfo.min < ms1Lists.massMin){
-							ms1Lists.massMin = scanInfo.min;
-						}
-						if (scanInfo.max > ms1Lists.massMax){
-							ms1Lists.massMax = scanInfo.max;
-						}
-						if (scanInfo.nImsScans > ms1Lists.maxNumIms){
-							ms1Lists.maxNumIms = scanInfo.nImsScans;
-						}
-						ms1Lists.scans.Add(scanNum);
-						ms1Lists.rts.Add(scanInfo.rt);
-						ms1Lists.ionInjectionTimes.Add(scanInfo.ionInjectionTime);
-						ms1Lists.basepeakIntensities.Add(scanInfo.basepeakIntensity);
-						ms1Lists.elapsedTimes.Add(scanInfo.elapsedTime);
-						if (scanInfo.hasProfile && !allMassRanges.ContainsKey(scanInfo.min)){
-							allMassRanges.Add(scanInfo.min, null);
-						} else if (!scanInfo.hasProfile && !allMassRanges.ContainsKey(0)){
-							allMassRanges.Add(0, null);
-						}
-						ms1Lists.tics.Add(scanInfo.tic);
-						ms1Lists.hasCentroids.Add(scanInfo.hasCentroid);
-						ms1Lists.hasProfiles.Add(scanInfo.hasProfile);
-						ms1Lists.massAnalyzer.Add(scanInfo.analyzer);
-						ms1Lists.minMasses.Add(scanInfo.min);
-						ms1Lists.maxMasses.Add(scanInfo.max);
-						ms1Lists.resolutions.Add(scanInfo.resolution);
-						ms1Lists.intenseCompFactors.Add(scanInfo.intenseCompFactor);
-						ms1Lists.emIntenseComp.Add(scanInfo.emIntenseComp);
-						ms1Lists.rawOvFtT.Add(scanInfo.rawOvFtT);
-						ms1Lists.agcFillList.Add(scanInfo.agcFill);
-						ms1Lists.nImsScans.Add(scanInfo.nImsScans);
-						ms1Lists.isSim.Add(scanInfo.isSim);
-					//}
+					currentMs2Inds.Clear();
+					if (scanInfo.min < ms1Lists.massMin){
+						ms1Lists.massMin = scanInfo.min;
+					}
+					if (scanInfo.max > ms1Lists.massMax){
+						ms1Lists.massMax = scanInfo.max;
+					}
+					if (scanInfo.nImsScans > ms1Lists.maxNumIms){
+						ms1Lists.maxNumIms = scanInfo.nImsScans;
+					}
+					ms1Lists.scans.Add(scanNum);
+					ms1Lists.rts.Add(scanInfo.rt);
+					ms1Lists.ionInjectionTimes.Add(scanInfo.ionInjectionTime);
+					ms1Lists.basepeakIntensities.Add(scanInfo.basepeakIntensity);
+					ms1Lists.elapsedTimes.Add(scanInfo.elapsedTime);
+					if (scanInfo.hasProfile && !allMassRanges.ContainsKey(scanInfo.min)){
+						allMassRanges.Add(scanInfo.min, null);
+					} else if (!scanInfo.hasProfile && !allMassRanges.ContainsKey(0)){
+						allMassRanges.Add(0, null);
+					}
+					ms1Lists.tics.Add(scanInfo.tic);
+					ms1Lists.hasCentroids.Add(scanInfo.hasCentroid);
+					ms1Lists.hasProfiles.Add(scanInfo.hasProfile);
+					ms1Lists.massAnalyzer.Add(scanInfo.analyzer);
+					ms1Lists.minMasses.Add(scanInfo.min);
+					ms1Lists.maxMasses.Add(scanInfo.max);
+					ms1Lists.resolutions.Add(scanInfo.resolution);
+					ms1Lists.intenseCompFactors.Add(scanInfo.intenseCompFactor);
+					ms1Lists.emIntenseComp.Add(scanInfo.emIntenseComp);
+					ms1Lists.rawOvFtT.Add(scanInfo.rawOvFtT);
+					ms1Lists.agcFillList.Add(scanInfo.agcFill);
+					ms1Lists.nImsScans.Add(scanInfo.nImsScans);
+					ms1Lists.isSim.Add(scanInfo.isSim);
+					ms1Lists.faimsVoltageOn.Add(scanInfo.faimsVoltageOn);
+					ms1Lists.faimsCv.Add(scanInfo.faimsCv);
 					break;
 				case MsLevel.Ms2:
 					if (scanInfo.min < ms2Lists.massMin){
@@ -105,6 +100,8 @@ namespace BaseLibS.Ms{
 					ms2Lists.agcFillList.Add(scanInfo.agcFill);
 					ms2Lists.nImsScans.Add(scanInfo.nImsScans);
 					ms2Lists.windowGroupList.Add(scanInfo.windowGroup);
+					ms2Lists.faimsVoltageOn.Add(scanInfo.faimsVoltageOn);
+					ms2Lists.faimsCv.Add(scanInfo.faimsCv);
 					break;
 				case MsLevel.Ms3:
 					if (scanInfo.min < ms3Lists.massMin){
@@ -118,7 +115,6 @@ namespace BaseLibS.Ms{
 					}
 					ms3Lists.scansList.Add(scanNum);
 					ms3Lists.prevMs2IndexList.Add(GetPrecursorMs2(currentMs2Inds, scanInfo.ms2ParentMz));
-					//ms3Lists.ms3PrevMs2IndexList.Add(ms2Lists.ms2ScansList.Count - 1);
 					ms3Lists.mz1List.Add(scanInfo.ms2ParentMz);
 					ms3Lists.mz2List.Add(scanInfo.ms3ParentMz);
 					ms3Lists.fragmentTypeList.Add(scanInfo.ms2FragType);
@@ -143,6 +139,8 @@ namespace BaseLibS.Ms{
 					ms3Lists.rawOvFtT.Add(scanInfo.rawOvFtT);
 					ms3Lists.agcFillList.Add(scanInfo.agcFill);
 					ms3Lists.nImsScans.Add(scanInfo.nImsScans);
+					ms3Lists.faimsVoltageOn.Add(scanInfo.faimsVoltageOn);
+					ms3Lists.faimsCv.Add(scanInfo.faimsCv);
 					break;
 				default:
 					throw new Exception("Invalid MS level.");
@@ -156,6 +154,11 @@ namespace BaseLibS.Ms{
 				}
 			}
 			return -1;
+		}
+
+		internal InfoLists FilterVoltage(double voltage){
+			return new InfoLists(ms1Lists.FilterVoltage(voltage), ms2Lists.FilterVoltage(voltage),
+				ms3Lists.FilterVoltage(voltage), allMassRanges);
 		}
 	}
 }

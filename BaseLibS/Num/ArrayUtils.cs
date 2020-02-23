@@ -745,7 +745,7 @@ namespace BaseLibS.Num{
 		/// <param name="list"></param>
 		/// <param name="indices"></param>
 		/// <returns></returns>
-		public static List<T> SubList<T>(this IList<T> list, int[] indices){
+		public static List<T> SubList<T>(this IList<T> list, IList<int> indices){
 			List<T> result = new List<T>();
 			foreach (int index in indices){
 				result.Add(list[index]);

@@ -1167,7 +1167,7 @@ namespace BaseLibS.Ms{
 			return res;
 		}
 
-		internal void SetData(InfoLists infoLists, double maxIntensity, bool hasFaims, double[] faimsVoltages){
+		internal void SetData(InfoLists infoLists, double maxIntensity){
 			SetMs1Data(infoLists.ms1Lists);
 			SetMs2Data(infoLists.ms2Lists);
 			SetMs3Data(infoLists.ms3Lists);
