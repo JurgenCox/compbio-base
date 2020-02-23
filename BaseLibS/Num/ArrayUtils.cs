@@ -2549,20 +2549,6 @@ namespace BaseLibS.Num{
 			return result.ToArray();
 		}
 
-		public static float[] SmoothMedian(IList<float> m, int width){
-			float[] result = new float[m.Count];
-			for (int i = 0; i < result.Length; i++){
-				int min = Math.Max(0, i - width);
-				int max = Math.Min(result.Length - 1, i + width);
-				float[] q = SubArray(m, min, max + 1);
-				if (q.Length < 2 * width + 1){
-					q = Concat(q, new float[2 * width + 1 - q.Length]);
-				}
-				result[i] = Median(q);
-			}
-			return result;
-		}
-
 		public static float[] SmoothMean(IList<float> m, int width){
 			float[] result = new float[m.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2679,18 +2665,18 @@ namespace BaseLibS.Num{
 			return 0f;
 		}
 
-		public static double[] SmoothMean(IList<double> m, int width){
+		public static double[] SmoothMedian(IList<double> m, int width){
 			double[] result = new double[m.Count];
 			for (int i = 0; i < result.Length; i++){
 				int min = Math.Max(0, i - width);
 				int max = Math.Min(result.Length - 1, i + width);
-				result[i] = Average(m, min, max);
+				result[i] = Median(m, min, max);
 			}
 			return result;
 		}
 
-		public static double[] SmoothMedian(IList<double> m, int width){
-			double[] result = new double[m.Count];
+		public static float[] SmoothMedian(IList<float> m, int width){
+			float[] result = new float[m.Count];
 			for (int i = 0; i < result.Length; i++){
 				int min = Math.Max(0, i - width);
 				int max = Math.Min(result.Length - 1, i + width);
@@ -2731,6 +2717,51 @@ namespace BaseLibS.Num{
 				}
 			}
 			double[] x = new double[len];
+			for (int i = 0; i < len; i++){
+				x[i] = m[min + i];
+			}
+			Array.Sort(x);
+			if (len % 2 == 0){
+				int w = len / 2;
+				return 0.5f * (x[w - 1] + x[w]);
+			} else{
+				int w = len / 2;
+				return x[w];
+			}
+		}
+
+		private static float Median(IList<float> m, int min, int max){
+			int len = max - min + 1;
+			if (len == 1){
+				return m[min];
+			}
+			if (len == 2){
+				return 0.5f * (m[min] + m[max]);
+			}
+			if (len == 3){
+				float m1 = m[min];
+				float m2 = m[min + 1];
+				float m3 = m[min + 2];
+				if (m1 <= m2 && m2 <= m3){
+					return m2;
+				}
+				if (m2 <= m3 && m3 <= m1){
+					return m3;
+				}
+				if (m3 <= m1 && m1 <= m2){
+					return m1;
+				}
+				if (m3 <= m2 && m2 <= m1){
+					return m2;
+				}
+				if (m2 <= m1 && m1 <= m3){
+					return m1;
+				}
+				if (m1 <= m3 && m3 <= m2){
+					return m3;
+				}
+			}
+			float[] x = new float[len];
 			for (int i = 0; i < len; i++){
 				x[i] = m[min + i];
 			}

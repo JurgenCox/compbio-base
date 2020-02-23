@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using BaseLibS.Num;
 
-namespace BaseLibS.Ms {
+namespace BaseLibS.Ms{
 	/// <summary>
 	/// A simple object containing a vector of masses and corresponding intensities, 
 	/// with simple manipulation methods.
 	/// </summary>
-	public class Spectrum : IDisposable {
-		public double[] Masses { get; set; }
-		public double[] Intensities { get; set; }
+	public class Spectrum : IDisposable{
+		public double[] Masses{ get; set; }
+		public double[] Intensities{ get; set; }
 
-		public Spectrum(double[] masses, double[] intensities) {
+		public Spectrum(double[] masses, double[] intensities){
 			Masses = masses;
 			Intensities = intensities;
 		}
@@ -27,8 +27,8 @@ namespace BaseLibS.Ms {
 		/// <summary>
 		/// smallest index of masses for which masses[index] is greater than or equal to mass
 		/// </summary>
-		public int GetCeilIndex(double mass) {
-			if (double.IsNaN(mass) || double.IsInfinity(mass)) {
+		public int GetCeilIndex(double mass){
+			if (double.IsNaN(mass) || double.IsInfinity(mass)){
 				return -1;
 			}
 			return ArrayUtils.CeilIndex(Masses, mass);
@@ -37,8 +37,8 @@ namespace BaseLibS.Ms {
 		/// <summary>
 		/// largest index of masses for which masses[index] is less than or equal to mass
 		/// </summary>
-		public int GetFloorIndex(double mass) {
-			if (double.IsNaN(mass) || double.IsInfinity(mass)) {
+		public int GetFloorIndex(double mass){
+			if (double.IsNaN(mass) || double.IsInfinity(mass)){
 				return -1;
 			}
 			return ArrayUtils.FloorIndex(Masses, mass);
@@ -47,63 +47,58 @@ namespace BaseLibS.Ms {
 		/// <summary>
 		/// Index of the sorted array masses closes to the mass value 
 		/// </summary>
-		public int GetClosestIndex(double mass, bool outOfRangeIsInvalid)
-		{
-			if (double.IsNaN(mass) || double.IsInfinity(mass)) {
+		public int GetClosestIndex(double mass, bool outOfRangeIsInvalid){
+			if (double.IsNaN(mass) || double.IsInfinity(mass)){
 				return -1;
 			}
-			if (mass <= MinMass) {
+			if (mass <= MinMass){
 				return outOfRangeIsInvalid ? -1 : 0;
 			}
-			if (mass >= MaxMass) {
+			if (mass >= MaxMass){
 				return outOfRangeIsInvalid ? -1 : Count - 1;
 			}
-		
-			var comparerDouble = new ComparerDouble();
-			int index = Array.BinarySearch<double>(Masses, 0, Masses.Length, mass, comparerDouble);
-			
-			if (index >= 0) {
+			ComparerDouble comparerDouble = new ComparerDouble();
+			int index = Array.BinarySearch(Masses, 0, Masses.Length, mass, comparerDouble);
+			if (index >= 0){
 				return index;
 			}
 			index = -2 - index;
-			if (Math.Abs(GetMass(index) - mass) < Math.Abs(GetMass(index + 1) - mass)) {
+			if (Math.Abs(GetMass(index) - mass) < Math.Abs(GetMass(index + 1) - mass)){
 				return index;
 			}
 			return index + 1;
 		}
 
-		private class ComparerDouble : IComparer<double>
-		{
-			public int Compare(double x, double y)
-			{
+		private class ComparerDouble : IComparer<double>{
+			public int Compare(double x, double y){
 				if (x > y) return 1;
 				if (x < y) return -1;
 				return 0;
 			}
 		}
-		
-		public double GetMass(int index) {
+
+		public double GetMass(int index){
 			return Masses.Length > 0 ? Masses[index] : double.NaN;
 		}
 
 		/// <summary>
 		/// Get intensity as a function of index.
 		/// </summary>
-		public double GetIntensity(int index) {
+		public double GetIntensity(int index){
 			return index >= Intensities.Length ? 0 : Intensities[index];
 		}
 
-		public double GetIntensityFromMass(double mass, double dm) {
+		public double GetIntensityFromMass(double mass, double dm){
 			int ind = GetClosestIndex(mass, true);
-			if (ind == -1) {
+			if (ind == -1){
 				return 0;
 			}
 			return Math.Abs(mass - GetMass(ind)) > dm ? 0 : GetIntensity(ind);
 		}
 
-		public double InterpolateIntensity(double mass) {
+		public double InterpolateIntensity(double mass){
 			int indf = GetFloorIndex(mass);
-			if (indf == -1) {
+			if (indf == -1){
 				int ind1 = GetClosestIndex(mass, true);
 				return ind1 == -1 ? 0 : GetIntensity(ind1);
 			}
@@ -121,12 +116,12 @@ namespace BaseLibS.Ms {
 		/// <param name="p1">Intensity at that index plus 1.</param>
 		/// <param name="m2">Intensity at that index minus 2.</param>
 		/// <returns></returns>
-		public bool IsMax(double x, double m1, double p1, double m2) {
-			if (x > m1 && x > p1) {
+		public bool IsMax(double x, double m1, double p1, double m2){
+			if (x > m1 && x > p1){
 				// intensity absolutely greater than immediate neighbors
 				return true;
 			}
-			if (x > m2 && x == m1 && x > p1) {
+			if (x > m2 && x == m1 && x > p1){
 				// intensity equal to neighbor on left but greater than neighbors outside that
 				return true;
 			}
@@ -136,8 +131,8 @@ namespace BaseLibS.Ms {
 		/// <summary>
 		/// Move to the left as long as the next point is strictly lower than the current one but not zero.
 		/// </summary>
-		public int CalcMinPeakIndex(int ind) {
-			while (ind > 0 && Intensities[ind - 1] != 0 && Intensities[ind - 1] < Intensities[ind]) {
+		public int CalcMinPeakIndex(int ind){
+			while (ind > 0 && Intensities[ind - 1] != 0 && Intensities[ind - 1] < Intensities[ind]){
 				ind--;
 			}
 			return ind;
@@ -146,67 +141,66 @@ namespace BaseLibS.Ms {
 		/// <summary>
 		/// Move to the right as long as the next point is strictly lower than the current one but not zero.
 		/// </summary>
-		public int CalcMaxPeakIndex(int ind) {
-			while (ind < Count - 1 && Intensities[ind + 1] != 0 && Intensities[ind + 1] < Intensities[ind]) {
+		public int CalcMaxPeakIndex(int ind){
+			while (ind < Count - 1 && Intensities[ind + 1] != 0 && Intensities[ind + 1] < Intensities[ind]){
 				ind++;
 			}
 			return ind;
 		}
 
-		public virtual void Dispose() {
+		public virtual void Dispose(){
 			Masses = null;
 			Intensities = null;
 		}
 
-		public double[] CopyMasses() {
+		public double[] CopyMasses(){
 			double[] result = new double[Masses.Length];
-			for (int i = 0; i < Masses.Length; i++) {
+			for (int i = 0; i < Masses.Length; i++){
 				result[i] = Masses[i];
 			}
 			return result;
 		}
 
-		public double[] CopyIntensities() {
+		public double[] CopyIntensities(){
 			double[] result = new double[Count];
-			for (int i = 0; i < Count; i++) {
+			for (int i = 0; i < Count; i++){
 				result[i] = GetIntensity(i);
 			}
 			return result;
 		}
 
-		private static double InterpolateIntensity(double mass, double massL, double massH, double intL, double intH) {
+		private static double InterpolateIntensity(double mass, double massL, double massH, double intL, double intH){
 			double wL = ((massH - mass) / (massH - massL));
-			double wH =  ((mass - massL) / (massH - massL));
+			double wH = ((mass - massL) / (massH - massL));
 			return intL * wL + intH * wH;
 		}
 
 		private const int pointsPerSigma = 7;
 		private const int sigmasPerPeak = 4;
 
-		public Spectrum Smooth(double resolution, bool inMda) {
-			if (Masses.Length == 0) {
+		public Spectrum Smooth(double resolution, bool inMda){
+			if (Masses.Length == 0){
 				return this;
 			}
-			double[] intensities;
-			double[] masses = CalcSpec(resolution, inMda, out intensities);
+			double[] masses = CalcSpec(resolution, inMda, out double[] intensities);
 			int[] vailds = GetZeroRegions(intensities);
-			return new Spectrum(ArrayUtils.SubArray(masses, vailds), ArrayUtils.SubArray(intensities, vailds));
+			return new Spectrum(masses.SubArray(vailds), intensities.SubArray(vailds));
 		}
 
-		private static int[] GetZeroRegions(double[] intensities) {
+		private static int[] GetZeroRegions(double[] intensities){
 			bool inRegion = false;
 			int currentStart = -1;
 			bool[] mask = new bool[intensities.Length];
-			for (int i = 0; i < intensities.Length; i++) {
-				if (intensities[i] == 0) {
-					if (!inRegion) {
+			for (int i = 0; i < intensities.Length; i++){
+				if (intensities[i] == 0){
+					if (!inRegion){
 						currentStart = i;
 						inRegion = true;
 					}
-				} else {
-					if (inRegion) {
-						if (i - currentStart > 2) {
-							for (int j = currentStart + 1; j < i - 1; j++) {
+				} else{
+					if (inRegion){
+						if (i - currentStart > 2){
+							for (int j = currentStart + 1; j < i - 1; j++){
 								mask[j] = true;
 							}
 						}
@@ -215,30 +209,30 @@ namespace BaseLibS.Ms {
 					}
 				}
 			}
-			if (inRegion) {
-				for (int j = currentStart + 1; j < mask.Length; j++) {
+			if (inRegion){
+				for (int j = currentStart + 1; j < mask.Length; j++){
 					mask[j] = true;
 				}
 			}
 			List<int> valids = new List<int>();
-			for (int i = 0; i < mask.Length; i++) {
-				if (!mask[i]) {
+			for (int i = 0; i < mask.Length; i++){
+				if (!mask[i]){
 					valids.Add(i);
 				}
 			}
 			return valids.ToArray();
 		}
 
-		private double[] CalcSpec(double resolution, bool inMda, out double[] intensities) {
+		private double[] CalcSpec(double resolution, bool inMda, out double[] intensities){
 			double[] masses = GetMasses(resolution, inMda);
 			intensities = new double[masses.Length];
-			for (int i = 0; i < Masses.Length; i++) {
+			for (int i = 0; i < Masses.Length; i++){
 				double m = Masses[i];
 				double sigma = inMda ? resolution / 1000 : m / resolution;
 				int centerInd = ArrayUtils.ClosestIndex(masses, m);
 				for (int ind = centerInd - pointsPerSigma * sigmasPerPeak;
 					ind <= centerInd + pointsPerSigma * sigmasPerPeak;
-					ind++) {
+					ind++){
 					double dm = masses[ind] - m;
 					double ex = -dm * dm / sigma * sigma * 0.5;
 					intensities[ind] += Math.Exp(ex) * Intensities[i];
@@ -247,7 +241,7 @@ namespace BaseLibS.Ms {
 			return masses;
 		}
 
-		private double[] GetMasses(double resolution, bool inMda) {
+		private double[] GetMasses(double resolution, bool inMda){
 			double mstart = Masses[0];
 			double mend = Masses[Masses.Length - 1];
 			double sigmaStart = inMda ? resolution / 1000 : mstart / resolution;
@@ -256,7 +250,7 @@ namespace BaseLibS.Ms {
 			mend += 2 * sigmasPerPeak * sigmaEnd;
 			List<double> masses1 = new List<double>();
 			double m = mstart;
-			while (m <= mend) {
+			while (m <= mend){
 				masses1.Add(m);
 				double dm = (inMda ? resolution / 1000 : m / resolution) / pointsPerSigma;
 				m += dm;
@@ -264,27 +258,27 @@ namespace BaseLibS.Ms {
 			return masses1.ToArray();
 		}
 
-		public Spectrum SuppressZeroes() {
+		public Spectrum SuppressZeroes(){
 			bool[] supress = new bool[Masses.Length];
 			int x1 = GetLeadingZeroesInd(Intensities);
-			for (int i = 0; i < x1; i++) {
+			for (int i = 0; i < x1; i++){
 				supress[i] = true;
 			}
 			int x2 = GetTrailingZeroesInd(Intensities);
-			for (int i = x2 + 1; i < supress.Length; i++) {
+			for (int i = x2 + 1; i < supress.Length; i++){
 				supress[i] = true;
 			}
 			bool inRegion = false;
 			int start = -1;
-			for (int i = x1 + 1; i < x2; i++) {
-				if (Intensities[i] == 0 && !inRegion) {
+			for (int i = x1 + 1; i < x2; i++){
+				if (Intensities[i] == 0 && !inRegion){
 					inRegion = true;
 					start = i;
 				}
-				if (Intensities[i] > 0 && inRegion) {
+				if (Intensities[i] > 0 && inRegion){
 					int stop = i;
-					if (stop - start > 2) {
-						for (int j = start + 1; j < stop - 1; j++) {
+					if (stop - start > 2){
+						for (int j = start + 1; j < stop - 1; j++){
 							supress[j] = true;
 						}
 					}
@@ -293,25 +287,25 @@ namespace BaseLibS.Ms {
 				}
 			}
 			List<int> valids = new List<int>();
-			for (int i = 0; i < supress.Length; i++) {
-				if (!supress[i]) {
+			for (int i = 0; i < supress.Length; i++){
+				if (!supress[i]){
 					valids.Add(i);
 				}
 			}
-			return new Spectrum(ArrayUtils.SubArray(Masses, valids), ArrayUtils.SubArray(Intensities, valids));
+			return new Spectrum(Masses.SubArray(valids), Intensities.SubArray(valids));
 		}
 
-		private static int GetLeadingZeroesInd(double[] intensities) {
+		private static int GetLeadingZeroesInd(double[] intensities){
 			int ind = -1;
-			while (ind < intensities.Length - 1 && intensities[ind + 1] == 0) {
+			while (ind < intensities.Length - 1 && intensities[ind + 1] == 0){
 				ind++;
 			}
 			return ind;
 		}
 
-		private static int GetTrailingZeroesInd(double[] intensities) {
+		private static int GetTrailingZeroesInd(double[] intensities){
 			int ind = intensities.Length;
-			while (ind > 0 && intensities[ind - 1] == 0) {
+			while (ind > 0 && intensities[ind - 1] == 0){
 				ind--;
 			}
 			return ind;

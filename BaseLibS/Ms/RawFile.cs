@@ -567,18 +567,6 @@ namespace BaseLibS.Ms{
 			return positiveMode ? PosLayerCount : NegLayerCount;
 		}
 
-		public RawFileLayer GetPosLayer(){
-			return posLayers?[0];
-		}
-
-		public RawFileLayer GetNegLayer(){
-			return negLayers?[0];
-		}
-
-		public RawFileLayer GetLayer(bool positiveMode){
-			return positiveMode ? GetPosLayer() : GetNegLayer();
-		}
-
 		public RawFileLayer GetPosLayer(int index){
 			return posLayers?[index];
 		}
