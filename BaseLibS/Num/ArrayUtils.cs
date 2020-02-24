@@ -2549,6 +2549,16 @@ namespace BaseLibS.Num{
 			return result.ToArray();
 		}
 
+		public static double[] SmoothMean(IList<double> m, int width){
+			double[] result = new double[m.Count];
+			for (int i = 0; i < result.Length; i++){
+				int min = Math.Max(0, i - width);
+				int max = Math.Min(result.Length - 1, i + width);
+				result[i] = Average(m, min, max, 2 * width + 1);
+			}
+			return result;
+		}
+
 		public static float[] SmoothMean(IList<float> m, int width){
 			float[] result = new float[m.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2557,6 +2567,14 @@ namespace BaseLibS.Num{
 				result[i] = Average(m, min, max, 2 * width + 1);
 			}
 			return result;
+		}
+
+		public static double Average(IList<double> m, int min, int max, int len){
+			double sum = 0;
+			for (int i = min; i <= max; i++){
+				sum += m[i];
+			}
+			return sum / len;
 		}
 
 		public static float Average(IList<float> m, int min, int max, int len){
