@@ -540,6 +540,25 @@ namespace BaseLibS.Num{
 			return (ind0, ind1);
 		}
 
+		public static (int, int) MaxInd(float[,] x){
+			int n0 = x.GetLength(0);
+			int n1 = x.GetLength(1);
+			float max = float.MinValue;
+			int ind0 = -1;
+			int ind1 = -1;
+			for (int i = 0; i < n0; i++){
+				for (int j = 0; j < n1; j++){
+					float val = x[i, j];
+					if (val >= max){
+						max = val;
+						ind0 = i;
+						ind1 = j;
+					}
+				}
+			}
+			return (ind0, ind1);
+		}
+
 		public static double[] ToDoubles(IList<float> floats){
 			double[] result = new double[floats.Count];
 			for (int i = 0; i < result.Length; i++){

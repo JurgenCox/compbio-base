@@ -20,7 +20,6 @@ namespace BaseLibS.Ms {
 		public abstract double IsotopeTimeCorrelationDefault { get; }
 		public abstract double TheorIsotopeCorrelationDefault { get; }
 		public abstract float[] SmoothIntensityProfile(float[] origProfile);
-		public abstract CentroidApproach Centroiding { get; }
 		public abstract double IntensityThresholdDefault { get; }
 		public abstract bool IntensityDependentCalibrationDefault { get; }
 		public abstract double PrecursorToleranceFirstSearchDefault { get; }
