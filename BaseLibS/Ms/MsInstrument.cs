@@ -47,6 +47,7 @@ namespace BaseLibS.Ms {
 		public abstract double DiaMinScoreDefault { get; }
 		public abstract DiaQuantMethod DiaQuantMethodDefault { get; }
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
+		public abstract double DiaMinMsmsIntensityForQuantDefault { get; }
 		public abstract PrecursorFilterType DiaPrecursorFilterTypeDefault { get; }
         //public abstract DiaXgBoostBoosterType DiaXgBoostBoosterTypeDefault(MsDataType dataType);
         public abstract DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault { get; }
