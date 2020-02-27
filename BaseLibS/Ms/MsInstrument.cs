@@ -48,10 +48,11 @@ namespace BaseLibS.Ms {
 		public abstract DiaQuantMethod DiaQuantMethodDefault { get; }
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
 		public abstract double DiaMinMsmsIntensityForQuantDefault { get; }
+		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault { get; }
 		public abstract PrecursorFilterType DiaPrecursorFilterTypeDefault { get; }
         //public abstract DiaXgBoostBoosterType DiaXgBoostBoosterTypeDefault(MsDataType dataType);
         public abstract DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault { get; }
-		public abstract int DiaMinOverlapDefault { get; }
+		public abstract int DiaMinFragmentOverlapScoreDefault { get; }
 		public abstract double DiaMinPrecursorScoreDefault { get; }
 		public abstract double DiaXgBoostBaseScoreDefault { get; }
 		public abstract double DiaXgBoostSubSampleDefault { get; }
