@@ -2,6 +2,7 @@
 	public enum DiaQuantMethod{
 		Precursor,
 		TopFragments,
-		TopFragmentsAnnot
+		TopFragmentsAnnot,
+		Mixed
 	}
 }
