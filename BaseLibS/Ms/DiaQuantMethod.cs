@@ -3,6 +3,10 @@
 		Precursor,
 		TopFragments,
 		TopFragmentsAnnot,
-		Mixed
+		TopFragmentsAnnotLfqSplit,
+		TopFragmentsAnnotLfqSplitImpute,
+		Mixed,
+		MixedLfqSplit,
+		MixedLfqSplitImpute
 	}
 }
