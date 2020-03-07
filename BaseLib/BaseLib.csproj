@@ -89,6 +89,18 @@
       <DependentUpon>ColorsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ColorStripView.cs" />
+    <Compile Include="Forms\CorrectionFactorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\CorrectionFactorControl.Designer.cs">
+      <DependentUpon>CorrectionFactorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CorrectionFactorControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\CorrectionFactorControl2.Designer.cs">
+      <DependentUpon>CorrectionFactorControl2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DictionaryIntValueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -433,6 +445,12 @@
     <EmbeddedResource Include="Forms\ColorsForm.resx">
       <DependentUpon>ColorsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CorrectionFactorControl.resx">
+      <DependentUpon>CorrectionFactorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CorrectionFactorControl2.resx">
+      <DependentUpon>CorrectionFactorControl2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DictionaryIntValueControl.resx">
       <DependentUpon>DictionaryIntValueControl.cs</DependentUpon>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using BaseLibS.Mol;
@@ -170,11 +171,11 @@ namespace BaseLib.Forms {
 
 		private void ExportLabelFile(string fileName) {
 			string[][] value = Value;
-			using (StreamWriter sw = new StreamWriter(fileName)) {
+			using (StreamWriter sw = new StreamWriter(fileName)){
 				sw.WriteLine(string.Join("\t", header));
-				for (int i = 0; i < value.Length; i++) {
-					sw.WriteLine(string.Join("\t", value[i]));
-                }
+				foreach (string[] t in value){
+					sw.WriteLine(string.Join("\t", t));
+				}
 			}
 		}
 
@@ -344,10 +345,10 @@ namespace BaseLib.Forms {
 					result[i] = new[] {
 						(string) table.GetEntry(i, header[0]),
 						(string) table.GetEntry(i, header[1]),
-						((double) table.GetEntry(i, header[2])).ToString(),
-						((double) table.GetEntry(i, header[3])).ToString(),
-						((double) table.GetEntry(i, header[4])).ToString(),
-						((double) table.GetEntry(i, header[5])).ToString(),
+						((double) table.GetEntry(i, header[2])).ToString(CultureInfo.InvariantCulture),
+						((double) table.GetEntry(i, header[3])).ToString(CultureInfo.InvariantCulture),
+						((double) table.GetEntry(i, header[4])).ToString(CultureInfo.InvariantCulture),
+						((double) table.GetEntry(i, header[5])).ToString(CultureInfo.InvariantCulture),
 						((bool) table.GetEntry(i, header[6])).ToString()
 					};
 				}

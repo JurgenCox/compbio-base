@@ -28,13 +28,6 @@
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.okButton = new System.Windows.Forms.Button();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.helpLabel1 = new BaseLib.Forms.Table.HelpLabel();
-			this.helpLabel3 = new BaseLib.Forms.Table.HelpLabel();
-			this.helpLabel5 = new BaseLib.Forms.Table.HelpLabel();
-			this.helpLabel7 = new BaseLib.Forms.Table.HelpLabel();
-			this.helpLabel9 = new BaseLib.Forms.Table.HelpLabel();
-			this.helpLabel11 = new BaseLib.Forms.Table.HelpLabel();
-			this.helpLabel13 = new BaseLib.Forms.Table.HelpLabel();
 			this.tmtLikeCheckBox = new System.Windows.Forms.CheckBox();
 			this.correctionFactorM2TextBox = new System.Windows.Forms.TextBox();
 			this.correctionFactorM1TextBox = new System.Windows.Forms.TextBox();
@@ -42,6 +35,13 @@
 			this.correctionFactorP2TextBox = new System.Windows.Forms.TextBox();
 			this.internalLabelComboBox = new System.Windows.Forms.ComboBox();
 			this.terminalLabelComboBox = new System.Windows.Forms.ComboBox();
+			this.helpLabel13 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel11 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel9 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel7 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel5 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel3 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel1 = new BaseLib.Forms.Table.HelpLabel();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
@@ -136,83 +136,6 @@
 			this.tableLayoutPanel3.Size = new System.Drawing.Size(419, 189);
 			this.tableLayoutPanel3.TabIndex = 1;
 			// 
-			// helpLabel1
-			// 
-			this.helpLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel1.HelpText = "Text";
-			this.helpLabel1.HelpTitle = "Title";
-			this.helpLabel1.Location = new System.Drawing.Point(3, 3);
-			this.helpLabel1.Name = "helpLabel1";
-			this.helpLabel1.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel1.TabIndex = 0;
-			this.helpLabel1.Text = "Internal label";
-			// 
-			// helpLabel3
-			// 
-			this.helpLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel3.HelpText = "Text";
-			this.helpLabel3.HelpTitle = "Title";
-			this.helpLabel3.Location = new System.Drawing.Point(3, 28);
-			this.helpLabel3.Name = "helpLabel3";
-			this.helpLabel3.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel3.TabIndex = 2;
-			this.helpLabel3.Text = "Terminal label";
-			// 
-			// helpLabel5
-			// 
-			this.helpLabel5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel5.HelpText = "Text";
-			this.helpLabel5.HelpTitle = "Title";
-			this.helpLabel5.Location = new System.Drawing.Point(3, 53);
-			this.helpLabel5.Name = "helpLabel5";
-			this.helpLabel5.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel5.TabIndex = 4;
-			this.helpLabel5.Text = "Correction factor -2 [%]";
-			// 
-			// helpLabel7
-			// 
-			this.helpLabel7.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel7.HelpText = "Text";
-			this.helpLabel7.HelpTitle = "Title";
-			this.helpLabel7.Location = new System.Drawing.Point(3, 78);
-			this.helpLabel7.Name = "helpLabel7";
-			this.helpLabel7.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel7.TabIndex = 6;
-			this.helpLabel7.Text = "Correction factor -1 [%]";
-			// 
-			// helpLabel9
-			// 
-			this.helpLabel9.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel9.HelpText = "Text";
-			this.helpLabel9.HelpTitle = "Title";
-			this.helpLabel9.Location = new System.Drawing.Point(3, 103);
-			this.helpLabel9.Name = "helpLabel9";
-			this.helpLabel9.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel9.TabIndex = 8;
-			this.helpLabel9.Text = "Correction factor +1 [%]";
-			// 
-			// helpLabel11
-			// 
-			this.helpLabel11.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel11.HelpText = "Text";
-			this.helpLabel11.HelpTitle = "Title";
-			this.helpLabel11.Location = new System.Drawing.Point(3, 128);
-			this.helpLabel11.Name = "helpLabel11";
-			this.helpLabel11.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel11.TabIndex = 10;
-			this.helpLabel11.Text = "Correction factor +2 [%]";
-			// 
-			// helpLabel13
-			// 
-			this.helpLabel13.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.helpLabel13.HelpText = "Text";
-			this.helpLabel13.HelpTitle = "Title";
-			this.helpLabel13.Location = new System.Drawing.Point(3, 153);
-			this.helpLabel13.Name = "helpLabel13";
-			this.helpLabel13.Size = new System.Drawing.Size(136, 19);
-			this.helpLabel13.TabIndex = 12;
-			this.helpLabel13.Text = "TMT-like";
-			// 
 			// tmtLikeCheckBox
 			// 
 			this.tmtLikeCheckBox.AutoSize = true;
@@ -273,6 +196,83 @@
 			this.terminalLabelComboBox.Name = "terminalLabelComboBox";
 			this.terminalLabelComboBox.Size = new System.Drawing.Size(271, 21);
 			this.terminalLabelComboBox.TabIndex = 19;
+			// 
+			// helpLabel13
+			// 
+			this.helpLabel13.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel13.HelpText = "Text";
+			this.helpLabel13.HelpTitle = "Title";
+			this.helpLabel13.Location = new System.Drawing.Point(3, 153);
+			this.helpLabel13.Name = "helpLabel13";
+			this.helpLabel13.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel13.TabIndex = 12;
+			this.helpLabel13.Text = "TMT-like";
+			// 
+			// helpLabel11
+			// 
+			this.helpLabel11.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel11.HelpText = "Text";
+			this.helpLabel11.HelpTitle = "Title";
+			this.helpLabel11.Location = new System.Drawing.Point(3, 128);
+			this.helpLabel11.Name = "helpLabel11";
+			this.helpLabel11.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel11.TabIndex = 10;
+			this.helpLabel11.Text = "Correction factor +2 [%]";
+			// 
+			// helpLabel9
+			// 
+			this.helpLabel9.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel9.HelpText = "Text";
+			this.helpLabel9.HelpTitle = "Title";
+			this.helpLabel9.Location = new System.Drawing.Point(3, 103);
+			this.helpLabel9.Name = "helpLabel9";
+			this.helpLabel9.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel9.TabIndex = 8;
+			this.helpLabel9.Text = "Correction factor +1 [%]";
+			// 
+			// helpLabel7
+			// 
+			this.helpLabel7.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel7.HelpText = "Text";
+			this.helpLabel7.HelpTitle = "Title";
+			this.helpLabel7.Location = new System.Drawing.Point(3, 78);
+			this.helpLabel7.Name = "helpLabel7";
+			this.helpLabel7.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel7.TabIndex = 6;
+			this.helpLabel7.Text = "Correction factor -1 [%]";
+			// 
+			// helpLabel5
+			// 
+			this.helpLabel5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel5.HelpText = "Text";
+			this.helpLabel5.HelpTitle = "Title";
+			this.helpLabel5.Location = new System.Drawing.Point(3, 53);
+			this.helpLabel5.Name = "helpLabel5";
+			this.helpLabel5.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel5.TabIndex = 4;
+			this.helpLabel5.Text = "Correction factor -2 [%]";
+			// 
+			// helpLabel3
+			// 
+			this.helpLabel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel3.HelpText = "Text";
+			this.helpLabel3.HelpTitle = "Title";
+			this.helpLabel3.Location = new System.Drawing.Point(3, 28);
+			this.helpLabel3.Name = "helpLabel3";
+			this.helpLabel3.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel3.TabIndex = 2;
+			this.helpLabel3.Text = "Terminal label";
+			// 
+			// helpLabel1
+			// 
+			this.helpLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel1.HelpText = "Text";
+			this.helpLabel1.HelpTitle = "Title";
+			this.helpLabel1.Location = new System.Drawing.Point(3, 3);
+			this.helpLabel1.Name = "helpLabel1";
+			this.helpLabel1.Size = new System.Drawing.Size(136, 19);
+			this.helpLabel1.TabIndex = 0;
+			this.helpLabel1.Text = "Internal label";
 			// 
 			// IsobaricLabelsEditForm
 			// 
