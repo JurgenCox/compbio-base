@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Forms;
 using BaseLibS.Mol;
-using BaseLibS.Util;
 
 namespace BaseLib.Forms{
 	public partial class IsobaricLabelsEditForm : Form{
@@ -58,23 +57,23 @@ namespace BaseLib.Forms{
 			terminalLabelComboBox.SelectedIndex <= 0 ? "" : terminalLabelComboBox.SelectedItem.ToString();
 
 		private double CorrectionFactorM2{
-			get => Parser.TryDouble(correctionFactorM2TextBox.Text, out double x) ? x : 0;
-			set => correctionFactorM2TextBox.Text = "" + value;
+			get => correctionFactorControlM2.Value;
+			set => correctionFactorControlM2.Value = value;
 		}
 
 		private double CorrectionFactorM1{
-			get => Parser.TryDouble(correctionFactorM1TextBox.Text, out double x) ? x : 0;
-			set => correctionFactorM1TextBox.Text = "" + value;
+			get => correctionFactorControlM1.Value;
+			set => correctionFactorControlM1.Value = value;
 		}
 
 		private double CorrectionFactorP1{
-			get => Parser.TryDouble(correctionFactorP1TextBox.Text, out double x) ? x : 0;
-			set => correctionFactorP1TextBox.Text = "" + value;
+			get => correctionFactorControlP1.Value;
+			set => correctionFactorControlP1.Value = value;
 		}
 
 		private double CorrectionFactorP2{
-			get => Parser.TryDouble(correctionFactorP2TextBox.Text, out double x) ? x : 0;
-			set => correctionFactorP2TextBox.Text = "" + value;
+			get => correctionFactorControlP2.Value;
+			set => correctionFactorControlP2.Value = value;
 		}
 
 		public bool TmtLike => tmtLikeCheckBox.Checked;

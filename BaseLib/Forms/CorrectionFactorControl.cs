@@ -1,12 +1,14 @@
 ﻿using System.Windows.Forms;
+using BaseLibS.Util;
 
 namespace BaseLib.Forms{
 	public partial class CorrectionFactorControl : UserControl{
 		private bool twoValues;
-
+		private readonly TextBox singleTextBox;
+		private readonly CorrectionFactorControl2 twoTextBoxes;
 		public CorrectionFactorControl(){
 			InitializeComponent();
-			TextBox singleTextBox = new TextBox{
+			singleTextBox = new TextBox{
 				Dock = DockStyle.Fill,
 				Location = new System.Drawing.Point(30, 0),
 				Margin = new Padding(0),
@@ -14,7 +16,7 @@ namespace BaseLib.Forms{
 				Size = new System.Drawing.Size(285, 20),
 				TabIndex = 1
 			};
-			CorrectionFactorControl2 twoTextBoxes = new CorrectionFactorControl2{
+			twoTextBoxes = new CorrectionFactorControl2{
 				Dock = DockStyle.Fill,
 				Location = new System.Drawing.Point(30, 0),
 				Margin = new Padding(0),
@@ -35,5 +37,11 @@ namespace BaseLib.Forms{
 				twoValues = !twoValues;
 			};
 		}
+
+		public double Value {
+			get => Parser.TryDouble(singleTextBox.Text, out double x) ? x : 0;
+			set => singleTextBox.Text = "" + value;
+		}
+
 	}
 }

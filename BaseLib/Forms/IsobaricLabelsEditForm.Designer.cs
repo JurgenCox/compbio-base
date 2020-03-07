@@ -29,10 +29,6 @@
 			this.okButton = new System.Windows.Forms.Button();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
 			this.tmtLikeCheckBox = new System.Windows.Forms.CheckBox();
-			this.correctionFactorM2TextBox = new System.Windows.Forms.TextBox();
-			this.correctionFactorM1TextBox = new System.Windows.Forms.TextBox();
-			this.correctionFactorP1TextBox = new System.Windows.Forms.TextBox();
-			this.correctionFactorP2TextBox = new System.Windows.Forms.TextBox();
 			this.internalLabelComboBox = new System.Windows.Forms.ComboBox();
 			this.terminalLabelComboBox = new System.Windows.Forms.ComboBox();
 			this.helpLabel13 = new BaseLib.Forms.Table.HelpLabel();
@@ -42,6 +38,10 @@
 			this.helpLabel5 = new BaseLib.Forms.Table.HelpLabel();
 			this.helpLabel3 = new BaseLib.Forms.Table.HelpLabel();
 			this.helpLabel1 = new BaseLib.Forms.Table.HelpLabel();
+			this.correctionFactorControlM2 = new BaseLib.Forms.CorrectionFactorControl();
+			this.correctionFactorControlM1 = new BaseLib.Forms.CorrectionFactorControl();
+			this.correctionFactorControlP1 = new BaseLib.Forms.CorrectionFactorControl();
+			this.correctionFactorControlP2 = new BaseLib.Forms.CorrectionFactorControl();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
@@ -115,12 +115,12 @@
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel3, 0, 1);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel1, 0, 0);
 			this.tableLayoutPanel3.Controls.Add(this.tmtLikeCheckBox, 1, 6);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorM2TextBox, 1, 2);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorM1TextBox, 1, 3);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorP1TextBox, 1, 4);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorP2TextBox, 1, 5);
 			this.tableLayoutPanel3.Controls.Add(this.internalLabelComboBox, 1, 0);
 			this.tableLayoutPanel3.Controls.Add(this.terminalLabelComboBox, 1, 1);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM2, 1, 2);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM1, 1, 3);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP1, 1, 4);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP2, 1, 5);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -144,38 +144,6 @@
 			this.tmtLikeCheckBox.Size = new System.Drawing.Size(15, 14);
 			this.tmtLikeCheckBox.TabIndex = 13;
 			this.tmtLikeCheckBox.UseVisualStyleBackColor = true;
-			// 
-			// correctionFactorM2TextBox
-			// 
-			this.correctionFactorM2TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorM2TextBox.Location = new System.Drawing.Point(145, 53);
-			this.correctionFactorM2TextBox.Name = "correctionFactorM2TextBox";
-			this.correctionFactorM2TextBox.Size = new System.Drawing.Size(271, 20);
-			this.correctionFactorM2TextBox.TabIndex = 14;
-			// 
-			// correctionFactorM1TextBox
-			// 
-			this.correctionFactorM1TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorM1TextBox.Location = new System.Drawing.Point(145, 78);
-			this.correctionFactorM1TextBox.Name = "correctionFactorM1TextBox";
-			this.correctionFactorM1TextBox.Size = new System.Drawing.Size(271, 20);
-			this.correctionFactorM1TextBox.TabIndex = 15;
-			// 
-			// correctionFactorP1TextBox
-			// 
-			this.correctionFactorP1TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorP1TextBox.Location = new System.Drawing.Point(145, 103);
-			this.correctionFactorP1TextBox.Name = "correctionFactorP1TextBox";
-			this.correctionFactorP1TextBox.Size = new System.Drawing.Size(271, 20);
-			this.correctionFactorP1TextBox.TabIndex = 16;
-			// 
-			// correctionFactorP2TextBox
-			// 
-			this.correctionFactorP2TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorP2TextBox.Location = new System.Drawing.Point(145, 128);
-			this.correctionFactorP2TextBox.Name = "correctionFactorP2TextBox";
-			this.correctionFactorP2TextBox.Size = new System.Drawing.Size(271, 20);
-			this.correctionFactorP2TextBox.TabIndex = 17;
 			// 
 			// internalLabelComboBox
 			// 
@@ -274,6 +242,34 @@
 			this.helpLabel1.TabIndex = 0;
 			this.helpLabel1.Text = "Internal label";
 			// 
+			// correctionFactorControlM2
+			// 
+			this.correctionFactorControlM2.Location = new System.Drawing.Point(145, 53);
+			this.correctionFactorControlM2.Name = "correctionFactorControlM2";
+			this.correctionFactorControlM2.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlM2.TabIndex = 20;
+			// 
+			// correctionFactorControlM1
+			// 
+			this.correctionFactorControlM1.Location = new System.Drawing.Point(145, 78);
+			this.correctionFactorControlM1.Name = "correctionFactorControlM1";
+			this.correctionFactorControlM1.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlM1.TabIndex = 21;
+			// 
+			// correctionFactorControlP1
+			// 
+			this.correctionFactorControlP1.Location = new System.Drawing.Point(145, 103);
+			this.correctionFactorControlP1.Name = "correctionFactorControlP1";
+			this.correctionFactorControlP1.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlP1.TabIndex = 22;
+			// 
+			// correctionFactorControlP2
+			// 
+			this.correctionFactorControlP2.Location = new System.Drawing.Point(145, 128);
+			this.correctionFactorControlP2.Name = "correctionFactorControlP2";
+			this.correctionFactorControlP2.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlP2.TabIndex = 23;
+			// 
 			// IsobaricLabelsEditForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,11 +301,11 @@
 		private Table.HelpLabel helpLabel5;
 		private Table.HelpLabel helpLabel3;
 		private System.Windows.Forms.CheckBox tmtLikeCheckBox;
-		private System.Windows.Forms.TextBox correctionFactorM2TextBox;
-		private System.Windows.Forms.TextBox correctionFactorM1TextBox;
-		private System.Windows.Forms.TextBox correctionFactorP1TextBox;
-		private System.Windows.Forms.TextBox correctionFactorP2TextBox;
 		private System.Windows.Forms.ComboBox internalLabelComboBox;
 		private System.Windows.Forms.ComboBox terminalLabelComboBox;
+		private CorrectionFactorControl correctionFactorControlM2;
+		private CorrectionFactorControl correctionFactorControlM1;
+		private CorrectionFactorControl correctionFactorControlP1;
+		private CorrectionFactorControl correctionFactorControlP2;
 	}
 }
