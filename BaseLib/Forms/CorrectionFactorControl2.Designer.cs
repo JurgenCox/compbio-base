@@ -39,9 +39,9 @@
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.ColumnCount = 4;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.label2, 2, 0);
@@ -59,35 +59,41 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 0);
+			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label1.Location = new System.Drawing.Point(2, 3);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 3, 0, 3);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(35, 13);
+			this.label1.Size = new System.Drawing.Size(58, 72);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "label1";
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(276, 0);
+			this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label2.Location = new System.Drawing.Point(275, 3);
+			this.label2.Margin = new System.Windows.Forms.Padding(2, 3, 0, 3);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(35, 13);
+			this.label2.Size = new System.Drawing.Size(58, 72);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "label2";
 			// 
 			// textBox1
 			// 
 			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox1.Location = new System.Drawing.Point(93, 3);
+			this.textBox1.Location = new System.Drawing.Point(60, 0);
+			this.textBox1.Margin = new System.Windows.Forms.Padding(0);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(177, 20);
+			this.textBox1.Size = new System.Drawing.Size(213, 20);
 			this.textBox1.TabIndex = 2;
 			// 
 			// textBox2
 			// 
 			this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox2.Location = new System.Drawing.Point(366, 3);
+			this.textBox2.Location = new System.Drawing.Point(333, 0);
+			this.textBox2.Margin = new System.Windows.Forms.Padding(0);
 			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(178, 20);
+			this.textBox2.Size = new System.Drawing.Size(214, 20);
 			this.textBox2.TabIndex = 3;
 			// 
 			// CorrectionFactorControl2

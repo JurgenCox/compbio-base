@@ -6,6 +6,7 @@ namespace BaseLib.Forms{
 		private bool twoValues;
 		private readonly TextBox singleTextBox;
 		private readonly CorrectionFactorControl2 twoTextBoxes;
+
 		public CorrectionFactorControl(){
 			InitializeComponent();
 			singleTextBox = new TextBox{
@@ -38,10 +39,27 @@ namespace BaseLib.Forms{
 			};
 		}
 
-		public double Value {
+		public string Label1{
+			get => twoTextBoxes.Label1;
+			set => twoTextBoxes.Label1 = value;
+		}
+
+		public string Label2{
+			get => twoTextBoxes.Label2;
+			set => twoTextBoxes.Label2 = value;
+		}
+
+		public double Value{
 			get => Parser.TryDouble(singleTextBox.Text, out double x) ? x : 0;
 			set => singleTextBox.Text = "" + value;
 		}
 
+		public (double, double) Values{
+			get => (twoTextBoxes.Value1, twoTextBoxes.Value2);
+			set{
+				twoTextBoxes.Value1 = value.Item1;
+				twoTextBoxes.Value2 = value.Item2;
+			}
+		}
 	}
 }

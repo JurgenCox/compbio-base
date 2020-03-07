@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IsobaricLabelsEditForm));
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.cancelButton = new System.Windows.Forms.Button();
@@ -61,7 +62,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(425, 220);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(490, 220);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// tableLayoutPanel2
@@ -78,7 +79,7 @@
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(425, 25);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(490, 25);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// cancelButton
@@ -94,7 +95,7 @@
 			// 
 			// okButton
 			// 
-			this.okButton.Location = new System.Drawing.Point(345, 0);
+			this.okButton.Location = new System.Drawing.Point(410, 0);
 			this.okButton.Margin = new System.Windows.Forms.Padding(0);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 23);
@@ -133,7 +134,7 @@
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(419, 189);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(484, 189);
 			this.tableLayoutPanel3.TabIndex = 1;
 			// 
 			// tmtLikeCheckBox
@@ -152,7 +153,7 @@
 			this.internalLabelComboBox.FormattingEnabled = true;
 			this.internalLabelComboBox.Location = new System.Drawing.Point(145, 3);
 			this.internalLabelComboBox.Name = "internalLabelComboBox";
-			this.internalLabelComboBox.Size = new System.Drawing.Size(271, 21);
+			this.internalLabelComboBox.Size = new System.Drawing.Size(336, 21);
 			this.internalLabelComboBox.TabIndex = 18;
 			// 
 			// terminalLabelComboBox
@@ -162,7 +163,7 @@
 			this.terminalLabelComboBox.FormattingEnabled = true;
 			this.terminalLabelComboBox.Location = new System.Drawing.Point(145, 28);
 			this.terminalLabelComboBox.Name = "terminalLabelComboBox";
-			this.terminalLabelComboBox.Size = new System.Drawing.Size(271, 21);
+			this.terminalLabelComboBox.Size = new System.Drawing.Size(336, 21);
 			this.terminalLabelComboBox.TabIndex = 19;
 			// 
 			// helpLabel13
@@ -244,37 +245,57 @@
 			// 
 			// correctionFactorControlM2
 			// 
+			this.correctionFactorControlM2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlM2.Label1 = "-2x 13C";
+			this.correctionFactorControlM2.Label2 = "-13C-15N";
 			this.correctionFactorControlM2.Location = new System.Drawing.Point(145, 53);
 			this.correctionFactorControlM2.Name = "correctionFactorControlM2";
-			this.correctionFactorControlM2.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlM2.Size = new System.Drawing.Size(336, 19);
 			this.correctionFactorControlM2.TabIndex = 20;
+			this.correctionFactorControlM2.Value = 0D;
+			this.correctionFactorControlM2.Values = ((System.ValueTuple<double, double>)(resources.GetObject("correctionFactorControlM2.Values")));
 			// 
 			// correctionFactorControlM1
 			// 
+			this.correctionFactorControlM1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlM1.Label1 = "-13C";
+			this.correctionFactorControlM1.Label2 = "-15N";
 			this.correctionFactorControlM1.Location = new System.Drawing.Point(145, 78);
 			this.correctionFactorControlM1.Name = "correctionFactorControlM1";
-			this.correctionFactorControlM1.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlM1.Size = new System.Drawing.Size(336, 19);
 			this.correctionFactorControlM1.TabIndex = 21;
+			this.correctionFactorControlM1.Value = 0D;
+			this.correctionFactorControlM1.Values = ((System.ValueTuple<double, double>)(resources.GetObject("correctionFactorControlM1.Values")));
 			// 
 			// correctionFactorControlP1
 			// 
+			this.correctionFactorControlP1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlP1.Label1 = "+15N";
+			this.correctionFactorControlP1.Label2 = "+13C";
 			this.correctionFactorControlP1.Location = new System.Drawing.Point(145, 103);
 			this.correctionFactorControlP1.Name = "correctionFactorControlP1";
-			this.correctionFactorControlP1.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlP1.Size = new System.Drawing.Size(336, 19);
 			this.correctionFactorControlP1.TabIndex = 22;
+			this.correctionFactorControlP1.Value = 0D;
+			this.correctionFactorControlP1.Values = ((System.ValueTuple<double, double>)(resources.GetObject("correctionFactorControlP1.Values")));
 			// 
 			// correctionFactorControlP2
 			// 
+			this.correctionFactorControlP2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlP2.Label1 = "+15N+13C";
+			this.correctionFactorControlP2.Label2 = "+2x 13C";
 			this.correctionFactorControlP2.Location = new System.Drawing.Point(145, 128);
 			this.correctionFactorControlP2.Name = "correctionFactorControlP2";
-			this.correctionFactorControlP2.Size = new System.Drawing.Size(271, 19);
+			this.correctionFactorControlP2.Size = new System.Drawing.Size(336, 19);
 			this.correctionFactorControlP2.TabIndex = 23;
+			this.correctionFactorControlP2.Value = 0D;
+			this.correctionFactorControlP2.Values = ((System.ValueTuple<double, double>)(resources.GetObject("correctionFactorControlP2.Values")));
 			// 
 			// IsobaricLabelsEditForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(425, 220);
+			this.ClientSize = new System.Drawing.Size(490, 220);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "IsobaricLabelsEditForm";
 			this.Text = "Define isobaric label";
