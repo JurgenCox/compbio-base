@@ -78,7 +78,7 @@ namespace BaseLib.Forms{
 			InitializeComponent2();
 		}
 
-		private static readonly string[] header = new[]{
+		private static readonly string[] header = {
 			"Internal label", "Terminal label", "Correction factor -2 [%]", "Correction factor -1 [%]",
 			"Correction factor +1 [%]", "Correction factor +2 [%]", "TMT like"
 		};
@@ -188,17 +188,22 @@ namespace BaseLib.Forms{
 
 		private void InitializeComponent2(){
 			TableLayoutPanel tableLayoutPanel2 = new TableLayoutPanel();
+			TableLayoutPanel tableLayoutPanel3 = new TableLayoutPanel();
 			Button addButton = new Button();
 			Button removeButton = new Button();
 			Button editButton = new Button();
 			Button importButton = new Button();
 			Button exportButton = new Button();
 			tableLayoutPanel2.SuspendLayout();
+			tableLayoutPanel3.SuspendLayout();
 			tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-			int nbuttons = 5 + defaults.Length;
-			tableLayoutPanel2.ColumnCount = 2 * nbuttons;
+			tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
+			int firstRowButtons = 2;
+			int nbuttons2 = 5 + firstRowButtons;
+			int nbuttons3 = defaults.Length - firstRowButtons;
+			tableLayoutPanel2.ColumnCount = 2 * nbuttons2;
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
-			for (int i = 0; i < nbuttons - 1; i++){
+			for (int i = 0; i < nbuttons2 - 1; i++){
 				tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));
 				tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
 			}
@@ -208,8 +213,18 @@ namespace BaseLib.Forms{
 			tableLayoutPanel2.Controls.Add(editButton, 4, 0);
 			tableLayoutPanel2.Controls.Add(importButton, 6, 0);
 			tableLayoutPanel2.Controls.Add(exportButton, 8, 0);
-			for (int i = 0; i < defaults.Length; i++){
+			for (int i = 0; i < firstRowButtons; i++){
 				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 10 + 2 * i, 0);
+			}
+			tableLayoutPanel3.ColumnCount = 2 * nbuttons3;
+			tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
+			for (int i = 0; i < nbuttons3 - 1; i++){
+				tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));
+				tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
+			}
+			tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78F));
+			for (int i = firstRowButtons; i < defaults.Length; i++){
+				tableLayoutPanel3.Controls.Add(CreateDefaultButton(defaults[i]), 2 * (i - firstRowButtons), 0);
 			}
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
@@ -219,6 +234,14 @@ namespace BaseLib.Forms{
 			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 			tableLayoutPanel2.Size = new System.Drawing.Size(2135, 50);
 			tableLayoutPanel2.TabIndex = 2;
+			tableLayoutPanel3.Dock = DockStyle.Fill;
+			tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+			tableLayoutPanel3.Margin = new Padding(0);
+			tableLayoutPanel3.Name = "tableLayoutPanel2";
+			tableLayoutPanel3.RowCount = 1;
+			tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+			tableLayoutPanel3.Size = new System.Drawing.Size(2135, 50);
+			tableLayoutPanel3.TabIndex = 2;
 			// 
 			// addButton
 			// 
@@ -275,6 +298,7 @@ namespace BaseLib.Forms{
 			exportButton.Text = @"Export";
 			exportButton.UseVisualStyleBackColor = true;
 			tableLayoutPanel2.ResumeLayout(false);
+			tableLayoutPanel3.ResumeLayout(false);
 			tableView1.TableModel = CreateTable();
 			addButton.Click += AddButtonOnClick;
 			removeButton.Click += RemoveButtonOnClick;
