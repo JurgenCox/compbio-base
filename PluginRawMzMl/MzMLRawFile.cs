@@ -312,7 +312,7 @@ namespace PluginRawMzMl{
 		}
 
 		protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out double[] intensities, double resolution, double mzMin,
+			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double mzMin,
 			double mzMax){
 			if (!preInitialized){
 				PreInit();

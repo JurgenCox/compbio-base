@@ -9,9 +9,9 @@ namespace BaseLibS.Ms{
 	/// </summary>
 	public class Spectrum : IDisposable{
 		public double[] Masses{ get; set; }
-		public double[] Intensities{ get; set; }
+		public float[] Intensities{ get; set; }
 
-		public Spectrum(double[] masses, double[] intensities){
+		public Spectrum(double[] masses, float[] intensities){
 			Masses = masses;
 			Intensities = intensities;
 		}
@@ -84,11 +84,11 @@ namespace BaseLibS.Ms{
 		/// <summary>
 		/// Get intensity as a function of index.
 		/// </summary>
-		public double GetIntensity(int index){
+		public float GetIntensity(int index){
 			return index >= Intensities.Length ? 0 : Intensities[index];
 		}
 
-		public double GetIntensityFromMass(double mass, double dm){
+		public float GetIntensityFromMass(double mass, double dm){
 			int ind = GetClosestIndex(mass, true);
 			if (ind == -1){
 				return 0;
@@ -96,7 +96,7 @@ namespace BaseLibS.Ms{
 			return Math.Abs(mass - GetMass(ind)) > dm ? 0 : GetIntensity(ind);
 		}
 
-		public double InterpolateIntensity(double mass){
+		public float InterpolateIntensity(double mass){
 			int indf = GetFloorIndex(mass);
 			if (indf == -1){
 				int ind1 = GetClosestIndex(mass, true);
@@ -161,17 +161,17 @@ namespace BaseLibS.Ms{
 			return result;
 		}
 
-		public double[] CopyIntensities(){
-			double[] result = new double[Count];
+		public float[] CopyIntensities(){
+			float[] result = new float[Count];
 			for (int i = 0; i < Count; i++){
 				result[i] = GetIntensity(i);
 			}
 			return result;
 		}
 
-		private static double InterpolateIntensity(double mass, double massL, double massH, double intL, double intH){
-			double wL = ((massH - mass) / (massH - massL));
-			double wH = ((mass - massL) / (massH - massL));
+		private static float InterpolateIntensity(double mass, double massL, double massH, float intL, float intH){
+			float wL = (float) ((massH - mass) / (massH - massL));
+			float wH = (float) ((mass - massL) / (massH - massL));
 			return intL * wL + intH * wH;
 		}
 
@@ -182,12 +182,12 @@ namespace BaseLibS.Ms{
 			if (Masses.Length == 0){
 				return this;
 			}
-			double[] masses = CalcSpec(resolution, inMda, out double[] intensities);
+			double[] masses = CalcSpec(resolution, inMda, out float[] intensities);
 			int[] vailds = GetZeroRegions(intensities);
 			return new Spectrum(masses.SubArray(vailds), intensities.SubArray(vailds));
 		}
 
-		private static int[] GetZeroRegions(double[] intensities){
+		private static int[] GetZeroRegions(float[] intensities){
 			bool inRegion = false;
 			int currentStart = -1;
 			bool[] mask = new bool[intensities.Length];
@@ -223,9 +223,9 @@ namespace BaseLibS.Ms{
 			return valids.ToArray();
 		}
 
-		private double[] CalcSpec(double resolution, bool inMda, out double[] intensities){
+		private double[] CalcSpec(double resolution, bool inMda, out float[] intensities){
 			double[] masses = GetMasses(resolution, inMda);
-			intensities = new double[masses.Length];
+			intensities = new float[masses.Length];
 			for (int i = 0; i < Masses.Length; i++){
 				double m = Masses[i];
 				double sigma = inMda ? resolution / 1000 : m / resolution;
@@ -235,7 +235,7 @@ namespace BaseLibS.Ms{
 					ind++){
 					double dm = masses[ind] - m;
 					double ex = -dm * dm / sigma * sigma * 0.5;
-					intensities[ind] += Math.Exp(ex) * Intensities[i];
+					intensities[ind] += (float) (Math.Exp(ex) * Intensities[i]);
 				}
 			}
 			return masses;
@@ -295,7 +295,7 @@ namespace BaseLibS.Ms{
 			return new Spectrum(Masses.SubArray(valids), Intensities.SubArray(valids));
 		}
 
-		private static int GetLeadingZeroesInd(double[] intensities){
+		private static int GetLeadingZeroesInd(float[] intensities){
 			int ind = -1;
 			while (ind < intensities.Length - 1 && intensities[ind + 1] == 0){
 				ind++;
@@ -303,7 +303,7 @@ namespace BaseLibS.Ms{
 			return ind;
 		}
 
-		private static int GetTrailingZeroesInd(double[] intensities){
+		private static int GetTrailingZeroesInd(float[] intensities){
 			int ind = intensities.Length;
 			while (ind > 0 && intensities[ind - 1] == 0){
 				ind--;

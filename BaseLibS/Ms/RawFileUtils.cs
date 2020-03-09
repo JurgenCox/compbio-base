@@ -102,15 +102,15 @@ namespace BaseLibS.Ms {
 			}
 			if (toBeRemoved.Count > 0) {
 				int[] valids = ArrayUtils.Complement(toBeRemoved, keys.Length);
-				keys = ArrayUtils.SubArray(keys, valids);
-				values = ArrayUtils.SubArray(values, valids);
+				keys = keys.SubArray(valids);
+				values = values.SubArray(valids);
 				return true;
 			}
 			return false;
 		}
 		internal static void InitMassGrid(RawFileLayer layer, IDictionary<int, double> mins) {
 			for (int i = 0; i < layer.Ms1Count; i++) {
-				layer.GetMs1SpectrumArray(i, false, out double[] masses, out double[] _);
+				layer.GetMs1SpectrumArray(i, false, out double[] masses, out float[] _);
 				for (int j = 0; j < masses.Length - 1; j++) {
 					double m1 = masses[j];
 					double m2 = masses[j + 1];
