@@ -19,21 +19,11 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Number of data points under each <see cref="nodes"/>
 		/// </summary>
-		private int[] sizes;
+		public int[] sizes;
 
 		private int[] start;
 		private int[] end;
 
-		public ClusterResult(HierarchicalClusterNode[] nodes, int[][] clusters, Dictionary<string, Color2> colorMap){
-			this.nodes = nodes;
-			HierarchicalClustering.CalcTree(nodes, out sizes, out start, out end, out itemOrder, out itemOrderInv);
-			Clusters = clusters;
-			cluster2Color = colorMap;
-		}
-
-		public bool drawHang = true;
-		public int colorBarSize = 15;
-		public int treeLineWidth = 2;
 		public Dictionary<string, Color2> cluster2Color;
 
 		/// <summary>
@@ -43,6 +33,16 @@ namespace BaseLibS.Num.Cluster{
 		/// Every node can be member of at most one cluster.
 		/// </summary>
 		private int[][] clusters;
+
+		public ClusterResult(HierarchicalClusterNode[] nodes, int[][] clusters, Dictionary<string, Color2> colorMap){
+			this.nodes = nodes;
+			HierarchicalClustering.CalcTree(nodes, out sizes, out start, out end, out itemOrder, out itemOrderInv);
+			Clusters = clusters;
+			cluster2Color = colorMap;
+		}
+
+		public ClusterResult(HierarchicalClusterNode[] nodes) : this(nodes, new int[0][],
+			new Dictionary<string, Color2>()){ }
 
 		private int[][] Clusters{
 			get => clusters;
@@ -109,12 +109,12 @@ namespace BaseLibS.Num.Cluster{
 		/// index format.
 		/// </summary>
 		public void DefineClusters(double dist){
-			void remove(ICollection<int> nodes1, int i){
+			void Remove(ICollection<int> nodes1, int i){
 				nodes1.Remove(i);
 				if (i < 0){
 					nodes1.Remove(i);
-					remove(nodes1, nodes[-1 - i].left);
-					remove(nodes1, nodes[-1 - i].right);
+					Remove(nodes1, nodes[-1 - i].left);
+					Remove(nodes1, nodes[-1 - i].right);
 				}
 			}
 
@@ -127,8 +127,8 @@ namespace BaseLibS.Num.Cluster{
 					break;
 				}
 				clusterNodes.Add(-1 - i);
-				remove(clusterNodes, nodes[i].left);
-				remove(clusterNodes, nodes[i].right);
+				Remove(clusterNodes, nodes[i].left);
+				Remove(clusterNodes, nodes[i].right);
 			}
 			Clusters = clusterNodes.Select(i => new[]{i}).ToArray();
 			foreach (string clusterId in ClusterIds){
@@ -144,24 +144,24 @@ namespace BaseLibS.Num.Cluster{
 		public IDictionary<int, Color2> NodeIndexToColor(){
 			Dictionary<int, Color2> result = new Dictionary<int, Color2>();
 
-			void addChildren(int c, string id, int value){
+			void AddChildren(int c, string id, int value){
 				if (!cluster2Color.ContainsKey(id)){
 					cluster2Color.Add(id, GraphUtil.GetPredefinedColor(value));
 				}
 				result.Add(-1 - c, cluster2Color[id]);
 				HierarchicalClusterNode node = nodes[-1 - c];
 				if (node.left < 0){
-					addChildren(node.left, id, value);
+					AddChildren(node.left, id, value);
 				}
 				if (node.right < 0){
-					addChildren(node.right, id, value);
+					AddChildren(node.right, id, value);
 				}
 			}
 
 			foreach ((int[] t, string id) in Clusters.Zip(ClusterIds, (t, id) => (t, id))){
 				foreach (int cl in t){
 					if (cl < 0){
-						addChildren(cl, id, t[0]);
+						AddChildren(cl, id, t[0]);
 					}
 				}
 			}
@@ -282,7 +282,7 @@ namespace BaseLibS.Num.Cluster{
 		public int[] GetLeaves(string clusterId){
 			List<int> leaves = new List<int>();
 
-			void addLeaves(int cl){
+			void AddLeaves(int cl){
 				if (cl >= 0){
 					return;
 				}
@@ -292,12 +292,12 @@ namespace BaseLibS.Num.Cluster{
 				if (nodes[-1 - cl].right >= 0){
 					leaves.Add(nodes[-1 - cl].right);
 				}
-				addLeaves(nodes[-1 - cl].left);
-				addLeaves(nodes[-1 - cl].right);
+				AddLeaves(nodes[-1 - cl].left);
+				AddLeaves(nodes[-1 - cl].right);
 			}
 
 			foreach (int i in clusterId.Split(';').Select(s => Convert.ToInt32(s))){
-				addLeaves(i);
+				AddLeaves(i);
 			}
 			leaves.Sort();
 			return leaves.ToArray();
@@ -368,6 +368,15 @@ namespace BaseLibS.Num.Cluster{
 				return (id, size, colorName);
 			}).ToArray();
 			return clusters1;
+		}
+
+		public bool HasSubClusterGeThan(int size){
+			for (int i = sizes.Length - 2; i >= 0; i--){
+				if (sizes[i] >= size){
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

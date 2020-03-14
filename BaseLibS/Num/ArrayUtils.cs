@@ -2526,6 +2526,16 @@ namespace BaseLibS.Num{
 			return result;
 		}
 
+		public static float[,] ToFloats(bool[,] x){
+			float[,] result = new float[x.GetLength(0), x.GetLength(1)];
+			for (int i = 0; i < x.GetLength(0); i++){
+				for (int j = 0; j < x.GetLength(1); j++){
+					result[i, j] = x[i, j] ? 1 : 0;
+				}
+			}
+			return result;
+		}
+
 		public static double[] ExtractValidValues(IList<double> x){
 			List<double> result = new List<double>();
 			foreach (double y in x){
