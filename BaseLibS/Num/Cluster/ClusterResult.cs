@@ -33,6 +33,9 @@ namespace BaseLibS.Num.Cluster{
 		/// Every node can be member of at most one cluster.
 		/// </summary>
 		private int[][] clusters;
+		public bool drawHang = true;
+		public int colorBarSize = 15;
+		public int treeLineWidth = 2;
 
 		public ClusterResult(HierarchicalClusterNode[] nodes, int[][] clusters, Dictionary<string, Color2> colorMap){
 			this.nodes = nodes;
