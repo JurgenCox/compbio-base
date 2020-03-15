@@ -185,13 +185,15 @@ namespace BaseLibS.Num.Cluster{
 		/// Get all parent nodes indices of <param name="nodes1">nodes</param>
 		/// </summary>
 		private IEnumerable<int> GetParents(params int[] nodes1){
+			List<int> parents = new List<int>();
 			foreach (int cl in nodes1){
 				for (int i = 0; i < this.nodes.Length; i++){
 					if (IsParent(cl, -1 - i)){
-						yield return -1 - i;
+						parents.Add(-1 - i);
 					}
 				}
 			}
+			return parents;
 		}
 
 		/// <summary>
@@ -228,17 +230,17 @@ namespace BaseLibS.Num.Cluster{
 		/// Get children nodes of cluster <param name="cl">cl</param>.
 		/// </summary>
 		private IEnumerable<int> GetChildren(params int[] nodes1){
+			List<int> children = new List<int>();
 			foreach (int cl in nodes1){
 				if (cl >= 0){
 					continue;
 				}
 				HierarchicalClusterNode node = this.nodes[-1 - cl];
-				yield return node.left;
-				yield return node.right;
-				foreach (int child in GetChildren(node.left).Concat(GetChildren(node.right))){
-					yield return child;
-				}
+				children.Add(node.left);
+				children.Add(node.right);
+				children.AddRange(GetChildren(node.left).Concat(GetChildren(node.right)));
 			}
+			return children;
 		}
 
 		/// <summary>
