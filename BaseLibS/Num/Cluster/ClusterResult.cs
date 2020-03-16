@@ -19,7 +19,7 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Number of data points under each <see cref="nodes"/>
 		/// </summary>
-		public int[] sizes;
+		private int[] sizes;
 
 		private int[] start;
 		private int[] end;
@@ -33,6 +33,7 @@ namespace BaseLibS.Num.Cluster{
 		/// Every node can be member of at most one cluster.
 		/// </summary>
 		private int[][] clusters;
+
 		public bool drawHang = true;
 		public int colorBarSize = 15;
 		public int treeLineWidth = 2;
@@ -49,26 +50,21 @@ namespace BaseLibS.Num.Cluster{
 
 		private int[][] Clusters{
 			get => clusters;
-			set{
-				clusters = value;
-				HashSet<int> allNodes = new HashSet<int>(clusters.SelectMany(c => c).Distinct());
-				foreach (int[] cluster in clusters){
-					foreach (int node in cluster){
-						if (!allNodes.Remove(node)){
-							throw new ArgumentException($"Duplicate node {node} in cluster {cluster}.");
-						}
-						if (node > nodes.Length + 1){
-							throw new ArgumentException($"Node cannot be larger than {nodes.Length + 1}, was {node}.");
-						}
-					}
-				}
-			}
+			set => clusters = value;
 		}
 
 		/// <summary>
 		/// Unique id for every cluster.
 		/// </summary>
-		public IEnumerable<string> ClusterIds => Clusters.Select(i => string.Join(";", i));
+		public string[] ClusterIds{
+			get{
+				string[] result = new string[Clusters.Length];
+				for (int i = 0; i < result.Length; i++){
+					result[i] = string.Join(";", Clusters[i]);
+				}
+				return result;
+			}
+		}
 
 		public int[] ItemOrder => itemOrder;
 		public int[] ItemOrderInv => itemOrderInv;
@@ -229,7 +225,7 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Get children nodes of cluster <param name="cl">cl</param>.
 		/// </summary>
-		private IEnumerable<int> GetChildren(params int[] nodes1){
+		private int[] GetChildren(params int[] nodes1){
 			List<int> children = new List<int>();
 			foreach (int cl in nodes1){
 				if (cl >= 0){
@@ -240,7 +236,7 @@ namespace BaseLibS.Num.Cluster{
 				children.Add(node.right);
 				children.AddRange(GetChildren(node.left).Concat(GetChildren(node.right)));
 			}
-			return children;
+			return children.ToArray();
 		}
 
 		/// <summary>
@@ -281,33 +277,6 @@ namespace BaseLibS.Num.Cluster{
 			return index;
 		}
 
-		/// <summary>
-		/// Get leaf nodes under the cluster id
-		/// </summary>
-		public int[] GetLeaves(string clusterId){
-			List<int> leaves = new List<int>();
-
-			void AddLeaves(int cl){
-				if (cl >= 0){
-					return;
-				}
-				if (nodes[-1 - cl].left >= 0){
-					leaves.Add(nodes[-1 - cl].left);
-				}
-				if (nodes[-1 - cl].right >= 0){
-					leaves.Add(nodes[-1 - cl].right);
-				}
-				AddLeaves(nodes[-1 - cl].left);
-				AddLeaves(nodes[-1 - cl].right);
-			}
-
-			foreach (int i in clusterId.Split(';').Select(s => Convert.ToInt32(s))){
-				AddLeaves(i);
-			}
-			leaves.Sort();
-			return leaves.ToArray();
-		}
-
 		// TODO Functions very similar/identical to GetLeaves?!
 		/// <summary>
 		/// Original data indices for the cluster.
@@ -327,17 +296,10 @@ namespace BaseLibS.Num.Cluster{
 		}
 
 		/// <summary>
-		/// Create a cluster id from an number in <see cref="HierarchicalClusterNode"/> format.
-		/// </summary>
-		public string GetClusterId(int cl){
-			return cl.ToString();
-		}
-
-		/// <summary>
 		/// Returns a boolean for each original data point which indicates whether the
 		/// data point is contained in any of the <param name="clusterIds">clusterIds</param>
 		/// </summary>
-		public bool[] AreDataInCluster(IEnumerable<string> clusterIds){
+		public bool[] AreDataInCluster(string[] clusterIds){
 			bool[] result = new bool[nodes.Length + 1];
 			foreach (int t in clusterIds.SelectMany(id => id.Split(';').Select(s => Convert.ToInt32(s)))){
 				if (t < 0){

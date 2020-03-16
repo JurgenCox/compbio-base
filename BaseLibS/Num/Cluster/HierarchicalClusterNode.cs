@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-namespace BaseLibS.Num.Cluster {
+namespace BaseLibS.Num.Cluster{
 	[Serializable]
-	public class HierarchicalClusterNode {
+	public class HierarchicalClusterNode{
 		/// <summary>
 		/// The distance between the two children.
 		/// </summary>
@@ -23,32 +23,24 @@ namespace BaseLibS.Num.Cluster {
 		/// </summary>
 		public int right;
 
-		public HierarchicalClusterNode(BinaryReader reader) {
+		public HierarchicalClusterNode(BinaryReader reader){
 			distance = reader.ReadDouble();
 			left = reader.ReadInt32();
 			right = reader.ReadInt32();
 		}
 
-		public HierarchicalClusterNode() { }
+		public HierarchicalClusterNode(){ }
 
-		public void Write(BinaryWriter writer) {
+		public void Write(BinaryWriter writer){
 			writer.Write(distance);
 			writer.Write(left);
 			writer.Write(right);
 		}
 
-		public void Flip() {
+		public void Flip(){
 			int tmp = left;
 			left = right;
 			right = tmp;
-		}
-
-		public override bool Equals(object obj) {
-			if (obj == null || GetType() != obj.GetType()) return false;
-			HierarchicalClusterNode other = (HierarchicalClusterNode) obj;
-			bool sameOrFlipped = ((left == other.left) && (right == other.right)) ||
-			                     ((right == other.left) && (left == other.right));
-			return sameOrFlipped && (Math.Abs(distance - other.distance) < 0.0001);
 		}
 
 		/// <summary>
@@ -58,17 +50,26 @@ namespace BaseLibS.Num.Cluster {
 		/// <param name="right">second column of <code>hclust$merge</code></param>
 		/// <param name="distance"><code>hclust$height</code></param>
 		/// <returns></returns>
-		public static HierarchicalClusterNode[] FromRFormat(int[] left, int[] right, double[] distance) {
+		public static HierarchicalClusterNode[] FromRFormat(int[] left, int[] right, double[] distance){
 			int n = distance.Length;
 			HierarchicalClusterNode[] nodes = new HierarchicalClusterNode[n];
-			for (int i = 0; i < n; i++) {
-				nodes[i] = new HierarchicalClusterNode {
+			for (int i = 0; i < n; i++){
+				nodes[i] = new HierarchicalClusterNode{
 					distance = distance[i],
 					left = left[i] < 0 ? -left[i] - 1 : -left[i],
 					right = right[i] < 0 ? -right[i] - 1 : -right[i]
 				};
 			}
 			return nodes;
+		}
+
+		//TODO: check if necessary
+		public override bool Equals(object obj){
+			if (obj == null || GetType() != obj.GetType()) return false;
+			HierarchicalClusterNode other = (HierarchicalClusterNode) obj;
+			bool sameOrFlipped = ((left == other.left) && (right == other.right)) ||
+			                     ((right == other.left) && (left == other.right));
+			return sameOrFlipped && (Math.Abs(distance - other.distance) < 0.0001);
 		}
 	}
 }

@@ -48,16 +48,16 @@ namespace BaseLibS.Num.Cluster{
 			switch (linkage){
 				case HierarchicalClusterLinkage.Average:
 					return preserveOrder
-						? AverageLinkageClusterLinear(distMatrix, periodic)
-						: AverageLinkageCluster(distMatrix, nthreads, avDist);
+						? GenericLinkageClusterLinear(distMatrix, periodic, AverageLinkage)
+						: GenericLinkageCluster(distMatrix, nthreads, avDist, AverageLinkage);
 				case HierarchicalClusterLinkage.Maximum:
 					return preserveOrder
-						? MaximumLinkageClusterLinear(distMatrix, periodic)
-						: MaximumLinkageCluster(distMatrix, nthreads, avDist);
+						? GenericLinkageClusterLinear(distMatrix, periodic, MaximumLinkage)
+						: GenericLinkageCluster(distMatrix, nthreads, avDist, MaximumLinkage);
 				case HierarchicalClusterLinkage.Single:
 					return preserveOrder
-						? SingleLinkageClusterLinear(distMatrix, periodic)
-						: SingleLinkageCluster(distMatrix, nthreads, avDist);
+						? GenericLinkageClusterLinear(distMatrix, periodic, MinimumLinkage)
+						: GenericLinkageCluster(distMatrix, nthreads, avDist, MinimumLinkage);
 				default:
 					throw new ArgumentException();
 			}
@@ -76,18 +76,6 @@ namespace BaseLibS.Num.Cluster{
 				}
 			}
 			return result / count;
-		}
-
-		private static HierarchicalClusterNode[] MaximumLinkageClusterLinear(MatrixIndexer matrix, bool periodic){
-			return GenericLinkageClusterLinear(matrix, periodic, MaximumLinkage);
-		}
-
-		private static HierarchicalClusterNode[] SingleLinkageClusterLinear(MatrixIndexer matrix, bool periodic){
-			return GenericLinkageClusterLinear(matrix, periodic, MinimumLinkage);
-		}
-
-		private static HierarchicalClusterNode[] AverageLinkageClusterLinear(MatrixIndexer matrix, bool periodic){
-			return GenericLinkageClusterLinear(matrix, periodic, AverageLinkage);
 		}
 
 		private static HierarchicalClusterNode[] GenericLinkageClusterLinear(MatrixIndexer matrix, bool periodic,
@@ -137,21 +125,6 @@ namespace BaseLibS.Num.Cluster{
 				}
 			}
 			return result;
-		}
-
-		private static HierarchicalClusterNode[] SingleLinkageCluster(MatrixIndexer distMatrix, int nthreads,
-			double defaultDist){
-			return GenericLinkageCluster(distMatrix, nthreads, defaultDist, MinimumLinkage);
-		}
-
-		private static HierarchicalClusterNode[] MaximumLinkageCluster(MatrixIndexer distMatrix, int nthreads,
-			double defaultDist){
-			return GenericLinkageCluster(distMatrix, nthreads, defaultDist, MaximumLinkage);
-		}
-
-		private static HierarchicalClusterNode[] AverageLinkageCluster(MatrixIndexer distMatrix, int nthreads,
-			double defaultDist){
-			return GenericLinkageCluster(distMatrix, nthreads, defaultDist, AverageLinkage);
 		}
 
 		private static HierarchicalClusterNode[] GenericLinkageCluster(MatrixIndexer distMatrix, int nthreads,
@@ -522,14 +495,14 @@ namespace BaseLibS.Num.Cluster{
 			}
 		}
 
-		public static int[] GetLeaves(int cl, IList<HierarchicalClusterNode> nodes){
+		public static int[] GetLeaves(int cl, HierarchicalClusterNode[] nodes){
 			List<int> leaves = new List<int>();
 			AddLeaves(cl, nodes, leaves);
 			leaves.Sort();
 			return leaves.ToArray();
 		}
 
-		private static void AddLeaves(int cl, IList<HierarchicalClusterNode> nodes, ICollection<int> leaves){
+		private static void AddLeaves(int cl, HierarchicalClusterNode[] nodes, ICollection<int> leaves){
 			if (cl >= 0){
 				return;
 			}
