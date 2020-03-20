@@ -45,7 +45,7 @@ namespace BaseLibS.Mol{
 		public double CrossFragmentLongMass {
 			get {
 				if (double.IsNaN(crossFragmentLongMass)) {
-					crossFragmentLongMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
+					crossFragmentLongMass = ChemElements.GetMassFromComposition(CrossFragmentLongComposition);
 				}
 
 				return crossFragmentLongMass;
@@ -59,7 +59,7 @@ namespace BaseLibS.Mol{
 		public double CrossFragmentShortMass {
 			get {
 				if (double.IsNaN(crossFragmentShortMass)) {
-					crossFragmentShortMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
+					crossFragmentShortMass = ChemElements.GetMassFromComposition(CrossFragmentShortComposition);
 				}
 
 				return crossFragmentShortMass;
