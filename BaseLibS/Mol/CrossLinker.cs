@@ -5,8 +5,8 @@ namespace BaseLibS.Mol{
 	// For NHS-ester crosslinkers, amidation is important to screen for links with Serine and Threonine (but smaller portions of identified crosslinks).
 	// Currently amidated crosslinker setting is ignored but could be added later, not the priority now. 
 	public class CrossLinker : StorableItem{
-		private double linkedDeltaMass = double.NaN;
-		private double hydrolyzedDeltaMass = double.NaN;
+		private double linkedMass = double.NaN;
+		private double hydrolyzedMass = double.NaN;
 		private double crossFragmentLongMass = double.NaN;
 		private double crossFragmentShortMass = double.NaN;
 
@@ -16,11 +16,11 @@ namespace BaseLibS.Mol{
 		[XmlIgnore]
 		public double LinkedMass {
 			get {
-				if (double.IsNaN(linkedDeltaMass)) {
-					linkedDeltaMass = ChemElements.GetMassFromComposition(LinkedComposition);
+				if (double.IsNaN(linkedMass)) {
+					linkedMass = ChemElements.GetMassFromComposition(LinkedComposition);
 				}
 
-				return linkedDeltaMass;
+				return linkedMass;
 			}
 		}
 
@@ -30,11 +30,11 @@ namespace BaseLibS.Mol{
 		[XmlIgnore]
 		public double HydrolyzedMass {
 			get{
-				if (double.IsNaN(hydrolyzedDeltaMass)){
-					hydrolyzedDeltaMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
+				if (double.IsNaN(hydrolyzedMass)){
+					hydrolyzedMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
 				}
 
-				return hydrolyzedDeltaMass;
+				return hydrolyzedMass;
 			}
 		}
 
