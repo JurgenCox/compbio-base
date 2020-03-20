@@ -1,33 +1,68 @@
 ﻿using System.Xml.Serialization;
 
 namespace BaseLibS.Mol{
+
+	// For NHS-ester crosslinkers, amidation is important to screen for links with Serine and Threonine (but smaller portions of identified crosslinks).
+	// Currently amidated crosslinker setting is ignored but could be added later, not the priority now. 
 	public class CrossLinker : StorableItem{
-		private double saturated = double.NaN;
-		private double unsaturated = double.NaN;
+		private double linkedDeltaMass = double.NaN;
+		private double hydrolyzedDeltaMass = double.NaN;
+		private double crossFragmentLongMass = double.NaN;
+		private double crossFragmentShortMass = double.NaN;
 
-		[XmlAttribute("saturated_composition")]
-		public string SaturatedComposition { get; set; }
-
-		[XmlAttribute("unsaturated_composition")]
-		public string UnsaturatedComposition { get; set; }
+		[XmlAttribute("linkedComposition")]
+		public string LinkedComposition { get; set; }
 
 		[XmlIgnore]
-		public double SaturatedMass{
-			get{
-				if (double.IsNaN(saturated)){
-					saturated = ChemElements.GetMassFromComposition(SaturatedComposition);
+		public double LinkedMass {
+			get {
+				if (double.IsNaN(linkedDeltaMass)) {
+					linkedDeltaMass = ChemElements.GetMassFromComposition(LinkedComposition);
 				}
-				return saturated;
+
+				return linkedDeltaMass;
 			}
 		}
 
+		[XmlAttribute("hydrolyzedComposition")]
+		public string HydrolyzedComposition { get; set; }
+		
 		[XmlIgnore]
-		public double UnsaturatedMass{
+		public double HydrolyzedMass {
 			get{
-				if (double.IsNaN(unsaturated)){
-					unsaturated = ChemElements.GetMassFromComposition(UnsaturatedComposition);
+				if (double.IsNaN(hydrolyzedDeltaMass)){
+					hydrolyzedDeltaMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
 				}
-				return unsaturated;
+
+				return hydrolyzedDeltaMass;
+			}
+		}
+
+		[XmlAttribute("crosslinkFragmentLongComposition")]
+		public string CrossFragmentLongComposition { get; set; }
+
+		[XmlIgnore]
+		public double CrossFragmentLongMass {
+			get {
+				if (double.IsNaN(crossFragmentLongMass)) {
+					crossFragmentLongMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
+				}
+
+				return crossFragmentLongMass;
+			}
+		}
+
+		[XmlAttribute("crosslinkFragmentShortComposition")]
+		public string CrossFragmentShortComposition { get; set; }
+
+		[XmlIgnore]
+		public double CrossFragmentShortMass {
+			get {
+				if (double.IsNaN(crossFragmentShortMass)) {
+					crossFragmentShortMass = ChemElements.GetMassFromComposition(HydrolyzedComposition);
+				}
+
+				return crossFragmentShortMass;
 			}
 		}
 
@@ -55,16 +90,46 @@ namespace BaseLibS.Mol{
 	    [XmlElement("position2", typeof(ModificationPosition))]
 	    public ModificationPosition Position2 { get; set; } = ModificationPosition.anywhere;
 
-        public override bool Equals(object obj){
-			if (this == obj){
-				return true;
-			}
-			if (obj is Modification){
-				return (((Modification) obj).Name != Name);
-			}
-			return false;
-		}
+	    [XmlAttribute("mscleavable")]
+	    public bool IsMsCleavableCrosslinker { get; set; }
 
-		public override int GetHashCode() { return Name.GetHashCode(); }
+	    protected bool Equals(CrossLinker other) {
+		    return LinkedComposition == other.LinkedComposition &&
+		           HydrolyzedComposition == other.HydrolyzedComposition &&
+		           CrossFragmentLongComposition == other.CrossFragmentLongComposition &&
+		           CrossFragmentShortComposition == other.CrossFragmentShortComposition &&
+		           Specificity1 == other.Specificity1 &&
+		           DoesCrosslinkProteinNterm1 == other.DoesCrosslinkProteinNterm1 &&
+		           DoesCrosslinkProteinCterm1 == other.DoesCrosslinkProteinCterm1 &&
+		           Specificity2 == other.Specificity2 &&
+		           DoesCrosslinkProteinNterm2 == other.DoesCrosslinkProteinNterm2 &&
+		           DoesCrosslinkProteinCterm2 == other.DoesCrosslinkProteinCterm2 && Position2 == other.Position2 &&
+		           IsMsCleavableCrosslinker == other.IsMsCleavableCrosslinker;
+	    }
+
+	    public override bool Equals(object obj){
+		    if (ReferenceEquals(null, obj)) return false;
+		    if (ReferenceEquals(this, obj)) return true;
+		    if (obj.GetType() != this.GetType()) return false;
+		    return Equals((CrossLinker) obj);
+	    }
+
+	    public override int GetHashCode() {
+			unchecked {
+				var hashCode = (LinkedComposition != null ? LinkedComposition.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (HydrolyzedComposition != null ? HydrolyzedComposition.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (CrossFragmentLongComposition != null ? CrossFragmentLongComposition.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (CrossFragmentShortComposition != null ? CrossFragmentShortComposition.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ (Specificity1 != null ? Specificity1.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ DoesCrosslinkProteinNterm1.GetHashCode();
+				hashCode = (hashCode * 397) ^ DoesCrosslinkProteinCterm1.GetHashCode();
+				hashCode = (hashCode * 397) ^ (Specificity2 != null ? Specificity2.GetHashCode() : 0);
+				hashCode = (hashCode * 397) ^ DoesCrosslinkProteinNterm2.GetHashCode();
+				hashCode = (hashCode * 397) ^ DoesCrosslinkProteinCterm2.GetHashCode();
+				hashCode = (hashCode * 397) ^ (int) Position2;
+				hashCode = (hashCode * 397) ^ IsMsCleavableCrosslinker.GetHashCode();
+				return hashCode;
+			}
+		}
 	}
 }
