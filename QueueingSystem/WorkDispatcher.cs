@@ -202,11 +202,13 @@ namespace QueueingSystem{
 			return "";
 		}
 
-		protected abstract string Executable{ get; }
-		protected abstract string ExecutableCore{ get; }
+		protected virtual string Executable => "MaxQuantTask.exe";
+		protected virtual string ExecutableCore => "MaxQuantTaskCore.exe";
 		protected abstract object[] GetArguments(int taskIndex);
 		protected abstract int Id{ get; }
 		protected abstract string MessagePrefix{ get; }
+
+		protected abstract int SoftwareId{ get; }
 
 		private void Work(object threadIndex){
 			while (toBeProcessed.Count > 0){
@@ -273,7 +275,7 @@ namespace QueueingSystem{
 		private void ProcessSingleRunQueueing(int taskIndex, int threadIndex, int numInternalThreads){
 			IJobTemplate jobTemplate = MakeJobTemplate(taskIndex, threadIndex, numInternalThreads);
 
-			// TODO: non atomic operation. When Aborted: job submmited, but queuedJobIds[threadIndex] not filled yet
+			// TODO: non atomic operation. When Aborted: job submitted, but queuedJobIds[threadIndex] not filled yet
 			string jobId = session.Submit(jobTemplate);
 			queuedJobIds[threadIndex] = jobId;
 
@@ -362,12 +364,13 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 
 		public string GetCommandArguments(int taskIndex){
 			object[] o = GetArguments(taskIndex);
-			string[] args = new string[o.Length + 1];
+			string[] args = new string[o.Length + 2];
 			args[0] = $"\"{Id}\"";
+			args[1] = $"\"{SoftwareId}\"";
 			for (int i = 0; i < o.Length; i++){
 				object o1 = o[i];
 				string s = Parser.ToString(o1);
-				args[i + 1] = "\"" + s + "\"";
+				args[i + 2] = "\"" + s + "\"";
 			}
 			return StringUtils.Concat(" ", args);
 		}
