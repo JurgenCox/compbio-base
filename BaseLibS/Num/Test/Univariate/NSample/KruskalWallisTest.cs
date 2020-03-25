@@ -15,8 +15,8 @@ namespace BaseLibS.Num.Test.Univariate.NSample{
 		public override string Name => "Kruskal Wallis";
 
 		/// <summary>
-		/// Kruskal Wallis test is the extention of the Wilcoxon U test to more than two group
-		/// Another words it is designed to test the equakity of medians of multiple sample
+		/// Kruskal Wallis test is the extension of the Wilcoxon U test to more than two group
+		/// Another words it is designed to test the equality of medians of multiple sample
 		/// </summary>
 		/// <param name="data">Value of the first dimension is number of groups, second - size of the group</param>
 		/// <param name="stat">H-statistic of the test</param>

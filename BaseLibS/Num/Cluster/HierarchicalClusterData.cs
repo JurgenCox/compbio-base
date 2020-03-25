@@ -11,7 +11,7 @@ namespace BaseLibS.Num.Cluster{
 	/// A clustering of (n+1) items is represented by n <see cref="nodes"/>.
 	/// </summary>
 	[Serializable]
-	public class ClusterResult{
+	public class HierarchicalClusterData{
 		public readonly HierarchicalClusterNode[] nodes;
 		private int[] itemOrder;
 		private int[] itemOrderInv;
@@ -38,14 +38,14 @@ namespace BaseLibS.Num.Cluster{
 		public int colorBarSize = 15;
 		public int treeLineWidth = 2;
 
-		public ClusterResult(HierarchicalClusterNode[] nodes, int[][] clusters, Dictionary<string, Color2> colorMap){
+		public HierarchicalClusterData(HierarchicalClusterNode[] nodes, int[][] clusters, Dictionary<string, Color2> colorMap){
 			this.nodes = nodes;
 			HierarchicalClustering.CalcTree(nodes, out sizes, out start, out end, out itemOrder, out itemOrderInv);
 			Clusters = clusters;
 			cluster2Color = colorMap;
 		}
 
-		public ClusterResult(HierarchicalClusterNode[] nodes) : this(nodes, new int[0][],
+		public HierarchicalClusterData(HierarchicalClusterNode[] nodes) : this(nodes, new int[0][],
 			new Dictionary<string, Color2>()){ }
 
 		private int[][] Clusters{
