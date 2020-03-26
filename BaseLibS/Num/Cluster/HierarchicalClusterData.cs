@@ -211,7 +211,7 @@ namespace BaseLibS.Num.Cluster{
 		}
 
 		/// <summary>
-		/// Get the child nodes of a list of nodes.
+		/// Get the children (nodes and leaves) of a list of nodes.
 		/// </summary>
 		public int[] GetChildren(params int[] nodes1){
 			List<int> children = new List<int>();
@@ -219,12 +219,34 @@ namespace BaseLibS.Num.Cluster{
 				if (cl >= 0){
 					continue;
 				}
-				HierarchicalClusterNode node = this.nodes[-1 - cl];
+				HierarchicalClusterNode node = nodes[-1 - cl];
 				children.Add(node.left);
 				children.Add(node.right);
 				children.AddRange(GetChildren(node.left).Concat(GetChildren(node.right)));
 			}
 			return children.ToArray();
+		}
+
+		public int[] GetChildNodes(params int[] nodes1){
+			int[] c = GetChildren(nodes1);
+			List<int> result = new List<int>();
+			foreach (int x in c){
+				if (x < 0){
+					result.Add(x);
+				}
+			}
+			return result.ToArray();
+		}
+
+		public int[] GetChildLeaves(params int[] nodes1){
+			int[] c = GetChildren(nodes1);
+			List<int> result = new List<int>();
+			foreach (int x in c){
+				if (x < 0){
+					result.Add(x);
+				}
+			}
+			return result.ToArray();
 		}
 
 		/// <summary>
