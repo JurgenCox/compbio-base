@@ -32,38 +32,25 @@ namespace BaseLibS.Num.Cluster{
 		///
 		/// Every node can be member of at most one cluster.
 		/// </summary>
-		private int[][] clusters;
+		public int[][] clusters;
 
 		public bool drawHang = true;
 		public int colorBarSize = 15;
 		public int treeLineWidth = 2;
 
-		public HierarchicalClusterData(HierarchicalClusterNode[] nodes, int[][] clusters, Dictionary<string, Color2> colorMap){
+		public HierarchicalClusterData(HierarchicalClusterNode[] nodes, int[][] clusters,
+			Dictionary<string, Color2> colorMap){
 			this.nodes = nodes;
 			HierarchicalClustering.CalcTree(nodes, out sizes, out start, out end, out itemOrder, out itemOrderInv);
-			Clusters = clusters;
+			this.clusters = clusters;
 			cluster2Color = colorMap;
 		}
 
 		public HierarchicalClusterData(HierarchicalClusterNode[] nodes) : this(nodes, new int[0][],
 			new Dictionary<string, Color2>()){ }
 
-		private int[][] Clusters{
-			get => clusters;
-			set => clusters = value;
-		}
-
-		/// <summary>
-		/// Unique id for every cluster.
-		/// </summary>
-		public string[] ClusterIds{
-			get{
-				string[] result = new string[Clusters.Length];
-				for (int i = 0; i < result.Length; i++){
-					result[i] = string.Join(";", Clusters[i]);
-				}
-				return result;
-			}
+		public static string ToString(int[] ids){
+			return string.Join(";", ids);
 		}
 
 		public int[] ItemOrder => itemOrder;
@@ -86,7 +73,8 @@ namespace BaseLibS.Num.Cluster{
 		/// </summary>
 		public Color2[] LeafColorsByClusters(Color2 unselectedColor){
 			Color2[] result = Enumerable.Repeat(unselectedColor, nodes.Length + 1).ToArray();
-			foreach ((int[] t, string id) in Clusters.Zip(ClusterIds, (t, id) => (t, id))){
+			foreach (int[] t in clusters){
+				string id = ToString(t);
 				if (!cluster2Color.ContainsKey(id)){
 					cluster2Color.Add(id, GraphUtil.GetPredefinedColor(t[0]));
 				}
@@ -129,8 +117,9 @@ namespace BaseLibS.Num.Cluster{
 				Remove(clusterNodes, nodes[i].left);
 				Remove(clusterNodes, nodes[i].right);
 			}
-			Clusters = clusterNodes.Select(i => new[]{i}).ToArray();
-			foreach (string clusterId in ClusterIds){
+			clusters = clusterNodes.Select(i => new[]{i}).ToArray();
+			foreach (int[] cls in clusters){
+				string clusterId = ToString(cls);
 				if (!cluster2Color.ContainsKey(clusterId)){
 					cluster2Color.Add(clusterId, GraphUtil.GetPredefinedColor(cluster2Color.Count));
 				}
@@ -157,7 +146,8 @@ namespace BaseLibS.Num.Cluster{
 				}
 			}
 
-			foreach ((int[] t, string id) in Clusters.Zip(ClusterIds, (t, id) => (t, id))){
+			foreach (int[] t in clusters){
+				string id = ToString(t);
 				foreach (int cl in t){
 					if (cl < 0){
 						AddChildren(cl, id, t[0]);
@@ -170,10 +160,9 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Remove the parents of <param name="clusterId">cl</param> from <see cref="Clusters"/>.
 		/// </summary>
-		public void RemoveParents(string clusterId){
-			int[] nodes1 = NodesFromClusterId(clusterId);
+		public void RemoveParents(int[] nodes1){
 			IEnumerable<int> parents = GetParents(nodes1);
-			Clusters = Clusters.Select(cluster => cluster.Except(parents).ToArray())
+			clusters = clusters.Select(cluster => cluster.Except(parents).ToArray())
 				.Where(cluster => cluster.Length > 0).ToArray();
 		}
 
@@ -215,17 +204,16 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Remove the children of <param name="clusterId">cl</param> from <see cref="Clusters"/>.
 		/// </summary>
-		public void RemoveChildren(string clusterId){
-			int[] nodes1 = NodesFromClusterId(clusterId);
+		public void RemoveChildren(int[] nodes1){
 			IEnumerable<int> children = GetChildren(nodes1);
-			Clusters = Clusters.Select(cluster => cluster.Except(children).ToArray())
+			clusters = clusters.Select(cluster => cluster.Except(children).ToArray())
 				.Where(cluster => cluster.Length > 0).ToArray();
 		}
 
 		/// <summary>
-		/// Get children nodes of cluster <param name="cl">cl</param>.
+		/// Get the child nodes of a list of nodes.
 		/// </summary>
-		private int[] GetChildren(params int[] nodes1){
+		public int[] GetChildren(params int[] nodes1){
 			List<int> children = new List<int>();
 			foreach (int cl in nodes1){
 				if (cl >= 0){
@@ -242,14 +230,13 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Remove the cluster <param name="clusterId">cl</param> from <see cref="Clusters"/>.
 		/// </summary>
-		public void RemoveCluster(string clusterId){
-			int[] nodes1 = NodesFromClusterId(clusterId);
-			Clusters = Clusters.Select(cluster => cluster.Except(nodes1).ToArray()).Where(cluster => cluster.Length > 0)
+		public void RemoveCluster(int[] nodes1){
+			clusters = clusters.Select(cluster => cluster.Except(nodes1).ToArray()).Where(cluster => cluster.Length > 0)
 				.ToArray();
 		}
 
 		/// <summary>
-		/// Create a cluster is from the actual nodes. See <see cref="NodesFromClusterId"/> for inverse.
+		/// Create a cluster is from the actual nodes. See <see cref="FromString"/> for inverse.
 		/// </summary>
 		public static string CreateClusterId(params int[] nodes){
 			return string.Join(";", nodes);
@@ -258,21 +245,20 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Extract nodes from cluster id. See <see cref="CreateClusterId"/> for inverse.
 		/// </summary>
-		public static int[] NodesFromClusterId(string clusterId){
+		public static int[] FromString(string clusterId){
 			return clusterId.Split(';').Select(s => Convert.ToInt32(s)).ToArray();
 		}
 
 		/// <summary>
 		/// Add the cluster <param name="cl">cl</param> to <see cref="Clusters"/> and return its index.
 		/// </summary>
-		public int AddCluster(string clusterId){
-			int[] nodes1 = NodesFromClusterId(clusterId);
-			(bool contained, int index) = Clusters
+		public int AddCluster(int[] nodes1){
+			(bool contained, int index) = clusters
 				.Select((cluster, i) => (contained: nodes1.All(cluster.Contains), index: i))
 				.SingleOrDefault(cluster => cluster.contained);
 			if (!contained){
-				index = Clusters.Length;
-				Clusters = Clusters.Concat(new[]{nodes1}).ToArray();
+				index = clusters.Length;
+				clusters = clusters.Concat(new[]{nodes1}).ToArray();
 			}
 			return index;
 		}
@@ -281,9 +267,9 @@ namespace BaseLibS.Num.Cluster{
 		/// <summary>
 		/// Original data indices for the cluster.
 		/// </summary>
-		public int[] DataIndicesFromCluster(string clusterId){
+		public int[] DataIndicesFromCluster(int[] clusterIds){
 			List<int> result = new List<int>();
-			foreach (int cl in clusterId.Split(';').Select(s => Convert.ToInt32(s))){
+			foreach (int cl in clusterIds){
 				if (cl < 0){
 					for (int j = Start[-1 - cl]; j < End[-1 - cl]; j++){
 						result.Add(ItemOrderInv[j]);
@@ -297,28 +283,22 @@ namespace BaseLibS.Num.Cluster{
 
 		/// <summary>
 		/// Returns a boolean for each original data point which indicates whether the
-		/// data point is contained in any of the <param name="clusterIds">clusterIds</param>
+		/// data point is contained in any of the <param name="clusters">clusterIds</param>
 		/// </summary>
 		public bool[] AreDataInCluster(string[] clusterIds){
 			bool[] result = new bool[nodes.Length + 1];
-			foreach (int t in clusterIds.SelectMany(id => id.Split(';').Select(s => Convert.ToInt32(s)))){
-				if (t < 0){
-					for (int j = Start[-1 - t]; j < End[-1 - t]; j++){
-						result[j] = true;
+			foreach (string x in clusterIds){
+				foreach (int t in FromString(x)){
+					if (t < 0){
+						for (int j = Start[-1 - t]; j < End[-1 - t]; j++){
+							result[j] = true;
+						}
+					} else{
+						result[ItemOrder[t]] = true;
 					}
-				} else{
-					result[ItemOrder[t]] = true;
 				}
 			}
 			return result;
-		}
-
-		/// <summary>
-		/// Cluster size for each <see cref="ClusterIds"/>.
-		/// </summary>
-		public IEnumerable<int> ClusterSizes(){
-			IEnumerable<int[]> clusterNodes = ClusterIds.Select(NodesFromClusterId);
-			return clusterNodes.Select(nodes1 => nodes1.Sum(node => node < 0 ? Sizes[-1 - node] : 1));
 		}
 
 		/// <summary>
@@ -327,13 +307,16 @@ namespace BaseLibS.Num.Cluster{
 		/// </summary>
 		/// <returns></returns>
 		public (string, int, string)[] GetInformation(){
-			(string id, int size, string colorName)[] clusters1 = ClusterIds.Zip(ClusterSizes(), (id, size) => {
+			(string id, int size, string colorName)[] clusters1 =
+				new (string id, int size, string colorName)[clusters.Length];
+			for (int i = 0; i < clusters.Length; i++){
+				string clId = ToString(clusters[i]);
 				string colorName = "";
-				if (cluster2Color.TryGetValue(id, out Color2 color)){
+				if (cluster2Color.TryGetValue(clId, out Color2 color)){
 					colorName = color.Name;
 				}
-				return (id, size, colorName);
-			}).ToArray();
+				clusters1[i] = (clId, clusters[i].Sum(node => node < 0 ? Sizes[-1 - node] : 1), colorName);
+			}
 			return clusters1;
 		}
 
