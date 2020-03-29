@@ -38,7 +38,7 @@ namespace BaseLibS.Ms{
 			result.massMin = massMin;
 			result.massMax = massMax;
 			result.maxNumIms = maxNumIms;
-			result.scans = scans.SubList(valids);
+			result.scans = scans.MsSubList(valids);
 			result.rts = rts;
 			result.ionInjectionTimes = ionInjectionTimes;
 			result.basepeakIntensities = basepeakIntensities;
