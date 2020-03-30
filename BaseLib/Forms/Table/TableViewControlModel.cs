@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Num;
 using BaseLibS.Symbol;
@@ -60,8 +63,12 @@ namespace BaseLib.Forms.Table {
 		private ICompoundScrollableControl control;
 		public float UserSf { get; set; } = 1;
 		private float sfx = 1;
-		private int RowHeight => (int) (rowHeight * sfx * UserSf);
-		private int ColumnHeaderHeight => (int) (control.ColumnHeaderHeight * sfx * UserSf);
+		// private int RowHeight => (int) (rowHeight * sfx * UserSf);
+		private int RowHeight => (int) (TextSize("Row",textFont).Height * 1.5);
+		private int ColumnHeaderHeight => (int)  (TextSize("Row",headerFont).Height * 1.5);
+		
+		private Size TextSize(string text, Font2 font )=> TextRenderer.MeasureText(text, GraphUtils.ToFont(font));
+
 		private int RowHeaderWidth => (int) (control.RowHeaderWidth * sfx * UserSf);
 		internal TableView tableView;
 
@@ -71,14 +78,20 @@ namespace BaseLib.Forms.Table {
 
 		public void UpdateScaling() {
 			bool isUnix = FileUtils.IsUnix();
-			defaultFont = new Font2("Arial", (isUnix ? 5 : 9) * UserSf * sfx);
+			var fontSize = (isUnix ? 5 : 9) * UserSf * sfx;
+			
+			defaultFont = new Font2("Arial", fontSize);
 			textFont = defaultFont;
 			headerFont = defaultFont;
+			
 			SetColumnWidthSums();
+			
 			control.RowHeaderWidth = control.RowHeaderWidth;
 			control.RowFooterWidth = control.RowFooterWidth;
-			control.ColumnHeaderHeight = control.ColumnHeaderHeight;
-			control.ColumnFooterHeight = control.ColumnFooterHeight;
+			
+			
+			control.ColumnHeaderHeight = RowHeight;
+			control.ColumnFooterHeight = RowHeight;
 		}
 
 		public void Register(ICompoundScrollableControl control1, float sfx1) {
