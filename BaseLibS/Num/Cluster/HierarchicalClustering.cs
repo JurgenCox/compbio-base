@@ -17,19 +17,15 @@ namespace BaseLibS.Num.Cluster{
 		/// <param name="access">Specifies whether rows or columns are to be clustered</param>
 		/// <param name="distance">Defines the distance between two elements</param>
 		/// <param name="linkage">Specifies the linkage for the clustering.</param>
-		/// <param name="preserveOrder"></param>
-		/// <param name="periodic"></param>
-		/// <param name="nthreads"></param>
-		/// <param name="progress"></param>
 		/// <returns>An array of cluster nodes defining the resulting tree.</returns>
 		public HierarchicalClusterNode[] TreeCluster(MatrixIndexer data, MatrixAccess access, IDistance distance,
 			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, Action<int> progress){
-			int nelements = (access == MatrixAccess.Rows) ? data.RowCount : data.ColumnCount;
+			int nelements = access == MatrixAccess.Rows ? data.RowCount : data.ColumnCount;
 			if (nelements < 2){
 				return new HierarchicalClusterNode[0];
 			}
-			MatrixIndexer distMatrix = DistanceMatrix(data, distance, access);
-			return TreeCluster(distMatrix, linkage, preserveOrder, periodic, nthreads, progress);
+			return TreeCluster(DistanceMatrix(data, distance, access), linkage, preserveOrder, periodic, nthreads,
+				progress);
 		}
 
 		/// <summary>
@@ -37,27 +33,22 @@ namespace BaseLibS.Num.Cluster{
 		/// </summary>
 		/// <param name="distMatrix">The matrix of distances. It is lower triangular, excluding the diagonal.</param>
 		/// <param name="linkage">Specifies the linkage for the clustering.</param>
-		/// <param name="preserveOrder"></param>
-		/// <param name="periodic"></param>
-		/// <param name="nthreads"></param>
-		/// <param name="progress"></param>
 		/// <returns>An array of cluster nodes defining the resulting tree.</returns>
 		public HierarchicalClusterNode[] TreeCluster(MatrixIndexer distMatrix, HierarchicalClusterLinkage linkage,
 			bool preserveOrder, bool periodic, int nthreads, Action<int> progress){
-			double avDist = CalcAverageDistance(distMatrix);
+			return preserveOrder
+				? GenericLinkageClusterLinear(distMatrix, periodic, GetLinkage(linkage))
+				: GenericLinkageCluster(distMatrix, nthreads, CalcAverageDistance(distMatrix), GetLinkage(linkage));
+		}
+
+		private Func<double, int, double, int, double> GetLinkage(HierarchicalClusterLinkage linkage){
 			switch (linkage){
 				case HierarchicalClusterLinkage.Average:
-					return preserveOrder
-						? GenericLinkageClusterLinear(distMatrix, periodic, AverageLinkage)
-						: GenericLinkageCluster(distMatrix, nthreads, avDist, AverageLinkage);
+					return AverageLinkage;
 				case HierarchicalClusterLinkage.Maximum:
-					return preserveOrder
-						? GenericLinkageClusterLinear(distMatrix, periodic, MaximumLinkage)
-						: GenericLinkageCluster(distMatrix, nthreads, avDist, MaximumLinkage);
+					return MaximumLinkage;
 				case HierarchicalClusterLinkage.Single:
-					return preserveOrder
-						? GenericLinkageClusterLinear(distMatrix, periodic, MinimumLinkage)
-						: GenericLinkageCluster(distMatrix, nthreads, avDist, MinimumLinkage);
+					return MinimumLinkage;
 				default:
 					throw new ArgumentException();
 			}
