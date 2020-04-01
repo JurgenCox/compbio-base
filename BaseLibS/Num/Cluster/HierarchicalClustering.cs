@@ -9,7 +9,7 @@ namespace BaseLibS.Num.Cluster{
 	/// <summary>
 	/// Static class containing utility routines for hierarchical clustering.
 	/// </summary>
-	public class HierarchicalClustering{
+	public static class HierarchicalClustering{
 		/// <summary>
 		/// Performs a hierarchical clustering on the the given data matrix.
 		/// </summary>
@@ -18,14 +18,21 @@ namespace BaseLibS.Num.Cluster{
 		/// <param name="distance">Defines the distance between two elements</param>
 		/// <param name="linkage">Specifies the linkage for the clustering.</param>
 		/// <returns>An array of cluster nodes defining the resulting tree.</returns>
-		public HierarchicalClusterNode[] TreeCluster(MatrixIndexer data, MatrixAccess access, IDistance distance,
-			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, Action<int> progress){
+		public static HierarchicalClusterNode[] TreeCluster(MatrixIndexer data, MatrixAccess access, IDistance distance,
+			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, Action<int> progress,
+			Func<HierarchicalClusterNode> nodeCreator){
 			int nelements = access == MatrixAccess.Rows ? data.RowCount : data.ColumnCount;
 			if (nelements < 2){
 				return new HierarchicalClusterNode[0];
 			}
 			return TreeCluster(DistanceMatrix(data, distance, access), linkage, preserveOrder, periodic, nthreads,
-				progress);
+				progress, nodeCreator);
+		}
+
+		public static HierarchicalClusterNode[] TreeCluster(MatrixIndexer data, MatrixAccess access, IDistance distance,
+			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, Action<int> progress){
+			return TreeCluster(data, access, distance, linkage, preserveOrder, periodic, nthreads, progress,
+				() => new HierarchicalClusterNode());
 		}
 
 		/// <summary>
@@ -34,14 +41,22 @@ namespace BaseLibS.Num.Cluster{
 		/// <param name="distMatrix">The matrix of distances. It is lower triangular, excluding the diagonal.</param>
 		/// <param name="linkage">Specifies the linkage for the clustering.</param>
 		/// <returns>An array of cluster nodes defining the resulting tree.</returns>
-		public HierarchicalClusterNode[] TreeCluster(MatrixIndexer distMatrix, HierarchicalClusterLinkage linkage,
-			bool preserveOrder, bool periodic, int nthreads, Action<int> progress){
+		public static HierarchicalClusterNode[] TreeCluster(MatrixIndexer distMatrix,
+			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, Action<int> progress,
+			Func<HierarchicalClusterNode> nodeCreator){
 			return preserveOrder
-				? GenericLinkageClusterLinear(distMatrix, periodic, GetLinkage(linkage))
-				: GenericLinkageCluster(distMatrix, nthreads, CalcAverageDistance(distMatrix), GetLinkage(linkage));
+				? GenericLinkageClusterLinear(distMatrix, periodic, GetLinkage(linkage), nodeCreator)
+				: GenericLinkageCluster(distMatrix, nthreads, CalcAverageDistance(distMatrix), GetLinkage(linkage),
+					nodeCreator);
 		}
 
-		private Func<double, int, double, int, double> GetLinkage(HierarchicalClusterLinkage linkage){
+		public static HierarchicalClusterNode[] TreeCluster(MatrixIndexer distMatrix,
+			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, Action<int> progress){
+			return TreeCluster(distMatrix, linkage, preserveOrder, periodic, nthreads, progress,
+				() => new HierarchicalClusterNode());
+		}
+
+		private static Func<double, int, double, int, double> GetLinkage(HierarchicalClusterLinkage linkage){
 			switch (linkage){
 				case HierarchicalClusterLinkage.Average:
 					return AverageLinkage;
@@ -70,12 +85,12 @@ namespace BaseLibS.Num.Cluster{
 		}
 
 		private static HierarchicalClusterNode[] GenericLinkageClusterLinear(MatrixIndexer matrix, bool periodic,
-			Func<double, int, double, int, double> linkage){
+			Func<double, int, double, int, double> linkage, Func<HierarchicalClusterNode> nodeCreator){
 			int nelements = matrix.RowCount;
 			int[] clusterid = new int[nelements];
 			int[] number = new int[nelements];
 			int[] position = new int[nelements];
-			HierarchicalClusterNode[] result = ArrayUtils.FillArray(i => new HierarchicalClusterNode(), nelements - 1);
+			HierarchicalClusterNode[] result = ArrayUtils.FillArray(i => nodeCreator(), nelements - 1);
 			for (int j = 0; j < nelements; j++){
 				number[j] = 1;
 				clusterid[j] = j;
@@ -119,11 +134,12 @@ namespace BaseLibS.Num.Cluster{
 		}
 
 		private static HierarchicalClusterNode[] GenericLinkageCluster(MatrixIndexer distMatrix, int nthreads,
-			double defaultDist, Func<double, int, double, int, double> linkage){
+			double defaultDist, Func<double, int, double, int, double> linkage,
+			Func<HierarchicalClusterNode> nodeCreator){
 			int nelements = distMatrix.RowCount;
 			int[] clusterid = new int[nelements];
 			int[] number = new int[nelements];
-			HierarchicalClusterNode[] result = ArrayUtils.FillArray(i => new HierarchicalClusterNode(), nelements - 1);
+			HierarchicalClusterNode[] result = ArrayUtils.FillArray(i => nodeCreator(), nelements - 1);
 			for (int j = 0; j < nelements; j++){
 				number[j] = 1;
 				clusterid[j] = j;
@@ -406,20 +422,28 @@ namespace BaseLibS.Num.Cluster{
 			}
 		}
 
-		public HierarchicalClusterNode[] TreeClusterKmeans(MatrixIndexer data, MatrixAccess access, IDistance distance,
-			HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads, int nmeans,
-			int restarts, int maxIter, Action<int> progress){
+		public static HierarchicalClusterNode[] TreeClusterKmeans(MatrixIndexer data, MatrixAccess access,
+			IDistance distance, HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads,
+			int nmeans, int restarts, int maxIter, Action<int> progress){
+			return TreeClusterKmeans(data, access, distance, linkage, preserveOrder, periodic, nthreads, nmeans,
+				restarts, maxIter, progress, () => new HierarchicalClusterNode());
+		}
+
+		public static HierarchicalClusterNode[] TreeClusterKmeans(MatrixIndexer data, MatrixAccess access,
+			IDistance distance, HierarchicalClusterLinkage linkage, bool preserveOrder, bool periodic, int nthreads,
+			int nmeans, int restarts, int maxIter, Action<int> progress, Func<HierarchicalClusterNode> nodeCreator){
 			int nelements = access == MatrixAccess.Rows ? data.RowCount : data.ColumnCount;
 			if (nelements <= nmeans){
-				return TreeCluster(data, access, distance, linkage, preserveOrder, periodic, nthreads, progress);
+				return TreeCluster(data, access, distance, linkage, preserveOrder, periodic, nthreads, progress,
+					nodeCreator);
 			}
-			var dataMatrix = access == MatrixAccess.Rows ? data : data.Transpose();
+			MatrixIndexer dataMatrix = access == MatrixAccess.Rows ? data : data.Transpose();
 			KmeansClustering.GenerateClusters(dataMatrix, nmeans, maxIter, restarts, progress,
 				out float[,] clusterCenters, out int[] inds);
 			MatrixIndexer distMatrix =
 				DistanceMatrix(new FloatMatrixIndexer(clusterCenters), distance, MatrixAccess.Rows);
 			HierarchicalClusterNode[] nodes = TreeCluster(distMatrix, linkage, preserveOrder, periodic, nthreads,
-				progress);
+				progress, nodeCreator);
 			RearrangeClusters(inds, clusterCenters.GetLength(0), out Dictionary<int, int[]> clusters,
 				out Dictionary<int, int> singletons);
 			HierarchicalClusterNode[] newNodes = new HierarchicalClusterNode[nelements - 1];
@@ -434,7 +458,7 @@ namespace BaseLibS.Num.Cluster{
 					node.left = singletons[node.left];
 				} else{
 					if (clusters.ContainsKey(node.left)){
-						HierarchicalClusterNode[] branch = FillTerminalBranch(clusters[node.left], pos);
+						HierarchicalClusterNode[] branch = FillTerminalBranch(clusters[node.left], pos, nodeCreator);
 						Array.Copy(branch, 0, newNodes, pos, branch.Length);
 						pos += branch.Length;
 						node.left = -pos;
@@ -446,7 +470,7 @@ namespace BaseLibS.Num.Cluster{
 					node.right = singletons[node.right];
 				} else{
 					if (clusters.ContainsKey(node.right)){
-						HierarchicalClusterNode[] branch = FillTerminalBranch(clusters[node.right], pos);
+						HierarchicalClusterNode[] branch = FillTerminalBranch(clusters[node.right], pos, nodeCreator);
 						Array.Copy(branch, 0, newNodes, pos, branch.Length);
 						pos += branch.Length;
 						node.right = -pos;
@@ -456,12 +480,17 @@ namespace BaseLibS.Num.Cluster{
 			return newNodes;
 		}
 
-		private static HierarchicalClusterNode[] FillTerminalBranch(IList<int> inds, int firstInd){
+		private static HierarchicalClusterNode[] FillTerminalBranch(IList<int> inds, int firstInd,
+			Func<HierarchicalClusterNode> nodeCreator){
 			HierarchicalClusterNode[] result = new HierarchicalClusterNode[inds.Count - 1];
-			result[0] = new HierarchicalClusterNode{left = inds[0], right = inds[1]};
+			result[0] = nodeCreator();
+			result[0].left = inds[0];
+			result[0].right = inds[1];
 			for (int i = 1; i < result.Length; i++){
 				int nodeInd = firstInd + i - 1;
-				result[i] = new HierarchicalClusterNode{left = inds[i + 1], right = -1 - nodeInd};
+				result[i] = nodeCreator();
+				result[i].left = inds[i + 1];
+				result[i].right = -1 - nodeInd;
 			}
 			return result;
 		}

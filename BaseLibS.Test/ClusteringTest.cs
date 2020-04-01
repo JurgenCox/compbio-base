@@ -11,15 +11,14 @@ namespace BaseLibS.Test{
 	public class ClusteringTest{
 		[Test]
 		public void TestClusterNodeFormat(){
-			HierarchicalClustering hclust = new HierarchicalClustering();
 			FloatMatrixIndexer data = new FloatMatrixIndexer(new float[,]{{1, 2, 3},{2, 3, 4}});
 			EuclideanDistance distance = new EuclideanDistance();
-			HierarchicalClusterNode[] rowTree = hclust.TreeCluster(data, MatrixAccess.Rows, distance,
+			HierarchicalClusterNode[] rowTree = HierarchicalClustering.TreeCluster(data, MatrixAccess.Rows, distance,
 				HierarchicalClusterLinkage.Maximum, false, false, 1, i => { });
 			HierarchicalClusterNode[] rowTreeR =
 				HierarchicalClusterNode.FromRFormat(new[]{-1}, new[]{-2}, new[]{1.732051});
 			Assert.AreEqual(rowTreeR[0], rowTree[0]);
-			HierarchicalClusterNode[] colTree = hclust.TreeCluster(data, MatrixAccess.Columns, distance,
+			HierarchicalClusterNode[] colTree = HierarchicalClustering.TreeCluster(data, MatrixAccess.Columns, distance,
 				HierarchicalClusterLinkage.Maximum, false, false, 1, i => { });
 			HierarchicalClusterNode[] colTreeR =
 				HierarchicalClusterNode.FromRFormat(new[]{-1, -3}, new[]{-2, 1}, new[]{1.414214, 2.828428});
@@ -49,19 +48,17 @@ namespace BaseLibS.Test{
 		public void TestKmeansClusteringPreculusteringWithDuplicateRows([ValueSource(nameof(_data))] float[,] values,
 			[ValueSource(nameof(_linkages))] HierarchicalClusterLinkage linkage,
 			[ValueSource(nameof(_distances))] IDistance distance){
-			HierarchicalClustering hclust = new HierarchicalClustering();
 			FloatMatrixIndexer data = new FloatMatrixIndexer(values);
-			var clusterNodes = hclust.TreeClusterKmeans(data, MatrixAccess.Columns, distance, linkage, false, false, 1,
+			var clusterNodes = HierarchicalClustering.TreeClusterKmeans(data, MatrixAccess.Columns, distance, linkage, false, false, 1,
 				2, 1, 1000, i => { });
 			Assert.AreEqual(3, clusterNodes.Length);
 		}
 
 		[Test]
 		public void TestKmeansClusteringPreculusteringWithManyDuplicateRows(){
-			HierarchicalClustering hclust = new HierarchicalClustering();
 			var values = new float[,]{{1, 2, 3, 1},{2, 3, 4, 2},{2, 3, 4, 2},{2, 3, 4, 2},{2, 3, 4, 2},{3, 4, 5, 2}};
 			FloatMatrixIndexer data = new FloatMatrixIndexer(values);
-			var clusterNodes = hclust.TreeClusterKmeans(data, MatrixAccess.Rows, new EuclideanDistance(),
+			var clusterNodes = HierarchicalClustering.TreeClusterKmeans(data, MatrixAccess.Rows, new EuclideanDistance(),
 				HierarchicalClusterLinkage.Average, false, false, 1, 5, 1, 1000, i => { });
 			Assert.AreEqual(5, clusterNodes.Length);
 		}
