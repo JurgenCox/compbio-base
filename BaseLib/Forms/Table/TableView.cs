@@ -9,7 +9,7 @@ using BaseLibS.Table;
 using BaseLibS.Util;
 
 namespace BaseLib.Forms.Table{
-	public partial class TableView : UserControl{
+	public  class TableView : UserControl{
 		internal static readonly List<ITableSelectionAgent> selectionAgents = new List<ITableSelectionAgent>();
 		public event EventHandler SelectionChanged;
 		private readonly CompoundScrollableControl tableView;
@@ -32,12 +32,12 @@ namespace BaseLib.Forms.Table{
 		public bool TextBoxIsVisible{ get; private set; }
 		public  EventHandler<int> DoubleClickOnRow;
 
-		public TableView(){
-			InitializeComponent();
-			sfx = FormUtils.GetDpiScale(CreateGraphics());
+		public TableView(float? dpiFactor=null)
+		{
+			sfx = dpiFactor ?? FormUtils.GetDpiScale(CreateGraphics());
 			InitializeComponent2();
 			scaleFactorComboBox.SelectedIndex = 3;
-			tableView = new CompoundScrollableControl{Dock = DockStyle.Fill, Margin = new Padding(0)};
+			tableView = new CompoundScrollableControl(dpiFactor){Dock = DockStyle.Fill, Margin = new Padding(0)};
 			tableViewWf = new TableViewControlModel(this);
 			tableView.Client = tableViewWf;
 			tableViewWf.SelectionChanged += (sender, args) => {

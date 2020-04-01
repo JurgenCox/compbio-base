@@ -44,7 +44,7 @@ namespace BaseLib.Forms.Scroll {
 
 		public override void OnMouseMoved(BasicMouseEventArgs e) {
 			main.OnMouseMoveMainView?.Invoke(e.Scale(main.ZoomFactor));
-			ZoomButtonState newState = GraphUtil.GetNewZoomButtonState(e.X, e.Y, e.Width, e.Height, false);
+			ZoomButtonState newState = GraphUtil.GetNewZoomButtonState(e.X, e.Y, e.Width, e.Height, false,null);
 			if (newState != state) {
 				state = newState;
 				Invalidate();
@@ -66,10 +66,7 @@ namespace BaseLib.Forms.Scroll {
 			if (e.X < overview.Width && e.Y > e.Height - overview.Height) {
 				return;
 			}
-			if (GraphUtil.HitsMinusButton(e.X, e.Y, e.Width, e.Height)) {
-				return;
-			}
-			if (GraphUtil.HitsPlusButton(e.X, e.Y, e.Width, e.Height)) {
+			if (GraphUtil.HitsAZoomButton(e.X, e.Y, e.Width, e.Height,null)) {
 				return;
 			}
 			main.OnMouseClickMainView?.Invoke(e.Scale(main.ZoomFactor));
@@ -80,10 +77,7 @@ namespace BaseLib.Forms.Scroll {
 			if (e.X < overview.Width && e.Y > e.Height - overview.Height) {
 				return;
 			}
-			if (GraphUtil.HitsMinusButton(e.X, e.Y, e.Width, e.Height)) {
-				return;
-			}
-			if (GraphUtil.HitsPlusButton(e.X, e.Y, e.Width, e.Height)) {
+			if (GraphUtil.HitsAZoomButton(e.X, e.Y, e.Width, e.Height,null)) {
 				return;
 			}
 			main.OnMouseDoubleClickMainView?.Invoke(e.Scale(main.ZoomFactor));
@@ -95,7 +89,7 @@ namespace BaseLib.Forms.Scroll {
 				OnMouseIsDownOverview(e.X, (int) (e.Y - e.Height + overview.Height), e.Width, e.Height);
 				return;
 			}
-			ZoomButtonState newState = GraphUtil.GetNewZoomButtonState(e.X, e.Y, e.Width, e.Height, true);
+			ZoomButtonState newState = GraphUtil.GetNewZoomButtonState(e.X, e.Y, e.Width, e.Height, true,null);
 			switch (newState) {
 				case ZoomButtonState.PressMinus:
 					main.ZoomFactor /= GraphUtil.zoomStep;
