@@ -169,8 +169,8 @@ namespace BaseLib.Forms.Scroll{
 		private readonly ToolTip columnViewToolTip = new ToolTip();
 		private readonly float sfx;
 		public bool HasOverview { get; set; } = true;
-		public CompoundScrollableControl(float? dpiFactor=null){
-			sfx = dpiFactor?? FormUtils.GetDpiScale(CreateGraphics());
+		public CompoundScrollableControl(){
+			sfx = FormUtils.GetDpiScale(CreateGraphics());
 			InitializeComponent2();
 			ResizeRedraw = true;
 			DoubleBuffered = true;

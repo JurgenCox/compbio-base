@@ -280,6 +280,9 @@
     <Compile Include="Forms\Table\TableView.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\Table\TableView.Designer.cs">
+      <DependentUpon>TableView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Table\TableViewControlModel.cs" />
     <Compile Include="Forms\Table\TableViewSelectionAgentForm.cs">
       <SubType>Form</SubType>
@@ -522,6 +525,9 @@
     <EmbeddedResource Include="Forms\Table\SelectColumnsForm.resx">
       <DependentUpon>SelectColumnsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Table\TableView.resx">
+      <DependentUpon>TableView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Table\TableViewSelectionAgentForm.resx">
       <DependentUpon>TableViewSelectionAgentForm.cs</DependentUpon>

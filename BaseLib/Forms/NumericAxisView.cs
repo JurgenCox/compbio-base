@@ -13,9 +13,8 @@ namespace BaseLib.Forms{
 	public class NumericAxisView : BasicView{
 		public event ZoomChangeHandler OnZoomChange;
 		private const int spacePerNumber = 110;
-		public  Font2 NumbersFont { get; set; } = new Font2("Arial", 8, FontStyle2.Regular);
-		public  Font2 LabelFont { get; set; } = new Font2("Arial Unicode MS", 9, FontStyle2.Regular);
-		
+		public Font2 numbersFont = new Font2("Arial", 8, FontStyle2.Regular);
+		public Font2 labelFont = new Font2("Arial Unicode MS", 9, FontStyle2.Regular);
 		private double dragStart = double.NaN;
 		private double zeroPoint = double.NaN;
 		private float indicator1 = -1;
@@ -254,19 +253,10 @@ namespace BaseLib.Forms{
 				}
 				max = Math.Max(Math.Abs(ArrayUtils.Max(tics[0])), Math.Abs(ArrayUtils.Min(tics[0])));
 			}
-			Font2 numbersFont = NumbersFont ;
-			while (g.MeasureString(label, numbersFont).Width > Math.Max(width, height)*0.95f && numbersFont.Size > 5f){
-				numbersFont = new Font2(numbersFont.Name, numbersFont.Size - 0.5f, numbersFont.Style);
+			Font2 font = labelFont;
+			while (g.MeasureString(label, font).Width > Math.Max(width, height)*0.95f && font.Size > 5f){
+				font = new Font2(font.Name, font.Size - 0.5f, font.Style);
 			}
-			
-			Font2 labelFont = LabelFont;
-			while (g.MeasureString(label, labelFont).Width > Math.Max(width, height)*0.95f && labelFont.Size > 5f){
-				labelFont = new Font2(labelFont.Name, labelFont.Size - 0.5f, labelFont.Style);
-			}
-			
-			labelFontHeight = (int) g.MeasureString("Height", labelFont).Height; 
-			numbersFontHeight = (int) g.MeasureString("Height", numbersFont).Height;
-			
 			switch (Positioning){
 				case AxisPositioning.Top:
 					y0 = height - 1;
@@ -282,7 +272,7 @@ namespace BaseLib.Forms{
 							pos = Math.Max(-2, pos);
 							pos = Math.Min(width - w + 2, pos);
 							if (Sign*pos > Sign*previousstringEnd){
-								DrawString(g, s, numbersFont, brush, xm + pos + 1, ym + y0 - MajorTickLength - numbersFontHeight);
+								DrawString(g, s, numbersFont, brush, xm + pos + 1, ym + y0 - MajorTickLength - numbersFont.Height);
 								previousstringEnd = pos + Sign*w;
 							}
 						}
@@ -291,8 +281,8 @@ namespace BaseLib.Forms{
 							g.DrawLine(minorTicPen, xm + x0, ym + y0, xm + x0, ym + y0 - MinorTickLength);
 						}
 					}
-					DrawString(g, label, labelFont, brush, xm + (width)/2 - (int) g.MeasureString(label, labelFont).Width/2,
-						ym + y0 - MajorTickLength - labelFontHeight - numbersFontHeight);
+					DrawString(g, label, font, brush, xm + (width)/2 - (int) g.MeasureString(label, font).Width/2,
+						ym + y0 - MajorTickLength - labelFont.Height - 12);
 					break;
 				case AxisPositioning.Left:
 					x0 = width - 1;
@@ -309,7 +299,7 @@ namespace BaseLib.Forms{
 							pos = Math.Min(height + 2, pos);
 							if (Sign*pos > Sign*previousstringEnd){
 								g.RotateTransform(-90);
-								DrawString(g, s, numbersFont, brush, -pos - ym, xm + x0 - MajorTickLength - numbersFontHeight);
+								DrawString(g, s, numbersFont, brush, -pos - ym, xm + x0 - MajorTickLength - numbersFont.Height);
 								g.RotateTransform(90);
 								previousstringEnd = pos + Sign*w;
 							}
@@ -320,12 +310,12 @@ namespace BaseLib.Forms{
 						}
 					}
 					g.RotateTransform(-90);
-					float x = -height/2 - (int) g.MeasureString(label, labelFont).Width/2;
-					float y = x0 - MajorTickLength - labelFontHeight - numbersFontHeight - 10;
+					float x = -height/2 - (int) g.MeasureString(label, font).Width/2;
+					float y = x0 - MajorTickLength - labelFont.Height - numbersFont.Height - 10;
 					if (y < 0){
 						y = 0;
 					}
-					DrawString(g, label, labelFont, brush, -ym + x, xm + y - 2);
+					DrawString(g, label, font, brush, -ym + x, xm + y - 2);
 					g.RotateTransform(90);
 					break;
 				case AxisPositioning.Bottom:
@@ -351,8 +341,8 @@ namespace BaseLib.Forms{
 							g.DrawLine(minorTicPen, xm + x0, ym + y0, xm + x0, ym + y0 + MinorTickLength);
 						}
 					}
-					DrawString(g, label, labelFont, brush, xm + (width)/2 - (int) g.MeasureString(label, labelFont).Width/2,
-						ym + y0 + MajorTickLength + numbersFontHeight);
+					DrawString(g, label, font, brush, xm + (width)/2 - (int) g.MeasureString(label, font).Width/2,
+						ym + y0 + MajorTickLength + 12);
 					break;
 				case AxisPositioning.Right:
 					x0 = 0;
@@ -369,7 +359,7 @@ namespace BaseLib.Forms{
 							pos = Math.Min(height - w + 2, pos);
 							if (Sign*pos > Sign*previousstringEnd){
 								g.RotateTransform(90);
-								DrawString(g, s, numbersFont, brush, ym + pos + 1, -xm - MajorTickLength - numbersFontHeight*0.99f);
+								DrawString(g, s, numbersFont, brush, ym + pos + 1, -xm - MajorTickLength - numbersFont.Height*0.99f);
 								g.RotateTransform(-90);
 								previousstringEnd = pos + Sign*w;
 							}
@@ -380,16 +370,12 @@ namespace BaseLib.Forms{
 						}
 					}
 					g.RotateTransform(90);
-					DrawString(g, label, labelFont, brush, ym + height/2 - (int) g.MeasureString(label, labelFont).Width/2,
-						-xm - MajorTickLength - numbersFontHeight - labelFontHeight - 3);
+					DrawString(g, label, font, brush, ym + height/2 - (int) g.MeasureString(label, font).Width/2,
+						-xm - MajorTickLength - numbersFont.Height - labelFont.Height - 3);
 					g.RotateTransform(-90);
 					break;
 			}
 		}
-
-		public int numbersFontHeight { get; set; }
-
-		public int labelFontHeight { get; set; }
 
 		private static void DrawString(IGraphics g, string s, Font2 font, Brush2 brush, float x, float y){
 			try{

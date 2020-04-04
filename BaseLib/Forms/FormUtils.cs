@@ -7,9 +7,6 @@ using BaseLibS.Util;
 
 namespace BaseLib.Forms{
 	public class FormUtils{
-
-		public static int ScaleDpi(int pixels, Control control) => (int) (pixels * GetDpiScale(control.CreateGraphics()));
-		
 		public static float GetDpiScale(Graphics g){
 			try {
 				return g.DpiX / 96f;
