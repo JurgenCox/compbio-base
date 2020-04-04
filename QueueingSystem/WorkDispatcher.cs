@@ -227,15 +227,8 @@ namespace QueueingSystem{
 			}
 		}
 
-		public EventHandler<(int taskiIndex, int threadIndex)> workStarted;
-		public EventHandler<(int taskiIndex, int threadIndex)> workStopped;
-		public EventHandler<(int taskiIndex, int threadIndex, string message)> workFailed;
-
 		private void DoWork(int taskIndex, int threadIndex)
 		{
-			workStarted?.Invoke(this, (taskIndex, threadIndex));
-			try
-			{
 				switch (CalculationType)
 				{
 					case CalculationType.ExternalProcess:
@@ -248,13 +241,6 @@ namespace QueueingSystem{
 						ProcessSingleRunQueueing(taskIndex, threadIndex, numInternalThreads);
 						break;
 				}
-			}
-			catch (Exception e)
-			{
-				workFailed?.Invoke(this, (taskIndex, threadIndex,e.Message));
-			}
-
-			workStopped?.Invoke(this, (taskIndex, threadIndex));
 		}
 
 		private IJobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads){
