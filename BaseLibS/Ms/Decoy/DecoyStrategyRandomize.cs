@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using BaseLibS.Num;
+using BaseLibS.Util;
 
 namespace BaseLibS.Ms.Decoy{
 	public class DecoyStrategyRandomize : DecoyStrategy{
@@ -42,7 +43,7 @@ namespace BaseLibS.Ms.Decoy{
 
 		public override int GetHashCode(){
 			unchecked{
-				return ((specialAas != null ? specialAas.GetHashCode() : 3) * 397 + seed);
+				return ((specialAas != null ? HashCode.GetDeterministicHashCode(specialAas) : 3) * 397 + seed);
 			}
 		}
 

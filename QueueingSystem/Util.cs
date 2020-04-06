@@ -19,6 +19,26 @@ namespace QueueingSystem
 
             return template;
         }
+
+        private static string WrapArg(string arg)
+        {
+            if(string.IsNullOrEmpty(arg))
+            {
+                return "\"\"";
+            }
+            
+            if (!arg.StartsWith("\"") && !arg.EndsWith("\""))
+            {
+                return $"\"{arg}\"";
+            }
+
+            return arg;
+        }
+        
+        public static string[] WrapArgs(IEnumerable<string> args)
+        {
+            return args.Select(WrapArg).ToArray();
+        }
         
         private static IEnumerable<string> Split(this string str, 
             Func<char, bool> controller)

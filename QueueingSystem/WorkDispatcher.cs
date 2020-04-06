@@ -244,13 +244,7 @@ namespace QueueingSystem{
 		}
 
 		private IJobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads){
-			string cmd = GetCommandFilename().Trim('"');
-
-			// TODO: refactor to a function?
-			List<string> args = new List<string>{"mono", "--optimize=all,float32", "--server", cmd};
-			args.AddRange(GetLogArgs(taskIndex, taskIndex));
-			args.Add(Id.ToString());
-			args.AddRange(GetStringArgs(taskIndex));
+			IList<string> args = GetCommandLineArgs(taskIndex);
 			string jobName = $"{GetFilename()}_{taskIndex}_{threadIndex}";
 			string randSuffix = Guid.NewGuid().ToString();
 
@@ -308,33 +302,77 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			}
 		}
 
-		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex){
-			bool isUnix = FileUtils.IsUnix();
+		internal IList<string> GetCommandLineArgs(int taskIndex)
+		{
 			string cmd = GetCommandFilename();
-			string args = GetLogArgsString(taskIndex, taskIndex) + GetCommandArguments(taskIndex);
-			ProcessStartInfo psi = Util.IsRunningOnMono() && !DotNetCore
+			string[] logArgs = GetLogArgs(taskIndex, taskIndex);
+			string[] calcArguments = GetStringArgs(taskIndex);
+			List<string> result = new List<string>();
+			if (Util.IsRunningOnMono())
+			{
+				result.Add("mono");
 				// http://www.mono-project.com/docs/about-mono/releases/4.0.0/#floating-point-optimizations
-				? new ProcessStartInfo("mono", " --optimize=all,float32 --server " + cmd + " " + args)
-				: new ProcessStartInfo(cmd, args);
+				result.AddRange(new []{"--optimize=all,float32", "--server", cmd});
+				result.AddRange(logArgs);
+				result.AddRange(calcArguments);
+
+			} else if (DotNetCore)
+			{
+				result.Add("dotnet");
+				result.Add(cmd);
+				result.AddRange(logArgs);
+				result.AddRange(calcArguments);
+			}
+			else
+			{
+				result.Add(cmd);
+				result.AddRange(logArgs);
+				result.AddRange(calcArguments);
+			}
+
+			return result;
+		}
+
+		protected Process GetProcess(IList<string> args)
+		{
+			bool isUnix = FileUtils.IsUnix();
+			
+			string cmd = args[0];
+			string argsStr = string.Join(" ", Util.WrapArgs(args.Skip(1)));
+			
+			ProcessStartInfo psi = new ProcessStartInfo(cmd, argsStr);
+
 			if (isUnix){
 				psi.WorkingDirectory = Directory.GetDirectoryRoot(cmd);
 				if (MaxHeapSizeGb > 0){
 					psi.EnvironmentVariables["MONO_GC_PARAMS"] = "max-heap-size=" + MaxHeapSizeGb + "g";
 				}
 			}
-//			Console.WriteLine($"Process run: {cmd} {args}");
+
+			psi.EnvironmentVariables["PPID"] = Process.GetCurrentProcess().Id.ToString();
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			psi.CreateNoWindow = true;
 			psi.UseShellExecute = false;
 			psi.RedirectStandardError = true;
 			psi.RedirectStandardOutput = true;
-			var externalProcess = new Process{StartInfo = psi};
+			Process externalProcess = new Process{StartInfo = psi};
 			externalProcess.OutputDataReceived += (sender, eventArgs) => { Console.WriteLine(eventArgs.Data); };
 			externalProcess.ErrorDataReceived += (sender, eventArgs) => { Console.Error.WriteLine(eventArgs.Data); };
+
+			return externalProcess;
+		}
+		
+		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex)
+		{
+			IList<string> args = GetCommandLineArgs(taskIndex);
+			Process externalProcess = GetProcess(args);
 			externalProcesses[threadIndex] = externalProcess;
 			externalProcesses[threadIndex].Start();
 			int processid = externalProcesses[threadIndex].Id;
 			externalProcesses[threadIndex].WaitForExit();
+			string stdErr = externalProcess.StandardError.ReadToEnd();
+			string stdOut = externalProcess.StandardOutput.ReadToEnd();
+			
 			int exitcode = externalProcesses[threadIndex].ExitCode;
 			externalProcesses[threadIndex].Close();
 			if (exitcode != 0){
@@ -348,12 +386,8 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 
 		private string[] GetLogArgs(int taskIndex, int id){
 			return new[]{
-				InfoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
+				InfoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process", $"\"{Id}\"", $"\"{SoftwareId}\""
 			};
-		}
-
-		public string GetLogArgsString(int taskIndex, int id){
-			return string.Join(" ", GetLogArgs(taskIndex, id).Select(x => $"\"{x}\"")) + " ";
 		}
 
 		public string GetFilename(){
@@ -363,19 +397,6 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 		public string GetCommandFilename(){
 			return "\"" + FileUtils.executablePath + Path.DirectorySeparatorChar +
 			       (DotNetCore ? ExecutableCore : Executable) + "\"";
-		}
-
-		public string GetCommandArguments(int taskIndex){
-			object[] o = GetArguments(taskIndex);
-			string[] args = new string[o.Length + 2];
-			args[0] = $"\"{Id}\"";
-			args[1] = $"\"{SoftwareId}\"";
-			for (int i = 0; i < o.Length; i++){
-				object o1 = o[i];
-				string s = Parser.ToString(o1);
-				args[i + 2] = "\"" + s + "\"";
-			}
-			return StringUtils.Concat(" ", args);
 		}
 
 		private string[] GetStringArgs(int taskIndex){

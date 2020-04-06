@@ -1,4 +1,6 @@
-﻿namespace BaseLibS.Ms.Decoy{
+﻿using BaseLibS.Util;
+
+namespace BaseLibS.Ms.Decoy{
 	public class DecoyStrategyRevert : DecoyStrategy{
 		public DecoyStrategyRevert(string specialAas) : base(specialAas){ }
 
@@ -36,7 +38,7 @@
 
 		public override int GetHashCode(){
 			unchecked{
-				return ((specialAas?.GetHashCode() ?? 3) * 395);
+				return ((specialAas != null ? HashCode.GetDeterministicHashCode(specialAas) : 3) * 395);
 			}
 		}
 
