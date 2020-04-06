@@ -483,6 +483,9 @@ namespace BaseLib.Forms{
 				return false;
 			}
 			fileName = fileName.Substring(0, fileName.Length - 6);
+			if (fileName.ToLower().Contains("uniprot")){
+				return true;
+			}
 			if (fileName.ToLower().EndsWith("_additional")){
 				fileName = fileName.Substring(0, fileName.Length - 11);
 			}
