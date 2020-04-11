@@ -8,37 +8,34 @@ namespace BaseLibS.Ms{
 		}
 
 		public int Index{ get; }
+		public double IsotopeTimeCorrelationDefault => 0.6;
+		public double TheorIsotopeCorrelationDefault => 0.6;
+		public bool RecalibrationInPpmDefault => true;
 		public abstract string Name{ get; }
 		public abstract double GetIsotopeMatchTolDefault(MsDataType dataType);
 		public abstract bool IsotopeMatchTolInPpmDefault{ get; }
-		public abstract bool RecalibrationInPpmDefault{ get; }
 		public abstract double GetCentroidMatchTolDefault(MsDataType dataType);
-		public abstract bool CentroidMatchTolInPpmDefault{ get; }
-		public abstract double CentroidHalfWidthDefault{ get; }
-		public abstract bool CentroidHalfWidthInPpmDefault{ get; }
 		public abstract double GetValleyFactorDefault(MsDataType dataType);
 		public abstract double GetIsotopeValleyFactorDefault(MsDataType dataType);
-		public abstract double IsotopeTimeCorrelationDefault{ get; }
-		public abstract double TheorIsotopeCorrelationDefault{ get; }
-		public abstract float[] SmoothIntensityProfile(float[] origProfile);
 		public abstract double IntensityThresholdDefault{ get; }
 		public abstract bool IntensityDependentCalibrationDefault{ get; }
 		public abstract double PrecursorToleranceFirstSearchDefault{ get; }
 		public abstract double PrecursorToleranceMainSearchDefault{ get; }
-		public abstract bool PrecursorToleranceUnitPpmDefault{ get; }
 		public abstract int GetMinPeakLengthDefault(MsDataType dataType);
 		public abstract int GetDiaMinPeakLengthDefault(MsDataType dataType);
 		public abstract int GetMaxChargeDefault(MsDataType dataType);
-		public abstract bool IndividualPeptideMassTolerancesDefault{ get; }
 		public abstract bool UseMs1CentroidsDefault{ get; }
 		public abstract bool UseMs2CentroidsDefault{ get; }
 		public abstract double MinScoreForCalibrationDefault{ get; }
 		public abstract bool GetAdvancedPeakSplittingDefault(MsDataType dataType);
 		public abstract IntensityDetermination GetIntensityDeterminationDefault(MsDataType dataType);
-		public abstract bool CutPeaksDefault{ get; }
-		public abstract int GapScansDefault{ get; }
 		public abstract bool CheckMassDeficitDefault{ get; }
-		public abstract CentroidPosition CentroidPosition{ get; }
+		public bool PrecursorToleranceUnitPpmDefault => true;
+		public bool IndividualPeptideMassTolerancesDefault => true;
+		public CentroidPosition CentroidPosition => CentroidPosition.Gaussian;
+		public double CentroidHalfWidthDefault => 35;
+		public bool CentroidHalfWidthInPpmDefault => true;
+		public bool CentroidMatchTolInPpmDefault => true;
 		public double DiaCorrThresholdFeatureClusteringDefault => 0.85;
 		public double DiaInitialPrecMassTolPpmDefault => 20;
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
@@ -64,6 +61,10 @@ namespace BaseLibS.Ms{
 		public int DiaXgBoostMaximumTreeDepthDefault => 25;
 		public int DiaXgBoostEstimatorsDefault => 260;
 		public bool DiaGlobalMlDefault => true;
+		public bool CutPeaksDefault => true;
+		public int GapScansDefault => 1;
+
+		public abstract float[] SmoothIntensityProfile(float[] origProfile);
 
 		public override string ToString(){
 			return Name;
