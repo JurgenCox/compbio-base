@@ -2354,7 +2354,7 @@ namespace BaseLibS.Num{
 		public static T[,] Fill2DArray<T>(T item, int dim0, int dim1){
 			T[,] array = new T[dim0, dim1];
 			for (int i0 = 0; i0 < dim0; i0++){
-				for (int i1 = 0; i1 < dim0; i1++){
+				for (int i1 = 0; i1 < dim1; i1++){
 					array[i0, i1] = item;
 				}
 			}
@@ -2364,8 +2364,8 @@ namespace BaseLibS.Num{
 		public static T[,,] Fill3DArray<T>(T item, int dim0, int dim1, int dim2){
 			T[,,] array = new T[dim0, dim1, dim2];
 			for (int i0 = 0; i0 < dim0; i0++){
-				for (int i1 = 0; i1 < dim0; i1++){
-					for (int i2 = 0; i2 < dim0; i2++){
+				for (int i1 = 0; i1 < dim1; i1++){
+					for (int i2 = 0; i2 < dim2; i2++){
 						array[i0, i1, i2] = item;
 					}
 				}
