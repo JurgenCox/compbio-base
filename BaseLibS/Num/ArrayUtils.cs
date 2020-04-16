@@ -764,8 +764,7 @@ namespace BaseLibS.Num{
 		/// <param name="list"></param>
 		/// <param name="indices"></param>
 		/// <returns></returns>
-		public static List<T> SubList<T>(this IList<T> list, int[] indices)
-		{
+		public static List<T> SubList<T>(this IList<T> list, int[] indices){
 			List<T> result = new List<T>();
 			foreach (int index in indices){
 				result.Add(list[index]);
@@ -773,11 +772,9 @@ namespace BaseLibS.Num{
 			return result;
 		}
 
-		public static List<T> MsSubList<T>(this IList<T> list, IList<int> indices)
-		{
+		public static List<T> MsSubList<T>(this IList<T> list, IList<int> indices){
 			List<T> result = new List<T>();
-			foreach (int index in indices)
-			{
+			foreach (int index in indices){
 				result.Add(list[index]);
 			}
 			return result;
@@ -2350,6 +2347,28 @@ namespace BaseLibS.Num{
 			T[] array = new T[len];
 			for (int i = 0; i < len; i++){
 				array[i] = item;
+			}
+			return array;
+		}
+
+		public static T[,] Fill2DArray<T>(T item, int dim0, int dim1){
+			T[,] array = new T[dim0, dim1];
+			for (int i0 = 0; i0 < dim0; i0++){
+				for (int i1 = 0; i1 < dim0; i1++){
+					array[i0, i1] = item;
+				}
+			}
+			return array;
+		}
+
+		public static T[,,] Fill3DArray<T>(T item, int dim0, int dim1, int dim2){
+			T[,,] array = new T[dim0, dim1, dim2];
+			for (int i0 = 0; i0 < dim0; i0++){
+				for (int i1 = 0; i1 < dim0; i1++){
+					for (int i2 = 0; i2 < dim0; i2++){
+						array[i0, i1, i2] = item;
+					}
+				}
 			}
 			return array;
 		}
