@@ -204,7 +204,7 @@ namespace QueueingSystem{
 		}
 
 		protected virtual string Executable => "MaxQuantTask.exe";
-		protected virtual string ExecutableCore => "MaxQuantTaskCore.exe";
+		protected virtual string ExecutableCore => "MaxQuantTaskCore.dll";
 		protected abstract object[] GetArguments(int taskIndex);
 		protected abstract int Id{ get; }
 		protected abstract string MessagePrefix{ get; }
