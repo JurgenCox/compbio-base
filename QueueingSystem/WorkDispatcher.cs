@@ -22,6 +22,7 @@ namespace QueueingSystem{
 		private Stack<int> toBeProcessed;
 		public string InfoFolder{ get; }
 		public bool DotNetCore{ get; }
+		public bool ProfilePerformance{ get; }
 		internal readonly int numInternalThreads;
 		private readonly ISession session;
 		public CalculationType CalculationType{ get; }
@@ -33,22 +34,25 @@ namespace QueueingSystem{
 		public Func<int> NTasks{ get; }
 
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
-			bool dotNetCore) : this(nThreads, () => nTasks, infoFolder, calculationType, dotNetCore, 1){ }
+			bool dotNetCore, bool profile) : this(nThreads, () => nTasks, infoFolder, calculationType, dotNetCore,
+			profile, 1){ }
 
 		protected WorkDispatcher(int nThreads, Func<int> nTasks, string infoFolder, CalculationType calculationType,
-			bool dotNetCore) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, 1){ }
+			bool dotNetCore, bool profile) : this(nThreads, nTasks, infoFolder, calculationType, dotNetCore, profile,
+			1){ }
 
 		protected WorkDispatcher(int nThreads, int nTasks, string infoFolder, CalculationType calculationType,
-			bool dotNetCore, int numInternalThreads) : this(nThreads, () => nTasks, infoFolder, calculationType,
-			dotNetCore, numInternalThreads){ }
+			bool dotNetCore, bool profile, int numInternalThreads) : this(nThreads, () => nTasks, infoFolder,
+			calculationType, dotNetCore, profile, numInternalThreads){ }
 
 		protected WorkDispatcher(int nThreads, Func<int> nTasks, string infoFolder, CalculationType calculationType,
-			bool dotNetCore, int numInternalThreads){
+			bool dotNetCore, bool profile, int numInternalThreads){
 			Nthreads = nThreads;
 			this.numInternalThreads = numInternalThreads;
 			NTasks = nTasks;
 			InfoFolder = infoFolder;
 			DotNetCore = dotNetCore;
+			ProfilePerformance = profile;
 			if (!string.IsNullOrEmpty(infoFolder) && !Directory.Exists(infoFolder)){
 				Directory.CreateDirectory(infoFolder);
 			}
@@ -63,6 +67,7 @@ namespace QueueingSystem{
 		}
 
 		private int nTasksCached = -1;
+
 		private int NTasksCached{
 			get{
 				if (nTasksCached == -1){
@@ -120,8 +125,8 @@ namespace QueueingSystem{
 		public void Abort(){
 			if (workThreads != null){
 				foreach (Thread t in workThreads.Where(t => t != null)){
-					if(DotNetCore) t.Interrupt();
-					else  t.Abort();
+					if (DotNetCore) t.Interrupt();
+					else t.Abort();
 				}
 			}
 			if (CalculationType == CalculationType.ExternalProcess && externalProcesses != null){
@@ -227,20 +232,18 @@ namespace QueueingSystem{
 			}
 		}
 
-		private void DoWork(int taskIndex, int threadIndex)
-		{
-				switch (CalculationType)
-				{
-					case CalculationType.ExternalProcess:
-						ProcessSingleRunExternalProcess(taskIndex, threadIndex);
-						break;
-					case CalculationType.Thread:
-						Calculation(GetStringArgs(taskIndex), null);
-						break;
-					case CalculationType.Queueing:
-						ProcessSingleRunQueueing(taskIndex, threadIndex, numInternalThreads);
-						break;
-				}
+		private void DoWork(int taskIndex, int threadIndex){
+			switch (CalculationType){
+				case CalculationType.ExternalProcess:
+					ProcessSingleRunExternalProcess(taskIndex, threadIndex);
+					break;
+				case CalculationType.Thread:
+					Calculation(GetStringArgs(taskIndex), new Responder());
+					break;
+				case CalculationType.Queueing:
+					ProcessSingleRunQueueing(taskIndex, threadIndex, numInternalThreads);
+					break;
+			}
 		}
 
 		private IJobTemplate MakeJobTemplate(int taskIndex, int threadIndex, int numInternalThreads){
@@ -302,53 +305,41 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			}
 		}
 
-		internal IList<string> GetCommandLineArgs(int taskIndex)
-		{
+		internal IList<string> GetCommandLineArgs(int taskIndex){
 			string cmd = GetCommandFilename();
 			string[] logArgs = GetLogArgs(taskIndex, taskIndex);
 			string[] calcArguments = GetStringArgs(taskIndex);
 			List<string> result = new List<string>();
-			if (Util.IsRunningOnMono())
-			{
+			if (Util.IsRunningOnMono()){
 				result.Add("mono");
 				// http://www.mono-project.com/docs/about-mono/releases/4.0.0/#floating-point-optimizations
-				result.AddRange(new []{"--optimize=all,float32", "--server", cmd});
+				result.AddRange(new[]{"--optimize=all,float32", "--server", cmd});
 				result.AddRange(logArgs);
 				result.AddRange(calcArguments);
-
-			} else if (DotNetCore)
-			{
+			} else if (DotNetCore){
 				result.Add("dotnet");
 				result.Add(cmd);
 				result.AddRange(logArgs);
 				result.AddRange(calcArguments);
-			}
-			else
-			{
+			} else{
 				result.Add(cmd);
 				result.AddRange(logArgs);
 				result.AddRange(calcArguments);
 			}
-
 			return result;
 		}
 
-		protected Process GetProcess(IList<string> args)
-		{
+		protected Process GetProcess(IList<string> args){
 			bool isUnix = FileUtils.IsUnix();
-			
 			string cmd = args[0];
 			string argsStr = string.Join(" ", Util.WrapArgs(args.Skip(1)));
-			
 			ProcessStartInfo psi = new ProcessStartInfo(cmd, argsStr);
-
 			if (isUnix){
 				psi.WorkingDirectory = Directory.GetDirectoryRoot(cmd);
 				if (MaxHeapSizeGb > 0){
 					psi.EnvironmentVariables["MONO_GC_PARAMS"] = "max-heap-size=" + MaxHeapSizeGb + "g";
 				}
 			}
-
 			psi.EnvironmentVariables["PPID"] = Process.GetCurrentProcess().Id.ToString();
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
 			psi.CreateNoWindow = true;
@@ -358,10 +349,9 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			Process externalProcess = new Process{StartInfo = psi};
 			externalProcess.OutputDataReceived += (sender, eventArgs) => { Console.WriteLine(eventArgs.Data); };
 			externalProcess.ErrorDataReceived += (sender, eventArgs) => { Console.Error.WriteLine(eventArgs.Data); };
-
 			return externalProcess;
 		}
-		
+
 		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex)
 		{
 			IList<string> args = GetCommandLineArgs(taskIndex);
@@ -372,10 +362,11 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			externalProcesses[threadIndex].WaitForExit();
 			string stdErr = externalProcess.StandardError.ReadToEnd();
 			string stdOut = externalProcess.StandardOutput.ReadToEnd();
-			
+
 			int exitcode = externalProcesses[threadIndex].ExitCode;
 			externalProcesses[threadIndex].Close();
-			if (exitcode != 0){
+			if (exitcode != 0)
+			{
 				throw new Exception("Exception during execution of external process: " + processid);
 			}
 		}
@@ -386,7 +377,8 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 
 		private string[] GetLogArgs(int taskIndex, int id){
 			return new[]{
-				InfoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process", $"\"{Id}\"", $"\"{SoftwareId}\""
+				InfoFolder, GetFilename(), id.ToString(), GetName(taskIndex), GetComment(taskIndex), "Process",
+				$"\"{Id}\"", $"\"{SoftwareId}\""
 			};
 		}
 
