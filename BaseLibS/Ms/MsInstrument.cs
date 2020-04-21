@@ -59,8 +59,8 @@ namespace BaseLibS.Ms{
 
         public double DiaXgBoostBaseScoreDefault => 0.4;
         public double DiaXgBoostSubSampleDefault => 0.9;
-        public double DiaXgBoostGamma = 0.9;
-        public int DiaXgBoostMaxDeltastep = 3;
+        public double DiaXgBoostGammaDefault = 0.9;
+        public int DiaXgBoostMaxDeltastepDefault = 3;
         public int DiaXgBoostMinChildWeightDefault => 9;
 		public int DiaXgBoostMaximumTreeDepthDefault => 12;
 		public int DiaXgBoostEstimatorsDefault => 580;
