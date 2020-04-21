@@ -18,6 +18,10 @@ namespace BaseLibS.Util{
 		public Responder(){ }
 
 		public void Log(string s){
+			Log(s, LogLevel.Debugging);
+		}
+
+		public void Log(string s, LogLevel level){
 			if (string.IsNullOrEmpty(logFile) || string.IsNullOrEmpty(s)){
 				return;
 			}
@@ -25,12 +29,35 @@ namespace BaseLibS.Util{
 				logWriter = new StreamWriter(logFile);
 			}
 			try{
-				logWriter.WriteLine(GetLogPrefix() + s);
+				logWriter.WriteLine(GetLogPrefix(level) + s);
 			} catch (Exception){ }
 		}
 
-		private static string GetLogPrefix(){
-			return DateTime.Now.ToString(CultureInfo.InvariantCulture) + ": ";
+		private static string GetLogPrefix(LogLevel level){
+			return GetLevelString(level) + ":" + DateTime.Now.ToString(CultureInfo.InvariantCulture) + ": ";
+		}
+
+		private static string GetLevelString(LogLevel level){
+			switch (level){
+				case LogLevel.Debugging:
+					return "DEBUG";
+				case LogLevel.Alert:
+					return "ALERT";
+				case LogLevel.Critical:
+					return "CRITICAL";
+				case LogLevel.Emergency:
+					return "EMERGENCY";
+				case LogLevel.Error:
+					return "ERROR";
+				case LogLevel.Informational:
+					return "INFO";
+				case LogLevel.Notification:
+					return "NOTIFICATION";
+				case LogLevel.Warning:
+					return "WARNING";
+				default:
+					throw new Exception("Never get here");
+			}
 		}
 
 		public void Comment(string s){
