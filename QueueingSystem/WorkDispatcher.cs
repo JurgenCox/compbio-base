@@ -125,8 +125,7 @@ namespace QueueingSystem{
 		public void Abort(){
 			if (workThreads != null){
 				foreach (Thread t in workThreads.Where(t => t != null)){
-					if (DotNetCore) t.Interrupt();
-					else t.Abort();
+					t.Abort();
 				}
 			}
 			if (CalculationType == CalculationType.ExternalProcess && externalProcesses != null){
