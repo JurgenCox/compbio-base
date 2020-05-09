@@ -657,11 +657,21 @@ namespace BaseLibS.Num{
 
 		public static T[] Concat<T>(IList<T> a, T b){
 			if (a == null){
-				return new[]{b};
+				return new[] { b };
 			}
 			T[] result = new T[a.Count + 1];
 			Array.Copy(a.ToArray(), 0, result, 0, a.Count);
 			result[a.Count] = b;
+			return result;
+		}
+
+		public static T[] Concat<T>(T a, IList<T> b){
+			if (b == null){
+				return new[] { a };
+			}
+			T[] result = new T[b.Count + 1];
+			Array.Copy(b.ToArray(), 0, result, 1, b.Count);
+			result[0] = a;
 			return result;
 		}
 
