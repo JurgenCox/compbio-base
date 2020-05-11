@@ -149,7 +149,7 @@ namespace BaseLibS.Num {
 		public static double[,] GetValuesOnGrid(IList<double> xvals, double minx, double xStep, int xCount,
 			IList<double> yvals, double miny, double yStep, int yCount) {
 			double[,] vals = new double[xCount, yCount];
-			if (xvals == null || yvals == null) {
+			if (xvals == null || xvals.Count == 0 || yvals == null || yvals.Count == 0) {
 				return vals;
 			}
 			int n = xvals.Count;

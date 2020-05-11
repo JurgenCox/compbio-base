@@ -248,8 +248,8 @@ namespace BaseLibS.Ms.Data.Protein{
 			tempFileNames.Add(filename);
 			BinaryWriter writer = FileUtils.GetBinaryWriter(filename);
 			string[] names = names2.ToArray();
-			int[] o = ArrayUtils.Order(names);
-			names = ArrayUtils.SubArray(names, o);
+			int[] o = names.Order();
+			names = names.SubArray(o);
 			for (int i = 0; i < o.Length; i++){
 				if (i == 0 || !names[i].Equals(names[i - 1])){
 					writer.Write(names[i]);
@@ -316,7 +316,7 @@ namespace BaseLibS.Ms.Data.Protein{
 				if (name.StartsWith("REV_")){
 					return Get(GetIndex(name.Substring(4)));
 				}
-				throw;
+				return null;
 			}
 		}
 
