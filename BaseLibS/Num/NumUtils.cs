@@ -4,6 +4,7 @@ using System.Linq;
 using BaseLibS.Data;
 using BaseLibS.Num.Func;
 using BaseLibS.Num.Test;
+using BaseLibS.Num.Vector;
 using BaseLibS.Util;
 
 namespace BaseLibS.Num{
@@ -1198,24 +1199,19 @@ namespace BaseLibS.Num{
 				return new double[0];
 			}
 			nbins = nbins < 0 ? Math.Max(1, (int) Math.Round(n / (double) minBinsize)) : Math.Min(nbins, 1 + n / 4);
-			int[] pos = new int[nbins + 1];
-			for (int i = 0; i < nbins + 1; i++){
-				pos[i] = (int) Math.Round(i / (double) nbins * n);
-			}
 			double[] result = new double[n];
 			lowerQuart = new double[nbins];
 			median = new double[nbins];
 			upperQuart = new double[nbins];
 			binBoundaries = new double[nbins];
 			int[] o = controlValues.Order();
-			int[][] indices = new int[nbins][];
 			for (int i = 0; i < nbins; i++){
-				indices[i] = new int[pos[i + 1] - pos[i]];
-				Array.Copy(o, pos[i], indices[i], 0, pos[i + 1] - pos[i]);
-			}
-			for (int i = 0; i < nbins; i++){
-				double[] r = values.SubArray(indices[i]);
-				double[] c = controlValues.SubArray(indices[i]);
+				int posp1 = (int)Math.Round((i + 1) / (double)nbins * n);
+				int pos = (int)Math.Round((i) / (double)nbins * n);
+				int[] indices = new int[posp1 - pos];
+				Array.Copy(o, pos, indices, 0, posp1 - pos);
+				double[] r = values.SubArray(indices);
+				double[] c = controlValues.SubArray(indices);
 				int[] o1 = r.Order();
 				double rlow = r[o1[(int) Math.Round(0.1587 * (r.Length - 1))]];
 				double rmed = r[o1[(int) Math.Round(0.5 * (r.Length - 1))]];
@@ -1224,50 +1220,73 @@ namespace BaseLibS.Num{
 				median[i] = rmed;
 				upperQuart[i] = rhigh;
 				binBoundaries[i] = ArrayUtils.Min(c);
-				if (indices[i].Length > 2){
-					for (int j = 0; j < indices[i].Length; j++){
+				if (indices.Length > 2){
+					for (int j = 0; j < indices.Length; j++){
 						double ratio = r[j];
 						switch (type){
 							case TestSide.Right:
 								if (rhigh == rmed){
-									result[indices[i][j]] = 1;
+									result[indices[j]] = 1;
 								} else{
 									double z = (ratio - rmed) / (rhigh - rmed);
-									result[indices[i][j]] = Errfunc(z);
+									result[indices[j]] = Errfunc(z);
 								}
 								break;
 							case TestSide.Left:
 								if (rlow == rmed){
-									result[indices[i][j]] = 1;
+									result[indices[j]] = 1;
 								} else{
 									double z = (ratio - rmed) / (rlow - rmed);
-									result[indices[i][j]] = Errfunc(z);
+									result[indices[j]] = Errfunc(z);
 								}
 								break;
 							default:
 								if (ratio >= rmed){
 									if (rhigh == rmed){
-										result[indices[i][j]] = 1;
+										result[indices[j]] = 1;
 									} else{
 										double z = (ratio - rmed) / (rhigh - rmed);
-										result[indices[i][j]] = 2 * Errfunc(z);
+										result[indices[j]] = 2 * Errfunc(z);
 									}
 								} else{
 									if (rlow == rmed){
-										result[indices[i][j]] = 1;
+										result[indices[j]] = 1;
 									} else{
 										double z = (ratio - rmed) / (rlow - rmed);
-										result[indices[i][j]] = 2 * Errfunc(z);
+										result[indices[j]] = 2 * Errfunc(z);
 									}
 								}
 								break;
 						}
 					}
 				} else{
-					for (int j = 0; j < indices[i].Length; j++){
-						result[indices[i][j]] = 1;
+					foreach (int t in indices){
+						result[t] = 1;
 					}
 				}
+			}
+			return result;
+		}
+
+		public static double[] CalcSignificanceB(IList<double> ratios, IList<double> intens, TestSide side){
+			double[] result = new double[ratios.Count];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = 1;
+			}
+			List<double> lRatio = new List<double>();
+			List<double> lIntensity = new List<double>();
+			List<int> indices = new List<int>();
+			for (int i = 0; i < ratios.Count; i++){
+				if (!double.IsNaN(ratios[i]) && !double.IsInfinity(ratios[i]) && !double.IsNaN(intens[i]) &&
+				    !double.IsInfinity(intens[i])){
+					lRatio.Add(ratios[i]);
+					lIntensity.Add(intens[i]);
+					indices.Add(i);
+				}
+			}
+			double[] ratioSignificanceB = MovingBoxPlot(lRatio.ToArray(), lIntensity.ToArray(), -1, side);
+			for (int i = 0; i < indices.Count; i++){
+				result[indices[i]] = ratioSignificanceB[i];
 			}
 			return result;
 		}

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BaseLibS.Num.Vector{
 	[Serializable]
-	public abstract class BaseVector : ICloneable, IDisposable, IEnumerable<double>{
+	public abstract class BaseVector : ICloneable, IDisposable, IEnumerable<double> {
 		/// <summary>
 		/// Determines the scalar product of this vector with another one passed as the argument. 
 		/// </summary>
@@ -61,7 +61,7 @@ namespace BaseLibS.Num.Vector{
 		public abstract bool IsNaNOrInf();
 
 		/// <summary>
-		/// Unpack the vector elements sinto a double array.
+		/// Unpack the vector elements into a double array.
 		/// </summary>
 		public abstract double[] Unpack();
 
