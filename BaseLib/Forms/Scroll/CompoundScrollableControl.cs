@@ -29,79 +29,79 @@ namespace BaseLib.Forms.Scroll{
 		private BasicView cornerView;
 		private BasicView smallCornerView;
 		private BasicView middleCornerView;
-		public Action<BasicMouseEventArgs> OnMouseClickMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedMainView { get; set; }
-		public Action<EventArgs> OnMouseHoverMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpMainView { get; set; }
-		public Action<EventArgs> OnMouseLeaveMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickRowHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedRowHeaderView { get; set; }
-		public Action<EventArgs> OnMouseHoverRowHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownRowHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpRowHeaderView { get; set; }
-		public Action<EventArgs> OnMouseLeaveRowHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveRowHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickRowFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedRowFooterView { get; set; }
-		public Action<EventArgs> OnMouseHoverRowFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownRowFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpRowFooterView { get; set; }
-		public Action<EventArgs> OnMouseLeaveRowFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveRowFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickRowSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedRowSpacerView { get; set; }
-		public Action<EventArgs> OnMouseHoverRowSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownRowSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpRowSpacerView { get; set; }
-		public Action<EventArgs> OnMouseLeaveRowSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveRowSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickColumnHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickColumnHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedColumnHeaderView { get; set; }
-		public Action<EventArgs> OnMouseHoverColumnHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownColumnHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpColumnHeaderView { get; set; }
-		public Action<EventArgs> OnMouseLeaveColumnHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveColumnHeaderView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickColumnFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickColumnFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedColumnFooterView { get; set; }
-		public Action<EventArgs> OnMouseHoverColumnFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownColumnFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpColumnFooterView { get; set; }
-		public Action<EventArgs> OnMouseLeaveColumnFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveColumnFooterView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickColumnSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickColumnSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedColumnSpacerView { get; set; }
-		public Action<EventArgs> OnMouseHoverColumnSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownColumnSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpColumnSpacerView { get; set; }
-		public Action<EventArgs> OnMouseLeaveColumnSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveColumnSpacerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedCornerView { get; set; }
-		public Action<EventArgs> OnMouseHoverCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpCornerView { get; set; }
-		public Action<EventArgs> OnMouseLeaveCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickMiddleCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickMiddleCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedMiddleCornerView { get; set; }
-		public Action<EventArgs> OnMouseHoverMiddleCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownMiddleCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpMiddleCornerView { get; set; }
-		public Action<EventArgs> OnMouseLeaveMiddleCornerView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveMiddleCornerView { get; set; }
-		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView { get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedMainView{ get; set; }
+		public Action<EventArgs> OnMouseHoverMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpMainView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickRowHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedRowHeaderView{ get; set; }
+		public Action<EventArgs> OnMouseHoverRowHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownRowHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpRowHeaderView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveRowHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveRowHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickRowFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedRowFooterView{ get; set; }
+		public Action<EventArgs> OnMouseHoverRowFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownRowFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpRowFooterView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveRowFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveRowFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickRowSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedRowSpacerView{ get; set; }
+		public Action<EventArgs> OnMouseHoverRowSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownRowSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpRowSpacerView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveRowSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveRowSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickColumnHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickColumnHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedColumnHeaderView{ get; set; }
+		public Action<EventArgs> OnMouseHoverColumnHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownColumnHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpColumnHeaderView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveColumnHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveColumnHeaderView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickColumnFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickColumnFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedColumnFooterView{ get; set; }
+		public Action<EventArgs> OnMouseHoverColumnFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownColumnFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpColumnFooterView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveColumnFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveColumnFooterView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickColumnSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickColumnSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedColumnSpacerView{ get; set; }
+		public Action<EventArgs> OnMouseHoverColumnSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownColumnSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpColumnSpacerView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveColumnSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveColumnSpacerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedCornerView{ get; set; }
+		public Action<EventArgs> OnMouseHoverCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpCornerView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickMiddleCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickMiddleCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedMiddleCornerView{ get; set; }
+		public Action<EventArgs> OnMouseHoverMiddleCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownMiddleCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpMiddleCornerView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveMiddleCornerView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveMiddleCornerView{ get; set; }
+		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
 
 		public void ExportGraphic(string name, bool showDialog){
 			ExportGraphics.ExportGraphic(this, name, showDialog);
@@ -143,9 +143,7 @@ namespace BaseLib.Forms.Scroll{
 			font = null;
 			color = Color2.Empty;
 			FontDialog fontDialog = new FontDialog{
-				ShowColor = true,
-				Font = GraphUtils.ToFont(fontIn),
-				Color = GraphUtils.ToColor(colorIn)
+				ShowColor = true, Font = GraphUtils.ToFont(fontIn), Color = GraphUtils.ToColor(colorIn)
 			};
 			bool ok = fontDialog.ShowDialog() == DialogResult.OK;
 			if (ok){
@@ -158,19 +156,18 @@ namespace BaseLib.Forms.Scroll{
 
 		public int Width1 => Width;
 		public int Height1 => Height;
-		public Action<IGraphics, int, int> OnPaintRowHeaderView { get; set; }
-		public Action<IGraphics, int, int> OnPaintRowFooterView { get; set; }
-		public Action<IGraphics, int, int> OnPaintColumnHeaderView { get; set; }
-		public Action<IGraphics, int, int> OnPaintColumnFooterView { get; set; }
-		public Action<IGraphics> OnPaintColumnSpacerView { get; set; }
-		public Action<IGraphics> OnPaintRowSpacerView { get; set; }
-		public Action<IGraphics> OnPaintCornerView { get; set; }
-		public Action<IGraphics> OnPaintMiddleCornerView { get; set; }
+		public Action<IGraphics, int, int> OnPaintRowHeaderView{ get; set; }
+		public Action<IGraphics, int, int> OnPaintRowFooterView{ get; set; }
+		public Action<IGraphics, int, int> OnPaintColumnHeaderView{ get; set; }
+		public Action<IGraphics, int, int> OnPaintColumnFooterView{ get; set; }
+		public Action<IGraphics> OnPaintColumnSpacerView{ get; set; }
+		public Action<IGraphics> OnPaintRowSpacerView{ get; set; }
+		public Action<IGraphics> OnPaintCornerView{ get; set; }
+		public Action<IGraphics> OnPaintMiddleCornerView{ get; set; }
 		private readonly ToolTip columnViewToolTip = new ToolTip();
-		private readonly float sfx;
-		public bool HasOverview { get; set; } = true;
+		public bool HasOverview{ get; set; } = true;
+
 		public CompoundScrollableControl(){
-			sfx = FormUtils.GetDpiScale(CreateGraphics());
 			InitializeComponent2();
 			ResizeRedraw = true;
 			DoubleBuffered = true;
@@ -185,8 +182,8 @@ namespace BaseLib.Forms.Scroll{
 			OnPaintMiddleCornerView = g => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;
-			DeltaX = () => (Width - RowHeaderWidth)/20;
-			DeltaY = () => (Height - ColumnHeaderHeight)/20;
+			DeltaX = () => (Width - RowHeaderWidth) / 20;
+			DeltaY = () => (Height - ColumnHeaderHeight) / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
 		}
@@ -200,7 +197,7 @@ namespace BaseLib.Forms.Scroll{
 			verticalScrollBarView.Invalidate();
 		}
 
-		public void InvalidateOverview(){}
+		public void InvalidateOverview(){ }
 
 		public void EnableContent(){
 			mainView.Enabled = true;
@@ -272,7 +269,8 @@ namespace BaseLib.Forms.Scroll{
 			get => rowHeaderWidth;
 			set{
 				rowHeaderWidth = value;
-				tableLayoutPanel2.ColumnStyles[0] = new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, value *sfx * client?.UserSf ?? 1);
+				tableLayoutPanel2.ColumnStyles[0] =
+					new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
 
@@ -280,7 +278,8 @@ namespace BaseLib.Forms.Scroll{
 			get => rowFooterWidth;
 			set{
 				rowFooterWidth = value;
-				tableLayoutPanel2.ColumnStyles[2] = new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, value * sfx * client?.UserSf ?? 1);
+				tableLayoutPanel2.ColumnStyles[2] =
+					new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
 
@@ -288,7 +287,8 @@ namespace BaseLib.Forms.Scroll{
 			get => columnHeaderHeight;
 			set{
 				columnHeaderHeight = value;
-				tableLayoutPanel2.RowStyles[0] = new BasicRowStyle(BasicSizeType.AbsoluteResizeable, value * sfx * client?.UserSf ?? 1);
+				tableLayoutPanel2.RowStyles[0] =
+					new BasicRowStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
 
@@ -296,18 +296,19 @@ namespace BaseLib.Forms.Scroll{
 			get => columnFooterHeight;
 			set{
 				columnFooterHeight = value;
-				tableLayoutPanel2.RowStyles[2] = new BasicRowStyle(BasicSizeType.AbsoluteResizeable, value * sfx * client?.UserSf ?? 1);
+				tableLayoutPanel2.RowStyles[2] =
+					new BasicRowStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
 
-		public Func<int> TotalWidth { get; set; }
-		public Func<int> TotalHeight { get; set; }
-		public Func<int> DeltaX { get; set; }
-		public Func<int> DeltaY { get; set; }
-		public Func<int> DeltaUpToSelection { get; set; }
-		public Func<int> DeltaDownToSelection { get; set; }
-		public int VisibleWidth => Width - RowHeaderWidth - RowFooterWidth - (int)(sfx * GraphUtil.scrollBarWidth);
-		public int VisibleHeight => Height - ColumnHeaderHeight - ColumnFooterHeight - (int)(sfx *GraphUtil.scrollBarWidth);
+		public Func<int> TotalWidth{ get; set; }
+		public Func<int> TotalHeight{ get; set; }
+		public Func<int> DeltaX{ get; set; }
+		public Func<int> DeltaY{ get; set; }
+		public Func<int> DeltaUpToSelection{ get; set; }
+		public Func<int> DeltaDownToSelection{ get; set; }
+		public int VisibleWidth => Width - RowHeaderWidth - RowFooterWidth - (GraphUtil.scrollBarWidth);
+		public int VisibleHeight => Height - ColumnHeaderHeight - ColumnFooterHeight - (GraphUtil.scrollBarWidth);
 		public int TotalClientWidth => TotalWidth() + RowHeaderWidth + RowFooterWidth;
 		public int TotalClientHeight => TotalHeight() + ColumnHeaderHeight + ColumnFooterHeight;
 		public float ZoomFactor => 1f;
@@ -316,7 +317,7 @@ namespace BaseLib.Forms.Scroll{
 		public ICompoundScrollableControlModel Client{
 			set{
 				client = value;
-				value.Register(this, sfx);
+				value.Register(this);
 			}
 		}
 
@@ -359,23 +360,23 @@ namespace BaseLib.Forms.Scroll{
 			columnHeaderView = new ScrollableControlColumnHeaderView(this);
 			columnFooterView = new ScrollableControlColumnFooterView(this);
 			columnSpacerView = new ScrollableControlColumnSpacerView(this);
-			horizontalScrollBarView = new HorizontalScrollBarView(this, sfx);
-			verticalScrollBarView = new VerticalScrollBarView(this, sfx);
+			horizontalScrollBarView = new HorizontalScrollBarView(this);
+			verticalScrollBarView = new VerticalScrollBarView(this);
 			cornerView = new ScrollableControlCornerView(this);
 			middleCornerView = new ScrollableControlMiddleCornerView(this);
 			smallCornerView = new ScrollableControlSmallCornerView();
 			SuspendLayout();
 			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
-			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, sfx * GraphUtil.scrollBarWidth));
+			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
 			tableLayoutPanel1.Add(tableLayoutPanel2, 0, 0);
 			tableLayoutPanel1.Add(horizontalScrollBarView, 0, 1);
 			tableLayoutPanel1.Add(verticalScrollBarView, 1, 0);
 			tableLayoutPanel1.Add(smallCornerView, 1, 1);
 			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
-			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Absolute, sfx * GraphUtil.scrollBarWidth));
-			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, sfx * rowHeaderWidth));
+			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, rowHeaderWidth));
 			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
-			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, sfx * rowFooterWidth));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, rowFooterWidth));
 			tableLayoutPanel2.Add(mainView, 1, 1);
 			tableLayoutPanel2.Add(rowHeaderView, 0, 1);
 			tableLayoutPanel2.Add(rowFooterView, 2, 1);
@@ -385,9 +386,9 @@ namespace BaseLib.Forms.Scroll{
 			tableLayoutPanel2.Add(columnSpacerView, 2, 0);
 			tableLayoutPanel2.Add(cornerView, 0, 0);
 			tableLayoutPanel2.Add(middleCornerView, 2, 2);
-			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, sfx * columnHeaderHeight));
+			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnHeaderHeight));
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
-			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, sfx * columnFooterHeight));
+			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnFooterHeight));
 			AutoScaleDimensions = new SizeF(6F, 13F);
 			AutoScaleMode = AutoScaleMode.Font;
 			tableLayoutControl = BasicControl.CreateControl(tableLayoutPanel1);
@@ -401,7 +402,7 @@ namespace BaseLib.Forms.Scroll{
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
-			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight*0.001*e.Delta)),
+			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * e.Delta)),
 				TotalHeight() - VisibleHeight);
 			verticalScrollBarView.Invalidate();
 			base.OnMouseWheel(e);
@@ -456,7 +457,5 @@ namespace BaseLib.Forms.Scroll{
 		public void SetCursor(Cursors2 cursor){
 			Cursor.Current = GraphUtils.ToCursor(cursor);
 		}
-
-		public float DpiScale => FormUtils.GetDpiScale(CreateGraphics());
 	}
 }

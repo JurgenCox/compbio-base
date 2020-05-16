@@ -274,10 +274,6 @@ namespace BaseLib.Graphic {
 
 		public abstract void Close();
 
-		public float GetDpiScale() {
-			return FormUtils.GetDpiScale(gc);
-		}
-
 		private static DashStyle ConvertDashStyle(DashStyle2 style) {
 			switch (style) {
 				case DashStyle2.Custom: return DashStyle.Custom;

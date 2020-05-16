@@ -28,13 +28,11 @@ namespace BaseLib.Forms.Table{
 		private Label selectedLabel;
 		private Panel mainPanel;
 		private ComboBox scaleFactorComboBox;
-		public float sfx;
 		public bool TextBoxIsVisible{ get; private set; }
 		public  EventHandler<int> DoubleClickOnRow;
 
 		public TableView(){
 			InitializeComponent();
-			sfx = FormUtils.GetDpiScale(CreateGraphics());
 			InitializeComponent2();
 			scaleFactorComboBox.SelectedIndex = 3;
 			tableView = new CompoundScrollableControl{Dock = DockStyle.Fill, Margin = new Padding(0)};
@@ -118,7 +116,7 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel1.Name = "tableLayoutPanel1";
 			tableLayoutPanel1.RowCount = 2;
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F * sfx));
+			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
 			tableLayoutPanel1.Size = new Size(523, 538);
 			tableLayoutPanel1.TabIndex = 0;
 			// 
@@ -128,9 +126,9 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F * sfx));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F * sfx));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F * sfx));
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
 			tableLayoutPanel2.Controls.Add(selectionAgentButton, 3, 0);
 			tableLayoutPanel2.Controls.Add(textButton, 5, 0);
 			tableLayoutPanel2.Controls.Add(itemsLabel, 0, 0);
@@ -163,7 +161,7 @@ namespace BaseLib.Forms.Table{
 			textButton.Margin = new Padding(0);
 			textButton.Name = "textButton";
 			textButton.Text = @"↑";
-			textButton.Font = new Font("Microsoft Sans Serif", 7.1F * sfx);
+			textButton.Font = new Font("Microsoft Sans Serif", 7.1F);
 			textButton.Size = new Size(20, 20);
 			textButton.TabIndex = 1;
 			textButton.UseVisualStyleBackColor = true;
@@ -176,7 +174,7 @@ namespace BaseLib.Forms.Table{
 			itemsLabel.Name = "itemsLabel";
 			itemsLabel.Size = new Size(1, 20);
 			itemsLabel.TabIndex = 2;
-			itemsLabel.Font = new Font("Microsoft Sans Serif", 8.1F * sfx);
+			itemsLabel.Font = new Font("Microsoft Sans Serif", 8.1F);
 			// 
 			// selectedLabel
 			// 
@@ -184,9 +182,9 @@ namespace BaseLib.Forms.Table{
 			selectedLabel.Dock = DockStyle.Fill;
 			selectedLabel.Location = new Point(9, 0);
 			selectedLabel.Name = "selectedLabel";
-			selectedLabel.Size = new Size(1, (int) (20 * sfx));
+			selectedLabel.Size = new Size(1,  20);
 			selectedLabel.TabIndex = 3;
-			selectedLabel.Font = new Font("Microsoft Sans Serif", 8.1F * sfx);
+			selectedLabel.Font = new Font("Microsoft Sans Serif", 8.1F);
 			// 
 			// mainPanel
 			// 
@@ -201,7 +199,7 @@ namespace BaseLib.Forms.Table{
 			// 
 			scaleFactorComboBox.Dock = DockStyle.Fill;
 			scaleFactorComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-			scaleFactorComboBox.Font = new Font("Microsoft Sans Serif", (isUnix ? 4 : 7) * sfx);
+			scaleFactorComboBox.Font = new Font("Microsoft Sans Serif", (isUnix ? 4 : 7));
 			scaleFactorComboBox.FormattingEnabled = true;
 			scaleFactorComboBox.Items.AddRange(new object[]{
 				"25 %", "50 %", "70 %", "100 %", "150 %", "200 %", "400 %"

@@ -59,10 +59,8 @@ namespace BaseLib.Param {
 				}
 			}
 			TableLayoutPanel grid = new TableLayoutPanel();
-			//float sfx = FormUtils.GetDpiScale(grid.CreateGraphics());
-			float sfx = 1;
 			grid.RowStyles.Add(new RowStyle(SizeType.Absolute, paramHeight));
-			grid.RowStyles.Add(new RowStyle(SizeType.Absolute, sfx * panelHeight));
+			grid.RowStyles.Add(new RowStyle(SizeType.Absolute, panelHeight));
 			cb.Dock = DockStyle.Fill;
 			grid.Controls.Add(cb, 0, 0);
 			Panel placeholder = new Panel {Margin = new Padding(0), Dock = DockStyle.Fill};

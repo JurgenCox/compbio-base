@@ -149,10 +149,6 @@
 			g.Close();
 		}
 
-		public float GetDpiScale(){
-			return g.GetDpiScale();
-		}
-
 		private static Point2[] Scale(Point2[] points, float s){
 			Point2[] result = new Point2[points.Length];
 			for (int i = 0; i < result.Length; i++){

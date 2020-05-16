@@ -178,6 +178,5 @@ namespace BaseLibS.Graph{
 		void ResetClip();
 		void SetClip(Rectangle2 rectangle);
 		void Close();
-		float GetDpiScale();
 	}
 }

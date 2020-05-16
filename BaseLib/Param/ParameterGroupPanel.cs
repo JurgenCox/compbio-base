@@ -13,8 +13,6 @@ namespace BaseLib.Param{
 		}
 
 		public void Init(ParameterGroup parameters1, float paramNameWidth, int totalWidth){
-			//float sfx = FormUtils.GetDpiScale(CreateGraphics());
-			float sfx = 1;
 			ParameterGroup = parameters1;
 			int nrows = ParameterGroup.Count;
 			grid = new TableLayoutPanel();
@@ -23,7 +21,7 @@ namespace BaseLib.Param{
 			grid.Margin = new Padding(0);
 			for (int i = 0; i < nrows; i++) {
 				Parameter p = ParameterGroup[i];
-				float h = p.Height * sfx;
+				float h = p.Height;
 				grid.RowStyles.Add(new RowStyle(SizeType.Absolute, h));
 			}
 			grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100));

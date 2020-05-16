@@ -16,7 +16,6 @@ namespace BaseLibS.Graph.Network{
 		private int indicatorY1 = -1;
 		private int indicatorY2 = -1;
 		private NetworkGraphDragType dragType = NetworkGraphDragType.Undefined;
-		private float dpiScaleX;
 		private ISimpleScrollableControl control;
 		private bool HasMoved(){
 			return indicatorX1 != indicatorX2 || indicatorY1 != indicatorY2;
@@ -61,7 +60,6 @@ namespace BaseLibS.Graph.Network{
 		public abstract Tm GraphModel { get; }
 		public void Register(ISimpleScrollableControl control1){
 			control = control1;
-			dpiScaleX = control1.DpiScale;
 			control1.OnPaintMainView = (g, x, y, width, height, isOverview) =>{
 				if (GraphModel == null){
 					return;
@@ -136,7 +134,7 @@ namespace BaseLibS.Graph.Network{
 					indicatorY2 = -1;
 					dragType = NetworkGraphDragType.Undefined;
 					Tuple<int, int> p = control1.GetOrigin();
-					EditProperties(p.Item2/dpiScaleX + 15, p.Item1/dpiScaleX);
+					EditProperties(p.Item2 + 15, p.Item1);
 					control1.InvalidateMainView();
 				}
 			};

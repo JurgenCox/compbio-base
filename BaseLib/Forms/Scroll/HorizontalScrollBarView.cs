@@ -6,7 +6,7 @@ namespace BaseLib.Forms.Scroll {
 	internal sealed class HorizontalScrollBarView : ScrollBarView {
 		private Thread leftThread;
 		private Thread rightThread;
-		internal HorizontalScrollBarView(IScrollableControl main, float sfx) : base(main, sfx) { }
+		internal HorizontalScrollBarView(IScrollableControl main) : base(main) { }
 
 		public override void OnPaintBackground(IGraphics g, int width, int height) {
 			Pen2 p = new Pen2(Color2.FromArgb(172, 168, 153));

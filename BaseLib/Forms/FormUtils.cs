@@ -8,27 +8,25 @@ using BaseLibS.Util;
 namespace BaseLib.Forms{
 	public class FormUtils{
 		public static float GetDpiScale(Graphics g){
-			try {
+			try{
 				return g.DpiX / 96f;
-			} catch (Exception) {
-				try {
-					return GetDpiScale1();
-				} catch (Exception) {
+			} catch (Exception){
+				try{
+					PropertyInfo dpiXProperty =
+						typeof(SystemParameter).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+					if (dpiXProperty == null){
+						return 1;
+					}
+					int dpiX = (int) dpiXProperty.GetValue(null, null);
+					return dpiX / 96f;
+				} catch (Exception){
 					return 1f;
 				}
 			}
 		}
 
-		private static float GetDpiScale1(){
-			PropertyInfo dpiXProperty = typeof (SystemParameter).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
-			if (dpiXProperty == null){
-				return 1;
-			}
-			int dpiX = (int) dpiXProperty.GetValue(null, null);
-			return dpiX/96f;
-		}
-
-		public static void SelectExact(ICollection<string> colNames, IList<string> colTypes, MultiListSelectorControl mls){
+		public static void SelectExact(ICollection<string> colNames, IList<string> colTypes,
+			MultiListSelectorControl mls){
 			for (int i = 0; i < colNames.Count; i++){
 				switch (colTypes[i]){
 					case "E":

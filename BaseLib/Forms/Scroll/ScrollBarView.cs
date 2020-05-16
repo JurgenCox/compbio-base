@@ -5,7 +5,6 @@ using BaseLibS.Graph.Base;
 namespace BaseLib.Forms.Scroll {
 	internal class ScrollBarView : BasicView {
 		protected readonly IScrollableControl main;
-		protected readonly float sfx;
 		protected ScrollBarState state = ScrollBarState.Neutral;
 		protected Bitmap2 firstMark;
 		protected Bitmap2 firstMarkHighlight;
@@ -19,13 +18,12 @@ namespace BaseLib.Forms.Scroll {
 		protected int dragStart = -1;
 		protected int visibleDragStart = -1;
 
-		internal ScrollBarView(IScrollableControl main, float sfx) {
+		internal ScrollBarView(IScrollableControl main) {
 			this.main = main;
-			this.sfx = sfx;
 		}
 
-		protected int ScrollBarWidth => (int) (GraphUtil.scrollBarWidth * sfx);
-		protected int MinBarSize => (int) (GraphUtil.minBarSize * sfx);
+		protected int ScrollBarWidth => (GraphUtil.scrollBarWidth);
+		protected int MinBarSize => (GraphUtil.minBarSize);
 
 		public override void OnResize(EventArgs e, int width, int height) {
 			bar = null;
