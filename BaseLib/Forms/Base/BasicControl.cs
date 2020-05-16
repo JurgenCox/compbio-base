@@ -105,7 +105,8 @@ namespace BaseLib.Forms.Base {
 			view?.OnMouseCaptureChanged(e);
 		}
 
-		protected sealed override void OnMouseEnter(EventArgs e) {
+		protected sealed override void OnMouseEnter(EventArgs e){
+			Focus();
 			base.OnMouseEnter(e);
 			view?.OnMouseEnter(e);
 		}
