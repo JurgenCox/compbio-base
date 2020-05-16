@@ -149,7 +149,6 @@
     <Compile Include="Forms\FolderParameterControl.Designer.cs">
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormUtils.cs" />
     <Compile Include="Forms\IsobaricLabelingDefault.cs" />
     <Compile Include="Forms\IsobaricLabelsEditForm.cs">
       <SubType>Form</SubType>
