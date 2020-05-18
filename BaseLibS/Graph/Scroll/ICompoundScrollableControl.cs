@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BaseLibS.Graph{
+namespace BaseLibS.Graph.Scroll{
 	public interface ICompoundScrollableControl : IScrollableControl{
 		ICompoundScrollableControlModel Client { set; }
 		int RowHeaderWidth { get; set; }

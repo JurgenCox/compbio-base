@@ -5,6 +5,7 @@ using BaseLib.Forms.Base;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
+using BaseLibS.Graph.Scroll;
 
 namespace BaseLib.Forms.Scroll{
 	public sealed class CompoundScrollableControl : UserControl, ICompoundScrollableControl{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BaseLibS.Graph{
+namespace BaseLibS.Graph.Scroll{
 	public interface IScrollableControl : IUserQueryWindow, IPrintable{
 		int Width1 { get; }
 		int Height1 { get; }

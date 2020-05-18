@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using BaseLibS.Graph;
+using BaseLibS.Graph.Scroll;
 using BaseLibS.Num;
 using BaseLibS.Table;
 using BaseLibS.Util;

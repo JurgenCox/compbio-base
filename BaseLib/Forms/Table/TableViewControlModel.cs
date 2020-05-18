@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BaseLibS.Graph;
+using BaseLibS.Graph.Scroll;
 using BaseLibS.Num;
 using BaseLibS.Symbol;
 using BaseLibS.Table;

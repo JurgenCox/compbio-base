@@ -1,5 +1,5 @@
-namespace BaseLib.Forms.Scroll{
-	internal enum ScrollBarState{
+namespace BaseLibS.Graph.Scroll{
+	public enum ScrollBarState{
 		Neutral,
 		HighlightFirstBox,
 		HighlightSecondBox,

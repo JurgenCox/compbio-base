@@ -1,12 +1,11 @@
 using System;
 using System.Threading;
-using BaseLibS.Graph;
 
-namespace BaseLib.Forms.Scroll {
-	internal sealed class VerticalScrollBarView : ScrollBarView {
+namespace BaseLibS.Graph.Scroll {
+	public sealed class VerticalScrollBarView : ScrollBarView {
 		private Thread downThread;
 		private Thread upThread;
-		internal VerticalScrollBarView(IScrollableControl main) : base(main) { }
+		public VerticalScrollBarView(IScrollableControl main) : base(main) { }
 
 		public override void OnPaintBackground(IGraphics g, int width, int height) {
 			Pen2 p = new Pen2(Color2.FromArgb(172, 168, 153));

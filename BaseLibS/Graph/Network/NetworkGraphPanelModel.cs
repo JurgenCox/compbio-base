@@ -1,4 +1,5 @@
 ﻿using System;
+using BaseLibS.Graph.Scroll;
 
 namespace BaseLibS.Graph.Network{
 	public abstract class NetworkGraphPanelModel<Tn, Te, Tc, Tm, Ti> : ISimpleScrollableControlModel

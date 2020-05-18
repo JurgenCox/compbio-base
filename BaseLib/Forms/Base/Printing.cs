@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Forms;
 using BaseLibS.Graph;
+using BaseLibS.Graph.Scroll;
 
 namespace BaseLib.Forms.Base{
 	public static class Printing{

@@ -1,9 +1,8 @@
 ﻿using System;
-using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 
-namespace BaseLib.Forms.Scroll {
-	internal class ScrollBarView : BasicView {
+namespace BaseLibS.Graph.Scroll {
+	public class ScrollBarView : BasicView {
 		protected readonly IScrollableControl main;
 		protected ScrollBarState state = ScrollBarState.Neutral;
 		protected Bitmap2 firstMark;
@@ -18,7 +17,7 @@ namespace BaseLib.Forms.Scroll {
 		protected int dragStart = -1;
 		protected int visibleDragStart = -1;
 
-		internal ScrollBarView(IScrollableControl main) {
+		protected internal ScrollBarView(IScrollableControl main) {
 			this.main = main;
 		}
 
