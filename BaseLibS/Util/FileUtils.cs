@@ -137,7 +137,7 @@ namespace BaseLibS.Util{
 
 		/// <summary>
 		/// Search for assemblies under the specified wild-card file names.
-		/// Instantiates and returns types from these assemlies which implement <code>T</code> and have a parameterless constructor
+		/// Instantiates and returns types from these assemblies which implement <code>T</code> and have a parameter-less constructor
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="filenames">File names with wild-cards</param>
@@ -194,8 +194,8 @@ namespace BaseLibS.Util{
 			for (int i = 0; i < w.Count; i++){
 				q[i] = w[i].DisplayRank;
 			}
-			int[] o = ArrayUtils.Order(q);
-			return ArrayUtils.SubArray(w, o);
+			int[] o = q.Order();
+			return w.SubArray(o);
 		}
 
 		/// <summary>
@@ -485,7 +485,7 @@ namespace BaseLibS.Util{
 		}
 
 		/// <summary>
-		/// Calculates the MD5 hash from the data stored in the fiven filename. The resulting byte
+		/// Calculates the MD5 hash from the data stored in the given filename. The resulting byte
 		/// array is automatically converted to string with the base64 algorithm, so it can be
 		/// used for various string operations.
 		/// </summary>
@@ -1000,7 +1000,7 @@ namespace BaseLibS.Util{
 
 		public static byte[] Compress(byte[] inputData){
 			if (inputData == null)
-				throw new ArgumentNullException("inputData must be non-null");
+				throw new ArgumentNullException($"argument must not be null");
 			using (MemoryStream compressIntoMs = new MemoryStream()){
 				using (BufferedStream gzs = new BufferedStream(new GZipStream(compressIntoMs, CompressionMode.Compress),
 					BUFFER_SIZE)){
@@ -1012,7 +1012,7 @@ namespace BaseLibS.Util{
 
 		public static byte[] Decompress(byte[] inputData){
 			if (inputData == null)
-				throw new ArgumentNullException("inputData must be non-null");
+				throw new ArgumentNullException($"argument must not be null");
 			using (MemoryStream compressedMs = new MemoryStream(inputData)){
 				using (MemoryStream decompressedMs = new MemoryStream()){
 					using (BufferedStream gzs =
