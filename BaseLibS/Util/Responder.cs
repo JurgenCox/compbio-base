@@ -10,6 +10,9 @@ namespace BaseLibS.Util{
 		private StreamWriter logWriter;
 
 		public Responder(string infoFolder, string title){
+			if (string.IsNullOrEmpty(infoFolder)){
+				return;
+			}
 			logFile = Responder.GetStatusFile(title, infoFolder) + ".log.txt";
 			commentFile = Responder.GetStatusFile(title, infoFolder) + ".comment.txt";
 			progressFile = Responder.GetStatusFile(title, infoFolder) + ".progress.txt";
