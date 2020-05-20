@@ -36,7 +36,7 @@ namespace BaseLibS.Ms{
 		public double CentroidHalfWidthDefault => 35;
 		public bool CentroidHalfWidthInPpmDefault => true;
 		public bool CentroidMatchTolInPpmDefault => true;
-		public bool DiaAdaptiveMassAccuraryDefault => true;
+		public bool DiaAdaptiveMassAccuracyDefault => true;
 		public double DiaMassWindowFactorDefault => 3.3;
 		public double DiaCorrThresholdFeatureClusteringDefault => 0.85;
 		public double DiaInitialPrecMassTolPpmDefault => 20;
