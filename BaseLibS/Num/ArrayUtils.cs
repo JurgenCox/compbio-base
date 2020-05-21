@@ -691,7 +691,36 @@ namespace BaseLibS.Num{
 		}
 		//
 
+		public static T[] NotUniqueValuesPreserveOrder<T>(IList<T> array)
+		{
+			HashSet<T> taken = new HashSet<T>();
+			List<T> result = new List<T>();
+			foreach (T ty in array)
+			{
 
+				taken.Add(ty);
+				result.Add(ty);
+
+			}
+			return result.ToArray();
+		}
+
+		public static T[] NotUniqueValuesPreserveOrder<T>(IList<T[]> array)
+		{
+			HashSet<T> taken = new HashSet<T>();
+			List<T> result = new List<T>();
+			foreach (T[] tx in array)
+			{
+				foreach (T ty in tx)
+				{
+
+					taken.Add(ty);
+					result.Add(ty);
+
+				}
+			}
+			return result.ToArray();
+		}
 		public static T[] UniqueValuesPreserveOrder<T>(IList<T> array){
 			HashSet<T> taken = new HashSet<T>();
 			List<T> result = new List<T>();
