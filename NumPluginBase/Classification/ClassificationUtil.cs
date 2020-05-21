@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using BaseLibS.Api;
+using BaseLibS.Mol;
 using BaseLibS.Num;
+using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
 namespace NumPluginBase.Classification{
 	public static class ClassificationUtil{
@@ -246,6 +250,29 @@ namespace NumPluginBase.Classification{
 					"number of predictors is specified by the 'Number of repeats' parameter. The number of items taken out to form the test set " +
 					"(and not used for building the predictor) is specified by the 'Test set percentage' parameter."
 			};
+		}
+
+		public static double[] SequenceRegressionCrossValidation(string[] sequences, PeptideModificationState[] modifications,
+			BaseVector[] metadata, double[] y, SequenceRegressionMethod cme, Parameters param, int nthreads,
+			AllModifications allMods){
+			const int nfolds = 5;
+			int[][] nfoldSubGroups = ClassificationUtil.GetNfoldSubGroups(sequences.Length, nfolds, out _);
+			double[] result = new double[sequences.Length];
+			int nToplevelThreads = Math.Min(nthreads, nfolds);
+			ThreadDistributor td = new ThreadDistributor(nToplevelThreads, nfolds, i => {
+				int[] testInds = nfoldSubGroups[i];
+				int[] trainInds = ArrayUtils.Concat(ArrayUtils.RemoveAtIndex(nfoldSubGroups, i));
+				string[] trainSeq = sequences.SubArray(trainInds);
+				PeptideModificationState[] trainMod = modifications.SubArray(trainInds);
+				BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
+				double[] trainY = y.SubArray(trainInds);
+				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1);
+				foreach (int testInd in testInds){
+					result[testInd] = cm.Predict(sequences[testInd], modifications[testInd], metadata?[testInd]);
+				}
+			});
+			td.Start();
+			return result;
 		}
 	}
 }
