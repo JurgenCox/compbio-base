@@ -657,21 +657,11 @@ namespace BaseLibS.Num{
 
 		public static T[] Concat<T>(IList<T> a, T b){
 			if (a == null){
-				return new[] { b };
+				return new[]{b};
 			}
 			T[] result = new T[a.Count + 1];
 			Array.Copy(a.ToArray(), 0, result, 0, a.Count);
 			result[a.Count] = b;
-			return result;
-		}
-
-		public static T[] Concat<T>(T a, IList<T> b){
-			if (b == null){
-				return new[] { a };
-			}
-			T[] result = new T[b.Count + 1];
-			Array.Copy(b.ToArray(), 0, result, 1, b.Count);
-			result[0] = a;
 			return result;
 		}
 
@@ -688,6 +678,37 @@ namespace BaseLibS.Num{
 				result[c++] = t1;
 			}
 			return result;
+		}
+
+		public static T[] NotUniqueValuesPreserveOrder<T>(IList<T> array)
+		{
+			HashSet<T> taken = new HashSet<T>();
+			List<T> result = new List<T>();
+			foreach (T ty in array)
+			{
+
+					taken.Add(ty);
+					result.Add(ty);
+				
+			}
+			return result.ToArray();
+		}
+
+		public static T[] NotUniqueValuesPreserveOrder<T>(IList<T[]> array)
+		{
+			HashSet<T> taken = new HashSet<T>();
+			List<T> result = new List<T>();
+			foreach (T[] tx in array)
+			{
+				foreach (T ty in tx)
+				{
+
+						taken.Add(ty);
+						result.Add(ty);
+					
+				}
+			}
+			return result.ToArray();
 		}
 
 		public static T[] UniqueValuesPreserveOrder<T>(IList<T> array){
