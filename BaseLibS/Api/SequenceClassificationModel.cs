@@ -12,6 +12,15 @@ namespace BaseLibS.Api{
 		public abstract double[] PredictStrength(string sequence, PeptideModificationState modifications,
 			BaseVector metadata);
 
+		public virtual double[][] PredictStrength(string[] sequence, PeptideModificationState[] modifications,
+			BaseVector[] metadata){
+			double[][] result = new double[sequence.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = PredictStrength(sequence[i], modifications?[i], metadata?[i]);
+			}
+			return result;
+		}
+
 		public int PredictClass(string sequence, PeptideModificationState modifications, BaseVector metadata){
 			return ArrayUtils.MaxInd(PredictStrength(sequence, modifications, metadata));
 		}
