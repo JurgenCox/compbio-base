@@ -7,7 +7,9 @@ using BaseLibS.Num.Vector;
 namespace BaseLibS.Api{
 	[Serializable]
 	public abstract class SequenceRegressionModel{
-		public abstract double Predict(string sequences, PeptideModificationState modifications, BaseVector metadata);
+		public virtual double Predict(string sequence, PeptideModificationState modifications, BaseVector metadata){
+			return Predict(new[]{sequence}, new[]{modifications}, metadata == null ? null : new[]{metadata})[0];
+		}
 
 		public virtual double[] Predict(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata){
