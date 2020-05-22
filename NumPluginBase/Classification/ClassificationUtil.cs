@@ -252,11 +252,11 @@ namespace NumPluginBase.Classification{
 			};
 		}
 
-		public static double[] SequenceRegressionCrossValidation(string[] sequences, PeptideModificationState[] modifications,
-			BaseVector[] metadata, double[] y, SequenceRegressionMethod cme, Parameters param, int nthreads,
-			AllModifications allMods){
+		public static double[] SequenceRegressionCrossValidation(string[] sequences,
+			PeptideModificationState[] modifications, BaseVector[] metadata, double[] y, SequenceRegressionMethod cme,
+			Parameters param, int nthreads, AllModifications allMods){
 			const int nfolds = 5;
-			int[][] nfoldSubGroups = ClassificationUtil.GetNfoldSubGroups(sequences.Length, nfolds, out _);
+			int[][] nfoldSubGroups = GetNfoldSubGroups(sequences.Length, nfolds, out _);
 			double[] result = new double[sequences.Length];
 			int nToplevelThreads = Math.Min(nthreads, nfolds);
 			ThreadDistributor td = new ThreadDistributor(nToplevelThreads, nfolds, i => {
@@ -267,8 +267,10 @@ namespace NumPluginBase.Classification{
 				BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
 				double[] trainY = y.SubArray(trainInds);
 				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1);
-				foreach (int testInd in testInds){
-					result[testInd] = cm.Predict(sequences[testInd], modifications[testInd], metadata?[testInd]);
+				double[] x = cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
+					metadata?.SubArray(testInds));
+				for (int index = 0; index < testInds.Length; index++){
+					result[testInds[index]] = x[index];
 				}
 			});
 			td.Start();
