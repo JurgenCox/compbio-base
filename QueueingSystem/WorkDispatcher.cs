@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using BaseLibS.Util;
 using QueueingSystem.Drmaa;
@@ -122,10 +123,12 @@ namespace QueueingSystem{
 			return numInternalThreads;
 		}
 
+		private bool DotNetCoreRunning => RuntimeInformation.FrameworkDescription.Contains("Core");
 		public void Abort(){
 			if (workThreads != null){
 				foreach (Thread t in workThreads.Where(t => t != null)){
-					t.Abort();
+					if(DotNetCoreRunning) t.Interrupt();
+					else  t.Abort();
 				}
 			}
 			if (CalculationType == CalculationType.ExternalProcess && externalProcesses != null){
