@@ -276,5 +276,22 @@ namespace NumPluginBase.Classification{
 			td.Start();
 			return result;
 		}
+
+		public static (double[], int[]) SequenceRegressionTrainTest(string[] sequences,
+			PeptideModificationState[] modifications, BaseVector[] metadata, double[] y, SequenceRegressionMethod cme,
+			Parameters param, int nthreads, AllModifications allMods){
+			const int nfolds = 5;
+			int[][] nfoldSubGroups = GetNfoldSubGroups(sequences.Length, nfolds, out _);
+			int[] testInds = nfoldSubGroups[0];
+			int[] trainInds = ArrayUtils.Concat(ArrayUtils.RemoveAtIndex(nfoldSubGroups, 0));
+			string[] trainSeq = sequences.SubArray(trainInds);
+			PeptideModificationState[] trainMod = modifications.SubArray(trainInds);
+			BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
+			double[] trainY = y.SubArray(trainInds);
+			SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1);
+			double[] x = cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
+				metadata?.SubArray(testInds));
+			return (x, testInds);
+		}
 	}
 }
