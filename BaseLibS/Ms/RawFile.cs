@@ -322,6 +322,10 @@ namespace BaseLibS.Ms{
 			return true;
 		}
 
+		public virtual Dictionary<int, DiaWindowGroup> GetDiaWindowGroups(){
+			return null;
+		}
+
 		/// <summary>
 		/// Create a ScanInfo object with information on the scan with the given number.
 		/// </summary>
