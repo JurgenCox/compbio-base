@@ -255,6 +255,19 @@ namespace NumPluginBase{
 			};
 		}
 
+		public static (double[] pred, double[] meas) RegressionPerformanceValidation(string[] sequences,
+			PeptideModificationState[] modifications, double[] rts, SequenceRegressionMethod predictor,
+			Parameters param, int nthreads, AllModifications allMods, ValidationMethod validationMethod){
+			if (validationMethod == ValidationMethod.CrossValidation){
+				return SequenceRegressionCrossValidation(sequences, modifications, null, rts, predictor, param,
+					nthreads, allMods);
+			} else if (validationMethod == ValidationMethod.TrainTest){
+				return SequenceRegressionTrainTest(sequences, modifications, null, rts, predictor, param, nthreads,
+					allMods);
+			}
+			throw new Exception("Never get here");
+		}
+
 		public static (double[], double[]) SequenceRegressionCrossValidation(string[] sequences,
 			PeptideModificationState[] modifications, BaseVector[] metadata, double[] y, SequenceRegressionMethod cme,
 			Parameters param, int nthreads, AllModifications allMods){
