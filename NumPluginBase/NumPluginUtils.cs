@@ -258,14 +258,18 @@ namespace NumPluginBase{
 		public static (double[] pred, double[] meas) RegressionPerformanceValidation(string[] sequences,
 			PeptideModificationState[] modifications, double[] rts, SequenceRegressionMethod predictor,
 			Parameters param, int nthreads, AllModifications allMods, ValidationMethod validationMethod){
-			if (validationMethod == ValidationMethod.CrossValidation){
-				return SequenceRegressionCrossValidation(sequences, modifications, null, rts, predictor, param,
-					nthreads, allMods);
-			} else if (validationMethod == ValidationMethod.TrainTest){
-				return SequenceRegressionTrainTest(sequences, modifications, null, rts, predictor, param, nthreads,
-					allMods);
+			switch (validationMethod){
+				case ValidationMethod.None:
+					return (new double[0], new double[0]);
+				case ValidationMethod.CrossValidation:
+					return SequenceRegressionCrossValidation(sequences, modifications, null, rts, predictor, param,
+						nthreads, allMods);
+				case ValidationMethod.TrainTest:
+					return SequenceRegressionTrainTest(sequences, modifications, null, rts, predictor, param, nthreads,
+						allMods);
+				default:
+					throw new Exception("Never get here");
 			}
-			throw new Exception("Never get here");
 		}
 
 		public static (double[], double[]) SequenceRegressionCrossValidation(string[] sequences,
