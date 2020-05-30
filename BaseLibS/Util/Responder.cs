@@ -75,20 +75,28 @@ namespace BaseLibS.Util{
 			} catch (Exception){ }
 		}
 
-		private DateTime lastProgress = DateTime.MinValue;
+		private DateTime lastProgressTime = DateTime.MinValue;
+		private double lastProgressValue = -1;
 
 		public void Progress(double x){
+			if (double.IsNaN(x) || double.IsInfinity(x)){
+				return;
+			}
 			DateTime now = DateTime.Now;
-			TimeSpan diff = now - lastProgress;
+			TimeSpan diff = now - lastProgressTime;
 			if (diff.TotalSeconds < 5){
 				return;
 			}
-			lastProgress = now;
-			if (string.IsNullOrEmpty(progressFile) || double.IsNaN(x) || double.IsInfinity(x)){
+			lastProgressTime = now;
+			if (string.IsNullOrEmpty(progressFile)){
 				return;
 			}
 			x = Math.Min(x, 1);
 			x = Math.Max(x, 0);
+			if (x - lastProgressValue < 0.001){
+				return;
+			}
+			lastProgressValue = x;
 			try{
 				File.Delete(progressFile);
 				StreamWriter writer = new StreamWriter(progressFile);
