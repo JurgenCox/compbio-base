@@ -17,7 +17,17 @@ namespace BaseLibS.Api{
 		/// </summary>
 		/// <param name="x">Test instance</param>
 		/// <returns>Prediction strength for the different classes. The one with the biggest value is the assigned class.</returns>
-		public abstract double[] PredictStrength(BaseVector x);
+		public virtual double[] PredictStrength(BaseVector x){
+			return PredictStrength(new []{x})[0];
+		}
+
+		public virtual double[][] PredictStrength(BaseVector[] x){
+			double[][] result = new double[x.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = PredictStrength(x[i]);
+			}
+			return result;
+		}
 
 		public int PredictClass(BaseVector x){
 			return ArrayUtils.MaxInd(PredictStrength(x));

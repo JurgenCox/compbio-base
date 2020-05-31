@@ -6,7 +6,17 @@ using BaseLibS.Num.Vector;
 namespace BaseLibS.Api{
 	[Serializable]
 	public abstract class RegressionModel{
-		public abstract double Predict(BaseVector x);
+		public virtual double Predict(BaseVector x){
+			return Predict(new []{x})[0];
+		}
+
+		public virtual double[] Predict(BaseVector[] x){
+			double[] result = new double[x.Length];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = Predict(x[i]);
+			}
+			return result;
+		}
 
 		public virtual void Write(string filePath){
 			WriteBySerialization(filePath, this);
