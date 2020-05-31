@@ -124,11 +124,12 @@ namespace QueueingSystem{
 		}
 
 		private bool DotNetCoreRunning => RuntimeInformation.FrameworkDescription.Contains("Core");
+
 		public void Abort(){
 			if (workThreads != null){
 				foreach (Thread t in workThreads.Where(t => t != null)){
-					if(DotNetCoreRunning) t.Interrupt();
-					else  t.Abort();
+					if (DotNetCoreRunning) t.Interrupt();
+					else t.Abort();
 				}
 			}
 			if (CalculationType == CalculationType.ExternalProcess && externalProcesses != null){
@@ -341,6 +342,8 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 				if (MaxHeapSizeGb > 0){
 					psi.EnvironmentVariables["MONO_GC_PARAMS"] = "max-heap-size=" + MaxHeapSizeGb + "g";
 				}
+			} else{
+				psi.WorkingDirectory = FileUtils.executablePath;
 			}
 			psi.EnvironmentVariables["PPID"] = Process.GetCurrentProcess().Id.ToString();
 			psi.WindowStyle = ProcessWindowStyle.Hidden;
@@ -354,8 +357,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			return externalProcess;
 		}
 
-		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex)
-		{
+		private void ProcessSingleRunExternalProcess(int taskIndex, int threadIndex){
 			IList<string> args = GetCommandLineArgs(taskIndex);
 			Process externalProcess = GetProcess(args);
 			externalProcesses[threadIndex] = externalProcess;
@@ -364,11 +366,9 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			externalProcesses[threadIndex].WaitForExit();
 			string stdErr = externalProcess.StandardError.ReadToEnd();
 			string stdOut = externalProcess.StandardOutput.ReadToEnd();
-
 			int exitcode = externalProcesses[threadIndex].ExitCode;
 			externalProcesses[threadIndex].Close();
-			if (exitcode != 0)
-			{
+			if (exitcode != 0){
 				throw new Exception("Exception during execution of external process: " + processid);
 			}
 		}
