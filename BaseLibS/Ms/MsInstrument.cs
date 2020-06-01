@@ -45,7 +45,7 @@ namespace BaseLibS.Ms{
 		public double DiaInitialFragMassTolPpmDefault => 20;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
 		public double DiaMinScoreDefault => 1.99;
-   
+
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
 		public int DiaTopNFragmentsForQuantDefault => 10;
 		public double DiaMinMsmsIntensityForQuantDefault => 0;
@@ -59,12 +59,13 @@ namespace BaseLibS.Ms{
 		public double DiaMinPrecursorScoreDefault => 0.5;
 		public double DiaMinProfileCorrelationDefault => 0;
 		public bool DiaRtPredictionDefault => false;
-
+		public bool DiaRtPredictionSecondRoundDefault => false;
+		public bool DiaNoMlDefault => false;
 		public double DiaXgBoostBaseScoreDefault => 0.4;
-        public double DiaXgBoostSubSampleDefault => 0.9;
-        public double DiaXgBoostGammaDefault = 0.9;
-        public int DiaXgBoostMaxDeltastepDefault = 3;
-        public int DiaXgBoostMinChildWeightDefault => 9;
+		public double DiaXgBoostSubSampleDefault => 0.9;
+		public double DiaXgBoostGammaDefault = 0.9;
+		public int DiaXgBoostMaxDeltastepDefault = 3;
+		public int DiaXgBoostMinChildWeightDefault => 9;
 		public int DiaXgBoostMaximumTreeDepthDefault => 12;
 		public int DiaXgBoostEstimatorsDefault => 580;
 
