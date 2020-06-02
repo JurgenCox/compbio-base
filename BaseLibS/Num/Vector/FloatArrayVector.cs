@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num.Vector{
 	[Serializable]
@@ -91,13 +93,21 @@ namespace BaseLibS.Num.Vector{
 		}
 
 		public override BaseVector SubArray(IList<int> inds){
-			return new FloatArrayVector(ArrayUtils.SubArray(values, inds));
+			return new FloatArrayVector(values.SubArray(inds));
 		}
 
 		public override IEnumerator<double> GetEnumerator(){
 			foreach (float foo in values){
 				yield return foo;
 			}
+		}
+
+		public override void Read(BinaryReader reader){
+			values = FileUtils.ReadSingleArray(reader);
+		}
+
+		public override void Write(BinaryWriter writer){
+			FileUtils.Write(values, writer);
 		}
 
 		internal static double Dot(FloatArrayVector x, FloatArrayVector y){

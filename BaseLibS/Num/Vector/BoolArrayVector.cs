@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num.Vector{
 	[Serializable]
@@ -179,13 +181,21 @@ namespace BaseLibS.Num.Vector{
 		}
 
 		public override BaseVector SubArray(IList<int> inds){
-			return new BoolArrayVector(ArrayUtils.SubArray(values, inds));
+			return new BoolArrayVector(values.SubArray(inds));
 		}
 
 		public override IEnumerator<double> GetEnumerator(){
 			foreach (bool foo in values){
 				yield return foo ? 1 : 0;
 			}
+		}
+
+		public override void Read(BinaryReader reader){
+			values = FileUtils.ReadBooleanArray(reader);
+		}
+
+		public override void Write(BinaryWriter writer){
+			FileUtils.Write(values, writer);
 		}
 
 		internal static double Dot(BoolArrayVector x, BoolArrayVector y){

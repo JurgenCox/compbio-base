@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num.Vector{
 	[Serializable]
@@ -12,7 +14,7 @@ namespace BaseLibS.Num.Vector{
 		/// <summary>
 		/// Total length of the vector.
 		/// </summary>
-		private readonly int length;
+		private int length;
 
 		public SparseBoolVector(IList<bool> values){
 			List<int> newIndices = new List<int>();
@@ -167,6 +169,16 @@ namespace BaseLibS.Num.Vector{
 
 		public override IEnumerator<double> GetEnumerator(){
 			throw new NotImplementedException();
+		}
+
+		public override void Read(BinaryReader reader){
+			indices = FileUtils.ReadInt32Array(reader);
+			length = reader.ReadInt32();
+		}
+
+		public override void Write(BinaryWriter writer){
+			FileUtils.Write(indices, writer);
+			writer.Write(length);
 		}
 
 		public override bool ContainsNaNOrInf(){

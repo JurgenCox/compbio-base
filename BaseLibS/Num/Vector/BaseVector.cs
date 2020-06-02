@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num.Vector{
 	[Serializable]
-	public abstract class BaseVector : ICloneable, IDisposable, IEnumerable<double> {
+	public abstract class BaseVector : ICloneable, IDisposable, IEnumerable<double>{
 		/// <summary>
 		/// Determines the scalar product of this vector with another one passed as the argument. 
 		/// </summary>
@@ -33,12 +35,12 @@ namespace BaseLibS.Num.Vector{
 		/// <summary>
 		/// Number of elements in this vector.
 		/// </summary>
-		public abstract int Length { get; }
+		public abstract int Length{ get; }
 
 		/// <summary>
 		/// Indexer to the elements of this vector.
 		/// </summary>
-		public abstract double this[int index] { get; set; }
+		public abstract double this[int index]{ get; set; }
 
 		/// <summary>
 		/// Determines the sum of squared differences of this vector with another one passed as the argument. 
@@ -87,6 +89,22 @@ namespace BaseLibS.Num.Vector{
 		/// </summary>
 		public object Clone(){
 			return Copy();
+		}
+
+		public abstract void Read(BinaryReader reader);
+
+		public abstract void Write(BinaryWriter writer);
+
+		public void Read(string path){
+			BinaryReader reader = FileUtils.GetBinaryReader(path);
+			Read(reader);
+			reader.Close();
+		}
+
+		public void Write(string path){
+			BinaryWriter writer = FileUtils.GetBinaryWriter(path);
+			Write(writer);
+			writer.Close();
 		}
 	}
 }

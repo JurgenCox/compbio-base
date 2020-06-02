@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num.Vector{
 	[Serializable]
@@ -77,7 +79,7 @@ namespace BaseLibS.Num.Vector{
 		}
 
 		public override BaseVector SubArray(IList<int> inds){
-			return new DoubleArrayVector(ArrayUtils.SubArray(values, inds));
+			return new DoubleArrayVector(values.SubArray(inds));
 		}
 
 		public override IEnumerator<double> GetEnumerator(){
@@ -86,10 +88,18 @@ namespace BaseLibS.Num.Vector{
 			}
 		}
 
+		public override void Read(BinaryReader reader){
+			values = FileUtils.ReadDoubleArray(reader);
+		}
+
+		public override void Write(BinaryWriter writer){
+			FileUtils.Write(values, writer);
+		}
+
 		internal static double Dot(DoubleArrayVector x, DoubleArrayVector y){
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
-				sum += x.values[i]*y.values[i];
+				sum += x.values[i] * y.values[i];
 			}
 			return sum;
 		}
@@ -98,7 +108,7 @@ namespace BaseLibS.Num.Vector{
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
 				double d = x.values[i] - y.values[i];
-				sum += d*d;
+				sum += d * d;
 			}
 			return sum;
 		}
