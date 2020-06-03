@@ -1,17 +1,44 @@
 ﻿using System;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
+using BaseLibS.Util;
 using NumPluginSvm.Svm;
 
 namespace NumPluginSvm{
 	[Serializable]
 	public class SvmClassificationModel : ClassificationModel{
-		private readonly SvmModel[] models;
-		private readonly bool[] invert;
+		private SvmModel[] models;
+		private bool[] invert;
 
-		public SvmClassificationModel(SvmModel[] models, bool[] invert) {
+		public SvmClassificationModel(SvmModel[] models, bool[] invert){
 			this.models = models;
 			this.invert = invert;
+		}
+
+		public SvmClassificationModel(){ }
+
+		public override ClassificationModel Read(string filePath){
+			SvmClassificationModel result = new SvmClassificationModel();
+			BinaryReader reader = FileUtils.GetBinaryReader(filePath);
+			int len = reader.ReadInt32();
+			result.models = new SvmModel[len];
+			for (int i = 0; i < len; i++){
+				result.models[i] = new SvmModel(reader);
+			}
+			invert = FileUtils.ReadBooleanArray(reader);
+			reader.Close();
+			return result;
+		}
+
+		public override void Write(string filePath){
+			BinaryWriter writer = FileUtils.GetBinaryWriter(filePath);
+			writer.Write(models.Length);
+			foreach (SvmModel model in models){
+				model.Write(writer);
+			}
+			FileUtils.Write(invert, writer);
+			writer.Close();
 		}
 
 		public override double[] PredictStrength(BaseVector x){
@@ -19,7 +46,7 @@ namespace NumPluginSvm{
 				double[] result = new double[2];
 				double[] decVal = new double[1];
 				SvmMain.SvmPredictValues(models[0], x, decVal);
-				result[0] = invert[0] ? -(float)decVal[0] : (float)decVal[0];
+				result[0] = invert[0] ? -(float) decVal[0] : (float) decVal[0];
 				result[1] = -result[0];
 				return result;
 			}
@@ -27,7 +54,7 @@ namespace NumPluginSvm{
 			for (int i = 0; i < result1.Length; i++){
 				double[] decVal = new double[1];
 				SvmMain.SvmPredictValues(models[i], x, decVal);
-				result1[i] = invert[i] ? -(float)decVal[0] : (float)decVal[0];
+				result1[i] = invert[i] ? -(float) decVal[0] : (float) decVal[0];
 			}
 			return result1;
 		}

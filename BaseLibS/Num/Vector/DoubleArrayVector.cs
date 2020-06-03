@@ -12,6 +12,8 @@ namespace BaseLibS.Num.Vector{
 			this.values = values;
 		}
 
+		public DoubleArrayVector(){ }
+
 		public override BaseVector Minus(BaseVector other){
 			double[] result = (double[]) values.Clone();
 			for (int i = 0; i < other.Length; i++){
@@ -94,6 +96,10 @@ namespace BaseLibS.Num.Vector{
 
 		public override void Write(BinaryWriter writer){
 			FileUtils.Write(values, writer);
+		}
+
+		public override VectorType GetVectorType(){
+			return VectorType.DoubleArray;
 		}
 
 		internal static double Dot(DoubleArrayVector x, DoubleArrayVector y){

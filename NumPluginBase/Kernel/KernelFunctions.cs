@@ -1,11 +1,13 @@
-﻿using BaseLibS.Api;
+﻿using System;
+using System.IO;
+using BaseLibS.Api;
 using BaseLibS.Param;
-using BaseLibS.Util;
 
 namespace NumPluginBase.Kernel{
 	public static class KernelFunctions{
-		private static readonly IKernelFunction[] allKernelFunctions = InitKernels();
-		private static IKernelFunction[] InitKernels() { return FileUtils.GetPlugins<IKernelFunction>(NumPluginUtils.pluginNames, true); }
+		private static readonly IKernelFunction[] allKernelFunctions = {
+			new LinearKernelFunction(), new RbfKernelFunction(),new PolynomialKernelFunction(),new SigmoidKernelFunction()   
+		};
 
 		public static string[] GetAllNames(){
 			string[] result = new string[allKernelFunctions.Length];
@@ -28,7 +30,8 @@ namespace NumPluginBase.Kernel{
 				Values = GetAllNames(),
 				SubParams = GetAllParameters(),
 				Value = 0,
-				Help = "The kernel function defines the scalar product between two features in the kernel-induced feature space."
+				Help =
+					"The kernel function defines the scalar product between two features in the kernel-induced feature space."
 			};
 		}
 
@@ -36,6 +39,28 @@ namespace NumPluginBase.Kernel{
 			IKernelFunction kf = (IKernelFunction) allKernelFunctions[index].Clone();
 			kf.Parameters = param;
 			return kf;
+		}
+
+		public static IKernelFunction ReadKernel(KernelType type, BinaryReader reader){
+			IKernelFunction func;
+			switch (type){
+				case KernelType.Linear:
+					func = new LinearKernelFunction();
+					break;
+				case KernelType.Rbf:
+					func = new RbfKernelFunction();
+					break;
+				case KernelType.Polynomial:
+					func = new PolynomialKernelFunction();
+					break;
+				case KernelType.Sigmoid:
+					func = new SigmoidKernelFunction();
+					break;
+				default:
+					throw new Exception("Never get here.");
+			}
+			func.Read(reader);
+			return func;
 		}
 	}
 }

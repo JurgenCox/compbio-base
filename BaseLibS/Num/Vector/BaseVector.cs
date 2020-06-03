@@ -95,6 +95,8 @@ namespace BaseLibS.Num.Vector{
 
 		public abstract void Write(BinaryWriter writer);
 
+		public abstract VectorType GetVectorType();
+
 		public void Read(string path){
 			BinaryReader reader = FileUtils.GetBinaryReader(path);
 			Read(reader);
@@ -105,6 +107,31 @@ namespace BaseLibS.Num.Vector{
 			BinaryWriter writer = FileUtils.GetBinaryWriter(path);
 			Write(writer);
 			writer.Close();
+		}
+
+		public static BaseVector ReadbaseVector(VectorType type, BinaryReader reader){
+			BaseVector result;
+			switch (type){
+				case VectorType.BoolArray:
+					result = new BoolArrayVector();
+					break;
+				case VectorType.SoarseBool:
+					result = new SparseBoolVector();
+					break;
+				case VectorType.DoubleArray:
+					result = new DoubleArrayVector();
+					break;
+				case VectorType.SparseFloat:
+					result = new SparseFloatVector();
+					break;
+				case VectorType.FloatArray:
+					result = new FloatArrayVector();
+					break;
+				default:
+					throw new Exception("Never get here.");
+			}
+			result.Read(reader);
+			return result;
 		}
 	}
 }

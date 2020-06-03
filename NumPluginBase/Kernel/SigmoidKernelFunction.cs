@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -29,6 +30,20 @@ namespace NumPluginBase.Kernel{
 
 		public double Evaluate(BaseVector xi, BaseVector xj, double xSquarei, double xSquarej){
 			return Math.Tanh(Gamma*xi.Dot(xj) + Offset);
+		}
+
+		public void Write(BinaryWriter writer){
+			writer.Write(Gamma);
+			writer.Write(Offset);
+		}
+
+		public void Read(BinaryReader reader){
+			Gamma = reader.ReadDouble();
+			Offset = reader.ReadDouble();
+		}
+
+		public KernelType GetKernelType(){
+			return KernelType.Sigmoid;
 		}
 
 		public object Clone(){

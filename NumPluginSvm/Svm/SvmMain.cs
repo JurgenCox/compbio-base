@@ -542,7 +542,7 @@ namespace NumPluginSvm.Svm{
 		// Interface functions
 		//
 		public static SvmModel SvmTrain(SvmProblem prob, SvmParameter param){
-			SvmModel model = new SvmModel{param = param};
+			SvmModel model = new SvmModel(){param = param};
 			if (param.svmType == SvmType.OneClass || param.svmType == SvmType.EpsilonSvr || param.svmType == SvmType.NuSvr){
 				// regression or one-class-svm
 				model.nrClass = 2;

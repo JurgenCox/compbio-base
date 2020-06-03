@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -6,9 +7,9 @@ using BaseLibS.Param;
 namespace NumPluginBase.Kernel{
 	[Serializable]
 	public class PolynomialKernelFunction : IKernelFunction{
-		public int Degree { get; set; }
-		public double Gamma { get; set; }
-		public double Offset { get; set; }
+		public int Degree{ get; set; }
+		public double Gamma{ get; set; }
+		public double Offset{ get; set; }
 
 		public PolynomialKernelFunction(int degree, double gamma, double offset){
 			Degree = degree;
@@ -16,17 +17,17 @@ namespace NumPluginBase.Kernel{
 			Offset = offset;
 		}
 
-		public PolynomialKernelFunction() : this(3, 0.01, 0){}
+		public PolynomialKernelFunction() : this(3, 0.01, 0){ }
 		public bool UsesSquares => false;
 		public string Name => "Polynomial";
 
 		public Parameters Parameters{
-			get => new Parameters(
-				new IntParam("Degree", Degree){
-					Help = "The degree of the polynomial. A degree of one will reproduce the linear kernel"
-				},
-				new DoubleParam("Gamma", Gamma){Help = "Coefficient in front of the scalar product."},
-				new DoubleParam("Offset", Offset){Help = "Shift parameter."});
+			get =>
+				new Parameters(
+					new IntParam("Degree", Degree){
+						Help = "The degree of the polynomial. A degree of one will reproduce the linear kernel"
+					}, new DoubleParam("Gamma", Gamma){Help = "Coefficient in front of the scalar product."},
+					new DoubleParam("Offset", Offset){Help = "Shift parameter."});
 			set{
 				Degree = value.GetParam<int>("Degree").Value;
 				Gamma = value.GetParam<double>("Gamma").Value;
@@ -35,7 +36,23 @@ namespace NumPluginBase.Kernel{
 		}
 
 		public double Evaluate(BaseVector xi, BaseVector xj, double xSquarei, double xSquarej){
-			return Powi(Gamma*xi.Dot(xj) + Offset, Degree);
+			return Powi(Gamma * xi.Dot(xj) + Offset, Degree);
+		}
+
+		public void Write(BinaryWriter writer){
+			writer.Write(Degree);
+			writer.Write(Gamma);
+			writer.Write(Offset);
+		}
+
+		public void Read(BinaryReader reader){
+			Degree = reader.ReadInt32();
+			Gamma = reader.ReadDouble();
+			Offset = reader.ReadDouble();
+		}
+
+		public KernelType GetKernelType(){
+			return KernelType.Polynomial;
 		}
 
 		public object Clone(){
@@ -46,10 +63,10 @@ namespace NumPluginBase.Kernel{
 			double tmp = base1;
 			double ret = 1.0;
 			for (int t = times; t > 0; t /= 2){
-				if (t%2 == 1){
+				if (t % 2 == 1){
 					ret *= tmp;
 				}
-				tmp = tmp*tmp;
+				tmp = tmp * tmp;
 			}
 			return ret;
 		}

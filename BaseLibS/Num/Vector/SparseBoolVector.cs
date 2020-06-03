@@ -32,6 +32,8 @@ namespace BaseLibS.Num.Vector{
 			this.length = length;
 		}
 
+		public SparseBoolVector(){ }
+
 		public override BaseVector Minus(BaseVector other){
 			if (other is DoubleArrayVector){
 				double[] result = new double[Length];
@@ -179,6 +181,10 @@ namespace BaseLibS.Num.Vector{
 		public override void Write(BinaryWriter writer){
 			FileUtils.Write(indices, writer);
 			writer.Write(length);
+		}
+
+		public override VectorType GetVectorType(){
+			return VectorType.SoarseBool;
 		}
 
 		public override bool ContainsNaNOrInf(){
@@ -382,7 +388,7 @@ namespace BaseLibS.Num.Vector{
 				}
 			}
 			while (i < xlen){
-				sum ++;
+				sum++;
 				i++;
 			}
 			while (j < ylen){
@@ -402,17 +408,17 @@ namespace BaseLibS.Num.Vector{
 				if (i == y.indices[j]){
 					double d = x.values[i++] - 1;
 					j++;
-					sum += d*d;
+					sum += d * d;
 				} else if (i > y.indices[j]){
 					sum += 1;
 					++j;
 				} else{
-					sum += x.values[i]*x.values[i];
+					sum += x.values[i] * x.values[i];
 					++i;
 				}
 			}
 			while (i < xlen){
-				sum += x.values[i]*x.values[i];
+				sum += x.values[i] * x.values[i];
 				++i;
 			}
 			while (j < ylen){
@@ -432,17 +438,17 @@ namespace BaseLibS.Num.Vector{
 				if (i == y.indices[j]){
 					double d = x.values[i++] - 1;
 					j++;
-					sum += d*d;
+					sum += d * d;
 				} else if (i > y.indices[j]){
 					sum += 1;
 					++j;
 				} else{
-					sum += x.values[i]*x.values[i];
+					sum += x.values[i] * x.values[i];
 					++i;
 				}
 			}
 			while (i < xlen){
-				sum += x.values[i]*x.values[i];
+				sum += x.values[i] * x.values[i];
 				++i;
 			}
 			while (j < ylen){
@@ -465,7 +471,7 @@ namespace BaseLibS.Num.Vector{
 					if (x.values[i++]){
 						d -= 1;
 					}
-					sum += d*d;
+					sum += d * d;
 				} else if (i > y.indices[j]){
 					sum += 1;
 					++j;
@@ -499,9 +505,9 @@ namespace BaseLibS.Num.Vector{
 				if (x.indices[i] == y.indices[j]){
 					double d = 1 - y.values[j++];
 					i++;
-					sum += d*d;
+					sum += d * d;
 				} else if (x.indices[i] > y.indices[j]){
-					sum += y.values[j]*y.values[j];
+					sum += y.values[j] * y.values[j];
 					++j;
 				} else{
 					sum += 1;
@@ -513,7 +519,7 @@ namespace BaseLibS.Num.Vector{
 				++i;
 			}
 			while (j < ylen){
-				sum += y.values[j]*y.values[j];
+				sum += y.values[j] * y.values[j];
 				++j;
 			}
 			return sum;

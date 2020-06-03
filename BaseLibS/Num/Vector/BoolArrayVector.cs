@@ -11,6 +11,8 @@ namespace BaseLibS.Num.Vector{
 		/// </summary>
 		internal bool[] values;
 
+		public BoolArrayVector(){ }
+
 		public BoolArrayVector(bool[] values){
 			this.values = values;
 		}
@@ -198,11 +200,15 @@ namespace BaseLibS.Num.Vector{
 			FileUtils.Write(values, writer);
 		}
 
+		public override VectorType GetVectorType(){
+			return VectorType.BoolArray;
+		}
+
 		internal static double Dot(BoolArrayVector x, BoolArrayVector y){
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
 				if (x.values[i] && y.values[i]){
-					sum ++;
+					sum++;
 				}
 			}
 			return sum;
@@ -232,7 +238,7 @@ namespace BaseLibS.Num.Vector{
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
 				if (x.values[i] != y.values[i]){
-					sum ++;
+					sum++;
 				}
 			}
 			return sum;
@@ -242,7 +248,7 @@ namespace BaseLibS.Num.Vector{
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
 				double d = x.values[i] - y.values[i];
-				sum += d*d;
+				sum += d * d;
 			}
 			return sum;
 		}
@@ -254,7 +260,7 @@ namespace BaseLibS.Num.Vector{
 				if (x.values[i]){
 					d -= 1;
 				}
-				sum += d*d;
+				sum += d * d;
 			}
 			return sum;
 		}
@@ -266,7 +272,7 @@ namespace BaseLibS.Num.Vector{
 				if (x.values[i]){
 					d -= 1;
 				}
-				sum += d*d;
+				sum += d * d;
 			}
 			return sum;
 		}

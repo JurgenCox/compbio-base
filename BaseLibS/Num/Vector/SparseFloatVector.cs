@@ -35,6 +35,8 @@ namespace BaseLibS.Num.Vector{
 			length = values.Count;
 		}
 
+		public SparseFloatVector(){ }
+
 		public SparseFloatVector(int[] indices, float[] values, int length){
 			this.indices = indices;
 			this.values = values;
@@ -224,6 +226,10 @@ namespace BaseLibS.Num.Vector{
 			writer.Write(length);
 		}
 
+		public override VectorType GetVectorType(){
+			return VectorType.SparseFloat;
+		}
+
 		public override bool ContainsNaNOrInf(){
 			foreach (float value in values){
 				if (float.IsNaN(value) || float.IsInfinity(value)){
@@ -299,7 +305,7 @@ namespace BaseLibS.Num.Vector{
 			int j = 0;
 			while (i < xlen && j < ylen){
 				if (x.indices[i] == y.indices[j]){
-					sum += x.values[i++]*y.values[j++];
+					sum += x.values[i++] * y.values[j++];
 				} else{
 					if (x.indices[i] > y.indices[j]){
 						++j;
@@ -319,7 +325,7 @@ namespace BaseLibS.Num.Vector{
 			int j = 0;
 			while (i < xlen && j < ylen){
 				if (i == y.indices[j]){
-					sum += x.values[i++]*y.values[j++];
+					sum += x.values[i++] * y.values[j++];
 				} else{
 					if (i > y.indices[j]){
 						++j;
@@ -363,7 +369,7 @@ namespace BaseLibS.Num.Vector{
 			int j = 0;
 			while (i < xlen && j < ylen){
 				if (i == y.indices[j]){
-					sum += x.values[i++]*y.values[j++];
+					sum += x.values[i++] * y.values[j++];
 				} else{
 					if (i > y.indices[j]){
 						++j;
@@ -384,21 +390,21 @@ namespace BaseLibS.Num.Vector{
 			while (i < xlen && j < ylen){
 				if (x.indices[i] == y.indices[j]){
 					double d = x.values[i++] - y.values[j++];
-					sum += d*d;
+					sum += d * d;
 				} else if (x.indices[i] > y.indices[j]){
-					sum += y.values[j]*y.values[j];
+					sum += y.values[j] * y.values[j];
 					++j;
 				} else{
-					sum += x.values[i]*x.values[i];
+					sum += x.values[i] * x.values[i];
 					++i;
 				}
 			}
 			while (i < xlen){
-				sum += x.values[i]*x.values[i];
+				sum += x.values[i] * x.values[i];
 				++i;
 			}
 			while (j < ylen){
-				sum += y.values[j]*y.values[j];
+				sum += y.values[j] * y.values[j];
 				++j;
 			}
 			return sum;
@@ -413,21 +419,21 @@ namespace BaseLibS.Num.Vector{
 			while (i < xlen && j < ylen){
 				if (i == y.indices[j]){
 					double d = x.values[i++] - y.values[j++];
-					sum += d*d;
+					sum += d * d;
 				} else if (i > y.indices[j]){
-					sum += y.values[j]*y.values[j];
+					sum += y.values[j] * y.values[j];
 					++j;
 				} else{
-					sum += x.values[i]*x.values[i];
+					sum += x.values[i] * x.values[i];
 					++i;
 				}
 			}
 			while (i < xlen){
-				sum += x.values[i]*x.values[i];
+				sum += x.values[i] * x.values[i];
 				++i;
 			}
 			while (j < ylen){
-				sum += y.values[j]*y.values[j];
+				sum += y.values[j] * y.values[j];
 				++j;
 			}
 			return sum;
@@ -442,21 +448,21 @@ namespace BaseLibS.Num.Vector{
 			while (i < xlen && j < ylen){
 				if (i == y.indices[j]){
 					double d = x.values[i++] - y.values[j++];
-					sum += d*d;
+					sum += d * d;
 				} else if (i > y.indices[j]){
-					sum += y.values[j]*y.values[j];
+					sum += y.values[j] * y.values[j];
 					++j;
 				} else{
-					sum += x.values[i]*x.values[i];
+					sum += x.values[i] * x.values[i];
 					++i;
 				}
 			}
 			while (i < xlen){
-				sum += x.values[i]*x.values[i];
+				sum += x.values[i] * x.values[i];
 				++i;
 			}
 			while (j < ylen){
-				sum += y.values[j]*y.values[j];
+				sum += y.values[j] * y.values[j];
 				++j;
 			}
 			return sum;
@@ -474,9 +480,9 @@ namespace BaseLibS.Num.Vector{
 					if (x.values[i++]){
 						d -= 1;
 					}
-					sum += d*d;
+					sum += d * d;
 				} else if (i > y.indices[j]){
-					sum += y.values[j]*y.values[j];
+					sum += y.values[j] * y.values[j];
 					++j;
 				} else{
 					if (x.values[i]){
@@ -492,7 +498,7 @@ namespace BaseLibS.Num.Vector{
 				++i;
 			}
 			while (j < ylen){
-				sum += y.values[j]*y.values[j];
+				sum += y.values[j] * y.values[j];
 				++j;
 			}
 			return sum;

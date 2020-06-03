@@ -12,6 +12,8 @@ namespace BaseLibS.Num.Vector{
 			this.values = values;
 		}
 
+		public FloatArrayVector(){ }
+
 		public override BaseVector Minus(BaseVector other){
 			if (other is DoubleArrayVector){
 				double[] result = new double[values.Length];
@@ -110,10 +112,14 @@ namespace BaseLibS.Num.Vector{
 			FileUtils.Write(values, writer);
 		}
 
+		public override VectorType GetVectorType(){
+			return VectorType.FloatArray;
+		}
+
 		internal static double Dot(FloatArrayVector x, FloatArrayVector y){
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
-				sum += x.values[i]*y.values[i];
+				sum += x.values[i] * y.values[i];
 			}
 			return sum;
 		}
@@ -121,7 +127,7 @@ namespace BaseLibS.Num.Vector{
 		internal static double Dot(FloatArrayVector x, DoubleArrayVector y){
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
-				sum += x.values[i]*y.values[i];
+				sum += x.values[i] * y.values[i];
 			}
 			return sum;
 		}
@@ -130,7 +136,7 @@ namespace BaseLibS.Num.Vector{
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
 				double d = x.values[i] - y.values[i];
-				sum += d*d;
+				sum += d * d;
 			}
 			return sum;
 		}
@@ -139,7 +145,7 @@ namespace BaseLibS.Num.Vector{
 			double sum = 0;
 			for (int i = 0; i < x.Length; i++){
 				double d = x.values[i] - y.values[i];
-				sum += d*d;
+				sum += d * d;
 			}
 			return sum;
 		}
