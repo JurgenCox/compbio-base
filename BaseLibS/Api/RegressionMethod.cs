@@ -1,6 +1,6 @@
-﻿using System;
-using BaseLibS.Num.Vector;
+﻿using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
 namespace BaseLibS.Api{
 	public abstract class RegressionMethod : PredictionMethod{
@@ -26,11 +26,11 @@ namespace BaseLibS.Api{
 		/// of the calculation.</param>
 		/// <returns></returns>
 		public abstract RegressionModel Train(BaseVector[] x, int[] nominal, double[] y, Parameters param, int nthreads,
-			Action<double> reportProgress);
+			Responder responder);
 
 		public RegressionModel Train(BaseVector[] x, double[] y, Parameters param, int nthreads,
-			Action<double> reportProgress){
-			return Train(x, null, y, param, nthreads, reportProgress);
+			Responder responder){
+			return Train(x, null, y, param, nthreads, responder);
 		}
 
 		public RegressionModel Train(BaseVector[] x, double[] y, Parameters param, int nthreads){

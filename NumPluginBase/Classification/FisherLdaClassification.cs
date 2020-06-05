@@ -1,13 +1,13 @@
-﻿using System;
-using BaseLibS.Api;
+﻿using BaseLibS.Api;
 using BaseLibS.Num;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
 namespace NumPluginBase.Classification{
 	public class FisherLdaClassification : ClassificationMethod{
 		public override ClassificationModel Train(BaseVector[] x, int[] nominal, int[][] y, int ngroups, Parameters param, int nthreads,
-			Action<double> reportProgress) {
+			Responder responder) {
 			x = ToOneHotEncoding(x, nominal);
 			int n = x.Length;
 			int p = x[0].Length;

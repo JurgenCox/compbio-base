@@ -1,13 +1,13 @@
-﻿using System;
-using BaseLibS.Mol;
+﻿using BaseLibS.Mol;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
 namespace BaseLibS.Api{
 	public abstract class SequenceClassificationMethod : PredictionMethod{
 		public abstract SequenceClassificationModel Train(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata, int[][] y, int ngroups, string allAas, AllModifications allMods, Parameters param,
-			int nthreads, Action<double> reportProgress);
+			int nthreads, Responder responder);
 
 		public SequenceClassificationModel Train(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata, int[][] y, int ngroups, string allAas, AllModifications allMods, Parameters param,
@@ -22,9 +22,8 @@ namespace BaseLibS.Api{
 
 		public SequenceClassificationModel Train(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata, int[][] y, int ngroups, AllModifications allMods, Parameters param, int nthreads,
-			Action<double> reportProgress){
-			return Train(sequences, modifications, metadata, y, ngroups, aas, allMods, param, nthreads,
-				reportProgress);
+			Responder responder){
+			return Train(sequences, modifications, metadata, y, ngroups, aas, allMods, param, nthreads, responder);
 		}
 
 		public SequenceClassificationModel Train(string[] sequences, PeptideModificationState[] modifications,

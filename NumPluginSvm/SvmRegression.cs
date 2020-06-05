@@ -1,13 +1,14 @@
-﻿using System;
-using BaseLibS.Api;
+﻿using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 using NumPluginBase.Kernel;
 using NumPluginSvm.Svm;
 
 namespace NumPluginSvm{
 	public class SvmRegression : RegressionMethod{
-		public override RegressionModel Train(BaseVector[] x, int[] nominal, double[] y, Parameters param, int nthreads, Action<double> reportProgress) {
+		public override RegressionModel Train(BaseVector[] x, int[] nominal, double[] y, Parameters param, int nthreads,
+			Responder responder){
 			x = ClassificationMethod.ToOneHotEncoding(x, nominal);
 			ParameterWithSubParams<int> kernelParam = param.GetParamWithSubParams<int>("Kernel");
 			SvmParameter sp = new SvmParameter{
@@ -19,9 +20,9 @@ namespace NumPluginSvm{
 			return new SvmRegressionModel(model);
 		}
 
-		public override Parameters Parameters
-			=>
-				new Parameters(KernelFunctions.GetKernelParameters(), new DoubleParam("C", 100){Help = SvmClassification.cHelp});
+		public override Parameters Parameters =>
+			new Parameters(KernelFunctions.GetKernelParameters(),
+				new DoubleParam("C", 100){Help = SvmClassification.cHelp});
 
 		public override string Name => "Support vector machine";
 		public override string Description => "";

@@ -32,10 +32,10 @@ namespace BaseLibS.Num.Learning{
 		}
 
 		public ClassificationModel Train(BaseVector[] x, int[][] y, int ngroups, IGroupDataProvider data, int nthreads,
-			Action<double> reportProgress){
+			Responder responder){
 			return groupWiseSelection
 						? TrainGroupWise(x, y, ngroups, data, nthreads)
-						: TrainGlobal(x, y, ngroups, data, nthreads, reportProgress);
+						: TrainGlobal(x, y, ngroups, data, nthreads, responder);
 		}
 
 		public ClassificationModel TrainGroupWise(BaseVector[] x, int[][] y, int ngroups, IGroupDataProvider data,
@@ -81,9 +81,9 @@ namespace BaseLibS.Num.Learning{
 		}
 
 		public ClassificationModel TrainGlobal(BaseVector[] x, int[][] y, int ngroups, IGroupDataProvider data, int nthreads,
-			Action<double> reportProgress){
+			Responder responder){
 			if (ranker == null || nfeatures >= x[0].Length){
-				return classifier.Train(x, y, ngroups, classifierParam, nthreads, reportProgress);
+				return classifier.Train(x, y, ngroups, classifierParam, nthreads, responder);
 			}
 			int[] o = ranker.Rank(x, y, ngroups, rankerParam, data, nthreads);
 			int[] inds = nfeatures < o.Length ? o.SubArray(nfeatures) : o;

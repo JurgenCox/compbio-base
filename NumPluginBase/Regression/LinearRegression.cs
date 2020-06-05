@@ -1,11 +1,12 @@
-﻿using System;
-using BaseLibS.Api;
+﻿using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
-namespace NumPluginBase.Regression {
-	public class LinearRegression : RegressionMethod {
-		public override RegressionModel Train(BaseVector[] x, int[] nominal, double[] y, Parameters param, int nthreads, Action<double> reportProgress) {
+namespace NumPluginBase.Regression{
+	public class LinearRegression : RegressionMethod{
+		public override RegressionModel Train(BaseVector[] x, int[] nominal, double[] y, Parameters param, int nthreads,
+			Responder responder){
 			x = ClassificationMethod.ToOneHotEncoding(x, nominal);
 			throw new System.NotImplementedException();
 		}

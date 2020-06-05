@@ -1,13 +1,13 @@
-﻿using System;
-using BaseLibS.Mol;
+﻿using BaseLibS.Mol;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
 namespace BaseLibS.Api{
 	public abstract class SequenceRegressionMethod : PredictionMethod{
 		public abstract SequenceRegressionModel Train(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata, double[] y, string allAas, AllModifications allMods, Parameters param, int nthreads,
-			Action<double> reportProgress);
+			Responder responder);
 
 		public SequenceRegressionModel Train(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata, double[] y, string allAas, AllModifications allMods, Parameters param, int nthreads){
@@ -21,8 +21,8 @@ namespace BaseLibS.Api{
 
 		public SequenceRegressionModel Train(string[] sequences, PeptideModificationState[] modifications,
 			BaseVector[] metadata, double[] y, AllModifications allMods, Parameters param, int nthreads,
-			Action<double> reportProgress){
-			return Train(sequences, modifications, metadata, y, aas, allMods, param, nthreads, reportProgress);
+			Responder responder){
+			return Train(sequences, modifications, metadata, y, aas, allMods, param, nthreads, responder);
 		}
 
 		public SequenceRegressionModel Train(string[] sequences, PeptideModificationState[] modifications,

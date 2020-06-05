@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 
 namespace BaseLibS.Api{
 	public abstract class ClassificationMethod : PredictionMethod{
@@ -28,11 +29,11 @@ namespace BaseLibS.Api{
 		/// of the calculation.</param>
 		/// <returns></returns>
 		public abstract ClassificationModel Train(BaseVector[] x, int[] nominal, int[][] y, int ngroups,
-			Parameters param, int nthreads, Action<double> reportProgress);
+			Parameters param, int nthreads, Responder responder);
 
 		public ClassificationModel Train(BaseVector[] x, int[][] y, int ngroups, Parameters param, int nthreads,
-			Action<double> reportProgress){
-			return Train(x, null, y, ngroups, param, nthreads, reportProgress);
+			Responder responder){
+			return Train(x, null, y, ngroups, param, nthreads, responder);
 		}
 
 		public ClassificationModel Train(BaseVector[] x, int[][] y, int ngroups, Parameters param, int nthreads){

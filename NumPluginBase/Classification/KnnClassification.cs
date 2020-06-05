@@ -1,13 +1,13 @@
-﻿using System;
-using BaseLibS.Api;
+﻿using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
+using BaseLibS.Util;
 using NumPluginBase.Distance;
 
 namespace NumPluginBase.Classification {
 	public class KnnClassification : ClassificationMethod {
 		public override ClassificationModel Train(BaseVector[] x, int[] nominal, int[][] y, int ngroups, Parameters param,
-			int nthreads, Action<double> reportProgress) {
+			int nthreads, Responder responder) {
 			x = ToOneHotEncoding(x, nominal);
 			int k = param.GetParam<int>("Number of neighbours").Value;
 			IDistance distance = Distances.GetDistanceFunction(param);

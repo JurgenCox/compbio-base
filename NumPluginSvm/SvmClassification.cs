@@ -18,7 +18,7 @@ namespace NumPluginSvm {
 			"more points.";
 
 		public override ClassificationModel Train(BaseVector[] x, int[] nominal, int[][] y, int ngroups, Parameters param, int nthreads,
-			Action<double> reportProgress) {
+			Responder responder) {
 			x = ToOneHotEncoding(x, nominal);
 			string err = CheckInput(x, y, ngroups);
 			if (err != null) {
@@ -34,7 +34,7 @@ namespace NumPluginSvm {
 			SvmModel[] models = new SvmModel[problems.Length];
 			ThreadDistributor td =
 				new ThreadDistributor(nthreads, models.Length, i => { models[i] = SvmMain.SvmTrain(problems[i], sp); }) {
-					ReportProgress = fractionDone => { reportProgress?.Invoke(fractionDone); }
+					ReportProgress = fractionDone => { responder?.Progress(fractionDone); }
 				};
 			td.Start();
 			return new SvmClassificationModel(models, invert);
