@@ -381,11 +381,24 @@ namespace BaseLibS.Ms.Data.Protein{
 		}
 
 		public int GetIndex(string name){
+			int index = GetIndexImpl(name);
+			if (index < 0){
+				throw new Exception("Protein " + name + " does not exist in the fasta file.");
+			}
+			return index;
+		}
+
+		public bool Exists(string name){
+			int index = GetIndexImpl(name);
+			return index >= 0;
+		}
+
+		private int GetIndexImpl(string name){
 			lock (longIndexReaderSync){
 				if (blockSize == 1){
 					int a1 = Array.BinarySearch(namesShort, name);
 					if (a1 < 0){
-						throw new Exception("Search index cannot be negative for blockSize = 1.");
+						return -1;
 					}
 					return a1;
 				}
@@ -401,7 +414,7 @@ namespace BaseLibS.Ms.Data.Protein{
 						return a * blockSize + i;
 					}
 				}
-				throw new Exception("Protein " + name + " does not exist in the fasta file.");
+				return -1;
 			}
 		}
 
