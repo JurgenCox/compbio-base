@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using BaseLibS.Num;
 using BaseLibS.Num.Vector;
 
@@ -47,20 +45,5 @@ namespace BaseLibS.Api{
 		public abstract void Write(string filePath);
 
 		public abstract void Read(string filePath);
-
-		public static void WriteBySerialization(string filePath, ClassificationModel model){
-			Stream stream = File.Open(filePath, FileMode.Create);
-			BinaryFormatter bFormatter = new BinaryFormatter();
-			bFormatter.Serialize(stream, model);
-			stream.Close();
-		}
-
-		public static ClassificationModel ReadByDeserialization(string filePath){
-			Stream stream = File.Open(filePath, FileMode.Open);
-			BinaryFormatter bFormatter = new BinaryFormatter();
-			ClassificationModel m = (ClassificationModel) bFormatter.Deserialize(stream);
-			stream.Close();
-			return m;
-		}
 	}
 }

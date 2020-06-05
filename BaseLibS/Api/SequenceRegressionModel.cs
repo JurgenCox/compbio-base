@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using BaseLibS.Mol;
 using BaseLibS.Num.Vector;
 
@@ -20,27 +18,8 @@ namespace BaseLibS.Api{
 			return result;
 		}
 
-		public virtual void Write(string filePath){
-			WriteBySerialization(filePath, this);
-		}
+		public abstract void Write(string filePath);
 
-		public virtual SequenceRegressionModel Read(string filePath){
-			return ReadByDeserialization(filePath);
-		}
-
-		public static void WriteBySerialization(string filePath, SequenceRegressionModel model){
-			Stream stream = File.Open(filePath, FileMode.Create);
-			BinaryFormatter bFormatter = new BinaryFormatter();
-			bFormatter.Serialize(stream, model);
-			stream.Close();
-		}
-
-		public static SequenceRegressionModel ReadByDeserialization(string filePath){
-			Stream stream = File.Open(filePath, FileMode.Open);
-			BinaryFormatter bFormatter = new BinaryFormatter();
-			SequenceRegressionModel m = (SequenceRegressionModel) bFormatter.Deserialize(stream);
-			stream.Close();
-			return m;
-		}
+		public abstract void Read(string filePath);
 	}
 }
