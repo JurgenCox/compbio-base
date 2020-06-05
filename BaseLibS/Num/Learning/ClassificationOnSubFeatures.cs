@@ -16,5 +16,13 @@ namespace BaseLibS.Num.Learning{
 		public override double[] PredictStrength(BaseVector x){
 			return classifier.PredictStrength(x.SubArray(featureInds));
 		}
+
+		public override void Write(string filePath){
+			throw new NotImplementedException();
+		}
+
+		public override void Read(string filePath){
+			throw new NotImplementedException();
+		}
 	}
 }

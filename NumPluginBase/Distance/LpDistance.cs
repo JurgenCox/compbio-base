@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -29,6 +30,10 @@ namespace NumPluginBase.Distance {
 
 		public override double Get(BaseVector x, BaseVector y) {
 			return Calc(x, y, P);
+		}
+
+		public override DistanceType GetDistanceType(){
+			return DistanceType.Lp;
 		}
 
 		public override double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1,
@@ -111,6 +116,13 @@ namespace NumPluginBase.Distance {
 		}
 
 		public override bool IsAngular => false;
+		public override void Write(BinaryWriter writer){
+			writer.Write(P);
+		}
+
+		public override void Read(BinaryReader reader){
+			P = reader.ReadDouble();
+		}
 
 		public override object Clone() {
 			return new LpDistance(P);

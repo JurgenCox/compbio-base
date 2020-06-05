@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -9,7 +10,7 @@ namespace NumPluginBase.Distance {
 	public class MaximumDistance : AbstractDistance {
 		public override Parameters Parameters {
 			set { }
-			get { return new Parameters(); }
+			get => new Parameters();
 		}
 
 		public override double Get(IList<float> x, IList<float> y) {
@@ -22,6 +23,10 @@ namespace NumPluginBase.Distance {
 
 		public override double Get(BaseVector x, BaseVector y) {
 			return Calc(x, y);
+		}
+
+		public override DistanceType GetDistanceType(){
+			return DistanceType.Maximum;
 		}
 
 		public override double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1,
@@ -111,6 +116,12 @@ namespace NumPluginBase.Distance {
 		}
 
 		public override bool IsAngular => false;
+		public override void Write(BinaryWriter writer){
+			
+		}
+
+		public override void Read(BinaryReader reader){
+		}
 
 		public override object Clone() {
 			return new MaximumDistance();

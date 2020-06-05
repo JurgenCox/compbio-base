@@ -11,6 +11,7 @@ using System.Threading;
 using BaseLibS.Api;
 using BaseLibS.Mol;
 using BaseLibS.Num;
+using BaseLibS.Num.Vector;
 
 namespace BaseLibS.Util{
 	public static class FileUtils{
@@ -765,6 +766,18 @@ namespace BaseLibS.Util{
 			}
 		}
 
+		public static void Write(IList<BaseVector> x, BinaryWriter writer){
+			writer.Write(x.Count);
+			foreach (BaseVector t in x){
+				Write(t, writer);
+			}
+		}
+
+		public static void Write(BaseVector x, BinaryWriter writer){
+			writer.Write((int) x.GetVectorType());
+			x.Write(writer);
+		}
+
 		public static void Write(IList<double[][]> x, BinaryWriter writer){
 			writer.Write(x.Count);
 			foreach (double[][] t in x){
@@ -885,6 +898,16 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
+		public static BaseVector[] ReadBaseVectorArray(BinaryReader reader){
+			int len = reader.ReadInt32();
+			BaseVector[] result = new BaseVector[len];
+			for (int i = 0; i < len; i++){
+				VectorType type = (VectorType) reader.ReadInt32();
+				result[i] = BaseVector.ReadbaseVector(type, reader);
+			}
+			return result;
+		}
+
 		public static List<int> ReadInt32List(BinaryReader reader){
 			int n = reader.ReadInt32();
 			List<int> result = new List<int>();
@@ -1000,7 +1023,7 @@ namespace BaseLibS.Util{
 
 		public static byte[] Compress(byte[] inputData){
 			if (inputData == null)
-				throw new ArgumentNullException($"argument must not be null");
+				throw new ArgumentNullException($"Argument must not be null.");
 			using (MemoryStream compressIntoMs = new MemoryStream()){
 				using (BufferedStream gzs = new BufferedStream(new GZipStream(compressIntoMs, CompressionMode.Compress),
 					BUFFER_SIZE)){
@@ -1012,7 +1035,7 @@ namespace BaseLibS.Util{
 
 		public static byte[] Decompress(byte[] inputData){
 			if (inputData == null)
-				throw new ArgumentNullException($"argument must not be null");
+				throw new ArgumentNullException($"Argument must not be null.");
 			using (MemoryStream compressedMs = new MemoryStream(inputData)){
 				using (MemoryStream decompressedMs = new MemoryStream()){
 					using (BufferedStream gzs =

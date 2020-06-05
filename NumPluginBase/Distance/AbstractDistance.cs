@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -17,6 +18,11 @@ namespace NumPluginBase.Distance {
 		public abstract double Get(IList<double> x, IList<double> y);
 		public abstract double Get(BaseVector x, BaseVector y);
 		public abstract bool IsAngular { get; }
+		public abstract void Write(BinaryWriter writer);
+
+		public abstract void Read(BinaryReader reader);
+
+		public abstract DistanceType GetDistanceType();
 
 		public virtual double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1,
 			MatrixAccess access2) {

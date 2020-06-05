@@ -20,8 +20,8 @@ namespace NumPluginBase.Regression{
 					v.Add(i);
 				}
 			}
-			this.x = ArrayUtils.SubArray(x, v);
-			this.y = ArrayUtils.SubArray(y, v);
+			this.x = x.SubArray(v);
+			this.y = y.SubArray(v);
 			this.k = k;
 			this.distance = distance;
 		}
@@ -34,6 +34,14 @@ namespace NumPluginBase.Regression{
 			}
 			result /= inds.Length;
 			return result;
+		}
+
+		public override void Write(string filePath){
+			throw new NotImplementedException();
+		}
+
+		public override void Read(string filePath){
+			throw new NotImplementedException();
 		}
 	}
 }

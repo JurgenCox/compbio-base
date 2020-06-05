@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Api;
 using BaseLibS.Num;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
@@ -9,7 +11,7 @@ namespace NumPluginBase.Distance {
 	public class SpearmanCorrelationDistance : AbstractDistance {
 		public override Parameters Parameters {
 			set { }
-			get { return new Parameters(); }
+			get => new Parameters();
 		}
 
 		public override double Get(IList<float> x, IList<float> y) {
@@ -25,6 +27,15 @@ namespace NumPluginBase.Distance {
 		}
 
 		public override bool IsAngular => true;
+		public override void Write(BinaryWriter writer){
+		}
+
+		public override void Read(BinaryReader reader){
+		}
+
+		public override DistanceType GetDistanceType(){
+			return DistanceType.Spearman;
+		}
 
 		public static double Calc(IList<double> x, IList<double> y) {
 			int n = x.Count;
@@ -40,8 +51,8 @@ namespace NumPluginBase.Distance {
 			if (valids.Count < 3) {
 				return double.NaN;
 			}
-			return PearsonCorrelationDistance.Calc(ArrayUtils.Rank(ArrayUtils.SubArray(x, valids)),
-				ArrayUtils.Rank(ArrayUtils.SubArray(y, valids)));
+			return PearsonCorrelationDistance.Calc(ArrayUtils.Rank(x.SubArray(valids)),
+				ArrayUtils.Rank(y.SubArray(valids)));
 		}
 
 		public static double Calc(BaseVector x, BaseVector y) {
@@ -75,8 +86,8 @@ namespace NumPluginBase.Distance {
 			if (valids.Count < 3) {
 				return double.NaN;
 			}
-			return PearsonCorrelationDistance.Calc(ArrayUtils.RankF(ArrayUtils.SubArray(x, valids)),
-				ArrayUtils.RankF(ArrayUtils.SubArray(y, valids)));
+			return PearsonCorrelationDistance.Calc(ArrayUtils.RankF(x.SubArray(valids)),
+				ArrayUtils.RankF(y.SubArray(valids)));
 		}
 
 		public override object Clone() {

@@ -1,17 +1,18 @@
-﻿using BaseLibS.Api;
+﻿using System;
+using System.IO;
+using BaseLibS.Api;
 using BaseLibS.Param;
-using BaseLibS.Util;
 
 namespace NumPluginBase.Distance {
 	public static class Distances {
 		/// <summary>
 		/// Return all distances found dynamically from plugins implementing <see cref="IDistance"/>.
 		/// </summary>
-		public static readonly IDistance[] AllDistances = InitDistances();
-
-		private static IDistance[] InitDistances() {
-			return FileUtils.GetPlugins<IDistance>(NumPluginUtils.pluginNames, true);
-		}
+		public static readonly IDistance[] allDistances = new IDistance[]{
+			new EuclideanDistance(), new L1Distance(),
+			new MaximumDistance(), new LpDistance(), new PearsonCorrelationDistance(), new SpearmanCorrelationDistance(), 
+			new CosineDistance(), new CanberraDistance()
+		};
 
 		public static SingleChoiceWithSubParams GetDistanceParameters() {
 			return GetDistanceParameters("");
@@ -38,25 +39,60 @@ namespace NumPluginBase.Distance {
 		}
 
 		private static string[] GetAllNames() {
-			string[] result = new string[AllDistances.Length];
+			string[] result = new string[allDistances.Length];
 			for (int i = 0; i < result.Length; i++) {
-				result[i] = AllDistances[i].Name;
+				result[i] = allDistances[i].Name;
 			}
 			return result;
 		}
 
 		private static Parameters[] GetAllParameters() {
-			Parameters[] result = new Parameters[AllDistances.Length];
+			Parameters[] result = new Parameters[allDistances.Length];
 			for (int i = 0; i < result.Length; i++) {
-				result[i] = AllDistances[i].Parameters;
+				result[i] = allDistances[i].Parameters;
 			}
 			return result;
 		}
 
 		private static IDistance GetDistanceFunction(int index, Parameters param) {
-			IDistance kf = (IDistance) AllDistances[index].Clone();
+			IDistance kf = (IDistance) allDistances[index].Clone();
 			kf.Parameters = param;
 			return kf;
 		}
+
+		public static IDistance ReadDistance(DistanceType type, BinaryReader reader){
+			IDistance dist;
+			switch (type){
+				case DistanceType.Canberra:
+					dist = new CanberraDistance();
+					break;
+				case DistanceType.Cosine:
+					dist = new CosineDistance();
+					break;
+				case DistanceType.Euclidean:
+					dist = new EuclideanDistance();
+					break;
+				case DistanceType.L1:
+					dist = new L1Distance();
+					break;
+				case DistanceType.Lp:
+					dist = new LpDistance();
+					break;
+				case DistanceType.Maximum:
+					dist = new MaximumDistance();
+					break;
+				case DistanceType.Pearson:
+					dist = new PearsonCorrelationDistance();
+					break;
+				case DistanceType.Spearman:
+					dist = new SpearmanCorrelationDistance();
+					break;
+				default:
+					throw new Exception("Never get here.");
+			}
+			dist.Read(reader);
+			return dist;
+		}
+
 	}
 }

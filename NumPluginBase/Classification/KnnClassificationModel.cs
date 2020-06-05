@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Api;
 using BaseLibS.Num;
 using BaseLibS.Num.Vector;
+using BaseLibS.Util;
+using NumPluginBase.Distance;
 
 namespace NumPluginBase.Classification{
 	[Serializable]
 	public class KnnClassificationModel : ClassificationModel{
-		private readonly BaseVector[] x;
-		private readonly int[][] y;
-		private readonly int ngroups;
-		private readonly int k;
-		private readonly IDistance distance;
+		private BaseVector[] x;
+		private int[][] y;
+		private int ngroups;
+		private int k;
+		private IDistance distance;
 
 		public KnnClassificationModel(BaseVector[] x, int[][] y, int ngroups, int k, IDistance distance){
 			this.x = x;
@@ -35,9 +38,30 @@ namespace NumPluginBase.Classification{
 			return result;
 		}
 
+		public override void Write(string filePath){
+			BinaryWriter writer = FileUtils.GetBinaryWriter(filePath);
+			FileUtils.Write(x, writer);
+			FileUtils.Write(y, writer);
+			writer.Write(ngroups);
+			writer.Write(k);
+			distance.Write(writer);
+			writer.Close();
+		}
+
+		public override void Read(string filePath){
+			BinaryReader reader = FileUtils.GetBinaryReader(filePath);
+			x = FileUtils.ReadBaseVectorArray(reader);
+			y = FileUtils.Read2DInt32Array(reader);
+			ngroups = reader.ReadInt32();
+			k = reader.ReadInt32();
+			DistanceType type = (DistanceType) reader.ReadInt32();
+			distance = Distances.ReadDistance(type, reader);
+			reader.Close();
+		}
+
 		public static int[] GetNeighborInds(IList<BaseVector> x, BaseVector xTest, int k, IDistance distance){
 			double[] d = CalcDistances(x, xTest, distance);
-			int[] o = ArrayUtils.Order(d);
+			int[] o = d.Order();
 			List<int> result = new List<int>();
 			for (int i = 0; i < d.Length; i++){
 				if (!double.IsNaN(d[o[i]]) && !double.IsInfinity(d[o[i]])){

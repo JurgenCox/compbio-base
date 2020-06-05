@@ -44,13 +44,9 @@ namespace BaseLibS.Api{
 			return result.ToArray();
 		}
 
-		public virtual void Write(string filePath){
-			WriteBySerialization(filePath, this);
-		}
+		public abstract void Write(string filePath);
 
-		public virtual ClassificationModel Read(string filePath){
-			return ReadByDeserialization(filePath);
-		}
+		public abstract void Read(string filePath);
 
 		public static void WriteBySerialization(string filePath, ClassificationModel model){
 			Stream stream = File.Open(filePath, FileMode.Create);

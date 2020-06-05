@@ -51,12 +51,12 @@ namespace NumPluginBase.Classification{
 			}
 			double[,] x1;
 			double[] e = NumUtils.GeneralizedEigenproblem(b, w, out x1);
-			int[] order = ArrayUtils.Order(e);
+			int[] order = e.Order();
 			int[] indices = new int[ngroups - 1];
 			for (int i = 0; i < ngroups - 1; i++){
 				indices[i] = order[order.Length - 1 - i];
 			}
-			e = ArrayUtils.SubArray(e, indices);
+			e = e.SubArray(indices);
 			double[,] projection = ExtractColumns(x1, indices);
 			double[][] projectedGroupMeans = MatrixTimesMatrix(groupMeans, projection);
 			return new FisherLdaClassificationModel(projection, projectedGroupMeans, ngroups);

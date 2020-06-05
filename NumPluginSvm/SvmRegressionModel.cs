@@ -20,12 +20,10 @@ namespace NumPluginSvm{
 			return SvmMain.SvmPredict(model, x);
 		}
 
-		public override RegressionModel Read(string filePath){
-			SvmRegressionModel result = new SvmRegressionModel();
+		public override void Read(string filePath){
 			BinaryReader reader = FileUtils.GetBinaryReader(filePath);
-			result.model = new SvmModel(reader);
+			model = new SvmModel(reader);
 			reader.Close();
-			return result;
 		}
 
 		public override void Write(string filePath){

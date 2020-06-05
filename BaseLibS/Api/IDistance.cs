@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 
 namespace BaseLibS.Api{
 	/// <summary>
 	/// Ancestor class of all distances. Distances are needed e.g. for hierarchical clustering
-	/// or k-nearest neighbour classification. 
+	/// or k-nearest neighbor classification. 
 	/// </summary>
 	public interface IDistance : ICloneable, INamedListItem{
 		Parameters Parameters { get; set; }
@@ -44,8 +45,8 @@ namespace BaseLibS.Api{
 		/// <param name="data2">The matrix from which the second row/column is taken.</param>
 		/// <param name="index1">The row/column index in the first matrix.</param>
 		/// <param name="index2">The row/column index in the second matrix.</param>
-		/// <param name="access1">Specifes whether the distance is evaluated on row or column vectors of the first matrix.</param>
-		/// <param name="access2">Specifes whether the distance is evaluated on row or column vectors of the second matrix.</param>
+		/// <param name="access1">Specifies whether the distance is evaluated on row or column vectors of the first matrix.</param>
+		/// <param name="access2">Specifies whether the distance is evaluated on row or column vectors of the second matrix.</param>
 		/// <returns></returns>
 		double Get(float[,] data1, float[,] data2, int index1, int index2, MatrixAccess access1, MatrixAccess access2);
 
@@ -58,11 +59,15 @@ namespace BaseLibS.Api{
 		/// <param name="data2">The matrix from which the second row/column is taken.</param>
 		/// <param name="index1">The row/column index in the first matrix.</param>
 		/// <param name="index2">The row/column index in the second matrix.</param>
-		/// <param name="access1">Specifes whether the distance is evaluated on row or column vectors of the first matrix.</param>
-		/// <param name="access2">Specifes whether the distance is evaluated on row or column vectors of the second matrix.</param>
+		/// <param name="access1">Specifies whether the distance is evaluated on row or column vectors of the first matrix.</param>
+		/// <param name="access2">Specifies whether the distance is evaluated on row or column vectors of the second matrix.</param>
 		/// <returns></returns>
 		double Get(double[,] data1, double[,] data2, int index1, int index2, MatrixAccess access1, MatrixAccess access2);
 
 		bool IsAngular { get; }
+		void Write(BinaryWriter writer);
+		void Read(BinaryReader reader);
+		DistanceType GetDistanceType();
+
 	}
 }

@@ -18,17 +18,15 @@ namespace NumPluginSvm{
 
 		public SvmClassificationModel(){ }
 
-		public override ClassificationModel Read(string filePath){
-			SvmClassificationModel result = new SvmClassificationModel();
+		public override void Read(string filePath){
 			BinaryReader reader = FileUtils.GetBinaryReader(filePath);
 			int len = reader.ReadInt32();
-			result.models = new SvmModel[len];
+			models = new SvmModel[len];
 			for (int i = 0; i < len; i++){
-				result.models[i] = new SvmModel(reader);
+				models[i] = new SvmModel(reader);
 			}
 			invert = FileUtils.ReadBooleanArray(reader);
 			reader.Close();
-			return result;
 		}
 
 		public override void Write(string filePath){

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Api;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 
@@ -8,7 +10,7 @@ namespace NumPluginBase.Distance {
 	public class CosineDistance : AbstractDistance {
 		public override Parameters Parameters {
 			set { }
-			get { return new Parameters(); }
+			get => new Parameters();
 		}
 
 		public override double Get(IList<float> x, IList<float> y) {
@@ -126,6 +128,15 @@ namespace NumPluginBase.Distance {
 		}
 
 		public override bool IsAngular => true;
+		public override void Write(BinaryWriter writer){
+		}
+
+		public override void Read(BinaryReader reader){
+		}
+
+		public override DistanceType GetDistanceType(){
+			return DistanceType.Cosine;
+		}
 
 		public override object Clone() {
 			return new CosineDistance();

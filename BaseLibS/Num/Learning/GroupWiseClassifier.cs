@@ -19,5 +19,13 @@ namespace BaseLibS.Num.Learning{
 			}
 			return result;
 		}
+
+		public override void Write(string filePath){
+			throw new NotImplementedException();
+		}
+
+		public override void Read(string filePath){
+			throw new NotImplementedException();
+		}
 	}
 }

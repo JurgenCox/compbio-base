@@ -52,7 +52,7 @@ namespace BaseLibS.Num.Learning{
 				return classifier.Train(x, yb, 2, classifierParam, 1);
 			}
 			int[] o = ranker.Rank(x, yb, 2, rankerParam, data, 1);
-			int[] inds = nfeatures < o.Length ? ArrayUtils.SubArray(o, groupWiseNfeatures[i]) : o;
+			int[] inds = nfeatures < o.Length ? o.SubArray(groupWiseNfeatures[i]) : o;
 			return new ClassificationOnSubFeatures(classifier.Train(ExtractFeatures(x, inds), yb, 2, classifierParam, 1), inds);
 		}
 
@@ -86,7 +86,7 @@ namespace BaseLibS.Num.Learning{
 				return classifier.Train(x, y, ngroups, classifierParam, nthreads, reportProgress);
 			}
 			int[] o = ranker.Rank(x, y, ngroups, rankerParam, data, nthreads);
-			int[] inds = nfeatures < o.Length ? ArrayUtils.SubArray(o, nfeatures) : o;
+			int[] inds = nfeatures < o.Length ? o.SubArray(nfeatures) : o;
 			return
 				new ClassificationOnSubFeatures(classifier.Train(ExtractFeatures(x, inds), y, ngroups, classifierParam, nthreads),
 					inds);
