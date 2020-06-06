@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BaseLibS.Api;
 using BaseLibS.Mol;
 using BaseLibS.Num;
@@ -255,29 +256,30 @@ namespace NumPluginBase{
 			};
 		}
 
-		public static (double[] pred, double[] meas) RegressionPerformanceValidation(string[] sequences,
-			PeptideModificationState[] modifications, double[] rts, SequenceRegressionMethod predictor,
-			Parameters param, int nthreads, AllModifications allMods, ValidationMethod validationMethod){
+		public static (double[] pred, double[] meas) RegressionPerformanceValidation(IList<string> sequences,
+			IList<PeptideModificationState> modifications, IList<BaseVector> metadata, IList<double> y,
+			SequenceRegressionMethod predictor, Parameters param, int nthreads, AllModifications allMods,
+			ValidationMethod validationMethod){
 			switch (validationMethod){
 				case ValidationMethod.None:
 					return (new double[0], new double[0]);
 				case ValidationMethod.CrossValidation:
-					return SequenceRegressionCrossValidation(sequences, modifications, null, rts, predictor, param,
+					return SequenceRegressionCrossValidation(sequences, modifications, metadata, y, predictor, param,
 						nthreads, allMods);
 				case ValidationMethod.TrainTest:
-					return SequenceRegressionTrainTest(sequences, modifications, null, rts, predictor, param, nthreads,
-						allMods);
+					return SequenceRegressionTrainTest(sequences, modifications, metadata, y, predictor, param,
+						nthreads, allMods);
 				default:
 					throw new Exception("Never get here");
 			}
 		}
 
-		public static (double[], double[]) SequenceRegressionCrossValidation(string[] sequences,
-			PeptideModificationState[] modifications, BaseVector[] metadata, double[] y, SequenceRegressionMethod cme,
-			Parameters param, int nthreads, AllModifications allMods){
+		public static (double[], double[]) SequenceRegressionCrossValidation(IList<string> sequences,
+			IList<PeptideModificationState> modifications, IList<BaseVector> metadata, IList<double> y,
+			SequenceRegressionMethod cme, Parameters param, int nthreads, AllModifications allMods){
 			const int nfolds = 5;
-			int[][] nfoldSubGroups = GetNfoldSubGroups(sequences.Length, nfolds, out _);
-			double[] result = new double[sequences.Length];
+			int[][] nfoldSubGroups = GetNfoldSubGroups(sequences.Count, nfolds, out _);
+			double[] result = new double[sequences.Count];
 			int nToplevelThreads = Math.Min(nthreads, nfolds);
 			ThreadDistributor td = new ThreadDistributor(nToplevelThreads, nfolds, i => {
 				int[] testInds = nfoldSubGroups[i];
@@ -294,14 +296,14 @@ namespace NumPluginBase{
 				}
 			});
 			td.Start();
-			return (result, y);
+			return (result, y.ToArray());
 		}
 
-		public static (double[], double[]) SequenceRegressionTrainTest(string[] sequences,
-			PeptideModificationState[] modifications, BaseVector[] metadata, double[] y, SequenceRegressionMethod cme,
-			Parameters param, int nthreads, AllModifications allMods){
+		public static (double[], double[]) SequenceRegressionTrainTest(IList<string> sequences,
+			IList<PeptideModificationState> modifications, IList<BaseVector> metadata, IList<double> y,
+			SequenceRegressionMethod cme, Parameters param, int nthreads, AllModifications allMods){
 			const int nfolds = 5;
-			int[][] nfoldSubGroups = GetNfoldSubGroups(sequences.Length, nfolds, out _);
+			int[][] nfoldSubGroups = GetNfoldSubGroups(sequences.Count, nfolds, out _);
 			int[] testInds = nfoldSubGroups[0];
 			int[] trainInds = ArrayUtils.Concat(ArrayUtils.RemoveAtIndex(nfoldSubGroups, 0));
 			string[] trainSeq = sequences.SubArray(trainInds);
