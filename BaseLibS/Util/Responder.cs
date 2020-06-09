@@ -29,7 +29,7 @@ namespace BaseLibS.Util{
 				return;
 			}
 			if (logWriter == null){
-				logWriter = new StreamWriter(logFile);
+				logWriter = new StreamWriter(logFile){AutoFlush = true};
 			}
 			try{
 				logWriter.WriteLine(GetLogPrefix(level) + s);
