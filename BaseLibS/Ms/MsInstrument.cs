@@ -49,7 +49,7 @@ namespace BaseLibS.Ms{
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
 		public int DiaTopNFragmentsForQuantDefault => 10;
 		public double DiaMinMsmsIntensityForQuantDefault => 0;
-		public double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
+		public virtual double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 		public PrecursorFilterType DiaPrecursorFilterTypeDefault => PrecursorFilterType.None;
 
 		public DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault =>
