@@ -1,4 +1,6 @@
-﻿namespace BaseLib.Forms
+﻿using System.Windows.Forms;
+
+namespace BaseLib.Forms
 {
 	partial class MultiFileParameterControl
 	{
@@ -61,6 +63,7 @@
 			this.listBox1.Location = new System.Drawing.Point(0, 60);
 			this.listBox1.Margin = new System.Windows.Forms.Padding(0);
 			this.listBox1.Name = "listBox1";
+			this.listBox1.SelectionMode = SelectionMode.MultiExtended;
 			this.listBox1.Size = new System.Drawing.Size(1075, 877);
 			this.listBox1.TabIndex = 0;
 			// 
