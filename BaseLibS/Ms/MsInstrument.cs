@@ -61,13 +61,13 @@ namespace BaseLibS.Ms{
 		public bool DiaRtPredictionDefault => false;
 		public bool DiaRtPredictionSecondRoundDefault => false;
 		public bool DiaNoMlDefault => false;
-		public double DiaXgBoostBaseScoreDefault => 0.4;
+		public double DiaXgBoostBaseScoreDefault => 0.5;
 		public double DiaXgBoostSubSampleDefault => 0.9;
 		public double DiaXgBoostGammaDefault = 0.9;
-		public int DiaXgBoostMaxDeltastepDefault = 3;
-		public int DiaXgBoostMinChildWeightDefault => 9;
-		public int DiaXgBoostMaximumTreeDepthDefault => 12;
-		public int DiaXgBoostEstimatorsDefault => 580;
+		public int DiaXgBoostMaxDeltastepDefault = 4;
+		public int DiaXgBoostMinChildWeightDefault => 6;
+		public int DiaXgBoostMaximumTreeDepthDefault => 10;
+		public int DiaXgBoostEstimatorsDefault => 550;
 
 		public bool DiaGlobalMlDefault => true;
 		public bool CutPeaksDefault => true;
