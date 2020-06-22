@@ -3137,6 +3137,9 @@ namespace BaseLibS.Num{
 			double q1 = FirstQuartile(data);
 			double q3 = ThirdQuartile(data);
 			double d = q3 - q1;
+			if (d <= 0){
+				return 0;
+			}
 			double min = q1 - d;
 			double max = q3 + d;
 			List<double> data1 = new List<double>();
