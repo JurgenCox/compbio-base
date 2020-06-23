@@ -88,9 +88,9 @@ namespace BaseLibS.Ms{
 				}
 			}
 			for (int i = 0; i < n; i++){
-				int[] o = ArrayUtils.Order(pepSeqs[i]);
-				pepSeqs[i] = ArrayUtils.SubArray(pepSeqs[i], o);
-				isMutated[i] = ArrayUtils.SubArray(isMutated[i], o);
+				int[] o = pepSeqs[i].Order();
+				pepSeqs[i] = pepSeqs[i].SubArray(o);
+				isMutated[i] = isMutated[i].SubArray(o);
 			}
 			IndexedBitMatrix contains = new IndexedBitMatrix(n, n);
 			for (int i = 0; i < n; i++){
@@ -137,9 +137,9 @@ namespace BaseLibS.Ms{
 					valids.Add(i);
 				}
 			}
-			proteinIds = ArrayUtils.SubArray(proteinIds, valids);
-			pepSeqs = ArrayUtils.SubArray(pepSeqs, valids);
-			isMutated = ArrayUtils.SubArray(isMutated, valids);
+			proteinIds = proteinIds.SubArray(valids);
+			pepSeqs = pepSeqs.SubArray(valids);
+			isMutated = isMutated.SubArray(valids);
 		}
 
 		private static int GetContainer(int contained, IndexedBitMatrix contains){
@@ -187,7 +187,8 @@ namespace BaseLibS.Ms{
 				TaxonomyItems taxonomyItems = TaxonomyItems.GetTaxonomyItems();
 				taxIds = new string[proteinIds.Length];
 				for (int i = 0; i < taxIds.Length; i++){
-					taxIds[i] = taxonomyItems.GetTaxonomyIdOfRank(proteinSet.Get(proteinIds[i]).TaxonomyId, rank);
+					Protein prot = proteinSet.Get(proteinIds[i]);
+					taxIds[i] = prot != null ? taxonomyItems.GetTaxonomyIdOfRank(prot.TaxonomyId, rank) : "-1";
 				}
 			}
 			bool[] taken = new bool[proteinIds.Length];
@@ -213,13 +214,13 @@ namespace BaseLibS.Ms{
 			}
 			int[][] groupIndices = groupInd.ToArray();
 			for (int i = 0; i < groupIndices.Length; i++){
-				string[] names = ArrayUtils.SubArray(proteinIds, groupIndices[i]);
-				int[] o = ArrayUtils.Order(names);
-				groupIndices[i] = ArrayUtils.SubArray(groupIndices[i], o);
+				string[] names = proteinIds.SubArray(groupIndices[i]);
+				int[] o = names.Order();
+				groupIndices[i] = groupIndices[i].SubArray(o);
 			}
 			proteinNames = new string[groupIndices.Length][];
 			for (int i = 0; i < proteinNames.Length; i++){
-				proteinNames[i] = ArrayUtils.SubArray(proteinIds, groupIndices[i]);
+				proteinNames[i] = proteinIds.SubArray(groupIndices[i]);
 				Array.Sort(proteinNames[i]);
 			}
 			peptideSequences = new string[groupIndices.Length][];
@@ -227,9 +228,9 @@ namespace BaseLibS.Ms{
 			for (int i = 0; i < proteinNames.Length; i++){
 				peptideSequences[i] = peptideSeq[groupIndices[i][0]];
 				isMutated[i] = isMut[groupIndices[i][0]];
-				int[] o = ArrayUtils.Order(peptideSequences[i]);
-				peptideSequences[i] = ArrayUtils.SubArray(peptideSequences[i], o);
-				isMutated[i] = ArrayUtils.SubArray(isMutated[i], o);
+				int[] o = peptideSequences[i].Order();
+				peptideSequences[i] = peptideSequences[i].SubArray(o);
+				isMutated[i] = isMutated[i].SubArray(o);
 			}
 		}
 	}
