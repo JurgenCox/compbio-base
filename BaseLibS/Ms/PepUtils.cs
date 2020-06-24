@@ -84,7 +84,8 @@ namespace BaseLibS.Ms{
 				taxIds = new string[proteinIds.Length];
 				TaxonomyItems taxonomyItems = TaxonomyItems.GetTaxonomyItems();
 				for (int i = 0; i < taxIds.Length; i++){
-					taxIds[i] = taxonomyItems.GetTaxonomyIdOfRank(proteinSet.Get(proteinIds[i][0]).TaxonomyId, rank);
+					Protein prot = proteinSet.Get(proteinIds[i][0]);
+					taxIds[i] = prot != null ? taxonomyItems.GetTaxonomyIdOfRank(prot.TaxonomyId, rank) : "-1";
 				}
 			}
 			for (int i = 0; i < n; i++){
