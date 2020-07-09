@@ -1,4 +1,3 @@
-using System;
 using BaseLibS.Ms;
 
 namespace PluginRawMzXml {
@@ -45,7 +44,7 @@ namespace PluginRawMzXml {
 			}
 		}
 		protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double mzMin, double mzMax) {
+			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double mzMin, double mzMax, bool isMs1) {
 			if (!preInitialized) {
 				PreInit();
 			}

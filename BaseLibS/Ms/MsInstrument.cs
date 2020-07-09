@@ -17,7 +17,8 @@ namespace BaseLibS.Ms{
 		public abstract double GetCentroidMatchTolDefault(MsDataType dataType);
 		public abstract double GetValleyFactorDefault(MsDataType dataType);
 		public abstract double GetIsotopeValleyFactorDefault(MsDataType dataType);
-		public abstract double IntensityThresholdDefault{ get; }
+		public abstract double IntensityThresholdMs1Default { get; }
+		public abstract double IntensityThresholdMs2Default { get; }
 		public abstract bool IntensityDependentCalibrationDefault{ get; }
 		public abstract double PrecursorToleranceFirstSearchDefault{ get; }
 		public abstract double PrecursorToleranceMainSearchDefault{ get; }
@@ -39,17 +40,19 @@ namespace BaseLibS.Ms{
 		public bool DiaAdaptiveMassAccuracyDefault => false;
 		public double DiaMassWindowFactorDefault => 3.3;
 		public double DiaCorrThresholdFeatureClusteringDefault => 0.85;
-		public double DiaInitialPrecMassTolPpmDefault => 20;
+		public abstract double DiaInitialPrecMassTolPpmDefault{ get; }
+		public abstract double DiaInitialFragMassTolPpmDefault{ get; }
+	
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 7;
-		public double DiaInitialFragMassTolPpmDefault => 20;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
 		public double DiaMinScoreDefault => 1.99;
 
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
+		public DiaFeatureQuantMethod DiaFeatureQuantMethodDefault => DiaFeatureQuantMethod.Sum;
 		public int DiaTopNFragmentsForQuantDefault => 10;
 		public double DiaMinMsmsIntensityForQuantDefault => 0;
-		public virtual double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
+		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault{ get; }
 		public PrecursorFilterType DiaPrecursorFilterTypeDefault => PrecursorFilterType.None;
 
 		public DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault =>
@@ -60,8 +63,8 @@ namespace BaseLibS.Ms{
 		public double DiaMinProfileCorrelationDefault => 0;
 		public double DiaXgBoostBaseScoreDefault => 0.4;
 		public double DiaXgBoostSubSampleDefault => 0.9;
-		public double DiaXgBoostGammaDefault = 0.9;
-		public int DiaXgBoostMaxDeltastepDefault = 3;
+		public double DiaXgBoostGammaDefault => 0.9;
+		public int DiaXgBoostMaxDeltastepDefault => 3;
 		public int DiaXgBoostMinChildWeightDefault => 9;
 		public int DiaXgBoostMaximumTreeDepthDefault => 12;
 		public int DiaXgBoostEstimatorsDefault => 580;
