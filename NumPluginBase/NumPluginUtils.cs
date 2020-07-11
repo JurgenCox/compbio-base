@@ -288,7 +288,7 @@ namespace NumPluginBase{
 				PeptideModificationState[] trainMod = modifications.SubArray(trainInds);
 				BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
 				double[] trainY = y.SubArray(trainInds);
-				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1);
+				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1, null);
 				double[] x = cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
 					metadata?.SubArray(testInds));
 				for (int index = 0; index < testInds.Length; index++){
@@ -310,7 +310,7 @@ namespace NumPluginBase{
 			PeptideModificationState[] trainMod = modifications.SubArray(trainInds);
 			BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
 			double[] trainY = y.SubArray(trainInds);
-			SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1);
+			SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1, null);
 			double[] x = cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
 				metadata?.SubArray(testInds));
 			return (x, y.SubArray(testInds));
