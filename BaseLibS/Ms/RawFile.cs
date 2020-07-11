@@ -14,7 +14,7 @@ namespace BaseLibS.Ms{
 		/// <summary>
 		/// Counter incremented when format used for index files is changed, to avoid using stale index files.
 		/// </summary>
-		private const int indexVersion = 27;
+		private const int indexVersion = 28;
 
 		/// <summary>
 		/// Backing field to the Path property.
