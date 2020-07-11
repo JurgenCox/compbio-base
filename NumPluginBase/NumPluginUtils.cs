@@ -289,8 +289,8 @@ namespace NumPluginBase{
 				BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
 				double[] trainY = y.SubArray(trainInds);
 				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1, null);
-				double[] x = cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
-					metadata?.SubArray(testInds));
+				double[] x = TakeFirst(cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
+					metadata?.SubArray(testInds)));
 				for (int index = 0; index < testInds.Length; index++){
 					result[testInds[index]] = x[index];
 				}
@@ -311,9 +311,17 @@ namespace NumPluginBase{
 			BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
 			double[] trainY = y.SubArray(trainInds);
 			SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1, null);
-			double[] x = cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
-				metadata?.SubArray(testInds));
+			double[] x = TakeFirst(cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
+				metadata?.SubArray(testInds)));
 			return (x, y.SubArray(testInds));
+		}
+
+		private static double[] TakeFirst(double[][] x){
+			double[] result = new double[x.Length];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = x[i][0];
+			}
+			return result;
 		}
 
 		public static void WriteValidation(double[] rtsPred, double[] rts, string basePath){
