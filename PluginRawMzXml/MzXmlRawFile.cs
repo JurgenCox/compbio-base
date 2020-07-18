@@ -8,6 +8,7 @@ namespace PluginRawMzXml {
 		private MzXml mzXml;
 		public override string Suffix => ".mzxml";
 		public override string Name => "MzXml file";
+		public override bool NeedsIsolationWindow => false;
 		public override MsInstrument DefaultInstrument => null;
 		public override bool IsInstalled => true;
 		public override bool IsFolderBased => false;

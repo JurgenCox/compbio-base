@@ -39,6 +39,7 @@ namespace PluginRawMzMl{
 		public override string Suffix => ".mzML";
 		public override bool IsFolderBased => false;
 		public override string Name => "mzML";
+		public override bool NeedsIsolationWindow => false;
 		public override MsInstrument DefaultInstrument{ get; }
 		public override bool IsInstalled => true;
 		public override bool NeedsGrid => false;
