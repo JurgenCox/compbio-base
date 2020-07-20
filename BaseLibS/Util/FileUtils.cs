@@ -319,6 +319,17 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
+		public static Dictionary<int, float> ReadDictionaryIntFloat(BinaryReader reader){
+			int len = reader.ReadInt32();
+			Dictionary<int, float> result = new Dictionary<int, float>();
+			for (int i = 0; i < len; i++){
+				int key = reader.ReadInt32();
+				float value = reader.ReadSingle();
+				result.Add(key, value);
+			}
+			return result;
+		}
+
 		/// <summary>
 		/// Removes all files and folders recursively in the specified folder 
 		/// and the specified folder itself.
@@ -810,6 +821,14 @@ namespace BaseLibS.Util{
 		}
 
 		public static void Write(IDictionary<int, double> x, BinaryWriter writer){
+			writer.Write(x.Count);
+			foreach (int key in x.Keys){
+				writer.Write(key);
+				writer.Write(x[key]);
+			}
+		}
+
+		public static void Write(IDictionary<int, float> x, BinaryWriter writer){
 			writer.Write(x.Count);
 			foreach (int key in x.Keys){
 				writer.Write(key);

@@ -67,6 +67,10 @@ namespace BaseLibS.Parse{
 			return d;
 		}
 
+		public static float[][] GetFloatColumns(string[] columnNames, string filename, char separator){
+			return GetFloatColumns(columnNames, filename, float.NaN, 0, separator);
+		}
+
 		public static float[][] GetFloatColumns(string[] columnNames, string filename, int nskip, char separator){
 			return GetFloatColumns(columnNames, filename, float.NaN, nskip, separator);
 		}
@@ -180,7 +184,7 @@ namespace BaseLibS.Parse{
 				string[] w = line.Split(separator);
 				string[] z;
 				try{
-					z = ArrayUtils.SubArray(w, colIndices);
+					z = w.SubArray(colIndices);
 				} catch (Exception){
 					continue;
 				}
@@ -285,7 +289,7 @@ namespace BaseLibS.Parse{
 			int[] v = valids.ToArray();
 			string[][] result = new string[columnNames.Length][];
 			for (int i = 0; i < columnNames.Length; i++){
-				result[i] = ArrayUtils.SubArray(x[i], v);
+				result[i] = x[i].SubArray(v);
 				for (int j = 0; j < result[i].Length; j++){
 					if (result[i][j].StartsWith("\"") && result[i][j].EndsWith("\"")){
 						result[i][j] = result[i][j].Substring(1, result[i][j].Length - 2);
