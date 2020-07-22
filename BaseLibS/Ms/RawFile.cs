@@ -60,7 +60,8 @@ namespace BaseLibS.Ms{
 
 		public abstract string Name{ get; }
 
-		public abstract bool NeedsIsolationWindow{ get; }
+		public abstract bool NeedsIsolationWindow { get; }
+		public abstract bool NeedsBackgroundSubtraction { get; }
 
 		/// <summary>
 		/// Every raw data implementation has its own implementation of MsInstrument.
