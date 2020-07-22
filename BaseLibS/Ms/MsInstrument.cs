@@ -50,7 +50,7 @@ namespace BaseLibS.Ms{
 
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
 		public DiaFeatureQuantMethod DiaFeatureQuantMethodDefault => DiaFeatureQuantMethod.Sum;
-		public int DiaTopNFragmentsForQuantDefault => 10;
+		public abstract int DiaTopNFragmentsForQuantDefault{ get; }
 		public double DiaMinMsmsIntensityForQuantDefault => 0;
 		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault{ get; }
 		public PrecursorFilterType DiaPrecursorFilterTypeDefault => PrecursorFilterType.None;
