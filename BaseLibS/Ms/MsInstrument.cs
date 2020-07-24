@@ -42,8 +42,8 @@ namespace BaseLibS.Ms{
 		public double DiaCorrThresholdFeatureClusteringDefault => 0.85;
 		public abstract double DiaInitialPrecMassTolPpmDefault{ get; }
 		public abstract double DiaInitialFragMassTolPpmDefault { get; }
-		public bool DiaBackgroundSubtractionDefault => true;
-		public double DiaBackgroundSubtractionQuantileDefault => 0.5;
+		public abstract bool DiaBackgroundSubtractionDefault { get; }
+		public abstract double DiaBackgroundSubtractionQuantileDefault { get; }
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 7;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
