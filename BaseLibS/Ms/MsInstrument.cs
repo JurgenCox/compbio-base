@@ -41,13 +41,13 @@ namespace BaseLibS.Ms{
 		public double DiaMassWindowFactorDefault => 3.3;
 		public double DiaCorrThresholdFeatureClusteringDefault => 0.85;
 		public abstract double DiaInitialPrecMassTolPpmDefault{ get; }
-		public abstract double DiaInitialFragMassTolPpmDefault{ get; }
-	
+		public abstract double DiaInitialFragMassTolPpmDefault { get; }
+		public bool DiaBackgroundSubtractionDefault => true;
+		public double DiaBackgroundSubtractionQuantileDefault => 0.5;
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 7;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
 		public double DiaMinScoreDefault => 1.99;
-
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
 		public DiaFeatureQuantMethod DiaFeatureQuantMethodDefault => DiaFeatureQuantMethod.Sum;
 		public abstract int DiaTopNFragmentsForQuantDefault{ get; }
