@@ -44,6 +44,8 @@ namespace BaseLibS.Ms{
 		public abstract double DiaInitialFragMassTolPpmDefault { get; }
 		public abstract bool DiaBackgroundSubtractionDefault { get; }
 		public abstract double DiaBackgroundSubtractionQuantileDefault { get; }
+		public abstract double DiaBackgroundSubtractionFactorDefault { get; }
+		public abstract bool DiaLfqWeightedMedianDefault { get; }
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 7;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
