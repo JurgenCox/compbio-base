@@ -354,13 +354,17 @@ namespace BaseLibS.Ms.Search{
 					bool isNterm = offset == 0 || (offset == 1 && protSequence[0] == 'M');
 					bool isCterm = offset + len == protSequence.Length;
 					if (Valid(enzymeMode, indices, offset, len, isNterm, isCterm)){
-						addPeptide(s, isNterm, isCterm, 0, null, null);
+						if (ValidPeptide2(s, minPepLen, maxPepLen)){
+							addPeptide(s, isNterm, isCterm, 0, null, null);
+						}
 						for (int pos = 0; pos < s.Length; pos++){
 							string codon = protCodons[offset + pos];
 							char[] aas = AminoAcids.CodonMutatesToAa[codon];
 							foreach (char aa in aas){
 								string newSequence = MutateSingleAaSubstitution(s, pos, aa);
-								addPeptide(newSequence, isNterm, isCterm, 1, new[]{codon + "->" + aa}, s);
+								if (ValidPeptide2(newSequence, minPepLen, maxPepLen)){
+									addPeptide(newSequence, isNterm, isCterm, 1, new[]{codon + "->" + aa}, s);
+								}
 							}
 						}
 					}
@@ -377,7 +381,9 @@ namespace BaseLibS.Ms.Search{
 					bool isNterm = offset == 0 || (offset == 1 && protSequence[0] == 'M');
 					bool isCterm = offset + len == protSequence.Length;
 					if (Valid(enzymeMode, indices, offset, len, isNterm, isCterm)){
-						addPeptide(s, isNterm, isCterm, 0, null, null);
+						if (ValidPeptide2(s, minPepLen, maxPepLen)){
+							addPeptide(s, isNterm, isCterm, 0, null, null);
+						}
 					}
 				}
 			}
@@ -421,7 +427,9 @@ namespace BaseLibS.Ms.Search{
 					bool isNterm = offset == 0 || (offset == 1 && protSequence[0] == 'M');
 					bool isCterm = offset + len == protSequence.Length;
 					if (Valid(enzymeMode, indices, offset, len, isNterm, isCterm)){
-						addPeptide(s, isNterm, isCterm, 0, null, null);
+						if (ValidPeptide2(s, minPepLen, maxPepLen)){
+							addPeptide(s, isNterm, isCterm, 0, null, null);
+						}
 						for (int pos = 0; pos < s.Length; pos++){
 							string oldAa = knownMutationAaBefore[offset + pos];
 							string newAa = knownMutationAaAfter[offset + pos];
@@ -432,8 +440,10 @@ namespace BaseLibS.Ms.Search{
 								string[] names = (knownVariationNames != null)
 									? new[]{knownVariationNames[offset + pos]}
 									: null;
-								addPeptide(newSequence, isNterm, isCterm, GetMutationLevel(names, variationGroupRegex),
-									names, s);
+								if (ValidPeptide2(newSequence, minPepLen, maxPepLen)){
+									addPeptide(newSequence, isNterm, isCterm,
+										GetMutationLevel(names, variationGroupRegex), names, s);
+								}
 							}
 						}
 					}
