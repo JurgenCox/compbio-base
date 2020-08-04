@@ -334,7 +334,7 @@ namespace PluginRawMzMl{
 			double[] intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 			resolution = 30000;
 			if (mzGrid == null){
-				mzGrid = new MzGrid(10, 1800, resolution, nsigma);
+				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma);
 			} else{
 				if (mzGrid.Resolution != resolution){
 					throw new Exception($"Invalid grid resolution: {resolution}, " +
