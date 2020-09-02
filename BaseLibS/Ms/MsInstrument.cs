@@ -72,6 +72,7 @@ namespace BaseLibS.Ms{
 		public int DiaXgBoostEstimatorsDefault => 580;
 
 		public bool DiaGlobalMlDefault => true;
+		public double DiaTransferQvalueDefault => 1.0;
 		public bool CutPeaksDefault => true;
 		public int GapScansDefault => 1;
 
