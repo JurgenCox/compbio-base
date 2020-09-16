@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Num;
+using BaseLibS.Util;
 
 namespace BaseLibS.Ms{
 	/// <summary>
@@ -14,6 +16,16 @@ namespace BaseLibS.Ms{
 		public Spectrum(double[] masses, float[] intensities){
 			Masses = masses;
 			Intensities = intensities;
+		}
+
+		public Spectrum(BinaryReader reader){
+			Masses = FileUtils.ReadDoubleArray(reader);
+			Intensities = FileUtils.ReadSingleArray(reader);
+		}
+
+		public void Write(BinaryWriter writer){
+			FileUtils.Write(Masses, writer);
+			FileUtils.Write(Intensities, writer);
 		}
 
 		/// <summary>

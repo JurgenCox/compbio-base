@@ -60,6 +60,15 @@ namespace PluginRawMzXml {
 			}
 		}
 
+		protected override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin, int[] imsIndexMax,
+			bool readCentroids){
+			throw new System.NotImplementedException();
+		}
+
+		public override Spectrum GetSpectrum(IntSpectrum s, double resolution){
+			throw new System.NotImplementedException();	
+		}
+
 		protected override double[] Index2K0(int scanNumber, double[] imsInds) {
 			return null;
 		}

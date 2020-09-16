@@ -344,6 +344,15 @@ namespace PluginRawMzMl{
 			mzGrid.SmoothIntensities(massesIn, intensitiesIn, out masses, out intensities);
 		}
 
+		protected override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin, int[] imsIndexMax,
+			bool readCentroids){
+			throw new NotImplementedException();
+		}
+
+		public override Spectrum GetSpectrum(IntSpectrum s, double resolution){
+			throw new NotImplementedException();
+		}
+
 		private SpectrumType DeserializeSpectrum(int scanNumber){
 			return DeserializeSpectrum(offset[scanNumber]);
 		}

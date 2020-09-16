@@ -60,8 +60,8 @@ namespace BaseLibS.Ms{
 
 		public abstract string Name{ get; }
 
-		public abstract bool NeedsIsolationWindow { get; }
-		public abstract bool NeedsBackgroundSubtraction { get; }
+		public abstract bool NeedsIsolationWindow{ get; }
+		public abstract bool NeedsBackgroundSubtraction{ get; }
 
 		/// <summary>
 		/// Every raw data implementation has its own implementation of MsInstrument.
@@ -272,6 +272,11 @@ namespace BaseLibS.Ms{
 		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin,
 			int imsIndexMax, bool readCentroids, out double[] masses, out float[] intensities, double resolution,
 			double mzMin, double mzMax, bool isMs1);
+
+		protected internal abstract IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin,
+			int[] imsIndexMax, bool readCentroids);
+
+		public abstract Spectrum GetSpectrum(IntSpectrum s, double resolution);
 
 		protected internal void GetSpectrum(int scanNumber, bool readCentroids, out double[] masses,
 			out float[] intensities, bool isMs1){
