@@ -512,9 +512,9 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs2SpectrumArray(int index, int imsIndMin, int imsIndMax, bool readCentroids,
-			out double[] masses, out float[] intensities, double resolution, double mzMin, double mzMax){
+			out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin, double mzMax){
 			rawFile.GetSpectrum(Ms2ScanNumbers[index], Ms2ScanNumbers[index], imsIndMin, imsIndMax, readCentroids,
-				out masses, out intensities, resolution, mzMin, mzMax, false);
+				out masses, out intensities, resolution, gridSpacing, mzMin, mzMax, false);
 		}
 
 		public void GetMs3SpectrumArray(int index, bool readCentroids, out double[] masses, out float[] intensities){
@@ -535,18 +535,18 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs1SpectrumArray(int index, int imsIndexMin, int imsIndexMax, bool readCentroids,
-			out double[] masses, out float[] intensities, double resolution, double mzMin, double mzMax){
+			out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin, double mzMax){
 			if (index >= Ms1ScanNumbers.Length){
 				masses = null;
 				intensities = null;
 				return;
 			}
 			rawFile.GetSpectrum(Ms1ScanNumbers[index], Ms1ScanNumbers[index], imsIndexMin, imsIndexMax, readCentroids,
-				out masses, out intensities, resolution, mzMin, mzMax, true);
+				out masses, out intensities, resolution, gridSpacing, mzMin, mzMax, true);
 		}
 
 		public void GetMs1SpectrumArray(int indexMin, int indexMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double mzMin,
+			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
 			double mzMax){
 			if (indexMax >= Ms1ScanNumbers.Length || indexMax < 0){
 				masses = null;
@@ -554,7 +554,7 @@ namespace BaseLibS.Ms{
 				return;
 			}
 			rawFile.GetSpectrum(Ms1ScanNumbers[indexMin], Ms1ScanNumbers[indexMax], imsIndexMin, imsIndexMax,
-				readCentroids, out masses, out intensities, resolution, mzMin, mzMax, true);
+				readCentroids, out masses, out intensities, resolution, gridSpacing, mzMin, mzMax, true);
 		}
 
 		public IntSpectrum[] GetMs1Spectrum(int indexMin, int indexMax, int[] imsIndexMin, int[] imsIndexMax,
@@ -567,7 +567,7 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs2SpectrumArray(int indexMin, int indexMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double mzMin,
+			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
 			double mzMax){
 			if (indexMax >= Ms2ScanNumbers.Length || indexMax < 0){
 				masses = null;
@@ -575,7 +575,7 @@ namespace BaseLibS.Ms{
 				return;
 			}
 			rawFile.GetSpectrum(Ms2ScanNumbers[indexMin], Ms2ScanNumbers[indexMax], imsIndexMin, imsIndexMax,
-				readCentroids, out masses, out intensities, resolution, mzMin, mzMax, false);
+				readCentroids, out masses, out intensities, resolution, gridSpacing, mzMin, mzMax, false);
 		}
 
 		public IntSpectrum[] GetMs2Spectrum(int indexMin, int indexMax, int[] imsIndexMin, int[] imsIndexMax,
@@ -695,12 +695,12 @@ namespace BaseLibS.Ms{
 		}
 
 		public double[][] GetMs1SpectrumOnGrid(int index, bool readCentroids, double min, double max, int count,
-			int imsIndexMin, int imsIndexMax, double resolution){
+			int imsIndexMin, int imsIndexMax, double resolution, double gridSpacing){
 			Spectrum s;
 			if (imsIndexMin < 0 || imsIndexMax < 0){
 				s = GetMs1Spectrum(index, readCentroids);
 			} else{
-				s = GetMs1Spectrum(index, imsIndexMin, imsIndexMax, readCentroids, resolution, min, max);
+				s = GetMs1Spectrum(index, imsIndexMin, imsIndexMax, readCentroids, resolution, gridSpacing, min, max);
 			}
 			return s.Masses == null ? null : CalcBinMinMaxInSpectrum(min, max, count, s);
 		}
@@ -799,16 +799,16 @@ namespace BaseLibS.Ms{
 		}
 
 		public Spectrum GetMs1Spectrum(int index, int imsIndexMin, int imsIndexMax, bool readCentroids,
-			double resolution, double mzMin, double mzMax){
+			double resolution, double gridSpacing, double mzMin, double mzMax){
 			GetMs1SpectrumArray(index, imsIndexMin, imsIndexMax, readCentroids, out double[] masses,
-				out float[] intensities, resolution, mzMin, mzMax);
+				out float[] intensities, resolution, gridSpacing, mzMin, mzMax);
 			return new Spectrum(masses, intensities);
 		}
 
 		public Spectrum GetMs1Spectrum(int indexMin, int indexMax, int imsIndexMin, int imsIndexMax, bool readCentroids,
-			double resolution, double mzMin, double mzMax){
+			double resolution, double gridSpacing, double mzMin, double mzMax){
 			GetMs1SpectrumArray(indexMin, indexMax, imsIndexMin, imsIndexMax, readCentroids, out double[] masses,
-				out float[] intensities, resolution, mzMin, mzMax);
+				out float[] intensities, resolution, gridSpacing, mzMin, mzMax);
 			return new Spectrum(masses, intensities);
 		}
 
@@ -818,16 +818,16 @@ namespace BaseLibS.Ms{
 		}
 
 		public Spectrum GetMs2Spectrum(int index, int imsIndexMin, int imsIndexMax, bool readCentroids,
-			double resoluion, double mzMin, double mzMax){
+			double resoluion, double gridSpacing, double mzMin, double mzMax){
 			GetMs2SpectrumArray(index, imsIndexMin, imsIndexMax, readCentroids, out double[] masses,
-				out float[] intensities, resoluion, mzMin, mzMax);
+				out float[] intensities, resoluion, gridSpacing, mzMin, mzMax);
 			return new Spectrum(masses, intensities);
 		}
 
 		public Spectrum GetMs2Spectrum(int indexMin, int indexMax, int imsIndexMin, int imsIndexMax, bool readCentroids,
-			double resolution, double mzMin, double mzMax){
+			double resolution, double gridSpacing, double mzMin, double mzMax){
 			GetMs2SpectrumArray(indexMin, indexMax, imsIndexMin, imsIndexMax, readCentroids, out double[] masses,
-				out float[] intensities, resolution, mzMin, mzMax);
+				out float[] intensities, resolution, gridSpacing, mzMin, mzMax);
 			return new Spectrum(masses, intensities);
 		}
 

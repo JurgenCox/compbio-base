@@ -271,17 +271,17 @@ namespace BaseLibS.Ms{
 
 		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin,
 			int imsIndexMax, bool readCentroids, out double[] masses, out float[] intensities, double resolution,
-			double mzMin, double mzMax, bool isMs1);
+			double gridSpacing, double mzMin, double mzMax, bool isMs1);
 
 		protected internal abstract IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin,
 			int[] imsIndexMax, bool readCentroids);
 
-		public abstract Spectrum GetSpectrum(IntSpectrum s, double resolution);
+		public abstract Spectrum GetSpectrum(IntSpectrum s, double resolution, double gridSpacing);
 
 		protected internal void GetSpectrum(int scanNumber, bool readCentroids, out double[] masses,
 			out float[] intensities, bool isMs1){
 			GetSpectrum(scanNumber, scanNumber, 0, 0, readCentroids, out masses, out intensities, 0, double.NaN,
-				double.NaN, isMs1);
+				double.NaN, double.NaN, isMs1);
 		}
 
 		/// <summary>
