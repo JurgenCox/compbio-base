@@ -207,6 +207,17 @@ namespace BaseLibS.Parse.Uniprot {
 		public static DbReferenceType Rhea = new DbReferenceType("rhea");
 		public static DbReferenceType jPOST = new DbReferenceType("jpost");
 		public static DbReferenceType UniLectin = new DbReferenceType("unilectin");
+		public static DbReferenceType PlantReactome = new DbReferenceType("plantreactome");
+		public static DbReferenceType MassIVE = new DbReferenceType("massive");
+		public static DbReferenceType Antibodypedia = new DbReferenceType("antibodypedia");
+		public static DbReferenceType Pharos = new DbReferenceType("pharos");
+		public static DbReferenceType RNAct = new DbReferenceType("rnact");
+		public static DbReferenceType MetOSite = new DbReferenceType("metosite");
+		public static DbReferenceType CPTAC = new DbReferenceType("cptac");
+		public static DbReferenceType DrugCentral = new DbReferenceType("drugcentral");
+		public static DbReferenceType phibase = new DbReferenceType("phi-base");
+		public static DbReferenceType ABCD = new DbReferenceType("abcd");
+		public static DbReferenceType NIAGADS = new DbReferenceType("niagads");
 
 		public static string[] allDbReferenceTypeStrings;
 		public static DbReferenceType[] allDbReferenceTypes = CreateDbReferenceTypeList();
@@ -414,8 +425,19 @@ namespace BaseLibS.Parse.Uniprot {
 				MoonDB,
 			    Rhea,
                 jPOST,
-			    UniLectin
-            };
+				UniLectin,
+				NIAGADS,
+				ABCD,
+				phibase,
+				DrugCentral,
+				CPTAC,
+				MetOSite,
+				RNAct,
+				PlantReactome,
+				MassIVE,
+				Pharos,
+				Antibodypedia
+			};
 
 			allDbReferenceTypeStrings = new string[ft.Count];
 			for (int i = 0; i < allDbReferenceTypeStrings.Length; i++){
