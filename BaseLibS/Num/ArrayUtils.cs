@@ -657,7 +657,7 @@ namespace BaseLibS.Num{
 
 		public static T[] Concat<T>(IList<T> a, T b){
 			if (a == null){
-				return new[] { b };
+				return new[]{b};
 			}
 			T[] result = new T[a.Count + 1];
 			Array.Copy(a.ToArray(), 0, result, 0, a.Count);
@@ -667,7 +667,7 @@ namespace BaseLibS.Num{
 
 		public static T[] Concat<T>(T a, IList<T> b){
 			if (b == null){
-				return new[] { a };
+				return new[]{a};
 			}
 			T[] result = new T[b.Count + 1];
 			Array.Copy(b.ToArray(), 0, result, 1, b.Count);
@@ -690,7 +690,6 @@ namespace BaseLibS.Num{
 			return result;
 		}
 		//
-
 
 		public static T[] UniqueValuesPreserveOrder<T>(IList<T> array){
 			HashSet<T> taken = new HashSet<T>();
@@ -1260,6 +1259,26 @@ namespace BaseLibS.Num{
 			if (min == float.MaxValue){
 				min = float.NaN;
 				max = float.NaN;
+			}
+		}
+
+		public static void MinMax(float[,,,] x, out float min, out float max){
+			min = float.MaxValue;
+			max = float.MinValue;
+			for (int i0 = 0; i0 < x.GetLength(0); i0++){
+				for (int i1 = 0; i1 < x.GetLength(1); i1++){
+					for (int i2 = 0; i2 < x.GetLength(2); i2++){
+						for (int i3 = 0; i3 < x.GetLength(3); i3++){
+							float val = x[i0, i1, i2, i3];
+							if (val < min){
+								min = val;
+							}
+							if (val > max){
+								max = val;
+							}
+						}
+					}
+				}
 			}
 		}
 
