@@ -1282,6 +1282,24 @@ namespace BaseLibS.Num{
 			}
 		}
 
+		public static void MinMax(float[,,] x, out float min, out float max){
+			min = float.MaxValue;
+			max = float.MinValue;
+			for (int i0 = 0; i0 < x.GetLength(0); i0++){
+				for (int i1 = 0; i1 < x.GetLength(1); i1++){
+					for (int i2 = 0; i2 < x.GetLength(2); i2++){
+						float val = x[i0, i1, i2];
+						if (val < min){
+							min = val;
+						}
+						if (val > max){
+							max = val;
+						}
+					}
+				}
+			}
+		}
+
 		public static void MinMax(IList<int> x, out int min, out int max){
 			int n = x.Count;
 			min = int.MaxValue;
@@ -2881,14 +2899,6 @@ namespace BaseLibS.Num{
 				int w = len / 2;
 				return x[w];
 			}
-		}
-
-		private static double Average(IList<double> m, int min, int max){
-			double sum = 0;
-			for (int i = min; i <= max; i++){
-				sum += m[i];
-			}
-			return sum / (max - min + 1);
 		}
 
 		public static double Quantile(IList<double> x, double q){
