@@ -1922,9 +1922,9 @@ namespace BaseLibS.Num{
 		public static float[,,,] ToFloats(double[,,,] d){
 			float[,,,] result = new float[d.GetLength(0), d.GetLength(1), d.GetLength(2), d.GetLength(3)];
 			for (int i0 = 0; i0 < result.GetLength(0); i0++){
-				for (int i1 = 0; i1 < result.GetLength(0); i1++){
-					for (int i2 = 0; i2 < result.GetLength(0); i2++){
-						for (int i3 = 0; i3 < result.GetLength(0); i3++){
+				for (int i1 = 0; i1 < result.GetLength(1); i1++){
+					for (int i2 = 0; i2 < result.GetLength(2); i2++){
+						for (int i3 = 0; i3 < result.GetLength(3); i3++){
 							result[i0, i1, i2, i3] = (float) d[i0, i1, i2, i3];
 						}
 					}
