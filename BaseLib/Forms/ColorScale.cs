@@ -48,7 +48,7 @@ namespace BaseLib.Forms{
 			ColorStrip.Vertical = false;
 			ColorStrip.Weight1 = 1F;
 			ColorStrip.Weight2 = 0F;
-			axis.Configurable = true;
+			axis.Configurable = ConfigurableType.Total;
 			axis.IndicatorColor = Color2.Transparent;
 			axis.IsLogarithmic = false;
 			axis.LineWidth = 0.5F;

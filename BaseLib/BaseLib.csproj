@@ -89,6 +89,7 @@
       <DependentUpon>ColorsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ColorStripView.cs" />
+    <Compile Include="Forms\ConfigurableType.cs" />
     <Compile Include="Forms\CorrectionFactorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
