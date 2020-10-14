@@ -1531,6 +1531,9 @@ namespace BaseLib.Forms.Table{
 			int x1 = control.VisibleX + e.X;
 			int y1 = control.VisibleY + e.Y;
 			try{
+				if (columnWidthSums == null){
+					return;
+				}
 				int indf = ArrayUtils.CeilIndex(columnWidthSums, x1);
 				if (model != null){
 					if (indf >= 0){

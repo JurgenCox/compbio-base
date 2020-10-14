@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
@@ -14,39 +13,20 @@ namespace BaseLib.Forms{
 		Both
 	}
 
+	public static class ColorPalettes{
+		public static (Color2 color, double position)[] MaxQuant = {
+			(Color2.White, 0.2), (Color2.Yellow, 0.4), (Color2.Green, 0.85)
+		};
 
-	public static class ColorPalettes
-	{
-		public static  (Color2 color, double position)[] MaxQuant =
-		{
-			(Color2.White, 0.2), (Color2.Yellow, 0.4),(Color2.Green, 0.85)
+		public static (Color2 color, double position)[] Rainbow = {
+			(Color2.White, 0.0), (Color2.Violet, 0.125), (Color2.Indigo, 0.25), (Color2.Blue, 0.375),
+			(Color2.Green, 0.5), (Color2.Yellow, 0.625), (Color2.Orange, 0.75), (Color2.Red, 0.875)
 		};
-		public static  (Color2 color, double position)[] Rainbow =
-		{
-			(Color2.White, 0.0),
-			(Color2.Violet,0.125),
-			(Color2.Indigo, 0.25),
-			(Color2.Blue, 0.375),
-			(Color2.Green, 0.5),
-			(Color2.Yellow, 0.625),
-			(Color2.Orange, 0.75),
-			(Color2.Red, 0.875)
-		};
-		
-		
-		public static  (Color2 color, double position)[] Jet =
-		{
-			(Color2.White, 0.0),
-			(Color2.Indigo,0.1),
-			(Color2.Blue, 0.2),
-			(Color2.DodgerBlue, 0.3),
-			(Color2.Cyan, 0.4),
-			(Color2.PaleGreen, 0.5),
-			(Color2.YellowGreen, 0.6),
-			(Color2.Orange, 0.7),
-			(Color2.DarkOrange, 0.8),
-			(Color2.Red, 0.9),
-			(Color2.Brown, 1.0)
+
+		public static (Color2 color, double position)[] Jet = {
+			(Color2.White, 0.0), (Color2.Indigo, 0.1), (Color2.Blue, 0.2), (Color2.DodgerBlue, 0.3), (Color2.Cyan, 0.4),
+			(Color2.PaleGreen, 0.5), (Color2.YellowGreen, 0.6), (Color2.Orange, 0.7), (Color2.DarkOrange, 0.8),
+			(Color2.Red, 0.9), (Color2.Brown, 1.0)
 		};
 	}
 
@@ -59,15 +39,15 @@ namespace BaseLib.Forms{
 		private Pen2[] precalcPens;
 		private int oldLength = -1;
 		internal bool refreshColors = true;
-		internal Color2 StartupColorMin { get; set; }
-		internal Color2 StartupColorMax { get; set; }
-		internal bool Vertical { get; set; }
-		internal float Weight1 { get; set; }
-		internal float Weight2 { get; set; }
-		internal Arrows Arrow { get; set; }
-		internal int StripWidth { get; set; }
-		public List<Color2> Colors { get; }
-		public List<double> Positions { get; }
+		internal Color2 StartupColorMin{ get; set; }
+		internal Color2 StartupColorMax{ get; set; }
+		internal bool Vertical{ get; set; }
+		internal float Weight1{ get; set; }
+		internal float Weight2{ get; set; }
+		internal Arrows Arrow{ get; set; }
+		internal int StripWidth{ get; set; }
+		public List<Color2> Colors{ get; }
+		public List<double> Positions{ get; }
 		internal int mouseOverIndex = -1;
 		internal int mouseDragIndex = -1;
 		internal int mouseStartPos = -1;
@@ -76,16 +56,13 @@ namespace BaseLib.Forms{
 		public ColorStripView((Color2 color, double position)[] palette = null){
 			Positions = new List<double>();
 			Colors = new List<Color2>();
-			
 			LoadPalette(ColorPalettes.MaxQuant);
 		}
 
-		public void LoadPalette((Color2 color, double position)[] palette)
-		{
+		public void LoadPalette((Color2 color, double position)[] palette){
 			Positions.Clear();
 			Colors.Clear();
-			foreach (var tuple in palette)
-			{
+			foreach (var tuple in palette){
 				AddColor(tuple.color, tuple.position);
 			}
 		}
@@ -114,7 +91,7 @@ namespace BaseLib.Forms{
 				CalcGradient(width, height);
 			}
 			x = Math.Min(1, Math.Max(0, x));
-			int i = (int) (x*GetLength(width, height));
+			int i = (int) (x * GetLength(width, height));
 			if (i == GetLength(width, height)){
 				i = GetLength(width, height) - 1;
 			}
@@ -130,7 +107,7 @@ namespace BaseLib.Forms{
 				CalcGradient(width, height);
 			}
 			x = Math.Min(1, Math.Max(0, x));
-			int i = (int) (x*GetLength(width, height));
+			int i = (int) (x * GetLength(width, height));
 			if (i == GetLength(width, height)){
 				i = GetLength(width, height) - 1;
 			}
@@ -142,8 +119,7 @@ namespace BaseLib.Forms{
 			Positions.Add(position);
 		}
 
-
-        public void InitColors(Color2[] newColors, double[] newPositions){
+		public void InitColors(Color2[] newColors, double[] newPositions){
 			Colors.Clear();
 			Colors.AddRange(newColors);
 			Positions.Clear();
@@ -151,14 +127,13 @@ namespace BaseLib.Forms{
 			precalcColors = null;
 		}
 
-
-        public override void OnPaint(IGraphics g, int width, int height) {
+		public override void OnPaint(IGraphics g, int width, int height){
 			if (oldLength != GetLength(width, height)){
 				refreshColors = true;
 			}
 			g.SmoothingMode = SmoothingMode2.AntiAlias;
 			int remainder = GetBreadth(width, height) - StripWidth;
-			int w1 = (int) Math.Round(remainder*Weight1/(Weight1 + Weight2));
+			int w1 = (int) Math.Round(remainder * Weight1 / (Weight1 + Weight2));
 			w1 = Math.Max(1, w1);
 			w1 = Math.Min(remainder - 2, w1);
 			PaintStrip(g, w1, width, height);
@@ -195,17 +170,17 @@ namespace BaseLib.Forms{
 				CalcGradient(Colors[o[i]], Colors[o[i + 1]], ModelToView(Positions[o[i]], width, height),
 					ModelToView(Positions[o[i + 1]], width, height));
 			}
-			CalcGradient(Colors[o[o.Length - 1]], Colors[o[o.Length - 1]], ModelToView(Positions[o[o.Length - 1]], width, height),
-				GetLength(width, height) - 1);
+			CalcGradient(Colors[o[o.Length - 1]], Colors[o[o.Length - 1]],
+				ModelToView(Positions[o[o.Length - 1]], width, height), GetLength(width, height) - 1);
 		}
 
 		private void CalcGradient(Color2 c1, Color2 c2, int a1, int a2){
 			for (int j = a1 + 1; j <= a2; j++){
 				double w1 = Math.Abs(a2 - j);
 				double w2 = Math.Abs(j - a1);
-				byte rr = (byte) Math.Round((c1.R*w1 + c2.R*w2)/(w1 + w2));
-				byte gg = (byte) Math.Round((c1.G*w1 + c2.G*w2)/(w1 + w2));
-				byte bb = (byte) Math.Round((c1.B*w1 + c2.B*w2)/(w1 + w2));
+				byte rr = (byte) Math.Round((c1.R * w1 + c2.R * w2) / (w1 + w2));
+				byte gg = (byte) Math.Round((c1.G * w1 + c2.G * w2) / (w1 + w2));
+				byte bb = (byte) Math.Round((c1.B * w1 + c2.B * w2) / (w1 + w2));
 				precalcColors[j] = Color2.FromArgb(rr, gg, bb);
 				precalcPens[j] = new Pen2(precalcColors[j]);
 			}
@@ -230,7 +205,8 @@ namespace BaseLib.Forms{
 				int d = (i == mouseOverIndex) && (Arrow == Arrows.First || Arrow == Arrows.Both) ? triangleHeight : 0;
 				if (Vertical){
 					int e = ((i == mouseOverIndex)) && (Arrow == Arrows.Second || Arrow == Arrows.Both)
-						? width - 1 - triangleHeight : width - 1;
+						? width - 1 - triangleHeight
+						: width - 1;
 					g.DrawLine(p, 0, a, width - 1, a);
 					g.DrawLine(fgPen, d, a - 1, off - 1, a - 1);
 					g.DrawLine(fgPen, d, a + 1, off - 1, a + 1);
@@ -238,7 +214,8 @@ namespace BaseLib.Forms{
 					g.DrawLine(fgPen, off + StripWidth + 1, a + 1, e, a + 1);
 				} else{
 					int e = (i == mouseOverIndex) && (Arrow == Arrows.Second || Arrow == Arrows.Both)
-						? height - 1 - triangleHeight : height - 1;
+						? height - 1 - triangleHeight
+						: height - 1;
 					g.DrawLine(p, a, 0, a, height - 1);
 					g.DrawLine(fgPen, a - 1, d, a - 1, off - 1);
 					g.DrawLine(fgPen, a + 1, d, a + 1, off - 1);
@@ -250,8 +227,9 @@ namespace BaseLib.Forms{
 					if (Vertical){
 						if (Arrow == Arrows.Second || Arrow == Arrows.Both){
 							Point2[] points = {
-								new Point2(width - 1 - triangleHeight, a - 1), new Point2(width - 1 - triangleHeight, a - triangleBase2),
-								new Point2(width - 1, a), new Point2(width - 1 - triangleHeight, a + triangleBase2),
+								new Point2(width - 1 - triangleHeight, a - 1),
+								new Point2(width - 1 - triangleHeight, a - triangleBase2), new Point2(width - 1, a),
+								new Point2(width - 1 - triangleHeight, a + triangleBase2),
 								new Point2(width - 1 - triangleHeight, a + 1)
 							};
 							g.FillClosedCurve(b, points);
@@ -259,23 +237,26 @@ namespace BaseLib.Forms{
 						}
 						if (Arrow == Arrows.First || Arrow == Arrows.Both){
 							Point2[] points = {
-								new Point2(triangleHeight, a - 1), new Point2(triangleHeight, a - triangleBase2), new Point2(0, a),
-								new Point2(triangleHeight, a + triangleBase2), new Point2(triangleHeight, a + 1)
+								new Point2(triangleHeight, a - 1), new Point2(triangleHeight, a - triangleBase2),
+								new Point2(0, a), new Point2(triangleHeight, a + triangleBase2),
+								new Point2(triangleHeight, a + 1)
 							};
 							g.FillClosedCurve(b, points);
 							g.DrawCurve(fgPen, points);
 						}
 					} else{
 						Point2[] points = {
-							new Point2(a - 1, height - 1 - triangleHeight), new Point2(a - triangleBase2, height - 1 - triangleHeight),
-							new Point2(a, height - 1), new Point2(a + triangleBase2, height - 1 - triangleHeight),
+							new Point2(a - 1, height - 1 - triangleHeight),
+							new Point2(a - triangleBase2, height - 1 - triangleHeight), new Point2(a, height - 1),
+							new Point2(a + triangleBase2, height - 1 - triangleHeight),
 							new Point2(a + 1, height - 1 - triangleHeight)
 						};
 						g.FillClosedCurve(b, points);
 						g.DrawCurve(fgPen, points);
 						points = new[]{
-							new Point2(a - 1, triangleHeight), new Point2(a - triangleBase2, triangleHeight), new Point2(a, 0),
-							new Point2(a + triangleBase2, triangleHeight), new Point2(a + 1, triangleHeight)
+							new Point2(a - 1, triangleHeight), new Point2(a - triangleBase2, triangleHeight),
+							new Point2(a, 0), new Point2(a + triangleBase2, triangleHeight),
+							new Point2(a + 1, triangleHeight)
 						};
 						g.FillClosedCurve(b, points);
 						g.DrawCurve(fgPen, points);
@@ -293,12 +274,12 @@ namespace BaseLib.Forms{
 		}
 
 		internal int ModelToView(double val, int width, int height){
-			int x = (int) Math.Round(val*(GetLength(width, height) - 1));
+			int x = (int) Math.Round(val * (GetLength(width, height) - 1));
 			return x;
 		}
 
 		internal double ViewToModel(int x, int width, int height){
-			return x/(double) (GetLength(width, height) - 1);
+			return x / (double) (GetLength(width, height) - 1);
 		}
 
 		public override void OnMouseIsDown(BasicMouseEventArgs e){
