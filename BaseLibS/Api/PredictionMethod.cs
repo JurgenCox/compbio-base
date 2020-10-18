@@ -1,4 +1,5 @@
-﻿using BaseLibS.Param;
+﻿using BaseLibS.Api.Generic;
+using BaseLibS.Param;
 
 namespace BaseLibS.Api{
 	public abstract class PredictionMethod : INamedListItem{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using BaseLibS.Api;
+using BaseLibS.Api.Generic;
 
 namespace BaseLibS.Mol{
 	public class StorableItem : INamedItem{

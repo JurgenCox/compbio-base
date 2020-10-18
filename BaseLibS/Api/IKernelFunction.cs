@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BaseLibS.Api.Generic;
 using BaseLibS.Num.Vector;
 using BaseLibS.Param;
 

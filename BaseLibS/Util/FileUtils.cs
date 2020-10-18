@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using BaseLibS.Api;
+using BaseLibS.Api.Generic;
 using BaseLibS.Mol;
 using BaseLibS.Num;
 using BaseLibS.Num.Vector;

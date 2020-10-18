@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Api{
+﻿namespace BaseLibS.Api.Generic{
 	public interface INamedItem{
 		/// <summary>
 		/// This is the name that e.g. appears in drop-down menus.
