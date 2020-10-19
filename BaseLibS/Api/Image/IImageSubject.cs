@@ -1,7 +1,8 @@
 ﻿using System;
+using BaseLibS.Api.Generic;
 
 namespace BaseLibS.Api.Image{
-	public interface ISubject : ICloneable{
+	public interface IImageSubject : ISubject{
 		int AnatCount{ get; }
 		int FuncCount{ get; }
 		int DwiCount{ get; }
@@ -10,6 +11,5 @@ namespace BaseLibS.Api.Image{
 		IImageSeries GetDwiAt(int index);
 		IImageSeries GetAt(MriType type, int index);
 
-		string Name{ get; }
 	}
 }

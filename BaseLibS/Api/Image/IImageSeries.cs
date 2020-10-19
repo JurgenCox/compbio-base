@@ -1,7 +1,7 @@
-﻿using System;
+﻿using BaseLibS.Api.Generic;
 
 namespace BaseLibS.Api.Image{
-	public interface IImageSeries : ICloneable{
+	public interface IImageSeries : IAtom{
 		int LengthT{ get; }
 		int LengthX{ get; }
 		int LengthY{ get; }

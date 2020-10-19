@@ -1,7 +1,8 @@
-﻿using BaseLibS.Param;
+﻿using BaseLibS.Api.Generic;
+using BaseLibS.Param;
 
 namespace BaseLibS.Api.Image{
-	public interface IImageSubjectProcessing : IImageProcessingAtom{
-		void ProcessData(ISubject mdata, Parameters param);
+	public interface IImageSubjectProcessing : IImageProcessingItem, ISubjectProcessing{
+		void ProcessData(IImageSubject mdata, Parameters param);
 	}
 }
