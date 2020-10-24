@@ -53,7 +53,7 @@
 			// 
 			// toolStrip1
 			// 
-			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
+			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(18, 18);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
