@@ -69,14 +69,14 @@
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
 			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text = "toolStripButton1";
+			this.toolStripButton1.Text = "Set group name";
 			// 
 			// DictionaryStringValueControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.tableView1);
+			this.Controls.Add(this.toolStrip1);
 			this.Name = "DictionaryStringValueControl";
 			this.Size = new System.Drawing.Size(395, 424);
 			this.toolStrip1.ResumeLayout(false);
