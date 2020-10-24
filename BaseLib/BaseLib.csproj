@@ -114,6 +114,12 @@
     <Compile Include="Forms\DictionaryIntValueForm.Designer.cs">
       <DependentUpon>DictionaryIntValueForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\DictionaryStringValueControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\DictionaryStringValueControl.Designer.cs">
+      <DependentUpon>DictionaryStringValueControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EditParseRuleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,6 +343,7 @@
     <Compile Include="Graphic\SvgGraphics.cs" />
     <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
+    <Compile Include="Param\DictionaryStringValueParamWf.cs" />
     <Compile Include="Param\EmptyParamWf.cs" />
     <Compile Include="Param\BoolParamWf.cs" />
     <Compile Include="Param\BoolWithSubParamsWf.cs" />
@@ -453,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DictionaryIntValueForm.resx">
       <DependentUpon>DictionaryIntValueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DictionaryStringValueControl.resx">
+      <DependentUpon>DictionaryStringValueControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditParseRuleForm.resx">
       <DependentUpon>EditParseRuleForm.cs</DependentUpon>

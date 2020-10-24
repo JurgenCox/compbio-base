@@ -2,26 +2,23 @@
 using BaseLibS.Param;
 
 namespace BaseLib.Param{
-    /// <summary>
-    /// Conversion to server parameters e.g. for Xml serialization
-    /// </summary>
+	/// <summary>
+	/// Conversion to server parameters e.g. for Xml serialization
+	/// </summary>
 	public static class ServerParameterFactory{
-        /// <summary>
-        /// Convert <see cref="BaseLib.Param"/> to <see cref="BaseLibS.Param"/>
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public static Parameter Convert(Parameter p){
+		/// <summary>
+		/// Convert <see cref="BaseLib.Param"/> to <see cref="BaseLibS.Param"/>
+		/// </summary>
+		/// <param name="p"></param>
+		/// <returns></returns>
+		public static Parameter Convert(Parameter p){
 			if (p.Type == ParamType.Server){
 				return p;
 			}
 			if (p is RegexReplaceParamWf){
 				RegexReplaceParamWf q = (RegexReplaceParamWf) p;
 				RegexReplaceParam b = new RegexReplaceParam(q.Name, q.Value.Item1, q.Value.Item2, q.Previews){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -31,10 +28,7 @@ namespace BaseLib.Param{
 			if (p is RegexMatchParamWf){
 				RegexMatchParamWf q = (RegexMatchParamWf) p;
 				RegexMatchParam b = new RegexMatchParam(q.Name, q.Value, q.Previews){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -44,10 +38,7 @@ namespace BaseLib.Param{
 			if (p is BoolParamWf){
 				BoolParamWf q = (BoolParamWf) p;
 				BoolParam b = new BoolParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -76,10 +67,22 @@ namespace BaseLib.Param{
 			if (p is DictionaryIntValueParamWf){
 				DictionaryIntValueParamWf q = (DictionaryIntValueParamWf) p;
 				DictionaryIntValueParam b = new DictionaryIntValueParam(q.Name, q.Value, q.Keys){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is DictionaryStringValueParamWf){
+				DictionaryStringValueParamWf q = (DictionaryStringValueParamWf) p;
+				DictionaryStringValueParam b = new DictionaryStringValueParam(q.Name, q.Value){
 					Help = q.Help,
 					Visible = q.Visible,
 					Default = q.Default,
-					Url = q.Url
+					Url = q.Url,
+					KeyName = q.KeyName,
+					ValueName = q.ValueName
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -89,10 +92,7 @@ namespace BaseLib.Param{
 			if (p is DoubleParamWf){
 				DoubleParamWf q = (DoubleParamWf) p;
 				DoubleParam b = new DoubleParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -118,10 +118,7 @@ namespace BaseLib.Param{
 			if (p is FolderParamWf){
 				FolderParamWf q = (FolderParamWf) p;
 				FolderParam b = new FolderParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -131,10 +128,7 @@ namespace BaseLib.Param{
 			if (p is IntParamWf){
 				IntParamWf q = (IntParamWf) p;
 				IntParam b = new IntParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -144,10 +138,7 @@ namespace BaseLib.Param{
 			if (p is LabelParamWf){
 				LabelParamWf q = (LabelParamWf) p;
 				LabelParam b = new LabelParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -186,42 +177,39 @@ namespace BaseLib.Param{
 				}
 				return b;
 			}
-	        if (p is MultiFileParamWf) {
-		        MultiFileParamWf q = (MultiFileParamWf)p;
-		        MultiFileParam b = new MultiFileParam(q.Name, q.Value) {
-			        Help = q.Help,
-			        Visible = q.Visible,
-			        Filter = q.Filter,
-			        Default = q.Default,
-			        Url = q.Url
-		        };
-		        foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
-			        b.ValueChanged += act;
-		        }
-		        return b;
-	        }
-	        if (p is FastaFilesParamWf) {
-		        FastaFilesParamWf q = (FastaFilesParamWf)p;
-		        FastaFilesParam b = new FastaFilesParam(q.Name, q.Value) {
-			        Help = q.Help,
-			        Visible = q.Visible,
-			        Default = q.Default,
-			        HasVariationData = q.HasVariationData,
-			        HasModifications = q.HasModifications,
+			if (p is MultiFileParamWf){
+				MultiFileParamWf q = (MultiFileParamWf) p;
+				MultiFileParam b = new MultiFileParam(q.Name, q.Value){
+					Help = q.Help,
+					Visible = q.Visible,
+					Filter = q.Filter,
+					Default = q.Default,
 					Url = q.Url
-		        };
-		        foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
-			        b.ValueChanged += act;
-		        }
-		        return b;
-	        }
-			if (p is MultiStringParamWf){
-				MultiStringParamWf q = (MultiStringParamWf) p;
-				MultiStringParam b = new MultiStringParam(q.Name, q.Value){
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is FastaFilesParamWf){
+				FastaFilesParamWf q = (FastaFilesParamWf) p;
+				FastaFilesParam b = new FastaFilesParam(q.Name, q.Value){
 					Help = q.Help,
 					Visible = q.Visible,
 					Default = q.Default,
+					HasVariationData = q.HasVariationData,
+					HasModifications = q.HasModifications,
 					Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is MultiStringParamWf){
+				MultiStringParamWf q = (MultiStringParamWf) p;
+				MultiStringParam b = new MultiStringParam(q.Name, q.Value){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -268,10 +256,7 @@ namespace BaseLib.Param{
 			if (p is StringParamWf){
 				StringParamWf q = (StringParamWf) p;
 				StringParam b = new StringParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;

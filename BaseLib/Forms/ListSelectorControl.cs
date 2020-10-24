@@ -168,7 +168,7 @@ namespace BaseLib.Forms{
 			}
 			selectedListBox.Items.Clear();
 			selectedListBox.ClearSelected();
-			items = ArrayUtils.SubArray(items, order);
+			items = items.SubArray(order);
 			foreach (object item in items){
 				selectedListBox.Items.Add(item);
 			}

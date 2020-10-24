@@ -13,10 +13,7 @@
 			if (p is RegexReplaceParam){
 				RegexReplaceParam q = (RegexReplaceParam) p;
 				RegexReplaceParam b = new RegexReplaceParam(q.Name, q.Value.Item1, q.Value.Item2, q.Previews){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -26,10 +23,7 @@
 			if (p is RegexMatchParam){
 				RegexMatchParam q = (RegexMatchParam) p;
 				RegexMatchParam b = new RegexMatchParam(q.Name, q.Value, q.Previews){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -38,7 +32,9 @@
 			}
 			if (p is BoolParam){
 				BoolParam q = (BoolParam) p;
-				BoolParam b = new BoolParam(q.Name, q.Value){Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url};
+				BoolParam b = new BoolParam(q.Name, q.Value){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
 				}
@@ -66,10 +62,17 @@
 			if (p is DictionaryIntValueParam){
 				DictionaryIntValueParam q = (DictionaryIntValueParam) p;
 				DictionaryIntValueParam b = new DictionaryIntValueParam(q.Name, q.Value, q.Keys){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is DictionaryStringValueParam){
+				DictionaryStringValueParam q = (DictionaryStringValueParam) p;
+				DictionaryStringValueParam b = new DictionaryStringValueParam(q.Name, q.Value){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -79,10 +82,7 @@
 			if (p is DoubleParam){
 				DoubleParam q = (DoubleParam) p;
 				DoubleParam b = new DoubleParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -108,10 +108,7 @@
 			if (p is FolderParam){
 				FolderParam q = (FolderParam) p;
 				FolderParam b = new FolderParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -120,7 +117,9 @@
 			}
 			if (p is IntParam){
 				IntParam q = (IntParam) p;
-				IntParam b = new IntParam(q.Name, q.Value){Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url};
+				IntParam b = new IntParam(q.Name, q.Value){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
 				}
@@ -128,7 +127,9 @@
 			}
 			if (p is LabelParam){
 				LabelParam q = (LabelParam) p;
-				LabelParam b = new LabelParam(q.Name, q.Value){Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url};
+				LabelParam b = new LabelParam(q.Name, q.Value){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
 				}
@@ -183,10 +184,7 @@
 			if (p is MultiStringParam){
 				MultiStringParam q = (MultiStringParam) p;
 				MultiStringParam b = new MultiStringParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -233,10 +231,7 @@
 			if (p is StringParam){
 				StringParam q = (StringParam) p;
 				StringParam b = new StringParam(q.Name, q.Value){
-					Help = q.Help,
-					Visible = q.Visible,
-					Default = q.Default,
-					Url = q.Url
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
