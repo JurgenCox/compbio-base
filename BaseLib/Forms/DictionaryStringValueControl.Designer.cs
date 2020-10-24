@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DictionaryStringValueControl));
 			this.tableView1 = new BaseLib.Forms.Table.TableView();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -40,12 +39,12 @@
 			this.tableView1.ColumnHeaderHeight = 26;
 			this.tableView1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableView1.HasSelectionAgent = false;
-			this.tableView1.Location = new System.Drawing.Point(0, 0);
+			this.tableView1.Location = new System.Drawing.Point(0, 51);
 			this.tableView1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableView1.MultiSelect = true;
 			this.tableView1.Name = "tableView1";
 			this.tableView1.RowHeaderWidth = 70;
-			this.tableView1.Size = new System.Drawing.Size(395, 424);
+			this.tableView1.Size = new System.Drawing.Size(1053, 960);
 			this.tableView1.Sortable = true;
 			this.tableView1.TabIndex = 1;
 			this.tableView1.TableModel = null;
@@ -54,31 +53,34 @@
 			// 
 			// toolStrip1
 			// 
+			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(395, 25);
+			this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+			this.toolStrip1.Size = new System.Drawing.Size(1053, 51);
 			this.toolStrip1.TabIndex = 2;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
 			// toolStripButton1
 			// 
 			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+			this.toolStripButton1.Image = global::BaseLib.Properties.Resources.check;
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton1.Size = new System.Drawing.Size(58, 44);
 			this.toolStripButton1.Text = "Set group name";
 			// 
 			// DictionaryStringValueControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tableView1);
 			this.Controls.Add(this.toolStrip1);
+			this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
 			this.Name = "DictionaryStringValueControl";
-			this.Size = new System.Drawing.Size(395, 424);
+			this.Size = new System.Drawing.Size(1053, 1011);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
