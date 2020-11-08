@@ -40,10 +40,7 @@ namespace BaseLibS.Mol{
 		public double Mass{
 			get{
 				if (double.IsNaN(mass)){
-					int[] counts;
-					string[] comp;
-					double[] mono;
-					ChemElements.DecodeComposition(Composition, ChemElements.ElementDictionary, out counts, out comp, out mono);
+					ChemElements.DecodeComposition(Composition, ChemElements.ElementDictionary, out int[] counts, out string[] comp, out double[] mono);
 					mass = 0;
 					for (int i = 0; i < mono.Length; i++){
 						mass += mono[i]*counts[i];

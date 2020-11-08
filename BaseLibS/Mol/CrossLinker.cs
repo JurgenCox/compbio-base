@@ -116,7 +116,7 @@ namespace BaseLibS.Mol{
 
 	    public override int GetHashCode() {
 			unchecked {
-				var hashCode = (LinkedComposition != null ? LinkedComposition.GetHashCode() : 0);
+				int hashCode = (LinkedComposition != null ? LinkedComposition.GetHashCode() : 0);
 				hashCode = (hashCode * 397) ^ (HydrolyzedComposition != null ? HydrolyzedComposition.GetHashCode() : 0);
 				hashCode = (hashCode * 397) ^ (CrossFragmentLongComposition != null ? CrossFragmentLongComposition.GetHashCode() : 0);
 				hashCode = (hashCode * 397) ^ (CrossFragmentShortComposition != null ? CrossFragmentShortComposition.GetHashCode() : 0);

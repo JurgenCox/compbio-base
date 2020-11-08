@@ -134,9 +134,7 @@ namespace BaseLibS.Mol{
 			best = null;
 			List<string> result = new List<string>();
 			foreach (string window in windows){
-				double p;
-				string b;
-				string[] m = GetMatchingMotifs(window, out p, out b);
+				string[] m = GetMatchingMotifs(window, out double p, out string b);
 				if (m.Length > 0){
 					result.AddRange(m);
 					if (p < prob){
@@ -153,8 +151,7 @@ namespace BaseLibS.Mol{
 			best = null;
 			List<string> result = new List<string>();
 			foreach (SiteMotif motif in PhosphoMotifs){
-				double p;
-				if (motif.IsMatchingMotif(window, out p)){
+				if (motif.IsMatchingMotif(window, out double p)){
 					result.Add(motif.name);
 					if (p < prob){
 						prob = p;

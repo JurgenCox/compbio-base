@@ -30,10 +30,7 @@ namespace BaseLibS.Mol{
 		public double DeltaMass{
 			get{
 				if (double.IsNaN(deltamass)){
-					int[] counts;
-					string[] comp;
-					double[] mono;
-					ChemElements.DecodeComposition(composition, ChemElements.ElementDictionary, out counts, out comp, out mono);
+					ChemElements.DecodeComposition(composition, ChemElements.ElementDictionary, out int[] counts, out string[] comp, out double[] mono);
 					deltamass = 0;
 					for (int i = 0; i < mono.Length; i++){
 						deltamass += mono[i]*counts[i];

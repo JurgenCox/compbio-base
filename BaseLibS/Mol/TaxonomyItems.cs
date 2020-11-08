@@ -181,8 +181,7 @@ namespace BaseLibS.Mol{
 		}
 
 		public string GetTaxonomyIdOfRank(string taxonomyId, TaxonomyRank rank){
-			int id;
-			if (!Parser.TryInt(taxonomyId, out id)){
+			if (!Parser.TryInt(taxonomyId, out int id)){
 				return taxonomyId;
 			}
 			if (!taxId2Item.ContainsKey(id)){

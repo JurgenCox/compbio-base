@@ -151,6 +151,38 @@ namespace BaseLibS.Num{
 			return max;
 		}
 
+		public static double Max(double[,] x){
+			if (x == null || x.GetLength(0) == 0 || x.GetLength(1) == 0){
+				return double.NaN;
+			}
+			double max = double.MinValue;
+			for (int i = 0; i < x.GetLength(0); i++){
+				for (int j = 0; j < x.GetLength(1); j++){
+					double val = x[i, j];
+					if (val > max){
+						max = val;
+					}
+				}
+			}
+			return max;
+		}
+
+		public static double Min(double[,] x){
+			if (x == null || x.GetLength(0) == 0 || x.GetLength(1) == 0){
+				return double.NaN;
+			}
+			double min = double.MaxValue;
+			for (int i = 0; i < x.GetLength(0); i++){
+				for (int j = 0; j < x.GetLength(1); j++){
+					double val = x[i, j];
+					if (val < min){
+						min = val;
+					}
+				}
+			}
+			return min;
+		}
+
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>

@@ -365,9 +365,9 @@ namespace BaseLibS.Mol {
 					count++;
 				}
 			}
-			int[] o = ArrayUtils.Order(masses);
-			masses = ArrayUtils.SubArray(masses, o);
-			weights = ArrayUtils.SubArray(weights, o);
+			int[] o = masses.Order();
+			masses = masses.SubArray(o);
+			weights = weights.SubArray(o);
 			double[][] x = ChemElement.FilterMasses(masses, weights, massPrecision);
 			masses = x[0];
 			weights = x[1];
@@ -459,7 +459,7 @@ namespace BaseLibS.Mol {
 				}
 			}
 			Array.Resize(ref types1, count1);
-			Molecule diff1 = new Molecule(types1, ArrayUtils.SubArray(counts1, types1));
+			Molecule diff1 = new Molecule(types1, counts1.SubArray(types1));
 			int[] types2 = new int[counts2.Length];
 			int count2 = 0;
 			for (int i = 0; i < counts2.Length; i++) {
@@ -468,7 +468,7 @@ namespace BaseLibS.Mol {
 				}
 			}
 			Array.Resize(ref types2, count2);
-			Molecule diff2 = new Molecule(types2, ArrayUtils.SubArray(counts2, types2));
+			Molecule diff2 = new Molecule(types2, counts2.SubArray(types2));
 			return new Tuple<Molecule, Molecule>(diff1, diff2);
 		}
 
@@ -492,7 +492,7 @@ namespace BaseLibS.Mol {
 				}
 			}
 			Array.Resize(ref types, count);
-			return new Molecule(types, ArrayUtils.SubArray(counts, types));
+			return new Molecule(types, counts.SubArray(types));
 		}
 
 		public static Molecule Sum(IList<Molecule> molecules) {
@@ -543,7 +543,7 @@ namespace BaseLibS.Mol {
 				}
 			}
 			Array.Resize(ref types, count);
-			return new Molecule(types, ArrayUtils.SubArray(counts, types));
+			return new Molecule(types, counts.SubArray(types));
 		}
 
 		public static Molecule Max(Molecule x, Molecule y) {
@@ -567,7 +567,7 @@ namespace BaseLibS.Mol {
 				}
 			}
 			Array.Resize(ref types, count);
-			return new Molecule(types, ArrayUtils.SubArray(counts, types));
+			return new Molecule(types, counts.SubArray(types));
 		}
 
 		public bool ContainsOnly(string[] elems) {

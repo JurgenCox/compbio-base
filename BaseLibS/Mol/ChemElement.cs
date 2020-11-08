@@ -82,9 +82,9 @@ namespace BaseLibS.Mol {
 				}
 				weights[i] *= Factorial.Multinomial(n, partition);
 			}
-			int[] o = ArrayUtils.Order(ms);
-			ms = ArrayUtils.SubArray(ms, o);
-			weights = ArrayUtils.SubArray(weights, o);
+			int[] o = ms.Order();
+			ms = ms.SubArray(o);
+			weights = weights.SubArray(o);
 			double[][] x = FilterWeights(ms, weights, 1e-6);
 			ms = x[0];
 			weights = x[1];
@@ -134,7 +134,7 @@ namespace BaseLibS.Mol {
 				}
 			}
 			int[] valids = v.ToArray();
-			return new[] {ArrayUtils.SubArray(masses, valids), ArrayUtils.SubArray(weights, valids)};
+			return new[] {masses.SubArray(valids), weights.SubArray(valids)};
 		}
 
 		public int GetNominalMass() {
