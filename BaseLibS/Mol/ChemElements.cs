@@ -411,6 +411,14 @@ namespace BaseLibS.Mol{
 
 		private static void SetNaturalVersion(ChemElement ce, IList<ChemElement> chemElements){
 			string label = ce.Symbol;
+			if (label.StartsWith("[")){
+				string x = label.Substring(2, label.Length - 3);
+				if (x[0] >= '0' && x[0] <= '9'){
+					x = x.Substring(1);
+				}
+				ce.NaturalVersion = GetElementIndexByName(x, chemElements);
+				return;
+			}
 			if (label.Equals("D")){
 				ce.NaturalVersion = GetElementIndexByName("H", chemElements);
 				return;
