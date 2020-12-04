@@ -370,6 +370,13 @@ namespace BaseLibS.Mol{
 			return result;
 		}
 
+		public PeptideModificationState RemoveTerminalModifications(){
+			PeptideModificationState result = Clone();
+			result.NTermModification = ushort.MaxValue;
+			result.CTermModification = ushort.MaxValue;
+			return result;
+		}
+
 		public PeptideModificationState Revert(){
 			PeptideModificationState result = Clone();
 			for (int i = 1; i < Modifications.Length - 1; i++){
