@@ -3224,7 +3224,13 @@ namespace BaseLibS.Num{
 				}
 			}
 			Histogram(data1, out double[] x, out double[] y, false, false);
+			if (x.Length < 2){
+				return double.NaN;
+			}
 			int maxInd = MaxInd(y);
+			if (maxInd < 0){
+				return double.NaN;
+			}
 			double max2 = y[maxInd] * 0.5;
 			int leftInd = maxInd;
 			while (y[leftInd] > max2){
