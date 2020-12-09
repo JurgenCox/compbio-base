@@ -3255,6 +3255,35 @@ namespace BaseLibS.Num{
 			return x1 + (x2 - x1) / (y2 - y1) * (y - y1);
 		}
 
+		public static double[] CollapseSimilarValues(double[] a, double eps){
+			bool[] eq = new bool[a.Length - 1];
+			bool any = false;
+			for (int i = 0; i < a.Length - 1; i++){
+				if (a[i + 1] - a[i] < eps){
+					eq[i] = true;
+					any = true;
+				}
+			}
+			if (!any){
+				return a;
+			}
+			List<int[]> clusters = new List<int[]>();
+			List<int> current = new List<int>{0};
+			for (int i = 0; i < eq.Length; i++){
+				if (!eq[i]){
+					clusters.Add(current.ToArray());
+					current.Clear();
+				}
+				current.Add(i + 1);
+			}
+			clusters.Add(current.ToArray());
+			double[] result = new double[clusters.Count];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = a.SubArray(clusters[i]).Mean();
+			}
+			return result;
+		}
+
 		public static HashSet<T> ToHashSet<T>(IEnumerable<T> x){
 			HashSet<T> result = new HashSet<T>();
 			foreach (T t in x){
