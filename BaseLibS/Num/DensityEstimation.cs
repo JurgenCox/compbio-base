@@ -369,6 +369,9 @@ namespace BaseLibS.Num{
 						maxInd = j;
 					}
 				}
+				if (maxInd < 0){
+					return (xmat, yfit, ylower, yupper);
+				}
 				yfit[i] = ymat[maxInd];
 				int upperInd = ymat.Length;
 				for (int j = maxInd; j < ymat.Length; j++){
