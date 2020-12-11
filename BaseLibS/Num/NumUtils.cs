@@ -4,7 +4,6 @@ using System.Linq;
 using BaseLibS.Data;
 using BaseLibS.Num.Func;
 using BaseLibS.Num.Test;
-using BaseLibS.Num.Vector;
 using BaseLibS.Util;
 
 namespace BaseLibS.Num{
@@ -483,6 +482,12 @@ namespace BaseLibS.Num{
 		/// the experimental points from the fitted line.</param>
 		public static void Medfit(double[] x, double[] y, out double a, out double b, out double abdev){
 			int ndata = x.Length;
+			if (ndata == 0){
+				a = double.NaN;
+				b = double.NaN;
+				abdev = double.NaN;
+				return;
+			}
 			double sx = 0.0, sy = 0.0, sxy = 0.0, sxx = 0.0, chisq = 0.0;
 			int ndatat = ndata;
 			double[] xt = x;
@@ -619,6 +624,9 @@ namespace BaseLibS.Num{
 		}
 
 		public static double MedfitOrigin(double[] x, double[] y){
+			if (x.Length == 0){
+				return double.NaN;
+			}
 			double r = MedfitOriginImpl(x, y, out var abdev);
 			double r2 = MedfitOriginImpl(y, x, out abdev);
 			if (r <= 0 || double.IsInfinity(r) || double.IsNaN(r)){
