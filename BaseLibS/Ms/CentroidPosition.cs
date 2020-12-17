@@ -4,7 +4,6 @@ namespace BaseLibS.Ms{
 	/// </summary>
 	public enum CentroidPosition{
 		Gaussian,
-		GaussianNewIntensity,
 		WeightedMean
 	}
 }

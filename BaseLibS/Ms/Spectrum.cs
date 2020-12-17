@@ -121,26 +121,6 @@ namespace BaseLibS.Ms{
 		}
 
 		/// <summary>
-		/// Is a itself local maximum or the right-most of two points making a local maximum.
-		/// </summary>
-		/// <param name="x">Intensity at the index in question.</param>
-		/// <param name="m1">Intensity at that index minus 1.</param>
-		/// <param name="p1">Intensity at that index plus 1.</param>
-		/// <param name="m2">Intensity at that index minus 2.</param>
-		/// <returns></returns>
-		public bool IsMax(double x, double m1, double p1, double m2){
-			if (x > m1 && x > p1){
-				// intensity absolutely greater than immediate neighbors
-				return true;
-			}
-			if (x > m2 && x == m1 && x > p1){
-				// intensity equal to neighbor on left but greater than neighbors outside that
-				return true;
-			}
-			return false;
-		}
-
-		/// <summary>
 		/// Move to the left as long as the next point is strictly lower than the current one but not zero.
 		/// </summary>
 		public int CalcMinPeakIndex(int ind){
