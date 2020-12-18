@@ -278,4 +278,8 @@
     <EmbeddedResource Include="nodes.dmp.gz" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Num\NdArray\Slice\" />
+  </ItemGroup>
+
 </Project>
