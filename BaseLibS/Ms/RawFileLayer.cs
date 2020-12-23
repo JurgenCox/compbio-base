@@ -531,7 +531,7 @@ namespace BaseLibS.Ms{
 		}
 
 		public double[] Index2K0Ms1(int index, double[] imsInds){
-			return rawFile.Index2K0(Ms1ScanNumbers[index], imsInds);
+			return index >= Ms1ScanNumbers.Length ? null : rawFile.Index2K0(Ms1ScanNumbers[index], imsInds);
 		}
 
 		public void GetMs1SpectrumArray(int index, int imsIndexMin, int imsIndexMax, bool readCentroids,
