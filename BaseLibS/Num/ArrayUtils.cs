@@ -896,6 +896,16 @@ namespace BaseLibS.Num{
 			return ConsecutiveLongs(0, to);
 		}
 
+		public static T[,] SubMatrix<T>(this T[,] array, IList<int> indices0, IList<int> indices1){
+			T[,] result = new T[indices0.Count, indices1.Count];
+			for (int i0 = 0; i0 < indices0.Count; i0++){
+				for (int i1 = 0; i1 < indices1.Count; i1++){
+					result[i0, i1] = array[indices0[i0], indices1[i1]];
+				}
+			}
+			return result;
+		}
+
 		/// <summary>
 		///     Extracts the indexed elements from the given array.
 		/// </summary>
