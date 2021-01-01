@@ -93,6 +93,11 @@ namespace BaseLibS.Ms{
 		public double[] Ms3AgcFill{ get; protected internal set; }
 		public int Ms1MassRangeCount{ get; protected internal set; }
 		public double MaxIntensity{ get; protected internal set; }
+		public bool HasFaims{ get; protected internal set; }
+		public double[] FaimsVoltages{ get; protected internal set; }
+		public int[][] FaimsVoltageMs1Inds{ get; protected internal set; }
+		public int[][] FaimsVoltageMs2Inds{ get; protected internal set; }
+		public int[][] FaimsVoltageMs3Inds{ get; protected internal set; }
 		public double[] massRangesMin;
 
 		protected internal RawFileLayer(RawFile rawFile, bool positive){
@@ -150,6 +155,11 @@ namespace BaseLibS.Ms{
 			Ms2MaxNumIms = reader.ReadInt32();
 			Ms1MassRangeCount = reader.ReadInt32();
 			MaxIntensity = reader.ReadDouble();
+			HasFaims = reader.ReadBoolean();
+			FaimsVoltages = FileUtils.ReadDoubleArray(reader);
+			FaimsVoltageMs1Inds = FileUtils.Read2DInt32Array(reader);
+			FaimsVoltageMs2Inds = FileUtils.Read2DInt32Array(reader);
+			FaimsVoltageMs3Inds = FileUtils.Read2DInt32Array(reader);
 			int len = reader.ReadInt32();
 			ms2FragmentationTypes = new FragmentationTypeEnum[len];
 			for (int i = 0; i < len; i++){
@@ -512,7 +522,8 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs2SpectrumArray(int index, int imsIndMin, int imsIndMax, bool readCentroids,
-			out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin, double mzMax){
+			out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
+			double mzMax){
 			rawFile.GetSpectrum(Ms2ScanNumbers[index], Ms2ScanNumbers[index], imsIndMin, imsIndMax, readCentroids,
 				out masses, out intensities, resolution, gridSpacing, mzMin, mzMax, false);
 		}
@@ -535,7 +546,8 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs1SpectrumArray(int index, int imsIndexMin, int imsIndexMax, bool readCentroids,
-			out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin, double mzMax){
+			out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
+			double mzMax){
 			if (index >= Ms1ScanNumbers.Length){
 				masses = null;
 				intensities = null;
@@ -546,8 +558,8 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs1SpectrumArray(int indexMin, int indexMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
-			double mzMax){
+			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing,
+			double mzMin, double mzMax){
 			if (indexMax >= Ms1ScanNumbers.Length || indexMax < 0){
 				masses = null;
 				intensities = null;
@@ -567,8 +579,8 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetMs2SpectrumArray(int indexMin, int indexMax, int imsIndexMin, int imsIndexMax,
-			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
-			double mzMax){
+			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing,
+			double mzMin, double mzMax){
 			if (indexMax >= Ms2ScanNumbers.Length || indexMax < 0){
 				masses = null;
 				intensities = null;
@@ -941,6 +953,11 @@ namespace BaseLibS.Ms{
 			writer.Write(Ms2MaxNumIms);
 			writer.Write(Ms1MassRangeCount);
 			writer.Write(MaxIntensity);
+			writer.Write(HasFaims);
+			FileUtils.Write(FaimsVoltages, writer);
+			FileUtils.Write(FaimsVoltageMs1Inds, writer);
+			FileUtils.Write(FaimsVoltageMs2Inds, writer);
+			FileUtils.Write(FaimsVoltageMs3Inds, writer);
 			writer.Write(ms2FragmentationTypes.Length);
 			foreach (FragmentationTypeEnum t in ms2FragmentationTypes){
 				writer.Write(RawFileUtils.FragmentationTypeEnumToInt(t));
@@ -1185,12 +1202,18 @@ namespace BaseLibS.Ms{
 			return res;
 		}
 
-		internal void SetData(InfoLists infoLists, double maxIntensity){
+		internal void SetData(InfoLists infoLists, double maxIntensity, bool hasFaims, double[] faimsVoltages,
+			int[][] faimsVoltageMs1Inds, int[][] faimsVoltageMs2Inds, int[][] faimsVoltageMs3Inds){
 			SetMs1Data(infoLists.ms1Lists);
 			SetMs2Data(infoLists.ms2Lists);
 			SetMs3Data(infoLists.ms3Lists);
 			Ms1MassRangeCount = infoLists.allMassRanges.Count;
 			MaxIntensity = maxIntensity;
+			HasFaims = hasFaims;
+			FaimsVoltages = faimsVoltages;
+			FaimsVoltageMs1Inds = faimsVoltageMs1Inds;
+			FaimsVoltageMs2Inds = faimsVoltageMs2Inds;
+			FaimsVoltageMs3Inds = faimsVoltageMs3Inds;
 			massRangesMin = new double[infoLists.allMassRanges.Count];
 			infoLists.allMassRanges.Keys.CopyTo(massRangesMin, 0);
 			Array.Sort(massRangesMin);

@@ -14,7 +14,7 @@ namespace BaseLibS.Ms{
 		/// <summary>
 		/// Counter incremented when format used for index files is changed, to avoid using stale index files.
 		/// </summary>
-		private const int indexVersion = 28;
+		private const int indexVersion = 29;
 
 		/// <summary>
 		/// Backing field to the Path property.
@@ -29,17 +29,17 @@ namespace BaseLibS.Ms{
 		/// <summary>
 		/// The RawFileLayer for positive ions.
 		/// </summary>
-		private RawFileLayer[] posLayers;
+		private RawFileLayer posLayer;
 
 		/// <summary>
 		/// The RawFileLayer for negative ions.
 		/// </summary>
-		private RawFileLayer[] negLayers;
+		private RawFileLayer negLayer;
 
-		/// <summary>
-		/// Not used yet (2014-04-01), but will be soon.
-		/// </summary>
-		protected MassGridInfo gridInfo;
+		protected RawFile(){
+			posLayer = new RawFileLayer(this, true);
+			negLayer = new RawFileLayer(this, false);
+		}
 
 		/// <summary>
 		/// In the implementations, several methods start with the block if (!preInitialized){ PreInit(); }, 
@@ -97,18 +97,7 @@ namespace BaseLibS.Ms{
 		/// <summary>
 		/// Sum of Ms1Count from the two layers. No usages found!
 		/// </summary>
-		public int Ms1Count{
-			get{
-				int c = 0;
-				foreach (RawFileLayer layer in posLayers){
-					c += layer.Ms1Count;
-				}
-				foreach (RawFileLayer layer in negLayers){
-					c += layer.Ms1Count;
-				}
-				return c;
-			}
-		}
+		public int Ms1Count => posLayer.Ms1Count + negLayer.Ms1Count;
 
 		public virtual int PasefMsmsCount => 0;
 
@@ -124,150 +113,18 @@ namespace BaseLibS.Ms{
 
 		public double StartTime{
 			get{
-				double min = double.MaxValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.StartTime)){
-							min = Math.Min(min, layer.StartTime);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.StartTime)){
-							min = Math.Min(min, layer.StartTime);
-						}
-					}
-				}
-				return min;
+				if (negLayer.Ms1Count + negLayer.Ms2Count + negLayer.Ms3Count == 0) return posLayer.StartTime;
+				if (posLayer.Ms1Count + posLayer.Ms2Count + posLayer.Ms3Count == 0) return negLayer.StartTime;
+				return Math.Min(posLayer.StartTime, negLayer.StartTime);
 			}
 		}
 
-		public double EndTime{
-			get{
-				double max = double.MinValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.EndTime)){
-							max = Math.Max(max, layer.EndTime);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.EndTime)){
-							max = Math.Max(max, layer.EndTime);
-						}
-					}
-				}
-				return max;
-			}
-		}
-
-		public double Ms1MassMin{
-			get{
-				double min = double.MaxValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.Ms1MassMin)){
-							min = Math.Min(min, layer.Ms1MassMin);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.Ms1MassMin)){
-							min = Math.Min(min, layer.Ms1MassMin);
-						}
-					}
-				}
-				return min;
-			}
-		}
-
-		public double Ms1MassMax{
-			get{
-				double max = double.MinValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.Ms1MassMax)){
-							max = Math.Max(max, layer.Ms1MassMax);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.Ms1MassMax)){
-							max = Math.Max(max, layer.Ms1MassMax);
-						}
-					}
-				}
-				return max;
-			}
-		}
-
-		public double Ms2MassMin{
-			get{
-				double min = double.MaxValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.Ms2MassMin)){
-							min = Math.Min(min, layer.Ms2MassMin);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.Ms2MassMin)){
-							min = Math.Min(min, layer.Ms2MassMin);
-						}
-					}
-				}
-				return min;
-			}
-		}
-
-		public double Ms2MassMax{
-			get{
-				double max = double.MinValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.Ms2MassMax)){
-							max = Math.Max(max, layer.Ms2MassMax);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.Ms2MassMax)){
-							max = Math.Max(max, layer.Ms2MassMax);
-						}
-					}
-				}
-				return max;
-			}
-		}
-
-		public double MaxIntensity{
-			get{
-				double max = double.MinValue;
-				if (posLayers != null){
-					foreach (RawFileLayer layer in posLayers){
-						if (!double.IsNaN(layer.MaxIntensity)){
-							max = Math.Max(max, layer.MaxIntensity);
-						}
-					}
-				}
-				if (negLayers != null){
-					foreach (RawFileLayer layer in negLayers){
-						if (!double.IsNaN(layer.MaxIntensity)){
-							max = Math.Max(max, layer.MaxIntensity);
-						}
-					}
-				}
-				return max;
-			}
-		}
+		public double EndTime => Math.Max(posLayer.EndTime, negLayer.EndTime);
+		public double Ms1MassMin => Math.Min(posLayer.Ms1MassMin, negLayer.Ms1MassMin);
+		public double Ms1MassMax => Math.Max(posLayer.Ms1MassMax, negLayer.Ms1MassMax);
+		public double Ms2MassMin => Math.Min(posLayer.Ms2MassMin, negLayer.Ms2MassMin);
+		public double Ms2MassMax => Math.Max(posLayer.Ms2MassMax, negLayer.Ms2MassMax);
+		public double MaxIntensity => Math.Max(posLayer.MaxIntensity, negLayer.MaxIntensity);
 
 		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin,
 			int imsIndexMax, bool readCentroids, out double[] masses, out float[] intensities, double resolution,
@@ -377,10 +234,6 @@ namespace BaseLibS.Ms{
 
 		private readonly object locker = new object();
 
-		/// <summary>
-		/// Called only by CreateRawFile. Mostly just calls InitFromRawFile.
-		/// </summary>
-		/// <param name="path1">Path to a file containing raw data in a proprietary format.</param>
 		public void Init(string path1){
 			lock (locker){
 				path = path1;
@@ -414,24 +267,14 @@ namespace BaseLibS.Ms{
 
 		private void InitMassGrid(){
 			Dictionary<int, double> mins = new Dictionary<int, double>();
-			if (posLayers != null){
-				foreach (RawFileLayer layer in posLayers){
-					RawFileUtils.InitMassGrid(layer, mins);
-				}
-			}
-			if (negLayers != null){
-				foreach (RawFileLayer layer in negLayers){
-					RawFileUtils.InitMassGrid(layer, mins);
-				}
-			}
+			RawFileUtils.InitMassGrid(posLayer, mins);
+			RawFileUtils.InitMassGrid(negLayer, mins);
 			double[] values = RawFileUtils.MakeMonotone(mins, out int[] indices);
 			RawFileUtils.Interpolate(ref indices, ref values);
 		}
 
 		/// <summary>
 		/// Extract ScanInfo from this RawFile for each scan and add it to the posLayer or negLayer RawFileLayer of this RawFile.
-		/// 
-		/// Only called from InitFromRawFile, which is called only from Init, which is only called from CreateRawFile.
 		/// </summary>
 		private void InitFromRawFileImpl(){
 			InfoLists posInfoList = new InfoLists();
@@ -460,21 +303,33 @@ namespace BaseLibS.Ms{
 			}
 			double[] voltages = faimsVoltages.ToArray();
 			Array.Sort(voltages);
-			if (hasFaims){
-				posLayers = new RawFileLayer[voltages.Length];
-				negLayers = new RawFileLayer[voltages.Length];
-				for (int i = 0; i < voltages.Length; i++){
-					posLayers[i] = new RawFileLayer(this, true);
-					posLayers[i].SetData(posInfoList.FilterVoltage(voltages[i]), maximumIntensity);
-					negLayers[i] = new RawFileLayer(this, false);
-					negLayers[i].SetData(negInfoList.FilterVoltage(voltages[i]), maximumIntensity);
+			posLayer.SetData(posInfoList, maximumIntensity, hasFaims, voltages,
+				GetVoltageInds(voltages, hasFaims, posInfoList.ms1Lists.faimsCv),
+				GetVoltageInds(voltages, hasFaims, posInfoList.ms2Lists.faimsCv),
+				GetVoltageInds(voltages, hasFaims, posInfoList.ms3Lists.faimsCv));
+			negLayer.SetData(negInfoList, maximumIntensity, false, new double[0], new int[0][], new int[0][],
+				new int[0][]);
+		}
+
+		public static int[] GetVoltageInds(double voltage, List<double> faimsCv){
+			List<int> valids = new List<int>();
+			for (int i = 0; i < faimsCv.Count; i++){
+				if (faimsCv[i] == voltage){
+					valids.Add(i);
 				}
-			} else{
-				posLayers = new[]{new RawFileLayer(this, true)};
-				negLayers = new[]{new RawFileLayer(this, false)};
-				posLayers[0].SetData(posInfoList, maximumIntensity);
-				negLayers[0].SetData(negInfoList, maximumIntensity);
 			}
+			return valids.ToArray();
+		}
+
+		public static int[][] GetVoltageInds(double[] voltages, bool hasFaims, List<double> faimsCv){
+			if (!hasFaims){
+				return new int[0][];
+			}
+			int[][] result = new int[voltages.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = GetVoltageInds(voltages[i], faimsCv);
+			}
+			return result;
 		}
 
 		/// <summary>
@@ -488,17 +343,8 @@ namespace BaseLibS.Ms{
 				writer = FileUtils.GetBinaryWriter(IndexFilename);
 				writer.Write(indexVersion);
 				writer.Write("1.0.0.0");
-				writer.Write(posLayers.Length);
-				foreach (RawFileLayer layer in posLayers){
-					layer.Write(writer);
-				}
-				writer.Write(negLayers.Length);
-				foreach (RawFileLayer layer in negLayers){
-					layer.Write(writer);
-				}
-				if (NeedsGrid){
-					gridInfo.Write(writer);
-				}
+				posLayer.Write(writer);
+				negLayer.Write(writer);
 			} finally{
 				writer?.Close();
 			}
@@ -539,56 +385,26 @@ namespace BaseLibS.Ms{
 				//if (!version.Equals(Application.ProductVersion)){
 				//    throw new Exception("Wrong version");
 				//}
-				int n = reader.ReadInt32();
-				posLayers = new RawFileLayer[n];
-				for (int i = 0; i < n; i++){
-					posLayers[i] = new RawFileLayer(reader, this, true);
-				}
-				n = reader.ReadInt32();
-				negLayers = new RawFileLayer[n];
-				for (int i = 0; i < n; i++){
-					negLayers[i] = new RawFileLayer(reader, this, false);
-				}
-				if (NeedsGrid){
-					gridInfo = new MassGridInfo(reader);
-				}
+				posLayer = new RawFileLayer(reader, this, true);
+				negLayer = new RawFileLayer(reader, this, false);
 			} finally{
 				reader?.Close();
 			}
 		}
 
 		public virtual void Dispose(){
-			if (posLayers != null){
-				foreach (RawFileLayer layer in posLayers){
-					layer?.Dispose();
-				}
-				posLayers = null;
-			}
-			if (negLayers != null){
-				foreach (RawFileLayer layer in negLayers){
-					layer?.Dispose();
-				}
-				negLayers = null;
-			}
+			posLayer?.Dispose();
+			posLayer = null;
+			negLayer?.Dispose();
+			negLayer = null;
 		}
 
-		public int PosLayerCount => posLayers?.Length ?? 0;
-		public int NegLayerCount => negLayers?.Length ?? 0;
-
-		public int GetLayerCount(bool positiveMode){
-			return positiveMode ? PosLayerCount : NegLayerCount;
+		public RawFileLayer GetPosLayer(){
+			return posLayer;
 		}
 
-		public RawFileLayer GetPosLayer(int index){
-			return posLayers?[index];
-		}
-
-		public RawFileLayer GetNegLayer(int index){
-			return negLayers?[index];
-		}
-
-		public RawFileLayer GetLayer(bool positiveMode, int index){
-			return positiveMode ? GetPosLayer(index) : GetNegLayer(index);
+		public RawFileLayer GetLayer(bool positiveMode){
+			return positiveMode ? posLayer : negLayer;
 		}
 	}
 }

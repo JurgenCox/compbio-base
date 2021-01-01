@@ -27,7 +27,7 @@ namespace PluginRawMzML.Test
 				var y = raw.LastScanNumber;
 				var z = raw.MaxIntensity;
 				var massMin = raw.Ms1MassMin;
-				var posLayer = raw.GetPosLayer(0);
+				var posLayer = raw.GetPosLayer();
 				posLayer.GetDiaRanges(out var mzMin, out var mzMax);
 				for (int i = 0; i < raw.LastScanNumber; i++)
 				{

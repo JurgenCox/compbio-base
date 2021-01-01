@@ -155,10 +155,5 @@ namespace BaseLibS.Ms{
 			}
 			return -1;
 		}
-
-		internal InfoLists FilterVoltage(double voltage){
-			return new InfoLists(ms1Lists.FilterVoltage(voltage), ms2Lists.FilterVoltage(voltage),
-				ms3Lists.FilterVoltage(voltage), allMassRanges);
-		}
 	}
 }
