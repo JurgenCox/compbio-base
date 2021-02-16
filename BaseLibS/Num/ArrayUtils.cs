@@ -807,17 +807,30 @@ namespace BaseLibS.Num{
 		/// <param name="list"></param>
 		/// <param name="indices"></param>
 		/// <returns></returns>
-		public static List<T> SubList<T>(this IList<T> list, int[] indices){
+		public static List<T> SubList<T>(this IList<T> list, int[] indices)
+		{
 			List<T> result = new List<T>();
-			foreach (int index in indices){
+			foreach (int index in indices)
+			{
 				result.Add(list[index]);
 			}
 			return result;
 		}
 
-		public static List<T> MsSubList<T>(this IList<T> list, IList<int> indices){
+		public static List<T> SubList<T>(IList<T> list, int length){
+			int len = Math.Min(length, list.Count);
 			List<T> result = new List<T>();
-			foreach (int index in indices){
+			for (int i = 0; i < len; i++){
+				result.Add(list[i]);
+			}
+			return result;
+		}
+
+		public static List<T> MsSubList<T>(this IList<T> list, IList<int> indices)
+		{
+			List<T> result = new List<T>();
+			foreach (int index in indices)
+			{
 				result.Add(list[index]);
 			}
 			return result;
