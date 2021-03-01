@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num {
 	public class BayesianInversion1D {
@@ -11,6 +13,20 @@ namespace BaseLibS.Num {
 
 		public BayesianInversion1D(IList<double> xdata, IList<bool> correct, bool debug) {
 			Invert(xdata, correct, out xout, out zout, debug, out forward, out reverse);
+		}
+
+		public BayesianInversion1D(BinaryReader reader){
+			xout = FileUtils.ReadDoubleArray(reader);
+			zout = FileUtils.ReadDoubleArray(reader);
+			forward = FileUtils.ReadDoubleArray(reader);
+			reverse = FileUtils.ReadDoubleArray(reader);
+		}
+
+		public void Write(BinaryWriter writer){
+			FileUtils.Write(xout, writer);
+			FileUtils.Write(zout, writer);
+			FileUtils.Write(forward, writer);
+			FileUtils.Write(reverse, writer);
 		}
 
 		public double GetValue(double x) {
@@ -116,8 +132,6 @@ namespace BaseLibS.Num {
 			double dx = xmax - xmin;
 			xmin -= 0.1 * dx;
 			xmax += 0.1 * dx;
-			double[] falseX;
-			double[] falseZ;
 			int n = trueData.GetLength(0);
 			double cov = ArrayUtils.CalcCovariance(trueData);
 			double fact = Math.Pow(n, 1.0 / 5.0);
@@ -129,10 +143,8 @@ namespace BaseLibS.Num {
 				reverseOut = null;
 				return;
 			}
-			EstimateBivariateDensity(falseData, out falseX, out falseZ, xmin, xmax, hinv);
-			double[] trueX;
-			double[] trueZ;
-			EstimateBivariateDensity(trueData, out trueX, out trueZ, xmin, xmax, hinv);
+			EstimateBivariateDensity(falseData, out var falseX, out var falseZ, xmin, xmax, hinv);
+			EstimateBivariateDensity(trueData, out var trueX, out var trueZ, xmin, xmax, hinv);
 			double[] x = UnifySupport(falseX, trueX);
 			falseZ = Interpolate(x, falseX, falseZ);
 			trueZ = Interpolate(x, trueX, trueZ);
