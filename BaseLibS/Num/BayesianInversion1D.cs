@@ -18,15 +18,22 @@ namespace BaseLibS.Num {
 		public BayesianInversion1D(BinaryReader reader){
 			xout = FileUtils.ReadDoubleArray(reader);
 			zout = FileUtils.ReadDoubleArray(reader);
-			forward = FileUtils.ReadDoubleArray(reader);
-			reverse = FileUtils.ReadDoubleArray(reader);
+			bool debug = reader.ReadBoolean();
+			if (debug){
+				forward = FileUtils.ReadDoubleArray(reader);
+				reverse = FileUtils.ReadDoubleArray(reader);
+			}
 		}
 
 		public void Write(BinaryWriter writer){
 			FileUtils.Write(xout, writer);
 			FileUtils.Write(zout, writer);
-			FileUtils.Write(forward, writer);
-			FileUtils.Write(reverse, writer);
+			bool debug = forward != null;
+			writer.Write(debug);
+			if (debug){
+				FileUtils.Write(forward, writer);
+				FileUtils.Write(reverse, writer);
+			}
 		}
 
 		public double GetValue(double x) {
