@@ -1,13 +1,13 @@
 ﻿using System.Globalization;
 
-namespace BaseLibS.Util {
-	public class Loc : TwoLetterLanguageCode {
-		protected Loc() { }
+namespace BaseLibS.Util{
+	public class Loc : TwoLetterLanguageCode{
+		protected Loc(){ }
 		private static CultureInfo cultureInfo;
 
-		public static CultureInfo CultureInfo {
+		public static CultureInfo CultureInfo{
 			get => cultureInfo ?? (cultureInfo = CultureInfo.CurrentCulture);
-			set {
+			set{
 				twoLettName = null;
 				cultureInfo = value;
 			}
@@ -15,18 +15,18 @@ namespace BaseLibS.Util {
 
 		private static string twoLettName;
 
-		protected static string TwoLettName {
-			get {
-				if (string.IsNullOrEmpty(twoLettName)) {
+		protected static string TwoLettName{
+			get{
+				if (string.IsNullOrEmpty(twoLettName)){
 					twoLettName = CultureInfo.TwoLetterISOLanguageName;
 				}
 				return twoLettName;
 			}
 		}
 
-		public static string Andromeda {
-			get {
-				switch (TwoLettName) {
+		public static string Andromeda{
+			get{
+				switch (TwoLettName){
 					case arabic: return "أندروميدا";
 					case bulgarian: return "Андромеда";
 					case chinese: return "仙女星座";
@@ -60,9 +60,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Cancel {
-			get {
-				switch (TwoLettName) {
+		public static string Cancel{
+			get{
+				switch (TwoLettName){
 					case arabic: return "إلغاء";
 					case bulgarian: return "Отказ";
 					case chinese: return "取消";
@@ -96,9 +96,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string DoYouReallyWantToExit {
-			get {
-				switch (TwoLettName) {
+		public static string DoYouReallyWantToExit{
+			get{
+				switch (TwoLettName){
 					case arabic: return "هل حقا تريد الخروج؟";
 					case bulgarian: return "Наистина ли искате да излезете?";
 					case chinese: return "你真的想退出吗？";
@@ -132,126 +132,118 @@ namespace BaseLibS.Util {
 			}
 		}
 
-	    public static string DoYouReallyWantToExitPerseus
-	    {
-	        get
-	        {
-	            switch (TwoLettName)
-	            {
-	                case arabic: return "هل ترغب في حفظ أي تغييرات قبل الخروج؟";
-	                case bulgarian: return "Искате ли да запазите всички промени, преди да излезете?";
-	                case chinese: return "您想在退出之前保存所有更改吗？";
-	                case czech: return "Chcete uložit změny předtím, než opustíte?";
-	                case danish: return "Vil du gerne gemme nogen ændringer, før du afslutter?";
-	                case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u afsluit?";
-	                case estonian: return "Kas soovite enne väljumist salvestada kõik muudatused?";
-	                case finnish: return "Haluatko tallentaa muutokset ennen poistumista?";
-	                case french: return "Voulez-vous enregistrer les modifications avant de quitter?";
-	                case german: return "Möchten Sie Änderungen speichern, bevor Sie den Vorgang beenden?";
-	                case greek: return "Θέλετε να αποθηκεύσετε τις αλλαγές πριν από την έξοδο;";
-	                case hebrew: return "האם ברצונך לשמור שינויים לפני היציאה?";
-	                case hindi: return "बाहर निकलने से पहले क्या आप कोई बदलाव सहेजना चाहेंगे?";
-	                case italian: return "Vuoi salvare eventuali modifiche prima di uscire?";
-	                case japanese: return "終了する前に変更を保存しますか？";
-	                case korean: return "종료하기 전에 변경 사항을 저장 하시겠습니까?";
-	                case latvian: return "Vai vēlaties izmainīt izmaiņas pirms iziešanas?";
-	                case lithuanian: return "Ar norite ištrinti bet kokius pakeitimus prieš išvykdami?";
-	                case norwegian: return "Vil du lagre eventuelle endringer før du avslutter?";
-	                case persian: return "آیا می خواهید قبل از خروج تغییرات خود را ذخیره کنید؟";
-	                case polish: return "Czy chcesz zapisać jakieś zmiany przed wyjściem?";
-	                case portuguese: return "Você gostaria de salvar as alterações antes de sair?";
-	                case romanian: return "Doriți să salvați toate modificările înainte de a ieși?";
-	                case russian: return "Хотите сохранить какие-либо изменения перед выходом?";
-	                case spanish: return "¿Te gustaría guardar algún cambio antes de salir?";
-	                case swedish: return "Vill du spara några ändringar innan du avslutar?";
-	                case tamil: return "நீங்கள் வெளியேறும் முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
-	                case turkish: return "Çıkmadan önce değişikliklerini kaydetmek ister misiniz?";
-	                default: return "Would you like to save any changes before you exit?";
-	            }
-	        }
-	    }
+		public static string DoYouReallyWantToExitPerseus{
+			get{
+				switch (TwoLettName){
+					case arabic: return "هل ترغب في حفظ أي تغييرات قبل الخروج؟";
+					case bulgarian: return "Искате ли да запазите всички промени, преди да излезете?";
+					case chinese: return "您想在退出之前保存所有更改吗？";
+					case czech: return "Chcete uložit změny předtím, než opustíte?";
+					case danish: return "Vil du gerne gemme nogen ændringer, før du afslutter?";
+					case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u afsluit?";
+					case estonian: return "Kas soovite enne väljumist salvestada kõik muudatused?";
+					case finnish: return "Haluatko tallentaa muutokset ennen poistumista?";
+					case french: return "Voulez-vous enregistrer les modifications avant de quitter?";
+					case german: return "Möchten Sie Änderungen speichern, bevor Sie den Vorgang beenden?";
+					case greek: return "Θέλετε να αποθηκεύσετε τις αλλαγές πριν από την έξοδο;";
+					case hebrew: return "האם ברצונך לשמור שינויים לפני היציאה?";
+					case hindi: return "बाहर निकलने से पहले क्या आप कोई बदलाव सहेजना चाहेंगे?";
+					case italian: return "Vuoi salvare eventuali modifiche prima di uscire?";
+					case japanese: return "終了する前に変更を保存しますか？";
+					case korean: return "종료하기 전에 변경 사항을 저장 하시겠습니까?";
+					case latvian: return "Vai vēlaties izmainīt izmaiņas pirms iziešanas?";
+					case lithuanian: return "Ar norite ištrinti bet kokius pakeitimus prieš išvykdami?";
+					case norwegian: return "Vil du lagre eventuelle endringer før du avslutter?";
+					case persian: return "آیا می خواهید قبل از خروج تغییرات خود را ذخیره کنید؟";
+					case polish: return "Czy chcesz zapisać jakieś zmiany przed wyjściem?";
+					case portuguese: return "Você gostaria de salvar as alterações antes de sair?";
+					case romanian: return "Doriți să salvați toate modificările înainte de a ieși?";
+					case russian: return "Хотите сохранить какие-либо изменения перед выходом?";
+					case spanish: return "¿Te gustaría guardar algún cambio antes de salir?";
+					case swedish: return "Vill du spara några ändringar innan du avslutar?";
+					case tamil: return "நீங்கள் வெளியேறும் முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
+					case turkish: return "Çıkmadan önce değişikliklerini kaydetmek ister misiniz?";
+					default: return "Would you like to save any changes before you exit?";
+				}
+			}
+		}
 
-        public static string DoYouReallyWantToDiscardPerseusSessionLoadSession
-        {
-            get
-            {
-                switch (TwoLettName)
-                {
-                    case arabic: return "هل ترغب في حفظ أي تغييرات قبل تحميل الجلسة؟";
-                    case bulgarian: return "Искате ли да запазите всички промени, преди да заредите сесията?";
-                    case chinese: return "是否要在加载会话之前保存所有更改？";
-                    case czech: return "Chcete uložit změny před načtením relace?";
-                    case danish: return "Vil du gerne gemme eventuelle ændringer, før du indlæser sessionen?";
-                    case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u de sessie laadt?";
-                    case estonian: return "Kas soovite enne sessiooni laadimist salvestada kõik muudatused?";
-                    case finnish: return "Haluatko tallentaa muutokset ennen istunnon lataamista?";
-                    case french: return "Voulez-vous enregistrer les modifications avant de charger la session?";
-                    case german: return "Möchten Sie Änderungen speichern, bevor Sie die Sitzung laden?";
-                    case greek: return "Θέλετε να αποθηκεύσετε οποιεσδήποτε αλλαγές πριν φορτώσετε τη σύνοδο;";
-                    case hebrew: return "האם תרצה לשמור שינויים לפני טעינת ההפעלה?";
-                    case hindi: return "क्या आप सत्र को लोड करने से पहले कोई परिवर्तन सहेजना चाहेंगे?";
-                    case italian: return "Vuoi salvare le modifiche prima di caricare la sessione?";
-                    case japanese: return "セッションをロードする前に変更を保存しますか？";
-                    case korean: return "세션을로드하기 전에 변경 사항을 저장 하시겠습니까?";
-                    case latvian: return "Vai vēlaties saglabāt izmaiņas pirms sesijas ielādes?";
-                    case lithuanian: return "Ar norite išsaugoti pakeitimus prieš įkeliant seansą?";
-                    case norwegian: return "Vil du lagre eventuelle endringer før du laster inn økten?";
-                    case persian: return "آیا می خواهید قبل از بارگذاری جلسه، تغییرات را ذخیره کنید؟";
-                    case polish: return "Czy chcesz zapisać zmiany przed załadowaniem sesji?";
-                    case portuguese: return "Você gostaria de salvar as alterações antes de carregar a sessão?";
-                    case romanian: return "Doriți să salvați toate modificările înainte de a încărca sesiunea?";
-                    case russian: return "Хотите ли вы сохранить какие-либо изменения перед загрузкой сеанса?";
-                    case spanish: return "¿Le gustaría guardar algún cambio antes de cargar la sesión?";
-                    case swedish: return "Vill du spara några ändringar innan du laddar upp sessionen?";
-                    case tamil: return "அமர்வை ஏற்றுவதற்கு முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
-                    case turkish: return "Oturumu yüklemeden önce herhangi bir değişikliği kaydetmek ister misiniz?";
-                    default: return "Would you like to save any changes before you load the session?";
-                }
-            }
-        }
+		public static string DoYouReallyWantToDiscardPerseusSessionLoadSession{
+			get{
+				switch (TwoLettName){
+					case arabic: return "هل ترغب في حفظ أي تغييرات قبل تحميل الجلسة؟";
+					case bulgarian: return "Искате ли да запазите всички промени, преди да заредите сесията?";
+					case chinese: return "是否要在加载会话之前保存所有更改？";
+					case czech: return "Chcete uložit změny před načtením relace?";
+					case danish: return "Vil du gerne gemme eventuelle ændringer, før du indlæser sessionen?";
+					case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u de sessie laadt?";
+					case estonian: return "Kas soovite enne sessiooni laadimist salvestada kõik muudatused?";
+					case finnish: return "Haluatko tallentaa muutokset ennen istunnon lataamista?";
+					case french: return "Voulez-vous enregistrer les modifications avant de charger la session?";
+					case german: return "Möchten Sie Änderungen speichern, bevor Sie die Sitzung laden?";
+					case greek: return "Θέλετε να αποθηκεύσετε οποιεσδήποτε αλλαγές πριν φορτώσετε τη σύνοδο;";
+					case hebrew: return "האם תרצה לשמור שינויים לפני טעינת ההפעלה?";
+					case hindi: return "क्या आप सत्र को लोड करने से पहले कोई परिवर्तन सहेजना चाहेंगे?";
+					case italian: return "Vuoi salvare le modifiche prima di caricare la sessione?";
+					case japanese: return "セッションをロードする前に変更を保存しますか？";
+					case korean: return "세션을로드하기 전에 변경 사항을 저장 하시겠습니까?";
+					case latvian: return "Vai vēlaties saglabāt izmaiņas pirms sesijas ielādes?";
+					case lithuanian: return "Ar norite išsaugoti pakeitimus prieš įkeliant seansą?";
+					case norwegian: return "Vil du lagre eventuelle endringer før du laster inn økten?";
+					case persian: return "آیا می خواهید قبل از بارگذاری جلسه، تغییرات را ذخیره کنید؟";
+					case polish: return "Czy chcesz zapisać zmiany przed załadowaniem sesji?";
+					case portuguese: return "Você gostaria de salvar as alterações antes de carregar a sessão?";
+					case romanian: return "Doriți să salvați toate modificările înainte de a încărca sesiunea?";
+					case russian: return "Хотите ли вы сохранить какие-либо изменения перед загрузкой сеанса?";
+					case spanish: return "¿Le gustaría guardar algún cambio antes de cargar la sesión?";
+					case swedish: return "Vill du spara några ändringar innan du laddar upp sessionen?";
+					case tamil: return "அமர்வை ஏற்றுவதற்கு முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
+					case turkish: return "Oturumu yüklemeden önce herhangi bir değişikliği kaydetmek ister misiniz?";
+					default: return "Would you like to save any changes before you load the session?";
+				}
+			}
+		}
 
-        public static string DoYouReallyWantToDiscardPerseusSessionNewSession
-        {
-            get
-            {
-                switch (TwoLettName)
-                {
-                    case arabic: return "هل ترغب في حفظ أي تغييرات قبل بدء جلسة جديدة؟";
-                    case bulgarian: return "Искате ли да запазите всички промени, преди да започнете нова сесия?";
-                    case chinese: return "您是否要在开始新会话之前保存所有更改？";
-                    case czech: return "Chcete uložit změny před zahájením nové relace?";
-                    case danish: return "Vil du gerne gemme eventuelle ændringer, før du starter en ny session?";
-                    case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u een nieuwe sessie start?";
-                    case estonian: return "Kas soovite enne uue seansi alustamist salvestada kõik muudatused?";
-                    case finnish: return "Haluatko tallentaa muutokset ennen uuden istunnon aloittamista?";
-                    case french: return "Voulez-vous enregistrer les modifications avant de commencer une nouvelle session?";
-                    case german: return "Möchten Sie Änderungen speichern, bevor Sie eine neue Sitzung beginnen?";
-                    case greek: return "Θέλετε να αποθηκεύσετε τις αλλαγές πριν ξεκινήσετε μια νέα συνεδρία;";
-                    case hebrew: return "האם ברצונך לשמור שינויים לפני שתתחיל הפעלה חדשה?";
-                    case hindi: return "क्या आप नया सत्र शुरू करने से पहले कोई बदलाव करना चाहेंगे?";
-                    case italian: return "Desideri salvare le modifiche prima di iniziare una nuova sessione?";
-                    case japanese: return "新しいセッションを開始する前に変更を保存しますか？";
-                    case korean: return "새 세션을 시작하기 전에 변경 사항을 저장 하시겠습니까?";
-                    case latvian: return "Vai vēlaties saglabāt izmaiņas pirms jaunas sesijas sākšanas?";
-                    case lithuanian: return "Ar norite išsaugoti bet kokius pakeitimus prieš pradedant naują sesiją?";
-                    case norwegian: return "Vil du lagre eventuelle endringer før du starter en ny sesjon?";
-                    case persian: return "آیا میخواهید قبل از شروع یک جلسه جدید تغییرات را ذخیره کنید؟";
-                    case polish: return "Czy chcesz zapisać zmiany przed rozpoczęciem nowej sesji?";
-                    case portuguese: return "Você gostaria de salvar as alterações antes de iniciar uma nova sessão?";
-                    case romanian: return "Doriți să salvați toate modificările înainte de a începe o nouă sesiune?";
-                    case russian: return "Хотите ли вы сохранить какие-либо изменения перед началом нового сеанса?";
-                    case spanish: return "¿Desea guardar los cambios antes de comenzar una nueva sesión?";
-                    case swedish: return "Vill du spara några ändringar innan du börjar en ny session?";
-                    case tamil: return "புதிய அமர்வு தொடங்குவதற்கு முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
-                    case turkish: return "Yeni bir oturuma başlamadan önce değişiklikleri kaydetmek ister misiniz?";
-                    default: return "Would you like to save any changes before you start a new session?";
-                }
-            }
-        }
+		public static string DoYouReallyWantToDiscardPerseusSessionNewSession{
+			get{
+				switch (TwoLettName){
+					case arabic: return "هل ترغب في حفظ أي تغييرات قبل بدء جلسة جديدة؟";
+					case bulgarian: return "Искате ли да запазите всички промени, преди да започнете нова сесия?";
+					case chinese: return "您是否要在开始新会话之前保存所有更改？";
+					case czech: return "Chcete uložit změny před zahájením nové relace?";
+					case danish: return "Vil du gerne gemme eventuelle ændringer, før du starter en ny session?";
+					case dutch: return "Wilt u eventuele wijzigingen opslaan voordat u een nieuwe sessie start?";
+					case estonian: return "Kas soovite enne uue seansi alustamist salvestada kõik muudatused?";
+					case finnish: return "Haluatko tallentaa muutokset ennen uuden istunnon aloittamista?";
+					case french:
+						return "Voulez-vous enregistrer les modifications avant de commencer une nouvelle session?";
+					case german: return "Möchten Sie Änderungen speichern, bevor Sie eine neue Sitzung beginnen?";
+					case greek: return "Θέλετε να αποθηκεύσετε τις αλλαγές πριν ξεκινήσετε μια νέα συνεδρία;";
+					case hebrew: return "האם ברצונך לשמור שינויים לפני שתתחיל הפעלה חדשה?";
+					case hindi: return "क्या आप नया सत्र शुरू करने से पहले कोई बदलाव करना चाहेंगे?";
+					case italian: return "Desideri salvare le modifiche prima di iniziare una nuova sessione?";
+					case japanese: return "新しいセッションを開始する前に変更を保存しますか？";
+					case korean: return "새 세션을 시작하기 전에 변경 사항을 저장 하시겠습니까?";
+					case latvian: return "Vai vēlaties saglabāt izmaiņas pirms jaunas sesijas sākšanas?";
+					case lithuanian: return "Ar norite išsaugoti bet kokius pakeitimus prieš pradedant naują sesiją?";
+					case norwegian: return "Vil du lagre eventuelle endringer før du starter en ny sesjon?";
+					case persian: return "آیا میخواهید قبل از شروع یک جلسه جدید تغییرات را ذخیره کنید؟";
+					case polish: return "Czy chcesz zapisać zmiany przed rozpoczęciem nowej sesji?";
+					case portuguese: return "Você gostaria de salvar as alterações antes de iniciar uma nova sessão?";
+					case romanian: return "Doriți să salvați toate modificările înainte de a începe o nouă sesiune?";
+					case russian: return "Хотите ли вы сохранить какие-либо изменения перед началом нового сеанса?";
+					case spanish: return "¿Desea guardar los cambios antes de comenzar una nueva sesión?";
+					case swedish: return "Vill du spara några ändringar innan du börjar en ny session?";
+					case tamil: return "புதிய அமர்வு தொடங்குவதற்கு முன் எந்த மாற்றங்களையும் சேமிக்க விரும்புகிறீர்களா?";
+					case turkish: return "Yeni bir oturuma başlamadan önce değişiklikleri kaydetmek ister misiniz?";
+					default: return "Would you like to save any changes before you start a new session?";
+				}
+			}
+		}
 
-        public static string Exit {
-			get {
-				switch (TwoLettName) {
+		public static string Exit{
+			get{
+				switch (TwoLettName){
 					case arabic: return "ىخرج&";
 					case bulgarian: return "&изход";
 					case chinese: return "&出口";
@@ -285,9 +277,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string File {
-			get {
-				switch (TwoLettName) {
+		public static string File{
+			get{
+				switch (TwoLettName){
 					case arabic: return "ملف&";
 					case bulgarian: return "&досие";
 					case chinese: return "&文件";
@@ -321,9 +313,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Find {
-			get {
-				switch (TwoLettName) {
+		public static string Find{
+			get{
+				switch (TwoLettName){
 					case arabic: return "تجد";
 					case bulgarian: return "намирам";
 					case chinese: return "找";
@@ -357,9 +349,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string FindDots {
-			get {
-				switch (TwoLettName) {
+		public static string FindDots{
+			get{
+				switch (TwoLettName){
 					case arabic:
 					case hebrew:
 					case persian:
@@ -369,9 +361,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string FullScreen {
-			get {
-				switch (TwoLettName) {
+		public static string FullScreen{
+			get{
+				switch (TwoLettName){
 					case arabic: return "شاشة كاملة&";
 					case bulgarian: return "&Цял екран";
 					case chinese: return "&全屏";
@@ -405,9 +397,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Help {
-			get {
-				switch (TwoLettName) {
+		public static string Help{
+			get{
+				switch (TwoLettName){
 					case arabic: return "مساعدة&";
 					case bulgarian: return "&Помощь";
 					case chinese: return "&帮帮我";
@@ -441,9 +433,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Item {
-			get {
-				switch (TwoLettName) {
+		public static string Item{
+			get{
+				switch (TwoLettName){
 					case arabic: return "بند";
 					case bulgarian: return "вещ";
 					case chinese: return "项目";
@@ -477,9 +469,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Items {
-			get {
-				switch (TwoLettName) {
+		public static string Items{
+			get{
+				switch (TwoLettName){
 					case arabic: return "العناصر";
 					case bulgarian: return "елементи";
 					case chinese: return "项目";
@@ -513,9 +505,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string MaxQuant {
-			get {
-				switch (TwoLettName) {
+		public static string MaxQuant{
+			get{
+				switch (TwoLettName){
 					case chinese: return "最大量化";
 					case hebrew: return "מקסימום";
 					case japanese: return "最大量";
@@ -526,9 +518,45 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Ok {
-			get {
-				switch (TwoLettName) {
+		public static string New{
+			get{
+				switch (TwoLettName){
+					case arabic: return "جديد";
+					case bulgarian: return "Ново";
+					case chinese: return "新的";
+					case czech: return "Nový";
+					case danish: return "Ny";
+					case dutch: return "Nieuw";
+					case estonian: return "Uus";
+					case finnish: return "Uusi";
+					case french: return "Nouvelle";
+					case german: return "Neu";
+					case greek: return "Νέος";
+					case hebrew: return "חָדָשׁ";
+					case hindi: return "नवीन व";
+					case italian: return "Nuovo";
+					case japanese: return "新着";
+					case korean: return "새로운";
+					case latvian: return "Jauns";
+					case lithuanian: return "Nauja";
+					case norwegian: return "Ny";
+					case persian: return "جدید";
+					case polish: return "Nowy";
+					case portuguese: return "Novo";
+					case romanian: return "Nou";
+					case russian: return "Новый";
+					case spanish: return "Nuevo";
+					case swedish: return "Ny";
+					case tamil: return "புதியது";
+					case turkish: return "Yeni";
+					default: return "New";
+				}
+			}
+		}
+
+		public static string Ok{
+			get{
+				switch (TwoLettName){
 					case arabic: return "حسنا";
 					case bulgarian: return "Добре";
 					case chinese: return "好";
@@ -562,9 +590,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Perseus {
-			get {
-				switch (TwoLettName) {
+		public static string Perseus{
+			get{
+				switch (TwoLettName){
 					case arabic: return "الغول";
 					case bulgarian: return "Персей";
 					case chinese: return "英仙座";
@@ -598,9 +626,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string PleaseConfirm {
-			get {
-				switch (TwoLettName) {
+		public static string PleaseConfirm{
+			get{
+				switch (TwoLettName){
 					case arabic: return "...يرجى تأكيد";
 					case bulgarian: return "Моля потвърди...";
 					case chinese: return "请确认...";
@@ -634,9 +662,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string PleaseSelectSomeRows {
-			get {
-				switch (TwoLettName) {
+		public static string PleaseSelectSomeRows{
+			get{
+				switch (TwoLettName){
 					case arabic: return ".يرجى تحديد بعض الصفوف";
 					case bulgarian: return "Моля, изберете някои редове.";
 					case chinese: return "请选择一些行。";
@@ -670,9 +698,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string RenameSession {
-			get {
-				switch (TwoLettName) {
+		public static string RenameSession{
+			get{
+				switch (TwoLettName){
 					case arabic: return "...إعادة تسمية الجلسة&";
 					case bulgarian: return "&Преименуване на сесията...";
 					case chinese: return "&重命名会话...";
@@ -706,9 +734,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Save {
-			get {
-				switch (TwoLettName) {
+		public static string Save{
+			get{
+				switch (TwoLettName){
 					case arabic: return "حفظ";
 					case bulgarian: return "Запази";
 					case chinese: return "保存";
@@ -742,9 +770,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string SaveAs {
-			get {
-				switch (TwoLettName) {
+		public static string SaveAs{
+			get{
+				switch (TwoLettName){
 					case arabic: return "حفظ كما";
 					case bulgarian: return "Запази като";
 					case chinese: return "另存为";
@@ -778,9 +806,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string SelectAll {
-			get {
-				switch (TwoLettName) {
+		public static string SelectAll{
+			get{
+				switch (TwoLettName){
 					case arabic: return "اختر الكل";
 					case bulgarian: return "Избери всички";
 					case chinese: return "全选";
@@ -814,9 +842,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Selected {
-			get {
-				switch (TwoLettName) {
+		public static string Selected{
+			get{
+				switch (TwoLettName){
 					case arabic: return "المحدد";
 					case bulgarian: return "подбран";
 					case chinese: return "选";
@@ -850,9 +878,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Session {
-			get {
-				switch (TwoLettName) {
+		public static string Session{
+			get{
+				switch (TwoLettName){
 					case arabic: return "جلسة";
 					case bulgarian: return "сесия";
 					case chinese: return "会议";
@@ -886,9 +914,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Start {
-			get {
-				switch (TwoLettName) {
+		public static string Start{
+			get{
+				switch (TwoLettName){
 					case arabic: return "بداية";
 					case bulgarian: return "начало";
 					case chinese: return "开始";
@@ -922,9 +950,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Stop {
-			get {
-				switch (TwoLettName) {
+		public static string Stop{
+			get{
+				switch (TwoLettName){
 					case arabic: return "توقف";
 					case bulgarian: return "Спри се";
 					case chinese: return "停止";
@@ -958,9 +986,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Tools {
-			get {
-				switch (TwoLettName) {
+		public static string Tools{
+			get{
+				switch (TwoLettName){
 					case arabic: return "أدوات&";
 					case bulgarian: return "&Инструменти";
 					case chinese: return "&工具";
@@ -994,9 +1022,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Version {
-			get {
-				switch (TwoLettName) {
+		public static string Version{
+			get{
+				switch (TwoLettName){
 					case arabic: return "الإصدار";
 					case bulgarian: return "версия";
 					case chinese: return "版";
@@ -1030,9 +1058,9 @@ namespace BaseLibS.Util {
 			}
 		}
 
-		public static string Window {
-			get {
-				switch (TwoLettName) {
+		public static string Window{
+			get{
+				switch (TwoLettName){
 					case arabic: return "نافذة او شباك&";
 					case bulgarian: return "&прозорец";
 					case chinese: return "&窗口";
