@@ -554,6 +554,42 @@ namespace BaseLibS.Util{
 			}
 		}
 
+		public static string NewWindow{
+			get{
+				switch (TwoLettName){
+					case arabic: return "نافذة جديدة";
+					case bulgarian: return "Нов прозорец";
+					case chinese: return "新窗户";
+					case czech: return "Nové okno";
+					case danish: return "Nyt vindue";
+					case dutch: return "Nieuw raam";
+					case estonian: return "Uus aken";
+					case finnish: return "Uusi ikkuna";
+					case french: return "Nouvelle fenetre";
+					case german: return "Neues Fenster";
+					case greek: return "Νέο παράθυρο";
+					case hebrew: return "חלון חדש";
+					case hindi: return "नई विंडो";
+					case italian: return "Nuova finestra";
+					case japanese: return "新しい窓";
+					case korean: return "새창";
+					case latvian: return "Jauns logs";
+					case lithuanian: return "Naujas langas";
+					case norwegian: return "Nytt vindu";
+					case persian: return "پنجره جدید";
+					case polish: return "Nowe okno";
+					case portuguese: return "Nova janela";
+					case romanian: return "Fereastră nouă";
+					case russian: return "Новое окно";
+					case spanish: return "Nueva ventana";
+					case swedish: return "Nytt fönster";
+					case tamil: return "புதிய சாளரம்";
+					case turkish: return "Yeni Pencere";
+					default: return "New window";
+				}
+			}
+		}
+
 		public static string Ok{
 			get{
 				switch (TwoLettName){
