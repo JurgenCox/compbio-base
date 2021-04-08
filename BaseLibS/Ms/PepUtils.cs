@@ -76,7 +76,7 @@ namespace BaseLibS.Ms{
 			return result.ToArray();
 		}
 
-		public static void ClusterProteins(ref string[][] proteinIds, ref string[][] pepSeqs, ref byte[][] isMutated,
+		private static void ClusterProteins(ref string[][] proteinIds, ref string[][] pepSeqs, ref byte[][] isMutated,
 			bool splitTaxonomy, TaxonomyRank rank, ProteinSet proteinSet){
 			int n = proteinIds.Length;
 			string[] taxIds = null;
@@ -166,12 +166,21 @@ namespace BaseLibS.Ms{
 			return true;
 		}
 
+		public static (string[][] proteinNames, string[][] peptideSequences, byte[][] isMutated)
+			GetProteinAndPeptideLists(Dictionary<string, Dictionary<string, byte>> protein2Pep, bool splitTaxonomy,
+				TaxonomyRank rank, ProteinSet proteinSet){
+			(string[][] proteinNames, string[][] peptideSequences, byte[][] isMutated) =
+				CreateProteinAndPeptideLists(protein2Pep, splitTaxonomy, rank, proteinSet);
+			ClusterProteins(ref proteinNames, ref peptideSequences, ref isMutated, splitTaxonomy, rank, proteinSet);
+			return (proteinNames, peptideSequences, isMutated);
+		}
+
 		/// <summary>
 		/// Pre-cluster proteins that have identical peptide sets.
 		/// </summary>
-		public static void CreateProteinAndPeptideLists(Dictionary<string, Dictionary<string, byte>> protein2Pep,
-			out string[][] proteinNames, out string[][] peptideSequences, out byte[][] isMutated, bool splitTaxonomy,
-			TaxonomyRank rank, ProteinSet proteinSet){
+		private static (string[][] proteinNames, string[][] peptideSequences, byte[][] isMutated)
+			CreateProteinAndPeptideLists(Dictionary<string, Dictionary<string, byte>> protein2Pep, bool splitTaxonomy,
+				TaxonomyRank rank, ProteinSet proteinSet){
 			string[] proteinIds = protein2Pep.Keys.ToArray();
 			string[][] peptideSeq = new string[protein2Pep.Count][];
 			byte[][] isMut = new byte[protein2Pep.Count][];
@@ -219,13 +228,13 @@ namespace BaseLibS.Ms{
 				int[] o = names.Order();
 				groupIndices[i] = groupIndices[i].SubArray(o);
 			}
-			proteinNames = new string[groupIndices.Length][];
+			string[][] proteinNames = new string[groupIndices.Length][];
 			for (int i = 0; i < proteinNames.Length; i++){
 				proteinNames[i] = proteinIds.SubArray(groupIndices[i]);
 				Array.Sort(proteinNames[i]);
 			}
-			peptideSequences = new string[groupIndices.Length][];
-			isMutated = new byte[groupIndices.Length][];
+			string[][] peptideSequences = new string[groupIndices.Length][];
+			byte[][] isMutated = new byte[groupIndices.Length][];
 			for (int i = 0; i < proteinNames.Length; i++){
 				peptideSequences[i] = peptideSeq[groupIndices[i][0]];
 				isMutated[i] = isMut[groupIndices[i][0]];
@@ -233,6 +242,7 @@ namespace BaseLibS.Ms{
 				peptideSequences[i] = peptideSequences[i].SubArray(o);
 				isMutated[i] = isMutated[i].SubArray(o);
 			}
+			return (proteinNames, peptideSequences, isMutated);
 		}
 	}
 }
