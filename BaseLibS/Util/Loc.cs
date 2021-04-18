@@ -626,6 +626,42 @@ namespace BaseLibS.Util{
 			}
 		}
 
+		public static string Open{
+			get{
+				switch (TwoLettName){
+					case arabic: return "فتح";
+					case bulgarian: return "Отворете";
+					case chinese: return "打开";
+					case czech: return "Otevřeno";
+					case danish: return "Åben";
+					case dutch: return "Open";
+					case estonian: return "Avatud";
+					case finnish: return "Avata";
+					case french: return "Ouverte";
+					case german: return "Öffnen";
+					case greek: return "Ανοιξε";
+					case hebrew: return "לִפְתוֹחַ";
+					case hindi: return "खुला हुआ";
+					case italian: return "Aperto";
+					case japanese: return "開いた";
+					case korean: return "열다";
+					case latvian: return "Atvērt";
+					case lithuanian: return "Atviras";
+					case norwegian: return "Åpen";
+					case persian: return "باز کن";
+					case polish: return "otwarty";
+					case portuguese: return "Abrir";
+					case romanian: return "Deschis";
+					case russian: return "Открыть";
+					case spanish: return "Abierta";
+					case swedish: return "Öppna";
+					case tamil: return "திற";
+					case turkish: return "Açık";
+					default: return "Open";
+				}
+			}
+		}
+
 		public static string Perseus{
 			get{
 				switch (TwoLettName){
