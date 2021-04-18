@@ -829,7 +829,8 @@ namespace BaseLibS.Util{
 			"identified", "fragmentation", "mass analyzer", "labeling state", "ion mode", "mode", "composition",
 			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
 			"majority library index", "library indices", "species", "matched", "crosslink type", "crosslinkingtype",
-			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files"
+			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files", "dn extended",
+			"dn complete"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -847,7 +848,7 @@ namespace BaseLibS.Util{
 			"pro_intralink2a", "pep_intralink2a", "aa_intralink2a", "pro_intralink2b", "pep_intralink2b",
 			"aa_intralink2b", "pro_unsaturated1", "pep_unsaturated1", "aa_unsaturated1", "pro_unsaturated2",
 			"pep_unsaturated2", "aa_unsaturated2", "annotation", "deamidation (nq) probabilities",
-			"oxidation (m) probabilities", "phospho (sty) probabilities"
+			"oxidation (m) probabilities", "phospho (sty) probabilities", "dn extension sequence"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[]{
@@ -905,7 +906,8 @@ namespace BaseLibS.Util{
 			"initialpeakquality", "mc", "collision energy", "filtered peaks", "reporter pif", "reporter fraction",
 			"matches1", "matches2", "partial score 1", "partial score 2", "sample rt - library rt", "ibaq peptides",
 			"ion mobility length", "1/k0", "1/k0 length", "calibrated 1/k0", "ccs", "ccs length", "calibrated ccs",
-			"ion mobility dip", "library rt"
+			"ion mobility dip", "library rt", "dn extension score", "dn extension norm. score", "dn nterm delta score",
+			"dn cterm delta score", "dn term delta score", "dn agrees with andromeda"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
