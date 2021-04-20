@@ -267,7 +267,7 @@ namespace BaseLib.Forms.Table{
 				return;
 			}
 			textButton.Text = @"↓";
-			tableViewWf.SetCellText = s => auxTextBox.Text = s;
+			tableViewWf.SetCellText = SetAuxText;
 			mainPanel.Controls.Remove(tableView);
 			splitContainer = new SplitContainer();
 			splitContainer.Panel1.Controls.Add(tableView);
@@ -295,7 +295,11 @@ namespace BaseLib.Forms.Table{
 			TextBoxIsVisible = false;
 		}
 
+		private static bool lineBreakAtSemicolon = true;
 		public void SetAuxText(string text){
+			if (lineBreakAtSemicolon && text.Contains(";")){
+				text = text.Replace(";", "\r\n");
+			}
 			auxTextBox.Text = text;
 		}
 
