@@ -9,7 +9,6 @@ namespace BaseLibS.Api.Image{
 		IImageMetadata Metadata { get; set; }
 		float GetValueAt(int t, int x, int y, int z);
 		float GetWeightAt(int c, int x, int y, int z);
-		float GetStatParamAt(int h, int x, int y, int z);
 		bool GetIndicatorAt(int c, int x, int y, int z);
 		int IndicatorCount { get; }
 		float MinValue { get; }
@@ -18,11 +17,9 @@ namespace BaseLibS.Api.Image{
 		bool IsFlat{ get; }
 		int FlatDimension{ get; }
 		bool HasWeights{ get; }
-		bool HasStatParams { get; }
 		int NumComponents{ get; }
 		bool IsTwoSided{ get; }
 		void SetWeights(float[][,,] weights, bool isTwoSided);
-		void AddStatParams(float[,,] statParams);
 		float RepetitionTimeSeconds{ get; }
 		float VoxelSizeXmm { get; }
 		float VoxelSizeYmm { get; }

@@ -9,15 +9,8 @@ namespace BaseLibS.Api.Image{
 		int GetTotalAnatCount();
 		int GetTotalFuncCount();
 		int GetTotalDwiCount();
+		int GetTotalParMapCount();
 		void AddSession(string name);
-
-		//int TotalAnatCount{ get; }
-		//int TotalFuncCount{ get; }
-		//int TotalDwiCount{ get; }
-		//IImageSeries GetAnatAt(int index);
-		//IImageSeries GetFuncAt(int index);
-		//IImageSeries GetDwiAt(int index);
-		//IImageSeries GetAt(MriType type, int index);
 
 	}
 }

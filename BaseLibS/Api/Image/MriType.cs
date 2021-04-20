@@ -2,6 +2,7 @@
 	public enum MriType{
 		Func,
 		Anat,
-		Dwi
+		Dwi,
+		ParMap
 	}
 }
