@@ -1568,9 +1568,9 @@ namespace BaseLib.Forms.Table{
 							modelRowSel[order[selection[selection.Length - 1]]] = false;
 						}
 						SetSelectedViewIndex(selection[selection.Length - 1] + 1);
-						control.MoveDown(RowHeight);
-						control.Invalidate(true);
 					}
+					control.MoveDown(RowHeight);
+					control.Invalidate(true);
 				}
 					break;
 				case Keys2.Shift | Keys2.Up:
@@ -1581,9 +1581,21 @@ namespace BaseLib.Forms.Table{
 							modelRowSel[order[selection[0]]] = false;
 						}
 						SetSelectedViewIndex(selection[0] - 1);
-						control.MoveUp(RowHeight);
-						control.Invalidate(true);
 					}
+					control.MoveUp(RowHeight);
+					control.Invalidate(true);
+				}
+					break;
+				case Keys2.Shift | Keys2.Left:
+				case Keys2.Left:{
+					control.MoveLeft(RowHeight);
+					control.Invalidate(true);
+				}
+					break;
+				case Keys2.Shift | Keys2.Right:
+				case Keys2.Right:{
+					control.MoveRight(RowHeight);
+					control.Invalidate(true);
 				}
 					break;
 				case Keys2.Control | Keys2.A:

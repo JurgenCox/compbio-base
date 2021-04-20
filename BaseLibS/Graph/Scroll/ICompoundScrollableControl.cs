@@ -33,8 +33,10 @@ namespace BaseLibS.Graph.Scroll{
 		void InvalidateColumnHeaderView();
 		void InvalidateRowHeaderView();
 		void InvalidateCornerView();
-		void MoveDown(int rowHeight);
-		void MoveUp(int rowHeight);
+		void MoveDown(int delta);
+		void MoveUp(int delta);
+		void MoveLeft(int delta);
+		void MoveRight(int delta);
 		void SetColumnViewToolTipTitle(string title);
 		void ShowColumnViewToolTip(string text, int x, int y);
 		void HideColumnViewToolTip();

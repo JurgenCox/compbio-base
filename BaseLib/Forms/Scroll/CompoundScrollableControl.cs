@@ -339,16 +339,30 @@ namespace BaseLib.Forms.Scroll{
 			VisibleY = Math.Max(0, VisibleY - delta);
 		}
 
-		public Tuple<int, int> GetOrigin(){
-			Point q = PointToScreen(new Point(0, 0));
-			return new Tuple<int, int>(q.X, q.Y);
-		}
-
 		public void MoveDown(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
+		}
+
+		public void MoveLeft(int delta){
+			if (TotalWidth() <= VisibleWidth){
+				return;
+			}
+			VisibleX = Math.Max(0, VisibleX - delta);
+		}
+
+		public void MoveRight(int delta){
+			if (TotalWidth() <= VisibleWidth){
+				return;
+			}
+			VisibleX = Math.Min(TotalWidth() - VisibleWidth, VisibleX + delta);
+		}
+
+		public Tuple<int, int> GetOrigin(){
+			Point q = PointToScreen(new Point(0, 0));
+			return new Tuple<int, int>(q.X, q.Y);
 		}
 
 		private void InitializeComponent2(){
