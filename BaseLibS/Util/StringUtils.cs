@@ -830,7 +830,8 @@ namespace BaseLibS.Util{
 			"isotope cluster index", "flagged", "from chebi", "completed", "decoy", "slice", "filename",
 			"majority library index", "library indices", "species", "matched", "crosslink type", "crosslinkingtype",
 			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files", "dn extended",
-			"dn complete", "dn agrees with andromeda", "dn any agrees", "dn is dominantly y"
+			"dn complete", "dn agrees with andromeda", "dn agrees with andromeda complete", "dn any agrees",
+			"dn is dominantly y"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -909,7 +910,8 @@ namespace BaseLibS.Util{
 			"ion mobility length", "1/k0", "1/k0 length", "calibrated 1/k0", "ccs", "ccs length", "calibrated ccs",
 			"ion mobility dip", "library rt", "dn extension score", "dn extension norm. score", "dn nterm delta score",
 			"dn cterm delta score", "dn term delta score", "dn full length delta score", "dn protease score",
-			"dn complement score", "dn a2 score", "dn water loss score", "dn ammonia loss score", "dn number of steps"
+			"dn complement score", "dn a2 score", "dn water loss score", "dn ammonia loss score", "dn raw score",
+			"dn complete score", "dn combined score", "dn isomer score", "dn number of steps"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
