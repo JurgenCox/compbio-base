@@ -280,6 +280,7 @@
 
   <ItemGroup>
     <Folder Include="Num\NdArray\Slice\" />
+    <Folder Include="Num\Perform\" />
   </ItemGroup>
 
 </Project>

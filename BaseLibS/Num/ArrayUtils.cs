@@ -3569,5 +3569,13 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
+
+		public static bool[] Invert(IList<bool> x){
+			bool[] result = new bool[x.Count];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = !x[i];
+			}
+			return result;
+		}
 	}
 }
