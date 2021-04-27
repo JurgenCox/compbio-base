@@ -8,6 +8,7 @@ namespace BaseLibS.Graph{
 	[Serializable, DebuggerDisplay("{NameAndArgbValue}")]
 	public struct Color2{
 		public static readonly Color2 Empty = new Color2();
+
 		// static list of known colors... 
 		public static Color2 Transparent => new Color2(KnownColor.Transparent);
 		public static Color2 AliceBlue => new Color2(KnownColor.AliceBlue);
@@ -149,14 +150,18 @@ namespace BaseLibS.Graph{
 		public static Color2 White => new Color2(KnownColor.White);
 		public static Color2 WhiteSmoke => new Color2(KnownColor.WhiteSmoke);
 		public static Color2 Yellow => new Color2(KnownColor.Yellow);
+
 		public static Color2 YellowGreen => new Color2(KnownColor.YellowGreen);
+
 		// NOTE : The "zero" pattern (all members being 0) must represent
 		//      : "not set". This allows "Color c;" to be correct. 
 		private const short stateKnownColorValid = 0x0001;
 		private const short stateArgbValueValid = 0x0002;
 		private const short stateValueMask = stateArgbValueValid;
 		private const short stateNameValid = 0x0008;
+
 		private const int notDefinedValue = 0;
+
 		// Shift count and bit mask for A, R, G, B components in ARGB mode! 
 		private const int argbAlphaShift = 24;
 		private const int argbRedShift = 16;
@@ -257,13 +262,12 @@ namespace BaseLibS.Graph{
 		/// <summary>
 		///     Determines if this color is a system color.
 		/// </summary>
-		public bool IsSystemColor
-			=>
-				IsKnownColor &&
-				(((KnownColor) knownColor <= KnownColor.WindowText) || ((KnownColor) knownColor > KnownColor.YellowGreen));
+		public bool IsSystemColor =>
+			IsKnownColor && (((KnownColor) knownColor <= KnownColor.WindowText) ||
+			                 ((KnownColor) knownColor > KnownColor.YellowGreen));
 
-		private string NameAndArgbValue
-			=> string.Format(CultureInfo.CurrentCulture, "{{Name={0}, ARGB=({1}, {2}, {3}, {4})}}", Name, A, R, G, B);
+		private string NameAndArgbValue =>
+			string.Format(CultureInfo.CurrentCulture, "{{Name={0}, ARGB=({1}, {2}, {3}, {4})}}", Name, A, R, G, B);
 
 		/// <summary>
 		///       Gets the name of this <code>Color2</code> . This will either return the user
@@ -282,7 +286,8 @@ namespace BaseLibS.Graph{
 					if (tablename != null){
 						return tablename;
 					}
-					Debug.Assert(false, "Could not find known color '" + (KnownColor) knownColor + "' in the KnownColorTable");
+					Debug.Assert(false,
+						"Could not find known color '" + (KnownColor) knownColor + "' in the KnownColorTable");
 				}
 
 				// if we reached here, just encode the value
@@ -314,9 +319,8 @@ namespace BaseLibS.Graph{
 		/// Encodes the four values into ARGB (32 bit) format.
 		/// </summary>
 		private static long MakeArgb(byte alpha, byte red, byte green, byte blue){
-			return
-				(long) (uint) (red << argbRedShift | green << argbGreenShift | blue << argbBlueShift | alpha << argbAlphaShift) &
-				0xffffffff;
+			return (long) (uint) (red << argbRedShift | green << argbGreenShift | blue << argbBlueShift |
+			                      alpha << argbAlphaShift) & 0xffffffff;
 		}
 
 		/// <summary>
@@ -327,7 +331,7 @@ namespace BaseLibS.Graph{
 		}
 
 		public Vector4F ToVector4(){
-			return new Vector4F(R/255F, G/255F, B/255F, A/255F);
+			return new Vector4F(R / 255F, G / 255F, B / 255F, A / 255F);
 		}
 
 		public static Color2 FromHexString(string hex){
@@ -363,7 +367,7 @@ namespace BaseLibS.Graph{
 		}
 
 		public static Color2 FromVector4(Vector4F vector){
-			Vector4F clamped = Vector4F.Clamp(vector, Vector4F.Zero, Vector4F.One)*255F;
+			Vector4F clamped = Vector4F.Clamp(vector, Vector4F.Zero, Vector4F.One) * 255F;
 			byte r = (byte) Math.Round(clamped.X);
 			byte g = (byte) Math.Round(clamped.Y);
 			byte b = (byte) Math.Round(clamped.Z);
@@ -379,28 +383,31 @@ namespace BaseLibS.Graph{
 				stateArgbValueValid, 0);
 		}
 
+		public static Color2 FromArgb(float alpha, float red, float green, float blue){
+			return FromArgb((int) (alpha * 255), (int) (red * 255), (int) (green * 255), (int) (blue * 255));
+		}
+
 		/// <summary>
 		///       Creates a new <code>Color2</code> from the specified <code>Color2</code>, but with 
 		///       the new specified alpha value.
 		/// </summary>
 		public static Color2 FromArgb(int alpha, Color2 baseColor){
-			return new Color2((int) MakeArgb(CheckByte(alpha), baseColor.R, baseColor.G, baseColor.B), stateArgbValueValid, 0);
+			return new Color2((int) MakeArgb(CheckByte(alpha), baseColor.R, baseColor.G, baseColor.B),
+				stateArgbValueValid, 0);
 		}
 
 		public static Color2 Darker(Color2 baseColor, int n){
-			return
-				new Color2(
-					(int)
-						MakeArgb(CheckByte(baseColor.A), CheckByte(Math.Max(0, baseColor.R - n)), CheckByte(Math.Max(0, baseColor.G - n)),
-							CheckByte(Math.Max(0, baseColor.B - n))), stateArgbValueValid, 0);
+			return new Color2(
+				(int) MakeArgb(CheckByte(baseColor.A), CheckByte(Math.Max(0, baseColor.R - n)),
+					CheckByte(Math.Max(0, baseColor.G - n)), CheckByte(Math.Max(0, baseColor.B - n))),
+				stateArgbValueValid, 0);
 		}
 
 		public static Color2 Lighter(Color2 baseColor, int n){
-			return
-				new Color2(
-					(int)
-						MakeArgb(CheckByte(baseColor.A), CheckByte(Math.Min(255, baseColor.R + n)),
-							CheckByte(Math.Min(255, baseColor.G + n)), CheckByte(Math.Min(255, baseColor.B + n))), stateArgbValueValid, 0);
+			return new Color2(
+				(int) MakeArgb(CheckByte(baseColor.A), CheckByte(Math.Min(255, baseColor.R + n)),
+					CheckByte(Math.Min(255, baseColor.G + n)), CheckByte(Math.Min(255, baseColor.B + n))),
+				stateArgbValueValid, 0);
 		}
 
 		/// <summary>
@@ -423,9 +430,9 @@ namespace BaseLibS.Graph{
 		///       for this <code>Color2</code>. 
 		/// </summary>
 		public float GetBrightness(){
-			float r = R/255.0f;
-			float g = G/255.0f;
-			float b = B/255.0f;
+			float r = R / 255.0f;
+			float g = G / 255.0f;
+			float b = B / 255.0f;
 			float max = r;
 			float min = r;
 			if (g > max){
@@ -440,7 +447,7 @@ namespace BaseLibS.Graph{
 			if (b < min){
 				min = b;
 			}
-			return (max + min)/2;
+			return (max + min) / 2;
 		}
 
 		/// <summary>
@@ -452,9 +459,9 @@ namespace BaseLibS.Graph{
 			if (R == G && G == B){
 				return 0; // 0 makes as good an UNDEFINED value as any
 			}
-			float r = R/255.0f;
-			float g = G/255.0f;
-			float b = B/255.0f;
+			float r = R / 255.0f;
+			float g = G / 255.0f;
+			float b = B / 255.0f;
 			float hue = 0.0f;
 			float max = r;
 			float min = r;
@@ -472,11 +479,11 @@ namespace BaseLibS.Graph{
 			}
 			float delta = max - min;
 			if (r == max){
-				hue = (g - b)/delta;
+				hue = (g - b) / delta;
 			} else if (g == max){
-				hue = 2 + (b - r)/delta;
+				hue = 2 + (b - r) / delta;
 			} else if (b == max){
-				hue = 4 + (r - g)/delta;
+				hue = 4 + (r - g) / delta;
 			}
 			hue *= 60;
 			if (hue < 0.0f){
@@ -490,9 +497,9 @@ namespace BaseLibS.Graph{
 		///    <code>Color2</code>.
 		/// </summary>
 		public float GetSaturation(){
-			float r = R/255.0f;
-			float g = G/255.0f;
-			float b = B/255.0f;
+			float r = R / 255.0f;
+			float g = G / 255.0f;
+			float b = B / 255.0f;
 			float s = 0;
 			float max = r;
 			float min = r;
@@ -512,11 +519,11 @@ namespace BaseLibS.Graph{
 			// the saturation is zero.
 			//
 			if (max != min){
-				float l = (max + min)/2;
+				float l = (max + min) / 2;
 				if (l <= .5){
-					s = (max - min)/(max + min);
+					s = (max - min) / (max + min);
 				} else{
-					s = (max - min)/(2 - max - min);
+					s = (max - min) / (2 - max - min);
 				}
 			}
 			return s;
@@ -543,20 +550,22 @@ namespace BaseLibS.Graph{
 
 		private static Color2[] GetWebSafeColors(){
 			return new[]{
-				AliceBlue, AntiqueWhite, Aqua, Aquamarine, Azure, Beige, Bisque, Black, BlanchedAlmond, Blue, BlueViolet, Brown,
-				BurlyWood, CadetBlue, Chartreuse, Chocolate, Coral, CornflowerBlue, Cornsilk, Crimson, Cyan, DarkBlue, DarkCyan,
-				DarkGoldenrod, DarkGray, DarkGreen, DarkKhaki, DarkMagenta, DarkOliveGreen, DarkOrange, DarkOrchid, DarkRed,
-				DarkSalmon, DarkSeaGreen, DarkSlateBlue, DarkSlateGray, DarkTurquoise, DarkViolet, DeepPink, DeepSkyBlue, DimGray,
-				DodgerBlue, Firebrick, FloralWhite, ForestGreen, Fuchsia, Gainsboro, GhostWhite, Gold, Goldenrod, Gray, Green,
-				GreenYellow, Honeydew, HotPink, IndianRed, Indigo, Ivory, Khaki, Lavender, LavenderBlush, LawnGreen, LemonChiffon,
-				LightBlue, LightCoral, LightCyan, LightGoldenrodYellow, LightGray, LightGreen, LightPink, LightSalmon, LightSeaGreen,
-				LightSkyBlue, LightSlateGray, LightSteelBlue, LightYellow, Lime, LimeGreen, Linen, Magenta, Maroon, MediumAquamarine,
-				MediumBlue, MediumOrchid, MediumPurple, MediumSeaGreen, MediumSlateBlue, MediumSpringGreen, MediumTurquoise,
-				MediumVioletRed, MidnightBlue, MintCream, MistyRose, Moccasin, NavajoWhite, Navy, OldLace, Olive, OliveDrab, Orange,
-				OrangeRed, Orchid, PaleGoldenrod, PaleGreen, PaleTurquoise, PaleVioletRed, PapayaWhip, PeachPuff, Peru, Pink, Plum,
-				PowderBlue, Purple, Red, RosyBrown, RoyalBlue, SaddleBrown, Salmon, SandyBrown, SeaGreen, SeaShell, Sienna, Silver,
-				SkyBlue, SlateBlue, SlateGray, Snow, SpringGreen, SteelBlue, Tan, Teal, Thistle, Tomato, Transparent, Turquoise,
-				Violet, Wheat, White, WhiteSmoke, Yellow, YellowGreen
+				AliceBlue, AntiqueWhite, Aqua, Aquamarine, Azure, Beige, Bisque, Black, BlanchedAlmond, Blue,
+				BlueViolet, Brown, BurlyWood, CadetBlue, Chartreuse, Chocolate, Coral, CornflowerBlue, Cornsilk,
+				Crimson, Cyan, DarkBlue, DarkCyan, DarkGoldenrod, DarkGray, DarkGreen, DarkKhaki, DarkMagenta,
+				DarkOliveGreen, DarkOrange, DarkOrchid, DarkRed, DarkSalmon, DarkSeaGreen, DarkSlateBlue, DarkSlateGray,
+				DarkTurquoise, DarkViolet, DeepPink, DeepSkyBlue, DimGray, DodgerBlue, Firebrick, FloralWhite,
+				ForestGreen, Fuchsia, Gainsboro, GhostWhite, Gold, Goldenrod, Gray, Green, GreenYellow, Honeydew,
+				HotPink, IndianRed, Indigo, Ivory, Khaki, Lavender, LavenderBlush, LawnGreen, LemonChiffon, LightBlue,
+				LightCoral, LightCyan, LightGoldenrodYellow, LightGray, LightGreen, LightPink, LightSalmon,
+				LightSeaGreen, LightSkyBlue, LightSlateGray, LightSteelBlue, LightYellow, Lime, LimeGreen, Linen,
+				Magenta, Maroon, MediumAquamarine, MediumBlue, MediumOrchid, MediumPurple, MediumSeaGreen,
+				MediumSlateBlue, MediumSpringGreen, MediumTurquoise, MediumVioletRed, MidnightBlue, MintCream,
+				MistyRose, Moccasin, NavajoWhite, Navy, OldLace, Olive, OliveDrab, Orange, OrangeRed, Orchid,
+				PaleGoldenrod, PaleGreen, PaleTurquoise, PaleVioletRed, PapayaWhip, PeachPuff, Peru, Pink, Plum,
+				PowderBlue, Purple, Red, RosyBrown, RoyalBlue, SaddleBrown, Salmon, SandyBrown, SeaGreen, SeaShell,
+				Sienna, Silver, SkyBlue, SlateBlue, SlateGray, Snow, SpringGreen, SteelBlue, Tan, Teal, Thistle, Tomato,
+				Transparent, Turquoise, Violet, Wheat, White, WhiteSmoke, Yellow, YellowGreen
 			};
 		}
 
@@ -564,9 +573,9 @@ namespace BaseLibS.Graph{
 			float y = color.Y;
 			float cb = color.Cb - 128;
 			float cr = color.Cr - 128;
-			byte r = Clamp((byte) (y + 1.402*cr), 0, 255);
-			byte g = Clamp((byte) (y - 0.34414*cb - 0.71414*cr), 0, 255);
-			byte b = Clamp((byte) (y + 1.772*cb), 0, 255);
+			byte r = Clamp((byte) (y + 1.402 * cr), 0, 255);
+			byte g = Clamp((byte) (y - 0.34414 * cb - 0.71414 * cr), 0, 255);
+			byte b = Clamp((byte) (y + 1.772 * cb), 0, 255);
 			return FromArgb(r, g, b);
 		}
 

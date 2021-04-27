@@ -25,7 +25,7 @@ namespace BaseLibS.Graph{
 		/// Initializes a new instance of the <code>Bitmap2</code> class from the specified file.
 		/// </summary>
 		/// <param name="filename">The bitmap file name and path.</param>
-		public Bitmap2(string filename) : this(new FileStream(filename, FileMode.Open)){}
+		public Bitmap2(string filename) : this(new FileStream(filename, FileMode.Open)){ }
 
 		/// <summary>
 		/// Initializes a new instance of the <code>Bitmap2</code> class from the specified data stream.
@@ -39,12 +39,34 @@ namespace BaseLibS.Graph{
 			data = new int[im.Height, im.Width];
 			for (int i = 0; i < im.Pixels.Length; i++){
 				Color2 c = im.Pixels[i];
-				SetPixel(i%im.Width, i/im.Width, Color2.FromArgb(c.A, c.R, c.G, c.B));
+				SetPixel(i % im.Width, i / im.Width, Color2.FromArgb(c.A, c.R, c.G, c.B));
 			}
 		}
 
 		public int Width => data.GetLength(0);
 		public int Height => data.GetLength(1);
+
+		public void Overlay(Bitmap2 b){
+			for (int i = 0; i < data.GetLength(0); i++){
+				for (int j = 0; j < data.GetLength(1); j++){
+					int c1 = data[i, j];
+					float a1 = Color2.GetA(c1) / 255f;
+					float r1 = Color2.GetR(c1) / 255f;
+					float g1 = Color2.GetG(c1) / 255f;
+					float b1 = Color2.GetB(c1) / 255f;
+					int c2 = b.data[i, j];
+					float a2 = Color2.GetA(c2) / 255f;
+					float r2 = Color2.GetR(c2) / 255f;
+					float g2 = Color2.GetG(c2) / 255f;
+					float b2 = Color2.GetB(c2) / 255f;
+					float a0 = a1 + a2 * (1 - a1);
+					float r0 = (r1 * a1 + r2 * a2 * (1 - a1)) / a0;
+					float g0 = (g1 * a1 + g2 * a2 * (1 - a1)) / a0;
+					float b0 = (b1 * a1 + b2 * a2 * (1 - a1)) / a0;
+					data[i, j] = Color2.FromArgb(a0, r0, g0, b0).Value;
+				}
+			}
+		}
 
 		public void SetPixel(int i, int j, int argb){
 			if (i < 0 || j < 0){
@@ -66,7 +88,7 @@ namespace BaseLibS.Graph{
 
 		public void MirrorY(){
 			for (int i = 0; i < Width; i++){
-				for (int j = 0; j < Height/2; j++){
+				for (int j = 0; j < Height / 2; j++){
 					int p = GetPixel(i, j);
 					SetPixel(i, j, GetPixel(i, Height - 1 - j));
 					SetPixel(i, Height - 1 - j, p);
@@ -76,7 +98,7 @@ namespace BaseLibS.Graph{
 
 		public void MirrorX(){
 			for (int j = 0; j < Height; j++){
-				for (int i = 0; i < Width/2; i++){
+				for (int i = 0; i < Width / 2; i++){
 					int p = GetPixel(i, j);
 					SetPixel(i, j, GetPixel(Width - 1 - i, j));
 					SetPixel(Width - 1 - i, j, p);
@@ -164,21 +186,21 @@ namespace BaseLibS.Graph{
 				return;
 			}
 			if (Math.Abs(dx) > Math.Abs(dy)){
-				double a = (y1 - y2)/(double) (x1 - x2);
+				double a = (y1 - y2) / (double) (x1 - x2);
 				for (int x = Math.Min(x1, x2); x <= Math.Max(x1, x2); x++){
-					if (!dots || x%2 == 1){
-						int y = (int) Math.Round(y1 + a*(x - x1));
-						for (int b = -((width1 - 1)/2); b <= width1/2; b++){
+					if (!dots || x % 2 == 1){
+						int y = (int) Math.Round(y1 + a * (x - x1));
+						for (int b = -((width1 - 1) / 2); b <= width1 / 2; b++){
 							SetPixel(x, y + b, argb);
 						}
 					}
 				}
 			} else{
-				double a = (x1 - x2)/(double) (y1 - y2);
+				double a = (x1 - x2) / (double) (y1 - y2);
 				for (int y = Math.Min(y1, y2); y <= Math.Max(y1, y2); y++){
-					if (!dots || y%2 == 1){
-						int x = (int) Math.Round(x1 + a*(y - y1));
-						for (int b = -((width1 - 1)/2); b <= width1/2; b++){
+					if (!dots || y % 2 == 1){
+						int x = (int) Math.Round(x1 + a * (y - y1));
+						for (int b = -((width1 - 1) / 2); b <= width1 / 2; b++){
 							SetPixel(x + b, y, argb);
 						}
 					}
@@ -199,82 +221,82 @@ namespace BaseLibS.Graph{
 			return result;
 		}
 
-        //TODO: smooth effect plot
-  /*      private static Bitmap2 Blur(Bitmap2 image, Int32 blurSize)
-        {
-            return Blur(image, new Rectangle2(0, 0, image.Width, image.Height), blurSize);
-        }
-        */
-     /*   private unsafe static Bitmap2 Blur(Bitmap2 image, Rectangle2 rectangle, Int32 blurSize)
-        {
-            Bitmap2 blurred = new Bitmap2(image.Width, image.Height);
-
-            // make an exact copy of the bitmap provided
-            using (IGraphics graphics = IGraphics.FromImage(blurred))
-                graphics.DrawImage(image, new Rectangle2(0, 0, image.Width, image.Height),
-                    new Rectangle2(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
-
-            // Lock the bitmap's bits
-            BitmapData2 blurredData = blurred.LockBits(new Rectangle2(0, 0, image.Width, image.Height), ImageLockMode.ReadWrite, blurred.PixelFormat);
-
-            // Get bits per pixel for current PixelFormat
-            int bitsPerPixel = Image.GetPixelFormatSize(blurred.PixelFormat);
-
-            // Get pointer to first line
-            byte* scan0 = (byte*)blurredData.Scan0.ToPointer();
-
-            // look at every pixel in the blur rectangle
-            for (int xx = rectangle.X; xx < rectangle.X + rectangle.Width; xx++)
-            {
-                for (int yy = rectangle.Y; yy < rectangle.Y + rectangle.Height; yy++)
-                {
-                    int avgR = 0, avgG = 0, avgB = 0;
-                    int blurPixelCount = 0;
-
-                    // average the color of the red, green and blue for each pixel in the
-                    // blur size while making sure you don't go outside the image bounds
-                    for (int x = xx; (x < xx + blurSize && x < image.Width); x++)
-                    {
-                        for (int y = yy; (y < yy + blurSize && y < image.Height); y++)
-                        {
-                            // Get pointer to RGB
-                            byte* data = scan0 + x * blurredData.Stride + y * bitsPerPixel / 8;
-
-                            avgB += data[0]; // Blue
-                            avgG += data[1]; // Green
-                            avgR += data[2]; // Red
-
-                            blurPixelCount++;
-                        }
-                    }
-
-                    avgR = avgR / blurPixelCount;
-                    avgG = avgG / blurPixelCount;
-                    avgB = avgB / blurPixelCount;
-
-                    // now that we know the average for the blur size, set each pixel to that color
-                    for (int x = xx; x < xx + blurSize && x < image.Width && x < rectangle.Width; x++)
-                    {
-                        for (int y = yy; y < yy + blurSize && y < image.Height && y < rectangle.Height; y++)
-                        {
-                            // Get pointer to RGB
-                            byte* data = scan0 + x * blurredData.Stride + y * bitsPerPixel / 8;
-
-                            // Change values
-                            data[0] = (byte)avgB;
-                            data[1] = (byte)avgG;
-                            data[2] = (byte)avgR;
-                        }
-                    }
-                }
-            }
-
-            // Unlock the bits
-            blurred.UnlockBits(blurredData);
-
-            return blurred;
-        } */
-        public Bitmap2 Lighter(){
+		//TODO: smooth effect plot
+		/*      private static Bitmap2 Blur(Bitmap2 image, Int32 blurSize)
+		      {
+		          return Blur(image, new Rectangle2(0, 0, image.Width, image.Height), blurSize);
+		      }
+		      */
+		/*   private unsafe static Bitmap2 Blur(Bitmap2 image, Rectangle2 rectangle, Int32 blurSize)
+		   {
+		       Bitmap2 blurred = new Bitmap2(image.Width, image.Height);
+   
+		       // make an exact copy of the bitmap provided
+		       using (IGraphics graphics = IGraphics.FromImage(blurred))
+		           graphics.DrawImage(image, new Rectangle2(0, 0, image.Width, image.Height),
+		               new Rectangle2(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
+   
+		       // Lock the bitmap's bits
+		       BitmapData2 blurredData = blurred.LockBits(new Rectangle2(0, 0, image.Width, image.Height), ImageLockMode.ReadWrite, blurred.PixelFormat);
+   
+		       // Get bits per pixel for current PixelFormat
+		       int bitsPerPixel = Image.GetPixelFormatSize(blurred.PixelFormat);
+   
+		       // Get pointer to first line
+		       byte* scan0 = (byte*)blurredData.Scan0.ToPointer();
+   
+		       // look at every pixel in the blur rectangle
+		       for (int xx = rectangle.X; xx < rectangle.X + rectangle.Width; xx++)
+		       {
+		           for (int yy = rectangle.Y; yy < rectangle.Y + rectangle.Height; yy++)
+		           {
+		               int avgR = 0, avgG = 0, avgB = 0;
+		               int blurPixelCount = 0;
+   
+		               // average the color of the red, green and blue for each pixel in the
+		               // blur size while making sure you don't go outside the image bounds
+		               for (int x = xx; (x < xx + blurSize && x < image.Width); x++)
+		               {
+		                   for (int y = yy; (y < yy + blurSize && y < image.Height); y++)
+		                   {
+		                       // Get pointer to RGB
+		                       byte* data = scan0 + x * blurredData.Stride + y * bitsPerPixel / 8;
+   
+		                       avgB += data[0]; // Blue
+		                       avgG += data[1]; // Green
+		                       avgR += data[2]; // Red
+   
+		                       blurPixelCount++;
+		                   }
+		               }
+   
+		               avgR = avgR / blurPixelCount;
+		               avgG = avgG / blurPixelCount;
+		               avgB = avgB / blurPixelCount;
+   
+		               // now that we know the average for the blur size, set each pixel to that color
+		               for (int x = xx; x < xx + blurSize && x < image.Width && x < rectangle.Width; x++)
+		               {
+		                   for (int y = yy; y < yy + blurSize && y < image.Height && y < rectangle.Height; y++)
+		                   {
+		                       // Get pointer to RGB
+		                       byte* data = scan0 + x * blurredData.Stride + y * bitsPerPixel / 8;
+   
+		                       // Change values
+		                       data[0] = (byte)avgB;
+		                       data[1] = (byte)avgG;
+		                       data[2] = (byte)avgR;
+		                   }
+		               }
+		           }
+		       }
+   
+		       // Unlock the bits
+		       blurred.UnlockBits(blurredData);
+   
+		       return blurred;
+		   } */
+		public Bitmap2 Lighter(){
 			Bitmap2 result = new Bitmap2(Width, Height);
 			for (int i = 0; i < Width; i++){
 				for (int j = 0; j < Height; j++){
