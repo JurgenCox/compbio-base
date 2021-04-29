@@ -49,12 +49,12 @@ namespace BaseLibS.Graph{
 		public void Overlay(Bitmap2 b){
 			for (int i = 0; i < data.GetLength(0); i++){
 				for (int j = 0; j < data.GetLength(1); j++){
-					int c1 = data[i, j];
+					int c1 = b.data[i, j];
 					float a1 = Color2.GetA(c1) / 255f;
 					float r1 = Color2.GetR(c1) / 255f;
 					float g1 = Color2.GetG(c1) / 255f;
 					float b1 = Color2.GetB(c1) / 255f;
-					int c2 = b.data[i, j];
+					int c2 = data[i, j];
 					float a2 = Color2.GetA(c2) / 255f;
 					float r2 = Color2.GetR(c2) / 255f;
 					float g2 = Color2.GetG(c2) / 255f;
