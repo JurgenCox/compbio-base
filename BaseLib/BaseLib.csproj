@@ -343,6 +343,8 @@
     <Compile Include="Graphic\SvgGraphics.cs" />
     <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
+    <Compile Include="Param\SaveFolderParamWf.cs" />
+    <Compile Include="Param\SaveFileParamWf.cs" />
     <Compile Include="Param\DictionaryStringValueParamWf.cs" />
     <Compile Include="Param\EmptyParamWf.cs" />
     <Compile Include="Param\BoolParamWf.cs" />
@@ -375,7 +377,6 @@
     </Compile>
     <Compile Include="Param\RegexMatchParamWf.cs" />
     <Compile Include="Param\RegexReplaceParamWf.cs" />
-    <Compile Include="Param\ServerParameterFactory.cs" />
     <Compile Include="Param\ShapeParamWf.cs" />
     <Compile Include="Param\SingleChoiceParamWf.cs" />
     <Compile Include="Param\SingleChoiceWithSubParamsWf.cs" />

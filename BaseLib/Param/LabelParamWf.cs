@@ -9,7 +9,7 @@ namespace BaseLib.Param {
 		public LabelParamWf(string name) : this(name, "") { }
 
 		public LabelParamWf(string name, string value) : base(name, value) {
-			control = new Label() {Text = Value};
+			control = new Label {Text = Value};
 		}
 
 		public override ParamType Type => ParamType.WinForms;

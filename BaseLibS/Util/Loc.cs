@@ -842,9 +842,10 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static string SaveAs{
-			get{
-				switch (TwoLettName){
+		public static string SaveAs {
+			get {
+				switch (TwoLettName)
+				{
 					case arabic: return "حفظ كما";
 					case bulgarian: return "Запази като";
 					case chinese: return "另存为";
@@ -874,6 +875,42 @@ namespace BaseLibS.Util{
 					case tamil: return "சேமி";
 					case turkish: return "Farklı kaydet";
 					default: return "Save as";
+				}
+			}
+		}
+
+		public static string SaveAsImage {
+			get {
+				switch (TwoLettName){
+					case arabic: return "حفظ كصورة";
+					case bulgarian: return "Запазване като изображение";
+					case chinese: return "另存为图片";
+					case czech: return "Uložit jako obrázek";
+					case danish: return "Gem som billede";
+					case dutch: return "Bewaar als afbeelding";
+					case estonian: return "Salvesta pildina";
+					case finnish: return "Tallenna kuvana";
+					case french: return "Enregistrer comme image";
+					case german: return "Als Bild speichern";
+					case greek: return "Αποθήκευση ως εικόνα";
+					case hebrew: return "שמור כתמונה";
+					case hindi: return "छवि के रूप में सहेजें";
+					case italian: return "Salva come immagine";
+					case japanese: return "画像として保存";
+					case korean: return "이미지로 저장";
+					case latvian: return "Saglabāt kā attēlu";
+					case lithuanian: return "Išsaugoti kaip vaizdą";
+					case norwegian: return "Lagre som bilde";
+					case persian: return "ذخیره به عنوان تصویر";
+					case polish: return "Zapisz jako obraz";
+					case portuguese: return "Salvar como imagem";
+					case romanian: return "Salvați ca imagine";
+					case russian: return "Сохранить как изображение";
+					case spanish: return "Guardar como imagen";
+					case swedish: return "Spara som bild";
+					case tamil: return "படமாக சேமிக்கவும்";
+					case turkish: return "Görüntü olarak kaydet";
+					default: return "Save as image";
 				}
 			}
 		}

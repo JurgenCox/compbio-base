@@ -81,7 +81,12 @@ namespace BaseLib.Param{
 			if (p is DictionaryStringValueParam){
 				DictionaryStringValueParam q = (DictionaryStringValueParam) p;
 				DictionaryStringValueParamWf b = new DictionaryStringValueParamWf(q.Name, q.Value){
-					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url, KeyName = q.KeyName, ValueName = q.ValueName
+					Help = q.Help,
+					Visible = q.Visible,
+					Default = q.Default,
+					Url = q.Url,
+					KeyName = q.KeyName,
+					ValueName = q.ValueName
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
 					b.ValueChanged += act;
@@ -137,6 +142,26 @@ namespace BaseLib.Param{
 			if (p is LabelParam){
 				LabelParam q = (LabelParam) p;
 				LabelParamWf b = new LabelParamWf(q.Name, q.Value){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is SaveFileParam){
+				SaveFileParam q = (SaveFileParam) p;
+				SaveFileParamWf b = new SaveFileParamWf(q.Name, q.Value, q.FileName, q.Filter, q.WriteAction){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is SaveFolderParam){
+				SaveFolderParam q = (SaveFolderParam) p;
+				SaveFolderParamWf b = new SaveFolderParamWf(q.Name, q.Value, q.WriteAction){
 					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
 				};
 				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){

@@ -253,6 +253,26 @@
 				}
 				return b;
 			}
+			if (p is SaveFileParam){
+				SaveFileParam q = (SaveFileParam) p;
+				SaveFileParam b = new SaveFileParam(q.Name, q.Value, q.FileName, q.Filter, q.WriteAction){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
+			if (p is SaveFolderParam){
+				SaveFolderParam q = (SaveFolderParam) p;
+				SaveFolderParam b = new SaveFolderParam(q.Name, q.Value, q.WriteAction){
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
 			return p; // and hope for the best
 		}
 	}
