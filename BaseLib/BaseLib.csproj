@@ -58,6 +58,12 @@
     </Compile>
     <Compile Include="Forms\Base\FormUtil.cs" />
     <Compile Include="Forms\Base\Printing.cs" />
+    <Compile Include="Forms\CheckedFileParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\CheckedFileParamControl.Designer.cs">
+      <DependentUpon>CheckedFileParamControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\CheckedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,6 +349,7 @@
     <Compile Include="Graphic\SvgGraphics.cs" />
     <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
+    <Compile Include="Param\CheckedFileParamWf.cs" />
     <Compile Include="Param\SaveFolderParamWf.cs" />
     <Compile Include="Param\SaveFileParamWf.cs" />
     <Compile Include="Param\DictionaryStringValueParamWf.cs" />
@@ -433,6 +440,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\CheckedFileParamControl.resx">
+      <DependentUpon>CheckedFileParamControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\CheckedListControl.resx">
       <DependentUpon>CheckedListControl.cs</DependentUpon>
     </EmbeddedResource>

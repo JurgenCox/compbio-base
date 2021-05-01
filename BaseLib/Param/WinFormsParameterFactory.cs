@@ -103,6 +103,22 @@ namespace BaseLib.Param{
 				}
 				return b;
 			}
+			if (p is CheckedFileParam){
+				CheckedFileParam q = (CheckedFileParam) p;
+				CheckedFileParamWf b = new CheckedFileParamWf(q.Name, q.Value, q.checkFileName){
+					Help = q.Help,
+					Visible = q.Visible,
+					Default = q.Default,
+					Filter = q.Filter,
+					ProcessFileName = q.ProcessFileName,
+					Save = q.Save,
+					Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
 			if (p is FileParam){
 				FileParam q = (FileParam) p;
 				FileParamWf b = new FileParamWf(q.Name, q.Value){

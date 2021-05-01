@@ -89,6 +89,22 @@
 				}
 				return b;
 			}
+			if (p is CheckedFileParam){
+				CheckedFileParam q = (CheckedFileParam) p;
+				CheckedFileParam b = new CheckedFileParam(q.Name, q.Value, q.checkFileName){
+					Help = q.Help,
+					Visible = q.Visible,
+					Default = q.Default,
+					Filter = q.Filter,
+					ProcessFileName = q.ProcessFileName,
+					Save = q.Save,
+					Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
+					b.ValueChanged += act;
+				}
+				return b;
+			}
 			if (p is FileParam){
 				FileParam q = (FileParam) p;
 				FileParam b = new FileParam(q.Name, q.Value){
