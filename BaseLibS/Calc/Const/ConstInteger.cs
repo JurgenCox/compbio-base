@@ -14,7 +14,7 @@ namespace BaseLibS.Calc.Const{
 		}
 
 		internal override string ShortName => null;
-		internal override double NumEvaluateDouble => double.Parse(number.ToString());
+		internal override double NumEvaluateDouble => Parser.Double(number.ToString());
 		internal override ReturnType ReturnType => ReturnType.Integer;
 		internal override string Name => "";
 		internal override string Description => "";

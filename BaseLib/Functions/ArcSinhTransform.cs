@@ -85,13 +85,13 @@ namespace BaseLib.Functions
 
         public double ExtraNeg
         {
-            get => Double.Parse(NegText.Text, CultureInfo.InvariantCulture);
+            get => Parser.Double(NegText.Text);
             set => NegText.Text = "" + value;
         }
 
         public double GetMaximumZoom
         {
-            get => Double.Parse(maxValueTextBox.Text, CultureInfo.InvariantCulture);
+            get => Parser.Double(maxValueTextBox.Text);
             set => maxValueTextBox.Text = "" + value;
         }
 

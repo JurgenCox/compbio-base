@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using BaseLibS.Util;
 
 namespace BaseLibS.Test
 {
@@ -22,7 +23,7 @@ namespace BaseLibS.Test
                     while ((line = reader.ReadLine()) != null)
                     {
                         if (line.StartsWith("#")) { continue; }
-                        lines.Add(line.Split('\t').Take(m).Select(float.Parse).ToArray());
+                        lines.Add(line.Split('\t').Take(m).Select(Parser.Float).ToArray());
                     }
                     int n = lines.Count;
                     vals = new float[n,m];

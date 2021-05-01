@@ -23,8 +23,8 @@ namespace BaseLibS.Calc.Const{
 
 		internal override double NumEvaluateDouble{
 			get{
-				double n = double.Parse(numerator.ToString());
-				double d = double.Parse(denominator.ToString());
+				double n = Parser.Double(numerator.ToString());
+				double d = Parser.Double(denominator.ToString());
 				return n/d;
 			}
 		}
