@@ -18,12 +18,27 @@ namespace BaseLibS.Param{
 			this.collapsedDefault = collapsedDefault;
 		}
 
-		private ParameterGroup(){}
+		public ParameterGroup(string name, bool collapsedDefault) :
+			this(new List<Parameter>(), name, collapsedDefault){ }
+
+		private ParameterGroup(){ }
 
 		public void Convert(Func<Parameter, Parameter> map){
 			for (int i = 0; i < parameters.Count; i++){
 				parameters[i] = map(parameters[i]);
 			}
+		}
+
+		public void Add(Parameter parameter){
+			parameters.Add(parameter);
+		}
+
+		public ParameterGroup ConvertNew(Func<Parameter, Parameter> map){
+			ParameterGroup result = new ParameterGroup(name, collapsedDefault);
+			foreach (Parameter t in parameters){
+				result.Add(map(t));
+			}
+			return result;
 		}
 
 		public bool CollapsedDefault{
@@ -113,10 +128,9 @@ namespace BaseLibS.Param{
 			throw new NotImplementedException();
 		}
 
-		public void ReadXml(XmlReader reader)
-		{
-		    Name = reader.GetAttribute("Name");
-		    CollapsedDefault = bool.Parse(reader.GetAttribute("CollapsedDefault"));
+		public void ReadXml(XmlReader reader){
+			Name = reader.GetAttribute("Name");
+			CollapsedDefault = bool.Parse(reader.GetAttribute("CollapsedDefault"));
 			bool isEmpty = reader.IsEmptyElement;
 			reader.ReadStartElement();
 			if (!isEmpty){

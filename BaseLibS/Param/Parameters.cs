@@ -26,6 +26,14 @@ namespace BaseLibS.Param{
 			}
 		}
 
+		public Parameters ConvertNew(Func<Parameter, Parameter> map){
+			Parameters result = new Parameters();
+			foreach (ParameterGroup t in paramGroups){
+				result.AddParameterGroup(t.ConvertNew(map));
+			}
+			return result;
+		}
+
 		public Parameters GetSubGroupAt(int index){
 			return new Parameters(paramGroups[index].ParameterList);
 		}
@@ -69,6 +77,10 @@ namespace BaseLibS.Param{
 
 		public void AddParameterGroup(IList<Parameter> param, string name, bool collapsed){
 			paramGroups.Add(new ParameterGroup(param, name, collapsed));
+		}
+
+		public void AddParameterGroup(ParameterGroup pg){
+			paramGroups.Add(pg);
 		}
 
 		public int Count{
