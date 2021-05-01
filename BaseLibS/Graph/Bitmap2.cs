@@ -323,5 +323,15 @@ namespace BaseLibS.Graph{
 			file1.Close();
 			return bm;
 		}
+
+		public static Bitmap2 GetImage(Assembly exe, string path){
+			Stream file1 = exe.GetManifestResourceStream(path);
+			if (file1 == null){
+				return null;
+			}
+			Bitmap2 bm = Image2.ReadImage(file1);
+			file1.Close();
+			return bm;
+		}
 	}
 }
