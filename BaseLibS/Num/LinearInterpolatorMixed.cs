@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num{
 	[Serializable]
@@ -194,12 +195,12 @@ namespace BaseLibS.Num{
 		}
 
 		private static float Interpolate(double x1, double x2, float y1, float y2, double x){
-			return (float)((y2 - y1) / (x2 - x1) * (x - x1) + y1);
+			return (float) ((y2 - y1) / (x2 - x1) * (x - x1) + y1);
 		}
 
 		private static float Interpolate(double x1, double x2, float y1, float y2, double x, out double dydx){
 			dydx = (y2 - y1) / (x2 - x1);
-			return (float)(dydx * (x - x1) + y1);
+			return (float) (dydx * (x - x1) + y1);
 		}
 
 		public void Dispose(){
@@ -236,7 +237,7 @@ namespace BaseLibS.Num{
 			StreamWriter writer = new StreamWriter(filename);
 			writer.WriteLine("x" + "\t" + "y");
 			for (int i = 0; i < xvals.Length; i++){
-				writer.WriteLine(xvals[i] + "\t" + yvals[i]);
+				writer.WriteLine(Parser.ToString(xvals[i]) + "\t" + Parser.ToString(yvals[i]));
 			}
 			writer.Close();
 		}

@@ -8,7 +8,6 @@ using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using BaseLibS.Api;
 using BaseLibS.Api.Generic;
 using BaseLibS.Mol;
 using BaseLibS.Num;
@@ -1111,7 +1110,7 @@ namespace BaseLibS.Util{
 			for (int line = 0; line < numbers[0].Count; line++){
 				writer.Write(numbers[0][line]);
 				for (int i = 1; i < headings.Count; i++){
-					writer.Write("\t" + numbers[i][line]);
+					writer.Write("\t" + Parser.ToString(numbers[i][line]));
 				}
 				writer.WriteLine();
 			}

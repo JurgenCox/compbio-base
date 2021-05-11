@@ -1,4 +1,5 @@
 ﻿using System;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num.Space{
 	public class Matrix3X3F{
@@ -11,7 +12,7 @@ namespace BaseLibS.Num.Space{
 		public float m20;
 		public float m21;
 		public float m22;
-		public Matrix3X3F(){}
+		public Matrix3X3F(){ }
 
 		public Matrix3X3F(float[] v){
 			Set(v);
@@ -384,9 +385,10 @@ namespace BaseLibS.Num.Space{
 			if (s == 0.0){
 				return;
 			}
-			s = 1/s;
-			Set(m11*m22 - m12*m21, m02*m21 - m01*m22, m01*m12 - m02*m11, m12*m20 - m10*m22, m00*m22 - m02*m20, m02*m10 - m00*m12,
-				m10*m21 - m11*m20, m01*m20 - m00*m21, m00*m11 - m01*m10);
+			s = 1 / s;
+			Set(m11 * m22 - m12 * m21, m02 * m21 - m01 * m22, m01 * m12 - m02 * m11, m12 * m20 - m10 * m22,
+				m00 * m22 - m02 * m20, m02 * m10 - m00 * m12, m10 * m21 - m11 * m20, m01 * m20 - m00 * m21,
+				m00 * m11 - m01 * m10);
 			Scale((float) s);
 		}
 
@@ -452,11 +454,15 @@ namespace BaseLibS.Num.Space{
 		}
 
 		public void Multiply(Matrix3X3F m1, Matrix3X3F m2){
-			Set(m1.m00*m2.m00 + m1.m01*m2.m10 + m1.m02*m2.m20, m1.m00*m2.m01 + m1.m01*m2.m11 + m1.m02*m2.m21,
-				m1.m00*m2.m02 + m1.m01*m2.m12 + m1.m02*m2.m22, m1.m10*m2.m00 + m1.m11*m2.m10 + m1.m12*m2.m20,
-				m1.m10*m2.m01 + m1.m11*m2.m11 + m1.m12*m2.m21, m1.m10*m2.m02 + m1.m11*m2.m12 + m1.m12*m2.m22,
-				m1.m20*m2.m00 + m1.m21*m2.m10 + m1.m22*m2.m20, m1.m20*m2.m01 + m1.m21*m2.m11 + m1.m22*m2.m21,
-				m1.m20*m2.m02 + m1.m21*m2.m12 + m1.m22*m2.m22);
+			Set(m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20,
+				m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21,
+				m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22,
+				m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20,
+				m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21,
+				m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22,
+				m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20,
+				m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21,
+				m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22);
 		}
 
 		public override bool Equals(object o){
@@ -464,21 +470,21 @@ namespace BaseLibS.Num.Space{
 				return false;
 			}
 			Matrix3X3F m = (Matrix3X3F) o;
-			return m00 == m.m00 && m01 == m.m01 && m02 == m.m02 && m10 == m.m10 && m11 == m.m11 && m12 == m.m12 && m20 == m.m20 &&
-					m21 == m.m21 && m22 == m.m22;
+			return m00 == m.m00 && m01 == m.m01 && m02 == m.m02 && m10 == m.m10 && m11 == m.m11 && m12 == m.m12 &&
+			       m20 == m.m20 && m21 == m.m21 && m22 == m.m22;
 		}
 
 		public override int GetHashCode(){
 			unchecked{
 				int hashCode = m00.GetHashCode();
-				hashCode = (hashCode*397) ^ m01.GetHashCode();
-				hashCode = (hashCode*397) ^ m02.GetHashCode();
-				hashCode = (hashCode*397) ^ m10.GetHashCode();
-				hashCode = (hashCode*397) ^ m11.GetHashCode();
-				hashCode = (hashCode*397) ^ m12.GetHashCode();
-				hashCode = (hashCode*397) ^ m20.GetHashCode();
-				hashCode = (hashCode*397) ^ m21.GetHashCode();
-				hashCode = (hashCode*397) ^ m22.GetHashCode();
+				hashCode = (hashCode * 397) ^ m01.GetHashCode();
+				hashCode = (hashCode * 397) ^ m02.GetHashCode();
+				hashCode = (hashCode * 397) ^ m10.GetHashCode();
+				hashCode = (hashCode * 397) ^ m11.GetHashCode();
+				hashCode = (hashCode * 397) ^ m12.GetHashCode();
+				hashCode = (hashCode * 397) ^ m20.GetHashCode();
+				hashCode = (hashCode * 397) ^ m21.GetHashCode();
+				hashCode = (hashCode * 397) ^ m22.GetHashCode();
 				return hashCode;
 			}
 		}
@@ -501,8 +507,9 @@ namespace BaseLibS.Num.Space{
 		}
 
 		public override string ToString(){
-			return "[\n  [" + m00 + "\t" + m01 + "\t" + m02 + "]" + "\n  [" + m10 + "\t" + m11 + "\t" + m12 + "]" + "\n  [" + m20 +
-					"\t" + m21 + "\t" + m22 + "] ]";
+			return "[\n  [" + Parser.ToString(m00) + "\t" + Parser.ToString(m01) + "\t" + Parser.ToString(m02) + "]" +
+			       "\n  [" + Parser.ToString(m10) + "\t" + Parser.ToString(m11) + "\t" + Parser.ToString(m12) + "]" +
+			       "\n  [" + Parser.ToString(m20) + "\t" + Parser.ToString(m21) + "\t" + Parser.ToString(m22) + "] ]";
 		}
 
 		public Matrix3X3F Set(AxisVector3F a){
@@ -512,50 +519,50 @@ namespace BaseLibS.Num.Space{
 			double angle = a.angle;
 			// Taken from Rick's which is taken from Wertz. pg. 412
 			// Bug Fixed and changed into right-handed by hiranabe
-			double n = Math.Sqrt(x*x + y*y + z*z);
+			double n = Math.Sqrt(x * x + y * y + z * z);
 			// zero-div may occur
-			n = 1/n;
+			n = 1 / n;
 			x *= n;
 			y *= n;
 			z *= n;
 			double c = Math.Cos(angle);
 			double s = Math.Sin(angle);
 			double omc = 1.0 - c;
-			m00 = (float) (c + x*x*omc);
-			m11 = (float) (c + y*y*omc);
-			m22 = (float) (c + z*z*omc);
-			double tmp1 = x*y*omc;
-			double tmp2 = z*s;
+			m00 = (float) (c + x * x * omc);
+			m11 = (float) (c + y * y * omc);
+			m22 = (float) (c + z * z * omc);
+			double tmp1 = x * y * omc;
+			double tmp2 = z * s;
 			m01 = (float) (tmp1 - tmp2);
 			m10 = (float) (tmp1 + tmp2);
-			tmp1 = x*z*omc;
-			tmp2 = y*s;
+			tmp1 = x * z * omc;
+			tmp2 = y * s;
 			m02 = (float) (tmp1 + tmp2);
 			m20 = (float) (tmp1 - tmp2);
-			tmp1 = y*z*omc;
-			tmp2 = x*s;
+			tmp1 = y * z * omc;
+			tmp2 = x * s;
 			m12 = (float) (tmp1 - tmp2);
 			m21 = (float) (tmp1 + tmp2);
 			return this;
 		}
 
 		public bool SetAsBallRotation(float responseFactor, float dx, float dy){
-			float r = (float) Math.Sqrt(dx*dx + dy*dy);
-			float th = r*responseFactor;
+			float r = (float) Math.Sqrt(dx * dx + dy * dy);
+			float th = r * responseFactor;
 			if (th == 0){
 				SetScale(1);
 				return false;
 			}
 			float c = (float) Math.Cos(th);
 			float s = (float) Math.Sin(th);
-			float nx = -dy/r;
-			float ny = dx/r;
+			float nx = -dy / r;
+			float ny = dx / r;
 			float c1 = c - 1;
-			m00 = 1 + c1*nx*nx;
-			m01 = m10 = c1*nx*ny;
-			m20 = -(m02 = s*nx);
-			m11 = 1 + c1*ny*ny;
-			m21 = -(m12 = s*ny);
+			m00 = 1 + c1 * nx * nx;
+			m01 = m10 = c1 * nx * ny;
+			m20 = -(m02 = s * nx);
+			m11 = 1 + c1 * ny * ny;
+			m21 = -(m12 = s * ny);
 			m22 = c;
 			return true;
 		}
@@ -569,11 +576,12 @@ namespace BaseLibS.Num.Space{
 		}
 
 		public void Rotate(Vector3F t, Vector3F result){
-			result.Set(m00*t.x + m01*t.y + m02*t.z, m10*t.x + m11*t.y + m12*t.z, m20*t.x + m21*t.y + m22*t.z);
+			result.Set(m00 * t.x + m01 * t.y + m02 * t.z, m10 * t.x + m11 * t.y + m12 * t.z,
+				m20 * t.x + m21 * t.y + m22 * t.z);
 		}
 
 		public float Determinant(){
-			return m00*(m11*m22 - m21*m12) - m01*(m10*m22 - m20*m12) + m02*(m10*m21 - m20*m11);
+			return m00 * (m11 * m22 - m21 * m12) - m01 * (m10 * m22 - m20 * m12) + m02 * (m10 * m21 - m20 * m11);
 		}
 
 		private void SetImpl(Matrix3X3F m1){

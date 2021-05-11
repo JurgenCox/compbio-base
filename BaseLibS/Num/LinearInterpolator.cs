@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BaseLibS.Util;
 
 namespace BaseLibS.Num{
 	[Serializable]
@@ -60,8 +61,8 @@ namespace BaseLibS.Num{
 			double[] newX = new double[xvals.Length];
 			double[] newY = new double[xvals.Length];
 			for (int i = 0; i < newX.Length; i++){
-				newX[i] = xvals[i]*width + mean;
-				newY[i] = yvals[i]*height;
+				newX[i] = xvals[i] * width + mean;
+				newY[i] = yvals[i] * height;
 			}
 			return new LinearInterpolator(newX, newY);
 		}
@@ -87,29 +88,22 @@ namespace BaseLibS.Num{
 				dydx = 0;
 				return yvals[0];
 			}
-
 			int i;
-			if (x <= xvals[0])
-			{
-				for (i = 1; i < xvals.Length; i++)
-				{
-					if (xvals[i] != xvals[0])
-					{
-						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x, out dydx);						
+			if (x <= xvals[0]){
+				for (i = 1; i < xvals.Length; i++){
+					if (xvals[i] != xvals[0]){
+						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x, out dydx);
 					}
-				} 
+				}
 				throw new Exception("Values are the same");
 			}
 			if (x >= xvals[xvals.Length - 1]){
-				for (i = xvals.Length - 2; i >= 0 ; i--)
-				{
-					if (xvals[i] != xvals[xvals.Length - 1])
-					{
-						return Interpolate(xvals[i], xvals[xvals.Length - 1], 
-							               yvals[i], yvals[xvals.Length - 1], 
-							               x, out dydx);					
+				for (i = xvals.Length - 2; i >= 0; i--){
+					if (xvals[i] != xvals[xvals.Length - 1]){
+						return Interpolate(xvals[i], xvals[xvals.Length - 1], yvals[i], yvals[xvals.Length - 1], x,
+							out dydx);
 					}
-				} 
+				}
 				throw new Exception("Values are the same");
 			}
 			int a = Array.BinarySearch(xvals, x);
@@ -131,27 +125,20 @@ namespace BaseLibS.Num{
 				return yvals[0];
 			}
 			int i;
-			if (x <= xvals[0])
-			{
-				for (i = 1; i < xvals.Length; i++)
-				{
-					if (xvals[i] != xvals[0])
-					{
-						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x);						
+			if (x <= xvals[0]){
+				for (i = 1; i < xvals.Length; i++){
+					if (xvals[i] != xvals[0]){
+						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x);
 					}
-				} 
+				}
 				throw new Exception("Values are the same");
 			}
 			if (x >= xvals[xvals.Length - 1]){
-				for (i = xvals.Length - 2; i >= 0 ; i--)
-				{
-					if (xvals[i] != xvals[xvals.Length - 1])
-					{
-						return Interpolate(xvals[i], xvals[xvals.Length - 1], 
-							yvals[i], yvals[xvals.Length - 1], 
-							x);					
+				for (i = xvals.Length - 2; i >= 0; i--){
+					if (xvals[i] != xvals[xvals.Length - 1]){
+						return Interpolate(xvals[i], xvals[xvals.Length - 1], yvals[i], yvals[xvals.Length - 1], x);
 					}
-				} 
+				}
 				throw new Exception("Values are the same");
 			}
 			int a = Array.BinarySearch(xvals, x);
@@ -175,35 +162,26 @@ namespace BaseLibS.Num{
 				return yvals[0];
 			}
 			int i;
-			if (x <= xvals[0])
-			{
-				for (i = 1; i < xvals.Length; i++)
-				{
-					if (xvals[i] != xvals[0])
-					{
+			if (x <= xvals[0]){
+				for (i = 1; i < xvals.Length; i++){
+					if (xvals[i] != xvals[0]){
 						dyda[0] = Dy1(xvals[0], xvals[i], x);
 						dyda[i] = Dy2(xvals[0], xvals[i], x);
-						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x);					
+						return Interpolate(xvals[0], xvals[i], yvals[0], yvals[i], x);
 					}
-				} 
+				}
 				throw new Exception("Values are the same");
 			}
 			if (x >= xvals[xvals.Length - 1]){
-				for (i = xvals.Length - 2; i >= 0 ; i--)
-				{
-					if (xvals[i] != xvals[xvals.Length - 1])
-					{
+				for (i = xvals.Length - 2; i >= 0; i--){
+					if (xvals[i] != xvals[xvals.Length - 1]){
 						dyda[i] = Dy1(i, xvals[xvals.Length - 1], x);
 						dyda[xvals.Length - 1] = Dy2(xvals[i], xvals[xvals.Length - 1], x);
-						
-						return Interpolate(xvals[i], xvals[xvals.Length - 1], 
-							yvals[i], yvals[xvals.Length - 1], 
-							x);					
+						return Interpolate(xvals[i], xvals[xvals.Length - 1], yvals[i], yvals[xvals.Length - 1], x);
 					}
-				} 
+				}
 				throw new Exception("Values are the same");
 			}
-			
 			int a = Array.BinarySearch(xvals, x);
 			if (a >= 0){
 				dyda[a] = 1;
@@ -215,20 +193,20 @@ namespace BaseLibS.Num{
 		}
 
 		private static double Dy2(double x1, double x2, double x){
-			return (x - x1)/(x2 - x1);
+			return (x - x1) / (x2 - x1);
 		}
 
 		private static double Dy1(double x1, double x2, double x){
-			return (x2 - x)/(x2 - x1);
+			return (x2 - x) / (x2 - x1);
 		}
 
 		private static double Interpolate(double x1, double x2, double y1, double y2, double x){
-			return (y2 - y1)/(x2 - x1)*(x - x1) + y1;
+			return (y2 - y1) / (x2 - x1) * (x - x1) + y1;
 		}
 
 		private static double Interpolate(double x1, double x2, double y1, double y2, double x, out double dydx){
-			dydx = (y2 - y1)/(x2 - x1);
-			return dydx*(x - x1) + y1;
+			dydx = (y2 - y1) / (x2 - x1);
+			return dydx * (x - x1) + y1;
 		}
 
 		public void Dispose(){
@@ -249,13 +227,13 @@ namespace BaseLibS.Num{
 			}
 			double[] newx = new double[xvals.Length + 2];
 			double[] newy = new double[xvals.Length + 2];
-			newx[0] = 2*xvals[0] - xvals[1];
+			newx[0] = 2 * xvals[0] - xvals[1];
 			newy[0] = yvals[0];
 			for (int i = 0; i < xvals.Length; i++){
 				newx[i + 1] = xvals[i];
 				newy[i + 1] = yvals[i];
 			}
-			newx[xvals.Length + 1] = 2*xvals[xvals.Length - 1] - xvals[xvals.Length - 2];
+			newx[xvals.Length + 1] = 2 * xvals[xvals.Length - 1] - xvals[xvals.Length - 2];
 			newy[xvals.Length + 1] = yvals[xvals.Length - 1];
 			xvals = newx;
 			yvals = newy;
@@ -265,17 +243,17 @@ namespace BaseLibS.Num{
 			StreamWriter writer = new StreamWriter(filename);
 			writer.WriteLine("x" + "\t" + "y");
 			for (int i = 0; i < xvals.Length; i++){
-				writer.WriteLine(xvals[i] + "\t" + yvals[i]);
+				writer.WriteLine(Parser.ToString(xvals[i])  + "\t" + Parser.ToString(yvals[i]));
 			}
 			writer.Close();
 		}
 
-		public LinearInterpolator Minus() {
-			return new LinearInterpolator((double[])xvals.Clone(), Negate((double[])yvals.Clone()));
+		public LinearInterpolator Minus(){
+			return new LinearInterpolator((double[]) xvals.Clone(), Negate((double[]) yvals.Clone()));
 		}
 
-		private double[] Negate(double[] doubles) {
-			for (int i = 0; i < doubles.Length; i++) {
+		private double[] Negate(double[] doubles){
+			for (int i = 0; i < doubles.Length; i++){
 				doubles[i] *= -1;
 			}
 			return doubles;

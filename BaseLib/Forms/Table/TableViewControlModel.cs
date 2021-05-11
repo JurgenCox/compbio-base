@@ -128,7 +128,7 @@ namespace BaseLib.Forms.Table{
 						int x1 = control1.VisibleX + e.X;
 						int ind = ArrayUtils.CeilIndex(columnWidthSums, x1);
 						int ox = order[row];
-						SetCellText("" + TableModel.GetEntry(ox, ind));
+						SetCellText(GetStringValue(TableModel.GetEntry(ox, ind)));
 					}
 				}
 			};
@@ -730,7 +730,7 @@ namespace BaseLib.Forms.Table{
 					return;
 				}
 				int ox = order[row];
-				control.SetClipboardData("" + TableModel.GetEntry(ox, ind));
+				control.SetClipboardData(GetStringValue(TableModel.GetEntry(ox, ind)));
 			});
 			control.AddContextMenuItem("Copy column (full)", (sender, args) => {
 				if (model == null){
@@ -1288,7 +1288,7 @@ namespace BaseLib.Forms.Table{
 					line.Append(model.GetEntry(j, 0));
 				}
 				for (int i = 1; i < model.ColumnCount; i++){
-					line.Append("\t" + model.GetEntry(j, i));
+					line.Append("\t" + GetStringValue(model.GetEntry(j, i)));
 				}
 				writer.WriteLine(line.ToString());
 			}
@@ -1310,7 +1310,7 @@ namespace BaseLib.Forms.Table{
 					line.Append(model.GetEntry(j, 0));
 				}
 				for (int i = 1; i < model.ColumnCount; i++){
-					line.Append("\t" + model.GetEntry(j, i));
+					line.Append("\t" + GetStringValue(model.GetEntry(j, i)));
 				}
 				writer.WriteLine(line.ToString());
 			}
@@ -1361,6 +1361,10 @@ namespace BaseLib.Forms.Table{
 		}
 
 		private static string GetStringValue(IGraphics g, object o, int width, Font2 font){
+			return GraphUtil.GetStringValue(g, GetStringValue(o), width, font);
+		}
+
+		private static string GetStringValue(object o){
 			if (o is double){
 				double x = (double) o;
 				o = double.IsNaN(x) ? "NaN" : Parser.ToString(x);
@@ -1369,8 +1373,7 @@ namespace BaseLib.Forms.Table{
 				float x = (float) o;
 				o = float.IsNaN(x) ? "NaN" : Parser.ToString(x);
 			}
-			string s = "" + o;
-			return GraphUtil.GetStringValue(g, s, width, font);
+			return "" + o;
 		}
 
 		private void CheckSizes(){

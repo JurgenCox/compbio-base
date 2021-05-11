@@ -288,7 +288,8 @@ namespace NumPluginBase{
 				PeptideModificationState[] trainMod = modifications.SubArray(trainInds);
 				BaseVector[] trainMetadata = metadata?.SubArray(trainInds);
 				double[] trainY = y.SubArray(trainInds);
-				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1, null);
+				SequenceRegressionModel cm = cme.Train(trainSeq, trainMod, trainMetadata, trainY, allMods, param, 1,
+					null);
 				double[] x = TakeFirst(cm.Predict(sequences.SubArray(testInds), modifications.SubArray(testInds),
 					metadata?.SubArray(testInds)));
 				for (int index = 0; index < testInds.Length; index++){
@@ -339,13 +340,13 @@ namespace NumPluginBase{
 			StreamWriter writer = new StreamWriter(basePath + ".txt");
 			writer.WriteLine("True\tPredicted");
 			for (int i = 0; i < rts.Length; i++){
-				writer.WriteLine("" + rts[i] + "\t" + rtsPred[i]);
+				writer.WriteLine("" + Parser.ToString(rts[i]) + "\t" + Parser.ToString(rtsPred[i]));
 			}
 			writer.Close();
 			writer = new StreamWriter(basePath + ".1.txt");
 			writer.WriteLine("Correlation\t" + corr);
-			writer.WriteLine("RMSD\t" + rms);
-			writer.WriteLine("MAD\t" + mad);
+			writer.WriteLine("RMSD\t" + Parser.ToString(rms));
+			writer.WriteLine("MAD\t" + Parser.ToString(mad));
 			writer.Close();
 		}
 	}
