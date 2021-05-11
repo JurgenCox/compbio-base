@@ -344,7 +344,7 @@ namespace NumPluginBase{
 			}
 			writer.Close();
 			writer = new StreamWriter(basePath + ".1.txt");
-			writer.WriteLine("Correlation\t" + corr);
+			writer.WriteLine("Correlation\t" + Parser.ToString(corr));
 			writer.WriteLine("RMSD\t" + Parser.ToString(rms));
 			writer.WriteLine("MAD\t" + Parser.ToString(mad));
 			writer.Close();
