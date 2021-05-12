@@ -1,5 +1,4 @@
 ﻿using System;
-using BaseLibS.Api.Generic;
 
 namespace BaseLibS.Api.Image{
 	public interface IImageSession : ICloneable{
