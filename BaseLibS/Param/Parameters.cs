@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -81,6 +82,13 @@ namespace BaseLibS.Param{
 
 		public void AddParameterGroup(ParameterGroup pg){
 			paramGroups.Add(pg);
+		}
+
+		public void Add(Parameter p){
+			if (paramGroups.Count == 0){
+				paramGroups.Add(new ParameterGroup("Name", false));
+			}
+			paramGroups.Last().Add(p);
 		}
 
 		public int Count{
