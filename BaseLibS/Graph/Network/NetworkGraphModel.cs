@@ -8,17 +8,16 @@ namespace BaseLibS.Graph.Network{
 	public abstract class NetworkGraphModel<Tn, Te, Tc> where Tn : NetworkGraphNode
 		where Te : NetworkGraphEdge
 		where Tc : NetworkGraphContainer{
-		private event Action SizeChanged;
 		public event Action<bool, int> SelectionChanged;
-	    public event EventHandler<EventArgs> NetworkGraphModelChanged;
 		public ThreadSafeHashSet<Te> edges = new ThreadSafeHashSet<Te>();
 		protected ThreadSafeHashSet<Te> selectedEdges = new ThreadSafeHashSet<Te>();
 		public ThreadSafeHashSet<Tn> nodes = new ThreadSafeHashSet<Tn>();
 		public ThreadSafeHashSet<Tn> selectedNodes = new ThreadSafeHashSet<Tn>();
 		public ThreadSafeHashSet<Tc> containers = new ThreadSafeHashSet<Tc>();
 		protected ThreadSafeHashSet<Tc> selectedContainers = new ThreadSafeHashSet<Tc>();
-		public int Width { get; set; } = 200;
-		public int Height { get; set; } = 300;
+		public int Width{ get; set; } = 200;
+		public int Height{ get; set; } = 300;
+
 		public bool IsSelected(object item){
 			if (item is Tn){
 				return IsSelected((Tn) item);
@@ -31,6 +30,7 @@ namespace BaseLibS.Graph.Network{
 			}
 			return false;
 		}
+
 		public void Deselect(object item){
 			if (item is Tn){
 				selectedNodes.Remove((Tn) item);
@@ -42,6 +42,7 @@ namespace BaseLibS.Graph.Network{
 				selectedContainers.Remove((Tc) item);
 			}
 		}
+
 		public void Select(object item){
 			if (item is Tn){
 				selectedNodes.Add((Tn) item);
@@ -53,82 +54,94 @@ namespace BaseLibS.Graph.Network{
 				selectedContainers.Add((Tc) item);
 			}
 		}
+
 		public bool IsSelected(Tn n){
 			return selectedNodes.Contains(n);
 		}
+
 		public void Deselect(Tn n){
 			selectedNodes.Remove(n);
 		}
+
 		public void Select(Tn n){
 			selectedNodes.Add(n);
 		}
+
 		public bool IsSelected(Te e){
 			return selectedEdges.Contains(e);
 		}
+
 		public void Deselect(Te e){
 			selectedEdges.Remove(e);
 		}
+
 		public void Select(Te e){
 			selectedEdges.Add(e);
 		}
+
 		public bool IsSelected(Tc c){
 			return selectedContainers.Contains(c);
 		}
+
 		public void Deselect(Tc c){
 			selectedContainers.Remove(c);
 		}
+
 		public void Select(Tc c){
 			selectedContainers.Add(c);
 		}
+
 		public void ClearNodeSelection(){
 			selectedNodes.Clear();
 		}
+
 		public void ClearEdgeSelection(){
 			selectedEdges.Clear();
 		}
+
 		public void ClearContainerSelection(){
 			selectedContainers.Clear();
 		}
+
 		public void ClearSelection(){
 			selectedNodes.Clear();
 			selectedEdges.Clear();
 			selectedContainers.Clear();
 		}
+
 		public void Add(Te e){
 			edges.Add(e);
-            OnNetworkGraphModelChanged();
 		}
+
 		public void Add(Tn n){
 			ChangeSize(n);
 			nodes.Add(n);
-            OnNetworkGraphModelChanged();
 		}
+
 		public void Add(Tc c){
 			ChangeSize(c);
 			containers.Add(c);
-            OnNetworkGraphModelChanged();
 		}
+
 		public void FireSelectionChange(bool updateTable, int selectedIndex){
 			SelectionChanged?.Invoke(updateTable, selectedIndex);
 		}
-		private void FireSizeChange(){
-			SizeChanged?.Invoke();
-		}
+
 		protected void Remove(Tn n){
 			nodes.Remove(n);
 			selectedNodes.Remove(n);
-            OnNetworkGraphModelChanged();
 		}
+
 		protected void Remove(Te e){
 			edges.Remove(e);
 			selectedEdges.Remove(e);
-            OnNetworkGraphModelChanged();
 		}
+
 		protected void Remove(Tc c){
 			containers.Remove(c);
 			selectedContainers.Remove(c);
-            OnNetworkGraphModelChanged();
 		}
+
 		internal object GetItemAtPos(int x, int y){
 			Tn node = GetAnyNodeAtPos(x, y);
 			if (node != null){
@@ -140,6 +153,7 @@ namespace BaseLibS.Graph.Network{
 			}
 			return GetBestContainerAtPos(x, y);
 		}
+
 		internal Tn GetAnyNodeAtPos(int x, int y){
 			foreach (Tn t in nodes){
 				Tn node = t;
@@ -149,6 +163,7 @@ namespace BaseLibS.Graph.Network{
 			}
 			return null;
 		}
+
 		internal Tc GetAnyContainerAtPos(int x, int y){
 			foreach (Tc t in containers){
 				Tc node = t;
@@ -158,6 +173,7 @@ namespace BaseLibS.Graph.Network{
 			}
 			return null;
 		}
+
 		internal Tc GetBestContainerAtPos(int x, int y){
 			List<Tc> a = GetAllContainersAtPos(x, y);
 			if (a.Count == 0){
@@ -170,8 +186,9 @@ namespace BaseLibS.Graph.Network{
 			for (int i = 0; i < z.Length; i++){
 				z[i] = a[i].Z;
 			}
-			return a[ArrayUtils.MaxInd(z)];
+			return a[z.MaxInd()];
 		}
+
 		internal List<Tc> GetAllContainersAtPos(int x, int y){
 			List<Tc> result = new List<Tc>();
 			foreach (Tc t in containers){
@@ -182,6 +199,7 @@ namespace BaseLibS.Graph.Network{
 			}
 			return result;
 		}
+
 		internal Te GetAnyEdgeAtPos(int x, int y){
 			foreach (Te t in edges){
 				Te edge = t;
@@ -191,6 +209,7 @@ namespace BaseLibS.Graph.Network{
 			}
 			return null;
 		}
+
 		internal void ShiftSetectedNodes(int deltaX, int deltaY){
 			float minx = int.MaxValue;
 			float miny = int.MaxValue;
@@ -220,18 +239,18 @@ namespace BaseLibS.Graph.Network{
 			}
 			if (maxx + 100 > Width){
 				Width = (int) (maxx + 100);
-				FireSizeChange();
 			}
 			if (maxy + 100 > Height){
 				Height = (int) (maxy + 100);
-				FireSizeChange();
 			}
 		}
+
 		internal void SelectAllNodes(){
 			foreach (Tn node in nodes){
 				selectedNodes.Add(node);
 			}
 		}
+
 		internal Tn[] GetIntersectingNodes(int x1, int y1, int width1, int height1){
 			List<Tn> result = new List<Tn>();
 			foreach (Tn node1 in nodes){
@@ -241,47 +260,47 @@ namespace BaseLibS.Graph.Network{
 			}
 			return result.ToArray();
 		}
+
 		internal void MoveUp(int w){
 			foreach (Tn node in selectedNodes.Count == 0 ? nodes : selectedNodes){
 				node.Y -= w;
 			}
 		}
+
 		internal void MoveDown(int w){
 			foreach (Tn node in selectedNodes.Count == 0 ? nodes : selectedNodes){
 				node.Y += w;
 			}
 		}
+
 		internal void MoveLeft(int w){
 			foreach (Tn node in selectedNodes.Count == 0 ? nodes : selectedNodes){
 				node.X -= w;
 			}
 		}
+
 		internal void MoveRight(int w){
 			foreach (Tn node in selectedNodes.Count == 0 ? nodes : selectedNodes){
 				node.X += w;
 			}
 		}
+
 		protected void ChangeSize(NetworkGraphNode node){
 			int newWidth = (int) Math.Max(Width, node.X + node.Width + 50);
 			int newHeight = (int) Math.Max(Height, node.Y + node.Height + 50);
 			if (newHeight > Height || newWidth > Width){
 				Height = newHeight;
 				Width = newWidth;
-				FireSizeChange();
 			}
 		}
+
 		protected void ChangeSize(NetworkGraphContainer node){
 			int newWidth = Math.Max(Width, node.X + node.Width + 50);
 			int newHeight = Math.Max(Height, node.Y + node.Height + 50);
 			if (newHeight > Height || newWidth > Width){
 				Height = newHeight;
 				Width = newWidth;
-				FireSizeChange();
 			}
 		}
-	    protected void OnNetworkGraphModelChanged()
-	    {
-	        NetworkGraphModelChanged?.Invoke(this, EventArgs.Empty);
-	    }
-    }
+	}
 }
