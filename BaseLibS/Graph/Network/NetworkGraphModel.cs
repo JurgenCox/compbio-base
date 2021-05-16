@@ -8,7 +8,7 @@ namespace BaseLibS.Graph.Network{
 	public abstract class NetworkGraphModel<Tn, Te, Tc> where Tn : NetworkGraphNode
 		where Te : NetworkGraphEdge
 		where Tc : NetworkGraphContainer{
-		public event Action<bool, int> SelectionChanged;
+		[field: NonSerialized] public event Action<bool, int> SelectionChanged;
 		public ThreadSafeHashSet<Te> edges = new ThreadSafeHashSet<Te>();
 		protected ThreadSafeHashSet<Te> selectedEdges = new ThreadSafeHashSet<Te>();
 		public ThreadSafeHashSet<Tn> nodes = new ThreadSafeHashSet<Tn>();
