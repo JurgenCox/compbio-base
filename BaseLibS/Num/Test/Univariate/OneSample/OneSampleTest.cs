@@ -6,14 +6,9 @@ namespace BaseLibS.Num.Test.Univariate.OneSample{
 
 		public void Test(double[] data, double mean, out double statistic, out double bothTails, out double leftTail,
 			out double rightTail){
-			double difference;
 			const double s0 = 0;
-			double bothTailsS0;
-			double leftTailS0;
-			double rightTailS0;
-			double statisticS0;
-			Test(data, mean, out statistic, out statisticS0, out bothTails, out leftTail, out rightTail, out difference, s0,
-				out bothTailsS0, out leftTailS0, out rightTailS0);
+			Test(data, mean, out statistic, out _, out bothTails, out leftTail, out rightTail, out _, s0, out _, out _,
+				out _);
 		}
 
 		public abstract double[][] CalcCurve(double p2, double df, double s0, double maxD, TestSide side);

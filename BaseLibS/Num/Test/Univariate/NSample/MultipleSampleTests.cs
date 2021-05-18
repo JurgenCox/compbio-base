@@ -1,12 +1,11 @@
-﻿namespace BaseLibS.Num.Test.Univariate.NSample {
-	public static class MultipleSampleTests {
-		public static MultipleSampleTest[] allTests = { new OneWayAnovaTest() };
-		//, new KruskalWallisTest()
+﻿namespace BaseLibS.Num.Test.Univariate.NSample{
+	public static class MultipleSampleTests{
+		public static MultipleSampleTest[] allTests = {new OneWayAnovaTest(), new KruskalWallisTest()};
 		public static string[] allNames;
 
-		static MultipleSampleTests() {
+		static MultipleSampleTests(){
 			allNames = new string[allTests.Length];
-			for (int i = 0; i < allNames.Length; i++) {
+			for (int i = 0; i < allNames.Length; i++){
 				allNames[i] = allTests[i].Name;
 			}
 		}
