@@ -11,6 +11,7 @@ namespace BaseLibS.Api.Image{
 		float GetValueAt(int t, int x, int y, int z);
 		float GetWeightAt(int c, int x, int y, int z);
 		bool GetIndicatorAt(int c, int x, int y, int z);
+		float[,,] GetImageAtTimestep(int t);
 		int IndicatorCount { get; }
 		float MinValue { get; }
 		float MaxValue { get; }
