@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace BaseLibS.Num.Test.Univariate.NSample{
 	public class KruskalWallisTest : MultipleSampleTest{
-		public override double Test(double[][] data, out double statistic, double s0, out double pvalS0, out double[] gmeans){
+		public override double Test(double[][] data, out double statistic, double s0, out double pvalS0,
+			out double[] gmeans){
 			pvalS0 = 1;
 			gmeans = null;
 			return TestImpl(data, out statistic);
@@ -47,12 +48,13 @@ namespace BaseLibS.Num.Test.Univariate.NSample{
 			j = 0;
 			double[] s = new double[data.Length];
 			for (i = 0; i < data.Length; i++){
-				s[i] = Math.Pow(dataRank.Skip(j).Take(arrN[i]).Select(d => d + 1).Sum(), 2)/arrN[i];
+				s[i] = Math.Pow(dataRank.Skip(j).Take(arrN[i]).Select(d => d + 1).Sum(), 2) / arrN[i];
 				j += arrN[i];
 			}
-			stat = (12*s.Sum()/(n*(n + 1)) - 3*(n + 1))/(1 - numDuplicates.Select(d => d*(d*d - 1)).Sum()/(Math.Pow(n, 3) - n));
+			stat = (12 * s.Sum() / (n * (n + 1)) - 3 * (n + 1)) /
+			       (1 - numDuplicates.Select(d => d * (d * d - 1)).Sum() / (Math.Pow(n, 3) - n));
 			int df = data.Length - 1;
-			return 1 - NumUtils.Gammq(stat*0.5, df*0.5);
+			return 1 - NumUtils.Gammq(stat * 0.5, df * 0.5);
 		}
 	}
 }

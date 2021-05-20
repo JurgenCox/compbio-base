@@ -30,7 +30,7 @@ namespace BaseLibS.Num.Perform{
 		public abstract string Name{ get; }
 		public abstract double Calculate(double tp, double tn, double fp, double fn, double np, double nn);
 
-		public static double[][] CalcCurves(bool[] indicatorCol, bool falseAreIndicated, double[] vals,
+		public static (double[][] curves, int[] order) CalcCurves(bool[] indicatorCol, bool falseAreIndicated, double[] vals,
 			bool largeIsGood, PerformanceColumnType[] types){
 			if (falseAreIndicated){
 				indicatorCol = ArrayUtils.Invert(indicatorCol);
@@ -69,7 +69,7 @@ namespace BaseLibS.Num.Perform{
 					columns[j][i + 1] = types[j].Calculate(tp, tn, fp, fn, np, nn);
 				}
 			}
-			return columns;
+			return (columns, order);
 		}
 
 		private static int[] GetOrder(double[] vals, bool largeIsGood){
