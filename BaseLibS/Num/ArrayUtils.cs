@@ -3577,5 +3577,12 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
+
+		public static void Add<Tk, Tv>(Dictionary<Tk, List<Tv>> d, Tk key, Tv value){
+			if (!d.ContainsKey(key)){
+				d.Add(key, new List<Tv>());
+			}
+			d[key].Add(value);
+		}
 	}
 }
