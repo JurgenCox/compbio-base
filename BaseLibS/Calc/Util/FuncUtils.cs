@@ -32,11 +32,7 @@ namespace BaseLibS.Calc.Util{
 			if (epos.Length == 0){
 				return text;
 			}
-			int[] starts;
-			int[] ends;
-			string[] mants;
-			int[] exps;
-			GetEPositions(text, epos, out starts, out ends, out mants, out exps);
+			GetEPositions(text, epos, out var starts, out var ends, out var mants, out var exps);
 			if (starts.Length == 0){
 				return text;
 			}
@@ -59,9 +55,7 @@ namespace BaseLibS.Calc.Util{
 		}
 
 		private static string Decrease(string mant, int i){
-			string preDot;
-			string postDot;
-			SplitDot(mant, out preDot, out postDot);
+			SplitDot(mant, out var preDot, out var postDot);
 			if (i < preDot.Length){
 				return preDot.Substring(0, preDot.Length - i) + "." + preDot.Substring(preDot.Length - i) + postDot;
 			}
@@ -80,9 +74,7 @@ namespace BaseLibS.Calc.Util{
 		}
 
 		private static string Enlarge(string mant, int i){
-			string preDot;
-			string postDot;
-			SplitDot(mant, out preDot, out postDot);
+			SplitDot(mant, out var preDot, out var postDot);
 			if (i >= postDot.Length){
 				return preDot + postDot + StringUtils.Repeat('0', i - postDot.Length);
 			}
@@ -203,10 +195,7 @@ namespace BaseLibS.Calc.Util{
 				case 1:
 					return ParseOperator(text, opPos[0], realVariableNames, intVariableNames, ref errMsg);
 				default:
-					int[] opPos1;
-					int[] opPos2;
-					int[] opPos3;
-					SplitOperators(text, opPos, out opPos1, out opPos2, out opPos3);
+					SplitOperators(text, opPos, out var opPos1, out var opPos2, out var opPos3);
 					if (opPos1.Length > 0){
 						return ParseOperator(text, opPos1[opPos1.Length - 1], realVariableNames, intVariableNames, ref errMsg);
 					}
@@ -223,7 +212,7 @@ namespace BaseLibS.Calc.Util{
 				return text;
 			}
 			char close = brackets[text[0]];
-			int ind = text.IndexOf(close);
+			int ind = text.LastIndexOf(close);
 			if (ind == text.Length - 1){
 				return text.Substring(1, text.Length - 2);
 			}
@@ -452,7 +441,7 @@ namespace BaseLibS.Calc.Util{
 			for (int i = 0; i < len.Length; i++){
 				len[i] = candidates[i].Length;
 			}
-			int ind = ArrayUtils.MaxInd(len);
+			int ind = len.MaxInd();
 			return candidates[ind];
 		}
 
