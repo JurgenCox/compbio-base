@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace BaseLibS.Graph.Network{
 	[Serializable]
-	public abstract class NetworkGraphNode : IXmlSerializable{
+	public abstract class NetworkGraphNode{
 		public float X { get; set; }
 		public float Y { get; set; }
 		public abstract int Width { get; }
@@ -17,9 +14,6 @@ namespace BaseLibS.Graph.Network{
 		public bool Intersects(float x1, float y1, int width1, int height1){
 			return x1 < X + Width && x1 + width1 >= X && y1 < Y + Height && y1 + height1 >= Y;
 		}
-		public abstract XmlSchema GetSchema();
-		public abstract void ReadXml(XmlReader reader);
-		public abstract void WriteXml(XmlWriter writer);
 		public abstract float GetInputPosX(int index);
 		public abstract float GetInputPosY(int index);
 		public abstract float GetOutputPosX(int index);
