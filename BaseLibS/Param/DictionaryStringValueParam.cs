@@ -20,6 +20,13 @@ namespace BaseLibS.Param{
 			}
 		}
 
+		protected DictionaryStringValueParam(string name, string help, string url, bool visible,
+			Dictionary<string, string> value, Dictionary<string, string> default1, string keyName, string valueName) :
+			base(name, help, url, visible, value, default1){
+			KeyName = keyName;
+			ValueName = valueName;
+		}
+
 		public string KeyName{ get; set; } = "Keys";
 		public string ValueName{ get; set; } = "Values";
 
@@ -76,6 +83,10 @@ namespace BaseLibS.Param{
 			reader.ReadStartElement("Value");
 			Value = ((SerializableDictionary<string, string>) serializer.Deserialize(reader)).ToDictionary();
 			reader.ReadEndElement();
+		}
+
+		public override object Clone(){
+			return new DictionaryStringValueParam(Name, Help, Url, Visible, Value, Default, KeyName, ValueName);
 		}
 	}
 }

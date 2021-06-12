@@ -8,15 +8,15 @@ using BaseLibS.Util;
 namespace BaseLibS.Param{
 	[Serializable]
 	public class MultiChoiceMultiBinParam : Parameter<int[][]>{
-		public IList<string> Values { get; set; }
-		public IList<string> Bins { get; set; }
+		public IList<string> Values{ get; set; }
+		public IList<string> Bins{ get; set; }
 
-        /// <summary>
-        /// for xml serialization only
-        /// </summary>
-	    public MultiChoiceMultiBinParam() : this("") { }
+		/// <summary>
+		/// for xml serialization only
+		/// </summary>
+		public MultiChoiceMultiBinParam() : this(""){ }
 
-	    public MultiChoiceMultiBinParam(string name) : this(name, new int[0][]){}
+		public MultiChoiceMultiBinParam(string name) : this(name, new int[0][]){ }
 
 		public MultiChoiceMultiBinParam(string name, int[][] value) : base(name){
 			Value = value;
@@ -29,6 +29,13 @@ namespace BaseLibS.Param{
 			}
 			Values = new string[0];
 			Bins = new string[0];
+		}
+
+		protected MultiChoiceMultiBinParam(string name, string help, string url, bool visible, int[][] value,
+			int[][] default1, IList<string> values, IList<string> bins) : base(name, help, url, visible, value,
+			default1){
+			Values = values;
+			Bins = bins;
 		}
 
 		public override string StringValue{
@@ -82,36 +89,37 @@ namespace BaseLibS.Param{
 		public override void ResetSubParamDefaults(){
 			Default = Value;
 		}
+
 		public override ParamType Type => ParamType.Server;
 
-	    public override void ReadXml(XmlReader reader)
-	    {
-            ReadBasicAttributes(reader);
-            reader.ReadStartElement();
-	        Value = reader.ReadJagged2DArrayInto(new List<List<int>>()).Select(x => x.ToArray()).ToArray();
-	        Values = reader.ReadInto(new List<string>()).ToArray();
-	        Bins = reader.ReadInto(new List<string>()).ToArray();
-            reader.ReadEndElement();
-	    }
+		public override void ReadXml(XmlReader reader){
+			ReadBasicAttributes(reader);
+			reader.ReadStartElement();
+			Value = reader.ReadJagged2DArrayInto(new List<List<int>>()).Select(x => x.ToArray()).ToArray();
+			Values = reader.ReadInto(new List<string>()).ToArray();
+			Bins = reader.ReadInto(new List<string>()).ToArray();
+			reader.ReadEndElement();
+		}
 
-	    public override void WriteXml(XmlWriter writer)
-	    {
-            WriteBasicAttributes(writer);
-            writer.WriteStartElement("Value");
-	        foreach (int[] labels in Value)
-	        {
-                writer.WriteStartElement("Items");
-	            foreach (int label in labels)
-	            {
-	                writer.WriteStartElement("Item");
-                    writer.WriteValue(label);
-                    writer.WriteEndElement();
-	            }
-                writer.WriteEndElement();
-	        }
-            writer.WriteEndElement();
-            writer.WriteValues("Values", Values);
-            writer.WriteValues("Bins", Bins);
-	    }
+		public override void WriteXml(XmlWriter writer){
+			WriteBasicAttributes(writer);
+			writer.WriteStartElement("Value");
+			foreach (int[] labels in Value){
+				writer.WriteStartElement("Items");
+				foreach (int label in labels){
+					writer.WriteStartElement("Item");
+					writer.WriteValue(label);
+					writer.WriteEndElement();
+				}
+				writer.WriteEndElement();
+			}
+			writer.WriteEndElement();
+			writer.WriteValues("Values", Values);
+			writer.WriteValues("Bins", Bins);
+		}
+
+		public override object Clone(){
+			return new MultiChoiceMultiBinParam(Name, Help, Url, Visible, Value, Default, Values, Bins);
+		}
 	}
 }

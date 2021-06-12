@@ -18,6 +18,9 @@ namespace BaseLib.Param{
 			};
 		}
 
+		protected SaveFolderParamWf(string name, string help, string url, bool visible, string value, string default1,
+			Action<string> writeAction) : base(name, help, url, visible, value, default1, writeAction){ }
+
 		public override object CreateControl(){
 			return button;
 		}
@@ -37,5 +40,9 @@ namespace BaseLib.Param{
 		}
 
 		public override ParamType Type => ParamType.WinForms;
+
+		public override object Clone(){
+			return new SaveFolderParamWf(Name, Help, Url, Visible, Value, Default, WriteAction);
+		}
 	}
 }

@@ -19,6 +19,14 @@ namespace BaseLibS.Param{
 			WriteAction = writeAction;
 		}
 
+		protected SaveFileParam(string name, string help, string url, bool visible, string value, string default1,
+			string fileName, string filter, Action<string> writeAction) : base(name, help, url, visible, value,
+			default1){
+			FileName = fileName;
+			Filter = filter;
+			WriteAction = writeAction;
+		}
+
 		public override string StringValue{
 			get => Value;
 			set => Value = value;
@@ -29,5 +37,9 @@ namespace BaseLibS.Param{
 		}
 
 		public override ParamType Type => ParamType.Server;
+
+		public override object Clone(){
+			return new SaveFileParam(Name, Help, Url, Visible, Value, Default, FileName, Filter, WriteAction);
+		}
 	}
 }
