@@ -3,18 +3,20 @@
 namespace BaseLibS.Param{
 	[Serializable]
 	public class FolderParam : Parameter<string>{
+		/// <summary>
+		/// for xml serialization only
+		/// </summary>
+		private FolderParam() : this(""){ }
 
-        /// <summary>
-        /// for xml serialization only
-        /// </summary>
-	    private FolderParam() : this("") { }
-
-	    public FolderParam(string name) : this(name, ""){}
+		public FolderParam(string name) : this(name, ""){ }
 
 		public FolderParam(string name, string value) : base(name){
 			Value = value;
 			Default = value;
 		}
+
+		protected FolderParam(string name, string help, string url, bool visible, string value, string default1) : base(
+			name, help, url, visible, value, default1){ }
 
 		public override string StringValue{
 			get => Value;
@@ -24,6 +26,11 @@ namespace BaseLibS.Param{
 		public override void Clear(){
 			Value = "";
 		}
+
 		public override ParamType Type => ParamType.Server;
+
+		public override object Clone(){
+			return new FolderParam(Name, Help, Url, Visible, Value, Default);
+		}
 	}
 }
