@@ -4,20 +4,17 @@ using BaseLibS.Util;
 namespace BaseLibS.Param{
 	[Serializable]
 	public class EmptyParam : Parameter<bool>{
-		/// <summary>
-		/// for xml serialization only
-		/// </summary>
-		public EmptyParam() : this(""){ }
+        /// <summary>
+        /// for xml serialization only
+        /// </summary>
+	    public EmptyParam() : this("") { }
 
-		public EmptyParam(string name) : this(name, false){ }
+	    public EmptyParam(string name) : this(name, false){}
 
 		public EmptyParam(string name, bool value) : base(name){
 			Value = value;
 			Default = value;
 		}
-
-		protected EmptyParam(string name, string help, string url, bool visible, bool value, bool default1) : base(name,
-			help, url, visible, value, default1){ }
 
 		public override string StringValue{
 			get => Parser.ToString(Value);
@@ -27,11 +24,6 @@ namespace BaseLibS.Param{
 		public override void Clear(){
 			Value = false;
 		}
-
-		public override object Clone(){
-			return new EmptyParam(Name, Help, Url, Visible, Value, Default);
-		}
-
 		public override ParamType Type => ParamType.Server;
 	}
 }

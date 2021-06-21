@@ -1,35 +1,28 @@
 using System;
 using BaseLibS.Util;
 
-namespace BaseLibS.Param{
+namespace BaseLibS.Param {
 	[Serializable]
-	public class IntParam : Parameter<int>{
+	public class IntParam : Parameter<int> {
 		/// <summary>
 		/// only for xml serialization
 		/// </summary>
-		private IntParam() : this("", 0){ }
+		private IntParam() : this("", 0) { }
 
-		public IntParam(string name, int value) : base(name){
+		public IntParam(string name, int value) : base(name) {
 			Value = value;
 			Default = value;
 		}
 
-		protected IntParam(string name, string help, string url, bool visible, int value, int default1) : base(name,
-			help, url, visible, value, default1){ }
-
-		public override string StringValue{
+		public override string StringValue {
 			get => Parser.ToString(Value);
 			set => Value = Parser.Int(value);
 		}
 
-		public override void Clear(){
+		public override void Clear() {
 			Value = 0;
 		}
 
 		public override ParamType Type => ParamType.Server;
-
-		public override object Clone(){
-			return new IntParam(Name, Help, Url, Visible, Value, Default);
-		}
 	}
 }

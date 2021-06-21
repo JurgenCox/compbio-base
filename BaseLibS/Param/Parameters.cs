@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace BaseLibS.Param{
 	[Serializable]
-	public class Parameters : IXmlSerializable, ICloneable{
+	public class Parameters : IXmlSerializable{
 		private readonly List<ParameterGroup> paramGroups = new List<ParameterGroup>();
 
 		public Parameters(IList<Parameter> param, string name){
@@ -241,14 +241,6 @@ namespace BaseLibS.Param{
 				XmlSerializer paramSerializer = new XmlSerializer(paramGrp.GetType());
 				paramSerializer.Serialize(writer, paramGrp);
 			}
-		}
-
-		public object Clone(){
-			Parameters result = new Parameters();
-			foreach (ParameterGroup pg in paramGroups){
-				result.paramGroups.Add((ParameterGroup) pg.Clone());
-			}
-			return result;
 		}
 	}
 }

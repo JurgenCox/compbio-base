@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using BaseLibS.Param;
 
@@ -8,16 +7,12 @@ namespace BaseLib.Param{
 	[Serializable]
 	public class SingleChoiceParamWf : SingleChoiceParam{
 		[NonSerialized] private ComboBox control;
-		public SingleChoiceParamWf(string name) : base(name){ }
-		public SingleChoiceParamWf(string name, int value) : base(name, value){ }
-
-		protected SingleChoiceParamWf(string name, string help, string url, bool visible, int value, int default1,
-			IList<string> values) : base(name, help, url, visible, value, default1, values){ }
-
+		public SingleChoiceParamWf(string name) : base(name){}
+		public SingleChoiceParamWf(string name, int value) : base(name, value){}
 		public override ParamType Type => ParamType.WinForms;
 
 		public override void SetValueFromControl(){
-			if (control == null || control.IsDisposed){
+			if (control == null || control.IsDisposed) {
 				return;
 			}
 			int val = control.SelectedIndex;
@@ -25,7 +20,7 @@ namespace BaseLib.Param{
 		}
 
 		public override void UpdateControlFromValue(){
-			if (control == null || control.IsDisposed){
+			if (control == null || control.IsDisposed) {
 				return;
 			}
 			if (control != null && Value >= 0 && Value < Values.Count){
@@ -50,7 +45,7 @@ namespace BaseLib.Param{
 
 		public override object CreateControl(){
 			ComboBox cb = new ComboBox{DropDownStyle = ComboBoxStyle.DropDownList};
-			cb.SelectedIndexChanged += (sender, e) => {
+			cb.SelectedIndexChanged += (sender, e) =>{
 				SetValueFromControl();
 				ValueHasChanged();
 			};
@@ -64,10 +59,6 @@ namespace BaseLib.Param{
 			}
 			control = cb;
 			return control;
-		}
-
-		public override object Clone(){
-			return new SingleChoiceParamWf(Name, Help, Url, Visible, Value, Default, Values);
 		}
 	}
 }

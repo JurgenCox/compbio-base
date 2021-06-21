@@ -2,41 +2,34 @@
 using System.Windows.Forms;
 using BaseLibS.Param;
 
-namespace BaseLib.Param{
+namespace BaseLib.Param {
 	[Serializable]
-	public class LabelParamWf : LabelParam{
+	public class LabelParamWf : LabelParam {
 		[NonSerialized] protected Label control;
-		public LabelParamWf(string name) : this(name, ""){ }
+		public LabelParamWf(string name) : this(name, "") { }
 
-		public LabelParamWf(string name, string value) : base(name, value){
-			control = new Label{Text = Value};
+		public LabelParamWf(string name, string value) : base(name, value) {
+			control = new Label {Text = Value};
 		}
-
-		protected LabelParamWf(string name, string help, string url, bool visible, string value, string default1) :
-			base(name, help, url, visible, value, default1){ }
 
 		public override ParamType Type => ParamType.WinForms;
 
-		public override void SetValueFromControl(){
-			if (control == null || control.IsDisposed){
+		public override void SetValueFromControl() {
+			if (control == null || control.IsDisposed) {
 				return;
 			}
 			Value = control.Text;
 		}
 
-		public override void UpdateControlFromValue(){
-			if (control == null || control.IsDisposed){
+		public override void UpdateControlFromValue() {
+			if (control == null || control.IsDisposed) {
 				return;
 			}
 			control.Text = Value;
 		}
 
-		public override object CreateControl(){
+		public override object CreateControl() {
 			return control;
-		}
-
-		public override object Clone(){
-			return new LabelParamWf(Name, Help, Url, Visible, Value, Default);
 		}
 	}
 }

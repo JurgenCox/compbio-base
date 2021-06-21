@@ -30,15 +30,6 @@ namespace BaseLibS.Param{
 			DefaultSelections = new List<string[]>();
 		}
 
-		protected MultiChoiceParam(string name, string help, string url, bool visible, int[] value, int[] default1,
-			bool repeats, IList<string> values, List<string> defaultSelectionNames, List<string[]> defaultSelections) :
-			base(name, help, url, visible, value, default1){
-			Repeats = repeats;
-			Values = values;
-			DefaultSelectionNames = defaultSelectionNames;
-			DefaultSelections = defaultSelections;
-		}
-
 		public override string StringValue{
 			get => StringUtils.Concat(";", Values.SubArray(Value));
 			set{
@@ -119,11 +110,6 @@ namespace BaseLibS.Param{
 			writer.WriteValue(Repeats);
 			writer.WriteValues("Value", Value);
 			writer.WriteValues("Values", Values);
-		}
-
-		public override object Clone(){
-			return new MultiChoiceParam(Name, Help, Url, Visible, Value, Default, Repeats, Values,
-				DefaultSelectionNames, DefaultSelections);
 		}
 	}
 }
