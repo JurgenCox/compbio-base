@@ -161,7 +161,7 @@ namespace BaseLibS.Util{
 			return Sort(result.ToArray());
 		}
 
-		private static IEnumerable<Type> GetLoadableTypes(Assembly assembly){
+		public static IEnumerable<Type> GetLoadableTypes(Assembly assembly){
 			try{
 				return assembly.GetTypes();
 			} catch (ReflectionTypeLoadException e){
@@ -179,7 +179,7 @@ namespace BaseLibS.Util{
 			return result.ToArray();
 		}
 
-		private static IEnumerable<string> GetPluginFiles(IEnumerable<string> filenames){
+		public static IEnumerable<string> GetPluginFiles(IEnumerable<string> filenames){
 			List<string> result = new List<string>();
 			foreach (string filename in filenames){
 				string[] pluginFiles = Directory.GetFiles(executablePath, filename);
@@ -190,7 +190,7 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
-		private static T[] Sort<T>(IList<T> w) where T : INamedListItem{
+		public static T[] Sort<T>(IList<T> w) where T : INamedListItem{
 			float[] q = new float[w.Count];
 			for (int i = 0; i < w.Count; i++){
 				q[i] = w[i].DisplayRank;
