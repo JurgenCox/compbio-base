@@ -48,6 +48,7 @@ namespace BaseLibS.Ms{
 		public abstract bool DiaLfqWeightedMedianDefault { get; }
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 7;
+		public int DiaMaxTrainInstancesDefault => 1000000;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
 		public double DiaMinScoreDefault => 1.99;
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
