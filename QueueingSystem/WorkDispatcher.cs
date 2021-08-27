@@ -369,7 +369,7 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			int exitcode = externalProcesses[threadIndex].ExitCode;
 			externalProcesses[threadIndex].Close();
 			if (exitcode != 0){
-				throw new Exception("Exception during execution of external process: " + processid);
+				throw new Exception("Exception during execution of external process: " + processid + " " + stdErr);
 			}
 		}
 
