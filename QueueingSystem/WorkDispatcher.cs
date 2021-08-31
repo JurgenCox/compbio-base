@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using BaseLibS.Num;
 using BaseLibS.Util;
 using QueueingSystem.Drmaa;
 using QueueingSystem.GenericCluster;
@@ -28,7 +29,8 @@ namespace QueueingSystem{
 		private readonly ISession session;
 		public CalculationType CalculationType{ get; }
 
-		public int MaxHeapSizeGb{ get; set; }
+        public int MaxHeapSizeGb { get; set; }
+        public bool Permute { get; set; }
 
 		public int Nthreads{ get; }
 
@@ -162,9 +164,18 @@ namespace QueueingSystem{
 //				_session.Init();
 //			}
 			toBeProcessed = new Stack<int>();
-			for (int index = NTasksCached - 1; index >= 0; index--){
-				toBeProcessed.Push(index);
-			}
+            if (Permute) {
+                Random2 rand = new Random2(7);
+                int[] p = rand.NextPermutation(NTasksCached);
+                for (int index = NTasksCached - 1; index >= 0; index--) {
+                    toBeProcessed.Push(p[index]);
+                }
+            }
+			else {
+                for (int index = NTasksCached - 1; index >= 0; index--) {
+                    toBeProcessed.Push(index);
+                }
+            }
 			workThreads = new Thread[Nthreads];
 			externalProcesses = new Process[Nthreads];
 			queuedJobIds = new string[Nthreads];
