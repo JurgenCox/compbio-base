@@ -1381,6 +1381,30 @@ namespace BaseLibS.Ms{
 			return result;
 		}
 
+        public int GetDiaNumMs1Scans() {
+            int[][] x = GetDiaMs2Indices();
+            if (x.Length == 0) {
+                return 1;
+            }
+            int len = x[0].Length;
+            int num = (int)Math.Round(Ms1Count / (float)len);
+            return num;
+        }
+
+        public int[][] GetSummedMs1ScanIndices() {
+            int n = GetDiaNumMs1Scans();
+            int len = Ms1Count / n;
+            int[][] result = new int[len][];
+            int c = 0;
+            for (int i = 0; i < len; i++) {
+                result[i] = new int[n];
+                for (int j = 0; j < n; j++) {
+                    result[i][j] = c++;
+                }
+            }
+            return result;
+        }
+
 		public int[][] GetDiaMs2IndicesTims(){
 			if (Ms2Count == 0){
 				return new int[0][];
