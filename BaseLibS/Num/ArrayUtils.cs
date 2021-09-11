@@ -1732,6 +1732,16 @@ namespace BaseLibS.Num{
 			return rank;
 		}
 
+        public static int[] RankInt<T>(IList<T> data) where T : IComparable<T> {
+            int n = data.Count;
+            int[] rank = new int[n];
+            int[] index = Order(data);
+            for (int j = 0; j < n; j++) {
+                rank[index[j]] = j;
+            }
+            return rank;
+        }
+
 		public static double[] Rank(BaseVector data){
 			return Rank(data, true);
 		}
