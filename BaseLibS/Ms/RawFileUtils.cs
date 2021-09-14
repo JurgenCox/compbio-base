@@ -154,5 +154,63 @@ namespace BaseLibS.Ms {
 			return result.ToArray();
 		}
 
+		public static (double[], float[]) CalcMergedSpectrum(double[][] masses, float[][] intensities)
+		{
+			double peakMergeThreshold = GetPeakMergeThreshold(masses);
+			// collect all peaks within one long list and order by mz values 
+			List<(double mass, float intensity)> allPeaks = new List<(double mass, float intensity)>();
+			for (int k1 = 0; k1 < masses.Length; k1++)
+			{
+				for (int i1 = 0; i1 < masses[k1].Length; i1++)
+				{
+					allPeaks.Add((masses[k1][i1], intensities[k1][i1]));
+				}
+			}
+			List<(double mass, float intensity)> sortedPeaks = allPeaks.OrderBy(t => t.mass).ToList();
+			int sortedPeaksCount = sortedPeaks.Count;
+			List<double> mergedMasses = new List<double>();
+			List<float> mergedIntensities = new List<float>();
+
+			// merge peaks in the list which lie less than the threshold distance away from each other
+			// final mz value is the intensity-weighted average 
+			int i = 0;
+			while (i < sortedPeaksCount)
+			{
+				(double mass, float intensity) p = sortedPeaks[i];
+				double wavgMass = p.mass * p.intensity;
+				float intensity = p.intensity;
+				while (i < sortedPeaksCount - 1)
+				{
+					(double mass, float intensity) pj = sortedPeaks[++i];
+					if ((pj.mass - sortedPeaks[i - 1].mass) / pj.mass * 1e6 > peakMergeThreshold) break;
+					wavgMass += pj.mass * pj.intensity;
+					intensity += pj.intensity;
+				}
+				if (i == sortedPeaksCount - 1) i++;
+				mergedMasses.Add(wavgMass / intensity);
+				mergedIntensities.Add(intensity);
+			}
+
+			return (mergedMasses.ToArray(), mergedIntensities.ToArray());
+		}
+		private static double GetPeakMergeThreshold(double[][] masses1)
+		{
+			// the threshold to merge is half the minimum peak distance within the spectra
+			// but maximum 7 ppm 
+			double peakMergeThreshold = 7;
+			foreach (double[] m1 in masses1)
+			{
+				List<double> masses = m1.OrderBy(m => m).ToList();
+				for (int c = 0; c < masses.Count() - 1; c++)
+				{
+					double d = (masses[c + 1] - masses[c]) / masses[c] * 1e6 * 0.5;
+					if (peakMergeThreshold > d) peakMergeThreshold = d;
+				}
+
+			}
+			return peakMergeThreshold;
+		}
+
+
 	}
 }
