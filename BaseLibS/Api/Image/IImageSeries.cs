@@ -11,7 +11,8 @@ namespace BaseLibS.Api.Image{
 		float GetValueAt(int t, int x, int y, int z);
 		float GetWeightAt(int c, int x, int y, int z);
 		bool GetROIAt(int r, int x, int y, int z);
-		(bool[][,,], string[]) GetROIs();
+		bool[][,,] GetROIs();
+		string[] GetROINames();
 		bool[,,] GetROI(string name);
 		bool GetIndicatorAt(int c, int x, int y, int z);
 		float[,,] GetImageAtTimestep(int t);
@@ -22,6 +23,7 @@ namespace BaseLibS.Api.Image{
 		bool IsFlat{ get; }
 		int FlatDimension{ get; }
 		bool HasWeights{ get; }
+		bool HasROIs { get; }
 		int NumComponents{ get; }
 		bool IsTwoSided{ get; }
 		void SetWeights(float[][,,] weights, bool isTwoSided);
