@@ -1331,34 +1331,40 @@ namespace BaseLibS.Ms{
 			}
 		}
 
-		private bool? _isDia;
+		private bool? isDia;
 
 		public bool CheckIfDia(){
-			if (_isDia == null) _isDia = CheckForRepeatingMs2Windows();
-			return (bool) _isDia;
+            if (isDia == null) {
+                isDia = CheckForRepeatingMs2Windows();
+            }
+			return (bool) isDia;
 		}
 
 		private bool CheckForRepeatingMs2Windows(){
-			if (Ms2Count == 0) return false;
-
-			// find first minimum 
-			double minValue = Ms2IsolationMzMin[Ms2Count - 1];
-			int minPos = -1;
-			for (int i = Ms2Count - 2; i >= 0; i--){
-				var value = Ms2IsolationMzMin[i];
-				if (Ms2IsolationMzMin[i] > minValue) break;
-				minValue = value;
-				minPos = i;
+            if (Ms2Count == 0) {
+                return false;
+            }
+            double minValue = Ms2IsolationMzMin[0];
+            int repeatPos = -1;
+            for (int i = 1; i < Ms2Count; i++) {
+                double value = Ms2IsolationMzMin[i];
+                if (value == minValue) {
+                    repeatPos = i;
+                    break;
+                }
 			}
-			if (minPos == -1) return false;
-			int hits = 1;
-			for (int i = minPos - 1; i >= 0; i--){
-				var value = Ms2IsolationMzMin[i];
-				if (value < minValue) return false;
-				if (Math.Abs(value - minValue) < Double.Epsilon) hits++;
-				if (hits >= 3) return true;
+            if (repeatPos == -1) {
+                return false;
+            }
+            if (Ms2Count < 2 * repeatPos) {
+                return false;
+            }
+            for (int i = 0; i < repeatPos; i++) {
+                if (Ms2IsolationMzMin[i] != Ms2IsolationMzMin[i + repeatPos]) {
+                    return false;
+                }
 			}
-			return false;
+            return true;
 		}
 
 		public int[][] GetDiaMs2Indices(){
@@ -1382,6 +1388,9 @@ namespace BaseLibS.Ms{
 		}
 
         public int GetDiaNumMs1Scans() {
+            if (!CheckIfDia()) {
+                return 1;
+            }
             int[][] x = GetDiaMs2Indices();
             if (x.Length == 0) {
                 return 1;
