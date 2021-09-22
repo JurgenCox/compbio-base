@@ -64,13 +64,25 @@ namespace BaseLib.Forms{
 					"TMT10plex-Nter128C", "TMT10plex-Nter129N", "TMT10plex-Nter129C", "TMT10plex-Nter130N",
 					"TMT10plex-Nter130C", "TMT10plex-Nter131N", "TMT11plex-Nter131C"
 				}),
+			new IsobaricLabelingDefault("16plex TMTpro",
+				new[]{
+					"TMTpro16plex-Lys126C", "TMTpro16plex-Lys127N", "TMTpro16plex-Lys127C", "TMTpro16plex-Lys128N",
+					"TMTpro16plex-Lys128C", "TMTpro16plex-Lys129N", "TMTpro16plex-Lys129C", "TMTpro16plex-Lys130N",
+					"TMTpro16plex-Lys130C", "TMTpro16plex-Lys131N", "TMTpro16plex-Lys131C", "TMTpro16plex-Lys132N",
+					"TMTpro16plex-Lys132C", "TMTpro16plex-Lys133N", "TMTpro16plex-Lys133C", "TMTpro16plex-Lys134N"
+				},
+				new[]{
+					"TMTpro16plex-Nter126C", "TMTpro16plex-Nter127N", "TMTpro16plex-Nter127C", "TMTpro16plex-Nter128N",
+					"TMTpro16plex-Nter128C", "TMTpro16plex-Nter129N", "TMTpro16plex-Nter129C", "TMTpro16plex-Nter130N",
+					"TMTpro16plex-Nter130C", "TMTpro16plex-Nter131N", "TMTpro16plex-Nter131C", "TMTpro16plex-Nter132N",
+					"TMTpro16plex-Nter132C", "TMTpro16plex-Nter133N", "TMTpro16plex-Nter133C", "TMTpro16plex-Nter134N"
+				}),
 			new IsobaricLabelingDefault("iodo6plexTMT",
 				new[]{
 					"iodoTMT6plex-Cys126", "iodoTMT6plex-Cys127", "iodoTMT6plex-Cys128", "iodoTMT6plex-Cys129",
 					"iodoTMT6plex-Cys130", "iodoTMT6plex-Cys131"
 				}, new string[]{ }),
 		};
-
 		private DataTable2 table;
 
 		public IsobaricLabelsParamControl(){
