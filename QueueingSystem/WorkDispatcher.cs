@@ -31,7 +31,7 @@ namespace QueueingSystem{
 
         public int MaxHeapSizeGb { get; set; }
         public bool Permute { get; set; }
-
+        public bool WriteArgs { get; set; }
 		public int Nthreads{ get; }
 
 		public Func<int> NTasks{ get; }
@@ -347,6 +347,9 @@ Submitted job {jobTemplate.JobName} with id: {jobId}
 			bool isUnix = FileUtils.IsUnix();
 			string cmd = args[0];
 			string argsStr = string.Join(" ", Util.WrapArgs(args.Skip(1)));
+			if (WriteArgs){
+				Console.WriteLine(argsStr);
+			}
 			ProcessStartInfo psi = new ProcessStartInfo(cmd, argsStr);
 			if (isUnix){
 				psi.WorkingDirectory = Directory.GetDirectoryRoot(cmd);
