@@ -17,7 +17,7 @@
 		public double ms2MonoMz;
 		public double ms2ParentMz;
 		public double ms3ParentMz;
-		public FragmentationTypeEnum ms2FragType;
+		public FragmentationTypeEnum fragType;
 		public double tic; // total ion current
 		public double rt; // retention time
 		public int ionMobilityIndex;

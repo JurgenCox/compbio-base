@@ -508,7 +508,7 @@ namespace PluginRawMzMl{
 				} else{
 					throw new ArgumentException($"Could not identify fragmentation type for spectrum {scanNumber}.");
 				}
-				scanInfo.ms2FragType = fragmentationType;
+				scanInfo.fragType = fragmentationType;
 				Dictionary<string, string> isolationWindowParameters = Parameters(precursor.isolationWindow);
 				scanInfo.ms2MonoMz = double.NaN; // TODO taken from internal SciexWiffRawFile implementation
 				scanInfo.ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);

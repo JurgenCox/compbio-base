@@ -110,11 +110,11 @@ namespace PluginRawMzXml{
 				scanInfo.ms2IsolationMin = scanHeader.PrecursorMz - 1;
 				scanInfo.ms2IsolationMax = scanHeader.PrecursorMz + 1;
 				scanInfo.ms2MonoMz = double.NaN;
-				scanInfo.ms2FragType = scanHeader.FragmentationType;
+				scanInfo.fragType = scanHeader.FragmentationType;
 				//scanInfo.ms2IsolationWidth = 4; // TODO defaulting to 4 (field not existing)
 				scanInfo.energy = scanHeader.CollisionEnergy;
 			} else{
-				scanInfo.ms2FragType = FragmentationTypeEnum.Unknown;
+				scanInfo.fragType = FragmentationTypeEnum.Unknown;
 				scanInfo.ms2ParentMz = 0;
 				//scanInfo.ms2IsolationWidth = 0;
 				scanInfo.energy = 0;

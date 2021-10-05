@@ -77,7 +77,7 @@ namespace BaseLibS.Ms{
 					ms2Lists.scansList.Add(scanNum);
 					ms2Lists.prevMs1IndexList.Add(ms1Lists.scans.Count - 1);
 					ms2Lists.mzList.Add(scanInfo.ms2ParentMz);
-					ms2Lists.fragmentTypeList.Add(scanInfo.ms2FragType);
+					ms2Lists.fragmentTypeList.Add(scanInfo.fragType);
 					ms2Lists.rtList.Add(scanInfo.rt);
 					ms2Lists.ionInjectionTimesList.Add(scanInfo.ionInjectionTime);
 					ms2Lists.basepeakIntensityList.Add(scanInfo.basepeakIntensity);
@@ -117,7 +117,7 @@ namespace BaseLibS.Ms{
 					ms3Lists.prevMs2IndexList.Add(GetPrecursorMs2(currentMs2Inds, scanInfo.ms2ParentMz));
 					ms3Lists.mz1List.Add(scanInfo.ms2ParentMz);
 					ms3Lists.mz2List.Add(scanInfo.ms3ParentMz);
-					ms3Lists.fragmentTypeList.Add(scanInfo.ms2FragType);
+					ms3Lists.fragmentTypeList.Add(scanInfo.fragType);
 					ms3Lists.rtList.Add(scanInfo.rt);
 					ms3Lists.ionInjectionTimesList.Add(scanInfo.ionInjectionTime);
 					ms3Lists.basepeakIntensityList.Add(scanInfo.basepeakIntensity);
