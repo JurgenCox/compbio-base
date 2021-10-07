@@ -1151,7 +1151,7 @@ namespace BaseLibS.Ms{
 			Ms3MassMin = ms3Lists.massMin;
 			Ms3MassMax = ms3Lists.massMax;
 			Ms3PrevMs2Index = ms3Lists.prevMs2IndexList.ToArray();
-			Ms2DependentMs3Inds = CreateMs2DependentMs3Inds(Ms3PrevMs2Index, Ms2Mz.Length);
+			Ms2DependentMs3Inds = CreateMs2DependentMs3Inds(Ms3PrevMs2Index, Ms2Mz, Ms3Mz1);
 			Ms3ScanNumbers = ms3Lists.scansList.ToArray();
 			Ms3Rt = ms3Lists.rtList.ToArray();
 			Ms3Mz1 = ms3Lists.mz1List.ToArray();
@@ -1178,7 +1178,8 @@ namespace BaseLibS.Ms{
 			Ms3AgcFill = ms3Lists.agcFillList.ToArray();
 		}
 
-		private static int[][] CreateMs2DependentMs3Inds(int[] ms3PrevMs2Index, int n2){
+		private static int[][] CreateMs2DependentMs3Inds(int[] ms3PrevMs2Index, double[] ms2Mz, double[] ms3Mz1) {
+			int n2 = ms2Mz.Length;
 			if (ms3PrevMs2Index.Length == 0){
 				int[][] result = new int[n2][];
 				for (int i = 0; i < n2; i++){
@@ -1190,9 +1191,11 @@ namespace BaseLibS.Ms{
 			for (int i = 0; i < x.Length; i++){
 				x[i] = new List<int>();
 			}
+			
 			for (int i = 0; i < ms3PrevMs2Index.Length; i++){
-				if (ms3PrevMs2Index[i] >= 0){
-					x[ms3PrevMs2Index[i]].Add(i);
+				int prevMs2Ind = ms3PrevMs2Index[i];
+				if (prevMs2Ind >= 0){
+					x[prevMs2Ind].Add(i);
 				}
 			}
 			int[][] res = new int[x.Length][];

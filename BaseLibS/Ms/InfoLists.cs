@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 namespace BaseLibS.Ms{
 	public class InfoLists{
 		public readonly Ms1Lists ms1Lists;
@@ -8,14 +7,12 @@ namespace BaseLibS.Ms{
 		public readonly Ms3Lists ms3Lists;
 		public readonly Dictionary<double, object> allMassRanges;
 		public readonly List<int> currentMs2Inds = new List<int>();
-
 		public InfoLists(){
 			ms1Lists = new Ms1Lists();
 			ms2Lists = new Ms2Lists();
 			ms3Lists = new Ms3Lists();
 			allMassRanges = new Dictionary<double, object>();
 		}
-
 		public InfoLists(Ms1Lists ms1Lists, Ms2Lists ms2Lists, Ms3Lists ms3Lists,
 			Dictionary<double, object> allMassRanges){
 			this.ms1Lists = ms1Lists;
@@ -23,7 +20,6 @@ namespace BaseLibS.Ms{
 			this.ms3Lists = ms3Lists;
 			this.allMassRanges = allMassRanges;
 		}
-
 		public void Add(ScanInfo scanInfo, int scanNum){
 			switch (scanInfo.msLevel){
 				case MsLevel.Ms1:
@@ -146,10 +142,10 @@ namespace BaseLibS.Ms{
 					throw new Exception("Invalid MS level.");
 			}
 		}
-
-		private int GetPrecursorMs2(IEnumerable<int> ms2Inds, double pmz){
-			foreach (int ind in ms2Inds){
-				if (ms2Lists.mzList[ind] == pmz){
+		private int GetPrecursorMs2(List<int> ms2Inds, double pmz){
+			for (int i = ms2Inds.Count - 1; i >= 0; i--){
+				int ind = ms2Inds[i];
+				if (Math.Abs(ms2Lists.mzList[ind] - pmz) < 0.05){
 					return ind;
 				}
 			}
