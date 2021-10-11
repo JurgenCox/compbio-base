@@ -3447,13 +3447,26 @@ namespace BaseLibS.Num{
 		/// <param name="array">The array to look for the value.</param>
 		/// <param name="value">The value to look for.</param>
 		/// <returns></returns>
-		public static bool Contains<T>(IList<T> array, T value){
-			foreach (T t in array){
-				if (t.Equals(value)){
+		public static bool Contains<T>(IList<T> array, T value) {
+			foreach (T t in array) {
+				if (t.Equals(value)) {
 					return true;
 				}
 			}
 			return false;
+		}
+
+		public static bool AllAreEqual<T>(IList<T> array) {
+			if (array.Count <= 1){
+				return true;
+			}
+			T value = array[0];
+			for (int i = 1; i < array.Count; i++){
+				if (!value.Equals(array[i])){
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public static int TriangleToLinearIndex(int i, int j){
