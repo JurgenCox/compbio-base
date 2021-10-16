@@ -6,7 +6,7 @@ namespace BaseLibS.Ms{
 		public double massMin = double.MaxValue;
 		public double massMax = double.MinValue;
 		public int maxNumIms;
-		public List<int> prevMs2IndexList = new List<int>();
+		public List<int> associatedMs2IndexList = new List<int>();
 		public List<int> scansList = new List<int>();
 		public List<double> rtList = new List<double>();
 		public List<double> mz1List = new List<double>();
@@ -47,7 +47,7 @@ namespace BaseLibS.Ms{
 			result.massMax = massMax;
 			result.maxNumIms = maxNumIms;
 			//TODO: needs to be updated
-			result.prevMs2IndexList = prevMs2IndexList.MsSubList(valids);
+			result.associatedMs2IndexList = associatedMs2IndexList.MsSubList(valids);
 			result.scansList = scansList.MsSubList(valids);
 			result.rtList = rtList.MsSubList(valids);
 			result.mz1List = mz1List.MsSubList(valids);

@@ -38,7 +38,7 @@ namespace BaseLibS.Ms{
 		public double Ms2MassMax{ get; protected internal set; }
 		public int Ms2MaxNumIms{ get; protected internal set; }
 		public int[] Ms2PrevMs1Index{ get; protected internal set; }
-		public int[][] Ms2DependentMs3Inds{ get; protected internal set; }
+		public int[][] Ms2AssociatedMs3Inds{ get; protected internal set; }
 		public int[] Ms2ScanNumbers{ get; protected internal set; }
 		public int[] Ms2NumIms{ get; protected internal set; }
 		public int[] Ms2WindowGroup{ get; protected internal set; }
@@ -66,7 +66,7 @@ namespace BaseLibS.Ms{
 		public double[] Ms2AgcFill{ get; protected internal set; }
 		public double Ms3MassMin{ get; protected internal set; }
 		public double Ms3MassMax{ get; protected internal set; }
-		public int[] Ms3PrevMs2Index{ get; protected internal set; }
+		public int[] Ms3AssociatedMs2Ind{ get; protected internal set; }
 		public int[] Ms3ScanNumbers{ get; protected internal set; }
 		public double[] Ms3Rt{ get; protected internal set; }
 		public double[] Ms3Mz1{ get; protected internal set; }
@@ -184,7 +184,7 @@ namespace BaseLibS.Ms{
 			}
 			Ms3MassMin = reader.ReadDouble();
 			Ms3MassMax = reader.ReadDouble();
-			Ms3PrevMs2Index = FileUtils.ReadInt32Array(reader);
+			Ms3AssociatedMs2Ind = FileUtils.ReadInt32Array(reader);
 			Ms3ScanNumbers = FileUtils.ReadInt32Array(reader);
 			Ms3Rt = FileUtils.ReadDoubleArray(reader);
 			Ms3Mz1 = FileUtils.ReadDoubleArray(reader);
@@ -219,7 +219,7 @@ namespace BaseLibS.Ms{
 				int x = reader.ReadInt32();
 				ms3Analyzer[i] = RawFileUtils.IntToMassAnalyzerEnum(x);
 			}
-			Ms2DependentMs3Inds = FileUtils.Read2DInt32Array(reader);
+			Ms2AssociatedMs3Inds = FileUtils.Read2DInt32Array(reader);
 		}
 
 		public int Ms1Count => Ms1ScanNumbers.Length;
@@ -976,7 +976,7 @@ namespace BaseLibS.Ms{
 			}
 			writer.Write(Ms3MassMin);
 			writer.Write(Ms3MassMax);
-			FileUtils.Write(Ms3PrevMs2Index, writer);
+			FileUtils.Write(Ms3AssociatedMs2Ind, writer);
 			FileUtils.Write(Ms3ScanNumbers, writer);
 			FileUtils.Write(Ms3Rt, writer);
 			FileUtils.Write(Ms3Mz1, writer);
@@ -1007,7 +1007,7 @@ namespace BaseLibS.Ms{
 			foreach (MassAnalyzerEnum t in ms3Analyzer){
 				writer.Write(RawFileUtils.MassAnalyzerEnumToInt(t));
 			}
-			FileUtils.Write(Ms2DependentMs3Inds, writer);
+			FileUtils.Write(Ms2AssociatedMs3Inds, writer);
 		}
 
 		public void Dispose(){
@@ -1150,8 +1150,8 @@ namespace BaseLibS.Ms{
 		private void SetMs3Data(Ms3Lists ms3Lists){
 			Ms3MassMin = ms3Lists.massMin;
 			Ms3MassMax = ms3Lists.massMax;
-			Ms3PrevMs2Index = ms3Lists.prevMs2IndexList.ToArray();
-			Ms2DependentMs3Inds = CreateMs2DependentMs3Inds(Ms3PrevMs2Index, Ms2Mz, Ms3Mz1);
+			Ms3AssociatedMs2Ind = ms3Lists.associatedMs2IndexList.ToArray();
+			Ms2AssociatedMs3Inds = CreateMs2DependentMs3Inds(Ms3AssociatedMs2Ind, Ms2Mz, Ms3Mz1);
 			Ms3ScanNumbers = ms3Lists.scansList.ToArray();
 			Ms3Rt = ms3Lists.rtList.ToArray();
 			Ms3Mz1 = ms3Lists.mz1List.ToArray();

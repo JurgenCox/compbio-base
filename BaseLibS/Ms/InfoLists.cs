@@ -110,7 +110,7 @@ namespace BaseLibS.Ms{
 						ms3Lists.maxNumIms = scanInfo.nImsScans;
 					}
 					ms3Lists.scansList.Add(scanNum);
-					ms3Lists.prevMs2IndexList.Add(GetPrecursorMs2(currentMs2Inds, scanInfo.ms2ParentMz));
+					ms3Lists.associatedMs2IndexList.Add(GetPrecursorMs2(currentMs2Inds, scanInfo.ms2ParentMz));
 					ms3Lists.mz1List.Add(scanInfo.ms2ParentMz);
 					ms3Lists.mz2List.Add(scanInfo.ms3ParentMz);
 					ms3Lists.fragmentTypeList.Add(scanInfo.fragType);
