@@ -26,9 +26,9 @@ namespace BaseLib.Forms{
 					return;
 				}
 				int v = (int) Math.Round(trackBar1.Minimum + a * (trackBar1.Maximum - trackBar1.Minimum));
-				v = Math.Max(v, trackBar1.Minimum);
-				v = Math.Min(v, trackBar1.Maximum);
-				trackBar1.Value = v;
+				try{
+					trackBar1.Value = v;
+				}catch(Exception){}
 			}
 		}
 		public TickStyle TickStyle{
