@@ -4,26 +4,28 @@ using System.Threading;
 
 namespace BaseLibS.Util{
 	public static class Parser{
+
+		private static string StandardizeCulture(string s){
+			if (s.Contains(",")){
+				return s.Replace(",", ".");
+			}
+			return s;
+		}
+
 		public static double Double(string s){
-			return double.Parse(s, NumberStyles.Any,
-				s.Contains(",") ? Thread.CurrentThread.CurrentCulture : CultureInfo.InvariantCulture);
+			return double.Parse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
 
 		public static bool TryDouble(string s, out double x){
-			return s.Contains(",")
-				? double.TryParse(s, NumberStyles.Any, Thread.CurrentThread.CurrentCulture, out x)
-				: double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+			return double.TryParse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
 		public static float Float(string s){
-			return float.Parse(s, NumberStyles.Any,
-				s.Contains(",") ? Thread.CurrentThread.CurrentCulture : CultureInfo.InvariantCulture);
+			return float.Parse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
 
 		public static bool TryFloat(string s, out float x){
-			return s.Contains(",")
-				? float.TryParse(s, NumberStyles.Any, Thread.CurrentThread.CurrentCulture, out x)
-				: float.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+			return float.TryParse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
 		public static int Int(string s){
