@@ -5,27 +5,20 @@ using System.Threading;
 namespace BaseLibS.Util{
 	public static class Parser{
 
-		private static string StandardizeCulture(string s){
-			if (s.Contains(",")){
-				return s.Replace(",", ".");
-			}
-			return s;
-		}
-
 		public static double Double(string s){
-			return double.Parse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture);
+			return double.Parse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
 
 		public static bool TryDouble(string s, out double x){
-			return double.TryParse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+			return double.TryParse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
 		public static float Float(string s){
-			return float.Parse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture);
+			return float.Parse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
 
 		public static bool TryFloat(string s, out float x){
-			return float.TryParse(StandardizeCulture(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+			return float.TryParse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
 		public static int Int(string s){

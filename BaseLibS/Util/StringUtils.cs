@@ -798,6 +798,13 @@ namespace BaseLibS.Util{
 			return true;
 		}
 
+		public static string RemoveCultureSpecificSeparators(string s){
+			if (s.Contains(",")){
+				return Replace(s, ",", ".");
+			}
+			return s;
+		}
+
 		private static string GetNext(string s){
 			if (!HasNumberExtension(s)){
 				return s + "_1";
