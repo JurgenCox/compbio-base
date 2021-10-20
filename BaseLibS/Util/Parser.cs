@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 
-namespace BaseLibS.Util{
+namespace BaseLibS.Util
+{
 	public static class Parser{
 
 		public static double Double(string s){
