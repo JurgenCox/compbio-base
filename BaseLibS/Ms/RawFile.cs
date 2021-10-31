@@ -127,11 +127,11 @@ namespace BaseLibS.Ms{
 		public double Ms2MassMax => Math.Max(posLayer.Ms2MassMax, negLayer.Ms2MassMax);
 		public double MaxIntensity => Math.Max(posLayer.MaxIntensity, negLayer.MaxIntensity);
 
-		protected internal abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin,
+		public abstract void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin,
 			int imsIndexMax, bool readCentroids, out double[] masses, out float[] intensities, double resolution,
 			double gridSpacing, double mzMin, double mzMax, bool isMs1);
 
-		protected internal abstract IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin,
+		public abstract IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin,
 			int[] imsIndexMax, bool readCentroids);
 
 		public abstract Spectrum GetSpectrum(IntSpectrum s, double resolution, double gridSpacing);

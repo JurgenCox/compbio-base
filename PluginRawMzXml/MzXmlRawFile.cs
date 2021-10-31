@@ -51,7 +51,7 @@ namespace PluginRawMzXml{
 			}
 		}
 
-		protected override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
+		public override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
 			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing,
 			double mzMin, double mzMax, bool isMs1){
 			if (!preInitialized){
@@ -67,7 +67,7 @@ namespace PluginRawMzXml{
 			}
 		}
 
-		protected override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin,
+		public override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin,
 			int[] imsIndexMax, bool readCentroids){
 			throw new System.NotImplementedException();
 		}

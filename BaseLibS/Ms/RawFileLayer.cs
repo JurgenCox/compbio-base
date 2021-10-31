@@ -221,7 +221,7 @@ namespace BaseLibS.Ms{
 			}
 			Ms2AssociatedMs3Inds = FileUtils.Read2DInt32Array(reader);
 		}
-
+		public RawFile RawFile => rawFile;
 		public int Ms1Count => Ms1ScanNumbers.Length;
 		public int Ms2Count => Ms2ScanNumbers.Length;
 		public int Ms3Count => Ms3ScanNumbers.Length;
