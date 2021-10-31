@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using BaseLibS.Ms.Instrument;
 using BaseLibS.Util;
 
 namespace BaseLibS.Ms{

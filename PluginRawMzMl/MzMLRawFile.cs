@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using BaseLibS.Ms;
+using BaseLibS.Ms.Instrument;
 using BaseLibS.Num;
 using BaseLibS.Util;
 using zlib;

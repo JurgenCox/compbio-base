@@ -1,5 +1,5 @@
 using BaseLibS.Ms;
-
+using BaseLibS.Ms.Instrument;
 namespace PluginRawMzXml{
 	/// <summary>
 	/// Implementation of the <see cref="RawFile"/> interface for mz-xml files.

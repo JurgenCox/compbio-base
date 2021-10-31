@@ -1,6 +1,5 @@
 ﻿using System;
-
-namespace BaseLibS.Ms{
+namespace BaseLibS.Ms.Instrument{
 	[Serializable]
 	public abstract class MsInstrument{
 		protected MsInstrument(int index){
@@ -8,8 +7,8 @@ namespace BaseLibS.Ms{
 		}
 
 		public int Index{ get; }
-		public double IsotopeTimeCorrelationDefault => 0.6;
-		public double TheorIsotopeCorrelationDefault => 0.6;
+		public abstract double IsotopeTimeCorrelationDefault { get; }
+		public abstract double TheorIsotopeCorrelationDefault { get; }
 		public bool RecalibrationInPpmDefault => true;
 		public abstract string Name{ get; }
 		public abstract double GetIsotopeMatchTolDefault(MsDataType dataType);
