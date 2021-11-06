@@ -2663,7 +2663,10 @@ namespace BaseLibS.Num{
 			return b - 1;
 		}
 
-		public static int GetArrayOfArrayHashCode<T>(T[][] array){
+		public static int GetArrayOfArrayHashCode<T>(IList<T[]> array){
+			if (array == null) {
+				return 0;
+			}
 			int hash = 397;
 			foreach (T[] elem in array){
 				hash = (hash * 397) ^ GetArrayHashCode(elem);
@@ -2671,7 +2674,10 @@ namespace BaseLibS.Num{
 			return hash;
 		}
 
-		public static int GetArrayHashCode<T>(T[] array){
+		public static int GetArrayHashCode<T>(IList<T> array){
+			if (array == null){
+				return 0;
+			}
 			int hash = 397;
 			foreach (T elem in array){
 				hash = (hash * 397) ^ elem.GetHashCode();
