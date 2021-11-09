@@ -215,6 +215,12 @@ namespace BaseLibS.Num{
 			return s.Substring(0, end);
 		}
 
+		public static string GetPercentageString(double frac) {
+			int x = (int)Math.Round(frac * 1000);
+			float perc = x / 10f;
+			return Parser.ToString(perc) + "%";
+		}
+
 		public static void PolynomialFit(double[] x, double[] y, int degree, out double[] a){
 			a = new double[degree + 1];
 			LinFit2(x, y, a, delegate(double x1, double[] a1){

@@ -2035,10 +2035,18 @@ namespace BaseLibS.Num{
 			return result;
 		}
 
-		public static int[] ToInts(IList<ushort> doubles){
+		public static int[] ToInts(IList<ushort> doubles) {
 			int[] result = new int[doubles.Count];
-			for (int i = 0; i < result.Length; i++){
+			for (int i = 0; i < result.Length; i++) {
 				result[i] = doubles[i];
+			}
+			return result;
+		}
+
+		public static ushort[] ToUshorts(IList<int> doubles) {
+			ushort[] result = new ushort[doubles.Count];
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = (ushort)doubles[i];
 			}
 			return result;
 		}
