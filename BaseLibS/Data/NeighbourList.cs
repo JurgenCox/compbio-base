@@ -13,6 +13,7 @@ namespace BaseLibS.Data{
 			Add2(j, i);
 		}
 
+		public int[] Keys => neighborList.Keys.ToArray();
 		public bool IsEmptyAt(int i) { return !neighborList.ContainsKey(i); }
 
         /// <summary>
