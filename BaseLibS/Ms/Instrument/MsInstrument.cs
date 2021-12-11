@@ -44,7 +44,7 @@ namespace BaseLibS.Ms.Instrument{
 		public abstract bool DiaBackgroundSubtractionDefault { get; }
 		public abstract double DiaBackgroundSubtractionQuantileDefault { get; }
 		public abstract double DiaBackgroundSubtractionFactorDefault { get; }
-		public abstract bool DiaLfqWeightedMedianDefault { get; }
+		public abstract LfqRatioType DiaLfqRatioTypeDefault { get; }
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 7;
 		public int DiaMaxTrainInstancesDefault => 1000000;
