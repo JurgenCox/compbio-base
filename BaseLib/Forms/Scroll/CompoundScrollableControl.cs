@@ -166,7 +166,8 @@ namespace BaseLib.Forms.Scroll{
 		public Action<IGraphics> OnPaintCornerView{ get; set; }
 		public Action<IGraphics> OnPaintMiddleCornerView{ get; set; }
 		private readonly ToolTip columnViewToolTip = new ToolTip();
-		public bool HasOverview{ get; set; } = true;
+		public bool HasOverview { get; set; } = true;
+		public bool HasZoomButtons { get; set; } = true;
 
 		public CompoundScrollableControl(){
 			InitializeComponent2();

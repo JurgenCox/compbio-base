@@ -150,6 +150,14 @@ namespace BaseLibS.Num{
 			}
 			return b.ToString();
 		}
+		public string NextString(int length, char[] letters) {
+			StringBuilder b = new StringBuilder();
+			for (int i = 0; i < length; i++) {
+				b.Append(letters[Next(letters.Length)]);
+			}
+			return b.ToString();
+		}
+
 
 		/// <summary>
 		/// This routine generates a random number between 0 and n inclusive,

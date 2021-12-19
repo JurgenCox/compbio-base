@@ -30,5 +30,6 @@ namespace BaseLibS.Graph.Scroll{
 		Action<IGraphics, int, int, int, int, bool> OnPaintMainView { get; set; }
 		void ExportGraphic(string name, bool showDialog);
 		bool HasOverview { get; set; }
+		bool HasZoomButtons { get; set; }
 	}
 }

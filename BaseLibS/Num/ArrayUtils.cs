@@ -885,12 +885,27 @@ namespace BaseLibS.Num{
 		/// </summary>
 		/// <param name="from">Start index.</param>
 		/// <param name="to">End (exclusive).</param>
-		/// <returns>The list of consecutive integers.</returns>
-		public static short[] ConsecutiveShorts(int from, int to){
+		/// <returns>The list of consecutive shorts.</returns>
+		public static short[] ConsecutiveShorts(int from, int to) {
 			int len = to - from;
 			short[] result = new short[len];
-			for (int i = 0; i < len; i++){
-				result[i] = (short) (from + i);
+			for (int i = 0; i < len; i++) {
+				result[i] = (short)(from + i);
+			}
+			return result;
+		}
+
+		/// <summary>
+		///     Create a list of consecutive chars.
+		/// </summary>
+		/// <param name="from">Start index.</param>
+		/// <param name="to">End (inclusive).</param>
+		/// <returns>The list of consecutive chars.</returns>
+		public static char[] ConsecutiveChars(char from, char to) {
+			int len = to - from + 1;
+			char[] result = new char[len];
+			for (int i = 0; i < len; i++) {
+				result[i] = (char)(from + i);
 			}
 			return result;
 		}

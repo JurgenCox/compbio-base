@@ -116,7 +116,7 @@ namespace BaseLib.Forms.Table{
 						}
 						control1.Invalidate(true);
 					} catch (Exception){ }
-					SelectionChanged?.Invoke(this, new EventArgs());
+					SelectionChanged?.Invoke(this, EventArgs.Empty);
 					if (SetCellText != null){
 						int row = (control1.VisibleY + e.Y) / RowHeight;
 						if (model == null || row >= model.RowCount || row < 0){
@@ -162,7 +162,7 @@ namespace BaseLib.Forms.Table{
 					SelectRange(selectStart, row);
 					if (selectStart != row){
 						control1.Invalidate(true);
-						SelectionChanged?.Invoke(this, new EventArgs());
+						SelectionChanged?.Invoke(this, EventArgs.Empty);
 					}
 				}
 			};
@@ -633,7 +633,7 @@ namespace BaseLib.Forms.Table{
 							modelRowSel[i] = !modelRowSel[i];
 						}
 						control.Invalidate(true);
-						SelectionChanged?.Invoke(this, new EventArgs());
+						SelectionChanged?.Invoke(this, EventArgs.Empty);
 					});
 				}
 				control.AddContextMenuItem("Bring selection to top", (sender, args) => { BringSelectionToTop(); });
@@ -827,12 +827,12 @@ namespace BaseLib.Forms.Table{
 				modelRowSel[row] = !add || !modelRowSel[row];
 			}
 			if (fire){
-				SelectionChanged?.Invoke(this, new EventArgs());
+				SelectionChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
 		public void FireSelectionChange(){
-			SelectionChanged?.Invoke(this, new EventArgs());
+			SelectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void SetSelectedRowAndMove(int row){
@@ -850,7 +850,7 @@ namespace BaseLib.Forms.Table{
 			} else{
 				control.Invalidate(true);
 			}
-			SelectionChanged?.Invoke(this, new EventArgs());
+			SelectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public int GetSelectedRow(){
@@ -1012,7 +1012,7 @@ namespace BaseLib.Forms.Table{
 
 		public void ClearSelectionFire(){
 			ClearSelection();
-			SelectionChanged?.Invoke(this, new EventArgs());
+			SelectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void SelectAll(){
@@ -1082,7 +1082,7 @@ namespace BaseLib.Forms.Table{
 				ClearSelection();
 			}
 			modelRowSel[order[index]] = true;
-			SelectionChanged?.Invoke(this, new EventArgs());
+			SelectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void SetSelectedIndex(int index){
@@ -1095,12 +1095,12 @@ namespace BaseLib.Forms.Table{
 				ClearSelection();
 			}
 			modelRowSel[index] = true;
-			SelectionChanged?.Invoke(sender, new EventArgs());
+			SelectionChanged?.Invoke(sender, EventArgs.Empty);
 		}
 
 		public void SetSelection(bool[] s){
 			modelRowSel = s;
-			SelectionChanged?.Invoke(this, new EventArgs());
+			SelectionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public object GetEntry(int row, int col){

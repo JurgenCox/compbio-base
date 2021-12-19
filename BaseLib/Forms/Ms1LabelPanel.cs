@@ -113,10 +113,10 @@ namespace BaseLib.Forms{
 			if (m == 1){ // only one label state
 				return "";
 			}
-			if (m == 2){ // two lable states: light and heavy
+			if (m == 2){ // two label states: light and heavy
 				return i == 0 ? "Light labels" : "Heavy labels";
 			}
-			if (m == 3){ // three lable states: light, medium, and heavy
+			if (m == 3){ // three label states: light, medium, and heavy
 				switch (i){
 					case 0:
 						return "Light labels";

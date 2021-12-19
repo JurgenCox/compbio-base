@@ -26,7 +26,9 @@ namespace BaseLib.Forms.Scroll {
 		public override void OnPaint(IGraphics g, int width, int height) {
 			IGraphics g1 = main.ZoomFactor == 1 ? g : new ScaledGraphics(g, main.ZoomFactor);
 			main.OnPaintMainView?.Invoke(g1, main.VisibleX, main.VisibleY, width, height, false);
-			GraphUtil.PaintZoomButtons(g, width, height, state);
+			if (main.HasZoomButtons){
+				GraphUtil.PaintZoomButtons(g, width, height, state);
+			}
 			if (main.HasOverview) {
 				GraphUtil.PaintOverview(g, main.TotalSize, main.VisibleWin,
 					(overviewWidth, overviewHeight) => main.overviewBitmap ??
