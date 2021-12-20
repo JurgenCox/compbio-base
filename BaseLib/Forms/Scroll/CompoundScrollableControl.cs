@@ -168,6 +168,9 @@ namespace BaseLib.Forms.Scroll{
 		private readonly ToolTip columnViewToolTip = new ToolTip();
 		public bool HasOverview { get; set; } = true;
 		public bool HasZoomButtons { get; set; } = true;
+		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
+		public ScrollBarMode VerticalScrollbarMode { get; set; } = ScrollBarMode.Always;
+
 
 		public CompoundScrollableControl(){
 			InitializeComponent2();

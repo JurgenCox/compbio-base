@@ -3,9 +3,9 @@
 namespace BaseLibS.Graph{
 	[Flags]
 	public enum Keys2{
-		//
-		// Summary:
-		//     The bitmask to extract modifiers from a key value.
+		/// <summary>
+		/// The bitmask to extract modifiers from a key value.
+		/// </summary>
 		Modifiers = -65536,
 		//
 		// Summary:

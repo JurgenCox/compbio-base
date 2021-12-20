@@ -28,6 +28,8 @@ namespace BaseLib.Forms.Scroll{
 		public Action<BasicMouseEventArgs> OnMouseMoveMainView { get; set; }
 		public float ZoomFactor { get; set; } = 1;
 		public bool HasOverview { get; set; } = true;
+		public ScrollBarMode HorizontalScrollbarMode { get; set; } = ScrollBarMode.Always;
+		public ScrollBarMode VerticalScrollbarMode { get; set; } = ScrollBarMode.Always;
 		public bool HasZoomButtons { get; set; } = true;
 		internal Bitmap2 overviewBitmap;
 		public event ZoomChangeHandler2 OnZoomChanged;

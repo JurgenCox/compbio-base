@@ -31,5 +31,7 @@ namespace BaseLibS.Graph.Scroll{
 		void ExportGraphic(string name, bool showDialog);
 		bool HasOverview { get; set; }
 		bool HasZoomButtons { get; set; }
+		ScrollBarMode HorizontalScrollbarMode { get; set; }
+		ScrollBarMode VerticalScrollbarMode { get; set; }
 	}
 }
