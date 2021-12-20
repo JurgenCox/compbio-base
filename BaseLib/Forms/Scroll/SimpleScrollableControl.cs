@@ -6,7 +6,6 @@ using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-
 namespace BaseLib.Forms.Scroll{
 	public delegate void ZoomChangeHandler2();
 	public sealed class SimpleScrollableControl : UserControl, ISimpleScrollableControl{
@@ -17,20 +16,32 @@ namespace BaseLib.Forms.Scroll{
 		private BasicControl mainControl;
 		private BasicView mainView;
 		private BasicView smallCornerView;
-		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseClickMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseDraggedMainView { get; set; }
-		public Action<EventArgs> OnMouseHoverMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsDownMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseIsUpMainView { get; set; }
-		public Action<EventArgs> OnMouseLeaveMainView { get; set; }
-		public Action<BasicMouseEventArgs> OnMouseMoveMainView { get; set; }
-		public float ZoomFactor { get; set; } = 1;
-		public bool HasOverview { get; set; } = true;
-		public ScrollBarMode HorizontalScrollbarMode { get; set; } = ScrollBarMode.Always;
-		public ScrollBarMode VerticalScrollbarMode { get; set; } = ScrollBarMode.Always;
-		public bool HasZoomButtons { get; set; } = true;
+		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseClickMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseDraggedMainView{ get; set; }
+		public Action<EventArgs> OnMouseHoverMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsDownMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseIsUpMainView{ get; set; }
+		public Action<EventArgs> OnMouseLeaveMainView{ get; set; }
+		public Action<BasicMouseEventArgs> OnMouseMoveMainView{ get; set; }
+		public float ZoomFactor{ get; set; } = 1;
+		public bool HasOverview{ get; set; } = true;
+		private ScrollBarMode horizontalScrollbarMode = ScrollBarMode.Always;
+		public ScrollBarMode HorizontalScrollbarMode{
+			get{
+				return horizontalScrollbarMode;
+			}
+			set{ horizontalScrollbarMode = value; }
+		}
+		private ScrollBarMode verticalScrollbarMode = ScrollBarMode.Always;
+		public ScrollBarMode VerticalScrollbarMode {
+			get {
+				return verticalScrollbarMode;
+			}
+			set { verticalScrollbarMode = value; }
+		}
+		public bool HasZoomButtons{ get; set; } = true;
 		internal Bitmap2 overviewBitmap;
 		public event ZoomChangeHandler2 OnZoomChanged;
 		public SimpleScrollableControl(){
@@ -40,33 +51,27 @@ namespace BaseLib.Forms.Scroll{
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			TotalWidth = () => ClientSize.Width;
 			TotalHeight = () => ClientSize.Height;
-			DeltaX = () => Width/20;
-			DeltaY = () => Height/20;
+			DeltaX = () => Width / 20;
+			DeltaY = () => Height / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
 		}
-
 		public void InvalidateBackgroundImages(){
 			client?.InvalidateBackgroundImages();
 		}
-
 		public void InvalidateScrollbars(){
 			horizontalScrollBar.Invalidate();
 			verticalScrollBar.Invalidate();
 		}
-
 		public void InvalidateOverview(){
 			overviewBitmap = null;
 		}
-
 		public void EnableContent(){
 			mainView.Enabled = true;
 		}
-
 		public void DisableContent(){
 			mainView.Enabled = false;
 		}
-
 		public int VisibleX{
 			get => visibleX;
 			set{
@@ -76,7 +81,6 @@ namespace BaseLib.Forms.Scroll{
 				horizontalScrollBar.Invalidate();
 			}
 		}
-
 		public int VisibleY{
 			get => visibleY;
 			set{
@@ -86,59 +90,49 @@ namespace BaseLib.Forms.Scroll{
 				verticalScrollBar.Invalidate();
 			}
 		}
-
 		public void InvalidateMainView(){
 			mainView.Invalidate();
 		}
-
 		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, mainControl.Width, mainControl.Height);
 		public int Width1 => Width;
 		public int Height1 => Height;
-		public Func<int> TotalWidth { get; set; }
-		public Func<int> TotalHeight { get; set; }
-		public Func<int> DeltaX { get; set; }
-		public Func<int> DeltaY { get; set; }
-		public Func<int> DeltaUpToSelection { get; set; }
-		public Func<int> DeltaDownToSelection { get; set; }
+		public Func<int> TotalWidth{ get; set; }
+		public Func<int> TotalHeight{ get; set; }
+		public Func<int> DeltaX{ get; set; }
+		public Func<int> DeltaY{ get; set; }
+		public Func<int> DeltaUpToSelection{ get; set; }
+		public Func<int> DeltaDownToSelection{ get; set; }
 		public int TotalClientWidth => TotalWidth();
 		public int TotalClientHeight => TotalHeight();
 		public int VisibleWidth => mainControl.Width;
 		public int VisibleHeight => mainControl.Height;
 		private ISimpleScrollableControlModel client;
-
 		public void AddContextMenuItem(string text, EventHandler action){
 			ToolStripMenuItem menuItem = new ToolStripMenuItem{Size = new Size(209, 22), Text = text};
 			menuItem.Click += action;
 			ContextMenuStrip.Items.Add(menuItem);
 		}
-
 		public void InitContextMenu(){
 			ContextMenuStrip = new ContextMenuStrip();
 		}
-
 		public void AddContextMenuSeparator(){
 			ContextMenuStrip.Items.Add(new ToolStripSeparator());
 		}
-
 		public void SetClipboardData(object data){
 			Clipboard.Clear();
 			Clipboard.SetDataObject(data);
 		}
-
 		public ISimpleScrollableControlModel Client{
 			set{
 				client = value;
 				value.Register(this);
 			}
 		}
-
 		public SizeI2 TotalSize => new SizeI2(TotalWidth(), TotalHeight());
-
 		public Tuple<int, int> GetContextMenuPosition(){
 			Point p = ContextMenuStrip.PointToScreen(new Point(0, 0));
 			return new Tuple<int, int>(p.X, p.Y);
 		}
-
 		protected override void OnResize(EventArgs e){
 			if (TotalWidth == null || TotalHeight == null){
 				return;
@@ -148,21 +142,18 @@ namespace BaseLib.Forms.Scroll{
 			InvalidateBackgroundImages();
 			base.OnResize(e);
 		}
-
 		public void MoveUp(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
 			VisibleY = Math.Max(0, VisibleY - delta);
 		}
-
 		public void MoveDown(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
-
 		private void InitializeComponent2(){
 			TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
 			mainView = new SimpleScrollableControlMainView(this);
@@ -196,30 +187,25 @@ namespace BaseLib.Forms.Scroll{
 			tableLayoutPanel1.ResumeLayout(false);
 			ResumeLayout(false);
 		}
-
 		protected override void OnMouseWheel(MouseEventArgs e){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
-			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight*0.001*e.Delta)),
+			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * e.Delta)),
 				TotalHeight() - VisibleHeight);
 			verticalScrollBar.Invalidate();
 			base.OnMouseWheel(e);
 		}
-
 		public void Print(IGraphics g, int width, int height){
 			mainView.Print(g, width, height);
 		}
-
 		public void ExportGraphic(string name, bool showDialog){
 			ExportGraphics.ExportGraphic(this, name, showDialog);
 		}
-
 		public Tuple<int, int> GetOrigin(){
 			Point q = PointToScreen(new Point(0, 0));
 			return new Tuple<int, int>(q.X, q.Y);
 		}
-
 		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
 			font = null;
 			color = Color2.Empty;
@@ -236,25 +222,20 @@ namespace BaseLib.Forms.Scroll{
 			fontDialog.Dispose();
 			return ok;
 		}
-
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
 			client?.ProcessCmdKey((Keys2) keyData);
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
-
 		public string GetClipboardText(){
 			return Clipboard.GetText();
 		}
-
 		protected override void OnSizeChanged(EventArgs e){
 			base.OnSizeChanged(e);
 			client?.OnSizeChanged();
 		}
-
 		public void ShowMessage(string text){
 			MessageBox.Show(text);
 		}
-
 		public bool SaveFileDialog(out string fileName, string filter){
 			SaveFileDialog ofd = new SaveFileDialog{Filter = filter};
 			if (ofd.ShowDialog() == DialogResult.OK){
@@ -264,19 +245,15 @@ namespace BaseLib.Forms.Scroll{
 			fileName = null;
 			return false;
 		}
-
 		public bool IsControlPressed(){
 			return (ModifierKeys & Keys.Control) == Keys.Control;
 		}
-
 		public bool IsShiftPressed(){
 			return (ModifierKeys & Keys.Shift) == Keys.Shift;
 		}
-
 		public void SetCursor(Cursors2 cursor){
 			Cursor.Current = GraphUtils.ToCursor(cursor);
 		}
-
 		public void UpdateZoom(){
 			OnZoomChanged?.Invoke();
 		}
