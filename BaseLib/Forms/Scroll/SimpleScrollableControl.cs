@@ -29,17 +29,45 @@ namespace BaseLib.Forms.Scroll{
 		public bool HasOverview{ get; set; } = true;
 		private ScrollBarMode horizontalScrollbarMode = ScrollBarMode.Always;
 		public ScrollBarMode HorizontalScrollbarMode{
-			get{
-				return horizontalScrollbarMode;
+			get => horizontalScrollbarMode;
+			set{
+				if (horizontalScrollbarMode == value){
+					return;
+				}
+				switch (value){
+					case ScrollBarMode.Never:
+						tableLayoutPanel1.RowStyles[1] = new RowStyle(SizeType.Absolute, 0);
+						break;
+					case ScrollBarMode.Always:
+						tableLayoutPanel1.RowStyles[1] = new RowStyle(SizeType.Absolute, GraphUtil.scrollBarWidth);
+						break;
+					case ScrollBarMode.Auto:
+						//TODO
+						break;
+				}
+				horizontalScrollbarMode = value;
 			}
-			set{ horizontalScrollbarMode = value; }
 		}
 		private ScrollBarMode verticalScrollbarMode = ScrollBarMode.Always;
-		public ScrollBarMode VerticalScrollbarMode {
-			get {
-				return verticalScrollbarMode;
+		public ScrollBarMode VerticalScrollbarMode{
+			get => verticalScrollbarMode;
+			set{
+				if (verticalScrollbarMode == value){
+					return;
+				}
+				switch (value){
+					case ScrollBarMode.Never:
+						tableLayoutPanel1.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, 0);
+						break;
+					case ScrollBarMode.Always:
+						tableLayoutPanel1.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, GraphUtil.scrollBarWidth);
+						break;
+					case ScrollBarMode.Auto:
+						//TODO
+						break;
+				}
+				verticalScrollbarMode = value;
 			}
-			set { verticalScrollbarMode = value; }
 		}
 		public bool HasZoomButtons{ get; set; } = true;
 		internal Bitmap2 overviewBitmap;
@@ -154,8 +182,9 @@ namespace BaseLib.Forms.Scroll{
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
+		private TableLayoutPanel tableLayoutPanel1;
 		private void InitializeComponent2(){
-			TableLayoutPanel tableLayoutPanel1 = new TableLayoutPanel();
+			tableLayoutPanel1 = new TableLayoutPanel();
 			mainView = new SimpleScrollableControlMainView(this);
 			horizontalScrollBar = new HorizontalScrollBarView(this);
 			verticalScrollBar = new VerticalScrollBarView(this);
