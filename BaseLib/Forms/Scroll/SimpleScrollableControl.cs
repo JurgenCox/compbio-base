@@ -8,12 +8,11 @@ using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Scroll{
 	public delegate void ZoomChangeHandler2();
-	public sealed class SimpleScrollableControl : UserControl, ISimpleScrollableControl{
+	public sealed class SimpleScrollableControl : Control, ISimpleScrollableControl{
 		private int visibleX;
 		private int visibleY;
 		private BasicView horizontalScrollBar;
 		private BasicView verticalScrollBar;
-		private BasicControl mainControl;
 		private BasicView mainView;
 		private BasicView smallCornerView;
 		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
@@ -36,10 +35,10 @@ namespace BaseLib.Forms.Scroll{
 				}
 				switch (value){
 					case ScrollBarMode.Never:
-						tableLayoutPanel1.RowStyles[1] = new RowStyle(SizeType.Absolute, 0);
+						tableLayoutPanel1.RowStyles[1] = new BasicRowStyle(BasicSizeType.Absolute, 0);
 						break;
 					case ScrollBarMode.Always:
-						tableLayoutPanel1.RowStyles[1] = new RowStyle(SizeType.Absolute, GraphUtil.scrollBarWidth);
+						tableLayoutPanel1.RowStyles[1] = new BasicRowStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth);
 						break;
 					case ScrollBarMode.Auto:
 						//TODO
@@ -57,10 +56,10 @@ namespace BaseLib.Forms.Scroll{
 				}
 				switch (value){
 					case ScrollBarMode.Never:
-						tableLayoutPanel1.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, 0);
+						tableLayoutPanel1.ColumnStyles[1] = new BasicColumnStyle(BasicSizeType.Absolute, 0);
 						break;
 					case ScrollBarMode.Always:
-						tableLayoutPanel1.ColumnStyles[1] = new ColumnStyle(SizeType.Absolute, GraphUtil.scrollBarWidth);
+						tableLayoutPanel1.ColumnStyles[1] = new BasicColumnStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth);
 						break;
 					case ScrollBarMode.Auto:
 						//TODO
@@ -78,8 +77,8 @@ namespace BaseLib.Forms.Scroll{
 			ResizeRedraw = true;
 			DoubleBuffered = true;
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
-			TotalWidth = () => ClientSize.Width;
-			TotalHeight = () => ClientSize.Height;
+			TotalWidth = () => 200;
+			TotalHeight = () => 200;
 			DeltaX = () => Width / 20;
 			DeltaY = () => Height / 20;
 			DeltaUpToSelection = () => 0;
@@ -122,7 +121,7 @@ namespace BaseLib.Forms.Scroll{
 		public void InvalidateMainView(){
 			mainView.Invalidate();
 		}
-		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, mainControl.Width, mainControl.Height);
+		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, Width - GraphUtil.scrollBarWidth, Height - GraphUtil.scrollBarWidth);
 		public int Width1 => Width;
 		public int Height1 => Height;
 		public Func<int> TotalWidth{ get; set; }
@@ -133,8 +132,8 @@ namespace BaseLib.Forms.Scroll{
 		public Func<int> DeltaDownToSelection{ get; set; }
 		public int TotalClientWidth => TotalWidth();
 		public int TotalClientHeight => TotalHeight();
-		public int VisibleWidth => mainControl.Width;
-		public int VisibleHeight => mainControl.Height;
+		public int VisibleWidth => Width - GraphUtil.scrollBarWidth;
+		public int VisibleHeight => Height - GraphUtil.scrollBarWidth;
 		private ISimpleScrollableControlModel client;
 		public void AddContextMenuItem(string text, EventHandler action){
 			ToolStripMenuItem menuItem = new ToolStripMenuItem{Size = new Size(209, 22), Text = text};
@@ -183,38 +182,25 @@ namespace BaseLib.Forms.Scroll{
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
-		private TableLayoutPanel tableLayoutPanel1;
+		private BasicTableLayoutView tableLayoutPanel1;
 		private void InitializeComponent2(){
-			tableLayoutPanel1 = new TableLayoutPanel();
+			tableLayoutPanel1 = new BasicTableLayoutView();
 			mainView = new SimpleScrollableControlMainView(this);
 			horizontalScrollBar = new HorizontalScrollBarView(this);
 			verticalScrollBar = new VerticalScrollBarView(this);
 			smallCornerView = new ScrollableControlSmallCornerView();
-			tableLayoutPanel1.SuspendLayout();
 			SuspendLayout();
-			tableLayoutPanel1.ColumnCount = 2;
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, GraphUtil.scrollBarWidth));
-			mainControl = BasicControl.CreateControl(mainView);
-			tableLayoutPanel1.Controls.Add(mainControl, 0, 0);
-			tableLayoutPanel1.Controls.Add(BasicControl.CreateControl(horizontalScrollBar), 0, 1);
-			tableLayoutPanel1.Controls.Add(BasicControl.CreateControl(verticalScrollBar), 1, 0);
-			tableLayoutPanel1.Controls.Add(BasicControl.CreateControl(smallCornerView), 1, 1);
-			tableLayoutPanel1.Dock = DockStyle.Fill;
-			tableLayoutPanel1.Location = new Point(0, 0);
-			tableLayoutPanel1.Margin = new Padding(0);
-			tableLayoutPanel1.Name = "tableLayoutPanel1";
-			tableLayoutPanel1.RowCount = 2;
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, GraphUtil.scrollBarWidth));
-			tableLayoutPanel1.Size = new Size(409, 390);
-			tableLayoutPanel1.TabIndex = 0;
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
-			Controls.Add(tableLayoutPanel1);
+			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
+			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
+			tableLayoutPanel1.Add(mainView, 0, 0);
+			tableLayoutPanel1.Add(horizontalScrollBar, 0, 1);
+			tableLayoutPanel1.Add(verticalScrollBar, 1, 0);
+			tableLayoutPanel1.Add(smallCornerView, 1, 1);
+			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
+			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
+			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
 			Name = "ScrollableControl2";
 			Size = new Size(409, 390);
-			tableLayoutPanel1.ResumeLayout(false);
 			ResumeLayout(false);
 		}
 		protected override void OnMouseWheel(MouseEventArgs e){

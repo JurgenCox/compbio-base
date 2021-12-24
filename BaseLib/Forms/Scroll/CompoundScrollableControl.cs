@@ -8,7 +8,7 @@ using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 
 namespace BaseLib.Forms.Scroll{
-	public sealed class CompoundScrollableControl : UserControl, ICompoundScrollableControl{
+	public sealed class CompoundScrollableControl : Control, ICompoundScrollableControl{
 		private int rowHeaderWidth = 40;
 		private int rowFooterWidth;
 		private int columnHeaderHeight = 40;
@@ -16,7 +16,6 @@ namespace BaseLib.Forms.Scroll{
 		private int visibleX;
 		private int visibleY;
 		private BasicTableLayoutView tableLayoutPanel1;
-		private BasicControl tableLayoutControl;
 		private BasicTableLayoutView tableLayoutPanel2;
 		private BasicView horizontalScrollBarView;
 		private BasicView verticalScrollBarView;
@@ -188,8 +187,8 @@ namespace BaseLib.Forms.Scroll{
 			OnPaintMiddleCornerView = g => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;
-			DeltaX = () => (Width - RowHeaderWidth) / 20;
-			DeltaY = () => (Height - ColumnHeaderHeight) / 20;
+			DeltaX = () => (Width - RowHeaderWidth - RowFooterWidth) / 20;
+			DeltaY = () => (Height - ColumnHeaderHeight - ColumnFooterHeight) / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
 		}
@@ -409,10 +408,7 @@ namespace BaseLib.Forms.Scroll{
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnHeaderHeight));
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnFooterHeight));
-			AutoScaleDimensions = new SizeF(6F, 13F);
-			AutoScaleMode = AutoScaleMode.Font;
-			tableLayoutControl = BasicControl.CreateControl(tableLayoutPanel1);
-			Controls.Add(tableLayoutControl);
+			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
 			Name = "ScrollableControl2";
 			Size = new Size(409, 390);
 			ResumeLayout(false);

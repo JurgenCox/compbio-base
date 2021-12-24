@@ -5,7 +5,7 @@ using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 
 namespace BaseLib.Forms.Base {
-	public class BasicControl : ScrollableControl {
+	public class BasicControl : Control {
 		private ToolTip tip;
 		private bool mouseDown;
 		public BasicView view;
