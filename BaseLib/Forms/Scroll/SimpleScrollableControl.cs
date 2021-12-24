@@ -73,6 +73,7 @@ namespace BaseLib.Forms.Scroll{
 		internal Bitmap2 overviewBitmap;
 		public event ZoomChangeHandler2 OnZoomChanged;
 		public SimpleScrollableControl(){
+			Dock = DockStyle.Fill;
 			InitializeComponent2();
 			ResizeRedraw = true;
 			DoubleBuffered = true;

@@ -104,7 +104,7 @@ namespace BaseLib.Forms{
 				foreach (int i in value){
 					SetSelected(i, true);
 				}
-				SelectionChanged?.Invoke(this, new EventArgs());
+				SelectionChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 

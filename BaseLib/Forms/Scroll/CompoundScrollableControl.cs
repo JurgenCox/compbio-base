@@ -173,6 +173,7 @@ namespace BaseLib.Forms.Scroll{
 
 
 		public CompoundScrollableControl(){
+			Dock = DockStyle.Fill;
 			InitializeComponent2();
 			ResizeRedraw = true;
 			DoubleBuffered = true;

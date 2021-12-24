@@ -7,13 +7,13 @@ namespace BaseLibS.Graph{
 		/// The bitmask to extract modifiers from a key value.
 		/// </summary>
 		Modifiers = -65536,
-		//
-		// Summary:
-		//     No key pressed.
+		/// <summary>
+		/// No key pressed.
+		/// </summary>
 		None = 0,
-		//
-		// Summary:
-		//     The left mouse button.
+		/// <summary>
+		/// The left mouse button.
+		/// </summary>
 		LButton = 1,
 		//
 		// Summary:

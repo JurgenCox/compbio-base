@@ -15,13 +15,9 @@ namespace BaseLibS.Graph {
 			int theight = template.Height;
 			Bitmap2 result = new Bitmap2(width, height);
 			for (int i = 0; i < width; i++) {
-				float wI1;
-				float wI2;
-				int indI = CalcInd(i, width, twidth, out wI1, out wI2);
+				int indI = CalcInd(i, width, twidth, out var wI1, out var wI2);
 				for (int j = 0; j < height; j++) {
-					float wJ1;
-					float wJ2;
-					int indJ = CalcInd(j, height, theight, out wJ1, out wJ2);
+					int indJ = CalcInd(j, height, theight, out var wJ1, out var wJ2);
 					Color2 ij = IsSet(indI, indJ, template) ? fgColor : bgColor;
 					Color2 ipj = IsSet(indI + 1, indJ, template) ? fgColor : bgColor;
 					Color2 ijp = IsSet(indI, indJ + 1, template) ? fgColor : bgColor;
