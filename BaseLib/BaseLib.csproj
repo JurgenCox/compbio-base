@@ -224,27 +224,15 @@
     <Compile Include="Forms\RegexReplaceParamControl.Designer.cs">
       <DependentUpon>RegexReplaceParamControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Scroll\CompoundScrollableControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\Scroll\GenericControl.cs">
+    <Compile Include="Forms\Base\CompoundScrollableControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Scroll\ScrollableControlColumnFooterView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlColumnHeaderView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlColumnSpacerView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlCornerView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlMainView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlMiddleCornerView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlRowFooterView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlRowHeaderView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlRowSpacerView.cs" />
-    <Compile Include="Forms\Scroll\ScrollableControlSmallCornerView.cs" />
-    <Compile Include="Forms\Scroll\ScrollComponentView.cs" />
-    <Compile Include="Forms\Scroll\SimpleScrollableControl.cs">
+    <Compile Include="Forms\Base\GenericControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Scroll\SimpleScrollableControlMainView.cs" />
+    <Compile Include="Forms\Base\SimpleScrollableControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\SliderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -615,6 +603,7 @@
   <ItemGroup>
     <None Include="Resources\check.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

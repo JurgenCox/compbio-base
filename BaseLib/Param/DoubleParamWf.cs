@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using BaseLib.Forms.Scroll;
+using BaseLib.Forms.Base;
 using BaseLibS.Graph;
 using BaseLibS.Param;
 using BaseLibS.Util;

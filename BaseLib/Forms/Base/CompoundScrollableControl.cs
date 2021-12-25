@@ -1,11 +1,10 @@
 using System;
 using System.Windows.Forms;
-using BaseLib.Forms.Base;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-namespace BaseLib.Forms.Scroll{
+namespace BaseLib.Forms.Base{
 	public sealed class CompoundScrollableControl : GenericControl, ICompoundScrollableControl{
 		private int rowHeaderWidth = 40;
 		private int rowFooterWidth;
@@ -13,6 +12,8 @@ namespace BaseLib.Forms.Scroll{
 		private int columnFooterHeight;
 		private int visibleX;
 		private int visibleY;
+		public event ZoomChangeHandler2 OnZoomChanged;
+		public Bitmap2 OverviewBitmap { get; set; }
 		private BasicTableLayoutView tableLayoutPanel1;
 		private BasicTableLayoutView tableLayoutPanel2;
 		private BasicView horizontalScrollBarView;
@@ -246,7 +247,7 @@ namespace BaseLib.Forms.Scroll{
 		public int VisibleHeight => Height1 - ColumnHeaderHeight - ColumnFooterHeight - (GraphUtil.scrollBarWidth);
 		public int TotalClientWidth => TotalWidth() + RowHeaderWidth + RowFooterWidth;
 		public int TotalClientHeight => TotalHeight() + ColumnHeaderHeight + ColumnFooterHeight;
-		public float ZoomFactor => 1f;
+		public float ZoomFactor{ get; set; } = 1;
 		private ICompoundScrollableControlModel client;
 		public ICompoundScrollableControlModel Client{
 			set{
@@ -358,5 +359,22 @@ namespace BaseLib.Forms.Scroll{
 		public void SetColumnViewToolTipTitle(string title){
 			columnViewToolTip.ToolTipTitle = title;
 		}
+		public SizeI2 TotalSize => new SizeI2(TotalWidth(), TotalHeight());
+		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, VisibleWidth, VisibleHeight);
+		public void UpdateZoom() {
+			OnZoomChanged?.Invoke();
+		}
+		public Color2 BackColor2 { get; set; }
+		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight) {
+			BitmapGraphics bg =
+				new BitmapGraphics(Math.Min(TotalWidth(), 15000), Math.Min(TotalHeight(), 15000));
+			OnPaintMainView?.Invoke(bg, 0, 0, TotalWidth(), TotalHeight(), true);
+			try {
+				return GraphUtils.ToBitmap2(GraphUtils.ResizeImage(bg.Bitmap, overviewWidth, overviewHeight));
+			} catch (Exception) {
+				return GraphUtils.ToBitmap2(bg.Bitmap);
+			}
+		}
+
 	}
 }

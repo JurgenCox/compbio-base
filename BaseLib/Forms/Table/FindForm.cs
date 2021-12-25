@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using BaseLib.Forms.Base;
 using BaseLibS.Graph.Scroll;
 using BaseLibS.Num;
 using BaseLibS.Table;
@@ -26,7 +27,7 @@ namespace BaseLib.Forms.Table {
 		private Label label1;
 		private Button findAllButton;
 		private Button findNextButton;
-		private Scroll.CompoundScrollableControl tableView1;
+		private CompoundScrollableControl tableView1;
 		private CheckBox matchWholeWordCheckBox;
 		private ComboBox wildcardsComboBox;
 		private ComboBox lookInComboBox;
@@ -91,7 +92,7 @@ namespace BaseLib.Forms.Table {
 			matchCaseCheckBox = new CheckBox();
 			expressionTextBox = new TextBox();
 			label1 = new Label();
-			tableView1 = new Scroll.CompoundScrollableControl();
+			tableView1 = new CompoundScrollableControl();
 			statusStrip1.SuspendLayout();
 			tableLayoutPanel1.SuspendLayout();
 			panel1.SuspendLayout();

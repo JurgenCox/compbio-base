@@ -1,9 +1,7 @@
 using System;
-using BaseLibS.Graph;
-
-namespace BaseLib.Forms.Scroll{
-	internal sealed class ScrollableControlColumnHeaderView : ScrollComponentView{
-		internal ScrollableControlColumnHeaderView(CompoundScrollableControl main) : base(main) {}
+namespace BaseLibS.Graph.Scroll{
+	public sealed class ScrollableControlColumnHeaderView : ScrollComponentView{
+		public ScrollableControlColumnHeaderView(ICompoundScrollableControl main) : base(main) {}
 
 		public override void OnPaint(IGraphics g, int width, int height) {
 			main.OnPaintColumnHeaderView?.Invoke(g, main.VisibleX, width);

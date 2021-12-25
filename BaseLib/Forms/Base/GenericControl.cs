@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
-namespace BaseLib.Forms.Scroll{
+namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{
 		public int Width1 => Width;
 		public int Height1 => Height;

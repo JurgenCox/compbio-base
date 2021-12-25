@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using BaseLib.Forms.Scroll;
+using BaseLib.Forms.Base;
 using BaseLibS.Num;
 using BaseLibS.Table;
 using BaseLibS.Util;

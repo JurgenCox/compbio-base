@@ -1,9 +1,7 @@
 using System;
-using BaseLibS.Graph;
-
-namespace BaseLib.Forms.Scroll{
-	internal sealed class ScrollableControlColumnFooterView : ScrollComponentView{
-		internal ScrollableControlColumnFooterView(CompoundScrollableControl main) : base(main) {}
+namespace BaseLibS.Graph.Scroll{
+	public sealed class ScrollableControlColumnFooterView : ScrollComponentView{
+		public ScrollableControlColumnFooterView(ICompoundScrollableControl main) : base(main) {}
 
 		public override void OnPaint(IGraphics g, int width, int height) {
 			main.OnPaintColumnFooterView?.Invoke(g, main.VisibleX, width);

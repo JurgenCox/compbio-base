@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using BaseLib.Forms.Base;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-namespace BaseLib.Forms.Scroll{
+namespace BaseLib.Forms.Base{
 	public delegate void ZoomChangeHandler2();
 	public sealed class SimpleScrollableControl : GenericControl, ISimpleScrollableControl{
 		private int visibleX;
@@ -70,7 +69,7 @@ namespace BaseLib.Forms.Scroll{
 			}
 		}
 		public bool HasZoomButtons{ get; set; } = true;
-		internal Bitmap2 overviewBitmap;
+		public Bitmap2 OverviewBitmap { get; set; }
 		public event ZoomChangeHandler2 OnZoomChanged;
 		public SimpleScrollableControl(){
 			InitializeComponent2();
@@ -93,7 +92,7 @@ namespace BaseLib.Forms.Scroll{
 			verticalScrollBar.Invalidate();
 		}
 		public void InvalidateOverview(){
-			overviewBitmap = null;
+			OverviewBitmap = null;
 		}
 		public void EnableContent(){
 			mainView.Enabled = true;
@@ -122,8 +121,7 @@ namespace BaseLib.Forms.Scroll{
 		public void InvalidateMainView(){
 			mainView.Invalidate();
 		}
-		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, Width1 - GraphUtil.scrollBarWidth,
-			Height1 - GraphUtil.scrollBarWidth);
+		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, VisibleWidth, VisibleHeight);
 		public Func<int> TotalWidth{ get; set; }
 		public Func<int> TotalHeight{ get; set; }
 		public Func<int> DeltaX{ get; set; }
@@ -205,6 +203,17 @@ namespace BaseLib.Forms.Scroll{
 		}
 		public void UpdateZoom(){
 			OnZoomChanged?.Invoke();
+		} 
+		public Color2 BackColor2 { get; set; }
+		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight) {
+			BitmapGraphics bg =
+				new BitmapGraphics(Math.Min(TotalWidth(), 15000), Math.Min(TotalHeight(), 15000));
+			OnPaintMainView?.Invoke(bg, 0, 0, TotalWidth(), TotalHeight(), true);
+			try {
+				return GraphUtils.ToBitmap2(GraphUtils.ResizeImage(bg.Bitmap, overviewWidth, overviewHeight));
+			} catch (Exception) {
+				return GraphUtils.ToBitmap2(bg.Bitmap);
+			}
 		}
 	}
 }

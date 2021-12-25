@@ -1,9 +1,7 @@
 using System;
-using BaseLibS.Graph;
-
-namespace BaseLib.Forms.Scroll{
-	internal sealed class ScrollableControlMiddleCornerView : ScrollComponentView{
-		public ScrollableControlMiddleCornerView(CompoundScrollableControl main) : base(main) {}
+namespace BaseLibS.Graph.Scroll{
+	public sealed class ScrollableControlMiddleCornerView : ScrollComponentView{
+		public ScrollableControlMiddleCornerView(ICompoundScrollableControl main) : base(main) {}
 
 		public override void OnPaint(IGraphics g, int width, int height) {
 			main.OnPaintMiddleCornerView?.Invoke(g);
