@@ -1,11 +1,12 @@
 using System;
 using System.Windows.Forms;
+using BaseLib.Forms.Scroll;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 
 namespace BaseLib.Forms.Base {
-	public class BasicControl : Control {
+	public class BasicControl : GenericControl {
 		private ToolTip tip;
 		private bool mouseDown;
 		public BasicView view;
@@ -22,10 +23,6 @@ namespace BaseLib.Forms.Base {
 			view.invalidate = Invalidate;
 			view.resetCursor = ResetCursor;
 			view.setCursor = SetCursor;
-		}
-
-		public void SetCursor(Cursors2 c) {
-			Cursor = GraphUtils.ToCursor(c);
 		}
 
 		public void Print(IGraphics g) {

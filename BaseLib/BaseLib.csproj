@@ -227,6 +227,9 @@
     <Compile Include="Forms\Scroll\CompoundScrollableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\Scroll\GenericControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\Scroll\ScrollableControlColumnFooterView.cs" />
     <Compile Include="Forms\Scroll\ScrollableControlColumnHeaderView.cs" />
     <Compile Include="Forms\Scroll\ScrollableControlColumnSpacerView.cs" />
@@ -239,7 +242,7 @@
     <Compile Include="Forms\Scroll\ScrollableControlSmallCornerView.cs" />
     <Compile Include="Forms\Scroll\ScrollComponentView.cs" />
     <Compile Include="Forms\Scroll\SimpleScrollableControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\Scroll\SimpleScrollableControlMainView.cs" />
     <Compile Include="Forms\SliderControl.cs">

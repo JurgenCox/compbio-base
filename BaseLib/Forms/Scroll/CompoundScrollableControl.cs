@@ -1,14 +1,12 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using BaseLib.Forms.Base;
 using BaseLib.Graphic;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-
 namespace BaseLib.Forms.Scroll{
-	public sealed class CompoundScrollableControl : Control, ICompoundScrollableControl{
+	public sealed class CompoundScrollableControl : GenericControl, ICompoundScrollableControl{
 		private int rowHeaderWidth = 40;
 		private int rowFooterWidth;
 		private int columnHeaderHeight = 40;
@@ -102,60 +100,9 @@ namespace BaseLib.Forms.Scroll{
 		public Action<EventArgs> OnMouseLeaveMiddleCornerView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseMoveMiddleCornerView{ get; set; }
 		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
-
 		public void ExportGraphic(string name, bool showDialog){
 			ExportGraphics.ExportGraphic(this, name, showDialog);
 		}
-
-		public void AddContextMenuItem(string text, EventHandler action){
-			ToolStripMenuItem menuItem = new ToolStripMenuItem{Size = new Size(209, 22), Text = text};
-			menuItem.Click += action;
-			ContextMenuStrip.Items.Add(menuItem);
-		}
-
-		public void AddContextMenuSeparator(){
-			ContextMenuStrip.Items.Add(new ToolStripSeparator());
-		}
-
-		public void InitContextMenu(){
-			ContextMenuStrip = new ContextMenuStrip();
-		}
-
-		public Tuple<int, int> GetContextMenuPosition(){
-			Point p = ContextMenuStrip.PointToScreen(new Point(0, 0));
-			return new Tuple<int, int>(p.X, p.Y);
-		}
-
-		public void SetClipboardData(object data){
-			Clipboard.Clear();
-			Clipboard.SetDataObject(data);
-		}
-
-		public void ShowMessage(string text){
-			MessageBox.Show(text);
-		}
-
-		public string GetClipboardText(){
-			return Clipboard.GetText();
-		}
-
-		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
-			font = null;
-			color = Color2.Empty;
-			FontDialog fontDialog = new FontDialog{
-				ShowColor = true, Font = GraphUtils.ToFont(fontIn), Color = GraphUtils.ToColor(colorIn)
-			};
-			bool ok = fontDialog.ShowDialog() == DialogResult.OK;
-			if (ok){
-				font = GraphUtils.ToFont2(fontDialog.Font);
-				color = GraphUtils.ToColor2(fontDialog.Color);
-			}
-			fontDialog.Dispose();
-			return ok;
-		}
-
-		public int Width1 => Width;
-		public int Height1 => Height;
 		public Action<IGraphics, int, int> OnPaintRowHeaderView{ get; set; }
 		public Action<IGraphics, int, int> OnPaintRowFooterView{ get; set; }
 		public Action<IGraphics, int, int> OnPaintColumnHeaderView{ get; set; }
@@ -165,15 +112,13 @@ namespace BaseLib.Forms.Scroll{
 		public Action<IGraphics> OnPaintCornerView{ get; set; }
 		public Action<IGraphics> OnPaintMiddleCornerView{ get; set; }
 		private readonly ToolTip columnViewToolTip = new ToolTip();
-		public bool HasOverview { get; set; } = true;
-		public bool HasZoomButtons { get; set; } = true;
+		public bool HasOverview{ get; set; } = true;
+		public bool HasZoomButtons{ get; set; } = true;
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
-		public ScrollBarMode VerticalScrollbarMode { get; set; } = ScrollBarMode.Always;
-
-
+		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public CompoundScrollableControl(){
-			Dock = DockStyle.Fill;
 			InitializeComponent2();
+			Dock = DockStyle.Fill;
 			ResizeRedraw = true;
 			DoubleBuffered = true;
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
@@ -187,23 +132,20 @@ namespace BaseLib.Forms.Scroll{
 			OnPaintMiddleCornerView = g => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;
-			DeltaX = () => (Width - RowHeaderWidth - RowFooterWidth) / 20;
-			DeltaY = () => (Height - ColumnHeaderHeight - ColumnFooterHeight) / 20;
+			DeltaX = () => (Width1 - RowHeaderWidth - RowFooterWidth) / 20;
+			DeltaY = () => (Height1 - ColumnHeaderHeight - ColumnFooterHeight) / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
 		}
-
 		public void InvalidateBackgroundImages(){
 			client?.InvalidateBackgroundImages();
 		}
-
 		public void InvalidateScrollbars(){
 			horizontalScrollBarView.Invalidate();
 			verticalScrollBarView.Invalidate();
 		}
-
-		public void InvalidateOverview(){ }
-
+		public void InvalidateOverview(){
+		}
 		public void EnableContent(){
 			mainView.Enabled = true;
 			rowHeaderView.Enabled = true;
@@ -215,7 +157,6 @@ namespace BaseLib.Forms.Scroll{
 			cornerView.Enabled = true;
 			middleCornerView.Enabled = true;
 		}
-
 		public void DisableContent(){
 			mainView.Enabled = false;
 			rowHeaderView.Enabled = false;
@@ -227,7 +168,6 @@ namespace BaseLib.Forms.Scroll{
 			cornerView.Enabled = false;
 			middleCornerView.Enabled = false;
 		}
-
 		public int VisibleX{
 			get => visibleX;
 			set{
@@ -239,7 +179,6 @@ namespace BaseLib.Forms.Scroll{
 				horizontalScrollBarView.Invalidate();
 			}
 		}
-
 		public int VisibleY{
 			get => visibleY;
 			set{
@@ -251,25 +190,20 @@ namespace BaseLib.Forms.Scroll{
 				verticalScrollBarView.Invalidate();
 			}
 		}
-
 		public void InvalidateColumnHeaderView(){
 			columnHeaderView.Invalidate();
 			horizontalScrollBarView.Invalidate();
 		}
-
 		public void InvalidateCornerView(){
 			cornerView.Invalidate();
 		}
-
 		public void InvalidateRowHeaderView(){
 			rowHeaderView.Invalidate();
 			verticalScrollBarView.Invalidate();
 		}
-
 		public void InvalidateMainView(){
 			mainView.Invalidate();
 		}
-
 		public int RowHeaderWidth{
 			get => rowHeaderWidth;
 			set{
@@ -278,7 +212,6 @@ namespace BaseLib.Forms.Scroll{
 					new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
-
 		public int RowFooterWidth{
 			get => rowFooterWidth;
 			set{
@@ -287,7 +220,6 @@ namespace BaseLib.Forms.Scroll{
 					new BasicColumnStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
-
 		public int ColumnHeaderHeight{
 			get => columnHeaderHeight;
 			set{
@@ -296,7 +228,6 @@ namespace BaseLib.Forms.Scroll{
 					new BasicRowStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
-
 		public int ColumnFooterHeight{
 			get => columnFooterHeight;
 			set{
@@ -305,27 +236,24 @@ namespace BaseLib.Forms.Scroll{
 					new BasicRowStyle(BasicSizeType.AbsoluteResizeable, value * client?.UserSf ?? 1);
 			}
 		}
-
 		public Func<int> TotalWidth{ get; set; }
 		public Func<int> TotalHeight{ get; set; }
 		public Func<int> DeltaX{ get; set; }
 		public Func<int> DeltaY{ get; set; }
 		public Func<int> DeltaUpToSelection{ get; set; }
 		public Func<int> DeltaDownToSelection{ get; set; }
-		public int VisibleWidth => Width - RowHeaderWidth - RowFooterWidth - (GraphUtil.scrollBarWidth);
-		public int VisibleHeight => Height - ColumnHeaderHeight - ColumnFooterHeight - (GraphUtil.scrollBarWidth);
+		public int VisibleWidth => Width1 - RowHeaderWidth - RowFooterWidth - (GraphUtil.scrollBarWidth);
+		public int VisibleHeight => Height1 - ColumnHeaderHeight - ColumnFooterHeight - (GraphUtil.scrollBarWidth);
 		public int TotalClientWidth => TotalWidth() + RowHeaderWidth + RowFooterWidth;
 		public int TotalClientHeight => TotalHeight() + ColumnHeaderHeight + ColumnFooterHeight;
 		public float ZoomFactor => 1f;
 		private ICompoundScrollableControlModel client;
-
 		public ICompoundScrollableControlModel Client{
 			set{
 				client = value;
 				value.Register(this);
 			}
 		}
-
 		protected override void OnResize(EventArgs e){
 			if (TotalWidth == null || TotalHeight == null){
 				return;
@@ -335,40 +263,30 @@ namespace BaseLib.Forms.Scroll{
 			InvalidateBackgroundImages();
 			base.OnResize(e);
 		}
-
 		public void MoveUp(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
 			VisibleY = Math.Max(0, VisibleY - delta);
 		}
-
 		public void MoveDown(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
-
 		public void MoveLeft(int delta){
 			if (TotalWidth() <= VisibleWidth){
 				return;
 			}
 			VisibleX = Math.Max(0, VisibleX - delta);
 		}
-
 		public void MoveRight(int delta){
 			if (TotalWidth() <= VisibleWidth){
 				return;
 			}
 			VisibleX = Math.Min(TotalWidth() - VisibleWidth, VisibleX + delta);
 		}
-
-		public Tuple<int, int> GetOrigin(){
-			Point q = PointToScreen(new Point(0, 0));
-			return new Tuple<int, int>(q.X, q.Y);
-		}
-
 		private void InitializeComponent2(){
 			tableLayoutPanel1 = new BasicTableLayoutView();
 			tableLayoutPanel2 = new BasicTableLayoutView();
@@ -384,7 +302,6 @@ namespace BaseLib.Forms.Scroll{
 			cornerView = new ScrollableControlCornerView(this);
 			middleCornerView = new ScrollableControlMiddleCornerView(this);
 			smallCornerView = new ScrollableControlSmallCornerView();
-			SuspendLayout();
 			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel1.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
 			tableLayoutPanel1.Add(tableLayoutPanel2, 0, 0);
@@ -409,11 +326,7 @@ namespace BaseLib.Forms.Scroll{
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnFooterHeight));
 			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
-			Name = "ScrollableControl2";
-			Size = new Size(409, 390);
-			ResumeLayout(false);
 		}
-
 		protected override void OnMouseWheel(MouseEventArgs e){
 			if (TotalHeight() <= VisibleHeight){
 				return;
@@ -423,55 +336,27 @@ namespace BaseLib.Forms.Scroll{
 			verticalScrollBarView.Invalidate();
 			base.OnMouseWheel(e);
 		}
-
 		public void Print(IGraphics g, int width, int height){
 			tableLayoutPanel2.InvalidateSizes();
 			tableLayoutPanel2.Print(g, width, height);
 			tableLayoutPanel2.InvalidateSizes();
 		}
-
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
 			client?.ProcessCmdKey((Keys2) keyData);
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
-
 		protected override void OnSizeChanged(EventArgs e){
 			base.OnSizeChanged(e);
 			client?.OnSizeChanged();
 		}
-
 		public void HideColumnViewToolTip(){
 			columnViewToolTip.Hide(this);
 		}
-
 		public void ShowColumnViewToolTip(string text, int x, int y){
 			columnViewToolTip.Show(text, this, x, y);
 		}
-
 		public void SetColumnViewToolTipTitle(string title){
 			columnViewToolTip.ToolTipTitle = title;
-		}
-
-		public bool SaveFileDialog(out string fileName, string filter){
-			SaveFileDialog ofd = new SaveFileDialog{Filter = filter};
-			if (ofd.ShowDialog() == DialogResult.OK){
-				fileName = ofd.FileName;
-				return true;
-			}
-			fileName = null;
-			return false;
-		}
-
-		public bool IsControlPressed(){
-			return (ModifierKeys & Keys.Control) == Keys.Control;
-		}
-
-		public bool IsShiftPressed(){
-			return (ModifierKeys & Keys.Shift) == Keys.Shift;
-		}
-
-		public void SetCursor(Cursors2 cursor){
-			Cursor.Current = GraphUtils.ToCursor(cursor);
 		}
 	}
 }
