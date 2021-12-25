@@ -1,37 +1,60 @@
 using System;
 using System.Windows.Forms;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using BaseLibS.Util;
-
 namespace BaseLib.Param{
 	[Serializable]
 	internal class IntParamWf : IntParam{
 		[NonSerialized] private TextBox control;
-		internal IntParamWf(string name, int value) : base(name, value){ }
-
+		[NonSerialized] private TextFieldModel textField;
+		internal IntParamWf(string name, int value) : base(name, value){
+		}
 		protected IntParamWf(string name, string help, string url, bool visible, int value, int default1) : base(name,
-			help, url, visible, value, default1){ }
-
+			help, url, visible, value, default1){
+		}
 		public override ParamType Type => ParamType.WinForms;
-
 		public override void SetValueFromControl(){
-			if (control == null || control.IsDisposed){
-				return;
-			}
-			bool s = Parser.TryInt(control.Text, out int val);
-			if (s){
-				Value = val;
+			if (GraphUtil.newParameterPanel){
+				if (textField == null){
+					return;
+				}
+				bool s = Parser.TryInt(textField.Text, out int val);
+				if (s){
+					Value = val;
+				}
+			} else{
+				if (control == null || control.IsDisposed){
+					return;
+				}
+				bool s = Parser.TryInt(control.Text, out int val);
+				if (s){
+					Value = val;
+				}
 			}
 		}
-
 		public override void UpdateControlFromValue(){
-			if (control == null || control.IsDisposed){
-				return;
+			if (GraphUtil.newParameterPanel){
+				if (textField == null){
+					return;
+				}
+				textField.Text = Parser.ToString(Value);
+			} else{
+				if (control == null || control.IsDisposed){
+					return;
+				}
+				control.Text = Parser.ToString(Value);
 			}
-			control.Text = Parser.ToString(Value);
 		}
-
 		public override object CreateControl(){
+			if (GraphUtil.newParameterPanel){
+				textField = new TextFieldModel(Parser.ToString(Value)){LineHeight = 12};
+				textField.TextChanged += (sender, e) => {
+					SetValueFromControl();
+					ValueHasChanged();
+				};
+				return textField;
+			}
 			control = new TextBox{Text = Parser.ToString(Value)};
 			control.TextChanged += (sender, e) => {
 				SetValueFromControl();
@@ -39,7 +62,6 @@ namespace BaseLib.Param{
 			};
 			return control;
 		}
-
 		public override object Clone(){
 			return new IntParamWf(Name, Help, Url, Visible, Value, Default);
 		}

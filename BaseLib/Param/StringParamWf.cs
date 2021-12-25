@@ -8,7 +8,6 @@ namespace BaseLib.Param{
 	internal class StringParamWf : StringParam{
 		[NonSerialized] private TextBox control;
 		[NonSerialized] private TextFieldModel textField;
-		[NonSerialized] private SimpleScrollableControl textFieldControl;
 		internal StringParamWf(string name) : base(name){
 		}
 		internal StringParamWf(string name, string value) : base(name, value){
@@ -19,7 +18,7 @@ namespace BaseLib.Param{
 		public override ParamType Type => ParamType.WinForms;
 		public override void SetValueFromControl(){
 			if (GraphUtil.newParameterPanel){
-				if (textFieldControl == null || textFieldControl.IsDisposed){
+				if (textField == null){
 					return;
 				}
 				Value = textField.Text;
@@ -32,7 +31,7 @@ namespace BaseLib.Param{
 		}
 		public override void UpdateControlFromValue(){
 			if (GraphUtil.newParameterPanel){
-				if (textFieldControl == null || textFieldControl.IsDisposed){
+				if (textField == null){
 					return;
 				}
 				textField.Text = Value;
@@ -46,12 +45,11 @@ namespace BaseLib.Param{
 		public override object CreateControl(){
 			if (GraphUtil.newParameterPanel){
 				textField = new TextFieldModel(Value) { LineHeight = 12 };
-				return textFieldControl = new SimpleScrollableControl{
+				return new SimpleScrollableControl{
 					Client = textField
 				};
-			} else{
-				return control = new TextBox{Text = Value};
 			}
+			return control = new TextBox{Text = Value};
 		}
 		public override object Clone(){
 			return new StringParamWf(Name, Help, Url, Visible, Value, Default);
