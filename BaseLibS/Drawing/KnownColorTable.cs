@@ -1,5 +1,4 @@
-﻿using BaseLibS.Drawing;
-namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	internal static class KnownColorTable{
 		private static int[] colorTable;
 		private static string[] colorNameTable;

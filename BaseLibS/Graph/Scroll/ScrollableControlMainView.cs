@@ -1,4 +1,5 @@
 using System;
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll{
 	public sealed class ScrollableControlMainView : ScrollComponentView{
 		public ScrollableControlMainView(ICompoundScrollableControl main) : base(main) {}

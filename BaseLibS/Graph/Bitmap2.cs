@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Image;
-
 namespace BaseLibS.Graph{
 	[Serializable]
 	public class Bitmap2{

@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
-
-namespace BaseLibS.Graph{
+namespace BaseLibS.Drawing{
 	public struct Point2{
 		public static readonly Point2 Empty = new Point2();
 		public float X { get; set; }

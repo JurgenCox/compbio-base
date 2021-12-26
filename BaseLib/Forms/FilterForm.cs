@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLib.Param;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Param;
 

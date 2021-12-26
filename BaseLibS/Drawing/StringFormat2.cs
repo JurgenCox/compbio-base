@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public class StringFormat2{
 		public StringAlignment2 Alignment { get; set; } = StringAlignment2.Center;
 		public StringAlignment2 LineAlignment { get; set; } = StringAlignment2.Center;

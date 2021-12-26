@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public struct SizeI2{
 		public int Width { get; set; }
 		public int Height { get; set; }

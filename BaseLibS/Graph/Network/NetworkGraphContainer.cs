@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Network{
 	[Serializable]
 	public abstract class NetworkGraphContainer {

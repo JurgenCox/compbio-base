@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public enum StringAlignment2{
 		//
 		// Summary:

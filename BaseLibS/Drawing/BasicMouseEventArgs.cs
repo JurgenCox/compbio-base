@@ -1,6 +1,5 @@
 ﻿using System;
-
-namespace BaseLibS.Graph{
+namespace BaseLibS.Drawing{
 	public class BasicMouseEventArgs{
 		public int X { get; }
 		public int Y { get; }

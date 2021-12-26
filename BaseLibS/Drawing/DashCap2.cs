@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public enum DashCap2{
 		/// <summary>
 		/// Specifies a square cap that squares off both ends of each dash.

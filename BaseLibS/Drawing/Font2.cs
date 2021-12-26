@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public class Font2{
 		public string Name{ get; }
 		public float Size{ get; set; }

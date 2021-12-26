@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph{
 	public class NavigatorData{
 		public int indicatorX1 = -1;

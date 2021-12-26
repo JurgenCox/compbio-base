@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using iTextSharp.text;
 using iTextSharp.text.pdf;

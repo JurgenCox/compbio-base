@@ -1,8 +1,6 @@
 ﻿using System;
-using BaseLibS.Drawing;
 using BaseLibS.Num.Space;
-
-namespace BaseLibS.Graph{
+namespace BaseLibS.Drawing{
 	public struct YCbCr2 : IEquatable<YCbCr2>{
 		private const float epsilon = 0.001F;
 		private readonly Vector3F backingVector;

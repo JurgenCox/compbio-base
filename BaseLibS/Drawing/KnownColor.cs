@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public enum KnownColor{
 		ActiveBorder = 1,
 		ActiveCaption = 2,

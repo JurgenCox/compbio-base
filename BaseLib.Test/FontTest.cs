@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using BaseLib.Graphic;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using NUnit.Framework;
 

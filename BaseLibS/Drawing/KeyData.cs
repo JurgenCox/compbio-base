@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public static class KeyData{
 		public static char GetChar(Keys2 keyData){
 			switch (keyData){

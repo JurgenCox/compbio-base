@@ -1,4 +1,5 @@
 using System;
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll{
 	public sealed class ScrollableControlColumnHeaderView : ScrollComponentView{
 		public ScrollableControlColumnHeaderView(ICompoundScrollableControl main) : base(main) {}

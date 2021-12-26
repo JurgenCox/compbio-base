@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll{
 	public interface ICompoundScrollableControl : IScrollableControl{
 		ICompoundScrollableControlModel Client { set; }

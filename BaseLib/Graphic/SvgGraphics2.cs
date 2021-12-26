@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using SvgNet.SvgGdi;
-using IGraphics = BaseLibS.Graph.IGraphics;
+using IGraphics = BaseLibS.Drawing.IGraphics;
 
 namespace BaseLib.Graphic
 {
-	public class SvgGraphics2 : IGraphics
+	public class SvgGraphics2 : BaseLibS.Drawing.IGraphics
 	{
 		private SvgNet.SvgGdi.SvgGraphics _svgGraphics;
 		private Stream _stream;

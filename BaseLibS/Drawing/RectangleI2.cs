@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	public struct RectangleI2{
 		public static readonly RectangleI2 Empty = new RectangleI2();
 		public int X { get; set; }

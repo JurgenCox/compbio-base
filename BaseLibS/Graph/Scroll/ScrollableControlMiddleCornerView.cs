@@ -1,4 +1,5 @@
 using System;
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll{
 	public sealed class ScrollableControlMiddleCornerView : ScrollComponentView{
 		public ScrollableControlMiddleCornerView(ICompoundScrollableControl main) : base(main) {}

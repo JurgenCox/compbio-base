@@ -1,5 +1,5 @@
-﻿using BaseLibS.Drawing;
-namespace BaseLibS.Graph{
+﻿using BaseLibS.Graph;
+namespace BaseLibS.Drawing{
 	public class ScaledGraphics : IGraphics{
 		private readonly IGraphics g;
 		private readonly float s;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BaseLibS.Drawing;
-namespace BaseLibS.Graph {
+using BaseLibS.Graph;
+namespace BaseLibS.Drawing {
 	public static class Chars {
 		public static Bitmap2 GetImage(char c, int width, int height, Color2 fgColor, Color2 bgColor) {
 			if (height <= 1 || width <= 1) {

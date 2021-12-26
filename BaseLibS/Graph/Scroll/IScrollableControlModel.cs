@@ -1,4 +1,5 @@
-﻿namespace BaseLibS.Graph.Scroll{
+﻿using BaseLibS.Drawing;
+namespace BaseLibS.Graph.Scroll{
 	public interface IScrollableControlModel{
 		void ProcessCmdKey(Keys2 keyData);
 		void InvalidateBackgroundImages();

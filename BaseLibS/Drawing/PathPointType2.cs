@@ -1,4 +1,4 @@
-﻿namespace BaseLibS.Graph{
+﻿namespace BaseLibS.Drawing{
 	//
 	// Summary:
 	//     Specifies the type of point in a System.Drawing.Drawing2D.GraphicsPath object.

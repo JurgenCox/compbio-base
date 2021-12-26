@@ -1,6 +1,5 @@
 ﻿using System;
-
-namespace BaseLibS.Graph{
+namespace BaseLibS.Drawing{
 	[Flags]
 	public enum Keys2{
 		/// <summary>

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Forms;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Scroll;
 

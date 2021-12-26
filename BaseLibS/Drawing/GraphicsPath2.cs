@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-
-namespace BaseLibS.Graph{
+namespace BaseLibS.Drawing{
 	public class GraphicsPath2{
 		private readonly List<Point2> pathPoints = new List<Point2>();
 		private readonly List<byte> pathTypes = new List<byte>();

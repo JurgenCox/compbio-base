@@ -1,4 +1,5 @@
-﻿using BaseLibS.Graph;
+﻿using BaseLibS.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 
 namespace BaseLibS.Api.Generic{
