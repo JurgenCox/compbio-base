@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll {
 	public sealed class VerticalScrollBarView : ScrollBarView {
 		private Thread downThread;

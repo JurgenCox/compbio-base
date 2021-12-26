@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Forms;
 using BaseLib.Graphic;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using Path = System.IO.Path;
 

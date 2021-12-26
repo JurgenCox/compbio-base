@@ -1,6 +1,6 @@
 ﻿using System;
-
-namespace BaseLibS.Graph{
+using BaseLibS.Graph;
+namespace BaseLibS.Drawing{
 	[Serializable]
 	public class Pen2{
 		public Pen2(Color2 color) : this(color, 1f){}

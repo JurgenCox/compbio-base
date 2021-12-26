@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image{
 	public interface IPixelAccessor :  IDisposable{
 		Color2 this[int x, int y] { get; set; }

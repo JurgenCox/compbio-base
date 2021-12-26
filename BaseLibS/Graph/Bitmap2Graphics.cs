@@ -1,4 +1,5 @@
-﻿namespace BaseLibS.Graph{
+﻿using BaseLibS.Drawing;
+namespace BaseLibS.Graph{
 	public class Bitmap2Graphics : IGraphics{
 		public Bitmap2 Bitmap { get; }
 

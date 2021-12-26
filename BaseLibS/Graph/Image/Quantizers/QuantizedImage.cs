@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image.Quantizers{
 	public class QuantizedImage{
 		public QuantizedImage(int width, int height, Color2[] palette, byte[] pixels, int transparentIndex = -1){

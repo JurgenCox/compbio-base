@@ -1,4 +1,5 @@
 ﻿using System;
+using BaseLibS.Drawing;
 using BaseLibS.Num.Space;
 
 namespace BaseLibS.Graph{

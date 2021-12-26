@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Image.Formats.Gif;
 using BaseLibS.Graph.Image.Formats.Png.Zlib;
 using BaseLibS.Graph.Image.Quantizers;

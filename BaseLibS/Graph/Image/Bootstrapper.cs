@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Image.Formats;
 using BaseLibS.Graph.Image.Formats.Bmp;
 using BaseLibS.Graph.Image.Formats.Gif;

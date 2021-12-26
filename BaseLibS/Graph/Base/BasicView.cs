@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Base{
 	public class BasicView : IPrintable{
 		public Color2 BackColor { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 
 namespace BaseLib.Graphic {

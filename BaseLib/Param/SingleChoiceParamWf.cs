@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using BaseLibS.Param;
 
 namespace BaseLib.Param{
-	//TODO: should be internal
 	[Serializable]
 	public class SingleChoiceParamWf : SingleChoiceParam{
 		[NonSerialized] private ComboBox control;

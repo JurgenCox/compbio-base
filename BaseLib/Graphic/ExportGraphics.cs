@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using BaseLib.Forms.Base;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 
 namespace BaseLib.Graphic{

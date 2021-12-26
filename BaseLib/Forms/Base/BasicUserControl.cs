@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 
 namespace BaseLib.Forms.Base{

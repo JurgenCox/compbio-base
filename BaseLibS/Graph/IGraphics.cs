@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph{
 	/// <summary>
 	/// This interface provides the abstract basis for graphics routines for different devices (window, pdf,

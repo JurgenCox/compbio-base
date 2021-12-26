@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Image.Formats.Gif.Sections;
 using BaseLibS.Graph.Image.Quantizers;
 using BaseLibS.Num;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image.Quantizers{
 	public abstract class Quantizer : IQuantizer {
 		private readonly bool singlePass;

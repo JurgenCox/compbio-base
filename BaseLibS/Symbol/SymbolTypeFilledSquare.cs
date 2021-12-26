@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 
 namespace BaseLibS.Symbol{

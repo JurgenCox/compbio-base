@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image.Formats.Jpg{
 	internal class JpegEncoderCore{
 		private static readonly int[] unzig ={

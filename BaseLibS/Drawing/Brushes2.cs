@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-
-namespace BaseLibS.Graph{
-	public static class Pens2{
+namespace BaseLibS.Drawing{
+	public static class Brushes2{
 		private static readonly object transparentKey = new object();
 		private static readonly object aliceBlueKey = new object();
 		private static readonly object antiqueWhiteKey = new object();
@@ -143,1554 +142,1554 @@ namespace BaseLibS.Graph{
 		private static readonly object whiteSmokeKey = new object();
 		private static readonly object yellowKey = new object();
 		private static readonly object yellowGreenKey = new object();
-		private static readonly Dictionary<object, Pen2> map = new Dictionary<object, Pen2>();
+		private static readonly Dictionary<object, Brush2> map = new Dictionary<object, Brush2>();
 
-		public static Pen2 Transparent{
+		public static Brush2 Transparent{
 			get{
 				if (map.ContainsKey(transparentKey)){
 					return map[transparentKey];
 				}
-				Pen2 transparent = new Pen2(Color2.Transparent);
+				Brush2 transparent = new Brush2(Color2.Transparent);
 				map[transparentKey] = transparent;
 				return transparent;
 			}
 		}
 
-		public static Pen2 AliceBlue{
+		public static Brush2 AliceBlue{
 			get{
 				if (map.ContainsKey(aliceBlueKey)){
 					return map[aliceBlueKey];
 				}
-				Pen2 aliceBlue = new Pen2(Color2.AliceBlue);
+				Brush2 aliceBlue = new Brush2(Color2.AliceBlue);
 				map[aliceBlueKey] = aliceBlue;
 				return aliceBlue;
 			}
 		}
 
-		public static Pen2 AntiqueWhite{
+		public static Brush2 AntiqueWhite{
 			get{
 				if (map.ContainsKey(antiqueWhiteKey)){
 					return map[antiqueWhiteKey];
 				}
-				Pen2 antiqueWhite = new Pen2(Color2.AntiqueWhite);
+				Brush2 antiqueWhite = new Brush2(Color2.AntiqueWhite);
 				map[antiqueWhiteKey] = antiqueWhite;
 				return antiqueWhite;
 			}
 		}
 
-		public static Pen2 Aqua{
+		public static Brush2 Aqua{
 			get{
 				if (map.ContainsKey(aquaKey)){
 					return map[aquaKey];
 				}
-				Pen2 aqua = new Pen2(Color2.Aqua);
+				Brush2 aqua = new Brush2(Color2.Aqua);
 				map[aquaKey] = aqua;
 				return aqua;
 			}
 		}
 
-		public static Pen2 Aquamarine{
+		public static Brush2 Aquamarine{
 			get{
 				if (map.ContainsKey(aquamarineKey)){
 					return map[aquamarineKey];
 				}
-				Pen2 aquamarine = new Pen2(Color2.Aquamarine);
+				Brush2 aquamarine = new Brush2(Color2.Aquamarine);
 				map[aquamarineKey] = aquamarine;
 				return aquamarine;
 			}
 		}
 
-		public static Pen2 Azure{
+		public static Brush2 Azure{
 			get{
 				if (map.ContainsKey(azureKey)){
 					return map[azureKey];
 				}
-				Pen2 azure = new Pen2(Color2.Azure);
+				Brush2 azure = new Brush2(Color2.Azure);
 				map[azureKey] = azure;
 				return azure;
 			}
 		}
 
-		public static Pen2 Beige{
+		public static Brush2 Beige{
 			get{
 				if (map.ContainsKey(beigeKey)){
 					return map[beigeKey];
 				}
-				Pen2 beige = new Pen2(Color2.Beige);
+				Brush2 beige = new Brush2(Color2.Beige);
 				map[beigeKey] = beige;
 				return beige;
 			}
 		}
 
-		public static Pen2 Bisque{
+		public static Brush2 Bisque{
 			get{
 				if (map.ContainsKey(bisqueKey)){
 					return map[bisqueKey];
 				}
-				Pen2 bisque = new Pen2(Color2.Bisque);
+				Brush2 bisque = new Brush2(Color2.Bisque);
 				map[bisqueKey] = bisque;
 				return bisque;
 			}
 		}
 
-		public static Pen2 Black{
+		public static Brush2 Black{
 			get{
 				if (map.ContainsKey(blackKey)){
 					return map[blackKey];
 				}
-				Pen2 black = new Pen2(Color2.Black);
+				Brush2 black = new Brush2(Color2.Black);
 				map[blackKey] = black;
 				return black;
 			}
 		}
 
-		public static Pen2 BlanchedAlmond{
+		public static Brush2 BlanchedAlmond{
 			get{
 				if (map.ContainsKey(blanchedAlmondKey)){
 					return map[blanchedAlmondKey];
 				}
-				Pen2 blanchedAlmond = new Pen2(Color2.BlanchedAlmond);
+				Brush2 blanchedAlmond = new Brush2(Color2.BlanchedAlmond);
 				map[blanchedAlmondKey] = blanchedAlmond;
 				return blanchedAlmond;
 			}
 		}
 
-		public static Pen2 Blue{
+		public static Brush2 Blue{
 			get{
 				if (map.ContainsKey(blueKey)){
 					return map[blueKey];
 				}
-				Pen2 blue = new Pen2(Color2.Blue);
+				Brush2 blue = new Brush2(Color2.Blue);
 				map[blueKey] = blue;
 				return blue;
 			}
 		}
 
-		public static Pen2 BlueViolet{
+		public static Brush2 BlueViolet{
 			get{
 				if (map.ContainsKey(blueVioletKey)){
 					return map[blueVioletKey];
 				}
-				Pen2 blueViolet = new Pen2(Color2.BlueViolet);
+				Brush2 blueViolet = new Brush2(Color2.BlueViolet);
 				map[blueVioletKey] = blueViolet;
 				return blueViolet;
 			}
 		}
 
-		public static Pen2 Brown{
+		public static Brush2 Brown{
 			get{
 				if (map.ContainsKey(brownKey)){
 					return map[brownKey];
 				}
-				Pen2 brown = new Pen2(Color2.Brown);
+				Brush2 brown = new Brush2(Color2.Brown);
 				map[brownKey] = brown;
 				return brown;
 			}
 		}
 
-		public static Pen2 BurlyWood{
+		public static Brush2 BurlyWood{
 			get{
 				if (map.ContainsKey(burlyWoodKey)){
 					return map[burlyWoodKey];
 				}
-				Pen2 burlyWood = new Pen2(Color2.BurlyWood);
+				Brush2 burlyWood = new Brush2(Color2.BurlyWood);
 				map[burlyWoodKey] = burlyWood;
 				return burlyWood;
 			}
 		}
 
-		public static Pen2 CadetBlue{
+		public static Brush2 CadetBlue{
 			get{
 				if (map.ContainsKey(cadetBlueKey)){
 					return map[cadetBlueKey];
 				}
-				Pen2 cadetBlue = new Pen2(Color2.CadetBlue);
+				Brush2 cadetBlue = new Brush2(Color2.CadetBlue);
 				map[cadetBlueKey] = cadetBlue;
 				return cadetBlue;
 			}
 		}
 
-		public static Pen2 Chartreuse{
+		public static Brush2 Chartreuse{
 			get{
 				if (map.ContainsKey(chartreuseKey)){
 					return map[chartreuseKey];
 				}
-				Pen2 chartreuse = new Pen2(Color2.Chartreuse);
+				Brush2 chartreuse = new Brush2(Color2.Chartreuse);
 				map[chartreuseKey] = chartreuse;
 				return chartreuse;
 			}
 		}
 
-		public static Pen2 Chocolate{
+		public static Brush2 Chocolate{
 			get{
 				if (map.ContainsKey(chocolateKey)){
 					return map[chocolateKey];
 				}
-				Pen2 chocolate = new Pen2(Color2.Chocolate);
+				Brush2 chocolate = new Brush2(Color2.Chocolate);
 				map[chocolateKey] = chocolate;
 				return chocolate;
 			}
 		}
 
-		public static Pen2 Coral{
+		public static Brush2 Coral{
 			get{
 				if (map.ContainsKey(coralKey)){
 					return map[coralKey];
 				}
-				Pen2 coral = new Pen2(Color2.Coral);
+				Brush2 coral = new Brush2(Color2.Coral);
 				map[coralKey] = coral;
 				return coral;
 			}
 		}
 
-		public static Pen2 CornflowerBlue{
+		public static Brush2 CornflowerBlue{
 			get{
 				if (map.ContainsKey(cornflowerBlueKey)){
 					return map[cornflowerBlueKey];
 				}
-				Pen2 cornflowerBlue = new Pen2(Color2.CornflowerBlue);
+				Brush2 cornflowerBlue = new Brush2(Color2.CornflowerBlue);
 				map[cornflowerBlueKey] = cornflowerBlue;
 				return cornflowerBlue;
 			}
 		}
 
-		public static Pen2 Cornsilk{
+		public static Brush2 Cornsilk{
 			get{
 				if (map.ContainsKey(cornsilkKey)){
 					return map[cornsilkKey];
 				}
-				Pen2 cornsilk = new Pen2(Color2.Cornsilk);
+				Brush2 cornsilk = new Brush2(Color2.Cornsilk);
 				map[cornsilkKey] = cornsilk;
 				return cornsilk;
 			}
 		}
 
-		public static Pen2 Crimson{
+		public static Brush2 Crimson{
 			get{
 				if (map.ContainsKey(crimsonKey)){
 					return map[crimsonKey];
 				}
-				Pen2 crimson = new Pen2(Color2.Crimson);
+				Brush2 crimson = new Brush2(Color2.Crimson);
 				map[crimsonKey] = crimson;
 				return crimson;
 			}
 		}
 
-		public static Pen2 Cyan{
+		public static Brush2 Cyan{
 			get{
 				if (map.ContainsKey(cyanKey)){
 					return map[cyanKey];
 				}
-				Pen2 cyan = new Pen2(Color2.Cyan);
+				Brush2 cyan = new Brush2(Color2.Cyan);
 				map[cyanKey] = cyan;
 				return cyan;
 			}
 		}
 
-		public static Pen2 DarkBlue{
+		public static Brush2 DarkBlue{
 			get{
 				if (map.ContainsKey(darkBlueKey)){
 					return map[darkBlueKey];
 				}
-				Pen2 darkBlue = new Pen2(Color2.DarkBlue);
+				Brush2 darkBlue = new Brush2(Color2.DarkBlue);
 				map[darkBlueKey] = darkBlue;
 				return darkBlue;
 			}
 		}
 
-		public static Pen2 DarkCyan{
+		public static Brush2 DarkCyan{
 			get{
 				if (map.ContainsKey(darkCyanKey)){
 					return map[darkCyanKey];
 				}
-				Pen2 darkCyan = new Pen2(Color2.DarkCyan);
+				Brush2 darkCyan = new Brush2(Color2.DarkCyan);
 				map[darkCyanKey] = darkCyan;
 				return darkCyan;
 			}
 		}
 
-		public static Pen2 DarkGoldenrod{
+		public static Brush2 DarkGoldenrod{
 			get{
 				if (map.ContainsKey(darkGoldenrodKey)){
 					return map[darkGoldenrodKey];
 				}
-				Pen2 darkGoldenrod = new Pen2(Color2.DarkGoldenrod);
+				Brush2 darkGoldenrod = new Brush2(Color2.DarkGoldenrod);
 				map[darkGoldenrodKey] = darkGoldenrod;
 				return darkGoldenrod;
 			}
 		}
 
-		public static Pen2 DarkGray{
+		public static Brush2 DarkGray{
 			get{
 				if (map.ContainsKey(darkGrayKey)){
 					return map[darkGrayKey];
 				}
-				Pen2 darkGray = new Pen2(Color2.DarkGray);
+				Brush2 darkGray = new Brush2(Color2.DarkGray);
 				map[darkGrayKey] = darkGray;
 				return darkGray;
 			}
 		}
 
-		public static Pen2 DarkGreen{
+		public static Brush2 DarkGreen{
 			get{
 				if (map.ContainsKey(darkGreenKey)){
 					return map[darkGreenKey];
 				}
-				Pen2 darkGreen = new Pen2(Color2.DarkGreen);
+				Brush2 darkGreen = new Brush2(Color2.DarkGreen);
 				map[darkGreenKey] = darkGreen;
 				return darkGreen;
 			}
 		}
 
-		public static Pen2 DarkKhaki{
+		public static Brush2 DarkKhaki{
 			get{
 				if (map.ContainsKey(darkKhakiKey)){
 					return map[darkKhakiKey];
 				}
-				Pen2 darkKhaki = new Pen2(Color2.DarkKhaki);
+				Brush2 darkKhaki = new Brush2(Color2.DarkKhaki);
 				map[darkKhakiKey] = darkKhaki;
 				return darkKhaki;
 			}
 		}
 
-		public static Pen2 DarkMagenta{
+		public static Brush2 DarkMagenta{
 			get{
 				if (map.ContainsKey(darkMagentaKey)){
 					return map[darkMagentaKey];
 				}
-				Pen2 darkMagenta = new Pen2(Color2.DarkMagenta);
+				Brush2 darkMagenta = new Brush2(Color2.DarkMagenta);
 				map[darkMagentaKey] = darkMagenta;
 				return darkMagenta;
 			}
 		}
 
-		public static Pen2 DarkOliveGreen{
+		public static Brush2 DarkOliveGreen{
 			get{
 				if (map.ContainsKey(darkOliveGreenKey)){
 					return map[darkOliveGreenKey];
 				}
-				Pen2 darkOliveGreen = new Pen2(Color2.DarkOliveGreen);
+				Brush2 darkOliveGreen = new Brush2(Color2.DarkOliveGreen);
 				map[darkOliveGreenKey] = darkOliveGreen;
 				return darkOliveGreen;
 			}
 		}
 
-		public static Pen2 DarkOrange{
+		public static Brush2 DarkOrange{
 			get{
 				if (map.ContainsKey(darkOrangeKey)){
 					return map[darkOrangeKey];
 				}
-				Pen2 darkOrange = new Pen2(Color2.DarkOrange);
+				Brush2 darkOrange = new Brush2(Color2.DarkOrange);
 				map[darkOrangeKey] = darkOrange;
 				return darkOrange;
 			}
 		}
 
-		public static Pen2 DarkOrchid{
+		public static Brush2 DarkOrchid{
 			get{
 				if (map.ContainsKey(darkOrchidKey)){
 					return map[darkOrchidKey];
 				}
-				Pen2 darkOrchid = new Pen2(Color2.DarkOrchid);
+				Brush2 darkOrchid = new Brush2(Color2.DarkOrchid);
 				map[darkOrchidKey] = darkOrchid;
 				return darkOrchid;
 			}
 		}
 
-		public static Pen2 DarkRed{
+		public static Brush2 DarkRed{
 			get{
 				if (map.ContainsKey(darkRedKey)){
 					return map[darkRedKey];
 				}
-				Pen2 darkRed = new Pen2(Color2.DarkRed);
+				Brush2 darkRed = new Brush2(Color2.DarkRed);
 				map[darkRedKey] = darkRed;
 				return darkRed;
 			}
 		}
 
-		public static Pen2 DarkSalmon{
+		public static Brush2 DarkSalmon{
 			get{
 				if (map.ContainsKey(darkSalmonKey)){
 					return map[darkSalmonKey];
 				}
-				Pen2 darkSalmon = new Pen2(Color2.DarkSalmon);
+				Brush2 darkSalmon = new Brush2(Color2.DarkSalmon);
 				map[darkSalmonKey] = darkSalmon;
 				return darkSalmon;
 			}
 		}
 
-		public static Pen2 DarkSeaGreen{
+		public static Brush2 DarkSeaGreen{
 			get{
 				if (map.ContainsKey(darkSeaGreenKey)){
 					return map[darkSeaGreenKey];
 				}
-				Pen2 darkSeaGreen = new Pen2(Color2.DarkSeaGreen);
+				Brush2 darkSeaGreen = new Brush2(Color2.DarkSeaGreen);
 				map[darkSeaGreenKey] = darkSeaGreen;
 				return darkSeaGreen;
 			}
 		}
 
-		public static Pen2 DarkSlateBlue{
+		public static Brush2 DarkSlateBlue{
 			get{
 				if (map.ContainsKey(darkSlateBlueKey)){
 					return map[darkSlateBlueKey];
 				}
-				Pen2 darkSlateBlue = new Pen2(Color2.DarkSlateBlue);
+				Brush2 darkSlateBlue = new Brush2(Color2.DarkSlateBlue);
 				map[darkSlateBlueKey] = darkSlateBlue;
 				return darkSlateBlue;
 			}
 		}
 
-		public static Pen2 DarkSlateGray{
+		public static Brush2 DarkSlateGray{
 			get{
 				if (map.ContainsKey(darkSlateGrayKey)){
 					return map[darkSlateGrayKey];
 				}
-				Pen2 darkSlateGray = new Pen2(Color2.DarkSlateGray);
+				Brush2 darkSlateGray = new Brush2(Color2.DarkSlateGray);
 				map[darkSlateGrayKey] = darkSlateGray;
 				return darkSlateGray;
 			}
 		}
 
-		public static Pen2 DarkTurquoise{
+		public static Brush2 DarkTurquoise{
 			get{
 				if (map.ContainsKey(darkTurquoiseKey)){
 					return map[darkTurquoiseKey];
 				}
-				Pen2 darkTurquoise = new Pen2(Color2.DarkTurquoise);
+				Brush2 darkTurquoise = new Brush2(Color2.DarkTurquoise);
 				map[darkTurquoiseKey] = darkTurquoise;
 				return darkTurquoise;
 			}
 		}
 
-		public static Pen2 DarkViolet{
+		public static Brush2 DarkViolet{
 			get{
 				if (map.ContainsKey(darkVioletKey)){
 					return map[darkVioletKey];
 				}
-				Pen2 darkViolet = new Pen2(Color2.DarkViolet);
+				Brush2 darkViolet = new Brush2(Color2.DarkViolet);
 				map[darkVioletKey] = darkViolet;
 				return darkViolet;
 			}
 		}
 
-		public static Pen2 DeepPink{
+		public static Brush2 DeepPink{
 			get{
 				if (map.ContainsKey(deepPinkKey)){
 					return map[deepPinkKey];
 				}
-				Pen2 deepPink = new Pen2(Color2.DeepPink);
+				Brush2 deepPink = new Brush2(Color2.DeepPink);
 				map[deepPinkKey] = deepPink;
 				return deepPink;
 			}
 		}
 
-		public static Pen2 DeepSkyBlue{
+		public static Brush2 DeepSkyBlue{
 			get{
 				if (map.ContainsKey(deepSkyBlueKey)){
 					return map[deepSkyBlueKey];
 				}
-				Pen2 deepSkyBlue = new Pen2(Color2.DeepSkyBlue);
+				Brush2 deepSkyBlue = new Brush2(Color2.DeepSkyBlue);
 				map[deepSkyBlueKey] = deepSkyBlue;
 				return deepSkyBlue;
 			}
 		}
 
-		public static Pen2 DimGray{
+		public static Brush2 DimGray{
 			get{
 				if (map.ContainsKey(dimGrayKey)){
 					return map[dimGrayKey];
 				}
-				Pen2 dimGray = new Pen2(Color2.DimGray);
+				Brush2 dimGray = new Brush2(Color2.DimGray);
 				map[dimGrayKey] = dimGray;
 				return dimGray;
 			}
 		}
 
-		public static Pen2 DodgerBlue{
+		public static Brush2 DodgerBlue{
 			get{
 				if (map.ContainsKey(dodgerBlueKey)){
 					return map[dodgerBlueKey];
 				}
-				Pen2 dodgerBlue = new Pen2(Color2.DodgerBlue);
+				Brush2 dodgerBlue = new Brush2(Color2.DodgerBlue);
 				map[dodgerBlueKey] = dodgerBlue;
 				return dodgerBlue;
 			}
 		}
 
-		public static Pen2 Firebrick{
+		public static Brush2 Firebrick{
 			get{
 				if (map.ContainsKey(firebrickKey)){
 					return map[firebrickKey];
 				}
-				Pen2 firebrick = new Pen2(Color2.Firebrick);
+				Brush2 firebrick = new Brush2(Color2.Firebrick);
 				map[firebrickKey] = firebrick;
 				return firebrick;
 			}
 		}
 
-		public static Pen2 FloralWhite{
+		public static Brush2 FloralWhite{
 			get{
 				if (map.ContainsKey(floralWhiteKey)){
 					return map[floralWhiteKey];
 				}
-				Pen2 floralWhite = new Pen2(Color2.FloralWhite);
+				Brush2 floralWhite = new Brush2(Color2.FloralWhite);
 				map[floralWhiteKey] = floralWhite;
 				return floralWhite;
 			}
 		}
 
-		public static Pen2 ForestGreen{
+		public static Brush2 ForestGreen{
 			get{
 				if (map.ContainsKey(forestGreenKey)){
 					return map[forestGreenKey];
 				}
-				Pen2 forestGreen = new Pen2(Color2.ForestGreen);
+				Brush2 forestGreen = new Brush2(Color2.ForestGreen);
 				map[forestGreenKey] = forestGreen;
 				return forestGreen;
 			}
 		}
 
-		public static Pen2 Fuchsia{
+		public static Brush2 Fuchsia{
 			get{
 				if (map.ContainsKey(fuchsiaKey)){
 					return map[fuchsiaKey];
 				}
-				Pen2 fuchsia = new Pen2(Color2.Fuchsia);
+				Brush2 fuchsia = new Brush2(Color2.Fuchsia);
 				map[fuchsiaKey] = fuchsia;
 				return fuchsia;
 			}
 		}
 
-		public static Pen2 Gainsboro{
+		public static Brush2 Gainsboro{
 			get{
 				if (map.ContainsKey(gainsboroKey)){
 					return map[gainsboroKey];
 				}
-				Pen2 gainsboro = new Pen2(Color2.Gainsboro);
+				Brush2 gainsboro = new Brush2(Color2.Gainsboro);
 				map[gainsboroKey] = gainsboro;
 				return gainsboro;
 			}
 		}
 
-		public static Pen2 GhostWhite{
+		public static Brush2 GhostWhite{
 			get{
 				if (map.ContainsKey(ghostWhiteKey)){
 					return map[ghostWhiteKey];
 				}
-				Pen2 ghostWhite = new Pen2(Color2.GhostWhite);
+				Brush2 ghostWhite = new Brush2(Color2.GhostWhite);
 				map[ghostWhiteKey] = ghostWhite;
 				return ghostWhite;
 			}
 		}
 
-		public static Pen2 Gold{
+		public static Brush2 Gold{
 			get{
 				if (map.ContainsKey(goldKey)){
 					return map[goldKey];
 				}
-				Pen2 gold = new Pen2(Color2.Gold);
+				Brush2 gold = new Brush2(Color2.Gold);
 				map[goldKey] = gold;
 				return gold;
 			}
 		}
 
-		public static Pen2 Goldenrod{
+		public static Brush2 Goldenrod{
 			get{
 				if (map.ContainsKey(goldenrodKey)){
 					return map[goldenrodKey];
 				}
-				Pen2 goldenrod = new Pen2(Color2.Goldenrod);
+				Brush2 goldenrod = new Brush2(Color2.Goldenrod);
 				map[goldenrodKey] = goldenrod;
 				return goldenrod;
 			}
 		}
 
-		public static Pen2 Gray{
+		public static Brush2 Gray{
 			get{
 				if (map.ContainsKey(grayKey)){
 					return map[grayKey];
 				}
-				Pen2 gray = new Pen2(Color2.Gray);
+				Brush2 gray = new Brush2(Color2.Gray);
 				map[grayKey] = gray;
 				return gray;
 			}
 		}
 
-		public static Pen2 Green{
+		public static Brush2 Green{
 			get{
 				if (map.ContainsKey(greenKey)){
 					return map[greenKey];
 				}
-				Pen2 green = new Pen2(Color2.Green);
+				Brush2 green = new Brush2(Color2.Green);
 				map[greenKey] = green;
 				return green;
 			}
 		}
 
-		public static Pen2 GreenYellow{
+		public static Brush2 GreenYellow{
 			get{
 				if (map.ContainsKey(greenYellowKey)){
 					return map[greenYellowKey];
 				}
-				Pen2 greenYellow = new Pen2(Color2.GreenYellow);
+				Brush2 greenYellow = new Brush2(Color2.GreenYellow);
 				map[greenYellowKey] = greenYellow;
 				return greenYellow;
 			}
 		}
 
-		public static Pen2 Honeydew{
+		public static Brush2 Honeydew{
 			get{
 				if (map.ContainsKey(honeydewKey)){
 					return map[honeydewKey];
 				}
-				Pen2 honeydew = new Pen2(Color2.Honeydew);
+				Brush2 honeydew = new Brush2(Color2.Honeydew);
 				map[honeydewKey] = honeydew;
 				return honeydew;
 			}
 		}
 
-		public static Pen2 HotPink{
+		public static Brush2 HotPink{
 			get{
 				if (map.ContainsKey(hotPinkKey)){
 					return map[hotPinkKey];
 				}
-				Pen2 hotPink = new Pen2(Color2.HotPink);
+				Brush2 hotPink = new Brush2(Color2.HotPink);
 				map[hotPinkKey] = hotPink;
 				return hotPink;
 			}
 		}
 
-		public static Pen2 IndianRed{
+		public static Brush2 IndianRed{
 			get{
 				if (map.ContainsKey(indianRedKey)){
 					return map[indianRedKey];
 				}
-				Pen2 indianRed = new Pen2(Color2.IndianRed);
+				Brush2 indianRed = new Brush2(Color2.IndianRed);
 				map[indianRedKey] = indianRed;
 				return indianRed;
 			}
 		}
 
-		public static Pen2 Indigo{
+		public static Brush2 Indigo{
 			get{
 				if (map.ContainsKey(indigoKey)){
 					return map[indigoKey];
 				}
-				Pen2 indigo = new Pen2(Color2.Indigo);
+				Brush2 indigo = new Brush2(Color2.Indigo);
 				map[indigoKey] = indigo;
 				return indigo;
 			}
 		}
 
-		public static Pen2 Ivory{
+		public static Brush2 Ivory{
 			get{
 				if (map.ContainsKey(ivoryKey)){
 					return map[ivoryKey];
 				}
-				Pen2 ivory = new Pen2(Color2.Ivory);
+				Brush2 ivory = new Brush2(Color2.Ivory);
 				map[ivoryKey] = ivory;
 				return ivory;
 			}
 		}
 
-		public static Pen2 Khaki{
+		public static Brush2 Khaki{
 			get{
 				if (map.ContainsKey(khakiKey)){
 					return map[khakiKey];
 				}
-				Pen2 khaki = new Pen2(Color2.Khaki);
+				Brush2 khaki = new Brush2(Color2.Khaki);
 				map[khakiKey] = khaki;
 				return khaki;
 			}
 		}
 
-		public static Pen2 Lavender{
+		public static Brush2 Lavender{
 			get{
 				if (map.ContainsKey(lavenderKey)){
 					return map[lavenderKey];
 				}
-				Pen2 lavender = new Pen2(Color2.Lavender);
+				Brush2 lavender = new Brush2(Color2.Lavender);
 				map[lavenderKey] = lavender;
 				return lavender;
 			}
 		}
 
-		public static Pen2 LavenderBlush{
+		public static Brush2 LavenderBlush{
 			get{
 				if (map.ContainsKey(lavenderBlushKey)){
 					return map[lavenderBlushKey];
 				}
-				Pen2 lavenderBlush = new Pen2(Color2.LavenderBlush);
+				Brush2 lavenderBlush = new Brush2(Color2.LavenderBlush);
 				map[lavenderBlushKey] = lavenderBlush;
 				return lavenderBlush;
 			}
 		}
 
-		public static Pen2 LawnGreen{
+		public static Brush2 LawnGreen{
 			get{
 				if (map.ContainsKey(lawnGreenKey)){
 					return map[lawnGreenKey];
 				}
-				Pen2 lawnGreen = new Pen2(Color2.LawnGreen);
+				Brush2 lawnGreen = new Brush2(Color2.LawnGreen);
 				map[lawnGreenKey] = lawnGreen;
 				return lawnGreen;
 			}
 		}
 
-		public static Pen2 LemonChiffon{
+		public static Brush2 LemonChiffon{
 			get{
 				if (map.ContainsKey(lemonChiffonKey)){
 					return map[lemonChiffonKey];
 				}
-				Pen2 lemonChiffon = new Pen2(Color2.LemonChiffon);
+				Brush2 lemonChiffon = new Brush2(Color2.LemonChiffon);
 				map[lemonChiffonKey] = lemonChiffon;
 				return lemonChiffon;
 			}
 		}
 
-		public static Pen2 LightBlue{
+		public static Brush2 LightBlue{
 			get{
 				if (map.ContainsKey(lightBlueKey)){
 					return map[lightBlueKey];
 				}
-				Pen2 lightBlue = new Pen2(Color2.LightBlue);
+				Brush2 lightBlue = new Brush2(Color2.LightBlue);
 				map[lightBlueKey] = lightBlue;
 				return lightBlue;
 			}
 		}
 
-		public static Pen2 LightCoral{
+		public static Brush2 LightCoral{
 			get{
 				if (map.ContainsKey(lightCoralKey)){
 					return map[lightCoralKey];
 				}
-				Pen2 lightCoral = new Pen2(Color2.LightCoral);
+				Brush2 lightCoral = new Brush2(Color2.LightCoral);
 				map[lightCoralKey] = lightCoral;
 				return lightCoral;
 			}
 		}
 
-		public static Pen2 LightCyan{
+		public static Brush2 LightCyan{
 			get{
 				if (map.ContainsKey(lightCyanKey)){
 					return map[lightCyanKey];
 				}
-				Pen2 lightCyan = new Pen2(Color2.LightCyan);
+				Brush2 lightCyan = new Brush2(Color2.LightCyan);
 				map[lightCyanKey] = lightCyan;
 				return lightCyan;
 			}
 		}
 
-		public static Pen2 LightGoldenrodYellow{
+		public static Brush2 LightGoldenrodYellow{
 			get{
 				if (map.ContainsKey(lightGoldenrodYellowKey)){
 					return map[lightGoldenrodYellowKey];
 				}
-				Pen2 lightGoldenrodYellow = new Pen2(Color2.LightGoldenrodYellow);
+				Brush2 lightGoldenrodYellow = new Brush2(Color2.LightGoldenrodYellow);
 				map[lightGoldenrodYellowKey] = lightGoldenrodYellow;
 				return lightGoldenrodYellow;
 			}
 		}
 
-		public static Pen2 LightGreen{
+		public static Brush2 LightGreen{
 			get{
 				if (map.ContainsKey(lightGreenKey)){
 					return map[lightGreenKey];
 				}
-				Pen2 lightGreen = new Pen2(Color2.LightGreen);
+				Brush2 lightGreen = new Brush2(Color2.LightGreen);
 				map[lightGreenKey] = lightGreen;
 				return lightGreen;
 			}
 		}
 
-		public static Pen2 LightGray{
+		public static Brush2 LightGray{
 			get{
 				if (map.ContainsKey(lightGrayKey)){
 					return map[lightGrayKey];
 				}
-				Pen2 lightGray = new Pen2(Color2.LightGray);
+				Brush2 lightGray = new Brush2(Color2.LightGray);
 				map[lightGrayKey] = lightGray;
 				return lightGray;
 			}
 		}
 
-		public static Pen2 LightPink{
+		public static Brush2 LightPink{
 			get{
 				if (map.ContainsKey(lightPinkKey)){
 					return map[lightPinkKey];
 				}
-				Pen2 lightPink = new Pen2(Color2.LightPink);
+				Brush2 lightPink = new Brush2(Color2.LightPink);
 				map[lightPinkKey] = lightPink;
 				return lightPink;
 			}
 		}
 
-		public static Pen2 LightSalmon{
+		public static Brush2 LightSalmon{
 			get{
 				if (map.ContainsKey(lightSalmonKey)){
 					return map[lightSalmonKey];
 				}
-				Pen2 lightSalmon = new Pen2(Color2.LightSalmon);
+				Brush2 lightSalmon = new Brush2(Color2.LightSalmon);
 				map[lightSalmonKey] = lightSalmon;
 				return lightSalmon;
 			}
 		}
 
-		public static Pen2 LightSeaGreen{
+		public static Brush2 LightSeaGreen{
 			get{
 				if (map.ContainsKey(lightSeaGreenKey)){
 					return map[lightSeaGreenKey];
 				}
-				Pen2 lightSeaGreen = new Pen2(Color2.LightSeaGreen);
+				Brush2 lightSeaGreen = new Brush2(Color2.LightSeaGreen);
 				map[lightSeaGreenKey] = lightSeaGreen;
 				return lightSeaGreen;
 			}
 		}
 
-		public static Pen2 LightSkyBlue{
+		public static Brush2 LightSkyBlue{
 			get{
 				if (map.ContainsKey(lightSkyBlueKey)){
 					return map[lightSkyBlueKey];
 				}
-				Pen2 lightSkyBlue = new Pen2(Color2.LightSkyBlue);
+				Brush2 lightSkyBlue = new Brush2(Color2.LightSkyBlue);
 				map[lightSkyBlueKey] = lightSkyBlue;
 				return lightSkyBlue;
 			}
 		}
 
-		public static Pen2 LightSlateGray{
+		public static Brush2 LightSlateGray{
 			get{
 				if (map.ContainsKey(lightSlateGrayKey)){
 					return map[lightSlateGrayKey];
 				}
-				Pen2 lightSlateGray = new Pen2(Color2.LightSlateGray);
+				Brush2 lightSlateGray = new Brush2(Color2.LightSlateGray);
 				map[lightSlateGrayKey] = lightSlateGray;
 				return lightSlateGray;
 			}
 		}
 
-		public static Pen2 LightSteelBlue{
+		public static Brush2 LightSteelBlue{
 			get{
 				if (map.ContainsKey(lightSteelBlueKey)){
 					return map[lightSteelBlueKey];
 				}
-				Pen2 lightSteelBlue = new Pen2(Color2.LightSteelBlue);
+				Brush2 lightSteelBlue = new Brush2(Color2.LightSteelBlue);
 				map[lightSteelBlueKey] = lightSteelBlue;
 				return lightSteelBlue;
 			}
 		}
 
-		public static Pen2 LightYellow{
+		public static Brush2 LightYellow{
 			get{
 				if (map.ContainsKey(lightYellowKey)){
 					return map[lightYellowKey];
 				}
-				Pen2 lightYellow = new Pen2(Color2.LightYellow);
+				Brush2 lightYellow = new Brush2(Color2.LightYellow);
 				map[lightYellowKey] = lightYellow;
 				return lightYellow;
 			}
 		}
 
-		public static Pen2 Lime{
+		public static Brush2 Lime{
 			get{
 				if (map.ContainsKey(limeKey)){
 					return map[limeKey];
 				}
-				Pen2 lime = new Pen2(Color2.Lime);
+				Brush2 lime = new Brush2(Color2.Lime);
 				map[limeKey] = lime;
 				return lime;
 			}
 		}
 
-		public static Pen2 LimeGreen{
+		public static Brush2 LimeGreen{
 			get{
 				if (map.ContainsKey(limeGreenKey)){
 					return map[limeGreenKey];
 				}
-				Pen2 limeGreen = new Pen2(Color2.LimeGreen);
+				Brush2 limeGreen = new Brush2(Color2.LimeGreen);
 				map[limeGreenKey] = limeGreen;
 				return limeGreen;
 			}
 		}
 
-		public static Pen2 Linen{
+		public static Brush2 Linen{
 			get{
 				if (map.ContainsKey(linenKey)){
 					return map[linenKey];
 				}
-				Pen2 linen = new Pen2(Color2.Linen);
+				Brush2 linen = new Brush2(Color2.Linen);
 				map[linenKey] = linen;
 				return linen;
 			}
 		}
 
-		public static Pen2 Magenta{
+		public static Brush2 Magenta{
 			get{
 				if (map.ContainsKey(magentaKey)){
 					return map[magentaKey];
 				}
-				Pen2 magenta = new Pen2(Color2.Magenta);
+				Brush2 magenta = new Brush2(Color2.Magenta);
 				map[magentaKey] = magenta;
 				return magenta;
 			}
 		}
 
-		public static Pen2 Maroon{
+		public static Brush2 Maroon{
 			get{
 				if (map.ContainsKey(maroonKey)){
 					return map[maroonKey];
 				}
-				Pen2 maroon = new Pen2(Color2.Maroon);
+				Brush2 maroon = new Brush2(Color2.Maroon);
 				map[maroonKey] = maroon;
 				return maroon;
 			}
 		}
 
-		public static Pen2 MediumAquamarine{
+		public static Brush2 MediumAquamarine{
 			get{
 				if (map.ContainsKey(mediumAquamarineKey)){
 					return map[mediumAquamarineKey];
 				}
-				Pen2 mediumAquamarine = new Pen2(Color2.MediumAquamarine);
+				Brush2 mediumAquamarine = new Brush2(Color2.MediumAquamarine);
 				map[mediumAquamarineKey] = mediumAquamarine;
 				return mediumAquamarine;
 			}
 		}
 
-		public static Pen2 MediumBlue{
+		public static Brush2 MediumBlue{
 			get{
 				if (map.ContainsKey(mediumBlueKey)){
 					return map[mediumBlueKey];
 				}
-				Pen2 mediumBlue = new Pen2(Color2.MediumBlue);
+				Brush2 mediumBlue = new Brush2(Color2.MediumBlue);
 				map[mediumBlueKey] = mediumBlue;
 				return mediumBlue;
 			}
 		}
 
-		public static Pen2 MediumOrchid{
+		public static Brush2 MediumOrchid{
 			get{
 				if (map.ContainsKey(mediumOrchidKey)){
 					return map[mediumOrchidKey];
 				}
-				Pen2 mediumOrchid = new Pen2(Color2.MediumOrchid);
+				Brush2 mediumOrchid = new Brush2(Color2.MediumOrchid);
 				map[mediumOrchidKey] = mediumOrchid;
 				return mediumOrchid;
 			}
 		}
 
-		public static Pen2 MediumPurple{
+		public static Brush2 MediumPurple{
 			get{
 				if (map.ContainsKey(mediumPurpleKey)){
 					return map[mediumPurpleKey];
 				}
-				Pen2 mediumPurple = new Pen2(Color2.MediumPurple);
+				Brush2 mediumPurple = new Brush2(Color2.MediumPurple);
 				map[mediumPurpleKey] = mediumPurple;
 				return mediumPurple;
 			}
 		}
 
-		public static Pen2 MediumSeaGreen{
+		public static Brush2 MediumSeaGreen{
 			get{
 				if (map.ContainsKey(mediumSeaGreenKey)){
 					return map[mediumSeaGreenKey];
 				}
-				Pen2 mediumSeaGreen = new Pen2(Color2.MediumSeaGreen);
+				Brush2 mediumSeaGreen = new Brush2(Color2.MediumSeaGreen);
 				map[mediumSeaGreenKey] = mediumSeaGreen;
 				return mediumSeaGreen;
 			}
 		}
 
-		public static Pen2 MediumSlateBlue{
+		public static Brush2 MediumSlateBlue{
 			get{
 				if (map.ContainsKey(mediumSlateBlueKey)){
 					return map[mediumSlateBlueKey];
 				}
-				Pen2 mediumSlateBlue = new Pen2(Color2.MediumSlateBlue);
+				Brush2 mediumSlateBlue = new Brush2(Color2.MediumSlateBlue);
 				map[mediumSlateBlueKey] = mediumSlateBlue;
 				return mediumSlateBlue;
 			}
 		}
 
-		public static Pen2 MediumSpringGreen{
+		public static Brush2 MediumSpringGreen{
 			get{
 				if (map.ContainsKey(mediumSpringGreenKey)){
 					return map[mediumSpringGreenKey];
 				}
-				Pen2 mediumSpringGreen = new Pen2(Color2.MediumSpringGreen);
+				Brush2 mediumSpringGreen = new Brush2(Color2.MediumSpringGreen);
 				map[mediumSpringGreenKey] = mediumSpringGreen;
 				return mediumSpringGreen;
 			}
 		}
 
-		public static Pen2 MediumTurquoise{
+		public static Brush2 MediumTurquoise{
 			get{
 				if (map.ContainsKey(mediumTurquoiseKey)){
 					return map[mediumTurquoiseKey];
 				}
-				Pen2 mediumTurquoise = new Pen2(Color2.MediumTurquoise);
+				Brush2 mediumTurquoise = new Brush2(Color2.MediumTurquoise);
 				map[mediumTurquoiseKey] = mediumTurquoise;
 				return mediumTurquoise;
 			}
 		}
 
-		public static Pen2 MediumVioletRed{
+		public static Brush2 MediumVioletRed{
 			get{
 				if (map.ContainsKey(mediumVioletRedKey)){
 					return map[mediumVioletRedKey];
 				}
-				Pen2 mediumVioletRed = new Pen2(Color2.MediumVioletRed);
+				Brush2 mediumVioletRed = new Brush2(Color2.MediumVioletRed);
 				map[mediumVioletRedKey] = mediumVioletRed;
 				return mediumVioletRed;
 			}
 		}
 
-		public static Pen2 MidnightBlue{
+		public static Brush2 MidnightBlue{
 			get{
 				if (map.ContainsKey(midnightBlueKey)){
 					return map[midnightBlueKey];
 				}
-				Pen2 midnightBlue = new Pen2(Color2.MidnightBlue);
+				Brush2 midnightBlue = new Brush2(Color2.MidnightBlue);
 				map[midnightBlueKey] = midnightBlue;
 				return midnightBlue;
 			}
 		}
 
-		public static Pen2 MintCream{
+		public static Brush2 MintCream{
 			get{
 				if (map.ContainsKey(mintCreamKey)){
 					return map[mintCreamKey];
 				}
-				Pen2 mintCream = new Pen2(Color2.MintCream);
+				Brush2 mintCream = new Brush2(Color2.MintCream);
 				map[mintCreamKey] = mintCream;
 				return mintCream;
 			}
 		}
 
-		public static Pen2 MistyRose{
+		public static Brush2 MistyRose{
 			get{
 				if (map.ContainsKey(mistyRoseKey)){
 					return map[mistyRoseKey];
 				}
-				Pen2 mistyRose = new Pen2(Color2.MistyRose);
+				Brush2 mistyRose = new Brush2(Color2.MistyRose);
 				map[mistyRoseKey] = mistyRose;
 				return mistyRose;
 			}
 		}
 
-		public static Pen2 Moccasin{
+		public static Brush2 Moccasin{
 			get{
 				if (map.ContainsKey(moccasinKey)){
 					return map[moccasinKey];
 				}
-				Pen2 moccasin = new Pen2(Color2.Moccasin);
+				Brush2 moccasin = new Brush2(Color2.Moccasin);
 				map[moccasinKey] = moccasin;
 				return moccasin;
 			}
 		}
 
-		public static Pen2 NavajoWhite{
+		public static Brush2 NavajoWhite{
 			get{
 				if (map.ContainsKey(navajoWhiteKey)){
 					return map[navajoWhiteKey];
 				}
-				Pen2 navajoWhite = new Pen2(Color2.NavajoWhite);
+				Brush2 navajoWhite = new Brush2(Color2.NavajoWhite);
 				map[navajoWhiteKey] = navajoWhite;
 				return navajoWhite;
 			}
 		}
 
-		public static Pen2 Navy{
+		public static Brush2 Navy{
 			get{
 				if (map.ContainsKey(navyKey)){
 					return map[navyKey];
 				}
-				Pen2 navy = new Pen2(Color2.Navy);
+				Brush2 navy = new Brush2(Color2.Navy);
 				map[navyKey] = navy;
 				return navy;
 			}
 		}
 
-		public static Pen2 OldLace{
+		public static Brush2 OldLace{
 			get{
 				if (map.ContainsKey(oldLaceKey)){
 					return map[oldLaceKey];
 				}
-				Pen2 oldLace = new Pen2(Color2.OldLace);
+				Brush2 oldLace = new Brush2(Color2.OldLace);
 				map[oldLaceKey] = oldLace;
 				return oldLace;
 			}
 		}
 
-		public static Pen2 Olive{
+		public static Brush2 Olive{
 			get{
 				if (map.ContainsKey(oliveKey)){
 					return map[oliveKey];
 				}
-				Pen2 olive = new Pen2(Color2.Olive);
+				Brush2 olive = new Brush2(Color2.Olive);
 				map[oliveKey] = olive;
 				return olive;
 			}
 		}
 
-		public static Pen2 OliveDrab{
+		public static Brush2 OliveDrab{
 			get{
 				if (map.ContainsKey(oliveDrabKey)){
 					return map[oliveDrabKey];
 				}
-				Pen2 oliveDrab = new Pen2(Color2.OliveDrab);
+				Brush2 oliveDrab = new Brush2(Color2.OliveDrab);
 				map[oliveDrabKey] = oliveDrab;
 				return oliveDrab;
 			}
 		}
 
-		public static Pen2 Orange{
+		public static Brush2 Orange{
 			get{
 				if (map.ContainsKey(orangeKey)){
 					return map[orangeKey];
 				}
-				Pen2 orange = new Pen2(Color2.Orange);
+				Brush2 orange = new Brush2(Color2.Orange);
 				map[orangeKey] = orange;
 				return orange;
 			}
 		}
 
-		public static Pen2 OrangeRed{
+		public static Brush2 OrangeRed{
 			get{
 				if (map.ContainsKey(orangeRedKey)){
 					return map[orangeRedKey];
 				}
-				Pen2 orangeRed = new Pen2(Color2.OrangeRed);
+				Brush2 orangeRed = new Brush2(Color2.OrangeRed);
 				map[orangeRedKey] = orangeRed;
 				return orangeRed;
 			}
 		}
 
-		public static Pen2 Orchid{
+		public static Brush2 Orchid{
 			get{
 				if (map.ContainsKey(orchidKey)){
 					return map[orchidKey];
 				}
-				Pen2 orchid = new Pen2(Color2.Orchid);
+				Brush2 orchid = new Brush2(Color2.Orchid);
 				map[orchidKey] = orchid;
 				return orchid;
 			}
 		}
 
-		public static Pen2 PaleGoldenrod{
+		public static Brush2 PaleGoldenrod{
 			get{
 				if (map.ContainsKey(paleGoldenrodKey)){
 					return map[paleGoldenrodKey];
 				}
-				Pen2 paleGoldenrod = new Pen2(Color2.PaleGoldenrod);
+				Brush2 paleGoldenrod = new Brush2(Color2.PaleGoldenrod);
 				map[paleGoldenrodKey] = paleGoldenrod;
 				return paleGoldenrod;
 			}
 		}
 
-		public static Pen2 PaleGreen{
+		public static Brush2 PaleGreen{
 			get{
 				if (map.ContainsKey(paleGreenKey)){
 					return map[paleGreenKey];
 				}
-				Pen2 paleGreen = new Pen2(Color2.PaleGreen);
+				Brush2 paleGreen = new Brush2(Color2.PaleGreen);
 				map[paleGreenKey] = paleGreen;
 				return paleGreen;
 			}
 		}
 
-		public static Pen2 PaleTurquoise{
+		public static Brush2 PaleTurquoise{
 			get{
 				if (map.ContainsKey(paleTurquoiseKey)){
 					return map[paleTurquoiseKey];
 				}
-				Pen2 paleTurquoise = new Pen2(Color2.PaleTurquoise);
+				Brush2 paleTurquoise = new Brush2(Color2.PaleTurquoise);
 				map[paleTurquoiseKey] = paleTurquoise;
 				return paleTurquoise;
 			}
 		}
 
-		public static Pen2 PaleVioletRed{
+		public static Brush2 PaleVioletRed{
 			get{
 				if (map.ContainsKey(paleVioletRedKey)){
 					return map[paleVioletRedKey];
 				}
-				Pen2 paleVioletRed = new Pen2(Color2.PaleVioletRed);
+				Brush2 paleVioletRed = new Brush2(Color2.PaleVioletRed);
 				map[paleVioletRedKey] = paleVioletRed;
 				return paleVioletRed;
 			}
 		}
 
-		public static Pen2 PapayaWhip{
+		public static Brush2 PapayaWhip{
 			get{
 				if (map.ContainsKey(papayaWhipKey)){
 					return map[papayaWhipKey];
 				}
-				Pen2 papayaWhip = new Pen2(Color2.PapayaWhip);
+				Brush2 papayaWhip = new Brush2(Color2.PapayaWhip);
 				map[papayaWhipKey] = papayaWhip;
 				return papayaWhip;
 			}
 		}
 
-		public static Pen2 PeachPuff{
+		public static Brush2 PeachPuff{
 			get{
 				if (map.ContainsKey(peachPuffKey)){
 					return map[peachPuffKey];
 				}
-				Pen2 peachPuff = new Pen2(Color2.PeachPuff);
+				Brush2 peachPuff = new Brush2(Color2.PeachPuff);
 				map[peachPuffKey] = peachPuff;
 				return peachPuff;
 			}
 		}
 
-		public static Pen2 Peru{
+		public static Brush2 Peru{
 			get{
 				if (map.ContainsKey(peruKey)){
 					return map[peruKey];
 				}
-				Pen2 peru = new Pen2(Color2.Peru);
+				Brush2 peru = new Brush2(Color2.Peru);
 				map[peruKey] = peru;
 				return peru;
 			}
 		}
 
-		public static Pen2 Pink{
+		public static Brush2 Pink{
 			get{
 				if (map.ContainsKey(pinkKey)){
 					return map[pinkKey];
 				}
-				Pen2 pink = new Pen2(Color2.Pink);
+				Brush2 pink = new Brush2(Color2.Pink);
 				map[pinkKey] = pink;
 				return pink;
 			}
 		}
 
-		public static Pen2 Plum{
+		public static Brush2 Plum{
 			get{
 				if (map.ContainsKey(plumKey)){
 					return map[plumKey];
 				}
-				Pen2 plum = new Pen2(Color2.Plum);
+				Brush2 plum = new Brush2(Color2.Plum);
 				map[plumKey] = plum;
 				return plum;
 			}
 		}
 
-		public static Pen2 PowderBlue{
+		public static Brush2 PowderBlue{
 			get{
 				if (map.ContainsKey(powderBlueKey)){
 					return map[powderBlueKey];
 				}
-				Pen2 powderBlue = new Pen2(Color2.PowderBlue);
+				Brush2 powderBlue = new Brush2(Color2.PowderBlue);
 				map[powderBlueKey] = powderBlue;
 				return powderBlue;
 			}
 		}
 
-		public static Pen2 Purple{
+		public static Brush2 Purple{
 			get{
 				if (map.ContainsKey(purpleKey)){
 					return map[purpleKey];
 				}
-				Pen2 purple = new Pen2(Color2.Purple);
+				Brush2 purple = new Brush2(Color2.Purple);
 				map[purpleKey] = purple;
 				return purple;
 			}
 		}
 
-		public static Pen2 Red{
+		public static Brush2 Red{
 			get{
 				if (map.ContainsKey(redKey)){
 					return map[redKey];
 				}
-				Pen2 red = new Pen2(Color2.Red);
+				Brush2 red = new Brush2(Color2.Red);
 				map[redKey] = red;
 				return red;
 			}
 		}
 
-		public static Pen2 RosyBrown{
+		public static Brush2 RosyBrown{
 			get{
 				if (map.ContainsKey(rosyBrownKey)){
 					return map[rosyBrownKey];
 				}
-				Pen2 rosyBrown = new Pen2(Color2.RosyBrown);
+				Brush2 rosyBrown = new Brush2(Color2.RosyBrown);
 				map[rosyBrownKey] = rosyBrown;
 				return rosyBrown;
 			}
 		}
 
-		public static Pen2 RoyalBlue{
+		public static Brush2 RoyalBlue{
 			get{
 				if (map.ContainsKey(royalBlueKey)){
 					return map[royalBlueKey];
 				}
-				Pen2 royalBlue = new Pen2(Color2.RoyalBlue);
+				Brush2 royalBlue = new Brush2(Color2.RoyalBlue);
 				map[royalBlueKey] = royalBlue;
 				return royalBlue;
 			}
 		}
 
-		public static Pen2 SaddleBrown{
+		public static Brush2 SaddleBrown{
 			get{
 				if (map.ContainsKey(saddleBrownKey)){
 					return map[saddleBrownKey];
 				}
-				Pen2 saddleBrown = new Pen2(Color2.SaddleBrown);
+				Brush2 saddleBrown = new Brush2(Color2.SaddleBrown);
 				map[saddleBrownKey] = saddleBrown;
 				return saddleBrown;
 			}
 		}
 
-		public static Pen2 Salmon{
+		public static Brush2 Salmon{
 			get{
 				if (map.ContainsKey(salmonKey)){
 					return map[salmonKey];
 				}
-				Pen2 salmon = new Pen2(Color2.Salmon);
+				Brush2 salmon = new Brush2(Color2.Salmon);
 				map[salmonKey] = salmon;
 				return salmon;
 			}
 		}
 
-		public static Pen2 SandyBrown{
+		public static Brush2 SandyBrown{
 			get{
 				if (map.ContainsKey(sandyBrownKey)){
 					return map[sandyBrownKey];
 				}
-				Pen2 sandyBrown = new Pen2(Color2.SandyBrown);
+				Brush2 sandyBrown = new Brush2(Color2.SandyBrown);
 				map[sandyBrownKey] = sandyBrown;
 				return sandyBrown;
 			}
 		}
 
-		public static Pen2 SeaGreen{
+		public static Brush2 SeaGreen{
 			get{
 				if (map.ContainsKey(seaGreenKey)){
 					return map[seaGreenKey];
 				}
-				Pen2 seaGreen = new Pen2(Color2.SeaGreen);
+				Brush2 seaGreen = new Brush2(Color2.SeaGreen);
 				map[seaGreenKey] = seaGreen;
 				return seaGreen;
 			}
 		}
 
-		public static Pen2 SeaShell{
+		public static Brush2 SeaShell{
 			get{
 				if (map.ContainsKey(seaShellKey)){
 					return map[seaShellKey];
 				}
-				Pen2 seaShell = new Pen2(Color2.SeaShell);
+				Brush2 seaShell = new Brush2(Color2.SeaShell);
 				map[seaShellKey] = seaShell;
 				return seaShell;
 			}
 		}
 
-		public static Pen2 Sienna{
+		public static Brush2 Sienna{
 			get{
 				if (map.ContainsKey(siennaKey)){
 					return map[siennaKey];
 				}
-				Pen2 sienna = new Pen2(Color2.Sienna);
+				Brush2 sienna = new Brush2(Color2.Sienna);
 				map[siennaKey] = sienna;
 				return sienna;
 			}
 		}
 
-		public static Pen2 Silver{
+		public static Brush2 Silver{
 			get{
 				if (map.ContainsKey(silverKey)){
 					return map[silverKey];
 				}
-				Pen2 silver = new Pen2(Color2.Silver);
+				Brush2 silver = new Brush2(Color2.Silver);
 				map[silverKey] = silver;
 				return silver;
 			}
 		}
 
-		public static Pen2 SkyBlue{
+		public static Brush2 SkyBlue{
 			get{
 				if (map.ContainsKey(skyBlueKey)){
 					return map[skyBlueKey];
 				}
-				Pen2 skyBlue = new Pen2(Color2.SkyBlue);
+				Brush2 skyBlue = new Brush2(Color2.SkyBlue);
 				map[skyBlueKey] = skyBlue;
 				return skyBlue;
 			}
 		}
 
-		public static Pen2 SlateBlue{
+		public static Brush2 SlateBlue{
 			get{
 				if (map.ContainsKey(slateBlueKey)){
 					return map[slateBlueKey];
 				}
-				Pen2 slateBlue = new Pen2(Color2.SlateBlue);
+				Brush2 slateBlue = new Brush2(Color2.SlateBlue);
 				map[slateBlueKey] = slateBlue;
 				return slateBlue;
 			}
 		}
 
-		public static Pen2 SlateGray{
+		public static Brush2 SlateGray{
 			get{
 				if (map.ContainsKey(slateGrayKey)){
 					return map[slateGrayKey];
 				}
-				Pen2 slateGray = new Pen2(Color2.SlateGray);
+				Brush2 slateGray = new Brush2(Color2.SlateGray);
 				map[slateGrayKey] = slateGray;
 				return slateGray;
 			}
 		}
 
-		public static Pen2 Snow{
+		public static Brush2 Snow{
 			get{
 				if (map.ContainsKey(snowKey)){
 					return map[snowKey];
 				}
-				Pen2 snow = new Pen2(Color2.Snow);
+				Brush2 snow = new Brush2(Color2.Snow);
 				map[snowKey] = snow;
 				return snow;
 			}
 		}
 
-		public static Pen2 SpringGreen{
+		public static Brush2 SpringGreen{
 			get{
 				if (map.ContainsKey(springGreenKey)){
 					return map[springGreenKey];
 				}
-				Pen2 springGreen = new Pen2(Color2.SpringGreen);
+				Brush2 springGreen = new Brush2(Color2.SpringGreen);
 				map[springGreenKey] = springGreen;
 				return springGreen;
 			}
 		}
 
-		public static Pen2 SteelBlue{
+		public static Brush2 SteelBlue{
 			get{
 				if (map.ContainsKey(steelBlueKey)){
 					return map[steelBlueKey];
 				}
-				Pen2 steelBlue = new Pen2(Color2.SteelBlue);
+				Brush2 steelBlue = new Brush2(Color2.SteelBlue);
 				map[steelBlueKey] = steelBlue;
 				return steelBlue;
 			}
 		}
 
-		public static Pen2 Tan{
+		public static Brush2 Tan{
 			get{
 				if (map.ContainsKey(tanKey)){
 					return map[tanKey];
 				}
-				Pen2 tan = new Pen2(Color2.Tan);
+				Brush2 tan = new Brush2(Color2.Tan);
 				map[tanKey] = tan;
 				return tan;
 			}
 		}
 
-		public static Pen2 Teal{
+		public static Brush2 Teal{
 			get{
 				if (map.ContainsKey(tealKey)){
 					return map[tealKey];
 				}
-				Pen2 teal = new Pen2(Color2.Teal);
+				Brush2 teal = new Brush2(Color2.Teal);
 				map[tealKey] = teal;
 				return teal;
 			}
 		}
 
-		public static Pen2 Thistle{
+		public static Brush2 Thistle{
 			get{
 				if (map.ContainsKey(thistleKey)){
 					return map[thistleKey];
 				}
-				Pen2 thistle = new Pen2(Color2.Thistle);
+				Brush2 thistle = new Brush2(Color2.Thistle);
 				map[thistleKey] = thistle;
 				return thistle;
 			}
 		}
 
-		public static Pen2 Tomato{
+		public static Brush2 Tomato{
 			get{
 				if (map.ContainsKey(tomatoKey)){
 					return map[tomatoKey];
 				}
-				Pen2 tomato = new Pen2(Color2.Tomato);
+				Brush2 tomato = new Brush2(Color2.Tomato);
 				map[tomatoKey] = tomato;
 				return tomato;
 			}
 		}
 
-		public static Pen2 Turquoise{
+		public static Brush2 Turquoise{
 			get{
 				if (map.ContainsKey(turquoiseKey)){
 					return map[turquoiseKey];
 				}
-				Pen2 turquoise = new Pen2(Color2.Turquoise);
+				Brush2 turquoise = new Brush2(Color2.Turquoise);
 				map[turquoiseKey] = turquoise;
 				return turquoise;
 			}
 		}
 
-		public static Pen2 Violet{
+		public static Brush2 Violet{
 			get{
 				if (map.ContainsKey(violetKey)){
 					return map[violetKey];
 				}
-				Pen2 violet = new Pen2(Color2.Violet);
+				Brush2 violet = new Brush2(Color2.Violet);
 				map[violetKey] = violet;
 				return violet;
 			}
 		}
 
-		public static Pen2 Wheat{
+		public static Brush2 Wheat{
 			get{
 				if (map.ContainsKey(wheatKey)){
 					return map[wheatKey];
 				}
-				Pen2 wheat = new Pen2(Color2.Wheat);
+				Brush2 wheat = new Brush2(Color2.Wheat);
 				map[wheatKey] = wheat;
 				return wheat;
 			}
 		}
 
-		public static Pen2 White{
+		public static Brush2 White{
 			get{
 				if (map.ContainsKey(whiteKey)){
 					return map[whiteKey];
 				}
-				Pen2 white = new Pen2(Color2.White);
+				Brush2 white = new Brush2(Color2.White);
 				map[whiteKey] = white;
 				return white;
 			}
 		}
 
-		public static Pen2 WhiteSmoke{
+		public static Brush2 WhiteSmoke{
 			get{
 				if (map.ContainsKey(whiteSmokeKey)){
 					return map[whiteSmokeKey];
 				}
-				Pen2 whiteSmoke = new Pen2(Color2.WhiteSmoke);
+				Brush2 whiteSmoke = new Brush2(Color2.WhiteSmoke);
 				map[whiteSmokeKey] = whiteSmoke;
 				return whiteSmoke;
 			}
 		}
 
-		public static Pen2 Yellow{
+		public static Brush2 Yellow{
 			get{
 				if (map.ContainsKey(yellowKey)){
 					return map[yellowKey];
 				}
-				Pen2 yellow = new Pen2(Color2.Yellow);
+				Brush2 yellow = new Brush2(Color2.Yellow);
 				map[yellowKey] = yellow;
 				return yellow;
 			}
 		}
 
-		public static Pen2 YellowGreen{
+		public static Brush2 YellowGreen{
 			get{
 				if (map.ContainsKey(yellowGreenKey)){
 					return map[yellowGreenKey];
 				}
-				Pen2 yellowGreen = new Pen2(Color2.YellowGreen);
+				Brush2 yellowGreen = new Brush2(Color2.YellowGreen);
 				map[yellowGreenKey] = yellowGreen;
 				return yellowGreen;
 			}

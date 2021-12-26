@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Axis;
 using BaseLibS.Graph.Base;

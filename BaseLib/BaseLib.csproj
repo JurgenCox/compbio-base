@@ -348,11 +348,9 @@
     <Compile Include="Param\BoolParamWf.cs" />
     <Compile Include="Param\BoolWithSubParamsWf.cs" />
     <Compile Include="Param\DictionaryIntValueParamWf.cs" />
-    <Compile Include="Param\DoubleParamWf.cs" />
     <Compile Include="Param\FastaFilesParamWf.cs" />
     <Compile Include="Param\FileParamWf.cs" />
     <Compile Include="Param\FolderParamWf.cs" />
-    <Compile Include="Param\IntParamWf.cs" />
     <Compile Include="Param\IsobaricLabelsParamWf.cs" />
     <Compile Include="Param\LabelParamWf.cs" />
     <Compile Include="Param\Ms1LabelParamWf.cs" />
@@ -378,7 +376,6 @@
     <Compile Include="Param\ShapeParamWf.cs" />
     <Compile Include="Param\SingleChoiceParamWf.cs" />
     <Compile Include="Param\SingleChoiceWithSubParamsWf.cs" />
-    <Compile Include="Param\StringParamWf.cs" />
     <Compile Include="Param\WinFormsParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

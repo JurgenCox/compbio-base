@@ -1,4 +1,5 @@
 ﻿using System;
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 
 namespace BaseLibS.Graph.Network{

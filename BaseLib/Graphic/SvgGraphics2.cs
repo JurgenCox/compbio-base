@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using SvgNet.SvgGdi;
 using IGraphics = BaseLibS.Graph.IGraphics;

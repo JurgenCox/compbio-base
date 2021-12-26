@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using BaseLibS.Graph;
 using BaseLibS.Num.Space;
-
-namespace BaseLibS.Graph{
+namespace BaseLibS.Drawing{
 	[Serializable, DebuggerDisplay("{NameAndArgbValue}")]
 	public struct Color2{
 		public static readonly Color2 Empty = new Color2();

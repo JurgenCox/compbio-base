@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Scroll;
 using BaseLibS.Num;

@@ -1,4 +1,5 @@
-﻿namespace BaseLibS.Graph.Image.Formats.Png{
+﻿using BaseLibS.Drawing;
+namespace BaseLibS.Graph.Image.Formats.Png{
 	internal sealed class PaletteIndexReader : IColorReader{
 		private readonly byte[] palette;
 		private readonly byte[] paletteAlpha;

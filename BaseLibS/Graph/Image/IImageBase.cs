@@ -1,4 +1,5 @@
-﻿namespace BaseLibS.Graph.Image{
+﻿using BaseLibS.Drawing;
+namespace BaseLibS.Graph.Image{
 	public interface IImageBase {
 		Color2[] Pixels { get; }
 		void SetPixels(int width, int height, Color2[] pixels);

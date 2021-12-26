@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image{
 	public abstract class ImageBase : IImageBase{
 		protected ImageBase(){}

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph {
 	public static class Chars {
 		public static Bitmap2 GetImage(char c, int width, int height, Color2 fgColor, Color2 bgColor) {

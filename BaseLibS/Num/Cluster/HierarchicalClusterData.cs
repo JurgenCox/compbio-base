@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 
 namespace BaseLibS.Num.Cluster{

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using BaseLib.Graphic;
+using BaseLibS.Drawing;
 using BaseLibS.Graph;
 namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{

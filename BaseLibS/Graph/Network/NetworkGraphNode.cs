@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Network{
 	[Serializable]
 	public abstract class NetworkGraphNode{

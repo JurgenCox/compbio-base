@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll{
 	public interface IScrollableControl : IUserQueryWindow, IPrintable{
 		int Width1 { get; }

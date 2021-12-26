@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image.Formats.Bmp{
 	internal sealed class BmpDecoderCore{
 		private const int rgb16RMask = 0x00007C00;

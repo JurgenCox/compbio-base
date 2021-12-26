@@ -1,5 +1,5 @@
 ﻿using System;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image.Formats.Png{
 	internal sealed class GrayscaleReader : IColorReader{
 		private readonly bool useAlpha;

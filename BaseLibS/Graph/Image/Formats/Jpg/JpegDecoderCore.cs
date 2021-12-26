@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Image.Formats.Jpg{
 	internal class JpegDecoderCore{
 		private const int maxCodeLength = 16;

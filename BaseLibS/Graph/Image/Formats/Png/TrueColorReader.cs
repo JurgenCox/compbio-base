@@ -1,4 +1,5 @@
-﻿namespace BaseLibS.Graph.Image.Formats.Png{
+﻿using BaseLibS.Drawing;
+namespace BaseLibS.Graph.Image.Formats.Png{
 	internal sealed class TrueColorReader : IColorReader{
 		private readonly bool useAlpha;
 		private int row;

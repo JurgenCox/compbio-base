@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Image.Formats.Gif.Sections;
 
 namespace BaseLibS.Graph.Image.Formats.Gif{

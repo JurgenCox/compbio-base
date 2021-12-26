@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Scroll {
 	public sealed class HorizontalScrollBarView : ScrollBarView {
 		private Thread leftThread;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 using BaseLibS.Util;
 namespace BaseLibS.Graph {
@@ -88,6 +89,7 @@ namespace BaseLibS.Graph {
 		}
 		public bool MultiLine { get; set; } = false;
 		public bool Editable { get; set; } = true;
+		public bool Selectable { get; set; } = true;
 		public void ProcessCmdKey(Keys2 keyData) {
 			switch (keyData) {
 				case Keys2.Shift | Keys2.Left:
@@ -327,7 +329,7 @@ namespace BaseLibS.Graph {
 				}
 			};
 		}
-		private void PaintBoundingBox(IGraphics g, int width, int height) {
+		private static void PaintBoundingBox(IGraphics g, int width, int height) {
 			g.DrawLine(Pens2.Black, 0, 0, width, 0);
 			g.DrawLine(Pens2.Black, 0, height - 1, width, height - 1);
 			g.DrawLine(Pens2.Black, 0, 0, 0, height);

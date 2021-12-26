@@ -3,7 +3,6 @@ using BaseLib.Forms;
 using BaseLibS.Param;
 
 namespace BaseLib.Param{
-	//TODO should be internal
 	[Serializable]
 	public class FileParamWf : FileParam{
 		[NonSerialized] private FileParameterControl control;

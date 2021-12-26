@@ -1,3 +1,4 @@
+using BaseLibS.Drawing;
 using BaseLibS.Graph.Base;
 namespace BaseLibS.Graph.Scroll{
 	public sealed class ScrollableControlSmallCornerView : BasicView{

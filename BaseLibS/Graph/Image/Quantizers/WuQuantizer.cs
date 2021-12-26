@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BaseLibS.Drawing;
 using BaseLibS.Num;
 
 namespace BaseLibS.Graph.Image.Quantizers{
