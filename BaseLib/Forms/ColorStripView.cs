@@ -31,7 +31,7 @@ namespace BaseLib.Forms{
 		};
 	}
 
-	public sealed class ColorStripView : BasicView{
+	public sealed class ColorStripView : BasicControlModel{
 		private const int triangleHeight = 8;
 		private const int triangleBase2 = 5;
 		internal event ColorChangeHandler OnColorChange;

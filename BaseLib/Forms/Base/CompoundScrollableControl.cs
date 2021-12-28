@@ -17,18 +17,18 @@ namespace BaseLib.Forms.Base{
 		public Bitmap2 OverviewBitmap { get; set; }
 		private BasicTableLayoutView tableLayoutPanel1;
 		private BasicTableLayoutView tableLayoutPanel2;
-		private BasicView horizontalScrollBarView;
-		private BasicView verticalScrollBarView;
-		private BasicView mainView;
-		private BasicView rowHeaderView;
-		private BasicView rowFooterView;
-		private BasicView rowSpacerView;
-		private BasicView columnHeaderView;
-		private BasicView columnFooterView;
-		private BasicView columnSpacerView;
-		private BasicView cornerView;
-		private BasicView smallCornerView;
-		private BasicView middleCornerView;
+		private BasicControlModel horizontalScrollBarView;
+		private BasicControlModel verticalScrollBarView;
+		private BasicControlModel mainView;
+		private BasicControlModel rowHeaderView;
+		private BasicControlModel rowFooterView;
+		private BasicControlModel rowSpacerView;
+		private BasicControlModel columnHeaderView;
+		private BasicControlModel columnFooterView;
+		private BasicControlModel columnSpacerView;
+		private BasicControlModel cornerView;
+		private BasicControlModel smallCornerView;
+		private BasicControlModel middleCornerView;
 		public Action<BasicMouseEventArgs> OnMouseClickMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseDraggedMainView{ get; set; }

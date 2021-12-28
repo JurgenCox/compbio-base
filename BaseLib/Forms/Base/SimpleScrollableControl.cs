@@ -10,10 +10,10 @@ namespace BaseLib.Forms.Base{
 	public sealed class SimpleScrollableControl : GenericControl, ISimpleScrollableControl{
 		private int visibleX;
 		private int visibleY;
-		private BasicView horizontalScrollBar;
-		private BasicView verticalScrollBar;
-		private BasicView mainView;
-		private BasicView smallCornerView;
+		private BasicControlModel horizontalScrollBar;
+		private BasicControlModel verticalScrollBar;
+		private BasicControlModel mainView;
+		private BasicControlModel smallCornerView;
 		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseClickMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView{ get; set; }

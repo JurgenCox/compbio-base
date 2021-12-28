@@ -4,14 +4,14 @@ using BaseLibS.Drawing;
 using BaseLibS.Num;
 
 namespace BaseLibS.Graph.Base {
-	public class BasicTableLayoutView : BasicView {
+	public class BasicTableLayoutView : BasicControlModel {
 		private static readonly Color2 borderColor = Color2.FromArgb(240, 240, 240);
 		private static readonly Brush2 borderBrush = new Brush2(borderColor);
 		private readonly object lockThis = new object();
 		public int BorderSize { get; set; }
 		public BasicColumnStyles ColumnStyles { get; }
 		public BasicRowStyles RowStyles { get; }
-		private readonly Dictionary<Tuple<int, int>, BasicView> components = new Dictionary<Tuple<int, int>, BasicView>();
+		private readonly Dictionary<Tuple<int, int>, BasicControlModel> components = new Dictionary<Tuple<int, int>, BasicControlModel>();
 		private int[] widths;
 		private int[] xpos;
 		private int[] heights;
@@ -23,7 +23,7 @@ namespace BaseLibS.Graph.Base {
 			BorderSize = 0;
 		}
 
-		public void Add(BasicView bv, int column, int row) {
+		public void Add(BasicControlModel bv, int column, int row) {
 			bv.Activate(this);
 			components.Add(new Tuple<int, int>(row, column), bv);
 		}
@@ -153,7 +153,7 @@ namespace BaseLibS.Graph.Base {
 				for (int col = 0; col < ColumnCount; col++) {
 					Tuple<int, int> key = new Tuple<int, int>(row, col);
 					if (components.ContainsKey(key)) {
-						BasicView v = components[key];
+						BasicControlModel v = components[key];
 						g.SetClip(new Rectangle2(xpos[col], ypos[row], widths[col], heights[row]));
 						g.TranslateTransform(xpos[col], ypos[row]);
 						v.OnPaint(g, widths[col], heights[row]);
@@ -184,7 +184,7 @@ namespace BaseLibS.Graph.Base {
 				for (int col = 0; col < ColumnCount; col++) {
 					Tuple<int, int> key = new Tuple<int, int>(row, col);
 					if (components.ContainsKey(key)) {
-						BasicView v = components[key];
+						BasicControlModel v = components[key];
 						g.TranslateTransform(xpos[col], ypos[row]);
 						v.OnPaintBackground(g, widths[col], heights[row]);
 						g.ResetTransform();
@@ -196,7 +196,7 @@ namespace BaseLibS.Graph.Base {
 		public override void OnMouseCaptureChanged(EventArgs e) {
 			Tuple<int, int> key = new Tuple<int, int>(currentComponentY, currentComponentX);
 			if (components.ContainsKey(key)) {
-				BasicView v = components[key];
+				BasicControlModel v = components[key];
 				v.OnMouseCaptureChanged(e);
 			}
 		}
@@ -204,7 +204,7 @@ namespace BaseLibS.Graph.Base {
 		public override void OnMouseEnter(EventArgs e) {
 			Tuple<int, int> key = new Tuple<int, int>(currentComponentY, currentComponentX);
 			if (components.ContainsKey(key)) {
-				BasicView v = components[key];
+				BasicControlModel v = components[key];
 				v.OnMouseEnter(e);
 			}
 		}
@@ -212,7 +212,7 @@ namespace BaseLibS.Graph.Base {
 		public override void OnMouseHover(EventArgs e) {
 			Tuple<int, int> key = new Tuple<int, int>(currentComponentY, currentComponentX);
 			if (components.ContainsKey(key)) {
-				BasicView v = components[key];
+				BasicControlModel v = components[key];
 				v.OnMouseHover(e);
 			}
 		}
@@ -220,7 +220,7 @@ namespace BaseLibS.Graph.Base {
 		public override void OnMouseLeave(EventArgs e) {
 			Tuple<int, int> key = new Tuple<int, int>(currentComponentY, currentComponentX);
 			if (components.ContainsKey(key)) {
-				BasicView v = components[key];
+				BasicControlModel v = components[key];
 				v.OnMouseLeave(e);
 			}
 		}
@@ -235,7 +235,7 @@ namespace BaseLibS.Graph.Base {
 				for (int col = 0; col < ColumnCount; col++) {
 					Tuple<int, int> key = new Tuple<int, int>(row, col);
 					if (components.ContainsKey(key)) {
-						BasicView v = components[key];
+						BasicControlModel v = components[key];
 						v.OnResize(e, widths[col], heights[row]);
 					}
 				}
@@ -243,18 +243,18 @@ namespace BaseLibS.Graph.Base {
 		}
 
 		public override void OnMouseClick(BasicMouseEventArgs e) {
-			BasicView v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
+			BasicControlModel v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
 			v?.OnMouseClick(new BasicMouseEventArgs(e, xpos[indX], ypos[indY], widths[indX], heights[indY]));
 		}
 
 		public override void OnMouseDoubleClick(BasicMouseEventArgs e) {
-			BasicView v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
+			BasicControlModel v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
 			v?.OnMouseDoubleClick(new BasicMouseEventArgs(e, xpos[indX], ypos[indY], widths[indX], heights[indY]));
 		}
 
 		public override void OnMouseDragged(BasicMouseEventArgs e) {
 			if (dragging) { }
-			BasicView v = GetComponentAt(mouseDownX, mouseDownY);
+			BasicControlModel v = GetComponentAt(mouseDownX, mouseDownY);
 			v?.OnMouseDragged(new BasicMouseEventArgs(e, xpos[mouseDownX], ypos[mouseDownY], widths[mouseDownX],
 				heights[mouseDownY]));
 			//TODO: splitter
@@ -276,7 +276,7 @@ namespace BaseLibS.Graph.Base {
 				dragIndex = indX1 >= 0 ? indX1 : indY1;
 				return;
 			}
-			BasicView v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
+			BasicControlModel v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
 			if (v != null) {
 				v.OnMouseIsDown(new BasicMouseEventArgs(e, xpos[indX], ypos[indY], widths[indX], heights[indY]));
 				mouseDownX = indX;
@@ -292,12 +292,12 @@ namespace BaseLibS.Graph.Base {
 				dragging = false;
 				return;
 			}
-			BasicView v = GetComponentAt(mouseDownX, mouseDownY);
+			BasicControlModel v = GetComponentAt(mouseDownX, mouseDownY);
 			v?.OnMouseIsUp(new BasicMouseEventArgs(e, xpos[mouseDownX], ypos[mouseDownY], widths[mouseDownX],
 				heights[mouseDownY]));
 		}
 
-		private BasicView GetComponentAt(int x, int y, out int indX1, out int indY1) {
+		private BasicControlModel GetComponentAt(int x, int y, out int indX1, out int indY1) {
 			if (xpos == null || ypos == null) {
 				indX1 = -1;
 				indY1 = -1;
@@ -316,7 +316,7 @@ namespace BaseLibS.Graph.Base {
 			return components.ContainsKey(key) ? components[key] : null;
 		}
 
-		private BasicView GetComponentAt(int indX1, int indY1) {
+		private BasicControlModel GetComponentAt(int indX1, int indY1) {
 			Tuple<int, int> key = new Tuple<int, int>(indY1, indX1);
 			return components.ContainsKey(key) ? components[key] : null;
 		}
@@ -343,7 +343,7 @@ namespace BaseLibS.Graph.Base {
 				currentComponentY = GetCurrentComponentInd(ypos, e.Y);
 				Tuple<int, int> key = new Tuple<int, int>(currentComponentY, currentComponentX);
 				if (components.ContainsKey(key)) {
-					BasicView v = components[key];
+					BasicControlModel v = components[key];
 					try {
 						v.OnMouseMoved(new BasicMouseEventArgs(e, xpos[currentComponentX], ypos[currentComponentY],
 							widths[currentComponentX], heights[currentComponentY]));
@@ -353,7 +353,7 @@ namespace BaseLibS.Graph.Base {
 		}
 
 		public override void OnMouseWheel(BasicMouseEventArgs e) {
-			BasicView v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
+			BasicControlModel v = GetComponentAt(e.X, e.Y, out int indX, out int indY);
 			v?.OnMouseWheel(new BasicMouseEventArgs(e, xpos[indX], ypos[indY], widths[indX], heights[indY]));
 		}
 

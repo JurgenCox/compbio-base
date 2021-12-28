@@ -9,7 +9,7 @@ using BaseLibS.Num;
 namespace BaseLib.Forms{
 	public delegate void ZoomChangeHandler(object sender, double min, double max);
 
-	public class NumericAxisView : BasicView{
+	public class NumericAxisView : BasicControlModel{
 		public event ZoomChangeHandler OnZoomChange;
 		private const int spacePerNumber = 110;
 		public Font2 numbersFont = new Font2("Arial", 8, FontStyle2.Regular);

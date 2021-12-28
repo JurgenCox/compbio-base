@@ -3,7 +3,7 @@ using BaseLibS.Drawing;
 using BaseLibS.Graph.Base;
 
 namespace BaseLibS.Graph.Scroll {
-	public class ScrollBarView : BasicView {
+	public class ScrollBarView : BasicControlModel {
 		protected readonly IScrollableControl main;
 		protected ScrollBarState state = ScrollBarState.Neutral;
 		protected Bitmap2 firstMark;

@@ -1,7 +1,7 @@
 ﻿using BaseLibS.Drawing;
 using BaseLibS.Graph.Base;
 namespace BaseLibS.Graph.Scroll{
-	public class ScrollComponentView : BasicView{
+	public class ScrollComponentView : BasicControlModel{
 		protected readonly ICompoundScrollableControl main;
 
 		protected ScrollComponentView(ICompoundScrollableControl main){

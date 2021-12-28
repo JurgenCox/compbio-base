@@ -1,7 +1,7 @@
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Base;
 namespace BaseLibS.Graph.Scroll{
-	public sealed class ScrollableControlSmallCornerView : BasicView{
+	public sealed class ScrollableControlSmallCornerView : BasicControlModel{
 		public override void OnPaintBackground(IGraphics g, int width, int height){
 			Brush2 b = new Brush2(Color2.FromArgb(236, 233, 216));
 			g.FillRectangle(b, 0, 0, width, height);

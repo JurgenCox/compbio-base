@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using BaseLib.Forms.Base;
+using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 using BaseLibS.Param;
 using BaseLibS.Util;
@@ -50,9 +51,13 @@ namespace BaseLib.Param{
 			Control c;
 			if (o is Control){
 				c = (Control) o;
-			} else if (o is ISimpleScrollableControlModel){
-				c = new SimpleScrollableControl{Client = (ISimpleScrollableControlModel) o};
-			} else{
+			} else if (o is ICompoundScrollableControlModel) {
+				c = new CompoundScrollableControl { Client = (ICompoundScrollableControlModel)o };
+			} else if (o is ISimpleScrollableControlModel) {
+				c = new SimpleScrollableControl { Client = (ISimpleScrollableControlModel)o };
+			} else if (o is BasicControlModel) {
+				c = BasicControl.CreateControl((BasicControlModel)o);
+			} else {
 				throw new NullReferenceException();
 			}
 			c.Dock = DockStyle.Fill;

@@ -1,7 +1,7 @@
 ﻿using System;
 using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Base{
-	public class BasicView : IPrintable{
+	public class BasicControlModel : IPrintable{
 		public Color2 BackColor { get; set; }
 		public Color2 ForeColor { get; set; }
 		public bool Visible { get; set; }
@@ -12,14 +12,14 @@ namespace BaseLibS.Graph.Base{
 		public Action<Cursors2> setCursor;
 		public bool Debug { get; set; } = false;
 
-		public BasicView(){
+		public BasicControlModel(){
 			BackColor = Color2.White;
 			ForeColor = Color2.Black;
 			Visible = true;
 			Font = new Font2("Microsoft Sans Serif", 8.25f, FontStyle2.Regular);
 		}
 
-		public void Activate(BasicView view){
+		public void Activate(BasicControlModel view) {
 			invalidate = view.Invalidate;
 			resetCursor = view.ResetCursor;
 			setCursor = c => view.Cursor = c;

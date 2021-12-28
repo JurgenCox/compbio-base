@@ -2,14 +2,13 @@ using System;
 using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Drawing;
-using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 
 namespace BaseLib.Forms.Base {
 	public class BasicControl : GenericControl {
 		private ToolTip tip;
 		private bool mouseDown;
-		public BasicView view;
+		public BasicControlModel view;
 
 		public BasicControl() {
 			DoubleBuffered = true;
@@ -18,7 +17,7 @@ namespace BaseLib.Forms.Base {
 			Dock = DockStyle.Fill;
 		}
 
-		public void Activate(BasicView view1) {
+		public void Activate(BasicControlModel view1) {
 			view = view1;
 			view.invalidate = Invalidate;
 			view.resetCursor = ResetCursor;
@@ -131,7 +130,7 @@ namespace BaseLib.Forms.Base {
 			tip.Show(text, this, x, y, duration);
 		}
 
-		public static BasicControl CreateControl(BasicView view) {
+		public static BasicControl CreateControl(BasicControlModel view) {
 			BasicControl c = new BasicControl();
 			c.Activate(view);
 			return c;

@@ -2,7 +2,7 @@ using System;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Base;
 namespace BaseLibS.Graph.Scroll{
-	public sealed class SimpleScrollableControlMainView : BasicView{
+	public sealed class SimpleScrollableControlMainView : BasicControlModel{
 		private ZoomButtonState state = ZoomButtonState.Neutral;
 		private readonly ISimpleScrollableControl main;
 		private readonly NavigatorData navigatorData = new NavigatorData();
