@@ -10,6 +10,8 @@ namespace BaseLibS.Graph.Base{
 		public Action invalidate;
 		public Action resetCursor;
 		public Action<Cursors2> setCursor;
+		public Action<int, int, int, int> launchQuery;
+		public Func<(int, int)> screenCoords;
 		public bool Debug { get; set; } = false;
 
 		public BasicControlModel(){

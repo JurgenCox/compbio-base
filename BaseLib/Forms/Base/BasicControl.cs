@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Drawing;
@@ -22,8 +23,32 @@ namespace BaseLib.Forms.Base {
 			view.invalidate = Invalidate;
 			view.resetCursor = ResetCursor;
 			view.setCursor = SetCursor;
+			view.launchQuery = LaunchQuery;
+			view.screenCoords = ScreenCoords;
 		}
 
+		public (int, int) ScreenCoords(){
+			Point p = PointToScreen(new Point(0, 0));
+			return (p.X, p.Y);
+		}
+		private void LaunchQuery(int x, int y, int width, int height){
+			Form f = new Form{
+				StartPosition = FormStartPosition.Manual,
+				Location = new Point(x, y),
+				Width = width,
+				Height = height,
+				MinimizeBox = false,
+				MaximizeBox = false,
+				ControlBox = false,
+				SizeGripStyle = SizeGripStyle.Hide,
+				FormBorderStyle = FormBorderStyle.FixedToolWindow,
+				ShowInTaskbar = false
+			};
+			f.Click += (sender, args) => {
+				f.Close();
+			};
+			f.ShowDialog(this);
+		}
 		public void Print(IGraphics g) {
 			view?.OnPaint(g, Width, Height);
 		}

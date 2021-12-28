@@ -44,6 +44,7 @@ namespace BaseLib.Param{
 		}
 		private void AddParameter(Parameter p, int i){
 			Label txt1 = new Label{Text = p.Name};
+			//txt1.Text = txt1.Font.ToString();
 			if (!string.IsNullOrEmpty(p.Help)){
 				toolTip1.SetToolTip(txt1, StringUtils.ReturnAtWhitespace(p.Help));
 			}

@@ -13,7 +13,7 @@ using BaseLibS.Util;
 
 namespace BaseLib.Forms.Table{
 	public class TableViewControlModel : ICompoundScrollableControlModel{
-		private const int rowHeight = 22;
+		private const int rowHeight = 21;
 		private static readonly Pen2 gridPen = new Pen2(Color2.FromArgb(172, 168, 153));
 		private static readonly Pen2 headerGridPen = new Pen2(Color2.FromArgb(199, 197, 178));
 		private static readonly Pen2 shadow1Pen = new Pen2(Color2.FromArgb(203, 199, 184));
@@ -32,7 +32,7 @@ namespace BaseLib.Forms.Table{
 		private int[] columnWidthSums;
 		private int[] columnWidthSumsOld;
 		private ITableModel model;
-		private Font2 defaultFont = new Font2("Arial", 9);
+		private Font2 defaultFont = new Font2("Microsoft Sans Serif", 8.25f);
 		private Font2 textFont;
 		private Font2 headerFont;
 		private Brush2 textBrush = Brushes2.Black;
@@ -72,7 +72,7 @@ namespace BaseLib.Forms.Table{
 
 		public void UpdateScaling(){
 			bool isUnix = FileUtils.IsUnix();
-			defaultFont = new Font2("Arial", (isUnix ? 5 : 9) * UserSf);
+			defaultFont = new Font2("Microsoft Sans Serif", (isUnix ? 5 : 8.25f) * UserSf);
 			textFont = defaultFont;
 			headerFont = defaultFont;
 			SetColumnWidthSums();
@@ -86,8 +86,8 @@ namespace BaseLib.Forms.Table{
 			control = control1;
 			sortable = true;
 			control1.RowHeaderWidth = 70;
-			control1.ColumnHeaderHeight = 26;
-			origColumnHeaderHeight = 26;
+			control1.ColumnHeaderHeight = 23;
+			origColumnHeaderHeight = 23;
 			UpdateScaling();
 			InitContextMenu();
 			control1.OnMouseIsDownMainView = e => {
@@ -691,7 +691,7 @@ namespace BaseLib.Forms.Table{
 				}
 			});
 			control.AddContextMenuItem("Monospace font", (sender, args) => {
-				textFont = new Font2("Courier New", 9);
+				textFont = new Font2("Courier New", 8.25f);
 				control.Invalidate(true);
 			});
 			control.AddContextMenuItem("Default font", (sender, args) => {
