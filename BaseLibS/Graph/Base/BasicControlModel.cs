@@ -3,10 +3,10 @@ using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 namespace BaseLibS.Graph.Base{
 	public class BasicControlModel : IPrintable, IControlModel{
+		public Font2 Font { get; set; } = new Font2("Microsoft Sans Serif", 8.25f);
 		public Color2 BackColor{ get; set; }
 		public Color2 ForeColor{ get; set; }
 		public bool Visible{ get; set; }
-		public Font2 Font{ get; set; }
 		public bool Enabled{ get; set; }
 		public Action invalidate;
 		public Action resetCursor;
@@ -20,7 +20,6 @@ namespace BaseLibS.Graph.Base{
 			BackColor = Color2.White;
 			ForeColor = Color2.Black;
 			Visible = true;
-			Font = new Font2("Microsoft Sans Serif", 8.25f, FontStyle2.Regular);
 		}
 		public void Activate(BasicControlModel view){
 			invalidate = view.Invalidate;

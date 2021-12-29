@@ -4,6 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using BaseLib.Forms.Base;
+using BaseLibS.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Table;
 using BaseLibS.Util;
 
@@ -16,11 +18,11 @@ namespace BaseLib.Forms.Table{
 		private SplitContainer splitContainer;
 		private TableLayoutPanel tableLayoutPanel1;
 		private TableLayoutPanel tableLayoutPanel2;
-		private Button textButton;
+		private ButtonModel textButton;
 		private Label itemsLabel;
 		private Label selectedLabel;
 		private Panel mainPanel;
-		private ComboBox scaleFactorComboBox;
+		private ComboBoxModel scaleFactorComboBox;
 		public bool TextBoxIsVisible{ get; private set; }
 		public  EventHandler<int> DoubleClickOnRow;
 
@@ -83,14 +85,13 @@ namespace BaseLib.Forms.Table{
 		}
 
 		private void InitializeComponent2(){
-			bool isUnix = FileUtils.IsUnix();
 			tableLayoutPanel1 = new TableLayoutPanel();
 			tableLayoutPanel2 = new TableLayoutPanel();
-			textButton = new Button();
+			textButton = new ButtonModel();
 			itemsLabel = new Label();
 			selectedLabel = new Label();
 			mainPanel = new Panel();
-			scaleFactorComboBox = new ComboBox();
+			scaleFactorComboBox = new ComboBoxModel();
 			tableLayoutPanel1.SuspendLayout();
 			tableLayoutPanel2.SuspendLayout();
 			SuspendLayout();
@@ -119,10 +120,10 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-			tableLayoutPanel2.Controls.Add(textButton, 4, 0);
+			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(textButton), 4, 0);
 			tableLayoutPanel2.Controls.Add(itemsLabel, 0, 0);
 			tableLayoutPanel2.Controls.Add(selectedLabel, 1, 0);
-			tableLayoutPanel2.Controls.Add(scaleFactorComboBox, 3, 0);
+			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(scaleFactorComboBox), 3, 0);
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new Point(0, 518);
 			tableLayoutPanel2.Margin = new Padding(0);
@@ -134,15 +135,9 @@ namespace BaseLib.Forms.Table{
 			// 
 			// textButton
 			// 
-			textButton.Dock = DockStyle.Fill;
-			textButton.Location = new Point(503, 0);
-			textButton.Margin = new Padding(0);
-			textButton.Name = "textButton";
+			textButton.Margin = new Padding2(0);
 			textButton.Text = @"↑";
-			textButton.Font = new Font("Microsoft Sans Serif", 7.1F);
-			textButton.Size = new Size(20, 20);
-			textButton.TabIndex = 1;
-			textButton.UseVisualStyleBackColor = true;
+			textButton.Font = new Font2("Microsoft Sans Serif", 7.1F);
 			// 
 			// itemsLabel
 			// 
@@ -175,18 +170,11 @@ namespace BaseLib.Forms.Table{
 			// 
 			// scaleFactorComboBox
 			// 
-			scaleFactorComboBox.Dock = DockStyle.Fill;
-			scaleFactorComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-			scaleFactorComboBox.Font = new Font("Microsoft Sans Serif", (isUnix ? 4 : 7));
-			scaleFactorComboBox.FormattingEnabled = true;
-			scaleFactorComboBox.Items.AddRange(new object[]{
+			scaleFactorComboBox.Font = new Font2("Microsoft Sans Serif", 7.1f);
+			scaleFactorComboBox.Values=new []{
 				"25 %", "50 %", "70 %", "100 %", "150 %", "200 %", "400 %"
-			});
-			scaleFactorComboBox.Location = new Point(453, 0);
-			scaleFactorComboBox.Margin = new Padding(0);
-			scaleFactorComboBox.Name = "scaleFactorComboBox";
-			scaleFactorComboBox.Size = new Size(60, 20);
-			scaleFactorComboBox.TabIndex = 4;
+			};
+			scaleFactorComboBox.Margin = new Padding2(0);
 			// 
 			// TableView
 			// 

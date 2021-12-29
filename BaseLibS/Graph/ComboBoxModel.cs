@@ -4,7 +4,6 @@ using BaseLibS.Graph.Base;
 namespace BaseLibS.Graph{
 	public class ComboBoxModel : BasicControlModel{
 		private readonly Brush2 textBrush = Brushes2.Black;
-		private readonly Font2 font = new Font2("Microsoft Sans Serif", 8.25f);
 		private readonly Pen2 cornerPen = new Pen2(Color2.FromArgb(99, 99, 99));
 		private Pen2 boxPen = new Pen2(Color2.FromArgb(214, 214, 214));
 		public int OffsetX{ get; set; }
@@ -26,7 +25,7 @@ namespace BaseLibS.Graph{
 			if (SelectedIndex < 0 || SelectedIndex >= Values.Length){
 				return;
 			}
-			g.DrawString(Values[SelectedIndex], font, textBrush, OffsetX, OffsetY);
+			g.DrawString(Values[SelectedIndex], Font, textBrush, OffsetX, OffsetY);
 		}
 		public override void OnMouseIsDown(BasicMouseEventArgs e){
 			TextFieldModel tfm = new TextFieldModel(Values){
@@ -34,7 +33,7 @@ namespace BaseLibS.Graph{
 				Selectable = true,
 				Editable = false,
 				SelectionMode = TextFieldSelectionMode.SingleLines,
-				Font = new Font2("Microsoft Sans Serif", 8.25f),
+				Font = new Font2("Microsoft Sans Serif", 7.1f),
 				SelectedLine = SelectedIndex
 			};
 			tfm.SelectionChanged += (sender, args) => {
