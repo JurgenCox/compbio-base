@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Base;
-
+using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base {
 	public class BasicControl : GenericControl {
 		private ToolTip tip;
@@ -31,7 +31,7 @@ namespace BaseLib.Forms.Base {
 			Point p = PointToScreen(new Point(0, 0));
 			return (p.X, p.Y);
 		}
-		private void LaunchQuery(int x, int y, int width, int height){
+		private void LaunchQuery(int x, int y, int width, int height, IControlModel visual){
 			Form f = new Form{
 				StartPosition = FormStartPosition.Manual,
 				Location = new Point(x, y),
@@ -44,9 +44,11 @@ namespace BaseLib.Forms.Base {
 				FormBorderStyle = FormBorderStyle.FixedToolWindow,
 				ShowInTaskbar = false
 			};
-			f.Click += (sender, args) => {
+			visual.Close += (sender, args) => {
 				f.Close();
 			};
+			Control c = FormUtil.GetControl(visual);
+			f.Controls.Add(c);
 			f.ShowDialog(this);
 		}
 		public void Print(IGraphics g) {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using BaseLib.Forms.Base;
-using BaseLibS.Graph.Base;
-using BaseLibS.Graph.Scroll;
 using BaseLibS.Param;
 using BaseLibS.Util;
 namespace BaseLib.Param{
@@ -43,30 +40,19 @@ namespace BaseLib.Param{
 			}
 		}
 		private void AddParameter(Parameter p, int i){
-			Label txt1 = new Label{Text = p.Name};
-			//txt1.Text = txt1.Font.ToString();
+			Label txt1 = new Label{
+				Text = p.Name,
+				Dock = DockStyle.Fill,
+				Visible = p.Visible
+			};
 			if (!string.IsNullOrEmpty(p.Help)){
 				toolTip1.SetToolTip(txt1, StringUtils.ReturnAtWhitespace(p.Help));
 			}
-			object o = p.CreateControl();
-			Control c;
-			if (o is Control){
-				c = (Control) o;
-			} else if (o is ICompoundScrollableControlModel) {
-				c = new CompoundScrollableControl { Client = (ICompoundScrollableControlModel)o };
-			} else if (o is ISimpleScrollableControlModel) {
-				c = new SimpleScrollableControl { Client = (ISimpleScrollableControlModel)o };
-			} else if (o is BasicControlModel) {
-				c = BasicControl.CreateControl((BasicControlModel)o);
-			} else {
-				throw new NullReferenceException();
-			}
+			Control c = FormUtil.GetControl(p.CreateControl());
 			c.Dock = DockStyle.Fill;
 			c.Margin = new Padding(0);
 			c.Visible = p.Visible;
 			grid.Controls.Add(c, 1, i);
-			txt1.Dock = DockStyle.Fill;
-			txt1.Visible = p.Visible;
 			grid.Controls.Add(txt1, 0, i);
 		}
 		public void Enable(){

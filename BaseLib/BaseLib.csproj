@@ -344,7 +344,6 @@
     <Compile Include="Param\SaveFolderParamWf.cs" />
     <Compile Include="Param\SaveFileParamWf.cs" />
     <Compile Include="Param\DictionaryStringValueParamWf.cs" />
-    <Compile Include="Param\EmptyParamWf.cs" />
     <Compile Include="Param\BoolParamWf.cs" />
     <Compile Include="Param\BoolWithSubParamsWf.cs" />
     <Compile Include="Param\DictionaryIntValueParamWf.cs" />
@@ -352,7 +351,6 @@
     <Compile Include="Param\FileParamWf.cs" />
     <Compile Include="Param\FolderParamWf.cs" />
     <Compile Include="Param\IsobaricLabelsParamWf.cs" />
-    <Compile Include="Param\LabelParamWf.cs" />
     <Compile Include="Param\Ms1LabelParamWf.cs" />
     <Compile Include="Param\MultiChoiceMultiBinParamWf.cs" />
     <Compile Include="Param\MultiChoiceParamWf.cs" />
@@ -374,7 +372,6 @@
     <Compile Include="Param\RegexMatchParamWf.cs" />
     <Compile Include="Param\RegexReplaceParamWf.cs" />
     <Compile Include="Param\ShapeParamWf.cs" />
-    <Compile Include="Param\SingleChoiceParamWf.cs" />
     <Compile Include="Param\SingleChoiceWithSubParamsWf.cs" />
     <Compile Include="Param\WinFormsParameterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

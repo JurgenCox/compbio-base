@@ -6,7 +6,7 @@ using BaseLibS.Util;
 
 namespace BaseLibS.Graph{
 	public static class GraphUtil{
-		public static readonly bool newParameterPanel = false;
+		public static readonly bool newParameterPanel = true;
 		public const int scrollBarWidth = 18;
 		public const int minBarSize = 5;
 		public const int zoomButtonSize = 14;

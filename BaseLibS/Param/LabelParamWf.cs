@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Windows.Forms;
-using BaseLibS.Param;
-
-namespace BaseLib.Param{
+using BaseLibS.Graph;
+namespace BaseLibS.Param{
 	[Serializable]
 	public class LabelParamWf : LabelParam{
-		[NonSerialized] protected Label control;
+		[NonSerialized] protected LabelModel labelModel;
 		public LabelParamWf(string name) : this(name, ""){ }
 
 		public LabelParamWf(string name, string value) : base(name, value){
-			control = new Label{Text = Value};
 		}
 
 		protected LabelParamWf(string name, string help, string url, bool visible, string value, string default1) :
@@ -18,21 +15,21 @@ namespace BaseLib.Param{
 		public override ParamType Type => ParamType.WinForms;
 
 		public override void SetValueFromControl(){
-			if (control == null || control.IsDisposed){
+			if (labelModel == null){
 				return;
 			}
-			Value = control.Text;
+			Value = labelModel.Text;
 		}
 
 		public override void UpdateControlFromValue(){
-			if (control == null || control.IsDisposed){
+			if (labelModel == null){
 				return;
 			}
-			control.Text = Value;
+			labelModel.Text = Value;
 		}
 
 		public override object CreateControl(){
-			return control;
+			return labelModel = new LabelModel { Text = Value };
 		}
 
 		public override object Clone(){

@@ -9,6 +9,7 @@ namespace BaseLibS.Graph {
 		//Invoke text changed
 		//english and other keyboards
 		//some special chars
+		public event EventHandler Close;
 		private const string carriageReturn = "\r\n";
 		private readonly List<string> lines = new List<string>();
 		private readonly HashSet<char> forbiddenChars = new HashSet<char>();
@@ -18,10 +19,10 @@ namespace BaseLibS.Graph {
 		private readonly Brush2 textBrush = Brushes2.Black;
 		private readonly Brush2 selectionBrush = Brushes2.LightBlue;
 		private readonly Pen2 cursorPen = Pens2.BlueViolet;
-		private readonly Font2 font = new Font2("Courier New", 10F);
+		public Font2 Font{ get; set; } = new Font2("Courier New", 10F);
 		private int cursorPosLine;
 		private int cursorPosChar;
-		private int selectedLine = -1;
+		public int SelectedLine { get; set; } = 0;
 		private bool[] lineIsSelected;
 		private int selectionStartLine = -1;
 		private int selectionStartChar = -1;
@@ -33,18 +34,15 @@ namespace BaseLibS.Graph {
 		public int OffsetY { get; set; }
 		public bool HasBoundingBox { get; set; } = false;
 		public event EventHandler TextChanged;
+		public event EventHandler SelectionChanged;
 
 		public TextFieldModel() : this("") {
 		}
 		public TextFieldModel(string text){
 			Text = text;
 		}
-		public TextFieldModel(string[] lines) {
-			if (MultiLine) {
-				Lines = lines;
-			} else {
-				Lines = lines.Length == 0 ? new[] { "" } : new[] { lines[0] };
-			}
+		public TextFieldModel(string[] lines) { 
+			Lines = lines;
 		}
 		public string[] Lines {
 			set {
@@ -84,7 +82,7 @@ namespace BaseLibS.Graph {
 			get => lineHeight;
 			set {
 				lineHeight = value;
-				font.Size = lineHeight * 0.6667f;
+				Font.Size = lineHeight * 0.6667f;
 			}
 		}
 		public bool MultiLine { get; set; } = false;
@@ -303,7 +301,7 @@ namespace BaseLibS.Graph {
 				return w + OffsetX;
 			};
 			control.OnPaintMainView = (g, x, y, width, height, isOverview) => {
-				PaintSelection(g, x, y);
+				PaintSelection(g, x, y, width);
 				PaintText(g, x, y);
 				if (Editable) {
 					PaintCursor(g, x, y);
@@ -314,11 +312,21 @@ namespace BaseLibS.Graph {
 			};
 			control.OnMouseIsDownMainView = args => {
 				(int row, int col) = GetPlotPos(args.X, args.Y);
-				if (row >= 0) {
-					cursorPosLine = row;
-					cursorPosChar = col;
-					selectionStartLine = row;
-					selectionStartChar = col;
+				switch (SelectionMode){
+					case TextFieldSelectionMode.Chars:
+						if (row >= 0) {
+							cursorPosLine = row;
+							cursorPosChar = col;
+							selectionStartLine = row;
+							selectionStartChar = col;
+						}
+						break;
+					case TextFieldSelectionMode.SingleLines:
+						if (row >= 0 && row < lines.Count){
+							SelectedLine = row;
+							SelectionChanged?.Invoke(this, EventArgs.Empty);
+						}
+						break;
 				}
 			};
 			control.OnMouseDraggedMainView = args => {
@@ -345,7 +353,7 @@ namespace BaseLibS.Graph {
 			col = Math.Max(col, 0);
 			return (row, col);
 		}
-		public void PaintSelection(IGraphics g, int x, int y) {
+		public void PaintSelection(IGraphics g, int x, int y, int width) {
 			switch (SelectionMode) {
 				case TextFieldSelectionMode.Chars:
 					if (selectionStartLine == -1) {
@@ -357,23 +365,23 @@ namespace BaseLibS.Graph {
 							? currentLine
 							: currentLine.Substring(0, selectionStartChar);
 						s1 = s1.Replace(' ', '_');
-						int pos1 = (int)Math.Round(g.MeasureString(s1, font).Width);
+						int pos1 = (int)Math.Round(g.MeasureString(s1, Font).Width);
 						pos1 -= 2;
 						string s2 = selectionEndChar == currentLine.Length
 							? currentLine
 							: currentLine.Substring(0, selectionEndChar);
 						s2 = s2.Replace(' ', '_');
-						int pos2 = (int)Math.Round(g.MeasureString(s2, font).Width);
+						int pos2 = (int)Math.Round(g.MeasureString(s2, Font).Width);
 						pos2 -= 2;
 						g.FillRectangle(selectionBrush, OffsetX + Math.Min(pos1, pos2) - x, OffsetY + lineHeight * selectionStartLine - y,
 							Math.Abs(pos2 - pos1), lineHeight);
 					}
 					break;
 				case TextFieldSelectionMode.SingleLines:
-					if (selectedLine == -1) {
+					if (SelectedLine == -1) {
 						return;
 					}
-					g.FillRectangle(selectionBrush, OffsetX, OffsetY + lineHeight * selectedLine - y, 199, lineHeight);
+					g.FillRectangle(selectionBrush, OffsetX, OffsetY + lineHeight * SelectedLine - y, width, lineHeight);
 					break;
 				case TextFieldSelectionMode.MultipleLines:
 					if (lineIsSelected == null) {
@@ -392,7 +400,7 @@ namespace BaseLibS.Graph {
 				if (!MultiLine && i > 0) {
 					break;
 				}
-				g.DrawString(lines[i], font, textBrush, OffsetX - x, OffsetY + i * lineHeight - y);
+				g.DrawString(lines[i], Font, textBrush, OffsetX - x, OffsetY + i * lineHeight - y);
 			}
 		}
 		public void PaintCursor(IGraphics g, int x, int y) {
@@ -401,11 +409,14 @@ namespace BaseLibS.Graph {
 				string currentLine = lines[cursorPosLine];
 				string s = cursorPosChar == currentLine.Length ? currentLine : currentLine.Substring(0, cursorPosChar);
 				s = s.Replace(' ', '_');
-				pos = (int)Math.Round(g.MeasureString(s, font).Width);
+				pos = (int)Math.Round(g.MeasureString(s, Font).Width);
 				pos -= 2;
 			}
 			g.DrawLine(cursorPen, OffsetX + pos - x, OffsetY + cursorPosLine * lineHeight - y, OffsetX + pos - x,
 				OffsetY + cursorPosLine * lineHeight + lineHeight - y);
+		}
+		public void CloseMe(){
+			Close?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using BaseLibS.Drawing;
+using BaseLibS.Graph.Scroll;
 namespace BaseLibS.Graph.Base{
-	public class BasicControlModel : IPrintable{
+	public class BasicControlModel : IPrintable, IControlModel{
 		public Color2 BackColor { get; set; }
 		public Color2 ForeColor { get; set; }
 		public bool Visible { get; set; }
@@ -10,7 +11,7 @@ namespace BaseLibS.Graph.Base{
 		public Action invalidate;
 		public Action resetCursor;
 		public Action<Cursors2> setCursor;
-		public Action<int, int, int, int> launchQuery;
+		public Action<int, int, int, int, IControlModel> launchQuery;
 		public Func<(int, int)> screenCoords;
 		public bool Debug { get; set; } = false;
 
@@ -63,5 +64,15 @@ namespace BaseLibS.Graph.Base{
 			OnPaintBackground(g, width, height);
 			OnPaint(g, width, height);
 		}
+		public void ProcessCmdKey(Keys2 keyData){
+			//TODO
+		}
+		public void InvalidateBackgroundImages(){
+			//TODO
+		}
+		public void OnSizeChanged(){
+			//TODO
+		}
+		public event EventHandler Close;
 	}
 }

@@ -14,6 +14,7 @@ using BaseLibS.Util;
 namespace BaseLib.Forms.Table{
 	public class TableViewControlModel : ICompoundScrollableControlModel{
 		private const int rowHeight = 21;
+		public event EventHandler Close;
 		private static readonly Pen2 gridPen = new Pen2(Color2.FromArgb(172, 168, 153));
 		private static readonly Pen2 headerGridPen = new Pen2(Color2.FromArgb(199, 197, 178));
 		private static readonly Pen2 shadow1Pen = new Pen2(Color2.FromArgb(203, 199, 184));

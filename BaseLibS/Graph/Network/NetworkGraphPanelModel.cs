@@ -9,6 +9,7 @@ namespace BaseLibS.Graph.Network{
 		where Tc : NetworkGraphContainer
 		where Tm : NetworkGraphModel<Tn, Te, Tc>
 		where Ti : IDrawOptions{
+		public event EventHandler Close;
 		private readonly Pen2 indicatorPen = new Pen2(Color2.Orange);
 		private readonly Brush2 indicatorBrush = new Brush2(Color2.FromArgb(60, Color2.CornflowerBlue));
 		private const int ioCircleRadius = 3;

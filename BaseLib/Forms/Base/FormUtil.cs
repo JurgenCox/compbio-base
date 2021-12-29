@@ -1,20 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
+using BaseLibS.Graph.Base;
+using BaseLibS.Graph.Scroll;
 using BaseLibS.Util;
-
 namespace BaseLib.Forms.Base{
 	public static class FormUtil{
-		private static readonly Color[] predefinedColors = {
+		private static readonly Color[] predefinedColors ={
 			Color.Blue, Color.FromArgb(255, 144, 144), Color.FromArgb(255, 0, 255), Color.FromArgb(168, 156, 82),
 			Color.LightBlue, Color.Orange, Color.Cyan, Color.Pink, Color.Turquoise, Color.LightGreen, Color.Brown,
 			Color.DarkGoldenrod, Color.DeepPink, Color.LightSkyBlue, Color.BlueViolet, Color.Crimson
 		};
-
 		public static Color GetPredefinedColor(int index){
 			return predefinedColors[Math.Abs(index % predefinedColors.Length)];
 		}
-
+		public static Control GetControl(object o){
+			if (o == null){
+				return null;
+			}
+			if (o is Control){
+				return (Control) o;
+			}
+			if (o is ICompoundScrollableControlModel){
+				return new CompoundScrollableControl{Client = (ICompoundScrollableControlModel) o};
+			}
+			if (o is ISimpleScrollableControlModel){
+				return new SimpleScrollableControl{Client = (ISimpleScrollableControlModel) o};
+			}
+			if (o is BasicControlModel){
+				return BasicControl.CreateControl((BasicControlModel) o);
+			}
+			throw new ArgumentException("Type cannot be converted to Control.");
+		}
 		public static void SelectExact(ICollection<string> colNames, IList<string> colTypes,
 			MultiListSelectorControl mls){
 			for (int i = 0; i < colNames.Count; i++){
@@ -37,7 +55,6 @@ namespace BaseLib.Forms.Base{
 				}
 			}
 		}
-
 		public static void SelectHeuristic(IList<string> colNames, MultiListSelectorControl mls){
 			char guessedType = GuessSilacType(colNames);
 			for (int i = 0; i < colNames.Count; i++){
@@ -71,7 +88,6 @@ namespace BaseLib.Forms.Base{
 				}
 			}
 		}
-
 		public static char GuessSilacType(IEnumerable<string> colnames){
 			bool isSilac = false;
 			foreach (string s in colnames){
