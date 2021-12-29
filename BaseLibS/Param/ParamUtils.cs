@@ -141,16 +141,6 @@
 				}
 				return b;
 			}
-			if (p is LabelParam){
-				LabelParam q = (LabelParam) p;
-				LabelParam b = new LabelParam(q.Name, q.Value){
-					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
-				};
-				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()){
-					b.ValueChanged += act;
-				}
-				return b;
-			}
 			if (p is MultiChoiceMultiBinParam){
 				MultiChoiceMultiBinParam q = (MultiChoiceMultiBinParam) p;
 				MultiChoiceMultiBinParam b = new MultiChoiceMultiBinParam(q.Name, q.Value){
