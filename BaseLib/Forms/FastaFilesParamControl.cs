@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using BaseLib.Forms.Base;
 using BaseLib.Query;
+using BaseLibS.Drawing;
+using BaseLibS.Graph;
+using BaseLibS.Graph.Base;
 using BaseLibS.Mol;
 using BaseLibS.Table;
 using BaseLibS.Util;
@@ -12,18 +16,18 @@ namespace BaseLib.Forms{
 		private DataTable2 table;
 		private readonly bool hasVariationData;
 		private readonly bool hasModifications;
-		private TableLayoutPanel tableLayoutPanel2;
+		private TableLayoutModel tableLayoutPanel2;
 		private TableLayoutPanel tableLayoutPanel3;
-		private Button addButton;
-		private Button removeButton;
-		private Button changeFolderButton;
-		private Button identifierRuleButton;
-		private Button descriptionRuleButton;
-		private Button taxonomyRuleButton;
-		private Button testButton;
-		private Button taxonomyIdButton;
-		private Button variationRuleButton;
-		private Button modificationRuleButton;
+		private ButtonModel addButton;
+		private ButtonModel removeButton;
+		private ButtonModel changeFolderButton;
+		private ButtonModel identifierRuleButton;
+		private ButtonModel descriptionRuleButton;
+		private ButtonModel taxonomyRuleButton;
+		private ButtonModel testButton;
+		private ButtonModel taxonomyIdButton;
+		private ButtonModel variationRuleButton;
+		private ButtonModel modificationRuleButton;
 
 		private readonly Func<TaxonomyItems> getTaxonomyItems;
 		private TaxonomyItems TaxonomyItems => getTaxonomyItems();
@@ -118,25 +122,24 @@ namespace BaseLib.Forms{
 
 		private void InitializeComponent2(){
 			AllowDrop = true;
-			tableLayoutPanel2 = new TableLayoutPanel();
+			tableLayoutPanel2 = new TableLayoutModel();
 			tableLayoutPanel3 = new TableLayoutPanel();
-			addButton = new Button();
-			removeButton = new Button();
-			changeFolderButton = new Button();
-			identifierRuleButton = new Button();
-			descriptionRuleButton = new Button();
-			taxonomyRuleButton = new Button();
-			testButton = new Button();
-			taxonomyIdButton = new Button();
+			addButton = new ButtonModel();
+			removeButton = new ButtonModel();
+			changeFolderButton = new ButtonModel();
+			identifierRuleButton = new ButtonModel();
+			descriptionRuleButton = new ButtonModel();
+			taxonomyRuleButton = new ButtonModel();
+			testButton = new ButtonModel();
+			taxonomyIdButton = new ButtonModel();
 			if (hasVariationData){
-				variationRuleButton = new Button();
+				variationRuleButton = new ButtonModel();
 			}
 			if (hasModifications){
-				modificationRuleButton = new Button();
+				modificationRuleButton = new ButtonModel();
 			}
-			tableLayoutPanel2.SuspendLayout();
 			tableLayoutPanel3.SuspendLayout();
-			tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
+			tableLayoutPanel1.Controls.Add(BasicControl.CreateControl(tableLayoutPanel2), 0, 0);
 			tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
 			// 
 			// tableLayoutPanel2
@@ -148,43 +151,36 @@ namespace BaseLib.Forms{
 			if (hasModifications){
 				nbuttons++;
 			}
-			tableLayoutPanel2.ColumnCount = 2 * nbuttons;
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 100F));
 			tableLayoutPanel3.ColumnCount = 2 * nbuttons;
 			tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
 			for (int i = 0; i < nbuttons - 1; i++){
-				tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));
-				tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84F));
+				tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 4F));
+				tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 84F));
 				tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 4F));
 				tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 84F));
 			}
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.Controls.Add(addButton, 0, 0);
-			tableLayoutPanel2.Controls.Add(removeButton, 2, 0);
-			tableLayoutPanel2.Controls.Add(changeFolderButton, 4, 0);
-			tableLayoutPanel2.Controls.Add(identifierRuleButton, 6, 0);
-			tableLayoutPanel2.Controls.Add(descriptionRuleButton, 8, 0);
-			tableLayoutPanel2.Controls.Add(taxonomyRuleButton, 10, 0);
-			tableLayoutPanel2.Controls.Add(taxonomyIdButton, 12, 0);
+			tableLayoutPanel2.Add(addButton , 0, 0);
+			tableLayoutPanel2.Add(removeButton, 2, 0);
+			tableLayoutPanel2.Add(changeFolderButton, 4, 0);
+			tableLayoutPanel2.Add(identifierRuleButton, 6, 0);
+			tableLayoutPanel2.Add(descriptionRuleButton, 8, 0);
+			tableLayoutPanel2.Add(taxonomyRuleButton, 10, 0);
+			tableLayoutPanel2.Add(taxonomyIdButton, 12, 0);
 			int z = 0;
 			if (hasVariationData){
-				tableLayoutPanel3.Controls.Add(variationRuleButton, z, 0);
+				tableLayoutPanel3.Controls.Add(BasicControl.CreateControl(variationRuleButton), z, 0);
 				z += 2;
 			}
 			if (hasModifications){
-				tableLayoutPanel3.Controls.Add(modificationRuleButton, z, 0);
+				tableLayoutPanel3.Controls.Add(BasicControl.CreateControl(modificationRuleButton), z, 0);
 				z += 2;
 			}
-			tableLayoutPanel3.Controls.Add(testButton, z, 0);
-			tableLayoutPanel2.Dock = DockStyle.Fill;
-			tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-			tableLayoutPanel2.Margin = new Padding(0);
-			tableLayoutPanel2.Name = "tableLayoutPanel2";
-			tableLayoutPanel2.RowCount = 1;
-			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.Size = new System.Drawing.Size(2135, 50);
-			tableLayoutPanel2.TabIndex = 2;
+			tableLayoutPanel3.Controls.Add(BasicControl.CreateControl(testButton), z, 0);
+			tableLayoutPanel2.Margin = new Padding2(0);
+			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel3.Dock = DockStyle.Fill;
 			tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
 			tableLayoutPanel3.Margin = new Padding(0);
@@ -193,124 +189,33 @@ namespace BaseLib.Forms{
 			tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 			tableLayoutPanel3.Size = new System.Drawing.Size(2135, 50);
 			tableLayoutPanel3.TabIndex = 3;
-			// 
-			// addButton
-			// 
-			addButton.Dock = DockStyle.Fill;
-			addButton.Location = new System.Drawing.Point(0, 0);
-			addButton.Margin = new Padding(0);
-			addButton.Name = "addButton";
-			addButton.Size = new System.Drawing.Size(220, 50);
-			addButton.TabIndex = 0;
+			addButton.Margin = new Padding2(0);
 			addButton.Text = @"Add";
-			addButton.UseVisualStyleBackColor = true;
-			// 
-			// removeButton
-			// 
-			removeButton.Dock = DockStyle.Fill;
-			removeButton.Location = new System.Drawing.Point(230, 0);
-			removeButton.Margin = new Padding(0);
-			removeButton.Name = "removeButton";
-			removeButton.Size = new System.Drawing.Size(220, 50);
-			removeButton.TabIndex = 1;
+			removeButton.Margin = new Padding2(0);
 			removeButton.Text = @"Remove";
-			removeButton.UseVisualStyleBackColor = true;
-			// 
-			// changeFolderButton
-			// 
-			changeFolderButton.Dock = DockStyle.Fill;
-			changeFolderButton.Location = new System.Drawing.Point(460, 0);
-			changeFolderButton.Margin = new Padding(0);
-			changeFolderButton.Name = "changeFolderButton";
-			changeFolderButton.Size = new System.Drawing.Size(220, 50);
-			changeFolderButton.TabIndex = 2;
+			changeFolderButton.Margin = new Padding2(0);
 			changeFolderButton.Text = @"Change folder";
-			changeFolderButton.UseVisualStyleBackColor = true;
-			// 
-			// identifierRuleButton
-			// 
-			identifierRuleButton.Dock = DockStyle.Fill;
-			identifierRuleButton.Location = new System.Drawing.Point(690, 0);
-			identifierRuleButton.Margin = new Padding(0);
-			identifierRuleButton.Name = "identifierRuleButton";
-			identifierRuleButton.Size = new System.Drawing.Size(220, 50);
-			identifierRuleButton.TabIndex = 3;
+			identifierRuleButton.Margin = new Padding2(0);
 			identifierRuleButton.Text = @"Identifier rule";
-			identifierRuleButton.UseVisualStyleBackColor = true;
-			// 
-			// descriptionRuleButton
-			// 
-			descriptionRuleButton.Dock = DockStyle.Fill;
-			descriptionRuleButton.Location = new System.Drawing.Point(920, 0);
-			descriptionRuleButton.Margin = new Padding(0);
-			descriptionRuleButton.Name = "descriptionRuleButton";
-			descriptionRuleButton.Size = new System.Drawing.Size(220, 50);
-			descriptionRuleButton.TabIndex = 4;
+			descriptionRuleButton.Margin = new Padding2(0);
 			descriptionRuleButton.Text = @"Description rule";
-			descriptionRuleButton.UseVisualStyleBackColor = true;
-			// 
-			// taxonomyRuleButton
-			// 
-			taxonomyRuleButton.Dock = DockStyle.Fill;
-			taxonomyRuleButton.Location = new System.Drawing.Point(1150, 0);
-			taxonomyRuleButton.Margin = new Padding(0);
-			taxonomyRuleButton.Name = "taxonomyRuleButton";
-			taxonomyRuleButton.Size = new System.Drawing.Size(220, 50);
-			taxonomyRuleButton.TabIndex = 5;
+			taxonomyRuleButton.Margin = new Padding2(0);
 			taxonomyRuleButton.Text = @"Taxonomy rule";
-			taxonomyRuleButton.UseVisualStyleBackColor = true;
-			// 
-			// taxonomyIdButton
-			// 
-			taxonomyIdButton.Dock = DockStyle.Fill;
-			taxonomyIdButton.Location = new System.Drawing.Point(1380, 0);
-			taxonomyIdButton.Margin = new Padding(0);
-			taxonomyIdButton.Name = "taxonomyIdButton";
-			taxonomyIdButton.Size = new System.Drawing.Size(220, 50);
-			taxonomyIdButton.TabIndex = 6;
+			taxonomyIdButton.Margin = new Padding2(0);
 			taxonomyIdButton.Text = @"Taxonomy ID";
-			taxonomyIdButton.UseVisualStyleBackColor = true;
 			int j = 7;
 			if (hasVariationData){
-				// 
-				// variationRuleButton
-				//
-				variationRuleButton.Dock = DockStyle.Fill;
-				variationRuleButton.Location = new System.Drawing.Point(j * 230, 0);
-				variationRuleButton.Margin = new Padding(0);
-				variationRuleButton.Name = "variationRuleButton";
-				variationRuleButton.Size = new System.Drawing.Size(220, 50);
-				variationRuleButton.TabIndex = j;
+				variationRuleButton.Margin = new Padding2(0);
 				variationRuleButton.Text = @"Variation rule";
-				variationRuleButton.UseVisualStyleBackColor = true;
 				j++;
 			}
 			if (hasModifications){
-				// 
-				// modificationRuleButton
-				//
-				modificationRuleButton.Dock = DockStyle.Fill;
-				modificationRuleButton.Location = new System.Drawing.Point(j * 230, 0);
-				modificationRuleButton.Margin = new Padding(0);
-				modificationRuleButton.Name = "modificationRuleButton";
-				modificationRuleButton.Size = new System.Drawing.Size(220, 50);
-				modificationRuleButton.TabIndex = j;
+				modificationRuleButton.Margin = new Padding2(0);
 				modificationRuleButton.Text = @"Modification rule";
-				modificationRuleButton.UseVisualStyleBackColor = true;
 				j++;
 			}
-			// 
-			// testButton
-			//
-			testButton.Dock = DockStyle.Fill;
-			testButton.Location = new System.Drawing.Point(j * 230, 0);
-			testButton.Margin = new Padding(0);
-			testButton.Name = "testButton";
-			testButton.Size = new System.Drawing.Size(220, 50);
-			testButton.TabIndex = j;
+			testButton.Margin = new Padding2(0);
 			testButton.Text = @"Test";
-			testButton.UseVisualStyleBackColor = true;
-			tableLayoutPanel2.ResumeLayout(false);
 			tableLayoutPanel3.ResumeLayout(false);
 		}
 

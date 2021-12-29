@@ -162,9 +162,9 @@ namespace BaseLib.Forms.Base{
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
-		private BasicTableLayoutView tableLayoutPanel1;
+		private TableLayoutModel tableLayoutPanel1;
 		private void InitializeComponent2(){
-			tableLayoutPanel1 = new BasicTableLayoutView();
+			tableLayoutPanel1 = new TableLayoutModel();
 			mainView = new SimpleScrollableControlMainView(this);
 			horizontalScrollBar = new HorizontalScrollBarView(this);
 			verticalScrollBar = new VerticalScrollBarView(this);

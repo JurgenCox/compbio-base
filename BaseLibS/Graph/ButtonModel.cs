@@ -6,7 +6,7 @@ namespace BaseLibS.Graph{
 		private readonly Brush2 textBrush = Brushes2.Black;
 		private readonly Brush2 disabledTextBrush = Brushes2.Gray;
 		private readonly Font2 font = new Font2("Microsoft Sans Serif", 8.25f);
-		private bool highlight = false;
+		private bool highlight;
 		public string Text{ get; set; } = "";
 		public event EventHandler Click;
 

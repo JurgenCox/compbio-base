@@ -3,9 +3,9 @@
 namespace BaseLibS.Graph.Base{
 	public class BasicRowStyles{
 		private readonly List<BasicRowStyle> list = new List<BasicRowStyle>();
-		private readonly BasicTableLayoutView view;
+		private readonly TableLayoutModel view;
 
-		internal BasicRowStyles(BasicTableLayoutView view){
+		internal BasicRowStyles(TableLayoutModel view){
 			this.view = view;
 		}
 

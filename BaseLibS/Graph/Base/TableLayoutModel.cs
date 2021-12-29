@@ -4,7 +4,7 @@ using BaseLibS.Drawing;
 using BaseLibS.Num;
 
 namespace BaseLibS.Graph.Base {
-	public class BasicTableLayoutView : BasicControlModel {
+	public class TableLayoutModel : BasicControlModel {
 		private static readonly Color2 borderColor = Color2.FromArgb(240, 240, 240);
 		private static readonly Brush2 borderBrush = new Brush2(borderColor);
 		private readonly object lockThis = new object();
@@ -17,7 +17,7 @@ namespace BaseLibS.Graph.Base {
 		private int[] heights;
 		private int[] ypos;
 
-		public BasicTableLayoutView() {
+		public TableLayoutModel() {
 			ColumnStyles = new BasicColumnStyles(this);
 			RowStyles = new BasicRowStyles(this);
 			BorderSize = 0;

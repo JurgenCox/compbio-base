@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 
 namespace BaseLib.Param{
 	[Serializable]
 	public class SaveFolderParamWf : SaveFolderParam{
-		[NonSerialized] private readonly Button button;
+		[NonSerialized] private readonly ButtonModel button;
 
 		public SaveFolderParamWf(string labelText, string buttonText, Action<string> writeAction) : base(labelText,
 			buttonText, writeAction){
-			button = new Button{Text = buttonText};
+			button = new ButtonModel{Text = buttonText};
 			button.Click += (o, args) => {
 				FolderBrowserDialog dialog = new FolderBrowserDialog{ShowNewFolderButton = true};
 				if (dialog.ShowDialog() == DialogResult.OK){
@@ -26,14 +27,14 @@ namespace BaseLib.Param{
 		}
 
 		public override void SetValueFromControl(){
-			if (button == null || button.IsDisposed){
+			if (button == null){
 				return;
 			}
 			Value = button.Text;
 		}
 
 		public override void UpdateControlFromValue(){
-			if (button == null || button.IsDisposed){
+			if (button == null){
 				return;
 			}
 			button.Text = Value;

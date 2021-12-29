@@ -15,8 +15,8 @@ namespace BaseLib.Forms.Base{
 		private int visibleY;
 		public event ZoomChangeHandler2 OnZoomChanged;
 		public Bitmap2 OverviewBitmap { get; set; }
-		private BasicTableLayoutView tableLayoutPanel1;
-		private BasicTableLayoutView tableLayoutPanel2;
+		private TableLayoutModel tableLayoutPanel1;
+		private TableLayoutModel tableLayoutPanel2;
 		private BasicControlModel horizontalScrollBarView;
 		private BasicControlModel verticalScrollBarView;
 		private BasicControlModel mainView;
@@ -290,8 +290,8 @@ namespace BaseLib.Forms.Base{
 			VisibleX = Math.Min(TotalWidth() - VisibleWidth, VisibleX + delta);
 		}
 		private void InitializeComponent2(){
-			tableLayoutPanel1 = new BasicTableLayoutView();
-			tableLayoutPanel2 = new BasicTableLayoutView();
+			tableLayoutPanel1 = new TableLayoutModel();
+			tableLayoutPanel2 = new TableLayoutModel();
 			mainView = new ScrollableControlMainView(this);
 			rowHeaderView = new ScrollableControlRowHeaderView(this);
 			rowFooterView = new ScrollableControlRowFooterView(this);

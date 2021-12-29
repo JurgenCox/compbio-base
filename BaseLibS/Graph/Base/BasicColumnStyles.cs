@@ -3,9 +3,9 @@
 namespace BaseLibS.Graph.Base{
 	public class BasicColumnStyles{
 		private readonly List<BasicColumnStyle> list = new List<BasicColumnStyle>();
-		private readonly BasicTableLayoutView view;
+		private readonly TableLayoutModel view;
 
-		internal BasicColumnStyles(BasicTableLayoutView view){
+		internal BasicColumnStyles(TableLayoutModel view){
 			this.view = view;
 		}
 
