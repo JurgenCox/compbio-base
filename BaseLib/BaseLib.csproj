@@ -257,7 +257,6 @@
     <Compile Include="Forms\Table\HelpLabel.Designer.cs">
       <DependentUpon>HelpLabel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Table\ITableSelectionAgent.cs" />
     <Compile Include="Forms\Table\ListSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -283,12 +282,6 @@
       <DependentUpon>TableView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Table\TableViewControlModel.cs" />
-    <Compile Include="Forms\Table\TableViewSelectionAgentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Table\TableViewSelectionAgentForm.Designer.cs">
-      <DependentUpon>TableViewSelectionAgentForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\TestParseRuleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -530,9 +523,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Table\TableView.resx">
       <DependentUpon>TableView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Table\TableViewSelectionAgentForm.resx">
-      <DependentUpon>TableViewSelectionAgentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TestParseRuleForm.resx">
       <DependentUpon>TestParseRuleForm.cs</DependentUpon>

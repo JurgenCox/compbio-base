@@ -64,7 +64,6 @@
 			// 
 			this.tableView1.ColumnHeaderHeight = 26;
 			this.tableView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableView1.HasSelectionAgent = false;
 			this.tableView1.Location = new System.Drawing.Point(0, 50);
 			this.tableView1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableView1.MultiSelect = false;

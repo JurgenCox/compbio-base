@@ -11,6 +11,7 @@ namespace BaseLibS.Graph{
 		public event EventHandler Click;
 
 		public ButtonModel(){
+			BackColor = Color2.FromArgb(225, 225, 225);
 			Enabled = true;
 		}
 		public override void OnPaint(IGraphics g, int width, int height){

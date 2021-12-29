@@ -4,25 +4,18 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using BaseLib.Forms.Base;
-using BaseLibS.Num;
 using BaseLibS.Table;
 using BaseLibS.Util;
 
 namespace BaseLib.Forms.Table{
 	public partial class TableView : UserControl{
-		internal static readonly List<ITableSelectionAgent> selectionAgents = new List<ITableSelectionAgent>();
 		public event EventHandler SelectionChanged;
 		private readonly CompoundScrollableControl tableView;
 		private readonly TableViewControlModel tableViewWf;
-		private bool hasSelectionAgent;
-		private ITableSelectionAgent selectionAgent;
-		private int selectionAgentColInd = -1;
-		private double[] selectionAgentColVals;
 		private readonly TextBox auxTextBox;
 		private SplitContainer splitContainer;
 		private TableLayoutPanel tableLayoutPanel1;
 		private TableLayoutPanel tableLayoutPanel2;
-		private Button selectionAgentButton;
 		private Button textButton;
 		private Label itemsLabel;
 		private Label selectedLabel;
@@ -46,7 +39,6 @@ namespace BaseLib.Forms.Table{
 			tableViewWf.DoubleClickOnRow += (sender, i) => DoubleClickOnRow?.Invoke(this, i);
 			mainPanel.Controls.Add(tableView);
 			textButton.Click += TextButton_OnClick;
-			selectionAgentButton.Click += SelectionAgentButton_OnClick;
 			KeyDown += (sender, args) => tableView.Focus();
 			auxTextBox = new TextBox{
 				Dock = DockStyle.Fill, Padding = new Padding(0), Multiline = true, ReadOnly = true
@@ -94,7 +86,6 @@ namespace BaseLib.Forms.Table{
 			bool isUnix = FileUtils.IsUnix();
 			tableLayoutPanel1 = new TableLayoutPanel();
 			tableLayoutPanel2 = new TableLayoutPanel();
-			selectionAgentButton = new Button();
 			textButton = new Button();
 			itemsLabel = new Label();
 			selectedLabel = new Label();
@@ -122,18 +113,16 @@ namespace BaseLib.Forms.Table{
 			// 
 			// tableLayoutPanel2
 			// 
-			tableLayoutPanel2.ColumnCount = 6;
+			tableLayoutPanel2.ColumnCount = 5;
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-			tableLayoutPanel2.Controls.Add(selectionAgentButton, 3, 0);
-			tableLayoutPanel2.Controls.Add(textButton, 5, 0);
+			tableLayoutPanel2.Controls.Add(textButton, 4, 0);
 			tableLayoutPanel2.Controls.Add(itemsLabel, 0, 0);
 			tableLayoutPanel2.Controls.Add(selectedLabel, 1, 0);
-			tableLayoutPanel2.Controls.Add(scaleFactorComboBox, 4, 0);
+			tableLayoutPanel2.Controls.Add(scaleFactorComboBox, 3, 0);
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new Point(0, 518);
 			tableLayoutPanel2.Margin = new Padding(0);
@@ -142,17 +131,6 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 			tableLayoutPanel2.Size = new Size(523, 20);
 			tableLayoutPanel2.TabIndex = 0;
-			// 
-			// selectionAgentButton
-			// 
-			selectionAgentButton.Dock = DockStyle.Fill;
-			selectionAgentButton.Location = new Point(433, 0);
-			selectionAgentButton.Margin = new Padding(0);
-			selectionAgentButton.Name = "selectionAgentButton";
-			selectionAgentButton.Size = new Size(20, 20);
-			selectionAgentButton.TabIndex = 0;
-			selectionAgentButton.UseVisualStyleBackColor = true;
-			selectionAgentButton.Visible = false;
 			// 
 			// textButton
 			// 
@@ -221,33 +199,6 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel2.ResumeLayout(false);
 			tableLayoutPanel2.PerformLayout();
 			ResumeLayout(false);
-		}
-
-		public void SelectTime(double timeMs){
-			if (selectionAgentColInd < 0){
-				return;
-			}
-			int ind = ArrayUtils.ClosestIndex(selectionAgentColVals, timeMs);
-			ClearSelection();
-			SetSelectedIndex(ind);
-		}
-
-		public static void RegisterSelectionAgent(ITableSelectionAgent agent){
-			selectionAgents.Add(agent);
-		}
-
-		public static void UnregisterSelectionAgent(ITableSelectionAgent agent){
-			selectionAgents.Remove(agent);
-		}
-
-		public bool HasSelectionAgent{
-			get => hasSelectionAgent;
-			set{
-				hasSelectionAgent = value;
-				if (hasSelectionAgent && selectionAgents.Count > 0){
-					selectionAgentButton.Visible = true;
-				}
-			}
 		}
 
 		/// <summary>
@@ -448,27 +399,6 @@ namespace BaseLib.Forms.Table{
 
 		public void ClearSelectionFire(){
 			tableViewWf.ClearSelectionFire();
-		}
-
-		private void SelectionAgentButton_OnClick(object sender, EventArgs e){
-			Point p = selectionAgentButton.PointToScreen(new Point(0, 0));
-			TableViewSelectionAgentForm w =
-				new TableViewSelectionAgentForm(TableModel){Top = p.Y - 125, Left = p.X - 300};
-			if (w.ShowDialog() == DialogResult.OK){
-				int ind1 = w.sourceBox.SelectedIndex;
-				int ind2 = w.columnBox.SelectedIndex;
-				if (ind1 >= 0 && ind2 >= 0){
-					selectionAgent = selectionAgents[ind1];
-					selectionAgentColInd = ind2;
-					selectionAgentColVals = GetTimeVals(ind2);
-					selectionAgent.AddTable(this);
-				} else{
-					selectionAgentColInd = -1;
-					selectionAgentColVals = null;
-					selectionAgent.RemoveTable(this);
-					selectionAgent = null;
-				}
-			}
 		}
 
 		private double[] GetTimeVals(int ind2){

@@ -103,7 +103,6 @@
 			// 
 			this.mainTable.ColumnHeaderHeight = 26;
 			this.mainTable.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mainTable.HasSelectionAgent = false;
 			this.mainTable.Location = new System.Drawing.Point(0, 95);
 			this.mainTable.Margin = new System.Windows.Forms.Padding(0);
 			this.mainTable.MultiSelect = true;
