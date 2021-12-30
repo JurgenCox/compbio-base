@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 using BaseLib.Forms.Base;
+using BaseLibS.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Param;
 using BaseLibS.Util;
 namespace BaseLib.Param{
@@ -40,20 +42,20 @@ namespace BaseLib.Param{
 			}
 		}
 		private void AddParameter(Parameter p, int i){
-			Label txt1 = new Label{
+			LabelModel txt1 = new LabelModel(){
 				Text = p.Name,
-				Dock = DockStyle.Fill,
 				Visible = p.Visible
 			};
+			BasicControl bc = BasicControl.CreateControl(txt1);
 			if (!string.IsNullOrEmpty(p.Help)){
-				toolTip1.SetToolTip(txt1, StringUtils.ReturnAtWhitespace(p.Help));
+				toolTip1.SetToolTip(bc, StringUtils.ReturnAtWhitespace(p.Help));
 			}
 			Control c = FormUtil.GetControl(p.CreateControl());
 			c.Dock = DockStyle.Fill;
 			c.Margin = new Padding(0);
 			c.Visible = p.Visible;
 			grid.Controls.Add(c, 1, i);
-			grid.Controls.Add(txt1, 0, i);
+			grid.Controls.Add(bc, 0, i);
 		}
 		public void Enable(){
 			grid.Enabled = true;
