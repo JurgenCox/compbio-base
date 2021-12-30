@@ -19,8 +19,8 @@ namespace BaseLib.Forms.Table{
 		private TableLayoutPanel tableLayoutPanel1;
 		private TableLayoutPanel tableLayoutPanel2;
 		private ButtonModel textButton;
-		private Label itemsLabel;
-		private Label selectedLabel;
+		private LabelModel itemsLabel;
+		private LabelModel selectedLabel;
 		private Panel mainPanel;
 		private ComboBoxModel scaleFactorComboBox;
 		public bool TextBoxIsVisible{ get; private set; }
@@ -88,8 +88,8 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel1 = new TableLayoutPanel();
 			tableLayoutPanel2 = new TableLayoutPanel();
 			textButton = new ButtonModel();
-			itemsLabel = new Label();
-			selectedLabel = new Label();
+			itemsLabel = new LabelModel();
+			selectedLabel = new LabelModel();
 			mainPanel = new Panel();
 			scaleFactorComboBox = new ComboBoxModel();
 			tableLayoutPanel1.SuspendLayout();
@@ -115,14 +115,14 @@ namespace BaseLib.Forms.Table{
 			// tableLayoutPanel2
 			// 
 			tableLayoutPanel2.ColumnCount = 5;
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
+			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
 			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(textButton), 4, 0);
-			tableLayoutPanel2.Controls.Add(itemsLabel, 0, 0);
-			tableLayoutPanel2.Controls.Add(selectedLabel, 1, 0);
+			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(itemsLabel), 0, 0);
+			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(selectedLabel), 1, 0);
 			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(scaleFactorComboBox), 3, 0);
 			tableLayoutPanel2.Dock = DockStyle.Fill;
 			tableLayoutPanel2.Location = new Point(0, 518);
@@ -132,35 +132,11 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
 			tableLayoutPanel2.Size = new Size(523, 20);
 			tableLayoutPanel2.TabIndex = 0;
-			// 
-			// textButton
-			// 
 			textButton.Margin = new Padding2(0);
 			textButton.Text = @"↑";
 			textButton.Font = new Font2("Microsoft Sans Serif", 7.1F);
-			// 
-			// itemsLabel
-			// 
-			itemsLabel.AutoSize = true;
-			itemsLabel.Dock = DockStyle.Fill;
-			itemsLabel.Location = new Point(3, 0);
-			itemsLabel.Name = "itemsLabel";
-			itemsLabel.Size = new Size(1, 20);
-			itemsLabel.TabIndex = 2;
-			itemsLabel.Font = new Font("Microsoft Sans Serif", 8.1F);
-			// 
-			// selectedLabel
-			// 
-			selectedLabel.AutoSize = true;
-			selectedLabel.Dock = DockStyle.Fill;
-			selectedLabel.Location = new Point(9, 0);
-			selectedLabel.Name = "selectedLabel";
-			selectedLabel.Size = new Size(1,  20);
-			selectedLabel.TabIndex = 3;
-			selectedLabel.Font = new Font("Microsoft Sans Serif", 8.1F);
-			// 
-			// mainPanel
-			// 
+			itemsLabel.Font = new Font2("Microsoft Sans Serif", 8.1F);
+			selectedLabel.Font = new Font2("Microsoft Sans Serif", 8.1F);
 			mainPanel.Dock = DockStyle.Fill;
 			mainPanel.Location = new Point(0, 0);
 			mainPanel.Margin = new Padding(0);

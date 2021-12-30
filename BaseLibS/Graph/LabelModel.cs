@@ -11,6 +11,7 @@ namespace BaseLibS.Graph {
 		public LabelModel(string text) {
 			Text = text;
 			BackColor = Color2.Transparent;
+			Visible = true;
 		}
 		public string Text{
 			get => text;
