@@ -49,25 +49,25 @@ namespace BaseLib.Forms.Table{
 			scaleFactorComboBox.SelectedIndexChanged += (sender, args) => {
 				switch (scaleFactorComboBox.SelectedIndex){
 					case 0:
-						tableViewWf.UserSf = 0.25f;
-						break;
-					case 1:
 						tableViewWf.UserSf = 0.5f;
 						break;
-					case 2:
+					case 1:
 						tableViewWf.UserSf = 0.7f;
+						break;
+					case 2:
+						tableViewWf.UserSf = 0.85f;
 						break;
 					case 3:
 						tableViewWf.UserSf = 1f;
 						break;
 					case 4:
-						tableViewWf.UserSf = 1.5f;
+						tableViewWf.UserSf = 1.25f;
 						break;
 					case 5:
-						tableViewWf.UserSf = 2f;
+						tableViewWf.UserSf = 1.5f;
 						break;
 					case 6:
-						tableViewWf.UserSf = 4f;
+						tableViewWf.UserSf = 2f;
 						break;
 				}
 				tableViewWf.UpdateScaling();
@@ -141,7 +141,7 @@ namespace BaseLib.Forms.Table{
 			// 
 			scaleFactorComboBox.Font = new Font2("Microsoft Sans Serif", 7.1f);
 			scaleFactorComboBox.Values=new []{
-				"25 %", "50 %", "70 %", "100 %", "150 %", "200 %", "400 %"
+				"50 %", "70 %", "85 %", "100 %", "125 %", "150 %", "200 %"
 			};
 			scaleFactorComboBox.Margin = new Padding2(0);
 			// 
