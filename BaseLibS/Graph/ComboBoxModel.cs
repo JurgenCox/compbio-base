@@ -29,9 +29,9 @@ namespace BaseLibS.Graph{
 		}
 		public override void OnMouseIsDown(BasicMouseEventArgs e){
 			TextFieldModel tfm = new TextFieldModel(Values){
-				MultiLine = true,
+				Multiline = true,
 				Selectable = true,
-				Editable = false,
+				ReadOnly = true,
 				SelectionMode = TextFieldSelectionMode.SingleLines,
 				Font = new Font2("Microsoft Sans Serif", 7.1f),
 				SelectedLine = SelectedIndex

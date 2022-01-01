@@ -58,7 +58,7 @@ namespace BaseLibS.Graph {
 					value = "";
 				}
 				string[] x = value.Split(new[] { carriageReturn }, StringSplitOptions.RemoveEmptyEntries);
-				if (!MultiLine && x.Length > 1) {
+				if (!Multiline && x.Length > 1) {
 					x = new[] { x[0] };
 				}
 				Lines = x;
@@ -85,8 +85,8 @@ namespace BaseLibS.Graph {
 				Font.Size = lineHeight * 0.6667f;
 			}
 		}
-		public bool MultiLine { get; set; } = false;
-		public bool Editable { get; set; } = true;
+		public bool Multiline { get; set; } = false;
+		public bool ReadOnly { get; set; } = false;
 		public bool Selectable { get; set; } = true;
 		public void ProcessCmdKey(Keys2 keyData) {
 			switch (keyData) {
@@ -303,7 +303,7 @@ namespace BaseLibS.Graph {
 			control.OnPaintMainView = (g, x, y, width, height, isOverview) => {
 				PaintSelection(g, x, y, width);
 				PaintText(g, x, y);
-				if (Editable) {
+				if (!ReadOnly) {
 					PaintCursor(g, x, y);
 				}
 				if (HasBoundingBox && !isOverview) {
@@ -397,7 +397,7 @@ namespace BaseLibS.Graph {
 		}
 		public void PaintText(IGraphics g, int x, int y) {
 			for (int i = 0; i < lines.Count; i++) {
-				if (!MultiLine && i > 0) {
+				if (!Multiline && i > 0) {
 					break;
 				}
 				g.DrawString(lines[i], Font, textBrush, OffsetX - x, OffsetY + i * lineHeight - y);
