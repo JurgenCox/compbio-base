@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using BaseLib.Forms.Base;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
+using BaseLibS.Graph.Base;
 using BaseLibS.Table;
 using BaseLibS.Util;
 
@@ -17,7 +18,7 @@ namespace BaseLib.Forms.Table{
 		private readonly TextBox auxTextBox;
 		private SplitContainer splitContainer;
 		private TableLayoutPanel tableLayoutPanel1;
-		private TableLayoutPanel tableLayoutPanel2;
+		private TableLayoutModel tableLayoutPanel2;
 		private ButtonModel textButton;
 		private LabelModel itemsLabel;
 		private LabelModel selectedLabel;
@@ -86,21 +87,20 @@ namespace BaseLib.Forms.Table{
 
 		private void InitializeComponent2(){
 			tableLayoutPanel1 = new TableLayoutPanel();
-			tableLayoutPanel2 = new TableLayoutPanel();
+			tableLayoutPanel2 = new TableLayoutModel();
 			textButton = new ButtonModel();
 			itemsLabel = new LabelModel();
 			selectedLabel = new LabelModel();
 			mainPanel = new Panel();
 			scaleFactorComboBox = new ComboBoxModel();
 			tableLayoutPanel1.SuspendLayout();
-			tableLayoutPanel2.SuspendLayout();
 			SuspendLayout();
 			// 
 			// tableLayoutPanel1
 			// 
 			tableLayoutPanel1.ColumnCount = 1;
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-			tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
+			tableLayoutPanel1.Controls.Add(BasicControl.CreateControl(tableLayoutPanel2), 0, 1);
 			tableLayoutPanel1.Controls.Add(mainPanel, 0, 0);
 			tableLayoutPanel1.Dock = DockStyle.Fill;
 			tableLayoutPanel1.Location = new Point(0, 0);
@@ -114,24 +114,17 @@ namespace BaseLib.Forms.Table{
 			// 
 			// tableLayoutPanel2
 			// 
-			tableLayoutPanel2.ColumnCount = 5;
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(textButton), 4, 0);
-			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(itemsLabel), 0, 0);
-			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(selectedLabel), 1, 0);
-			tableLayoutPanel2.Controls.Add(BasicControl.CreateControl(scaleFactorComboBox), 3, 0);
-			tableLayoutPanel2.Dock = DockStyle.Fill;
-			tableLayoutPanel2.Location = new Point(0, 518);
-			tableLayoutPanel2.Margin = new Padding(0);
-			tableLayoutPanel2.Name = "tableLayoutPanel2";
-			tableLayoutPanel2.RowCount = 1;
-			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.Size = new Size(523, 20);
-			tableLayoutPanel2.TabIndex = 0;
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 80F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 80F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 50F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 20F));
+			tableLayoutPanel2.Add(textButton, 4, 0);
+			tableLayoutPanel2.Add(itemsLabel, 0, 0);
+			tableLayoutPanel2.Add(selectedLabel, 1, 0);
+			tableLayoutPanel2.Add(scaleFactorComboBox, 3, 0);
+			tableLayoutPanel2.Margin = new Padding2(0);
+			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
 			textButton.Margin = new Padding2(0);
 			textButton.Text = @"↑";
 			textButton.Font = new Font2("Microsoft Sans Serif", 7.1F);
@@ -160,8 +153,6 @@ namespace BaseLib.Forms.Table{
 			Name = "TableView";
 			Size = new Size(523, 538);
 			tableLayoutPanel1.ResumeLayout(false);
-			tableLayoutPanel2.ResumeLayout(false);
-			tableLayoutPanel2.PerformLayout();
 			ResumeLayout(false);
 		}
 

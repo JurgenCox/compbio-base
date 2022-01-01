@@ -13,8 +13,8 @@ namespace BaseLibS.Graph.Base {
 		public BasicRowStyles RowStyles { get; }
 		private readonly Dictionary<Tuple<int, int>, BasicControlModel> components = new Dictionary<Tuple<int, int>, BasicControlModel>();
 		private int[] widths;
-		private int[] xpos;
 		private int[] heights;
+		private int[] xpos;
 		private int[] ypos;
 
 		public TableLayoutModel() {
@@ -24,7 +24,15 @@ namespace BaseLibS.Graph.Base {
 		}
 
 		public void Add(BasicControlModel bv, int column, int row) {
-			bv.Activate(this);
+			bv.invalidate = Invalidate;
+			bv.resetCursor = ResetCursor;
+			bv.setCursor = c => Cursor = c;
+			bv.launchQuery = LaunchQuery;
+			bv.screenCoords = () => {
+				(int, int) p = screenCoords();
+				return (p.Item1 + xpos[column], p.Item2 + ypos[row]);
+			};
+			bv.setToolTipText = SetToolStripText;
 			components.Add(new Tuple<int, int>(row, column), bv);
 		}
 

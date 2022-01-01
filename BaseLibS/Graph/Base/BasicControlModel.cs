@@ -3,7 +3,7 @@ using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 namespace BaseLibS.Graph.Base{
 	public class BasicControlModel : IPrintable, IControlModel{
-		public Font2 Font { get; set; } = new Font2("Microsoft Sans Serif", 8.25f);
+		public Font2 Font{ get; set; } = new Font2("Microsoft Sans Serif", 8.25f);
 		public Color2 BackColor{ get; set; }
 		public Color2 ForeColor{ get; set; }
 		public bool Visible{ get; set; }
@@ -21,11 +21,6 @@ namespace BaseLibS.Graph.Base{
 			ForeColor = Color2.Black;
 			Visible = true;
 		}
-		public void Activate(BasicControlModel view){
-			invalidate = view.Invalidate;
-			resetCursor = view.ResetCursor;
-			setCursor = c => view.Cursor = c;
-		}
 		public void Invalidate(){
 			invalidate?.Invoke();
 		}
@@ -34,6 +29,15 @@ namespace BaseLibS.Graph.Base{
 		}
 		public Cursors2 Cursor{
 			set => setCursor?.Invoke(value);
+		}
+		public void LaunchQuery(int x, int y, int width, int height, IControlModel model){
+			launchQuery?.Invoke(x, y, width, height, model);
+		}
+		public (int, int) ScreenCoords() {
+			return screenCoords();
+		}
+		public void SetToolStripText(string text) {
+			setToolTipText?.Invoke(text);
 		}
 		public virtual void OnPaint(IGraphics g, int width, int height){
 		}
