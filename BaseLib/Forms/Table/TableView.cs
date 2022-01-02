@@ -345,13 +345,5 @@ namespace BaseLib.Forms.Table{
 		public void ClearSelectionFire(){
 			tableViewWf.ClearSelectionFire();
 		}
-
-		private double[] GetTimeVals(int ind2){
-			double[] result = new double[TableModel.RowCount];
-			for (int i = 0; i < result.Length; i++){
-				result[i] = (double) TableModel.GetEntry(i, ind2);
-			}
-			return result;
-		}
 	}
 }
