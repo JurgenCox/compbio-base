@@ -81,6 +81,7 @@ namespace BaseLib.Forms.Table{
 			control.RowFooterWidth = control.RowFooterWidth;
 			control.ColumnHeaderHeight = control.ColumnHeaderHeight;
 			control.ColumnFooterHeight = control.ColumnFooterHeight;
+			control.Invalidate(true);
 		}
 
 		public void Register(ICompoundScrollableControl control1){

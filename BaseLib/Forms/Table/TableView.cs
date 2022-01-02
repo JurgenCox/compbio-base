@@ -71,7 +71,6 @@ namespace BaseLib.Forms.Table{
 						break;
 				}
 				tableViewWf.UpdateScaling();
-				tableView.Invalidate(true);
 			};
 		}
 
