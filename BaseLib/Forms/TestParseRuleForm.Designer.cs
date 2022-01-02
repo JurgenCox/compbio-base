@@ -112,8 +112,6 @@
 			this.mainTable.Sortable = true;
 			this.mainTable.TabIndex = 4;
 			this.mainTable.TableModel = null;
-			this.mainTable.VisibleX = 0;
-			this.mainTable.VisibleY = 0;
 			// 
 			// TestParseRulesForm
 			// 

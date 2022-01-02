@@ -234,16 +234,6 @@ namespace BaseLib.Forms.Table{
 			get => tableView.ColumnHeaderHeight;
 		}
 
-		public int VisibleX{
-			get => tableView.VisibleX;
-			set => tableView.VisibleX = value;
-		}
-
-		public int VisibleY{
-			get => tableView.VisibleY;
-			set => tableView.VisibleY = value;
-		}
-
 		public void SetSelectedRow(int row){
 			tableViewWf.SetSelectedRow(row);
 		}

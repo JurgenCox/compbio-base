@@ -57,8 +57,6 @@
 			this.tableView1.Sortable = true;
 			this.tableView1.TabIndex = 0;
 			this.tableView1.TableModel = null;
-			this.tableView1.VisibleX = 0;
-			this.tableView1.VisibleY = 0;
 			// 
 			// IsobaricLabelsParamControl
 			// 

@@ -155,6 +155,16 @@ namespace BaseLib.Param{
 				}
 				return b;
 			}
+			if (p is LabelParam) {
+				LabelParam q = (LabelParam)p;
+				LabelParamWf b = new LabelParamWf(q.Name, q.Value) {
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
+					b.ValueChanged += act;
+				}
+				return b;
+			}
 			if (p is SaveFileParam){
 				SaveFileParam q = (SaveFileParam) p;
 				SaveFileParamWf b = new SaveFileParamWf(q.Name, q.Value, q.FileName, q.Filter, q.WriteAction){
