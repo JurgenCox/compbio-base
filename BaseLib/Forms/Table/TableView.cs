@@ -44,9 +44,7 @@ namespace BaseLib.Forms.Table{
 			mainPanel.Controls.Add(tableView);
 			textButton.Click += TextButton_OnClick;
 			KeyDown += (sender, args) => tableView.Focus();
-			auxTextBox = new TextFieldModel{
-				Multiline = true, ReadOnly = true
-			};
+			auxTextBox = new TextFieldModel{Multiline = true, ReadOnly = true};
 			auxTextBoxControl = FormUtil.GetControl(auxTextBox);
 			scaleFactorComboBox.SelectedIndexChanged += (sender, args) => {
 				switch (scaleFactorComboBox.SelectedIndex){
