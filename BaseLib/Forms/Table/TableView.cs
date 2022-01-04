@@ -15,7 +15,8 @@ namespace BaseLib.Forms.Table{
 		public event EventHandler SelectionChanged;
 		private readonly CompoundScrollableControl tableView;
 		private readonly TableViewControlModel tableViewWf;
-		private readonly TextBox auxTextBox;
+		private readonly TextFieldModel auxTextBox;
+		private readonly Control auxTextBoxControl;
 		private SplitContainer splitContainer;
 		private TableLayoutPanel tableLayoutPanel1;
 		private TableLayoutModel tableLayoutPanel2;
@@ -43,9 +44,10 @@ namespace BaseLib.Forms.Table{
 			mainPanel.Controls.Add(tableView);
 			textButton.Click += TextButton_OnClick;
 			KeyDown += (sender, args) => tableView.Focus();
-			auxTextBox = new TextBox{
-				Dock = DockStyle.Fill, Padding = new Padding(0), Multiline = true, ReadOnly = true
+			auxTextBox = new TextFieldModel{
+				Multiline = true, ReadOnly = true
 			};
+			auxTextBoxControl = FormUtil.GetControl(auxTextBox);
 			scaleFactorComboBox.SelectedIndexChanged += (sender, args) => {
 				switch (scaleFactorComboBox.SelectedIndex){
 					case 0:
@@ -176,7 +178,7 @@ namespace BaseLib.Forms.Table{
 			mainPanel.Controls.Remove(tableView);
 			splitContainer = new SplitContainer();
 			splitContainer.Panel1.Controls.Add(tableView);
-			splitContainer.Panel2.Controls.Add(auxTextBox);
+			splitContainer.Panel2.Controls.Add(auxTextBoxControl);
 			splitContainer.SplitterDistance = 90;
 			splitContainer.Margin = new Padding(0);
 			splitContainer.Dock = DockStyle.Fill;
@@ -194,7 +196,7 @@ namespace BaseLib.Forms.Table{
 			tableViewWf.SetCellText = null;
 			mainPanel.Controls.Remove(splitContainer);
 			splitContainer.Panel1.Controls.Remove(tableView);
-			splitContainer.Panel2.Controls.Remove(auxTextBox);
+			splitContainer.Panel2.Controls.Remove(auxTextBoxControl);
 			splitContainer = null;
 			mainPanel.Controls.Add(tableView);
 			TextBoxIsVisible = false;

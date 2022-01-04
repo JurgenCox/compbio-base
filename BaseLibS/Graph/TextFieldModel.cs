@@ -50,6 +50,7 @@ namespace BaseLibS.Graph {
 				foreach (string t in value) {
 					lines.Add(t == null ? "" : t.Trim());
 				}
+				control?.Invalidate(true);
 			}
 		}
 		public string Text{
@@ -62,6 +63,7 @@ namespace BaseLibS.Graph {
 					x = new[] { x[0] };
 				}
 				Lines = x;
+				control?.Invalidate(true);
 			}
 			get => StringUtils.Concat(carriageReturn, lines);
 		}
@@ -175,7 +177,7 @@ namespace BaseLibS.Graph {
 					}
 					break;
 			}
-			control.Invalidate(true);
+			control?.Invalidate(true);
 		}
 		private string GetSelectedString() {
 			if (selectionStartLine == -1 || selectionStartLine != selectionEndLine) {
