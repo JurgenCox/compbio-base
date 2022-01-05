@@ -120,8 +120,8 @@ namespace BaseLib.Forms.Base{
 		public bool HasZoomButtons{ get; set; } = true;
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
-		public CompoundScrollableControl(){
-			Parent = new GenericControl();
+		public CompoundScrollableControl(IGenericControl parent) {
+			Parent = parent;
 			Parent.SetModel(CreateModel());
 			Parent.onResize = () => {
 				if (TotalWidth == null || TotalHeight == null){

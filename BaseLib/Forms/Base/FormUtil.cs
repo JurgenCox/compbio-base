@@ -23,15 +23,25 @@ namespace BaseLib.Forms.Base{
 				return (Control) o;
 			}
 			if (o is ICompoundScrollableControlModel){
-				return new CompoundScrollableControl{Client = (ICompoundScrollableControlModel) o}.Parent as Control;
+				CompoundScrollableControl c = CreateCompoundScrollableControl();
+				c.Client = (ICompoundScrollableControlModel) o;
+				return c.Parent as Control;
 			}
 			if (o is ISimpleScrollableControlModel){
-				return new SimpleScrollableControl{Client = (ISimpleScrollableControlModel) o}.Parent as Control;
+				SimpleScrollableControl c = CreateSimpleScrollableControl();
+				c.Client = (ISimpleScrollableControlModel)o;
+				return c.Parent as Control;
 			}
 			if (o is BasicControlModel){
 				return BasicControl.CreateControl((BasicControlModel) o);
 			}
 			throw new ArgumentException("Type cannot be converted to Control.");
+		}
+		public static SimpleScrollableControl CreateSimpleScrollableControl() {
+			return new SimpleScrollableControl(new GenericControl());
+		}
+		public static CompoundScrollableControl CreateCompoundScrollableControl() {
+			return new CompoundScrollableControl(new GenericControl());
 		}
 		public static void SelectExact(ICollection<string> colNames, IList<string> colTypes,
 			MultiListSelectorControl mls){

@@ -77,8 +77,8 @@ namespace BaseLib.Forms.Base{
 		public bool HasZoomButtons{ get; set; } = true;
 		public Bitmap2 OverviewBitmap{ get; set; }
 		public event Action OnZoomChanged;
-		public SimpleScrollableControl(){
-			Parent = new GenericControl();
+		public SimpleScrollableControl(IGenericControl parent){
+			Parent = parent;
 			Parent.SetModel(CreateModel());
 			Parent.onResize = () => {
 				if (TotalWidth == null || TotalHeight == null){

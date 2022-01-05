@@ -92,7 +92,7 @@ namespace BaseLib.Forms.Table {
 			matchCaseCheckBox = new CheckBox();
 			expressionTextBox = new TextBox();
 			label1 = new Label();
-			tableView1 = new CompoundScrollableControl();
+			tableView1 = FormUtil.CreateCompoundScrollableControl();
 			statusStrip1.SuspendLayout();
 			tableLayoutPanel1.SuspendLayout();
 			panel1.SuspendLayout();

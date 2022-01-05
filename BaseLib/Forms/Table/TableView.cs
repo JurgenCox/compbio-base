@@ -32,7 +32,7 @@ namespace BaseLib.Forms.Table{
 			InitializeComponent();
 			InitializeComponent2();
 			scaleFactorComboBox.SelectedIndex = 3;
-			tableView = new CompoundScrollableControl();
+			tableView = FormUtil.CreateCompoundScrollableControl();
 			tableViewWf = new TableViewControlModel(this);
 			tableView.Client = tableViewWf;
 			tableViewWf.SelectionChanged += (sender, args) => {
