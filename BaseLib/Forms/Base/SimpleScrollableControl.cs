@@ -5,7 +5,7 @@ using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base{
 	public class SimpleScrollableControl : ISimpleScrollableControl{
-		public GenericControl Parent{ get; set; }
+		public IGenericControl Parent{ get; set; }
 		private int visibleX;
 		private int visibleY;
 		private BasicControlModel horizontalScrollBar;

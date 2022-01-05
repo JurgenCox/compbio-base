@@ -57,6 +57,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\Base\FormUtil.cs" />
+    <Compile Include="Forms\Base\IGenericControl.cs" />
     <Compile Include="Forms\Base\Printing.cs" />
     <Compile Include="Forms\CheckedFileParamControl.cs">
       <SubType>UserControl</SubType>

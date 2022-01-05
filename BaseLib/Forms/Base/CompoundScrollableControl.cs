@@ -5,7 +5,7 @@ using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base{
 	public sealed class CompoundScrollableControl : ICompoundScrollableControl{
-		public GenericControl Parent{ get; set; }
+		public IGenericControl Parent{ get; set; }
 		private int rowHeaderWidth = 40;
 		private int rowFooterWidth;
 		private int columnHeaderHeight = 40;

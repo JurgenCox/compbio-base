@@ -6,11 +6,11 @@ using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 namespace BaseLib.Forms.Base{
-	public class GenericControl : Control{
-		public Action onResize;
-		public Action<int> onMouseWheel;
-		public Action onSizeChanged;
-		public Action<Keys2> processCmdKey;
+	public class GenericControl : Control, IGenericControl{
+		public Action onResize { get; set; }
+		public Action<int> onMouseWheel { get; set; }
+		public Action onSizeChanged { get; set; }
+		public Action<Keys2> processCmdKey { get; set; }
 		private ToolTip toolTip;
 		public int Width1 => Width;
 		public int Height1 => Height;

@@ -41,9 +41,9 @@ namespace BaseLib.Forms.Table{
 			};
 
 			tableViewWf.DoubleClickOnRow += (sender, i) => DoubleClickOnRow?.Invoke(this, i);
-			mainPanel.Controls.Add(tableView.Parent);
+			mainPanel.Controls.Add(tableView.Parent as Control);
 			textButton.Click += TextButton_OnClick;
-			KeyDown += (sender, args) => tableView.Parent.Focus();
+			KeyDown += (sender, args) => ((Control)tableView.Parent).Focus();
 			auxTextBox = new TextFieldModel{Multiline = true, ReadOnly = true};
 			auxTextBoxControl = FormUtil.GetControl(auxTextBox);
 			scaleFactorComboBox.SelectedIndexChanged += (sender, args) => {
@@ -173,9 +173,9 @@ namespace BaseLib.Forms.Table{
 			}
 			textButton.Text = @"↓";
 			tableViewWf.SetCellText = SetAuxText;
-			mainPanel.Controls.Remove(tableView.Parent);
+			mainPanel.Controls.Remove(tableView.Parent as Control);
 			splitContainer = new SplitContainer();
-			splitContainer.Panel1.Controls.Add(tableView.Parent);
+			splitContainer.Panel1.Controls.Add(tableView.Parent as Control);
 			splitContainer.Panel2.Controls.Add(auxTextBoxControl);
 			splitContainer.SplitterDistance = 90;
 			splitContainer.Margin = new Padding(0);
@@ -193,10 +193,10 @@ namespace BaseLib.Forms.Table{
 			auxTextBox.Text = "";
 			tableViewWf.SetCellText = null;
 			mainPanel.Controls.Remove(splitContainer);
-			splitContainer.Panel1.Controls.Remove(tableView.Parent);
+			splitContainer.Panel1.Controls.Remove(tableView.Parent as Control);
 			splitContainer.Panel2.Controls.Remove(auxTextBoxControl);
 			splitContainer = null;
-			mainPanel.Controls.Add(tableView.Parent);
+			mainPanel.Controls.Add(tableView.Parent as Control);
 			TextBoxIsVisible = false;
 		}
 
