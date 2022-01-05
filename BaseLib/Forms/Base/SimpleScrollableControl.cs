@@ -71,7 +71,7 @@ namespace BaseLib.Forms.Base{
 		public Bitmap2 OverviewBitmap{ get; set; }
 		public event Action OnZoomChanged;
 		public SimpleScrollableControl(){
-			AddControl(CreateModel());
+			SetModel(CreateModel());
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;
@@ -79,9 +79,6 @@ namespace BaseLib.Forms.Base{
 			DeltaY = () => Height1 / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
-		}
-		public void AddControl(BasicControlModel model) {
-			Controls.Add(BasicControl.CreateControl(model));
 		}
 		public void InvalidateBackgroundImages(){
 			client?.InvalidateBackgroundImages();
@@ -139,14 +136,13 @@ namespace BaseLib.Forms.Base{
 			}
 		}
 		public SizeI2 TotalSize => new SizeI2(TotalWidth(), TotalHeight());
-		protected override void OnResize(EventArgs e){
+		protected override void OnResize(){
 			if (TotalWidth == null || TotalHeight == null){
 				return;
 			}
 			VisibleX = Math.Max(0, Math.Min(VisibleX, TotalWidth() - VisibleWidth - 1));
 			VisibleY = Math.Max(0, Math.Min(VisibleY, TotalHeight() - VisibleHeight - 1));
 			InvalidateBackgroundImages();
-			base.OnResize(e);
 		}
 		public void MoveUp(int delta){
 			if (TotalHeight() <= VisibleHeight){
@@ -190,8 +186,7 @@ namespace BaseLib.Forms.Base{
 		protected override void ProcessCmdKey(Keys2 keyData){
 			client?.ProcessCmdKey(keyData);
 		}
-		protected override void OnSizeChanged(EventArgs e){
-			base.OnSizeChanged(e);
+		protected override void OnSizeChanged(){
 			client?.OnSizeChanged();
 		}
 		public void UpdateZoom(){

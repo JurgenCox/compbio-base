@@ -12,7 +12,7 @@ namespace BaseLib.Forms.Base{
 		private int visibleX;
 		private int visibleY;
 		public event Action OnZoomChanged;
-		public Bitmap2 OverviewBitmap { get; set; }
+		public Bitmap2 OverviewBitmap{ get; set; }
 		private TableLayoutModel tableLayoutPanel1;
 		private TableLayoutModel tableLayoutPanel2;
 		private BasicControlModel horizontalScrollBarView;
@@ -113,7 +113,7 @@ namespace BaseLib.Forms.Base{
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public CompoundScrollableControl(){
-			Controls.Add(BasicControl.CreateControl(CreateModel()));
+			SetModel(CreateModel());
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			OnPaintRowHeaderView = (g, y, height) => { };
 			OnPaintRowFooterView = (g, y, height) => { };
@@ -247,14 +247,13 @@ namespace BaseLib.Forms.Base{
 				value.Register(this);
 			}
 		}
-		protected override void OnResize(EventArgs e){
+		protected override void OnResize(){
 			if (TotalWidth == null || TotalHeight == null){
 				return;
 			}
 			VisibleX = Math.Max(0, Math.Min(VisibleX, TotalWidth() - VisibleWidth - 1));
 			VisibleY = Math.Max(0, Math.Min(VisibleY, TotalHeight() - VisibleHeight - 1));
 			InvalidateBackgroundImages();
-			base.OnResize(e);
 		}
 		public void MoveUp(int delta){
 			if (TotalHeight() <= VisibleHeight){
@@ -333,22 +332,20 @@ namespace BaseLib.Forms.Base{
 			tableLayoutPanel2.Print(g, width, height);
 			tableLayoutPanel2.InvalidateSizes();
 		}
-		protected override void ProcessCmdKey(Keys2 keyData) {
+		protected override void ProcessCmdKey(Keys2 keyData){
 			client?.ProcessCmdKey(keyData);
 		}
-		protected override void OnSizeChanged(EventArgs e){
-			base.OnSizeChanged(e);
+		protected override void OnSizeChanged(){
 			client?.OnSizeChanged();
 		}
 		public SizeI2 TotalSize => new SizeI2(TotalWidth(), TotalHeight());
 		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, VisibleWidth, VisibleHeight);
-		public void UpdateZoom() {
+		public void UpdateZoom(){
 			OnZoomChanged?.Invoke();
 		}
-		public Color2 BackColor2 { get; set; }
-		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight) {
+		public Color2 BackColor2{ get; set; }
+		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight){
 			return CreateOverviewBitmap(overviewWidth, overviewHeight, TotalWidth(), TotalHeight(), OnPaintMainView);
 		}
-
 	}
 }

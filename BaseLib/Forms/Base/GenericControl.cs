@@ -7,7 +7,7 @@ using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{
-		private readonly ToolTip toolTip = new ToolTip();
+		private ToolTip toolTip;
 		public int Width1 => Width;
 		public int Height1 => Height;
 		public GenericControl(){
@@ -92,12 +92,21 @@ namespace BaseLib.Forms.Base{
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		public void HideToolTip(){
+			if (toolTip == null) {
+				toolTip = new ToolTip();
+			}
 			toolTip.Hide(this);
 		}
 		public void ShowToolTip(string text, int x, int y){
+			if (toolTip == null) {
+				toolTip = new ToolTip();
+			}
 			toolTip.Show(text, this, x, y);
 		}
 		public void SetToolTipTitle(string title){
+			if (toolTip == null) {
+				toolTip = new ToolTip();
+			}
 			toolTip.ToolTipTitle = title;
 		}
 		public void ExportGraphic(string name, bool showDialog){
@@ -117,5 +126,21 @@ namespace BaseLib.Forms.Base{
 		public virtual BasicControlModel CreateModel(){
 			return new BasicControlModel();
 		}
+		public void SetModel(BasicControlModel model) {
+			Controls.Add(BasicControl.CreateControl(model));
+		}
+		protected virtual void OnResize() {
+		}
+		protected override void OnResize(EventArgs e) {
+			OnResize();
+			base.OnResize(e);
+		}
+		protected override void OnSizeChanged(EventArgs e) {
+			base.OnSizeChanged(e);
+			OnSizeChanged();
+		}
+		protected virtual void OnSizeChanged() {
+		}
+
 	}
 }
