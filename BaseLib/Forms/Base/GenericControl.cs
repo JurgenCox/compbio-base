@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
+using BaseLibS.Graph.Base;
 namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{
 		private readonly ToolTip toolTip = new ToolTip();
@@ -112,6 +113,9 @@ namespace BaseLib.Forms.Base{
 			} catch (Exception){
 				return GraphUtils.ToBitmap2(bg.Bitmap);
 			}
+		}
+		public virtual BasicControlModel CreateModel(){
+			return new BasicControlModel();
 		}
 	}
 }

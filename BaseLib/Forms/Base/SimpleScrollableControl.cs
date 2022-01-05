@@ -11,6 +11,7 @@ namespace BaseLib.Forms.Base{
 		private BasicControlModel verticalScrollBar;
 		private BasicControlModel mainView;
 		private BasicControlModel smallCornerView;
+		private TableLayoutModel tableLayoutPanel1;
 		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseClickMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView{ get; set; }
@@ -70,7 +71,7 @@ namespace BaseLib.Forms.Base{
 		public Bitmap2 OverviewBitmap{ get; set; }
 		public event Action OnZoomChanged;
 		public SimpleScrollableControl(){
-			InitializeComponent2();
+			AddControl(CreateModel());
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;
@@ -78,6 +79,9 @@ namespace BaseLib.Forms.Base{
 			DeltaY = () => Height1 / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
+		}
+		public void AddControl(BasicControlModel model) {
+			Controls.Add(BasicControl.CreateControl(model));
 		}
 		public void InvalidateBackgroundImages(){
 			client?.InvalidateBackgroundImages();
@@ -156,8 +160,7 @@ namespace BaseLib.Forms.Base{
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
-		private TableLayoutModel tableLayoutPanel1;
-		private void InitializeComponent2(){
+		public override BasicControlModel CreateModel(){
 			tableLayoutPanel1 = new TableLayoutModel();
 			mainView = new SimpleScrollableControlMainView(this);
 			horizontalScrollBar = new HorizontalScrollBarView(this);
@@ -171,7 +174,7 @@ namespace BaseLib.Forms.Base{
 			tableLayoutPanel1.Add(smallCornerView, 1, 1);
 			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
-			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
+			return tableLayoutPanel1;
 		}
 		protected override void OnMouseWheel(int delta){
 			if (TotalHeight() <= VisibleHeight){

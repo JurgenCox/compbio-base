@@ -113,7 +113,7 @@ namespace BaseLib.Forms.Base{
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public CompoundScrollableControl(){
-			InitializeComponent2();
+			Controls.Add(BasicControl.CreateControl(CreateModel()));
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			OnPaintRowHeaderView = (g, y, height) => { };
 			OnPaintRowFooterView = (g, y, height) => { };
@@ -280,7 +280,7 @@ namespace BaseLib.Forms.Base{
 			}
 			VisibleX = Math.Min(TotalWidth() - VisibleWidth, VisibleX + delta);
 		}
-		private void InitializeComponent2(){
+		public override BasicControlModel CreateModel(){
 			tableLayoutPanel1 = new TableLayoutModel();
 			tableLayoutPanel2 = new TableLayoutModel();
 			mainView = new ScrollableControlMainView(this);
@@ -318,7 +318,7 @@ namespace BaseLib.Forms.Base{
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnHeaderHeight));
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnFooterHeight));
-			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
+			return tableLayoutPanel1;
 		}
 		protected override void OnMouseWheel(int delta){
 			if (TotalHeight() <= VisibleHeight){
