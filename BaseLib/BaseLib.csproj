@@ -57,7 +57,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\Base\FormUtil.cs" />
-    <Compile Include="Forms\Base\IGenericControl.cs" />
     <Compile Include="Forms\Base\Printing.cs" />
     <Compile Include="Forms\CheckedFileParamControl.cs">
       <SubType>UserControl</SubType>
@@ -225,13 +224,7 @@
     <Compile Include="Forms\RegexReplaceParamControl.Designer.cs">
       <DependentUpon>RegexReplaceParamControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Base\CompoundScrollableControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Forms\Base\GenericControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Base\SimpleScrollableControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\SliderControl.cs">

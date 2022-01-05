@@ -1,9 +1,8 @@
 ﻿using System;
+using BaseLib.Forms.Base;
 using BaseLibS.Drawing;
-using BaseLibS.Graph;
-using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-namespace BaseLib.Forms.Base{
+namespace BaseLibS.Graph.Base{
 	public class SimpleScrollableControl : ISimpleScrollableControl{
 		public IGenericControl Parent{ get; set; }
 		private int visibleX;
@@ -237,7 +236,7 @@ namespace BaseLib.Forms.Base{
 			return Parent.IsControlPressed();
 		}
 		public bool IsShiftPressed(){
-			return  Parent.IsShiftPressed();
+			return Parent.IsShiftPressed();
 		}
 		public void SetCursor(Cursors2 cursor){
 			Parent.SetCursor(cursor);

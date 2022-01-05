@@ -1,9 +1,8 @@
-using System;
+﻿using System;
+using BaseLib.Forms.Base;
 using BaseLibS.Drawing;
-using BaseLibS.Graph;
-using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-namespace BaseLib.Forms.Base{
+namespace BaseLibS.Graph.Base{
 	public sealed class CompoundScrollableControl : ICompoundScrollableControl{
 		public IGenericControl Parent{ get; set; }
 		private int rowHeaderWidth = 40;
@@ -120,7 +119,7 @@ namespace BaseLib.Forms.Base{
 		public bool HasZoomButtons{ get; set; } = true;
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
-		public CompoundScrollableControl(IGenericControl parent) {
+		public CompoundScrollableControl(IGenericControl parent){
 			Parent = parent;
 			Parent.SetModel(CreateModel());
 			Parent.onResize = () => {
@@ -308,7 +307,7 @@ namespace BaseLib.Forms.Base{
 			Parent.SetToolTipTitle(title);
 		}
 		public void ShowToolTip(string text, int x, int y){
-			Parent.ShowToolTip(text, x,y);
+			Parent.ShowToolTip(text, x, y);
 		}
 		public void HideToolTip(){
 			Parent.HideToolTip();
@@ -368,42 +367,41 @@ namespace BaseLib.Forms.Base{
 			return Parent.CreateOverviewBitmap(overviewWidth, overviewHeight, TotalWidth(), TotalHeight(),
 				OnPaintMainView);
 		}
-		public void InitContextMenu() {
+		public void InitContextMenu(){
 			Parent.InitContextMenu();
 		}
-		public void AddContextMenuItem(string text, EventHandler action) {
+		public void AddContextMenuItem(string text, EventHandler action){
 			Parent.AddContextMenuItem(text, action);
 		}
-		public void AddContextMenuSeparator() {
+		public void AddContextMenuSeparator(){
 			Parent.AddContextMenuSeparator();
 		}
-		public Tuple<int, int> GetContextMenuPosition() {
+		public Tuple<int, int> GetContextMenuPosition(){
 			return Parent.GetContextMenuPosition();
 		}
-		public void SetClipboardData(object data) {
+		public void SetClipboardData(object data){
 			Parent.SetClipboardData(data);
 		}
-		public void ShowMessage(string text) {
+		public void ShowMessage(string text){
 			Parent.ShowMessage(text);
 		}
-		public string GetClipboardText() {
+		public string GetClipboardText(){
 			return Parent.GetClipboardText();
 		}
-		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color) {
+		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
 			return Parent.QueryFontColor(fontIn, colorIn, out font, out color);
 		}
-		public bool SaveFileDialog(out string fileName, string filter) {
+		public bool SaveFileDialog(out string fileName, string filter){
 			return Parent.SaveFileDialog(out fileName, filter);
 		}
-		public bool IsControlPressed() {
+		public bool IsControlPressed(){
 			return Parent.IsControlPressed();
 		}
-		public bool IsShiftPressed() {
+		public bool IsShiftPressed(){
 			return Parent.IsShiftPressed();
 		}
-		public void SetCursor(Cursors2 cursor) {
+		public void SetCursor(Cursors2 cursor){
 			Parent.SetCursor(cursor);
 		}
-
 	}
 }
