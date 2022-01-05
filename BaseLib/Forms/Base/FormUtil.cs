@@ -23,10 +23,10 @@ namespace BaseLib.Forms.Base{
 				return (Control) o;
 			}
 			if (o is ICompoundScrollableControlModel){
-				return new CompoundScrollableControl{Client = (ICompoundScrollableControlModel) o};
+				return new CompoundScrollableControl{Client = (ICompoundScrollableControlModel) o}.Parent;
 			}
 			if (o is ISimpleScrollableControlModel){
-				return new SimpleScrollableControl{Client = (ISimpleScrollableControlModel) o};
+				return new SimpleScrollableControl{Client = (ISimpleScrollableControlModel) o}.Parent;
 			}
 			if (o is BasicControlModel){
 				return BasicControl.CreateControl((BasicControlModel) o);

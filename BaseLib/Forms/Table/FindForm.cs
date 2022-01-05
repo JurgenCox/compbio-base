@@ -117,7 +117,7 @@ namespace BaseLib.Forms.Table {
 			tableLayoutPanel1.ColumnCount = 1;
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 			tableLayoutPanel1.Controls.Add(panel1, 0, 0);
-			tableLayoutPanel1.Controls.Add(tableView1, 0, 1);
+			tableLayoutPanel1.Controls.Add(tableView1.Parent, 0, 1);
 			tableLayoutPanel1.Dock = DockStyle.Fill;
 			tableLayoutPanel1.Location = new Point(0, 0);
 			tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -294,12 +294,8 @@ namespace BaseLib.Forms.Table {
 			// tableView1
 			// 
 			tableView1.ColumnHeaderHeight = 26;
-			tableView1.Dock = DockStyle.Fill;
-			tableView1.Location = new Point(3, 199);
-			tableView1.Name = "tableView1";
+			tableView1.Parent.Dock = DockStyle.Fill;
 			tableView1.RowHeaderWidth = 70;
-			tableView1.Size = new Size(330, 1);
-			tableView1.TabIndex = 1;
 			tableView1.VisibleX = 0;
 			tableView1.VisibleY = 0;
 			// 

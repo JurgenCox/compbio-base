@@ -7,6 +7,10 @@ using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{
+		public Action onResize;
+		public Action<int> onMouseWheel;
+		public Action onSizeChanged;
+		public Action<Keys2> processCmdKey;
 		private ToolTip toolTip;
 		public int Width1 => Width;
 		public int Height1 => Height;
@@ -79,16 +83,12 @@ namespace BaseLib.Forms.Base{
 		public void ShowMessage(string text){
 			MessageBox.Show(text);
 		}
-		protected virtual void OnMouseWheel(int delta){
-		}
 		protected override void OnMouseWheel(MouseEventArgs e){
-			OnMouseWheel(e.Delta);
+			onMouseWheel?.Invoke(e.Delta);
 			base.OnMouseWheel(e);
 		}
-		protected virtual void ProcessCmdKey(Keys2 keyData){
-		}
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
-			ProcessCmdKey((Keys2) keyData);
+			processCmdKey?.Invoke((Keys2) keyData);
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		public void HideToolTip(){
@@ -123,24 +123,16 @@ namespace BaseLib.Forms.Base{
 				return GraphUtils.ToBitmap2(bg.Bitmap);
 			}
 		}
-		public virtual BasicControlModel CreateModel(){
-			return new BasicControlModel();
-		}
 		public void SetModel(BasicControlModel model) {
 			Controls.Add(BasicControl.CreateControl(model));
 		}
-		protected virtual void OnResize() {
-		}
 		protected override void OnResize(EventArgs e) {
-			OnResize();
+			onResize?.Invoke();
 			base.OnResize(e);
 		}
 		protected override void OnSizeChanged(EventArgs e) {
 			base.OnSizeChanged(e);
-			OnSizeChanged();
+			onSizeChanged?.Invoke();
 		}
-		protected virtual void OnSizeChanged() {
-		}
-
 	}
 }

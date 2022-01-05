@@ -4,7 +4,8 @@ using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base{
-	public class SimpleScrollableControl : GenericControl, ISimpleScrollableControl{
+	public class SimpleScrollableControl : ISimpleScrollableControl{
+		public GenericControl Parent{ get; set; }
 		private int visibleX;
 		private int visibleY;
 		private BasicControlModel horizontalScrollBar;
@@ -14,6 +15,9 @@ namespace BaseLib.Forms.Base{
 		private TableLayoutModel tableLayoutPanel1;
 		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseClickMainView{ get; set; }
+		public Tuple<int, int> GetOrigin(){
+			return Parent.GetOrigin();
+		}
 		public Action<BasicMouseEventArgs> OnMouseDoubleClickMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseDraggedMainView{ get; set; }
 		public Action<EventArgs> OnMouseHoverMainView{ get; set; }
@@ -22,6 +26,9 @@ namespace BaseLib.Forms.Base{
 		public Action<EventArgs> OnMouseLeaveMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseMoveMainView{ get; set; }
 		public float ZoomFactor{ get; set; } = 1;
+		public void ExportGraphic(string name, bool showDialog){
+			Parent.ExportGraphic(name, showDialog);
+		}
 		public bool HasOverview{ get; set; } = true;
 		private ScrollBarMode horizontalScrollbarMode = ScrollBarMode.Always;
 		public ScrollBarMode HorizontalScrollbarMode{
@@ -71,12 +78,31 @@ namespace BaseLib.Forms.Base{
 		public Bitmap2 OverviewBitmap{ get; set; }
 		public event Action OnZoomChanged;
 		public SimpleScrollableControl(){
-			SetModel(CreateModel());
+			Parent = new GenericControl();
+			Parent.SetModel(CreateModel());
+			Parent.onResize = () => {
+				if (TotalWidth == null || TotalHeight == null){
+					return;
+				}
+				VisibleX = Math.Max(0, Math.Min(VisibleX, TotalWidth() - VisibleWidth - 1));
+				VisibleY = Math.Max(0, Math.Min(VisibleY, TotalHeight() - VisibleHeight - 1));
+				InvalidateBackgroundImages();
+			};
+			Parent.onMouseWheel = delta => {
+				if (TotalHeight() <= VisibleHeight){
+					return;
+				}
+				VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * delta)),
+					TotalHeight() - VisibleHeight);
+				verticalScrollBar.Invalidate();
+			};
+			Parent.onSizeChanged = () => { client?.OnSizeChanged(); };
+			Parent.processCmdKey = (keyData) => { client?.ProcessCmdKey(keyData); };
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;
-			DeltaX = () => Width1 / 20;
-			DeltaY = () => Height1 / 20;
+			DeltaX = () => Parent.Width1 / 20;
+			DeltaY = () => Parent.Height1 / 20;
 			DeltaUpToSelection = () => 0;
 			DeltaDownToSelection = () => 0;
 		}
@@ -114,10 +140,15 @@ namespace BaseLib.Forms.Base{
 				verticalScrollBar.Invalidate();
 			}
 		}
+		public void Invalidate(bool p0){
+			Parent.Invalidate(p0);
+		}
 		public void InvalidateMainView(){
 			mainView.Invalidate();
 		}
 		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, VisibleWidth, VisibleHeight);
+		public int Width1 => Parent.Width1;
+		public int Height1 => Parent.Height1;
 		public Func<int> TotalWidth{ get; set; }
 		public Func<int> TotalHeight{ get; set; }
 		public Func<int> DeltaX{ get; set; }
@@ -126,8 +157,8 @@ namespace BaseLib.Forms.Base{
 		public Func<int> DeltaDownToSelection{ get; set; }
 		public int TotalClientWidth => TotalWidth();
 		public int TotalClientHeight => TotalHeight();
-		public int VisibleWidth => Width1 - GraphUtil.scrollBarWidth;
-		public int VisibleHeight => Height1 - GraphUtil.scrollBarWidth;
+		public int VisibleWidth => Parent.Width1 - GraphUtil.scrollBarWidth;
+		public int VisibleHeight => Parent.Height1 - GraphUtil.scrollBarWidth;
 		private ISimpleScrollableControlModel client;
 		public ISimpleScrollableControlModel Client{
 			set{
@@ -136,14 +167,6 @@ namespace BaseLib.Forms.Base{
 			}
 		}
 		public SizeI2 TotalSize => new SizeI2(TotalWidth(), TotalHeight());
-		protected override void OnResize(){
-			if (TotalWidth == null || TotalHeight == null){
-				return;
-			}
-			VisibleX = Math.Max(0, Math.Min(VisibleX, TotalWidth() - VisibleWidth - 1));
-			VisibleY = Math.Max(0, Math.Min(VisibleY, TotalHeight() - VisibleHeight - 1));
-			InvalidateBackgroundImages();
-		}
 		public void MoveUp(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
@@ -156,7 +179,7 @@ namespace BaseLib.Forms.Base{
 			}
 			VisibleY = Math.Min(TotalHeight() - VisibleHeight, VisibleY + delta);
 		}
-		public override BasicControlModel CreateModel(){
+		public BasicControlModel CreateModel(){
 			tableLayoutPanel1 = new TableLayoutModel();
 			mainView = new SimpleScrollableControlMainView(this);
 			horizontalScrollBar = new HorizontalScrollBarView(this);
@@ -172,29 +195,52 @@ namespace BaseLib.Forms.Base{
 			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
 			return tableLayoutPanel1;
 		}
-		protected override void OnMouseWheel(int delta){
-			if (TotalHeight() <= VisibleHeight){
-				return;
-			}
-			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * delta)),
-				TotalHeight() - VisibleHeight);
-			verticalScrollBar.Invalidate();
-		}
 		public void Print(IGraphics g, int width, int height){
 			mainView.Print(g, width, height);
-		}
-		protected override void ProcessCmdKey(Keys2 keyData){
-			client?.ProcessCmdKey(keyData);
-		}
-		protected override void OnSizeChanged(){
-			client?.OnSizeChanged();
 		}
 		public void UpdateZoom(){
 			OnZoomChanged?.Invoke();
 		}
 		public Color2 BackColor2{ get; set; }
 		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight){
-			return CreateOverviewBitmap(overviewWidth, overviewHeight, TotalWidth(), TotalHeight(), OnPaintMainView);
+			return Parent.CreateOverviewBitmap(overviewWidth, overviewHeight, TotalWidth(), TotalHeight(),
+				OnPaintMainView);
+		}
+		public void InitContextMenu(){
+			Parent.InitContextMenu();
+		}
+		public void AddContextMenuItem(string text, EventHandler action){
+			Parent.AddContextMenuItem(text, action);
+		}
+		public void AddContextMenuSeparator(){
+			Parent.AddContextMenuSeparator();
+		}
+		public Tuple<int, int> GetContextMenuPosition(){
+			return Parent.GetContextMenuPosition();
+		}
+		public void SetClipboardData(object data){
+			Parent.SetClipboardData(data);
+		}
+		public void ShowMessage(string text){
+			Parent.ShowMessage(text);
+		}
+		public string GetClipboardText(){
+			return Parent.GetClipboardText();
+		}
+		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
+			return Parent.QueryFontColor(fontIn, colorIn, out font, out color);
+		}
+		public bool SaveFileDialog(out string fileName, string filter){
+			return Parent.SaveFileDialog(out fileName, filter);
+		}
+		public bool IsControlPressed(){
+			return Parent.IsControlPressed();
+		}
+		public bool IsShiftPressed(){
+			return  Parent.IsShiftPressed();
+		}
+		public void SetCursor(Cursors2 cursor){
+			Parent.SetCursor(cursor);
 		}
 	}
 }
