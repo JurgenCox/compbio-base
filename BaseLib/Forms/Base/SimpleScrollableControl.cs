@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
-using BaseLib.Graphic;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base{
-	public delegate void ZoomChangeHandler2();
 	public class SimpleScrollableControl : GenericControl, ISimpleScrollableControl{
 		private int visibleX;
 		private int visibleY;
@@ -70,8 +67,8 @@ namespace BaseLib.Forms.Base{
 			}
 		}
 		public bool HasZoomButtons{ get; set; } = true;
-		public Bitmap2 OverviewBitmap { get; set; }
-		public event ZoomChangeHandler2 OnZoomChanged;
+		public Bitmap2 OverviewBitmap{ get; set; }
+		public event Action OnZoomChanged;
 		public SimpleScrollableControl(){
 			InitializeComponent2();
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
@@ -176,24 +173,19 @@ namespace BaseLib.Forms.Base{
 			tableLayoutPanel1.RowStyles.Add(new BasicRowStyle(BasicSizeType.Absolute, GraphUtil.scrollBarWidth));
 			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
 		}
-		protected override void OnMouseWheel(MouseEventArgs e){
+		protected override void OnMouseWheel(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
-			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * e.Delta)),
+			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * delta)),
 				TotalHeight() - VisibleHeight);
 			verticalScrollBar.Invalidate();
-			base.OnMouseWheel(e);
 		}
 		public void Print(IGraphics g, int width, int height){
 			mainView.Print(g, width, height);
 		}
-		public void ExportGraphic(string name, bool showDialog){
-			ExportGraphics.ExportGraphic(this, name, showDialog);
-		}
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
-			client?.ProcessCmdKey((Keys2) keyData);
-			return base.ProcessCmdKey(ref msg, keyData);
+		protected override void ProcessCmdKey(Keys2 keyData){
+			client?.ProcessCmdKey(keyData);
 		}
 		protected override void OnSizeChanged(EventArgs e){
 			base.OnSizeChanged(e);
@@ -201,17 +193,10 @@ namespace BaseLib.Forms.Base{
 		}
 		public void UpdateZoom(){
 			OnZoomChanged?.Invoke();
-		} 
-		public Color2 BackColor2 { get; set; }
-		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight) {
-			BitmapGraphics bg =
-				new BitmapGraphics(Math.Min(TotalWidth(), 15000), Math.Min(TotalHeight(), 15000));
-			OnPaintMainView?.Invoke(bg, 0, 0, TotalWidth(), TotalHeight(), true);
-			try {
-				return GraphUtils.ToBitmap2(GraphUtils.ResizeImage(bg.Bitmap, overviewWidth, overviewHeight));
-			} catch (Exception) {
-				return GraphUtils.ToBitmap2(bg.Bitmap);
-			}
+		}
+		public Color2 BackColor2{ get; set; }
+		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight){
+			return CreateOverviewBitmap(overviewWidth, overviewHeight, TotalWidth(), TotalHeight(), OnPaintMainView);
 		}
 	}
 }

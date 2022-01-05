@@ -3,18 +3,18 @@ using System.Drawing;
 using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Drawing;
+using BaseLibS.Graph;
 namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{
+		private readonly ToolTip toolTip = new ToolTip();
 		public int Width1 => Width;
 		public int Height1 => Height;
-
 		public GenericControl(){
 			Dock = DockStyle.Fill;
 			DoubleBuffered = true;
 			ResizeRedraw = true;
 			Margin = new Padding(0);
 		}
-
 		public void AddContextMenuItem(string text, EventHandler action){
 			ToolStripMenuItem menuItem = new ToolStripMenuItem{Size = new Size(209, 22), Text = text};
 			menuItem.Click += action;
@@ -75,8 +75,43 @@ namespace BaseLib.Forms.Base{
 		public void SetCursor(Cursors2 cursor){
 			Cursor.Current = GraphUtils.ToCursor(cursor);
 		}
-		public void ShowMessage(string text) {
+		public void ShowMessage(string text){
 			MessageBox.Show(text);
+		}
+		protected virtual void OnMouseWheel(int delta){
+		}
+		protected override void OnMouseWheel(MouseEventArgs e){
+			OnMouseWheel(e.Delta);
+			base.OnMouseWheel(e);
+		}
+		protected virtual void ProcessCmdKey(Keys2 keyData){
+		}
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
+			ProcessCmdKey((Keys2) keyData);
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+		public void HideToolTip(){
+			toolTip.Hide(this);
+		}
+		public void ShowToolTip(string text, int x, int y){
+			toolTip.Show(text, this, x, y);
+		}
+		public void SetToolTipTitle(string title){
+			toolTip.ToolTipTitle = title;
+		}
+		public void ExportGraphic(string name, bool showDialog){
+			ExportGraphics.ExportGraphic(this, name, showDialog);
+		}
+		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight, int totalWidth, int totalHeight,
+			Action<IGraphics, int, int, int, int, bool> onPaintMainView){
+			BitmapGraphics bg =
+				new BitmapGraphics(Math.Min(totalWidth, 15000), Math.Min(totalHeight, 15000));
+			onPaintMainView?.Invoke(bg, 0, 0, totalWidth, totalHeight, true);
+			try{
+				return GraphUtils.ToBitmap2(GraphUtils.ResizeImage(bg.Bitmap, overviewWidth, overviewHeight));
+			} catch (Exception){
+				return GraphUtils.ToBitmap2(bg.Bitmap);
+			}
 		}
 	}
 }

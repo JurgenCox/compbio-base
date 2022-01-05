@@ -1,6 +1,4 @@
 using System;
-using System.Windows.Forms;
-using BaseLib.Graphic;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
@@ -13,7 +11,7 @@ namespace BaseLib.Forms.Base{
 		private int columnFooterHeight;
 		private int visibleX;
 		private int visibleY;
-		public event ZoomChangeHandler2 OnZoomChanged;
+		public event Action OnZoomChanged;
 		public Bitmap2 OverviewBitmap { get; set; }
 		private TableLayoutModel tableLayoutPanel1;
 		private TableLayoutModel tableLayoutPanel2;
@@ -102,9 +100,6 @@ namespace BaseLib.Forms.Base{
 		public Action<EventArgs> OnMouseLeaveMiddleCornerView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseMoveMiddleCornerView{ get; set; }
 		public Action<IGraphics, int, int, int, int, bool> OnPaintMainView{ get; set; }
-		public void ExportGraphic(string name, bool showDialog){
-			ExportGraphics.ExportGraphic(this, name, showDialog);
-		}
 		public Action<IGraphics, int, int> OnPaintRowHeaderView{ get; set; }
 		public Action<IGraphics, int, int> OnPaintRowFooterView{ get; set; }
 		public Action<IGraphics, int, int> OnPaintColumnHeaderView{ get; set; }
@@ -113,7 +108,6 @@ namespace BaseLib.Forms.Base{
 		public Action<IGraphics> OnPaintRowSpacerView{ get; set; }
 		public Action<IGraphics> OnPaintCornerView{ get; set; }
 		public Action<IGraphics> OnPaintMiddleCornerView{ get; set; }
-		private readonly ToolTip columnViewToolTip = new ToolTip();
 		public bool HasOverview{ get; set; } = true;
 		public bool HasZoomButtons{ get; set; } = true;
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
@@ -326,36 +320,25 @@ namespace BaseLib.Forms.Base{
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.AbsoluteResizeable, columnFooterHeight));
 			Controls.Add(BasicControl.CreateControl(tableLayoutPanel1));
 		}
-		protected override void OnMouseWheel(MouseEventArgs e){
+		protected override void OnMouseWheel(int delta){
 			if (TotalHeight() <= VisibleHeight){
 				return;
 			}
-			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * e.Delta)),
+			VisibleY = Math.Min(Math.Max(0, VisibleY - (int) Math.Round(VisibleHeight * 0.001 * delta)),
 				TotalHeight() - VisibleHeight);
 			verticalScrollBarView.Invalidate();
-			base.OnMouseWheel(e);
 		}
 		public void Print(IGraphics g, int width, int height){
 			tableLayoutPanel2.InvalidateSizes();
 			tableLayoutPanel2.Print(g, width, height);
 			tableLayoutPanel2.InvalidateSizes();
 		}
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
-			client?.ProcessCmdKey((Keys2) keyData);
-			return base.ProcessCmdKey(ref msg, keyData);
+		protected override void ProcessCmdKey(Keys2 keyData) {
+			client?.ProcessCmdKey(keyData);
 		}
 		protected override void OnSizeChanged(EventArgs e){
 			base.OnSizeChanged(e);
 			client?.OnSizeChanged();
-		}
-		public void HideColumnViewToolTip(){
-			columnViewToolTip.Hide(this);
-		}
-		public void ShowColumnViewToolTip(string text, int x, int y){
-			columnViewToolTip.Show(text, this, x, y);
-		}
-		public void SetColumnViewToolTipTitle(string title){
-			columnViewToolTip.ToolTipTitle = title;
 		}
 		public SizeI2 TotalSize => new SizeI2(TotalWidth(), TotalHeight());
 		public RectangleI2 VisibleWin => new RectangleI2(visibleX, visibleY, VisibleWidth, VisibleHeight);
@@ -364,14 +347,7 @@ namespace BaseLib.Forms.Base{
 		}
 		public Color2 BackColor2 { get; set; }
 		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight) {
-			BitmapGraphics bg =
-				new BitmapGraphics(Math.Min(TotalWidth(), 15000), Math.Min(TotalHeight(), 15000));
-			OnPaintMainView?.Invoke(bg, 0, 0, TotalWidth(), TotalHeight(), true);
-			try {
-				return GraphUtils.ToBitmap2(GraphUtils.ResizeImage(bg.Bitmap, overviewWidth, overviewHeight));
-			} catch (Exception) {
-				return GraphUtils.ToBitmap2(bg.Bitmap);
-			}
+			return CreateOverviewBitmap(overviewWidth, overviewHeight, TotalWidth(), TotalHeight(), OnPaintMainView);
 		}
 
 	}

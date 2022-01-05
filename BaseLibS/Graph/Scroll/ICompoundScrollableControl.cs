@@ -91,8 +91,8 @@ namespace BaseLibS.Graph.Scroll{
 		void MoveUp(int delta);
 		void MoveLeft(int delta);
 		void MoveRight(int delta);
-		void SetColumnViewToolTipTitle(string title);
-		void ShowColumnViewToolTip(string text, int x, int y);
-		void HideColumnViewToolTip();
+		void SetToolTipTitle(string title);
+		void ShowToolTip(string text, int x, int y);
+		void HideToolTip();
 	}
 }
