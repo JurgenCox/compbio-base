@@ -7,7 +7,7 @@ using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base{
 	public delegate void ZoomChangeHandler2();
-	public sealed class SimpleScrollableControl : GenericControl, ISimpleScrollableControl{
+	public class SimpleScrollableControl : GenericControl, ISimpleScrollableControl{
 		private int visibleX;
 		private int visibleY;
 		private BasicControlModel horizontalScrollBar;
@@ -74,9 +74,6 @@ namespace BaseLib.Forms.Base{
 		public event ZoomChangeHandler2 OnZoomChanged;
 		public SimpleScrollableControl(){
 			InitializeComponent2();
-			Dock = DockStyle.Fill;
-			ResizeRedraw = true;
-			DoubleBuffered = true;
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			TotalWidth = () => 200;
 			TotalHeight = () => 200;

@@ -7,6 +7,14 @@ namespace BaseLib.Forms.Base{
 	public class GenericControl : Control{
 		public int Width1 => Width;
 		public int Height1 => Height;
+
+		public GenericControl(){
+			Dock = DockStyle.Fill;
+			DoubleBuffered = true;
+			ResizeRedraw = true;
+			Margin = new Padding(0);
+		}
+
 		public void AddContextMenuItem(string text, EventHandler action){
 			ToolStripMenuItem menuItem = new ToolStripMenuItem{Size = new Size(209, 22), Text = text};
 			menuItem.Click += action;

@@ -1,16 +1,17 @@
-﻿using System;
-using BaseLibS.Drawing;
+﻿using BaseLibS.Drawing;
+using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLibS.Graph {
-	public class PanelModel : ISimpleScrollableControlModel {
-		public void ProcessCmdKey(Keys2 keyData){
-		}
-		public void InvalidateBackgroundImages(){
-		}
-		public void OnSizeChanged(){
-		}
-		public event EventHandler Close;
-		public void Register(ISimpleScrollableControl control){
+	public class PanelModel : BasicControlModel {
+		public IControlModel ControlModel{ get; set; }
+		public override void OnPaint(IGraphics g, int width, int height){
+			if (ControlModel is BasicControlModel){
+				BasicControlModel bcm = (BasicControlModel) ControlModel;
+				bcm.OnPaint(g, width, height);
+			}else if (ControlModel is ISimpleScrollableControlModel){
+				ISimpleScrollableControlModel m = (ISimpleScrollableControlModel)ControlModel;
+				
+			}
 		}
 	}
 }

@@ -3,19 +3,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using BaseLib.Graphic;
 using BaseLibS.Drawing;
+using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
 namespace BaseLib.Forms.Base{
-	public class BasicControl : GenericControl{
+	public class BasicControl : GenericControl, IUserQueryWindow {
 		private ToolTip toolTip;
 		private bool mouseDown;
 		public BasicControlModel view;
-		public BasicControl(){
-			DoubleBuffered = true;
-			ResizeRedraw = true;
-			Margin = new Padding(0);
-			Dock = DockStyle.Fill;
-		}
 		public void Activate(BasicControlModel view1){
 			view = view1;
 			view.invalidate = Invalidate;

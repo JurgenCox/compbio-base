@@ -120,9 +120,6 @@ namespace BaseLib.Forms.Base{
 		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public CompoundScrollableControl(){
 			InitializeComponent2();
-			Dock = DockStyle.Fill;
-			ResizeRedraw = true;
-			DoubleBuffered = true;
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			OnPaintRowHeaderView = (g, y, height) => { };
 			OnPaintRowFooterView = (g, y, height) => { };
