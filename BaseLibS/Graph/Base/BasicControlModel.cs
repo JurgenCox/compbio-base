@@ -7,7 +7,7 @@ namespace BaseLibS.Graph.Base{
 		public Color2 BackColor{ get; set; }
 		public Color2 ForeColor{ get; set; }
 		public bool Visible{ get; set; }
-		public bool Enabled{ get; set; }
+		public virtual bool Enabled{ get; set; }
 		public Action invalidate;
 		public Action resetCursor;
 		public Action<Cursors2> setCursor;
@@ -72,19 +72,16 @@ namespace BaseLibS.Graph.Base{
 		}
 		public virtual void Dispose(bool disposing){
 		}
-		public void Print(IGraphics g, int width, int height){
+		public virtual void ProcessCmdKey(Keys2 keyData){
+		}
+		public virtual void InvalidateBackgroundImages(){
+		}
+		public virtual void OnSizeChanged(){
+		}
+		public event EventHandler Close;
+		public virtual void Print(IGraphics g, int width, int height) {
 			OnPaintBackground(g, width, height);
 			OnPaint(g, width, height);
 		}
-		public void ProcessCmdKey(Keys2 keyData){
-			//TODO
-		}
-		public void InvalidateBackgroundImages(){
-			//TODO
-		}
-		public void OnSizeChanged(){
-			//TODO
-		}
-		public event EventHandler Close;
 	}
 }

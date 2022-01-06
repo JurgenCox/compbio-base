@@ -1,5 +1,4 @@
 ﻿using System;
-using BaseLib.Forms.Base;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 namespace BaseLibS.Graph.Base{

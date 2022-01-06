@@ -1,5 +1,4 @@
 ﻿using System;
-using BaseLib.Forms.Base;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 namespace BaseLibS.Graph.Base{
@@ -40,7 +39,6 @@ namespace BaseLibS.Graph.Base{
 		public Action<BasicMouseEventArgs> OnMouseMoveMainView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseClickRowHeaderView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseDoubleClickRowHeaderView{ get; set; }
-		public bool Enabled => Parent.Enabled;
 		public Action<BasicMouseEventArgs> OnMouseDraggedRowHeaderView{ get; set; }
 		public Action<EventArgs> OnMouseHoverRowHeaderView{ get; set; }
 		public Action<BasicMouseEventArgs> OnMouseIsDownRowHeaderView{ get; set; }
@@ -117,6 +115,7 @@ namespace BaseLibS.Graph.Base{
 		}
 		public bool HasOverview{ get; set; } = true;
 		public bool HasZoomButtons{ get; set; } = true;
+		public bool Enabled => Parent.Enabled;
 		public ScrollBarMode HorizontalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public ScrollBarMode VerticalScrollbarMode{ get; set; } = ScrollBarMode.Always;
 		public CompoundScrollableControl(IGenericControl parent){

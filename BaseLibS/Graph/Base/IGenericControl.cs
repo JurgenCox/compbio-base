@@ -1,8 +1,6 @@
 ﻿using System;
 using BaseLibS.Drawing;
-using BaseLibS.Graph;
-using BaseLibS.Graph.Base;
-namespace BaseLib.Forms.Base {
+namespace BaseLibS.Graph.Base {
 	public interface IGenericControl {
 		Tuple<int, int> GetOrigin();
 		void ExportGraphic(string name, bool showDialog);
