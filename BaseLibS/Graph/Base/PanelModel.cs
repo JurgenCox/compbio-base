@@ -1,7 +1,6 @@
 ﻿using BaseLibS.Drawing;
-using BaseLibS.Graph.Base;
 using BaseLibS.Graph.Scroll;
-namespace BaseLibS.Graph {
+namespace BaseLibS.Graph.Base {
 	public class PanelModel : BasicControlModel {
 		public IControlModel ControlModel{ get; set; }
 		public override void OnPaint(IGraphics g, int width, int height){

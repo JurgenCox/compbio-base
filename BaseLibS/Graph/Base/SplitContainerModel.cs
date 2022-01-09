@@ -1,6 +1,5 @@
 ﻿using BaseLibS.Drawing;
-using BaseLibS.Graph.Base;
-namespace BaseLibS.Graph {
+namespace BaseLibS.Graph.Base {
 	public class SplitContainerModel : BasicControlModel {
 		public int SplitterDistance{ get; set; }
 		public Orientation2 Orientation { get; set; }
