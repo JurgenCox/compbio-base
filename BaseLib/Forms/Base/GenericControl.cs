@@ -49,9 +49,9 @@ namespace BaseLib.Forms.Base{
 			Clipboard.Clear();
 			Clipboard.SetDataObject(data);
 		}
-		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
-			font = null;
-			color = Color2.Empty;
+		public (bool, Font2, Color2) QueryFontColor(Font2 fontIn, Color2 colorIn){
+			Font2 font = null;
+			Color2 color = Color2.Empty;
 			FontDialog fontDialog = new FontDialog{
 				ShowColor = true,
 				Font = GraphUtils.ToFont(fontIn),
@@ -63,19 +63,17 @@ namespace BaseLib.Forms.Base{
 				color = GraphUtils.ToColor2(fontDialog.Color);
 			}
 			fontDialog.Dispose();
-			return ok;
+			return (ok, font, color);
 		}
 		public string GetClipboardText(){
 			return Clipboard.GetText();
 		}
-		public bool SaveFileDialog(out string fileName, string filter){
+		public (bool, string) SaveFileDialog(string filter){
 			SaveFileDialog ofd = new SaveFileDialog{Filter = filter};
 			if (ofd.ShowDialog() == DialogResult.OK){
-				fileName = ofd.FileName;
-				return true;
+				return (true, ofd.FileName);
 			}
-			fileName = null;
-			return false;
+			return (false, null);
 		}
 		public void SetCursor(Cursors2 cursor){
 			Cursor.Current = GraphUtils.ToCursor(cursor);

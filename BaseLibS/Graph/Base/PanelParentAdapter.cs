@@ -1,12 +1,17 @@
 ﻿using System;
 using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Base {
-	public class PanelParentAdapter : IGenericControl {
+	public class PanelParentAdapter : IGenericControl{
+		private readonly PanelModel panelModel;
+		public PanelParentAdapter(PanelModel panelModel){
+			this.panelModel = panelModel;
+		}
+
 		public Tuple<int, int> GetOrigin(){
-			throw new NotImplementedException();
+			return panelModel.getOrigin();
 		}
 		public void ExportGraphic(string name, bool showDialog){
-			throw new NotImplementedException();
+			panelModel.exportGraphic?.Invoke(name, showDialog);
 		}
 		public void SetModel(BasicControlModel createModel){
 			throw new NotImplementedException();
@@ -15,60 +20,61 @@ namespace BaseLibS.Graph.Base {
 		public Action onResize{ get; set; }
 		public Action onSizeChanged{ get; set; }
 		public Action<Keys2> processCmdKey{ get; set; }
-		public int Width1{ get; }
-		public int Height1{ get; }
-		public bool Enabled{ get; }
+		public int Width1 => panelModel.getWidth();
+		public int Height1 => panelModel.getHeight();
+		public bool Enabled => panelModel.Enabled;
 		public void Invalidate(bool p0){
-			throw new NotImplementedException();
+			panelModel.invalidate?.Invoke();
 		}
 		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight, int totalWidth, int totalHeight,
 			Action<IGraphics, int, int, int, int, bool> onPaintMainView){
+			//TODO
 			throw new NotImplementedException();
 		}
 		public void InitContextMenu(){
-			throw new NotImplementedException();
+			panelModel.initContextMenu?.Invoke();
 		}
 		public void AddContextMenuItem(string text, EventHandler action){
-			throw new NotImplementedException();
+			panelModel.addContextMenuItem?.Invoke(text, action);
 		}
 		public void AddContextMenuSeparator(){
-			throw new NotImplementedException();
+			panelModel.addContextMenuSeparator?.Invoke();
 		}
 		public Tuple<int, int> GetContextMenuPosition(){
-			throw new NotImplementedException();
+			return panelModel.getContextMenuPosition();
 		}
 		public void SetClipboardData(object data){
-			throw new NotImplementedException();
+			panelModel.setClipboardData?.Invoke(data);
 		}
 		public void ShowMessage(string text){
-			throw new NotImplementedException();
+			panelModel.showMessage?.Invoke(text);
 		}
 		public string GetClipboardText(){
-			throw new NotImplementedException();
+			return panelModel.getClipboardText();
 		}
-		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
-			throw new NotImplementedException();
+		public (bool, Font2, Color2) QueryFontColor(Font2 fontIn, Color2 colorIn){
+			return panelModel.queryFontColor(fontIn, colorIn);
 		}
-		public bool SaveFileDialog(out string fileName, string filter){
-			throw new NotImplementedException();
+		public (bool, string) SaveFileDialog(string filter){
+			return panelModel.saveFileDialog(filter);
 		}
 		public bool IsControlPressed(){
-			throw new NotImplementedException();
+			return panelModel.isControlPressed();
 		}
 		public bool IsShiftPressed(){
-			throw new NotImplementedException();
+			return panelModel.isShiftPressed();
 		}
 		public void SetCursor(Cursors2 cursor){
-			throw new NotImplementedException();
+			panelModel.setCursor?.Invoke(cursor);
 		}
 		public void SetToolTipTitle(string title){
-			throw new NotImplementedException();
+			panelModel.setToolTipTitle?.Invoke(title);
 		}
 		public void ShowToolTip(string text, int i, int i1){
-			throw new NotImplementedException();
+			panelModel.showToolTip?.Invoke(text, i, i1);
 		}
 		public void HideToolTip(){
-			throw new NotImplementedException();
+			panelModel.hideToolTip?.Invoke();
 		}
 	}
 }

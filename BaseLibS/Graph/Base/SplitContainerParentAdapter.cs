@@ -2,73 +2,78 @@
 using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Base {
 	public class SplitContainerParentAdapter : IGenericControl {
-		public Tuple<int, int> GetOrigin(){
+		private readonly SplitContainerModel splitContainerModel;
+		public SplitContainerParentAdapter(SplitContainerModel splitContainerModel) {
+			this.splitContainerModel = splitContainerModel;
+		}
+		public Tuple<int, int> GetOrigin() {
+			return splitContainerModel.getOrigin();
+		}
+		public void ExportGraphic(string name, bool showDialog) {
+			splitContainerModel.exportGraphic?.Invoke(name, showDialog);
+		}
+		public void SetModel(BasicControlModel createModel) {
 			throw new NotImplementedException();
 		}
-		public void ExportGraphic(string name, bool showDialog){
-			throw new NotImplementedException();
-		}
-		public void SetModel(BasicControlModel createModel){
-			throw new NotImplementedException();
-		}
-		public Action<int> onMouseWheel{ get; set; }
-		public Action onResize{ get; set; }
-		public Action onSizeChanged{ get; set; }
-		public Action<Keys2> processCmdKey{ get; set; }
-		public int Width1{ get; }
-		public int Height1{ get; }
-		public bool Enabled{ get; }
-		public void Invalidate(bool p0){
-			throw new NotImplementedException();
+		public Action<int> onMouseWheel { get; set; }
+		public Action onResize { get; set; }
+		public Action onSizeChanged { get; set; }
+		public Action<Keys2> processCmdKey { get; set; }
+		public int Width1 => splitContainerModel.getWidth();
+		public int Height1 => splitContainerModel.getHeight();
+		public bool Enabled => splitContainerModel.Enabled;
+		public void Invalidate(bool p0) {
+			splitContainerModel.invalidate?.Invoke();
 		}
 		public Bitmap2 CreateOverviewBitmap(int overviewWidth, int overviewHeight, int totalWidth, int totalHeight,
-			Action<IGraphics, int, int, int, int, bool> onPaintMainView){
+			Action<IGraphics, int, int, int, int, bool> onPaintMainView) {
+			//TODO
 			throw new NotImplementedException();
 		}
-		public void InitContextMenu(){
-			throw new NotImplementedException();
+		public void InitContextMenu() {
+			splitContainerModel.initContextMenu?.Invoke();
 		}
-		public void AddContextMenuItem(string text, EventHandler action){
-			throw new NotImplementedException();
+		public void AddContextMenuItem(string text, EventHandler action) {
+			splitContainerModel.addContextMenuItem?.Invoke(text, action);
 		}
-		public void AddContextMenuSeparator(){
-			throw new NotImplementedException();
+		public void AddContextMenuSeparator() {
+			splitContainerModel.addContextMenuSeparator?.Invoke();
 		}
-		public Tuple<int, int> GetContextMenuPosition(){
-			throw new NotImplementedException();
+		public Tuple<int, int> GetContextMenuPosition() {
+			return splitContainerModel.getContextMenuPosition();
 		}
-		public void SetClipboardData(object data){
-			throw new NotImplementedException();
+		public void SetClipboardData(object data) {
+			splitContainerModel.setClipboardData?.Invoke(data);
 		}
-		public void ShowMessage(string text){
-			throw new NotImplementedException();
+		public void ShowMessage(string text) {
+			splitContainerModel.showMessage?.Invoke(text);
 		}
-		public string GetClipboardText(){
-			throw new NotImplementedException();
+		public string GetClipboardText() {
+			return splitContainerModel.getClipboardText();
 		}
-		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
-			throw new NotImplementedException();
+		public (bool, Font2, Color2) QueryFontColor(Font2 fontIn, Color2 colorIn) {
+			return splitContainerModel.queryFontColor(fontIn, colorIn);
 		}
-		public bool SaveFileDialog(out string fileName, string filter){
-			throw new NotImplementedException();
+		public (bool, string) SaveFileDialog(string filter) {
+			return splitContainerModel.saveFileDialog(filter);
 		}
-		public bool IsControlPressed(){
-			throw new NotImplementedException();
+		public bool IsControlPressed() {
+			return splitContainerModel.isControlPressed();
 		}
-		public bool IsShiftPressed(){
-			throw new NotImplementedException();
+		public bool IsShiftPressed() {
+			return splitContainerModel.isShiftPressed();
 		}
-		public void SetCursor(Cursors2 cursor){
-			throw new NotImplementedException();
+		public void SetCursor(Cursors2 cursor) {
+			splitContainerModel.setCursor?.Invoke(cursor);
 		}
-		public void SetToolTipTitle(string title){
-			throw new NotImplementedException();
+		public void SetToolTipTitle(string title) {
+			splitContainerModel.setToolTipTitle?.Invoke(title);
 		}
-		public void ShowToolTip(string text, int i, int i1){
-			throw new NotImplementedException();
+		public void ShowToolTip(string text, int i, int i1) {
+			splitContainerModel.showToolTip?.Invoke(text, i, i1);
 		}
-		public void HideToolTip(){
-			throw new NotImplementedException();
+		public void HideToolTip() {
+			splitContainerModel.hideToolTip?.Invoke();
 		}
 	}
 }

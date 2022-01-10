@@ -14,6 +14,24 @@ namespace BaseLibS.Graph.Base{
 		public Action<int, int, int, int, IControlModel> launchQuery;
 		public Func<(int, int)> screenCoords;
 		public Action<string> setToolTipText;
+		public Action hideToolTip;
+		public Action<string, int, int> showToolTip;
+		public Action<string> setToolTipTitle;
+		public Func<bool> isShiftPressed;
+		public Func<bool> isControlPressed;
+		public Func<string, (bool, string)> saveFileDialog;
+		public Func<Font2, Color2, (bool, Font2, Color2)> queryFontColor;
+		public Func<string> getClipboardText;
+		public Action<string> showMessage;
+		public Action<object> setClipboardData;
+		public Func<Tuple<int, int>> getContextMenuPosition;
+		public Action addContextMenuSeparator;
+		public Action<string, EventHandler> addContextMenuItem;
+		public Action initContextMenu;
+		public Func<Tuple<int, int>> getOrigin;
+		public Action<string, bool> exportGraphic;
+		public Func<int> getWidth;
+		public Func<int> getHeight;
 		public Padding2 Margin{ get; set; } = Padding2.Empty;
 		public bool Debug{ get; set; } = false;
 		public BasicControlModel(){

@@ -19,6 +19,24 @@ namespace BaseLib.Forms.Base{
 			view.launchQuery = LaunchQuery;
 			view.screenCoords = ScreenCoords;
 			view.setToolTipText = SetToolTipText;
+			view.hideToolTip = HideToolTip;
+			view.showToolTip = ShowToolTip;
+			view.setToolTipTitle = SetToolTipTitle;
+			view.isShiftPressed = IsShiftPressed;
+			view.isControlPressed = IsControlPressed;
+			view.saveFileDialog = SaveFileDialog;
+			view.queryFontColor = QueryFontColor;
+			view.getClipboardText = GetClipboardText;
+			view.showMessage = ShowMessage;
+			view.setClipboardData = SetClipboardData;
+			view.getContextMenuPosition = GetContextMenuPosition;
+			view.addContextMenuSeparator = AddContextMenuSeparator;
+			view.addContextMenuItem = AddContextMenuItem;
+			view.initContextMenu = InitContextMenu;
+			view.getOrigin = GetOrigin;
+			view.exportGraphic = ExportGraphic;
+			view.getWidth = () => Width;
+			view.getHeight = () => Height;
 		}
 		public void SetToolTipText(string text){
 			if (toolTip == null){

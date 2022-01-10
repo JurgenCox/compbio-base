@@ -225,11 +225,11 @@ namespace BaseLibS.Graph.Base{
 		public string GetClipboardText(){
 			return Parent.GetClipboardText();
 		}
-		public bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color){
-			return Parent.QueryFontColor(fontIn, colorIn, out font, out color);
+		public (bool, Font2, Color2) QueryFontColor(Font2 fontIn, Color2 colorIn){
+			return Parent.QueryFontColor(fontIn, colorIn);
 		}
-		public bool SaveFileDialog(out string fileName, string filter){
-			return Parent.SaveFileDialog(out fileName, filter);
+		public (bool, string) SaveFileDialog(string filter){
+			return Parent.SaveFileDialog(filter);
 		}
 		public bool IsControlPressed(){
 			return Parent.IsControlPressed();

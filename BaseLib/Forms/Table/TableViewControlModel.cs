@@ -686,8 +686,10 @@ namespace BaseLib.Forms.Table{
 				if (model == null){
 					return;
 				}
-				bool ok = control.QueryFontColor(textFont, textColor, out textFont, out textColor);
-				if (ok){
+				var x = control.QueryFontColor(textFont, textColor);
+				if (x.Item1){
+					textFont = x.Item2;
+					textColor = x.Item3;
 					textBrush = new Brush2(textColor);
 					control.Invalidate(true);
 				}
@@ -705,8 +707,9 @@ namespace BaseLib.Forms.Table{
 				if (model == null){
 					return;
 				}
-				if (control.SaveFileDialog(out var fileName, "Text File (*.txt)|*.txt")){
-					ExportMatrix(fileName);
+				var x = control.SaveFileDialog("Text File (*.txt)|*.txt");
+				if (x.Item1){
+					ExportMatrix(x.Item2);
 				}
 			});
 			control.AddContextMenuItem("Copy selected rows", (sender, args) => {

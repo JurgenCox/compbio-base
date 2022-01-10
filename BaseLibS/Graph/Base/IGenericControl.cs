@@ -5,10 +5,10 @@ namespace BaseLibS.Graph.Base {
 		Tuple<int, int> GetOrigin();
 		void ExportGraphic(string name, bool showDialog);
 		void SetModel(BasicControlModel createModel);
-		Action<int> onMouseWheel{ get; set; }
-		Action onResize{ get; set; }
-		Action onSizeChanged{ get; set; }
-		Action<Keys2> processCmdKey{ get; set; }
+		Action<int> onMouseWheel{ set; }
+		Action onResize{ set; }
+		Action onSizeChanged{ set; }
+		Action<Keys2> processCmdKey{ set; }
 		int Width1{ get; }
 		int Height1 { get; }
 		bool Enabled { get; }
@@ -21,8 +21,8 @@ namespace BaseLibS.Graph.Base {
 		void SetClipboardData(object data);
 		void ShowMessage(string text);
 		string GetClipboardText();
-		bool QueryFontColor(Font2 fontIn, Color2 colorIn, out Font2 font, out Color2 color);
-		bool SaveFileDialog(out string fileName, string filter);
+		(bool, Font2, Color2) QueryFontColor(Font2 fontIn, Color2 colorIn);
+		(bool, string) SaveFileDialog(string filter);
 		bool IsControlPressed();
 		bool IsShiftPressed();
 		void SetCursor(Cursors2 cursor);
