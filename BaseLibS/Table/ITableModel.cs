@@ -1,5 +1,4 @@
 using BaseLibS.Drawing;
-using BaseLibS.Graph;
 
 namespace BaseLibS.Table{
 	public delegate void RenderTableCell(IGraphics g, bool selected, object o, int width, int x1, int y1);

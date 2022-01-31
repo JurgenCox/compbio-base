@@ -7,7 +7,7 @@ namespace BaseLibS.Graph.Base{
 		public Color2 BackColor{ get; set; }
 		public Color2 ForeColor{ get; set; }
 		public bool Visible{ get; set; }
-		public virtual bool Enabled{ get; set; }
+		public virtual bool Enabled{ get; set; } = true;
 		public Action invalidate;
 		public Action resetCursor;
 		public Action<Cursors2> setCursor;
@@ -60,6 +60,9 @@ namespace BaseLibS.Graph.Base{
 		public virtual void OnPaint(IGraphics g, int width, int height){
 		}
 		public virtual void OnPaintBackground(IGraphics g, int width, int height){
+			if (!Visible) {
+				return;
+			}
 			g.FillRectangle(new Brush2(BackColor), Margin.Left + 1, Margin.Top + 1,
 				width - Margin.Left - Margin.Right - 2,
 				height - Margin.Top - Margin.Bottom - 2);

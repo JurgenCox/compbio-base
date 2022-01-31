@@ -12,9 +12,11 @@ namespace BaseLibS.Graph{
 
 		public ButtonModel(){
 			BackColor = Color2.FromArgb(225, 225, 225);
-			Enabled = true;
 		}
 		public override void OnPaint(IGraphics g, int width, int height){
+			if (!Visible){
+				return;
+			}
 			Pen2 outerPen;
 			Pen2 innerPen;
 			if (highlight && Enabled){
@@ -42,7 +44,7 @@ namespace BaseLibS.Graph{
 			}
 		}
 		public override void OnMouseClick(BasicMouseEventArgs e){
-			if (!Enabled){
+			if (!Enabled || !Visible){
 				return;
 			}
 			Click?.Invoke(this, EventArgs.Empty);

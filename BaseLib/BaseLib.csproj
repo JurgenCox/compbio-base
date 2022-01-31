@@ -369,14 +369,17 @@
     <Compile Include="Query\DoubleQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Query\DoubleQueryForm.Designer.cs">
-      <DependentUpon>DoubleQueryForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Query\FolderQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Query\FolderQueryForm.Designer.cs">
       <DependentUpon>FolderQueryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\GenericQueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Query\GenericQueryForm.Designer.cs">
+      <DependentUpon>GenericQueryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Query\IntMinMaxQueryForm.cs">
       <SubType>Form</SubType>
@@ -389,6 +392,9 @@
     </Compile>
     <Compile Include="Query\IntQueryForm.Designer.cs">
       <DependentUpon>IntQueryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Query\MultiChoiceQueryForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Query\SingleChoiceQueryForm.cs">
       <SubType>Form</SubType>
@@ -545,11 +551,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Query\DoubleQueryForm.resx">
-      <DependentUpon>DoubleQueryForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Query\FolderQueryForm.resx">
       <DependentUpon>FolderQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Query\GenericQueryForm.resx">
+      <DependentUpon>GenericQueryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Query\IntMinMaxQueryForm.resx">
       <DependentUpon>IntMinMaxQueryForm.cs</DependentUpon>

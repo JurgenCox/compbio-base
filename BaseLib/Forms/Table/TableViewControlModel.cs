@@ -66,6 +66,8 @@ namespace BaseLib.Forms.Table{
 		private int ColumnHeaderHeight => (int) (control.ColumnHeaderHeight * UserSf);
 		private int RowHeaderWidth => (int) (control.RowHeaderWidth * UserSf);
 		internal TableView tableView;
+		internal int[] visibleAnnotationRows;
+
 
 		public TableViewControlModel(TableView tableView){
 			this.tableView = tableView;
@@ -401,43 +403,44 @@ namespace BaseLib.Forms.Table{
 					int startInd = Math.Max(0, ArrayUtils.CeilIndex(columnWidthSums, x) - 1);
 					int endInd = Math.Min(columnWidthSums.Length - 1,
 						ArrayUtils.FloorIndex(columnWidthSums, x + width) + 1);
-					if (startInd >= 0){
+					for (int i = startInd; i <= endInd; i++){
+						int x1 = (i > 0 ? columnWidthSums[i - 1] : 0) - x;
+						int w = i == 0 ? columnWidthSums[0] : columnWidthSums[i] - columnWidthSums[i - 1];
+						string[] q = GetStringHeader(g, i, w, headerFont);
+						for (int j = 0; j < q.Length; j++){
+							g.DrawString(q[j], headerFont, Brushes2.Black, x1 + 3, (4 + 11 * j) * UserSf);
+						}
+					}
+					if (sortCol != -1 && sortState != SortState.Unsorted){
+						int x1 = columnWidthSums[sortCol] - x - 11;
+						if (x1 >= -15 && x1 <= width){
+							g.DrawImage(
+								sortState == SortState.Increasing
+									? Bitmap2.GetImage("arrowDown1.png")
+									: Bitmap2.GetImage("arrowUp1.png"), x1, 6, 9, 13);
+						}
+					}
+					if (helpCol != -1){
+						int x1 = (helpCol == 0 ? 0 : columnWidthSums[helpCol - 1]) - x + 5;
+						if (x1 >= -15 && x1 <= width){
+							g.DrawImage(Bitmap2.GetImage("question12.png"), x1, 7, 10, 10);
+						}
+					}
+					if (visibleAnnotationRows == null){
+						visibleAnnotationRows = ArrayUtils.ConsecutiveInts(model.AnnotationRowsCount);
+					}
+					if (model != null && visibleAnnotationRows.Length > 0){
 						for (int i = startInd; i <= endInd; i++){
 							int x1 = (i > 0 ? columnWidthSums[i - 1] : 0) - x;
-							int w = i == 0 ? columnWidthSums[0] : columnWidthSums[i] - columnWidthSums[i - 1];
-							string[] q = GetStringHeader(g, i, w, headerFont);
-							for (int j = 0; j < q.Length; j++){
-								g.DrawString(q[j], headerFont, Brushes2.Black, x1 + 3, (4 + 11 * j) * UserSf);
-							}
-						}
-						if (sortCol != -1 && sortState != SortState.Unsorted){
-							int x1 = columnWidthSums[sortCol] - x - 11;
-							if (x1 >= -15 && x1 <= width){
-								g.DrawImage(
-									sortState == SortState.Increasing
-										? Bitmap2.GetImage("arrowDown1.png")
-										: Bitmap2.GetImage("arrowUp1.png"), x1, 6, 9, 13);
-							}
-						}
-						if (helpCol != -1){
-							int x1 = (helpCol == 0 ? 0 : columnWidthSums[helpCol - 1]) - x + 5;
-							if (x1 >= -15 && x1 <= width){
-								g.DrawImage(Bitmap2.GetImage("question12.png"), x1, 7, 10, 10);
-							}
-						}
-						if (model != null && model.AnnotationRowsCount > 0){
-							for (int i = startInd; i <= endInd; i++){
-								int x1 = (i > 0 ? columnWidthSums[i - 1] : 0) - x;
-								int x2 = (i >= 0 ? columnWidthSums[i] : 0) - x;
-								for (int k = 0; k < model.AnnotationRowsCount; k++){
-									int y1 = origColumnHeaderHeight + k * RowHeight;
-									g.DrawLine(headerGridPen, x1 + 5, y1 - 1, x2 - 6, y1 - 1);
-									g.DrawLine(Pens2.White, x1 + 5, y1, x2 - 6, y1);
-									string s = (string) model.GetAnnotationRowValue(k, i);
-									if (s != null){
-										g.DrawString("" + GetStringValue(g, s, x2 - x1 - 2, headerFont), textFont,
-											Brushes2.Black, x1 + 3, y1 + 3);
-									}
+							int x2 = (i >= 0 ? columnWidthSums[i] : 0) - x;
+							for (int k = 0; k < visibleAnnotationRows.Length; k++){
+								int y1 = origColumnHeaderHeight + k * RowHeight;
+								g.DrawLine(headerGridPen, x1 + 5, y1 - 1, x2 - 6, y1 - 1);
+								g.DrawLine(Pens2.White, x1 + 5, y1, x2 - 6, y1);
+								string s = (string) model.GetAnnotationRowValue(visibleAnnotationRows[k], i);
+								if (s != null){
+									g.DrawString("" + GetStringValue(g, s, x2 - x1 - 2, headerFont), textFont,
+										Brushes2.Black, x1 + 3, y1 + 3);
 								}
 							}
 						}
@@ -455,12 +458,15 @@ namespace BaseLib.Forms.Table{
 				if (matrixHelp){
 					g.DrawImage(Bitmap2.GetImage("question12.png"), 7, 7, 10, 10);
 				}
-				if (model != null && model.AnnotationRowsCount > 0){
-					for (int i = 0; i < model.AnnotationRowsCount; i++){
+				if (visibleAnnotationRows == null) {
+					visibleAnnotationRows = ArrayUtils.ConsecutiveInts(model.AnnotationRowsCount);
+				}
+				if (model != null && visibleAnnotationRows.Length > 0){
+					for (int i = 0; i < visibleAnnotationRows.Length; i++){
 						int y1 = origColumnHeaderHeight + i * RowHeight;
 						g.DrawLine(headerGridPen, 5, y1 - 1, RowHeaderWidth - 6, y1 - 1);
 						g.DrawLine(Pens2.White, 5, y1, RowHeaderWidth - 6, y1);
-						string s = model.GetAnnotationRowName(i);
+						string s = model.GetAnnotationRowName(visibleAnnotationRows[i]);
 						if (s != null){
 							g.DrawString("" + GetStringValue(g, s, RowHeaderWidth - 6, headerFont), textFont,
 								Brushes2.Black, 3, y1 + 3);
@@ -501,7 +507,7 @@ namespace BaseLib.Forms.Table{
 						if (order.Length == 0){
 							return;
 						}
-						if (startInd >= 0 && endInd >= 0){
+						if (endInd >= 0){
 							for (int i = startInd; i <= endInd; i++){
 								if (i >= columnWidthSums.Length){
 									continue;
@@ -921,8 +927,11 @@ namespace BaseLib.Forms.Table{
 				order = ArrayUtils.ConsecutiveInts((int) model.RowCount);
 				inverseOrder = ArrayUtils.ConsecutiveInts((int) model.RowCount);
 				SetColumnWidthSums();
-				if (model.AnnotationRowsCount > 0){
-					control.ColumnHeaderHeight = origColumnHeaderHeight + model.AnnotationRowsCount * RowHeight;
+				if (visibleAnnotationRows == null) {
+					visibleAnnotationRows = ArrayUtils.ConsecutiveInts(model.AnnotationRowsCount);
+				}
+				if (visibleAnnotationRows.Length > 0){
+					control.ColumnHeaderHeight = origColumnHeaderHeight + visibleAnnotationRows.Length * RowHeight;
 				}
 			}
 		}
@@ -1625,5 +1634,8 @@ namespace BaseLib.Forms.Table{
 
 		public void InvalidateBackgroundImages(){ }
 		public void OnSizeChanged(){ }
+		public void SetColumnHeaderHeight(){
+			control.ColumnHeaderHeight = origColumnHeaderHeight + visibleAnnotationRows.Length * RowHeight;
+		}
 	}
 }

@@ -4,9 +4,11 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using BaseLib.Forms.Base;
+using BaseLib.Query;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
 using BaseLibS.Graph.Base;
+using BaseLibS.Num;
 using BaseLibS.Table;
 using BaseLibS.Util;
 
@@ -20,14 +22,14 @@ namespace BaseLib.Forms.Table{
 		private SplitContainer splitContainer;
 		private TableLayoutPanel tableLayoutPanel1;
 		private TableLayoutModel tableLayoutPanel2;
-		private ButtonModel textButton;
+		private ButtonModel activateTextFieldButton;
+		private ButtonModel showAnnotationRowsButton;
 		private LabelModel itemsLabel;
 		private LabelModel selectedLabel;
 		private Panel mainPanel;
 		private ComboBoxModel scaleFactorComboBox;
 		public bool TextBoxIsVisible{ get; private set; }
-		public  EventHandler<int> DoubleClickOnRow;
-
+		public EventHandler<int> DoubleClickOnRow;
 		public TableView(){
 			InitializeComponent();
 			InitializeComponent2();
@@ -42,7 +44,33 @@ namespace BaseLib.Forms.Table{
 
 			tableViewWf.DoubleClickOnRow += (sender, i) => DoubleClickOnRow?.Invoke(this, i);
 			mainPanel.Controls.Add(tableView.Parent as Control);
-			textButton.Click += TextButton_OnClick;
+			activateTextFieldButton.Click += (sender, args) => {
+				if (TextBoxIsVisible) {
+					SwitchOffTextBox();
+				} else {
+					SwitchOnTextBox();
+				}
+			};
+			showAnnotationRowsButton.Click += (sender, args) => {
+				int n = TableModel.AnnotationRowsCount;
+				string[] values = new string[n];
+				for (int i = 0; i < n; i++){
+					values[i] = TableModel.GetAnnotationRowName(i);
+				}
+				if (tableViewWf.visibleAnnotationRows == null){
+					tableViewWf.visibleAnnotationRows = ArrayUtils.ConsecutiveInts(n);
+				}
+				MultiChoiceQueryForm esf = new MultiChoiceQueryForm("Show annotation rows...", tableViewWf.visibleAnnotationRows, values);
+				Point p = PointToScreen(new Point(0, 0));
+				esf.Top = p.Y;
+				esf.Left = p.X;
+				if (esf.ShowDialog() == DialogResult.OK){
+					tableViewWf.visibleAnnotationRows = esf.Value;
+					tableViewWf.SetColumnHeaderHeight();
+					tableView.Invalidate(true);
+				}
+
+			};
 			KeyDown += (sender, args) => ((Control)tableView.Parent).Focus();
 			auxTextBox = new TextFieldModel{Multiline = true, ReadOnly = true};
 			auxTextBoxControl = FormUtil.GetControl(auxTextBox);
@@ -87,7 +115,8 @@ namespace BaseLib.Forms.Table{
 		private void InitializeComponent2(){
 			tableLayoutPanel1 = new TableLayoutPanel();
 			tableLayoutPanel2 = new TableLayoutModel();
-			textButton = new ButtonModel();
+			activateTextFieldButton = new ButtonModel();
+			showAnnotationRowsButton = new ButtonModel();
 			itemsLabel = new LabelModel();
 			selectedLabel = new LabelModel();
 			mainPanel = new Panel();
@@ -116,17 +145,22 @@ namespace BaseLib.Forms.Table{
 			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 80F));
 			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 80F));
 			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Percent, 100F));
+			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 20F));
 			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 50F));
 			tableLayoutPanel2.ColumnStyles.Add(new BasicColumnStyle(BasicSizeType.Absolute, 20F));
-			tableLayoutPanel2.Add(textButton, 4, 0);
+			tableLayoutPanel2.Add(activateTextFieldButton, 5, 0);
+			tableLayoutPanel2.Add(showAnnotationRowsButton, 3, 0);
 			tableLayoutPanel2.Add(itemsLabel, 0, 0);
 			tableLayoutPanel2.Add(selectedLabel, 1, 0);
-			tableLayoutPanel2.Add(scaleFactorComboBox, 3, 0);
+			tableLayoutPanel2.Add(scaleFactorComboBox, 4, 0);
 			tableLayoutPanel2.Margin = new Padding2(0);
 			tableLayoutPanel2.RowStyles.Add(new BasicRowStyle(BasicSizeType.Percent, 100F));
-			textButton.Margin = new Padding2(0);
-			textButton.Text = @"↑";
-			textButton.Font = new Font2("Microsoft Sans Serif", 7.1F);
+			activateTextFieldButton.Margin = new Padding2(0);
+			activateTextFieldButton.Text = @"↑";
+			activateTextFieldButton.Font = new Font2("Microsoft Sans Serif", 7.1F);
+			showAnnotationRowsButton.Margin = new Padding2(0);
+			showAnnotationRowsButton.Text = "a";
+			showAnnotationRowsButton.Font = new Font2("Microsoft Sans Serif", 7.1F);
 			itemsLabel.Font = new Font2("Microsoft Sans Serif", 8.1F);
 			selectedLabel.Font = new Font2("Microsoft Sans Serif", 8.1F);
 			mainPanel.Dock = DockStyle.Fill;
@@ -164,6 +198,7 @@ namespace BaseLib.Forms.Table{
 			set{
 				tableViewWf.TableModel = value;
 				SetCounts();
+				showAnnotationRowsButton.Visible = value != null && value.AnnotationRowsCount > 0;
 			}
 		}
 
@@ -171,7 +206,7 @@ namespace BaseLib.Forms.Table{
 			if (TextBoxIsVisible){
 				return;
 			}
-			textButton.Text = @"↓";
+			activateTextFieldButton.Text = @"↓";
 			tableViewWf.SetCellText = SetAuxText;
 			mainPanel.Controls.Remove(tableView.Parent as Control);
 			splitContainer = new SplitContainer();
@@ -189,7 +224,7 @@ namespace BaseLib.Forms.Table{
 			if (!TextBoxIsVisible){
 				return;
 			}
-			textButton.Text = @"↑";
+			activateTextFieldButton.Text = @"↑";
 			auxTextBox.Text = "";
 			tableViewWf.SetCellText = null;
 			mainPanel.Controls.Remove(splitContainer);
@@ -331,14 +366,6 @@ namespace BaseLib.Forms.Table{
 
 		public object GetEntry(int row, int col){
 			return tableViewWf.GetEntry(row, col);
-		}
-
-		private void TextButton_OnClick(object sender, EventArgs e){
-			if (TextBoxIsVisible){
-				SwitchOffTextBox();
-			} else{
-				SwitchOnTextBox();
-			}
 		}
 
 		public void ClearSelectionFire(){
