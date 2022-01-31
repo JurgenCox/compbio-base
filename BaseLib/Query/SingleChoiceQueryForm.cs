@@ -1,43 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Drawing;
 using System.Windows.Forms;
-
-namespace BaseLib.Query{
-	public partial class SingleChoiceQueryForm : Form{
-		public SingleChoiceQueryForm(IEnumerable<string> choice){
+using BaseLib.Forms.Base;
+using BaseLibS.Param;
+namespace BaseLib.Query {
+	public class SingleChoiceQueryForm : GenericQueryForm{
+		private readonly SingleChoiceParamWf param;
+		public SingleChoiceQueryForm(string name, int selected, string[] values) {
+			Text = name;
+			ClientSize = new Size(400, 54);
+			param = new SingleChoiceParamWf(name, selected) {
+				Values = values
+			};
 			InitializeComponent();
-			StartPosition = FormStartPosition.Manual;
-			okButton.Click += OkButtonOnClick;
-			cancelButton.Click += CancelButtonOnClick;
-			foreach (string s in choice){
-				comboBox1.Items.Add(s);
-			}
-			comboBox1.SelectedIndex = 0;
-			comboBox1.KeyDown += TextBox1OnKeyDown;
-			ActiveControl = comboBox1;
+		}
+		public int Value => param.Value2;
+		private void InitializeComponent() {
+			Control c = FormUtil.GetControl(param.CreateControl());
+			c.Dock = DockStyle.Fill;
+			tableLayoutPanel1.Controls.Add(c, 0, 0);
+			ActiveControl = c;
 		}
 
-		public string SelectedText => comboBox1.Text;
-
-		public string Label{
-			set => label1.Text = value;
-		}
-
-		private void TextBox1OnKeyDown(object sender, KeyEventArgs keyEventArgs){
-			if (keyEventArgs.KeyCode == Keys.Return){
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-		}
-
-		private void CancelButtonOnClick(object sender, EventArgs eventArgs){
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
-
-		private void OkButtonOnClick(object sender, EventArgs eventArgs){
-			DialogResult = DialogResult.OK;
-			Close();
-		}
+		public string SelectedText => param.Values[param.Value];
 	}
 }

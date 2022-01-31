@@ -16,16 +16,9 @@ namespace BaseLib.Query{
 		public int[] Value => param.Value2;
 		private void InitializeComponent() {
 			Control c = FormUtil.GetControl(param.CreateControl());
-			tableLayoutPanel1.Controls.Add(c, 0, 0);
 			c.Dock = DockStyle.Fill;
-			c.Location = new System.Drawing.Point(0, 0);
-			c.Margin = new Padding(0);
-			c.Name = "textBox1";
-			c.Size = new Size(285, 20);
-			c.TabIndex = 1;
+			tableLayoutPanel1.Controls.Add(c, 0, 0);
 			ActiveControl = c;
 		}
-
-
 	}
 }

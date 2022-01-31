@@ -399,9 +399,6 @@
     <Compile Include="Query\SingleChoiceQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Query\SingleChoiceQueryForm.Designer.cs">
-      <DependentUpon>SingleChoiceQueryForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Query\StringQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -562,9 +559,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Query\IntQueryForm.resx">
       <DependentUpon>IntQueryForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Query\SingleChoiceQueryForm.resx">
-      <DependentUpon>SingleChoiceQueryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Query\StringQueryForm.resx">
       <DependentUpon>StringQueryForm.cs</DependentUpon>
