@@ -141,7 +141,7 @@ namespace BaseLibS.Graph {
 					DeleteSelectedChars();
 					break;
 				case Keys2.Back:
-					if (selectionStartLine >= 0) {
+					if (selectionStartLine >= 0 && selectionEndChar != selectionStartChar && selectionEndChar != -1) {
 						DeleteSelectedChars();
 					} else {
 						DeletePreviousChar();
