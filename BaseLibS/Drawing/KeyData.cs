@@ -1,5 +1,26 @@
-﻿namespace BaseLibS.Drawing{
+﻿using System.Globalization;
+namespace BaseLibS.Drawing{
 	public static class KeyData{
+		private static CultureInfo cultureInfo;
+
+		private static int keyboardLayoutId = int.MaxValue;
+		public static CultureInfo CultureInfo {
+			get {
+				if (cultureInfo == null) {
+					cultureInfo = CultureInfo.CurrentCulture;
+					keyboardLayoutId = cultureInfo.KeyboardLayoutId;
+				}
+				return cultureInfo;
+			}
+		}
+		public static int KeyboardLayoutId {
+			get {
+				if (keyboardLayoutId == int.MaxValue) {
+					keyboardLayoutId = CultureInfo.KeyboardLayoutId;
+				}
+				return keyboardLayoutId;
+			}
+		}
 		public static char GetChar(Keys2 keyData){
 			switch (keyData){
 				case Keys2.A | Keys2.Shift:
@@ -66,29 +87,131 @@
 				case Keys2.Y:
 				case Keys2.Z:
 					return char.ToLower((char) keyData);
+				case Keys2.NumPad0:
+					return '0';
+				case Keys2.NumPad1:
+					return '1';
+				case Keys2.NumPad2:
+					return '2';
+				case Keys2.NumPad3:
+					return '3';
+				case Keys2.NumPad4:
+					return '4';
+				case Keys2.NumPad5:
+					return '5';
+				case Keys2.NumPad6:
+					return '6';
+				case Keys2.NumPad7:
+					return '7';
+				case Keys2.NumPad8:
+					return '8';
+				case Keys2.NumPad9:
+					return '9';
 				default:
-					return GetCharLocaleDe(keyData);
+					switch (KeyboardLayoutId){
+						case 0x00000407:
+							return GetCharLocaleGerman(keyData);
+						default:
+							return GetCharLocaleUnitedStatesEnglish(keyData);
+					}
 			}
 		}
-		public static char GetCharLocaleDe(Keys2 keyData){
-			switch (keyData){
+
+		//TODO
+		public static char GetCharLocaleUnitedStatesEnglish(Keys2 keyData) {
+			switch (keyData) {
+				case Keys2.D1 | Keys2.Shift:
+					return '!';
+				case Keys2.D2 | Keys2.Shift:
+					return '@';
+				case Keys2.D3 | Keys2.Shift:
+					return '#';
+				case Keys2.D4 | Keys2.Shift:
+					return '$';
+				case Keys2.D5 | Keys2.Shift:
+					return '%';
+				case Keys2.D6 | Keys2.Shift:
+					return '^';
+				case Keys2.D7 | Keys2.Shift:
+					return '&';
+				case Keys2.D8 | Keys2.Shift:
+					return '*';
+				case Keys2.D9 | Keys2.Shift:
+					return '(';
+				case Keys2.D0 | Keys2.Shift:
+					return ')';
 				case Keys2.Oemplus:
+					return '=';
+				case Keys2.Oemplus | Keys2.Shift:
 					return '+';
 				case Keys2.OemMinus:
 					return '-';
-				case Keys2.Oemplus | Keys2.Shift:
-					return '*';
-				case Keys2.D7 | Keys2.Shift:
-					return '/';
+				case Keys2.OemMinus | Keys2.Shift:
+					return '_';
 				case Keys2.OemPeriod:
 					return '.';
+				case Keys2.OemPeriod | Keys2.Shift:
+					return '>';
 				case Keys2.Oemcomma:
 					return ',';
-				case Keys2.D0 | Keys2.Shift:
-					return '=';
+				case Keys2.Oemcomma | Keys2.Shift:
+					return '<';
+				case Keys2.OemQuestion:
+					return '/';
+				case Keys2.OemQuestion | Keys2.Shift:
+					return '?';
 				default:
-					return (char) 0;
+					return (char)0;
 			}
 		}
+
+		public static char GetCharLocaleGerman(Keys2 keyData) {
+			switch (keyData) {
+				case Keys2.D1 | Keys2.Shift:
+					return '!';
+				case Keys2.D2 | Keys2.Shift:
+					return '"';
+				case Keys2.D3 | Keys2.Shift:
+					return '§';
+				case Keys2.D4 | Keys2.Shift:
+					return '$';
+				case Keys2.D5 | Keys2.Shift:
+					return '%';
+				case Keys2.D6 | Keys2.Shift:
+					return '&';
+				case Keys2.D7 | Keys2.Shift:
+					return '/';
+				case Keys2.D8 | Keys2.Shift:
+					return '(';
+				case Keys2.D9 | Keys2.Shift:
+					return ')';
+				case Keys2.D0 | Keys2.Shift:
+					return '=';
+				case Keys2.Oemplus:
+					return '+';
+				case Keys2.Oemplus | Keys2.Shift:
+					return '*';
+				case Keys2.OemMinus:
+					return '-';
+				case Keys2.OemMinus | Keys2.Shift:
+					return '_';
+				case Keys2.OemPeriod:
+					return '.';
+				case Keys2.OemPeriod | Keys2.Shift:
+					return ':';
+				case Keys2.Oemcomma:
+					return ',';
+				case Keys2.Oemcomma | Keys2.Shift:
+					return ',';
+				case Keys2.OemQuestion:
+					return 'ß';
+				case Keys2.OemQuestion | Keys2.Shift:
+					return '?';
+				default:
+					return (char)0;
+			}
+		}
+
+
 	}
 }
