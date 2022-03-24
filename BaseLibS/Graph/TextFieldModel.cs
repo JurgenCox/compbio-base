@@ -349,6 +349,9 @@ namespace BaseLibS.Graph {
 			int row = ((y - OffsetY) / LineHeight);
 			row = Math.Min(row, lines.Count - 1);
 			row = Math.Max(row, 0);
+			if(lines.Count ==0 && row ==0){
+				lines.Add("");
+			}
 			string line = lines[row];
 			int col = (int)((x - OffsetX) * 1.8 / LineHeight);
 			col = Math.Min(col, line.Length);
