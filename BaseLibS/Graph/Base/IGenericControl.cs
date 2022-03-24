@@ -8,7 +8,7 @@ namespace BaseLibS.Graph.Base {
 		Action<int> onMouseWheel{ set; }
 		Action onResize{ set; }
 		Action onSizeChanged{ set; }
-		Action<Keys2> processCmdKey{ set; }
+		Action<Keys2, int> processCmdKey{ set; }
 		int Width1{ get; }
 		int Height1 { get; }
 		bool Enabled { get; }

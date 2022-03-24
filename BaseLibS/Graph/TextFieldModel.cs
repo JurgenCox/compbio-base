@@ -90,7 +90,7 @@ namespace BaseLibS.Graph {
 		public bool Multiline { get; set; } = false;
 		public bool ReadOnly { get; set; } = false;
 		public bool Selectable { get; set; } = true;
-		public void ProcessCmdKey(Keys2 keyData) {
+		public void ProcessCmdKey(Keys2 keyData, int keyboardId) {
 			switch (keyData) {
 				case Keys2.Shift | Keys2.Left:
 					if (selectionStartLine == -1) {
@@ -170,7 +170,7 @@ namespace BaseLibS.Graph {
 					}
 					break;
 				default:
-					char c = KeyData.GetChar(keyData);
+					char c = KeyData.GetChar(keyData, keyboardId);
 					if (c != 0 && !forbiddenChars.Contains(c)) {
 						DeleteSelectedChars();
 						AddAtCursor("" + c);

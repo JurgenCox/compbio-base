@@ -138,7 +138,7 @@ namespace BaseLibS.Graph.Base{
 				verticalScrollBarView.Invalidate();
 			};
 			Parent.onSizeChanged = () => { client?.OnSizeChanged(); };
-			Parent.processCmdKey = (keyData) => { client?.ProcessCmdKey(keyData); };
+			Parent.processCmdKey = (keyData, keyboardId) => { client?.ProcessCmdKey(keyData, keyboardId); };
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			OnPaintRowHeaderView = (g, y, height) => { };
 			OnPaintRowFooterView = (g, y, height) => { };

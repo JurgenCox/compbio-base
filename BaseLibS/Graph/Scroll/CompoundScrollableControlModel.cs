@@ -139,7 +139,7 @@ namespace BaseLibS.Graph.Scroll{
 				verticalScrollBarView.Invalidate();
 			};
 			Parent.onSizeChanged = () => { client?.OnSizeChanged(); };
-			Parent.processCmdKey = (keyData) => { client?.ProcessCmdKey(keyData); };
+			Parent.processCmdKey = (keyData, keyboardId) => { client?.ProcessCmdKey(keyData, keyboardId); };
 			OnPaintMainView = (g, x, y, width, height, isOverview) => { };
 			OnPaintRowHeaderView = (g, y, height) => { };
 			OnPaintRowFooterView = (g, y, height) => { };
@@ -445,8 +445,8 @@ namespace BaseLibS.Graph.Scroll{
 		public override void Dispose(bool disposing){
 			tableLayoutPanel1.Dispose(disposing);
 		}
-		public override void ProcessCmdKey(Keys2 keyData){
-			tableLayoutPanel1.ProcessCmdKey(keyData);
+		public override void ProcessCmdKey(Keys2 keyData, int keyboardId) {
+			tableLayoutPanel1.ProcessCmdKey(keyData, keyboardId);
 		}
 		public override void OnSizeChanged(){
 			tableLayoutPanel1.OnSizeChanged();

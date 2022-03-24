@@ -10,7 +10,7 @@ namespace BaseLib.Forms.Base{
 		public Action onResize { get; set; }
 		public Action<int> onMouseWheel { get; set; }
 		public Action onSizeChanged { get; set; }
-		public Action<Keys2> processCmdKey { get; set; }
+		public Action<Keys2, int> processCmdKey { get; set; }
 		private ToolTip toolTip;
 		public int Width1 => Width;
 		public int Height1 => Height;
@@ -85,8 +85,17 @@ namespace BaseLib.Forms.Base{
 			onMouseWheel?.Invoke(e.Delta);
 			base.OnMouseWheel(e);
 		}
+
+		private int keyboardId = -1;
+
+		private int KeyboardId{
+			get{
+				keyboardId = InputLanguage.CurrentInputLanguage.Culture.KeyboardLayoutId;
+				return keyboardId;
+			}
+		}
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData){
-			processCmdKey?.Invoke((Keys2) keyData);
+			processCmdKey?.Invoke((Keys2) keyData, KeyboardId);
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		public void HideToolTip(){

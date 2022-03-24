@@ -93,7 +93,7 @@ namespace BaseLibS.Graph.Base{
 		}
 		public virtual void Dispose(bool disposing){
 		}
-		public virtual void ProcessCmdKey(Keys2 keyData){
+		public virtual void ProcessCmdKey(Keys2 keyData, int keyboardId) {
 		}
 		public virtual void InvalidateBackgroundImages(){
 		}

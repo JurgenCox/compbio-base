@@ -33,7 +33,7 @@ namespace BaseLibS.Graph.Network{
 		private int DeltaIndicatorY => indicatorY2 - indicatorY1;
 		public abstract void EditProperties(float f, float f1);
 		public abstract Ti Options { get; }
-		public void ProcessCmdKey(Keys2 keyData){
+		public void ProcessCmdKey(Keys2 keyData, int keyboardId) {
 			switch (keyData){
 				case Keys2.Control | Keys2.A:
 					GraphModel.SelectAllNodes();

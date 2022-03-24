@@ -19,7 +19,7 @@ namespace BaseLibS.Graph.Base {
 		public Action<int> onMouseWheel{ get; set; }
 		public Action onResize{ get; set; }
 		public Action onSizeChanged{ get; set; }
-		public Action<Keys2> processCmdKey{ get; set; }
+		public Action<Keys2, int> processCmdKey{ get; set; }
 		public int Width1 => panelModel.getWidth();
 		public int Height1 => panelModel.getHeight();
 		public bool Enabled => panelModel.Enabled;

@@ -63,8 +63,8 @@ namespace BaseLibS.Graph.Base{
 		public override void Dispose(bool disposing){
 			controlModel.Dispose(disposing);
 		}
-		public override void ProcessCmdKey(Keys2 keyData){
-			controlModel.ProcessCmdKey(keyData);
+		public override void ProcessCmdKey(Keys2 keyData, int keyboardId) {
+			controlModel.ProcessCmdKey(keyData, keyboardId);
 		}
 		public override void InvalidateBackgroundImages(){
 			controlModel.InvalidateBackgroundImages();

@@ -1,27 +1,6 @@
-﻿using System.Globalization;
-namespace BaseLibS.Drawing{
+﻿namespace BaseLibS.Drawing{
 	public static class KeyData{
-		private static CultureInfo cultureInfo;
-
-		private static int keyboardLayoutId = int.MaxValue;
-		public static CultureInfo CultureInfo {
-			get {
-				if (cultureInfo == null) {
-					cultureInfo = CultureInfo.CurrentCulture;
-					keyboardLayoutId = cultureInfo.KeyboardLayoutId;
-				}
-				return cultureInfo;
-			}
-		}
-		public static int KeyboardLayoutId {
-			get {
-				if (keyboardLayoutId == int.MaxValue) {
-					keyboardLayoutId = CultureInfo.KeyboardLayoutId;
-				}
-				return keyboardLayoutId;
-			}
-		}
-		public static char GetChar(Keys2 keyData){
+		public static char GetChar(Keys2 keyData, int keyboardId){
 			switch (keyData){
 				case Keys2.A | Keys2.Shift:
 				case Keys2.B | Keys2.Shift:
@@ -108,7 +87,7 @@ namespace BaseLibS.Drawing{
 				case Keys2.NumPad9:
 					return '9';
 				default:
-					switch (KeyboardLayoutId){
+					switch (keyboardId){
 						case 0x00000407:
 							return GetCharLocaleGerman(keyData);
 						default:

@@ -1564,7 +1564,7 @@ namespace BaseLib.Forms.Table{
 			currentRow = y1 / RowHeight;
 		}
 
-		public void ProcessCmdKey(Keys2 keyData){
+		public void ProcessCmdKey(Keys2 keyData, int keyboardId) {
 			switch (keyData){
 				case Keys2.Shift | Keys2.Home:
 				case Keys2.Home:{
