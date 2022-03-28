@@ -197,6 +197,9 @@ namespace BaseLibS.Graph {
 			selectionEndChar = lines[selectionStartLine].Length;
 		}
 		private void AddAtCursor(string c) {
+			if (lines.Count == 0 || cursorPosLine == 0){
+				lines.Add("");
+			}
 			string currentLine = lines[cursorPosLine];
 			if (lastEditedLine == -1) {
 				undoBuffer = currentLine;

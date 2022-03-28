@@ -1,4 +1,5 @@
-﻿namespace BaseLibS.Drawing{
+﻿using System;
+namespace BaseLibS.Drawing{
 	public static class KeyData{
 		public static char GetChar(Keys2 keyData, int keyboardId){
 			switch (keyData){
@@ -186,6 +187,10 @@
 					return 'ß';
 				case Keys2.OemQuestion | Keys2.Shift:
 					return '?';
+				case Keys2.OemBackslash:
+					return '<';
+				case Keys2.OemBackslash | Keys2.Shift:
+					return '>';
 				default:
 					return (char)0;
 			}
