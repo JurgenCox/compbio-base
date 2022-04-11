@@ -22,7 +22,7 @@ namespace BaseLibS.Graph {
 		public Font2 Font{ get; set; } = new Font2("Courier New", 10F);
 		private int cursorPosLine;
 		private int cursorPosChar;
-		public int SelectedLine { get; set; } = 0;
+		public int SelectedLine { get; set; }
 		private bool[] lineIsSelected;
 		private int selectionStartLine = -1;
 		private int selectionStartChar = -1;
@@ -369,13 +369,13 @@ namespace BaseLibS.Graph {
 					}
 					if (selectionStartLine == selectionEndLine) {
 						string currentLine = lines[selectionStartLine];
-						string s1 = selectionStartChar == currentLine.Length
+						string s1 = (selectionStartChar >= currentLine.Length || selectionStartChar < 0)
 							? currentLine
 							: currentLine.Substring(0, selectionStartChar);
 						s1 = s1.Replace(' ', '_');
 						int pos1 = (int)Math.Round(g.MeasureString(s1, Font).Width);
 						pos1 -= 2;
-						string s2 = selectionEndChar == currentLine.Length
+						string s2 = (selectionEndChar >= currentLine.Length || selectionEndChar < 0)
 							? currentLine
 							: currentLine.Substring(0, selectionEndChar);
 						s2 = s2.Replace(' ', '_');
