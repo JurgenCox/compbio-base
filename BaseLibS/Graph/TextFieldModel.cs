@@ -413,7 +413,6 @@ namespace BaseLibS.Graph {
 		}
 		public void PaintCursor(IGraphics g, int x, int y) {
 			int pos = 1;
-			x;
 			if (cursorPosChar > 0) {
 				string currentLine = lines[cursorPosLine];
 				string s = (cursorPosChar >= currentLine.Length || cursorPosChar < 0) ? 
