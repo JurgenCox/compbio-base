@@ -47,6 +47,7 @@ namespace BaseLibS.Graph{
 			if (!Enabled || !Visible){
 				return;
 			}
+			Invalidate();
 			Click?.Invoke(this, EventArgs.Empty);
 		}
 		public override void OnMouseEnter(EventArgs e){

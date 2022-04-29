@@ -7,7 +7,13 @@ namespace BaseLibS.Graph.Base{
 		public Color2 BackColor{ get; set; }
 		public Color2 ForeColor{ get; set; }
 		public bool Visible{ get; set; }
-		public virtual bool Enabled{ get; set; } = true;
+		public virtual bool Enabled{
+			get => enabled;
+			set{
+				enabled = value;
+				Invalidate();
+			}
+		}
 		public Action invalidate;
 		public Action resetCursor;
 		public Action<Cursors2> setCursor;
@@ -32,6 +38,7 @@ namespace BaseLibS.Graph.Base{
 		public Action<string, bool> exportGraphic;
 		public Func<int> getWidth;
 		public Func<int> getHeight;
+		private bool enabled = true;
 		public Padding2 Margin{ get; set; } = Padding2.Empty;
 		public bool Debug{ get; set; } = false;
 		public BasicControlModel(){

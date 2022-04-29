@@ -143,9 +143,9 @@ namespace BaseLibS.Ms{
 			}
 		}
 		private int GetPrecursorMs2(List<int> ms2Inds, double pmz){
-			for (int i = ms2Inds.Count - 1; i >= 0; i--){
+			for (int i = ms2Inds.Count - 1; i >= Math.Max(0, ms2Inds.Count - 50); i--){
 				int ind = ms2Inds[i];
-				if (Math.Abs(ms2Lists.mzList[ind] - pmz) < 0.05){
+				if (Math.Abs(ms2Lists.mzList[ind] - pmz) < 0.1){
 					return ind;
 				}
 			}

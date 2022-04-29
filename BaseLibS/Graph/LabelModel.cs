@@ -21,6 +21,9 @@ namespace BaseLibS.Graph {
 			}
 		}
 		public override void OnPaint(IGraphics g, int width, int height) {
+			if (!Visible){
+				return;
+			}
 			g.DrawString(text, Font, textBrush, OffsetX, OffsetY);
 		}
 	}
