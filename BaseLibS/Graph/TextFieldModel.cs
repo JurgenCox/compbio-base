@@ -9,6 +9,7 @@ namespace BaseLibS.Graph {
 		//Invoke text changed
 		//english and other keyboards
 		//some special chars
+		//keep focus upon cursor move
 		public event EventHandler Close;
 		private const string carriageReturn = "\r\n";
 		private readonly List<string> lines = new List<string>();
