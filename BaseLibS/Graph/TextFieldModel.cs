@@ -221,8 +221,16 @@ namespace BaseLibS.Graph {
 				undoBuffer = currentLine;
 				lastEditedLine = selectionEndLine;
 			}
-			string before = currentLine.Substring(0, Math.Min(selectionStartChar, selectionEndChar));
-			string after = currentLine.Substring(Math.Max(selectionStartChar, selectionEndChar));
+			int ind1 = Math.Min(selectionStartChar, selectionEndChar);
+			if (ind1 < 0){
+				return;
+			}
+			string before = currentLine.Substring(0, ind1);
+			int ind2 = Math.Max(selectionStartChar, selectionEndChar);
+			if (ind2 < 0) {
+				return;
+			}
+			string after = currentLine.Substring(ind2);
 			lines[selectionStartLine] = before + after;
 			if (selectionEndChar > selectionStartChar) {
 				cursorPosChar -= Math.Abs(selectionStartChar - selectionEndChar);
