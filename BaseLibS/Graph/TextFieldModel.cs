@@ -198,8 +198,9 @@ namespace BaseLibS.Graph {
 			selectionEndChar = lines[selectionStartLine].Length;
 		}
 		private void AddAtCursor(string c) {
-			if (lines.Count == 0 && cursorPosLine == 0){
+			if (lines.Count == 0){
 				lines.Add("");
+				cursorPosLine = 0;
 			}
 			string currentLine = lines[cursorPosLine];
 			if (lastEditedLine == -1) {
@@ -208,8 +209,12 @@ namespace BaseLibS.Graph {
 			}
 			string before = (cursorPosChar >= currentLine.Length || cursorPosChar < 0) ? 
 				currentLine : currentLine.Substring(0, cursorPosChar);
-			string after = currentLine.Substring(cursorPosChar);
+			string after = (cursorPosChar >= currentLine.Length || cursorPosChar < 0) ?
+				"" : currentLine.Substring(cursorPosChar);
 			lines[cursorPosLine] = before + c + after;
+			if (cursorPosChar < 0){
+				cursorPosChar = 0;
+			}
 			cursorPosChar += c.Length;
 		}
 		private void DeleteSelectedChars() {
