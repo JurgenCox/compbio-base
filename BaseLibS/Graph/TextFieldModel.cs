@@ -198,9 +198,13 @@ namespace BaseLibS.Graph {
 			selectionEndChar = lines[selectionStartLine].Length;
 		}
 		private void AddAtCursor(string c) {
+			if (cursorPosChar < 0){
+				cursorPosChar = 0;
+			}
 			if (lines.Count == 0){
 				lines.Add("");
 				cursorPosLine = 0;
+				cursorPosChar = 0;
 			}
 			string currentLine = lines[cursorPosLine];
 			if (lastEditedLine == -1) {
