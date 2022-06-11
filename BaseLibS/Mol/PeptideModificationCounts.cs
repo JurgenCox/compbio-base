@@ -147,6 +147,14 @@ namespace BaseLibS.Mol{
 			return index < 0 ? (ushort) 0 : ModificationCounts[index];
 		}
 
+		public double CalcMass() {
+			double mass = 0;
+			for (int i = 0; i < ModificationTypes.Length; i++){
+				mass += Tables.ModificationList[ModificationTypes[i]].DeltaMass* ModificationCounts[i];
+			}
+			return mass;
+		}
+
 		public void Dispose(){
 			ModificationTypes = null;
 			ModificationCounts = null;
