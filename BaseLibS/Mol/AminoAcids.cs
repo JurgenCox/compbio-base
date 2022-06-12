@@ -199,8 +199,19 @@ namespace BaseLibS.Mol{
 			return CalcMonoisotopicMass(sequence, modifications, false, false);
 		}
 
+		public static double CalcMonoisotopicMass(string sequence, Modification2[] modifications) {
+			return CalcMonoisotopicMass(sequence, modifications, false, false);
+		}
+
 		public static double CalcMonoisotopicMass(string sequence, Modification[] modifications, bool isProteinNterm,
-				bool isProteinCterm) {
+			bool isProteinCterm) {
+			double m = CalcMonoisotopicMass(sequence);
+			m += GetFixedModificationMass(sequence, modifications, isProteinNterm, isProteinCterm);
+			return m;
+		}
+
+		public static double CalcMonoisotopicMass(string sequence, Modification2[] modifications, bool isProteinNterm,
+			bool isProteinCterm) {
 			double m = CalcMonoisotopicMass(sequence);
 			m += GetFixedModificationMass(sequence, modifications, isProteinNterm, isProteinCterm);
 			return m;
@@ -215,40 +226,80 @@ namespace BaseLibS.Mol{
 		}
 
 		public static double GetFixedModificationMass(string sequence, Modification[] modifications, bool isProteinNterm,
-			bool isProteinCterm){
+			bool isProteinCterm) {
 			double monoisotopicMass = 0;
-			foreach (Modification mod in modifications){
+			foreach (Modification mod in modifications) {
 				monoisotopicMass += GetDeltaMass(mod, sequence, isProteinNterm, isProteinCterm);
 			}
 			return monoisotopicMass;
 		}
 
-		private static double GetDeltaMass(Modification mod, string sequence, bool isNterm, bool isCterm){
+		public static double GetFixedModificationMass(string sequence, Modification2[] modifications, bool isProteinNterm,
+			bool isProteinCterm) {
+			double monoisotopicMass = 0;
+			foreach (Modification2 mod in modifications) {
+				monoisotopicMass += GetDeltaMass(mod, sequence, isProteinNterm, isProteinCterm);
+			}
+			return monoisotopicMass;
+		}
+
+		private static double GetDeltaMass(Modification mod, string sequence, bool isNterm, bool isCterm) {
 			ModificationPosition pos = mod.Position;
 			double deltaMass = 0;
-			for (int i = 0; i < mod.AaCount; i++){
-				for (int j = 0; j < sequence.Length; j++){
-					if ((pos == ModificationPosition.notNterm || pos == ModificationPosition.notTerm) && j == 0){
+			for (int i = 0; i < mod.AaCount; i++) {
+				for (int j = 0; j < sequence.Length; j++) {
+					if ((pos == ModificationPosition.notNterm || pos == ModificationPosition.notTerm) && j == 0) {
 						continue;
 					}
-					if ((pos == ModificationPosition.notCterm || pos == ModificationPosition.notTerm) && j == sequence.Length - 1){
+					if ((pos == ModificationPosition.notCterm || pos == ModificationPosition.notTerm) && j == sequence.Length - 1) {
 						continue;
 					}
-					if (sequence[j] == mod.GetAaAt(i)){
+					if (sequence[j] == mod.GetAaAt(i)) {
 						deltaMass += mod.DeltaMass;
 					}
 				}
 			}
-			if (pos == ModificationPosition.anyNterm){
+			if (pos == ModificationPosition.anyNterm) {
 				deltaMass += mod.DeltaMass;
 			}
-			if (pos == ModificationPosition.anyCterm){
+			if (pos == ModificationPosition.anyCterm) {
 				deltaMass += mod.DeltaMass;
 			}
-			if (pos == ModificationPosition.proteinNterm && isNterm){
+			if (pos == ModificationPosition.proteinNterm && isNterm) {
 				deltaMass += mod.DeltaMass;
 			}
-			if (pos == ModificationPosition.proteinCterm && isCterm){
+			if (pos == ModificationPosition.proteinCterm && isCterm) {
+				deltaMass += mod.DeltaMass;
+			}
+			return deltaMass;
+		}
+
+		private static double GetDeltaMass(Modification2 mod, string sequence, bool isNterm, bool isCterm) {
+			ModificationPosition pos = mod.Position;
+			double deltaMass = 0;
+			for (int i = 0; i < mod.AaCount; i++) {
+				for (int j = 0; j < sequence.Length; j++) {
+					if ((pos == ModificationPosition.notNterm || pos == ModificationPosition.notTerm) && j == 0) {
+						continue;
+					}
+					if ((pos == ModificationPosition.notCterm || pos == ModificationPosition.notTerm) && j == sequence.Length - 1) {
+						continue;
+					}
+					if (sequence[j] == mod.GetAaAt(i)) {
+						deltaMass += mod.DeltaMass;
+					}
+				}
+			}
+			if (pos == ModificationPosition.anyNterm) {
+				deltaMass += mod.DeltaMass;
+			}
+			if (pos == ModificationPosition.anyCterm) {
+				deltaMass += mod.DeltaMass;
+			}
+			if (pos == ModificationPosition.proteinNterm && isNterm) {
+				deltaMass += mod.DeltaMass;
+			}
+			if (pos == ModificationPosition.proteinCterm && isCterm) {
 				deltaMass += mod.DeltaMass;
 			}
 			return deltaMass;
