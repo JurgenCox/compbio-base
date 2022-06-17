@@ -159,6 +159,9 @@ namespace BaseLibS.Graph {
 					DeleteSelectedChars();
 					break;
 				case Keys2.Control | Keys2.V:
+					if (ReadOnly){
+						return;
+					}
 					if (!string.IsNullOrEmpty(copyBuffer)) {
 						AddAtCursor(copyBuffer);
 					}
@@ -171,6 +174,9 @@ namespace BaseLibS.Graph {
 					}
 					break;
 				default:
+					if (ReadOnly) {
+						return;
+					}
 					char c = KeyData.GetChar(keyData, keyboardId);
 					if (c != 0 && !forbiddenChars.Contains(c)) {
 						DeleteSelectedChars();
