@@ -87,6 +87,8 @@ namespace BaseLibS.Drawing{
 					return '8';
 				case Keys2.NumPad9:
 					return '9';
+				case Keys2.Space:
+					return ' ';
 				default:
 					switch (keyboardId){
 						case 0x00000407:
