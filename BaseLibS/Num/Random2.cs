@@ -207,6 +207,12 @@ namespace BaseLibS.Num{
 			return perm;
 		}
 
+		public int[] NextDrawWithoutReplacement(int k, int n){
+			int[] x = NextPermutation(n);
+			x =x.SubArray(k);
+			Array.Sort(x);
+			return x;
+		}
 		public LongList<long> NextPermutationLong(long n){
 			LongList<long> perm = ArrayUtils.ConsecutiveLongs(n);
 			for (long i = 0; i < n; i++){
