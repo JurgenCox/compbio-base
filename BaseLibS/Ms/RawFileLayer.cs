@@ -1421,10 +1421,23 @@ namespace BaseLibS.Ms{
 			if (Ms2Count == 0){
 				return new int[0][];
 			}
-			int d = Ms2WindowGroup[0];
-			int len = 1;
-			while (Ms2WindowGroup[len] != d){
-				len++;
+			int len;
+			if (AllEqual(Ms2WindowGroup)){
+				len = 1;
+			} else{
+				int d = Ms2WindowGroup[0];
+				len = 1;
+				bool start = true;
+				while (true) {
+					int w = Ms2WindowGroup[len];
+					if (w != d) {
+						start = false;
+					}
+					if (w == d && !start) {
+						break;
+					}
+					len++;
+				}
 			}
 			int[][] result = new int[len][];
 			int len2 = Ms2Count / len;
@@ -1435,6 +1448,18 @@ namespace BaseLibS.Ms{
 				}
 			}
 			return result;
+		}
+		private bool AllEqual(int[] a){
+			if (a.Length == 0){
+				return true;
+			}
+			int a0 = a[0];
+			for (int i = 1; i < a.Length; i++){
+				if (a[i] != a0){
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }
