@@ -1449,7 +1449,7 @@ namespace BaseLibS.Ms{
 			}
 			return result;
 		}
-		private bool AllEqual(int[] a){
+		public static bool AllEqual(int[] a){
 			if (a.Length == 0){
 				return true;
 			}
