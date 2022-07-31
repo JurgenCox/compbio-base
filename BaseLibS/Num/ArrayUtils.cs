@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using BaseLibS.Num.Matrix;
 using BaseLibS.Num.Vector;
-
 namespace BaseLibS.Num{
 	public static class ArrayUtils{
 		/// <summary>
@@ -24,7 +23,6 @@ namespace BaseLibS.Num{
 			}
 			return min;
 		}
-
 		/// <summary>
 		///     Determines the smallest number in the input array.
 		/// </summary>
@@ -42,7 +40,6 @@ namespace BaseLibS.Num{
 			}
 			return min;
 		}
-
 		/// <summary>
 		///     Determines the smallest number in the input array.
 		/// </summary>
@@ -60,7 +57,6 @@ namespace BaseLibS.Num{
 			}
 			return min;
 		}
-
 		public static int MinInd(IList<decimal> x){
 			int n = x.Count;
 			decimal min = decimal.MaxValue;
@@ -74,7 +70,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static int MinInd(IList<double> x){
 			int n = x.Count;
 			double min = double.MaxValue;
@@ -88,7 +83,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static int MinInd(IList<float> x){
 			int n = x.Count;
 			float min = float.MaxValue;
@@ -102,7 +96,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static int MinInd(IList<int> x){
 			int n = x.Count;
 			int min = int.MaxValue;
@@ -116,7 +109,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static int[] MinInds(IList<int> x){
 			int min = Min(x);
 			List<int> result = new List<int>();
@@ -127,11 +119,9 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static double Range(IList<double> x){
 			return Max(x) - Min(x);
 		}
-
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>
@@ -150,7 +140,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		public static double Max(double[,] x){
 			if (x == null || x.GetLength(0) == 0 || x.GetLength(1) == 0){
 				return double.NaN;
@@ -166,7 +155,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		public static double Min(double[,] x){
 			if (x == null || x.GetLength(0) == 0 || x.GetLength(1) == 0){
 				return double.NaN;
@@ -182,7 +170,6 @@ namespace BaseLibS.Num{
 			}
 			return min;
 		}
-
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>
@@ -200,7 +187,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>
@@ -218,7 +204,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>
@@ -236,7 +221,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>
@@ -254,7 +238,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		/// <summary>
 		///     Determines the biggest number in the input array.
 		/// </summary>
@@ -272,7 +255,30 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
+		public static float Max(float[,] x){
+			if (x == null || x.GetLength(0) == 0 || x.GetLength(1) == 0){
+				return float.NaN;
+			}
+			float max = float.MinValue;
+			foreach (float val in x){
+				if (val > max){
+					max = val;
+				}
+			}
+			return max;
+		}
+		public static float Min(float[,] x){
+			if (x == null || x.GetLength(0) == 0 || x.GetLength(1) == 0){
+				return float.NaN;
+			}
+			float min = float.MaxValue;
+			foreach (float val in x){
+				if (val < min){
+					min = val;
+				}
+			}
+			return min;
+		}
 		public static int MaxInd(this IList<float> x){
 			int n = x.Count;
 			float max = float.MinValue;
@@ -286,7 +292,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static int MaxInd(this IList<int> x){
 			int n = x.Count;
 			int max = int.MinValue;
@@ -300,7 +305,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static int[] MaxInds(this IList<int> x){
 			int maxVal = Max(x);
 			List<int> inds = new List<int>();
@@ -311,7 +315,6 @@ namespace BaseLibS.Num{
 			}
 			return inds.ToArray();
 		}
-
 		public static double Mean(this IList<int> x){
 			int n = x.Count;
 			if (n == 0){
@@ -323,7 +326,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / n;
 		}
-
 		public static double Mean(this IList<float> x){
 			int n = x.Count;
 			if (n == 0){
@@ -335,7 +337,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / n;
 		}
-
 		public static double Mean(this float[,] x){
 			int n0 = x.GetLength(0);
 			int n1 = x.GetLength(1);
@@ -355,7 +356,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / n;
 		}
-
 		public static double Mean(this MatrixIndexer x){
 			int n0 = x.RowCount;
 			int n1 = x.ColumnCount;
@@ -375,7 +375,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / n;
 		}
-
 		public static double Mean(this IList<double> x){
 			int n = x.Count;
 			if (n == 0){
@@ -387,7 +386,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / n;
 		}
-
 		public static double GeometricMean(this IList<double> x){
 			int n = x.Count;
 			if (n == 0){
@@ -399,7 +397,6 @@ namespace BaseLibS.Num{
 			}
 			return Math.Pow(prod, 1.0 / n);
 		}
-
 		public static double Median(IList<double> x){
 			int n = x.Count;
 			if (n == 0){
@@ -411,11 +408,9 @@ namespace BaseLibS.Num{
 			}
 			return 0.5 * (x[o[n / 2 - 1]] + x[o[n / 2]]);
 		}
-
 		public static double WeightedMedian(IList<double> x, IList<double> weights){
 			return WeightedMedian(x, weights, false);
 		}
-
 		/// <param name="x">Not assumed to be in order.</param>
 		/// <param name="weights">Weights are not assumed to sum up to 1.</param>
 		/// <param name="logAverage"></param>
@@ -461,7 +456,6 @@ namespace BaseLibS.Num{
 			}
 			return x[o[a]];
 		}
-
 		public static double MedianLogspace(IList<double> x){
 			int n = x.Count;
 			if (n == 0){
@@ -473,11 +467,9 @@ namespace BaseLibS.Num{
 			}
 			return LogAverage(x[o[n / 2 - 1]], x[o[n / 2]]);
 		}
-
 		public static double LogAverage(double x1, double x2){
 			return Math.Exp(0.5 * (Math.Log(x1) + Math.Log(x2)));
 		}
-
 		public static float Median(this IList<float> x){
 			int n = x.Count;
 			if (n == 0){
@@ -489,7 +481,6 @@ namespace BaseLibS.Num{
 			}
 			return 0.5f * (x[o[n / 2 - 1]] + x[o[n / 2]]);
 		}
-
 		public static float Median(IList<int> x){
 			int n = x.Count;
 			if (n == 0){
@@ -501,16 +492,13 @@ namespace BaseLibS.Num{
 			}
 			return 0.5f * (x[o[n / 2 - 1]] + x[o[n / 2]]);
 		}
-
 		public static double TukeyBiweight(IList<double> x){
 			return TukeyBiweightCalc.TukeyBiweight(x);
 		}
-
 		public static double TukeyBiweightSe(IList<double> x){
 			double result = TukeyBiweightCalc.TukeyBiweight(x);
 			return TukeyBiweightCalc.TukeyBiweightSe(x, result);
 		}
-
 		public static double MostFrequentValue(IList<double> data){
 			int n = data.Count;
 			if (n <= 3){
@@ -520,7 +508,6 @@ namespace BaseLibS.Num{
 			int ind = MaxInd(y);
 			return x[ind];
 		}
-
 		public static double MostFrequentValue(IList<float> data){
 			int n = data.Count;
 			if (n <= 3){
@@ -530,7 +517,6 @@ namespace BaseLibS.Num{
 			int ind = MaxInd(y);
 			return x[ind];
 		}
-
 		public static int MostFrequentValue(IList<int> data){
 			if (data.Count == 0){
 				throw new Exception("Length has to be greater than 0.");
@@ -538,7 +524,6 @@ namespace BaseLibS.Num{
 			int[] vals = UniqueValuesAndCounts(data, out int[] counts);
 			return vals[MaxInd(counts)];
 		}
-
 		public static int MaxInd(IList<double> x){
 			int n = x.Count;
 			double max = double.MinValue;
@@ -552,7 +537,6 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-
 		public static (int, int) MaxInd(double[,] x){
 			int n0 = x.GetLength(0);
 			int n1 = x.GetLength(1);
@@ -571,7 +555,6 @@ namespace BaseLibS.Num{
 			}
 			return (ind0, ind1);
 		}
-
 		public static (int, int) MaxInd(float[,] x){
 			int n0 = x.GetLength(0);
 			int n1 = x.GetLength(1);
@@ -590,7 +573,6 @@ namespace BaseLibS.Num{
 			}
 			return (ind0, ind1);
 		}
-
 		public static double[] ToDoubles(IList<float> floats){
 			double[] result = new double[floats.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -598,7 +580,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double[,] ToDoubles(float[,] floats){
 			double[,] result = new double[floats.GetLength(0), floats.GetLength(1)];
 			for (int i = 0; i < result.GetLength(0); i++){
@@ -608,7 +589,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[] ToFloats(BaseVector floats){
 			float[] result = new float[floats.Length];
 			for (int i = 0; i < result.Length; i++){
@@ -616,7 +596,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[,] ToFloats(MatrixIndexer floats){
 			float[,] result = new float[floats.RowCount, floats.ColumnCount];
 			for (int i = 0; i < result.GetLength(0); i++){
@@ -626,7 +605,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double[] ToDoubles(BaseVector floats){
 			double[] result = new double[floats.Length];
 			for (int i = 0; i < result.Length; i++){
@@ -634,7 +612,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static string[] ToStrings(IList<object> x){
 			string[] result = new string[x.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -642,7 +619,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static string[] ToStrings(IList<char> x){
 			string[] result = new string[x.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -650,14 +626,12 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		/// Set of all integers in [0, length] not contained in present
 		/// </summary>
 		public static int[] Complement(IList<int> present, int length){
 			return Complement(new HashSet<int>(present), length);
 		}
-
 		/// <summary>
 		/// Set of all integers in [0, length] not contained in present
 		/// </summary>
@@ -670,7 +644,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static T[] Concat<T>(IList<T> first, IList<T> second){
 			if (first == null && second == null){
 				return null;
@@ -686,7 +659,6 @@ namespace BaseLibS.Num{
 			Array.Copy(second.ToArray(), 0, result, first.Count, second.Count);
 			return result;
 		}
-
 		public static T[] Concat<T>(IList<T> a, T b){
 			if (a == null){
 				return new[]{b};
@@ -696,7 +668,6 @@ namespace BaseLibS.Num{
 			result[a.Count] = b;
 			return result;
 		}
-
 		public static T[] Concat<T>(T a, IList<T> b){
 			if (b == null){
 				return new[]{a};
@@ -706,7 +677,6 @@ namespace BaseLibS.Num{
 			result[0] = a;
 			return result;
 		}
-
 		public static T[] Concat<T>(IList<T[]> x){
 			int len = 0;
 			foreach (T[] t in x){
@@ -722,7 +692,6 @@ namespace BaseLibS.Num{
 			return result;
 		}
 		//
-
 		public static T[] UniqueValuesPreserveOrder<T>(IList<T> array){
 			HashSet<T> taken = new HashSet<T>();
 			List<T> result = new List<T>();
@@ -734,7 +703,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static T[] UniqueValuesPreserveOrder<T>(IList<T[]> array){
 			HashSet<T> taken = new HashSet<T>();
 			List<T> result = new List<T>();
@@ -748,7 +716,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static int Min(IList<int> x){
 			if (x == null || x.Count == 0){
 				return int.MaxValue;
@@ -761,7 +728,6 @@ namespace BaseLibS.Num{
 			}
 			return min;
 		}
-
 		public static int Max(IList<int> x){
 			if (x == null || x.Count == 0){
 				return int.MinValue;
@@ -774,7 +740,6 @@ namespace BaseLibS.Num{
 			}
 			return max;
 		}
-
 		/// <summary>
 		/// Create a sublist by indexing with an indicator. If the indicator is longer than the values,
 		/// superfluous entries will be ignored.
@@ -799,7 +764,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		/// Create a sublist by extracting all provided indices.
 		/// </summary>
@@ -814,7 +778,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static List<T> SubList<T>(IList<T> list, int length){
 			int len = Math.Min(length, list.Count);
 			List<T> result = new List<T>();
@@ -823,7 +786,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static List<T> SubList<T>(IList<T> list, int startIndex, int stopIndex){
 			List<T> result = new List<T>();
 			int len = stopIndex - startIndex;
@@ -832,7 +794,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static List<T> MsSubList<T>(this IList<T> list, IList<int> indices){
 			List<T> result = new List<T>();
 			foreach (int index in indices){
@@ -840,7 +801,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static LongList<T> SubList<T>(this LongList<T> list, long length){
 			LongList<T> result = new LongList<T>();
 			for (long i = 0; i < length; i++){
@@ -848,7 +808,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static LongList<T> SubList<T>(this LongList<T> list, long[] indices){
 			LongList<T> result = new LongList<T>();
 			for (long i = 0; i < indices.Length; i++){
@@ -856,15 +815,12 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static int[] ConsecutiveInts(int to){
 			return ConsecutiveInts(0, to);
 		}
-
 		public static short[] ConsecutiveShorts(int to){
 			return ConsecutiveShorts(0, to);
 		}
-
 		/// <summary>
 		///     Create a list of consecutive integers.
 		/// </summary>
@@ -879,37 +835,34 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Create a list of consecutive shorts.
 		/// </summary>
 		/// <param name="from">Start index.</param>
 		/// <param name="to">End (exclusive).</param>
 		/// <returns>The list of consecutive shorts.</returns>
-		public static short[] ConsecutiveShorts(int from, int to) {
+		public static short[] ConsecutiveShorts(int from, int to){
 			int len = to - from;
 			short[] result = new short[len];
-			for (int i = 0; i < len; i++) {
-				result[i] = (short)(from + i);
+			for (int i = 0; i < len; i++){
+				result[i] = (short) (from + i);
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Create a list of consecutive chars.
 		/// </summary>
 		/// <param name="from">Start index.</param>
 		/// <param name="to">End (inclusive).</param>
 		/// <returns>The list of consecutive chars.</returns>
-		public static char[] ConsecutiveChars(char from, char to) {
+		public static char[] ConsecutiveChars(char from, char to){
 			int len = to - from + 1;
 			char[] result = new char[len];
-			for (int i = 0; i < len; i++) {
-				result[i] = (char)(from + i);
+			for (int i = 0; i < len; i++){
+				result[i] = (char) (from + i);
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Create a list of consecutive longs.
 		/// </summary>
@@ -924,11 +877,9 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static LongList<long> ConsecutiveLongs(long to){
 			return ConsecutiveLongs(0, to);
 		}
-
 		public static T[,] SubMatrix<T>(this T[,] array, IList<int> indices0, IList<int> indices1){
 			T[,] result = new T[indices0.Count, indices1.Count];
 			for (int i0 = 0; i0 < indices0.Count; i0++){
@@ -938,7 +889,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Extracts the indexed elements from the given array.
 		/// </summary>
@@ -955,7 +905,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Extracts the first <code>len</code> elements from the input array.
 		/// </summary>
@@ -973,7 +922,6 @@ namespace BaseLibS.Num{
 			Array.Copy(array, 0, result, 0, len);
 			return result;
 		}
-
 		/// <summary>
 		///     Extracts the sub-array from the position <code>startPos</code> on.
 		/// </summary>
@@ -992,7 +940,6 @@ namespace BaseLibS.Num{
 			Array.Copy(array, startPos, result, 0, len);
 			return result;
 		}
-
 		/// <summary>
 		/// Extracts the sub-array from the position <code>startIndex</code> to the position <code>stopIndex</code> (exclusive).
 		/// </summary>
@@ -1009,7 +956,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative){
 			data = Remove(data, double.NaN);
@@ -1032,7 +978,6 @@ namespace BaseLibS.Num{
 			}
 			Histogram(data, out x, out y, normalized, cumulative, h);
 		}
-
 		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative){
 			data = Remove(data, float.NaN);
@@ -1055,27 +1000,21 @@ namespace BaseLibS.Num{
 			}
 			Histogram(data, out x, out y, normalized, cumulative, h);
 		}
-
 		public static double StandardDeviation(IList<double> x){
 			return Math.Sqrt(Variance(x));
 		}
-
 		public static double StandardDeviation(IList<float> x){
 			return Math.Sqrt(Variance(x));
 		}
-
 		public static double StandardDeviation(IList<int> x){
 			return Math.Sqrt(Variance(x));
 		}
-
 		public static double StandardDeviation(float[,] x){
 			return Math.Sqrt(Variance(x));
 		}
-
 		public static double StandardDeviation(MatrixIndexer x){
 			return Math.Sqrt(Variance(x));
 		}
-
 		public static double Variance(IList<double> x){
 			if (x.Count < 2){
 				return double.NaN;
@@ -1090,7 +1029,6 @@ namespace BaseLibS.Num{
 			var /= n - 1;
 			return var;
 		}
-
 		public static double Variance(IList<float> x){
 			if (x.Count < 2){
 				return double.NaN;
@@ -1105,7 +1043,6 @@ namespace BaseLibS.Num{
 			var /= (n - 1);
 			return var;
 		}
-
 		public static double Variance(float[,] x){
 			int n0 = x.GetLength(0);
 			int n1 = x.GetLength(1);
@@ -1127,7 +1064,6 @@ namespace BaseLibS.Num{
 			var /= n - 1;
 			return var;
 		}
-
 		public static double Variance(MatrixIndexer x){
 			int n0 = x.RowCount;
 			int n1 = x.ColumnCount;
@@ -1149,7 +1085,6 @@ namespace BaseLibS.Num{
 			var /= n - 1;
 			return var;
 		}
-
 		public static double Variance(IList<int> x){
 			if (x.Count < 2){
 				return double.NaN;
@@ -1164,7 +1099,6 @@ namespace BaseLibS.Num{
 			var /= n - 1;
 			return var;
 		}
-
 		public static T[] Remove<T>(IList<T> x, T elem){
 			List<T> result = new List<T>();
 			foreach (T t in x){
@@ -1174,7 +1108,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative, double h, double min, double max){
 			int n = data.Count;
@@ -1209,7 +1142,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative, double h, double min, double max){
 			int n = data.Count;
@@ -1244,7 +1176,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		public static void Histogram(IList<double> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative, double h){
 			MinMax(data, out double min, out double max);
@@ -1257,7 +1188,6 @@ namespace BaseLibS.Num{
 			max += span / 2.0 / nbins;
 			Histogram(data, out x, out y, normalized, cumulative, h, min, max);
 		}
-
 		public static void Histogram(IList<float> data, out double[] x, out double[] y, bool normalized,
 			bool cumulative, double h){
 			MinMax(data, out float min, out float max);
@@ -1270,7 +1200,6 @@ namespace BaseLibS.Num{
 			max += span / 2.0f / nbins;
 			Histogram(data, out x, out y, normalized, cumulative, h, min, max);
 		}
-
 		public static void MinMax(IList<double> x, out double min, out double max){
 			int n = x.Count;
 			if (n == 0){
@@ -1297,7 +1226,6 @@ namespace BaseLibS.Num{
 				max = double.NaN;
 			}
 		}
-
 		public static void MinMax(IList<long> x, out long min, out long max){
 			int n = x.Count;
 			min = long.MaxValue;
@@ -1312,7 +1240,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		public static void MinMax(IList<float> x, out float min, out float max){
 			int n = x.Count;
 			if (n == 0){
@@ -1336,7 +1263,6 @@ namespace BaseLibS.Num{
 				max = float.NaN;
 			}
 		}
-
 		public static void MinMax(float[,,,] x, out float min, out float max){
 			min = float.MaxValue;
 			max = float.MinValue;
@@ -1356,7 +1282,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		public static void MinMax(float[,,] x, out float min, out float max){
 			min = float.MaxValue;
 			max = float.MinValue;
@@ -1374,7 +1299,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		public static void MinMax(IList<int> x, out int min, out int max){
 			int n = x.Count;
 			min = int.MaxValue;
@@ -1389,7 +1313,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		/// <summary>
 		///     For the sake of simplicity do all sorting tasks always and ever with these method.
 		/// </summary>
@@ -1411,7 +1334,6 @@ namespace BaseLibS.Num{
 			Array.Sort(dummy, order);
 			return order;
 		}
-
 		/// <summary>
 		///     For the sake of simplicity do all sorting tasks always and ever with these method.
 		/// </summary>
@@ -1436,7 +1358,6 @@ namespace BaseLibS.Num{
 			SortImpl(x, y, order, dummy, low, high);
 			return order;
 		}
-
 		/// <summary>
 		///     For the sake of simplicity do all sorting tasks always and ever with these method.
 		/// </summary>
@@ -1463,7 +1384,6 @@ namespace BaseLibS.Num{
 			SortImpl(x, y, z, order, dummy, low, high);
 			return order;
 		}
-
 		/// <summary>
 		///     For the sake of simplicity do all sorting tasks always and ever with these method.
 		/// </summary>
@@ -1484,7 +1404,6 @@ namespace BaseLibS.Num{
 			SortImpl(x, order, dummy, low, high);
 			return order;
 		}
-
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
@@ -1516,7 +1435,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
@@ -1562,7 +1480,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
@@ -1620,7 +1537,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		/// <summary>
 		///     Private class that implements the sorting algorithm.
 		/// </summary>
@@ -1651,7 +1567,6 @@ namespace BaseLibS.Num{
 				}
 			}
 		}
-
 		public static float[] Quantiles(IList<float> x, double[] qs){
 			int n = x.Count;
 			float[] result = new float[qs.Length];
@@ -1681,7 +1596,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double[] Quantiles(IList<double> x, double[] qs){
 			int n = x.Count;
 			double[] result = new double[qs.Length];
@@ -1711,11 +1625,9 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double[] Rank<T>(IList<T> data) where T : IComparable<T>{
 			return Rank(data, true);
 		}
-
 		/// <summary>
 		///     Calculates the rank of the given data. The lowest rank value is 0.
 		///     The input array type must inherit IComparable.
@@ -1746,21 +1658,18 @@ namespace BaseLibS.Num{
 			}
 			return rank;
 		}
-
-        public static int[] RankInt<T>(IList<T> data) where T : IComparable<T> {
-            int n = data.Count;
-            int[] rank = new int[n];
-            int[] index = Order(data);
-            for (int j = 0; j < n; j++) {
-                rank[index[j]] = j;
-            }
-            return rank;
-        }
-
+		public static int[] RankInt<T>(IList<T> data) where T : IComparable<T>{
+			int n = data.Count;
+			int[] rank = new int[n];
+			int[] index = Order(data);
+			for (int j = 0; j < n; j++){
+				rank[index[j]] = j;
+			}
+			return rank;
+		}
 		public static double[] Rank(BaseVector data){
 			return Rank(data, true);
 		}
-
 		/// <summary>
 		///     Calculates the rank of the given data. The lowest rank value is 0.
 		///     The input array type must inherit IComparable.
@@ -1791,11 +1700,9 @@ namespace BaseLibS.Num{
 			}
 			return rank;
 		}
-
 		public static float[] RankF<T>(IList<T> data) where T : IComparable<T>{
 			return RankF(data, true);
 		}
-
 		/// <summary>
 		///     Calculates the rank of the given data. The lowest rank value is 0.
 		///     The input array type must inherit IComparable.
@@ -1826,7 +1733,6 @@ namespace BaseLibS.Num{
 			}
 			return rank;
 		}
-
 		public static T[] RemoveAtIndex<T>(IList<T> x, int index){
 			T[] result = new T[x.Count - 1];
 			for (int i = 0; i < index; i++){
@@ -1837,7 +1743,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[] Remove<T>(IList<T> x, IList<int> indices){
 			List<T> result = new List<T>();
 			for (int i = 0; i < x.Count; i++){
@@ -1847,7 +1752,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static T[] Insert<T>(IList<T> x, T value, int index){
 			T[] result = new T[x.Count + 1];
 			for (int i = 0; i < index; i++){
@@ -1859,11 +1763,9 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double MeanAndStddev(IList<double> vals, out double stddev){
 			return MeanAndStddev(vals, out stddev, false);
 		}
-
 		public static double MeanAndStddev(IList<double> vals, out double stddev, bool useMedian){
 			double mean = 0;
 			int validCount = 0;
@@ -1897,19 +1799,15 @@ namespace BaseLibS.Num{
 			stddev = Math.Sqrt(stddev);
 			return mean;
 		}
-
 		public static double MeanAndStddev(IList<float> vals, out double stddev){
 			return MeanAndStddev(vals, out stddev, false);
 		}
-
 		public static double MeanAndStddev(IList<float> vals, out double stddev, bool useMedian){
 			return MeanAndStddev(vals, out stddev, out int _, useMedian);
 		}
-
 		public static double MeanAndStddev(IList<float> vals, out double stddev, out int validCount){
 			return MeanAndStddev(vals, out stddev, out validCount, false);
 		}
-
 		public static double MeanAndStddev(IList<float> vals, out double stddev, out int validCount, bool useMedian){
 			double mean = 0;
 			validCount = 0;
@@ -1943,7 +1841,6 @@ namespace BaseLibS.Num{
 			stddev = Math.Sqrt(stddev);
 			return mean;
 		}
-
 		/// <summary>
 		///     Returns an array containing all values from the given dictionary for which there is a key present in the key array.
 		/// </summary>
@@ -1956,7 +1853,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		/// <summary>
 		///     Returns the index of the first element in an array that equals a given object.
 		/// </summary>
@@ -1971,7 +1867,6 @@ namespace BaseLibS.Num{
 			}
 			return -1;
 		}
-
 		/// <summary>
 		///     Returns all indices of the array elements that equal a given object.
 		/// </summary>
@@ -1987,7 +1882,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static double[] ToDoubles(IList<int> ints){
 			double[] result = new double[ints.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -1995,7 +1889,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[] ToFloats(IList<double> doubles){
 			float[] result = new float[doubles.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2003,7 +1896,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[,,,] ToFloats(double[,,,] d){
 			float[,,,] result = new float[d.GetLength(0), d.GetLength(1), d.GetLength(2), d.GetLength(3)];
 			for (int i0 = 0; i0 < result.GetLength(0); i0++){
@@ -2017,7 +1909,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[][] ToFloats(IList<double[]> doubles){
 			float[][] result = new float[doubles.Count][];
 			for (int i = 0; i < result.Length; i++){
@@ -2025,7 +1916,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[][,] ToFloats(IList<double[,]> doubles){
 			float[][,] result = new float[doubles.Count][,];
 			for (int i = 0; i < result.Length; i++){
@@ -2033,7 +1923,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static int[] ToInts(IList<float> doubles){
 			int[] result = new int[doubles.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2041,7 +1930,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static int[] ToInts(IList<double> doubles){
 			int[] result = new int[doubles.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2049,23 +1937,20 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
-		public static int[] ToInts(IList<ushort> doubles) {
+		public static int[] ToInts(IList<ushort> doubles){
 			int[] result = new int[doubles.Count];
-			for (int i = 0; i < result.Length; i++) {
+			for (int i = 0; i < result.Length; i++){
 				result[i] = doubles[i];
 			}
 			return result;
 		}
-
-		public static ushort[] ToUshorts(IList<int> doubles) {
+		public static ushort[] ToUshorts(IList<int> doubles){
 			ushort[] result = new ushort[doubles.Count];
-			for (int i = 0; i < result.Length; i++) {
-				result[i] = (ushort)doubles[i];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = (ushort) doubles[i];
 			}
 			return result;
 		}
-
 		public static float[] ToFloats(IList<int> doubles){
 			float[] result = new float[doubles.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2073,7 +1958,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[] ToFloats(IList<bool> doubles){
 			float[] result = new float[doubles.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2081,7 +1965,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     In case the item is not in the array or occurs only once the conventional binary search output index
 		///     is returned in <code>minInd</code> and <code>maxInd</code>. If the item occurs more than once,
@@ -2116,7 +1999,6 @@ namespace BaseLibS.Num{
 				maxInd++;
 			}
 		}
-
 		/// <summary>
 		/// Index of last element &gt; value in sorted array.
 		/// </summary>
@@ -2144,7 +2026,6 @@ namespace BaseLibS.Num{
 			}
 			return -2 - a;
 		}
-
 		/// <summary>
 		/// Index of first element &lt; value in sorted array.
 		/// </summary>
@@ -2172,7 +2053,6 @@ namespace BaseLibS.Num{
 			}
 			return -1 - a;
 		}
-
 		/// <summary>
 		/// Index of last element &gt; value in sorted array.
 		/// </summary>
@@ -2200,7 +2080,6 @@ namespace BaseLibS.Num{
 			}
 			return -2 - a;
 		}
-
 		/// <summary>
 		/// Index of first element &lt; value in sorted array.
 		/// </summary>
@@ -2228,7 +2107,6 @@ namespace BaseLibS.Num{
 			}
 			return -1 - a;
 		}
-
 		/// <summary>
 		/// Index of last element &gt; value in sorted array.
 		/// </summary>
@@ -2245,7 +2123,6 @@ namespace BaseLibS.Num{
 			}
 			return FloorIndex(ilist.ToArray(), value);
 		}
-
 		/// <summary>
 		/// Index of first element &lt; value in sorted array.
 		/// </summary>
@@ -2262,7 +2139,6 @@ namespace BaseLibS.Num{
 			}
 			return CeilIndex(ilist.ToArray(), value);
 		}
-
 		/// <summary>
 		/// Reverses the order of the values in the array.
 		/// </summary>
@@ -2276,7 +2152,6 @@ namespace BaseLibS.Num{
 				x[n - i - 1] = tmp;
 			}
 		}
-
 		/// <summary>
 		///     Compares the two given arrays and returns the equality of their contents. First the lengths of the
 		///     given arrays are compared and then their contents.
@@ -2297,7 +2172,6 @@ namespace BaseLibS.Num{
 			}
 			return true;
 		}
-
 		public static bool EqualArraysOfArrays<T>(IList<T[]> a, IList<T[]> b){
 			if (a == null && b == null) return true;
 			if (a == null || b == null) return false;
@@ -2311,7 +2185,6 @@ namespace BaseLibS.Num{
 			}
 			return true;
 		}
-
 		public static T[] UniqueValues<T>(IList<T> array) where T : IComparable<T>{
 			if (array.Count < 1){
 				return new T[0];
@@ -2332,7 +2205,6 @@ namespace BaseLibS.Num{
 			Array.Resize(ref tmp, counter);
 			return tmp;
 		}
-
 		public static T[] UniqueValuesSorted<T>(IList<T[]> array){
 			HashSet<T> hs = new HashSet<T>();
 			foreach (T ty in from tx in array from ty in tx where !hs.Contains(ty) select ty){
@@ -2342,7 +2214,6 @@ namespace BaseLibS.Num{
 			Array.Sort(x);
 			return x;
 		}
-
 		public static T[] UniqueValuesSorted<T>(IList<T> array){
 			HashSet<T> hs = new HashSet<T>();
 			foreach (T ty in from ty in array where !hs.Contains(ty) select ty){
@@ -2352,7 +2223,6 @@ namespace BaseLibS.Num{
 			Array.Sort(x);
 			return x;
 		}
-
 		public static T[] UniqueValuesAndCounts<T>(IList<T> array, out int[] counters) where T : IComparable<T>{
 			T[] unique = UniqueValues(array);
 			counters = new int[unique.Length];
@@ -2362,7 +2232,6 @@ namespace BaseLibS.Num{
 			}
 			return unique;
 		}
-
 		public static T[] UniqueValuesAndCounts<T>(T[] array, out int[] counters) where T : IComparable<T>{
 			if (array.Length == 0){
 				counters = new int[0];
@@ -2389,7 +2258,6 @@ namespace BaseLibS.Num{
 			Array.Resize(ref sorted, counter);
 			return sorted;
 		}
-
 		public static double Sum(IList<double> x){
 			int n = x.Count;
 			double sum = 0;
@@ -2398,7 +2266,6 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-
 		public static double Sum(IList<double[]> x){
 			int n = x.Count;
 			double sum = 0;
@@ -2407,7 +2274,6 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-
 		public static double Product(IList<double> x){
 			int n = x.Count;
 			double prod = 1;
@@ -2416,7 +2282,6 @@ namespace BaseLibS.Num{
 			}
 			return prod;
 		}
-
 		public static double Sum(IList<float> x){
 			int n = x.Count;
 			double sum = 0;
@@ -2425,7 +2290,6 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-
 		public static long Sum(IList<int> x){
 			int n = x.Count;
 			long sum = 0;
@@ -2434,7 +2298,6 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-
 		public static long Sum(IList<long> x){
 			int n = x.Count;
 			long sum = 0;
@@ -2443,7 +2306,6 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-
 		public static int Sum(IList<bool> x){
 			int n = x.Count;
 			int sum = 0;
@@ -2454,7 +2316,15 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-
+		public static double Sum(float[,] x){
+			double sum = 0;
+			for (int i0 = 0; i0 < x.GetLength(0); i0++){
+				for (int i1 = 0; i1 < x.GetLength(1); i1++){
+					sum += x[i0, i1];
+				}
+			}
+			return sum;
+		}
 		public static double Cosine(IList<double> x, IList<double> y){
 			double xx = 0;
 			double yy = 0;
@@ -2472,7 +2342,6 @@ namespace BaseLibS.Num{
 			}
 			return 0f;
 		}
-
 		public static float Cosine(IList<float> x, IList<float> y){
 			float xx = 0;
 			float yy = 0;
@@ -2490,7 +2359,6 @@ namespace BaseLibS.Num{
 			}
 			return 0f;
 		}
-
 		public static T[] FillArray<T>(Func<int, T> map, int len){
 			T[] array = new T[len];
 			for (int i = 0; i < len; i++){
@@ -2498,7 +2366,6 @@ namespace BaseLibS.Num{
 			}
 			return array;
 		}
-
 		public static T[] FillArray<T>(T item, int len){
 			T[] array = new T[len];
 			for (int i = 0; i < len; i++){
@@ -2506,7 +2373,6 @@ namespace BaseLibS.Num{
 			}
 			return array;
 		}
-
 		public static T[,] Fill2DArray<T>(T item, int dim0, int dim1){
 			T[,] array = new T[dim0, dim1];
 			for (int i0 = 0; i0 < dim0; i0++){
@@ -2516,7 +2382,6 @@ namespace BaseLibS.Num{
 			}
 			return array;
 		}
-
 		public static T[,,] Fill3DArray<T>(T item, int dim0, int dim1, int dim2){
 			T[,,] array = new T[dim0, dim1, dim2];
 			for (int i0 = 0; i0 < dim0; i0++){
@@ -2528,7 +2393,6 @@ namespace BaseLibS.Num{
 			}
 			return array;
 		}
-
 		public static List<T> FillList<T>(T item, int len){
 			List<T> array = new List<T>();
 			for (int i = 0; i < len; i++){
@@ -2536,7 +2400,6 @@ namespace BaseLibS.Num{
 			}
 			return array;
 		}
-
 		public static T[,] FillArray<T>(T item, int len0, int len1){
 			T[,] array = new T[len0, len1];
 			for (int i = 0; i < len0; i++){
@@ -2546,7 +2409,6 @@ namespace BaseLibS.Num{
 			}
 			return array;
 		}
-
 		public static int ClosestIndex(double[] array, double value){
 			if (array == null) return -1;
 			lock (array){
@@ -2584,7 +2446,6 @@ namespace BaseLibS.Num{
 				return b - 1;
 			}
 		}
-
 		public static int ClosestIndex(List<double> array, double value){
 			if (array == null) return -1;
 			lock (array){
@@ -2622,7 +2483,6 @@ namespace BaseLibS.Num{
 				return b - 1;
 			}
 		}
-
 		public static int ClosestIndex(float[] array, float value){
 			if (float.IsNaN(value)){
 				return -1;
@@ -2657,7 +2517,6 @@ namespace BaseLibS.Num{
 			}
 			return b - 1;
 		}
-
 		public static int ClosestIndex(int[] array, int value){
 			int n = array.Length;
 			if (n == 0){
@@ -2685,9 +2544,8 @@ namespace BaseLibS.Num{
 			}
 			return b - 1;
 		}
-
 		public static int GetArrayOfArrayHashCode<T>(IList<T[]> array){
-			if (array == null) {
+			if (array == null){
 				return 0;
 			}
 			int hash = 397;
@@ -2696,7 +2554,6 @@ namespace BaseLibS.Num{
 			}
 			return hash;
 		}
-
 		public static int GetArrayHashCode<T>(IList<T> array){
 			if (array == null){
 				return 0;
@@ -2707,7 +2564,6 @@ namespace BaseLibS.Num{
 			}
 			return hash;
 		}
-
 		public static float[,] ToFloats(double[,] x){
 			float[,] result = new float[x.GetLength(0), x.GetLength(1)];
 			for (int i = 0; i < x.GetLength(0); i++){
@@ -2717,7 +2573,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[,] ToFloats(bool[,] x){
 			float[,] result = new float[x.GetLength(0), x.GetLength(1)];
 			for (int i = 0; i < x.GetLength(0); i++){
@@ -2727,7 +2582,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double[] ExtractValidValues(IList<double> x){
 			List<double> result = new List<double>();
 			foreach (double y in x){
@@ -2737,7 +2591,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static int[] GetValidInds(IList<double> x){
 			List<int> result = new List<int>();
 			for (int i = 0; i < x.Count; i++){
@@ -2748,7 +2601,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static int[] GetValidInds(IList<float> x){
 			List<int> result = new List<int>();
 			for (int i = 0; i < x.Count; i++){
@@ -2759,7 +2611,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static float[] ExtractValidValues(IList<float> x){
 			List<float> result = new List<float>();
 			foreach (float y in x){
@@ -2769,7 +2620,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static double[] SmoothMean(IList<double> m, int width){
 			double[] result = new double[m.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2779,7 +2629,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[] SmoothMean(IList<float> m, int width){
 			float[] result = new float[m.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2789,7 +2638,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double Average(IList<double> m, int min, int max, int len){
 			double sum = 0;
 			for (int i = min; i <= max; i++){
@@ -2797,7 +2645,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / len;
 		}
-
 		public static float Average(IList<float> m, int min, int max, int len){
 			float sum = 0;
 			for (int i = min; i <= max; i++){
@@ -2805,7 +2652,6 @@ namespace BaseLibS.Num{
 			}
 			return sum / len;
 		}
-
 		public static T[,] Transpose<T>(T[,] x){
 			T[,] result = new T[x.GetLength(1), x.GetLength(0)];
 			for (int i = 0; i < x.GetLength(0); i++){
@@ -2815,7 +2661,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[][,] Transpose<T>(T[][,] x){
 			if (x.Length == 1){
 				return new[]{Transpose(x[0])};
@@ -2841,7 +2686,6 @@ namespace BaseLibS.Num{
 			//}
 			//return result;
 		}
-
 		public static T[][] Transpose<T>(T[][] x){
 			if (x.Length == 0){
 				return new T[0][];
@@ -2857,7 +2701,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double Correlation(IList<double> x, IList<double> y){
 			if (x.Count < 3){
 				return 0;
@@ -2880,7 +2723,6 @@ namespace BaseLibS.Num{
 			}
 			return 0f;
 		}
-
 		public static double Correlation(IList<float> x, IList<float> y){
 			if (x.Count < 3){
 				return 0;
@@ -2903,7 +2745,6 @@ namespace BaseLibS.Num{
 			}
 			return 0f;
 		}
-
 		public static double[] SmoothMedian(IList<double> m, int width){
 			double[] result = new double[m.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2913,7 +2754,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[] SmoothMedian(IList<float> m, int width){
 			float[] result = new float[m.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -2923,7 +2763,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		private static double Median(IList<double> m, int min, int max){
 			int len = max - min + 1;
 			if (len == 1){
@@ -2968,7 +2807,6 @@ namespace BaseLibS.Num{
 				return x[w];
 			}
 		}
-
 		private static float Median(IList<float> m, int min, int max){
 			int len = max - min + 1;
 			if (len == 1){
@@ -3013,7 +2851,6 @@ namespace BaseLibS.Num{
 				return x[w];
 			}
 		}
-
 		public static double Quantile(IList<double> x, double q){
 			int n = x.Count;
 			if (n == 0){
@@ -3023,7 +2860,6 @@ namespace BaseLibS.Num{
 			int[] o = Order(x);
 			return x[o[ind]];
 		}
-
 		public static float Quantile(IList<float> x, float q){
 			int n = x.Count;
 			if (n == 0){
@@ -3033,7 +2869,6 @@ namespace BaseLibS.Num{
 			int[] o = Order(x);
 			return x[o[ind]];
 		}
-
 		public static T[,] ExtractRows<T>(T[,] values, IList<int> rows){
 			T[,] result = new T[rows.Count, values.GetLength(1)];
 			for (int i = 0; i < rows.Count; i++){
@@ -3043,7 +2878,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[][,] ExtractRows<T>(T[][,] values, IList<int> rows){
 			if (values.Length == 1){
 				return new[]{ExtractRows(values[0], rows)};
@@ -3073,7 +2907,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,] ExtractColumns<T>(T[,] values, IList<int> cols){
 			T[,] result = new T[values.GetLength(0), cols.Count];
 			for (int i = 0; i < values.GetLength(0); i++){
@@ -3083,7 +2916,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[][,] ExtractColumns<T>(T[][,] values, IList<int> cols){
 			T[][,] result = new T[values.Length][,];
 			for (int i = 0; i < result.Length; i++){
@@ -3091,7 +2923,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,] ExtractDim0<T>(T[,,] values, IList<int> inds){
 			T[,,] result = new T[inds.Count, values.GetLength(1), values.GetLength(2)];
 			for (int i = 0; i < inds.Count; i++){
@@ -3103,7 +2934,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,] ExtractDim1<T>(T[,,] values, IList<int> inds){
 			T[,,] result = new T[values.GetLength(0), inds.Count, values.GetLength(2)];
 			for (int i = 0; i < values.GetLength(0); i++){
@@ -3115,7 +2945,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,] ExtractDim2<T>(T[,,] values, IList<int> inds){
 			T[,,] result = new T[values.GetLength(0), values.GetLength(1), inds.Count];
 			for (int i = 0; i < values.GetLength(0); i++){
@@ -3127,7 +2956,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,,] ExtractDim0<T>(T[,,,] values, IList<int> inds){
 			T[,,,] result = new T[inds.Count, values.GetLength(1), values.GetLength(2), values.GetLength(3)];
 			for (int i = 0; i < inds.Count; i++){
@@ -3141,7 +2969,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,,] ExtractDim1<T>(T[,,,] values, IList<int> inds){
 			T[,,,] result = new T[values.GetLength(0), inds.Count, values.GetLength(2), values.GetLength(3)];
 			for (int i = 0; i < values.GetLength(0); i++){
@@ -3155,7 +2982,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,,] ExtractDim2<T>(T[,,,] values, IList<int> inds){
 			T[,,,] result = new T[values.GetLength(0), values.GetLength(1), inds.Count, values.GetLength(3)];
 			for (int i = 0; i < values.GetLength(0); i++){
@@ -3169,7 +2995,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[,,,] ExtractDim3<T>(T[,,,] values, IList<int> inds){
 			T[,,,] result = new T[values.GetLength(0), values.GetLength(1), values.GetLength(2), inds.Count];
 			for (int i = 0; i < values.GetLength(0); i++){
@@ -3183,11 +3008,9 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static float[] Zscore(IList<float> vals){
 			return Zscore(vals, false);
 		}
-
 		public static float[] Zscore(IList<float> vals, bool useMedian){
 			double mean = MeanAndStddev(vals, out double stddev, out int validCount, useMedian);
 			float[] result = new float[vals.Count];
@@ -3202,23 +3025,18 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static double InterQuartileRange(IList<double> vals){
 			return Quantile(vals, 0.75) - Quantile(vals, 0.25);
 		}
-
 		public static double InterQuartileRange(IList<float> vals){
 			return Quantile(vals, 0.75f) - Quantile(vals, 0.25f);
 		}
-
 		public static double FirstQuartile(IList<double> vals){
 			return Quantile(vals, 0.25);
 		}
-
 		public static double ThirdQuartile(IList<double> vals){
 			return Quantile(vals, 0.75);
 		}
-
 		public static double Skewness(IList<double> vals){
 			int n = vals.Count;
 			double mean = Mean(vals);
@@ -3233,7 +3051,6 @@ namespace BaseLibS.Num{
 			double g1 = m3 / Math.Pow(m2, 1.5);
 			return g1 * Math.Sqrt(n * (n - 1)) / (n - 2);
 		}
-
 		public static double Kurtosis(IList<double> vals){
 			int n = vals.Count;
 			double mean = Mean(vals);
@@ -3249,7 +3066,6 @@ namespace BaseLibS.Num{
 			double denom = (n - 1) * (n - 2) * (n - 3) * n * n * m2 * m2;
 			return num / denom;
 		}
-
 		public static double CoefficientOfVariation(IList<double> x){
 			List<double> y = new List<double>();
 			foreach (double d in x){
@@ -3259,7 +3075,6 @@ namespace BaseLibS.Num{
 			}
 			return StandardDeviation(y) / Mean(y);
 		}
-
 		public static double MedianAbsoluteDeviation(IList<double> x){
 			double median = Median(x);
 			List<double> w = new List<double>();
@@ -3268,7 +3083,6 @@ namespace BaseLibS.Num{
 			}
 			return Median(w.ToArray());
 		}
-
 		public static double FullWidthHalfMaximum(IList<double> data){
 			if (data.Count == 0){
 				return double.NaN;
@@ -3317,11 +3131,9 @@ namespace BaseLibS.Num{
 			double rightX = GetXval(x[rightInd - 1], y[rightInd - 1], x[rightInd], y[rightInd], max2);
 			return rightX - leftX;
 		}
-
 		private static double GetXval(double x1, double y1, double x2, double y2, double y){
 			return x1 + (x2 - x1) / (y2 - y1) * (y - y1);
 		}
-
 		public static double[] CollapseSimilarValues(double[] a, double eps){
 			bool[] eq = new bool[a.Length - 1];
 			bool any = false;
@@ -3350,7 +3162,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static HashSet<T> ToHashSet<T>(IEnumerable<T> x){
 			HashSet<T> result = new HashSet<T>();
 			foreach (T t in x){
@@ -3358,7 +3169,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		private static int[] SplitIndices(int n, int k){
 			int[] result = new int[k + 1];
 			for (int i = 0; i < k + 1; i++){
@@ -3366,7 +3176,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Split the array x into n pieces.
 		/// </summary>
@@ -3383,7 +3192,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		///     Split the array x into n pieces.
 		/// </summary>
@@ -3403,7 +3211,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static Dictionary<T, int> InverseMap<T>(IList<T> list){
 			Dictionary<T, int> result = new Dictionary<T, int>();
 			for (int i = 0; i < list.Count; i++){
@@ -3413,7 +3220,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static T[] EveryNth<T>(T[] array, int n){
 			List<T> result = new List<T>();
 			for (int i = 0; i < array.Length; i += n){
@@ -3421,7 +3227,6 @@ namespace BaseLibS.Num{
 			}
 			return result.ToArray();
 		}
-
 		public static double CalcCovariance(IList<double> data){
 			int n = data.Count;
 			double means = 0;
@@ -3436,7 +3241,6 @@ namespace BaseLibS.Num{
 			cov /= n;
 			return cov;
 		}
-
 		public static int[] GetTopN<T>(IList<T> vals, int n) where T : IComparable<T>{
 			if (vals.Count <= n){
 				return ConsecutiveInts(vals.Count);
@@ -3448,7 +3252,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		/// <summary>
 		/// Split the array into pieces not larger than <code>size</code>.
 		/// </summary>
@@ -3468,7 +3271,6 @@ namespace BaseLibS.Num{
 			result[n - 1] = SubArray(array, (n - 1) * size, array.Count);
 			return result;
 		}
-
 		/// <summary>
 		///     Checks whether the given value is in the array.
 		/// </summary>
@@ -3476,16 +3278,15 @@ namespace BaseLibS.Num{
 		/// <param name="array">The array to look for the value.</param>
 		/// <param name="value">The value to look for.</param>
 		/// <returns></returns>
-		public static bool Contains<T>(IList<T> array, T value) {
-			foreach (T t in array) {
-				if (t.Equals(value)) {
+		public static bool Contains<T>(IList<T> array, T value){
+			foreach (T t in array){
+				if (t.Equals(value)){
 					return true;
 				}
 			}
 			return false;
 		}
-
-		public static bool AllAreEqual<T>(IList<T> array) {
+		public static bool AllAreEqual<T>(IList<T> array){
 			if (array.Count <= 1){
 				return true;
 			}
@@ -3497,12 +3298,10 @@ namespace BaseLibS.Num{
 			}
 			return true;
 		}
-
 		public static int TriangleToLinearIndex(int i, int j){
 			int b = i * (i - 1) / 2;
 			return b + j;
 		}
-
 		public static bool Or(IList<bool> x){
 			foreach (bool b in x){
 				if (b){
@@ -3511,7 +3310,6 @@ namespace BaseLibS.Num{
 			}
 			return false;
 		}
-
 		public static bool And(IList<bool> x){
 			foreach (bool b in x){
 				if (!b){
@@ -3520,7 +3318,6 @@ namespace BaseLibS.Num{
 			}
 			return true;
 		}
-
 		public static bool[] Or(IList<bool> x, IList<bool> y){
 			bool[] result = new bool[x.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -3528,7 +3325,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static bool[] And(IList<bool> x, IList<bool> y){
 			bool[] result = new bool[x.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -3536,7 +3332,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static void PackArrayOfArrays<T>(T[][] data, out T[] value, out int[] ind){
 			List<T> values = new List<T>();
 			List<int> inds = new List<int>();
@@ -3551,7 +3346,6 @@ namespace BaseLibS.Num{
 			value = values.ToArray();
 			ind = inds.ToArray();
 		}
-
 		public static T[][] UnpackArrayOfArrays<T>(T[] values, int[] inds){
 			T[][] data = new T[inds.Length][];
 			for (int i = 0; i < inds.Length - 1; i++){
@@ -3576,7 +3370,6 @@ namespace BaseLibS.Num{
 			}
 			return data;
 		}
-
 		public static void PackArrayOfStrings(string[] data, out string value, out int[] ind){
 			StringBuilder values = new StringBuilder();
 			List<int> inds = new List<int>();
@@ -3589,7 +3382,6 @@ namespace BaseLibS.Num{
 			value = values.ToString();
 			ind = inds.ToArray();
 		}
-
 		public static string[] UnpackArrayOfStrings(string values, int[] inds){
 			string[] data = new string[inds.Length];
 			if (string.IsNullOrEmpty(values)){
@@ -3613,7 +3405,6 @@ namespace BaseLibS.Num{
 			}
 			return data;
 		}
-
 		public static Dictionary<T1, T2> CopyDict<T1, T2>(Dictionary<T1, T2> x){
 			Dictionary<T1, T2> result = new Dictionary<T1, T2>();
 			foreach (KeyValuePair<T1, T2> pair in x){
@@ -3621,7 +3412,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static bool[] Invert(IList<bool> x){
 			bool[] result = new bool[x.Count];
 			for (int i = 0; i < result.Length; i++){
@@ -3629,7 +3419,6 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-
 		public static void Add<Tk, Tv>(Dictionary<Tk, List<Tv>> d, Tk key, Tv value){
 			if (!d.ContainsKey(key)){
 				d.Add(key, new List<Tv>());
