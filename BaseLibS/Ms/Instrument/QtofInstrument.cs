@@ -41,7 +41,7 @@ namespace BaseLibS.Ms.Instrument{
 			switch (dataType){
 				case MsDataType.Peptides:
 				case MsDataType.Proteins:
-					return 1.2;
+					return 1.1;
 				case MsDataType.Metabolites:
 					return 1.5;
 				default:
