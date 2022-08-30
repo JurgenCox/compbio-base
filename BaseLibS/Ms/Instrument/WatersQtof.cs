@@ -33,6 +33,8 @@ namespace BaseLibS.Ms.Instrument{
 			return ArrayUtils.SmoothMean(origProfile, 1);
 		}
 
+		public override double DiaMinMsmsIntensityForQuantDefault => 0;
+		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 		public override int DiaTopNFragmentsForQuantDefault => 10;
 
 		public override double DiaInitialPrecMassTolPpmDefault => 20;

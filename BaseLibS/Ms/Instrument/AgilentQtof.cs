@@ -9,6 +9,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override double IntensityThresholdMs2Default => 0;
 		public override bool UseMs1CentroidsDefault => true;
 		public override bool UseMs2CentroidsDefault => true;
+		public override double DiaMinMsmsIntensityForQuantDefault => 0;
+		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 
 		public override int GetDiaMinPeakLengthDefault(MsDataType dataType){
 			switch (dataType){

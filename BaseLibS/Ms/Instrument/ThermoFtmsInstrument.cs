@@ -12,6 +12,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override bool IntensityDependentCalibrationDefault => false;
 		public override bool IsotopeMatchTolInPpmDefault => true;
 
+		public override double DiaMinMsmsIntensityForQuantDefault => 0;
+		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 		public override double GetCentroidMatchTolDefault(MsDataType dataType){
 			switch (dataType){
 				case MsDataType.Peptides:

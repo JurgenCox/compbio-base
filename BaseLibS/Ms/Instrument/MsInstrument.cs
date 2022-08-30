@@ -53,8 +53,8 @@ namespace BaseLibS.Ms.Instrument{
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
 		public DiaFeatureQuantMethod DiaFeatureQuantMethodDefault => DiaFeatureQuantMethod.Sum;
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
-		public double DiaMinMsmsIntensityForQuantDefault => 0.0;
-		public double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
+		public abstract double DiaMinMsmsIntensityForQuantDefault { get; }
+		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault { get; }
 		public PrecursorFilterType DiaPrecursorFilterTypeDefault => PrecursorFilterType.None;
 
 		public DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault =>

@@ -11,6 +11,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override bool UseMs1CentroidsDefault => false;
 		public override bool UseMs2CentroidsDefault => false;
 
+		public override double DiaMinMsmsIntensityForQuantDefault => 0;
+		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 		public override int GetMinPeakLengthDefault(MsDataType dataType){
 			switch (dataType){
 				case MsDataType.Proteins:

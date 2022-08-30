@@ -9,6 +9,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override double IntensityThresholdMs2Default => 30;
 		public override bool UseMs1CentroidsDefault => true;
 		public override bool UseMs2CentroidsDefault => true;
+		public override double DiaMinMsmsIntensityForQuantDefault => 30;
+		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 
 		public override int GetMinPeakLengthDefault(MsDataType dataType){
 			switch (dataType){
@@ -37,7 +39,7 @@ namespace BaseLibS.Ms.Instrument{
 		public override float[] SmoothIntensityProfile(float[] origProfile){
 			return ArrayUtils.SmoothMean(origProfile, 1);
 		}
-		public override int DiaTopNFragmentsForQuantDefault => 10;
+		public override int DiaTopNFragmentsForQuantDefault => 4;
 		public override double DiaInitialPrecMassTolPpmDefault => 20;
 		public override double DiaInitialFragMassTolPpmDefault => 20;
 		public override bool DiaBackgroundSubtractionDefault => false;
