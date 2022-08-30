@@ -55,13 +55,12 @@ namespace BaseLibS.Ms.Instrument{
 		public abstract int DiaTopNFragmentsForQuantDefault { get; }
 		public abstract double DiaMinMsmsIntensityForQuantDefault { get; }
 		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault { get; }
-		public PrecursorFilterType DiaPrecursorFilterTypeDefault => PrecursorFilterType.None;
 
 		public DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault =>
 			DiaXgBoostLearningObjective.Binarylogisticraw;
 
 		public int DiaMinFragmentOverlapScoreDefault => 1;
-		public double DiaMinPrecursorScoreDefault => 0.5;
+		public double DiaMinPrecursorScoreDefault => 0.0;
 		public bool DiaUseProfileCorrelationDefault => true;
 		public double DiaMinPrecProfileCorrelationDefault => 0;
 		public double DiaMinFragProfileCorrelationDefault => 0;

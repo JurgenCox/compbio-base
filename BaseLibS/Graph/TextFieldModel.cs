@@ -237,7 +237,7 @@ namespace BaseLibS.Graph {
 				lastEditedLine = selectionEndLine;
 			}
 			int ind1 = Math.Min(selectionStartChar, selectionEndChar);
-			if (ind1 < 0){
+			if (ind1 <= 0){
 				return;
 			}
 			string before = currentLine.Substring(0, ind1);
