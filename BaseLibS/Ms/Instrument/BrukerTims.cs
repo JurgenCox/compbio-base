@@ -6,7 +6,7 @@ namespace BaseLibS.Ms.Instrument{
 		public BrukerTims(int index) : base(index){ }
 		public override string Name => "Bruker TIMS";
 		public override double IntensityThresholdMs1Default => 30;
-		public override double IntensityThresholdMs2Default => 20;
+		public override double IntensityThresholdMs2Default => 15;
 		public override bool UseMs1CentroidsDefault => false;
 		public override bool UseMs2CentroidsDefault => false;
 		public override double DiaMinMsmsIntensityForQuantDefault => 30;
@@ -39,7 +39,7 @@ namespace BaseLibS.Ms.Instrument{
 			return ArrayUtils.SmoothMean(origProfile, 1);
 		}
 		public override double DiaInitialPrecMassTolPpmDefault => 20;
-		public override double DiaInitialFragMassTolPpmDefault => 20;
+		public override double DiaInitialFragMassTolPpmDefault => 25;
 		public override bool DiaBackgroundSubtractionDefault => false;
 		public override double DiaBackgroundSubtractionQuantileDefault => 0.5;
 		public override double DiaBackgroundSubtractionFactorDefault => 4;
