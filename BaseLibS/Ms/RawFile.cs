@@ -419,6 +419,27 @@ namespace BaseLibS.Ms{
 			}
 			return true;
 		}
+		public virtual int[][] GetDiaMs2Indices(double[] ms2IsolationMzMin, int[] ms2PrevMs1Index, int ms1Count, 
+			int lastMs2Index) {
+			int ms2Count = ms2IsolationMzMin.Length;
+			if (ms2Count == 0) {
+				return new int[0][];
+			}
+			double d = ms2IsolationMzMin[0];
+			int len = 1;
+			while (ms2IsolationMzMin[len] != d) {
+				len++;
+			}
+			int[][] result = new int[len][];
+			int len2 = ms2Count / len;
+			for (int i = 0; i < len; i++) {
+				result[i] = new int[len2];
+				for (int j = 0; j < len2; j++) {
+					result[i][j] = i + len * j;
+				}
+			}
+			return result;
+		}
 
 		public virtual void Dispose(){
 			posLayer?.Dispose();

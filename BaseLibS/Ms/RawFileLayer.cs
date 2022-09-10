@@ -1325,13 +1325,18 @@ namespace BaseLibS.Ms{
 		}
 
 		public void GetDiaRanges(out double[] mzMin, out double[] mzMax){
-			int[][] inds = GetDiaMs2Indices();
+			int[][] inds = RawFile.GetDiaMs2Indices(Ms2IsolationMzMin, Ms2PrevMs1Index, Ms1Count, Ms2ScanNumbers.Length - 1);
 			mzMin = new double[inds.Length];
 			mzMax = new double[inds.Length];
+			int ind = inds[0].Length / 2;
 			for (int i = 0; i < inds.Length; i++){
-				mzMin[i] = Ms2IsolationMzMin[inds[i][0]];
-				mzMax[i] = Ms2IsolationMzMax[inds[i][0]];
+				mzMin[i] = Ms2IsolationMzMin[inds[i][ind]];
+				mzMax[i] = Ms2IsolationMzMax[inds[i][ind]];
 			}
+		}
+
+		public int[][] GetDiaMs2Indices() {
+			return RawFile.GetDiaMs2Indices(Ms2IsolationMzMin, Ms2PrevMs1Index, Ms1Count, Ms2ScanNumbers.Length - 1);
 		}
 
 		private bool? isDia;
@@ -1343,31 +1348,11 @@ namespace BaseLibS.Ms{
 			return (bool) isDia;
 		}
 
-		public int[][] GetDiaMs2Indices(){
-			if (Ms2Count == 0){
-				return new int[0][];
-			}
-			double d = Ms2IsolationMzMin[0];
-			int len = 1;
-			while (Ms2IsolationMzMin[len] != d){
-				len++;
-			}
-			int[][] result = new int[len][];
-			int len2 = Ms2Count / len;
-			for (int i = 0; i < len; i++){
-				result[i] = new int[len2];
-				for (int j = 0; j < len2; j++){
-					result[i][j] = i + len * j;
-				}
-			}
-			return result;
-		}
-
         public int GetDiaNumMs1Scans() {
             if (!CheckIfDia()) {
                 return 1;
             }
-            int[][] x = GetDiaMs2Indices();
+            int[][] x = RawFile.GetDiaMs2Indices(Ms2IsolationMzMin, Ms2PrevMs1Index, Ms1Count, Ms2ScanNumbers.Length - 1);
             if (x.Length == 0) {
                 return 1;
             }
