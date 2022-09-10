@@ -392,6 +392,33 @@ namespace BaseLibS.Ms{
 				reader?.Close();
 			}
 		}
+		public virtual bool CheckForRepeatingMs2Windows(double[] ms2IsolationMzMin) {
+			int ms2Count = ms2IsolationMzMin.Length;
+			if (ms2Count == 0) {
+				return false;
+			}
+			double minValue = ms2IsolationMzMin[0];
+			int repeatPos = -1;
+			for (int i = 1; i < ms2Count; i++) {
+				double value = ms2IsolationMzMin[i];
+				if (value == minValue) {
+					repeatPos = i;
+					break;
+				}
+			}
+			if (repeatPos == -1) {
+				return false;
+			}
+			if (ms2Count < 2 * repeatPos) {
+				return false;
+			}
+			for (int i = 0; i < repeatPos; i++) {
+				if (ms2IsolationMzMin[i] != ms2IsolationMzMin[i + repeatPos]) {
+					return false;
+				}
+			}
+			return true;
+		}
 
 		public virtual void Dispose(){
 			posLayer?.Dispose();

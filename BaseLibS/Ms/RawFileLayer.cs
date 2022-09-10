@@ -1338,36 +1338,9 @@ namespace BaseLibS.Ms{
 
 		public bool CheckIfDia(){
             if (isDia == null) {
-                isDia = CheckForRepeatingMs2Windows();
+                isDia = RawFile.CheckForRepeatingMs2Windows(Ms2IsolationMzMin);
             }
 			return (bool) isDia;
-		}
-
-		private bool CheckForRepeatingMs2Windows(){
-            if (Ms2Count == 0) {
-                return false;
-            }
-            double minValue = Ms2IsolationMzMin[0];
-            int repeatPos = -1;
-            for (int i = 1; i < Ms2Count; i++) {
-                double value = Ms2IsolationMzMin[i];
-                if (value == minValue) {
-                    repeatPos = i;
-                    break;
-                }
-			}
-            if (repeatPos == -1) {
-                return false;
-            }
-            if (Ms2Count < 2 * repeatPos) {
-                return false;
-            }
-            for (int i = 0; i < repeatPos; i++) {
-                if (Ms2IsolationMzMin[i] != Ms2IsolationMzMin[i + repeatPos]) {
-                    return false;
-                }
-			}
-            return true;
 		}
 
 		public int[][] GetDiaMs2Indices(){
