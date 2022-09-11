@@ -94,7 +94,14 @@ namespace BaseLibS.Ms{
 		public int Ms1MassRangeCount{ get; protected internal set; }
 		public double MaxIntensity{ get; protected internal set; }
 		public bool HasFaims{ get; protected internal set; }
-		public double[] FaimsVoltages{ get; protected internal set; }
+		public double[] FaimsVoltages{ private get; set; }
+		public int FaimsVoltageCount => FaimsVoltages.Length == 0 ? 1 : FaimsVoltageMs1Inds.Length;
+		public double GetFaimsVoltageAt(int ind){
+			if (FaimsVoltages.Length == 0){
+				return 0;
+			}
+			return FaimsVoltages[ind];
+		}
 		public int[][] FaimsVoltageMs1Inds{ get; protected internal set; }
 		public int[][] FaimsVoltageMs2Inds{ get; protected internal set; }
 		public int[][] FaimsVoltageMs3Inds{ get; protected internal set; }
