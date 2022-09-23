@@ -425,9 +425,12 @@ namespace BaseLibS.Ms{
 			if (ms2Count == 0) {
 				return new int[0][];
 			}
+			if (ms2IsolationMzMin.Length == 0){
+				return new int[0][];
+			}
 			double d = ms2IsolationMzMin[0];
 			int len = 1;
-			while (ms2IsolationMzMin[len] != d) {
+			while (len < ms2IsolationMzMin.Length && ms2IsolationMzMin[len] != d) {
 				len++;
 			}
 			int[][] result = new int[len][];
