@@ -37,7 +37,7 @@ namespace BaseLib.Forms {
 			AutoScaleMode = AutoScaleMode.Font;
 			Controls.Add(tableLayoutPanel1);
 			Name = "CheckedListControl";
-			Size = new Size((260), (150));
+			Size = new Size((260), (126));
 			for (int index = 0; index < text.Length; index++) {
 				string s = text[index];
 				CheckBox cb = new CheckBox {Text = s, Margin = new Padding(0), Dock = DockStyle.Fill};
