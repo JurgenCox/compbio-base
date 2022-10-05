@@ -2,12 +2,10 @@
 using System.IO;
 using BaseLibS.Api;
 using NumPluginBase.Kernel;
-
 namespace NumPluginSvm.Svm{
 	[Serializable]
 	public class SvmParameter : ICloneable{
 		public SvmType svmType = SvmType.CSvc;
-
 		public IKernelFunction kernelFunction = new LinearKernelFunction();
 
 		// these are for training only
@@ -21,21 +19,18 @@ namespace NumPluginSvm.Svm{
 		public double p = 0.1; // for EPSILON_SVR
 		public bool shrinking = true; // use the shrinking heuristics
 		public bool probability; // do probability estimates
-
 		public SvmParameter(BinaryReader reader){
-			svmType = (SvmType)reader.ReadInt32();
-			KernelType kernelType = (KernelType)reader.ReadInt32();
+			svmType = (SvmType) reader.ReadInt32();
+			KernelType kernelType = (KernelType) reader.ReadInt32();
 			kernelFunction = KernelFunctions.ReadKernel(kernelType, reader);
 		}
-
-		public SvmParameter(){ }
-
+		public SvmParameter(){
+		}
 		public void Write(BinaryWriter writer){
 			writer.Write((int) svmType);
-			writer.Write((int)kernelFunction.GetKernelType());
+			writer.Write((int) kernelFunction.GetKernelType());
 			kernelFunction.Write(writer);
 		}
-
 		public object Clone(){
 			return new SvmParameter{
 				c = c,

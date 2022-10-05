@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 namespace NumPluginSvm.Svm{
 	// An SMO algorithm in Fan et al., JMLR 6(2005), p. 1889--1918
 	// Solves:
@@ -38,11 +36,9 @@ namespace NumPluginSvm.Svm{
 		private double[] gBar; // gradient, if we treat free variables as 0
 		internal int l;
 		internal bool unshrink; // XXX
-
 		private double GetC(int i){
 			return (y[i] > 0) ? cp : cn;
 		}
-
 		private void UpdateAlphaStatus(int i){
 			if (alpha[i] >= GetC(i)){
 				alphaStatus[i] = upperBound;
@@ -52,15 +48,12 @@ namespace NumPluginSvm.Svm{
 				alphaStatus[i] = free;
 			}
 		}
-
 		internal bool IsUpperBound(int i){
 			return alphaStatus[i] == upperBound;
 		}
-
 		internal bool IsLowerBound(int i){
 			return alphaStatus[i] == lowerBound;
 		}
-
 		private bool IsFree(int i){
 			return alphaStatus[i] == free;
 		}
@@ -74,46 +67,16 @@ namespace NumPluginSvm.Svm{
 			internal double upperBoundN;
 			internal double r; // for Solver_NU
 		}
-
 		internal void SwapIndex(int i, int j){
 			q.SwapIndex(i, j);
-			do{
-				short tmp = y[i];
-				y[i] = y[j];
-				y[j] = tmp;
-			} while (false);
-			do{
-				double tmp = g[i];
-				g[i] = g[j];
-				g[j] = tmp;
-			} while (false);
-			do{
-				byte tmp = alphaStatus[i];
-				alphaStatus[i] = alphaStatus[j];
-				alphaStatus[j] = tmp;
-			} while (false);
-			do{
-				double tmp = alpha[i];
-				alpha[i] = alpha[j];
-				alpha[j] = tmp;
-			} while (false);
-			do{
-				double tmp = p[i];
-				p[i] = p[j];
-				p[j] = tmp;
-			} while (false);
-			do{
-				int tmp = activeSet[i];
-				activeSet[i] = activeSet[j];
-				activeSet[j] = tmp;
-			} while (false);
-			do{
-				double tmp = gBar[i];
-				gBar[i] = gBar[j];
-				gBar[j] = tmp;
-			} while (false);
+			(y[i], y[j]) = (y[j], y[i]);
+			(g[i], g[j]) = (g[j], g[i]);
+			(alphaStatus[i], alphaStatus[j]) = (alphaStatus[j], alphaStatus[i]);
+			(alpha[i], alpha[j]) = (alpha[j], alpha[i]);
+			(p[i], p[j]) = (p[j], p[i]);
+			(activeSet[i], activeSet[j]) = (activeSet[j], activeSet[i]);
+			(gBar[i], gBar[j]) = (gBar[j], gBar[i]);
 		}
-
 		internal void ReconstructGradient(){
 			// reconstruct inactive elements of G from G_bar and free variables
 			if (activeSize == l){
@@ -128,15 +91,15 @@ namespace NumPluginSvm.Svm{
 					nrFree++;
 				}
 			}
-			if (2*nrFree < activeSize){
+			if (2 * nrFree < activeSize){
 				SvmMain.Info("\nWARNING: using -h 0 may be faster\n");
 			}
-			if (nrFree*l > 2*activeSize*(l - activeSize)){
+			if (nrFree * l > 2 * activeSize * (l - activeSize)){
 				for (int i = activeSize; i < l; i++){
 					float[] qI = q.GetQ(i, activeSize);
 					for (int j = 0; j < activeSize; j++){
 						if (IsFree(j)){
-							g[i] += alpha[j]*qI[j];
+							g[i] += alpha[j] * qI[j];
 						}
 					}
 				}
@@ -146,14 +109,14 @@ namespace NumPluginSvm.Svm{
 						float[] qI = q.GetQ(i, l);
 						double alphaI = alpha[i];
 						for (int j = activeSize; j < l; j++){
-							g[j] += alphaI*qI[j];
+							g[j] += alphaI * qI[j];
 						}
 					}
 				}
 			}
 		}
-
-		internal virtual void Solve(int l1, SvmMatrix q1, double[] p1, short[] y1, double[] alpha1, double cp1, double cn1,
+		internal virtual void Solve(int l1, SvmMatrix q1, double[] p1, short[] y1, double[] alpha1, double cp1,
+			double cn1,
 			double eps1, SolutionInfo si, bool shrinking){
 			l = l1;
 			q = q1;
@@ -166,48 +129,48 @@ namespace NumPluginSvm.Svm{
 			eps = eps1;
 			unshrink = false;
 			// initialize alpha_status
-				{
-					alphaStatus = new byte[l1];
-					for (int i = 0; i < l1; i++){
-						UpdateAlphaStatus(i);
-					}
+			{
+				alphaStatus = new byte[l1];
+				for (int i = 0; i < l1; i++){
+					UpdateAlphaStatus(i);
 				}
+			}
 			// initialize active set (for shrinking)
-				{
-					activeSet = new int[l1];
-					for (int i = 0; i < l1; i++){
-						activeSet[i] = i;
-					}
-					activeSize = l1;
+			{
+				activeSet = new int[l1];
+				for (int i = 0; i < l1; i++){
+					activeSet[i] = i;
 				}
+				activeSize = l1;
+			}
 			// initialize gradient
-				{
-					g = new double[l1];
-					gBar = new double[l1];
-					int i;
-					for (i = 0; i < l1; i++){
-						g[i] = p[i];
-						gBar[i] = 0;
-					}
-					for (i = 0; i < l1; i++){
-						if (!IsLowerBound(i)){
-							float[] qI = q1.GetQ(i, l1);
-							double alphaI = alpha[i];
-							int j;
+			{
+				g = new double[l1];
+				gBar = new double[l1];
+				int i;
+				for (i = 0; i < l1; i++){
+					g[i] = p[i];
+					gBar[i] = 0;
+				}
+				for (i = 0; i < l1; i++){
+					if (!IsLowerBound(i)){
+						float[] qI = q1.GetQ(i, l1);
+						double alphaI = alpha[i];
+						int j;
+						for (j = 0; j < l1; j++){
+							g[j] += alphaI * qI[j];
+						}
+						if (IsUpperBound(i)){
 							for (j = 0; j < l1; j++){
-								g[j] += alphaI*qI[j];
-							}
-							if (IsUpperBound(i)){
-								for (j = 0; j < l1; j++){
-									gBar[j] += GetC(i)*qI[j];
-								}
+								gBar[j] += GetC(i) * qI[j];
 							}
 						}
 					}
 				}
+			}
 			// optimization step
 			int iter = 0;
-			int maxIter = Math.Max(10000000, l1 > int.MaxValue/100 ? int.MaxValue : 100*l1);
+			int maxIter = Math.Max(10000000, l1 > int.MaxValue / 100 ? int.MaxValue : 100 * l1);
 			int counter = Math.Min(l1, 1000) + 1;
 			int[] workingSet = new int[2];
 			while (iter < maxIter){
@@ -241,11 +204,11 @@ namespace NumPluginSvm.Svm{
 				double oldAlphaI = alpha[i];
 				double oldAlphaJ = alpha[j];
 				if (y[i] != y[j]){
-					double quadCoef = qd[i] + qd[j] + 2*qI[j];
+					double quadCoef = qd[i] + qd[j] + 2 * qI[j];
 					if (quadCoef <= 0){
 						quadCoef = 1e-12;
 					}
-					double delta = (-g[i] - g[j])/quadCoef;
+					double delta = (-g[i] - g[j]) / quadCoef;
 					double diff = alpha[i] - alpha[j];
 					alpha[i] += delta;
 					alpha[j] += delta;
@@ -272,11 +235,11 @@ namespace NumPluginSvm.Svm{
 						}
 					}
 				} else{
-					double quadCoef = qd[i] + qd[j] - 2*qI[j];
+					double quadCoef = qd[i] + qd[j] - 2 * qI[j];
 					if (quadCoef <= 0){
 						quadCoef = 1e-12;
 					}
-					double delta = (g[i] - g[j])/quadCoef;
+					double delta = (g[i] - g[j]) / quadCoef;
 					double sum = alpha[i] + alpha[j];
 					alpha[i] -= delta;
 					alpha[j] += delta;
@@ -307,7 +270,7 @@ namespace NumPluginSvm.Svm{
 				double deltaAlphaI = alpha[i] - oldAlphaI;
 				double deltaAlphaJ = alpha[j] - oldAlphaJ;
 				for (int k = 0; k < activeSize; k++){
-					g[k] += qI[k]*deltaAlphaI + qJ[k]*deltaAlphaJ;
+					g[k] += qI[k] * deltaAlphaI + qJ[k] * deltaAlphaJ;
 				}
 				// update alpha_status and G_bar
 				{
@@ -320,11 +283,11 @@ namespace NumPluginSvm.Svm{
 						qI = q1.GetQ(i, l1);
 						if (ui){
 							for (k = 0; k < l1; k++){
-								gBar[k] -= cI*qI[k];
+								gBar[k] -= cI * qI[k];
 							}
 						} else{
 							for (k = 0; k < l1; k++){
-								gBar[k] += cI*qI[k];
+								gBar[k] += cI * qI[k];
 							}
 						}
 					}
@@ -332,11 +295,11 @@ namespace NumPluginSvm.Svm{
 						qJ = q1.GetQ(j, l1);
 						if (uj){
 							for (k = 0; k < l1; k++){
-								gBar[k] -= cJ*qJ[k];
+								gBar[k] -= cJ * qJ[k];
 							}
 						} else{
 							for (k = 0; k < l1; k++){
-								gBar[k] += cJ*qJ[k];
+								gBar[k] += cJ * qJ[k];
 							}
 						}
 					}
@@ -354,31 +317,31 @@ namespace NumPluginSvm.Svm{
 			// calculate rho
 			si.rho = CalculateRho();
 			// calculate objective value
-				{
-					double v = 0;
-					int i;
-					for (i = 0; i < l1; i++){
-						v += alpha[i]*(g[i] + p[i]);
-					}
-					si.obj = v/2;
+			{
+				double v = 0;
+				int i;
+				for (i = 0; i < l1; i++){
+					v += alpha[i] * (g[i] + p[i]);
 				}
+				si.obj = v / 2;
+			}
 			// put back the solution
-				{
-					for (int i = 0; i < l1; i++){
-						alpha1[activeSet[i]] = alpha[i];
-					}
+			{
+				for (int i = 0; i < l1; i++){
+					alpha1[activeSet[i]] = alpha[i];
 				}
+			}
 			si.upperBoundP = cp1;
 			si.upperBoundN = cn1;
 			SvmMain.Info("\noptimization finished, #iter = " + iter + "\n");
 		}
 
 		// return 1 if already optimal, return 0 otherwise
-		internal virtual int SelectWorkingSet(IList<int> workingSet){
+		internal virtual int SelectWorkingSet(int[] workingSet){
 			// return i,j such that
 			// i: maximizes -y_i * grad(f)_i, i in I_up(\alpha)
 			// j: mimimizes the decrease of obj value
-			//    (if quadratic coefficeint <= 0, replace it with tau)
+			//    (if quadratic coefficient <= 0, replace it with tau)
 			//    -y_j*grad(f)_j < -y_i*grad(f)_i, j in I_low(\alpha)
 			double gmax = double.NegativeInfinity;
 			double gmax2 = double.NegativeInfinity;
@@ -404,8 +367,7 @@ namespace NumPluginSvm.Svm{
 			}
 			int i = gmaxIdx;
 			float[] qI = null;
-			if (i != -1) // null Q_i not accessed: Gmax=-INF if i=-1
-			{
+			if (i != -1) { // null Q_i not accessed: Gmax=-INF if i=-1
 				qI = q.GetQ(i, activeSize);
 			}
 			for (int j = 0; j < activeSize; j++){
@@ -417,11 +379,11 @@ namespace NumPluginSvm.Svm{
 						}
 						if (gradDiff > 0){
 							double objDiff;
-							double quadCoef = qd[i] + qd[j] - 2.0*y[i]*qI[j];
+							double quadCoef = qd[i] + qd[j] - 2.0 * y[i] * qI[j];
 							if (quadCoef > 0){
-								objDiff = -(gradDiff*gradDiff)/quadCoef;
+								objDiff = -(gradDiff * gradDiff) / quadCoef;
 							} else{
-								objDiff = -(gradDiff*gradDiff)/1e-12;
+								objDiff = -(gradDiff * gradDiff) / 1e-12;
 							}
 							if (objDiff <= objDiffMin){
 								gminIdx = j;
@@ -437,11 +399,11 @@ namespace NumPluginSvm.Svm{
 						}
 						if (gradDiff > 0){
 							double objDiff;
-							double quadCoef = qd[i] + qd[j] + 2.0*y[i]*qI[j];
+							double quadCoef = qd[i] + qd[j] + 2.0 * y[i] * qI[j];
 							if (quadCoef > 0){
-								objDiff = -(gradDiff*gradDiff)/quadCoef;
+								objDiff = -(gradDiff * gradDiff) / quadCoef;
 							} else{
-								objDiff = -(gradDiff*gradDiff)/1e-12;
+								objDiff = -(gradDiff * gradDiff) / 1e-12;
 							}
 							if (objDiff <= objDiffMin){
 								gminIdx = j;
@@ -458,7 +420,6 @@ namespace NumPluginSvm.Svm{
 			workingSet[1] = gminIdx;
 			return 0;
 		}
-
 		internal bool BeShrunk(int i, double gmax1, double gmax2){
 			if (IsUpperBound(i)){
 				return y[i] == +1 ? -g[i] > gmax1 : -g[i] > gmax2;
@@ -468,7 +429,6 @@ namespace NumPluginSvm.Svm{
 			}
 			return (false);
 		}
-
 		internal virtual void DoShrinking(){
 			int i;
 			double gmax1 = double.NegativeInfinity; // max { -y_i * grad(f)_i | i in I_up(\alpha) }
@@ -499,7 +459,7 @@ namespace NumPluginSvm.Svm{
 					}
 				}
 			}
-			if (unshrink == false && gmax1 + gmax2 <= eps*10){
+			if (unshrink == false && gmax1 + gmax2 <= eps * 10){
 				unshrink = true;
 				ReconstructGradient();
 				activeSize = l;
@@ -517,13 +477,12 @@ namespace NumPluginSvm.Svm{
 				}
 			}
 		}
-
 		internal virtual double CalculateRho(){
 			double r;
 			int nrFree = 0;
 			double ub = double.PositiveInfinity, lb = double.NegativeInfinity, sumFree = 0;
 			for (int i = 0; i < activeSize; i++){
-				double yG = y[i]*g[i];
+				double yG = y[i] * g[i];
 				if (IsLowerBound(i)){
 					if (y[i] > 0){
 						ub = Math.Min(ub, yG);
@@ -542,9 +501,9 @@ namespace NumPluginSvm.Svm{
 				}
 			}
 			if (nrFree > 0){
-				r = sumFree/nrFree;
+				r = sumFree / nrFree;
 			} else{
-				r = (ub + lb)/2;
+				r = (ub + lb) / 2;
 			}
 			return r;
 		}

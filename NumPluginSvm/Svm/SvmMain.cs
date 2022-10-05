@@ -1,59 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using BaseLibS.Api;
 using BaseLibS.Num.Vector;
-
 namespace NumPluginSvm.Svm{
 	public class SvmMain{
 		public static Random rand = new Random(7);
-
 		internal static void Info(string s){
 			Console.Write(s);
 		}
-
-		private static void SolveCSvc(SvmProblem prob, SvmParameter param, double[] alpha, SvmSolver.SolutionInfo si,
+		private static void SolveCSvc(SvmProblem problem, SvmParameter param, double[] alpha, SvmSolver.SolutionInfo si,
 			double cp, double cn){
-			int l = prob.Count;
+			int l = problem.Count;
 			double[] minusOnes = new double[l];
 			short[] y = new short[l];
 			int i;
 			for (i = 0; i < l; i++){
 				alpha[i] = 0;
 				minusOnes[i] = -1;
-				if (prob.y[i] > 0){
+				if (problem.y[i] > 0){
 					y[i] = +1;
 				} else{
 					y[i] = -1;
 				}
 			}
 			SvmSolver s = new SvmSolver();
-			s.Solve(l, new SvcQ(prob, param, y), minusOnes, y, alpha, cp, cn, param.eps, si, param.shrinking);
+			s.Solve(l, new SvcQ(problem, param, y), minusOnes, y, alpha, cp, cn, param.eps, si, param.shrinking);
 			double sumAlpha = 0;
 			for (i = 0; i < l; i++){
 				sumAlpha += alpha[i];
 			}
 			if (cp == cn){
-				Info("nu = " + sumAlpha/(cp*prob.Count) + "\n");
+				Info("nu = " + sumAlpha / (cp * problem.Count) + "\n");
 			}
 			for (i = 0; i < l; i++){
 				alpha[i] *= y[i];
 			}
 		}
-
-		private static void SolveNuSvc(SvmProblem prob, SvmParameter param, double[] alpha, SvmSolver.SolutionInfo si){
+		private static void SolveNuSvc(SvmProblem problem, SvmParameter param, double[] alpha, SvmSolver.SolutionInfo si){
 			int i;
-			int l = prob.Count;
+			int l = problem.Count;
 			double nu = param.nu;
 			short[] y = new short[l];
 			for (i = 0; i < l; i++){
-				if (prob.y[i] > 0){
+				if (problem.y[i] > 0){
 					y[i] = +1;
 				} else{
 					y[i] = -1;
 				}
 			}
-			double sumPos = nu*l/2;
-			double sumNeg = nu*l/2;
+			double sumPos = nu * l / 2;
+			double sumNeg = nu * l / 2;
 			for (i = 0; i < l; i++){
 				if (y[i] == +1){
 					alpha[i] = Math.Min(1.0, sumPos);
@@ -68,29 +63,29 @@ namespace NumPluginSvm.Svm{
 				zeros[i] = 0;
 			}
 			SvmSolverNu s = new SvmSolverNu();
-			s.Solve(l, new SvcQ(prob, param, y), zeros, y, alpha, 1.0, 1.0, param.eps, si, param.shrinking);
+			s.Solve(l, new SvcQ(problem, param, y), zeros, y, alpha, 1.0, 1.0, param.eps, si, param.shrinking);
 			double r = si.r;
-			Info("C = " + 1/r + "\n");
+			Info("C = " + 1 / r + "\n");
 			for (i = 0; i < l; i++){
-				alpha[i] *= y[i]/r;
+				alpha[i] *= y[i] / r;
 			}
 			si.rho /= r;
-			si.obj /= (r*r);
-			si.upperBoundP = 1/r;
-			si.upperBoundN = 1/r;
+			si.obj /= (r * r);
+			si.upperBoundP = 1 / r;
+			si.upperBoundN = 1 / r;
 		}
-
-		private static void SolveOneClass(SvmProblem prob, SvmParameter param, double[] alpha, SvmSolver.SolutionInfo si){
+		private static void SolveOneClass(SvmProblem prob, SvmParameter param, double[] alpha,
+			SvmSolver.SolutionInfo si){
 			int l = prob.Count;
 			double[] zeros = new double[l];
 			short[] ones = new short[l];
 			int i;
-			int n = (int) (param.nu*prob.Count); // # of alpha's at upper bound
+			int n = (int) (param.nu * prob.Count); // # of alpha's at upper bound
 			for (i = 0; i < n; i++){
 				alpha[i] = 1;
 			}
 			if (n < prob.Count){
-				alpha[n] = param.nu*prob.Count - n;
+				alpha[n] = param.nu * prob.Count - n;
 			}
 			for (i = n + 1; i < l; i++){
 				alpha[i] = 0;
@@ -102,13 +97,12 @@ namespace NumPluginSvm.Svm{
 			SvmSolver s = new SvmSolver();
 			s.Solve(l, new OneClassQ(prob, param), zeros, ones, alpha, 1.0, 1.0, param.eps, si, param.shrinking);
 		}
-
-		private static void SolveEpsilonSvr(SvmProblem prob, SvmParameter param, IList<double> alpha,
+		private static void SolveEpsilonSvr(SvmProblem prob, SvmParameter param, double[] alpha,
 			SvmSolver.SolutionInfo si){
 			int l = prob.Count;
-			double[] alpha2 = new double[2*l];
-			double[] linearTerm = new double[2*l];
-			short[] y = new short[2*l];
+			double[] alpha2 = new double[2 * l];
+			double[] linearTerm = new double[2 * l];
+			short[] y = new short[2 * l];
 			int i;
 			for (i = 0; i < l; i++){
 				alpha2[i] = 0;
@@ -119,33 +113,33 @@ namespace NumPluginSvm.Svm{
 				y[i + l] = -1;
 			}
 			SvmSolver s = new SvmSolver();
-			s.Solve(2*l, new SvrQ(prob, param), linearTerm, y, alpha2, param.c, param.c, param.eps, si, param.shrinking);
+			s.Solve(2 * l, new SvrQ(prob, param), linearTerm, y, alpha2, param.c, param.c, param.eps, si,
+				param.shrinking);
 			double sumAlpha = 0;
 			for (i = 0; i < l; i++){
 				alpha[i] = alpha2[i] - alpha2[i + l];
 				sumAlpha += Math.Abs(alpha[i]);
 			}
-			Info("nu = " + sumAlpha/(param.c*l) + "\n");
+			Info("nu = " + sumAlpha / (param.c * l) + "\n");
 		}
-
-		private static void SolveNuSvr(SvmProblem prob, SvmParameter param, IList<double> alpha, SvmSolver.SolutionInfo si){
-			int l = prob.Count;
+		private static void SolveNuSvr(SvmProblem problem, SvmParameter param, double[] alpha, SvmSolver.SolutionInfo si){
+			int l = problem.Count;
 			double c = param.c;
-			double[] alpha2 = new double[2*l];
-			double[] linearTerm = new double[2*l];
-			short[] y = new short[2*l];
+			double[] alpha2 = new double[2 * l];
+			double[] linearTerm = new double[2 * l];
+			short[] y = new short[2 * l];
 			int i;
-			double sum = c*param.nu*l/2;
+			double sum = c * param.nu * l / 2;
 			for (i = 0; i < l; i++){
 				alpha2[i] = alpha2[i + l] = Math.Min(sum, c);
 				sum -= alpha2[i];
-				linearTerm[i] = -prob.y[i];
+				linearTerm[i] = -problem.y[i];
 				y[i] = 1;
-				linearTerm[i + l] = prob.y[i];
+				linearTerm[i + l] = problem.y[i];
 				y[i + l] = -1;
 			}
 			SvmSolverNu s = new SvmSolverNu();
-			s.Solve(2*l, new SvrQ(prob, param), linearTerm, y, alpha2, c, c, param.eps, si, param.shrinking);
+			s.Solve(2 * l, new SvrQ(problem, param), linearTerm, y, alpha2, c, c, param.eps, si, param.shrinking);
 			Info("epsilon = " + (-si.r) + "\n");
 			for (i = 0; i < l; i++){
 				alpha[i] = alpha2[i] - alpha2[i + l];
@@ -159,7 +153,6 @@ namespace NumPluginSvm.Svm{
 			internal double[] alpha;
 			internal double rho;
 		};
-
 		private static DecisionFunction SvmTrainOne(SvmProblem prob, SvmParameter param, double cp, double cn){
 			double[] alpha = new double[prob.Count];
 			SvmSolver.SolutionInfo si = new SvmSolver.SolutionInfo();
@@ -203,8 +196,8 @@ namespace NumPluginSvm.Svm{
 			return f;
 		}
 
-		// Platt's binary SVM Probablistic Output: an improvement from Lin et al.
-		private static void SigmoidTrain(int l, IList<double> decValues, IList<double> labels, IList<double> probAb){
+		// Platt's binary SVM probabilistic output: an improvement from Lin et al.
+		private static void SigmoidTrain(int l, double[] decValues, double[] labels, double[] probAb){
 			double prior1 = 0, prior0 = 0;
 			int i;
 			for (i = 0; i < l; i++){
@@ -218,14 +211,14 @@ namespace NumPluginSvm.Svm{
 			const double minStep = 1e-10; // Minimal step taken in line search
 			const double sigma = 1e-12; // For numerically strict PD of Hessian
 			const double eps = 1e-5;
-			double hiTarget = (prior1 + 1.0)/(prior1 + 2.0);
-			double loTarget = 1/(prior0 + 2.0);
+			double hiTarget = (prior1 + 1.0) / (prior1 + 2.0);
+			double loTarget = 1 / (prior0 + 2.0);
 			double[] t = new double[l];
 			double fApB;
 			int iter;
 			// Initial Point and Initial Fun Value
 			double a = 0.0;
-			double b = Math.Log((prior0 + 1.0)/(prior1 + 1.0));
+			double b = Math.Log((prior0 + 1.0) / (prior1 + 1.0));
 			double fval = 0.0;
 			for (i = 0; i < l; i++){
 				if (labels[i] > 0){
@@ -233,11 +226,11 @@ namespace NumPluginSvm.Svm{
 				} else{
 					t[i] = loTarget;
 				}
-				fApB = decValues[i]*a + b;
+				fApB = decValues[i] * a + b;
 				if (fApB >= 0){
-					fval += t[i]*fApB + Math.Log(1 + Math.Exp(-fApB));
+					fval += t[i] * fApB + Math.Log(1 + Math.Exp(-fApB));
 				} else{
-					fval += (t[i] - 1)*fApB + Math.Log(1 + Math.Exp(fApB));
+					fval += (t[i] - 1) * fApB + Math.Log(1 + Math.Exp(fApB));
 				}
 			}
 			for (iter = 0; iter < maxIter; iter++){
@@ -248,22 +241,22 @@ namespace NumPluginSvm.Svm{
 				double g1 = 0.0;
 				double g2 = 0.0;
 				for (i = 0; i < l; i++){
-					fApB = decValues[i]*a + b;
+					fApB = decValues[i] * a + b;
 					double p;
 					double q;
 					if (fApB >= 0){
-						p = Math.Exp(-fApB)/(1.0 + Math.Exp(-fApB));
-						q = 1.0/(1.0 + Math.Exp(-fApB));
+						p = Math.Exp(-fApB) / (1.0 + Math.Exp(-fApB));
+						q = 1.0 / (1.0 + Math.Exp(-fApB));
 					} else{
-						p = 1.0/(1.0 + Math.Exp(fApB));
-						q = Math.Exp(fApB)/(1.0 + Math.Exp(fApB));
+						p = 1.0 / (1.0 + Math.Exp(fApB));
+						q = Math.Exp(fApB) / (1.0 + Math.Exp(fApB));
 					}
-					double d2 = p*q;
-					h11 += decValues[i]*decValues[i]*d2;
+					double d2 = p * q;
+					h11 += decValues[i] * decValues[i] * d2;
 					h22 += d2;
-					h21 += decValues[i]*d2;
+					h21 += decValues[i] * d2;
 					double d1 = t[i] - p;
-					g1 += decValues[i]*d1;
+					g1 += decValues[i] * d1;
 					g2 += d1;
 				}
 				// Stopping Criteria
@@ -271,32 +264,32 @@ namespace NumPluginSvm.Svm{
 					break;
 				}
 				// Finding Newton direction: -inv(H') * g
-				double det = h11*h22 - h21*h21;
-				double dA = -(h22*g1 - h21*g2)/det;
-				double dB = -(-h21*g1 + h11*g2)/det;
-				double gd = g1*dA + g2*dB;
+				double det = h11 * h22 - h21 * h21;
+				double dA = -(h22 * g1 - h21 * g2) / det;
+				double dB = -(-h21 * g1 + h11 * g2) / det;
+				double gd = g1 * dA + g2 * dB;
 				double stepsize = 1;
 				while (stepsize >= minStep){
-					double newA = a + stepsize*dA;
-					double newB = b + stepsize*dB;
+					double newA = a + stepsize * dA;
+					double newB = b + stepsize * dB;
 					// New function value
 					double newf = 0.0;
 					for (i = 0; i < l; i++){
-						fApB = decValues[i]*newA + newB;
+						fApB = decValues[i] * newA + newB;
 						if (fApB >= 0){
-							newf += t[i]*fApB + Math.Log(1 + Math.Exp(-fApB));
+							newf += t[i] * fApB + Math.Log(1 + Math.Exp(-fApB));
 						} else{
-							newf += (t[i] - 1)*fApB + Math.Log(1 + Math.Exp(fApB));
+							newf += (t[i] - 1) * fApB + Math.Log(1 + Math.Exp(fApB));
 						}
 					}
 					// Check sufficient decrease
-					if (newf < fval + 0.0001*stepsize*gd){
+					if (newf < fval + 0.0001 * stepsize * gd){
 						a = newA;
 						b = newB;
 						fval = newf;
 						break;
 					}
-					stepsize = stepsize/2.0;
+					stepsize = stepsize / 2.0;
 				}
 				if (stepsize < minStep){
 					Info("Line search fails in two-class probability estimates\n");
@@ -309,14 +302,13 @@ namespace NumPluginSvm.Svm{
 			probAb[0] = a;
 			probAb[1] = b;
 		}
-
 		private static double SigmoidPredict(double decisionValue, double a, double b){
-			double fApB = decisionValue*a + b;
-			return fApB >= 0 ? Math.Exp(-fApB)/(1.0 + Math.Exp(-fApB)) : 1.0/(1 + Math.Exp(fApB));
+			double fApB = decisionValue * a + b;
+			return fApB >= 0 ? Math.Exp(-fApB) / (1.0 + Math.Exp(-fApB)) : 1.0 / (1 + Math.Exp(fApB));
 		}
 
-		// Method 2 from the multiclass_prob paper by Wu, Lin, and Weng
-		private static void MulticlassProbability(int k, IList<double[]> r, IList<double> p){
+		// Method 2 from the multi-class prob paper by Wu, Lin, and Weng
+		private static void MultiClassProbability(int k, double[][] r, double[] p){
 			int t, j;
 			int iter, maxIter = Math.Max(100, k);
 			double[][] q = new double[k][];
@@ -324,17 +316,17 @@ namespace NumPluginSvm.Svm{
 				q[i] = new double[k];
 			}
 			double[] qp = new double[k];
-			double eps = 0.005/k;
+			double eps = 0.005 / k;
 			for (t = 0; t < k; t++){
-				p[t] = 1.0/k; // Valid if k = 1
+				p[t] = 1.0 / k; // Valid if k = 1
 				q[t][t] = 0;
 				for (j = 0; j < t; j++){
-					q[t][t] += r[j][t]*r[j][t];
+					q[t][t] += r[j][t] * r[j][t];
 					q[t][j] = q[j][t];
 				}
 				for (j = t + 1; j < k; j++){
-					q[t][t] += r[j][t]*r[j][t];
-					q[t][j] = -r[j][t]*r[t][j];
+					q[t][t] += r[j][t] * r[j][t];
+					q[t][j] = -r[j][t] * r[t][j];
 				}
 			}
 			for (iter = 0; iter < maxIter; iter++){
@@ -343,9 +335,9 @@ namespace NumPluginSvm.Svm{
 				for (t = 0; t < k; t++){
 					qp[t] = 0;
 					for (j = 0; j < k; j++){
-						qp[t] += q[t][j]*p[j];
+						qp[t] += q[t][j] * p[j];
 					}
-					pQp += p[t]*qp[t];
+					pQp += p[t] * qp[t];
 				}
 				double maxError = 0;
 				for (t = 0; t < k; t++){
@@ -358,33 +350,33 @@ namespace NumPluginSvm.Svm{
 					break;
 				}
 				for (t = 0; t < k; t++){
-					double diff = (-qp[t] + pQp)/q[t][t];
+					double diff = (-qp[t] + pQp) / q[t][t];
 					p[t] += diff;
-					pQp = (pQp + diff*(diff*q[t][t] + 2*qp[t]))/(1 + diff)/(1 + diff);
+					pQp = (pQp + diff * (diff * q[t][t] + 2 * qp[t])) / (1 + diff) / (1 + diff);
 					for (j = 0; j < k; j++){
-						qp[j] = (qp[j] + diff*q[t][j])/(1 + diff);
+						qp[j] = (qp[j] + diff * q[t][j]) / (1 + diff);
 						p[j] /= (1 + diff);
 					}
 				}
 			}
 			if (iter >= maxIter){
-				Info("Exceeds max_iter in multiclass_prob\n");
+				Info("Exceeds max_iter in MultiClassProbability\n");
 			}
 		}
 
 		// Cross-validation decision values for probability estimates
-		internal static void SvmBinarySvcProbability(SvmProblem prob, SvmParameter param, double cp, double cn,
-			IList<double> probAb){
+		internal static void SvmBinarySvcProbability(SvmProblem problem, SvmParameter param, double cp, double cn,
+			double[] probAb){
 			int i;
 			const int nrFold = 5;
-			int[] perm = new int[prob.Count];
-			double[] decValues = new double[prob.Count];
+			int[] perm = new int[problem.Count];
+			double[] decValues = new double[problem.Count];
 			// random shuffle
-			for (i = 0; i < prob.Count; i++){
+			for (i = 0; i < problem.Count; i++){
 				perm[i] = i;
 			}
-			for (i = 0; i < prob.Count; i++){
-				int j = i + rand.Next(prob.Count - i);
+			for (i = 0; i < problem.Count; i++){
+				int j = i + rand.Next(problem.Count - i);
 				do{
 					int _ = perm[i];
 					perm[i] = perm[j];
@@ -392,20 +384,20 @@ namespace NumPluginSvm.Svm{
 				} while (false);
 			}
 			for (i = 0; i < nrFold; i++){
-				int begin = i*prob.Count/nrFold;
-				int end = (i + 1)*prob.Count/nrFold;
+				int begin = i * problem.Count / nrFold;
+				int end = (i + 1) * problem.Count / nrFold;
 				int j;
-				int count = prob.Count - (end - begin);
+				int count = problem.Count - (end - begin);
 				SvmProblem subprob = new SvmProblem{x = new BaseVector[count], y = new double[count]};
 				int k = 0;
 				for (j = 0; j < begin; j++){
-					subprob.x[k] = prob.x[perm[j]];
-					subprob.y[k] = prob.y[perm[j]];
+					subprob.x[k] = problem.x[perm[j]];
+					subprob.y[k] = problem.y[perm[j]];
 					++k;
 				}
-				for (j = end; j < prob.Count; j++){
-					subprob.x[k] = prob.x[perm[j]];
-					subprob.y[k] = prob.y[perm[j]];
+				for (j = end; j < problem.Count; j++){
+					subprob.x[k] = problem.x[perm[j]];
+					subprob.y[k] = problem.y[perm[j]];
 					++k;
 				}
 				int pCount = 0, nCount = 0;
@@ -442,14 +434,14 @@ namespace NumPluginSvm.Svm{
 					SvmModel submodel = SvmTrain(subprob, subparam);
 					for (j = begin; j < end; j++){
 						double[] decValue = new double[1];
-						SvmPredictValues(submodel, prob.x[perm[j]], decValue);
+						SvmPredictValues(submodel, problem.x[perm[j]], decValue);
 						decValues[perm[j]] = decValue[0];
 						// ensure +1 -1 order; reason not using CV subroutine
 						decValues[perm[j]] *= submodel.label[0];
 					}
 				}
 			}
-			SigmoidTrain(prob.Count, decValues, prob.y, probAb);
+			SigmoidTrain(problem.Count, decValues, problem.y, probAb);
 		}
 
 		// Return parameter of a Laplace distribution 
@@ -466,11 +458,11 @@ namespace NumPluginSvm.Svm{
 				mae += Math.Abs(ymv[i]);
 			}
 			mae /= prob.Count;
-			double std = Math.Sqrt(2*mae*mae);
+			double std = Math.Sqrt(2 * mae * mae);
 			int count = 0;
 			mae = 0;
 			for (i = 0; i < prob.Count; i++){
-				if (Math.Abs(ymv[i]) > 5*std){
+				if (Math.Abs(ymv[i]) > 5 * std){
 					count = count + 1;
 				} else{
 					mae += Math.Abs(ymv[i]);
@@ -485,8 +477,8 @@ namespace NumPluginSvm.Svm{
 
 		// label: label name, start: begin of each class, count: #data of classes, perm: indices to the original data
 		// perm, length l, must be allocated before calling this subroutine
-		private static void SvmGroupClasses(SvmProblem prob, IList<int> nrClassRet, IList<int[]> labelRet,
-			IList<int[]> startRet, IList<int[]> countRet, IList<int> perm){
+		private static void SvmGroupClasses(SvmProblem prob, int[] nrClassRet, int[][] labelRet,
+			int[][] startRet, int[][] countRet, int[] perm){
 			int l = prob.Count;
 			int maxNrClass = 16;
 			int nrClass = 0;
@@ -543,7 +535,8 @@ namespace NumPluginSvm.Svm{
 		//
 		public static SvmModel SvmTrain(SvmProblem prob, SvmParameter param){
 			SvmModel model = new SvmModel(){param = param};
-			if (param.svmType == SvmType.OneClass || param.svmType == SvmType.EpsilonSvr || param.svmType == SvmType.NuSvr){
+			if (param.svmType == SvmType.OneClass || param.svmType == SvmType.EpsilonSvr ||
+			    param.svmType == SvmType.NuSvr){
 				// regression or one-class-svm
 				model.nrClass = 2;
 				model.label = null;
@@ -621,11 +614,11 @@ namespace NumPluginSvm.Svm{
 				for (i = 0; i < l; i++){
 					nonzero[i] = false;
 				}
-				DecisionFunction[] f = new DecisionFunction[nrClass*(nrClass - 1)/2];
+				DecisionFunction[] f = new DecisionFunction[nrClass * (nrClass - 1) / 2];
 				double[] probA = null, probB = null;
 				if (param.probability){
-					probA = new double[nrClass*(nrClass - 1)/2];
-					probB = new double[nrClass*(nrClass - 1)/2];
+					probA = new double[nrClass * (nrClass - 1) / 2];
+					probB = new double[nrClass * (nrClass - 1) / 2];
 				}
 				int p = 0;
 				for (i = 0; i < nrClass; i++){
@@ -669,14 +662,14 @@ namespace NumPluginSvm.Svm{
 				for (i = 0; i < nrClass; i++){
 					model.label[i] = label[i];
 				}
-				model.rho = new double[nrClass*(nrClass - 1)/2];
-				for (i = 0; i < nrClass*(nrClass - 1)/2; i++){
+				model.rho = new double[nrClass * (nrClass - 1) / 2];
+				for (i = 0; i < nrClass * (nrClass - 1) / 2; i++){
 					model.rho[i] = f[i].rho;
 				}
 				if (param.probability){
-					model.probA = new double[nrClass*(nrClass - 1)/2];
-					model.probB = new double[nrClass*(nrClass - 1)/2];
-					for (i = 0; i < nrClass*(nrClass - 1)/2; i++){
+					model.probA = new double[nrClass * (nrClass - 1) / 2];
+					model.probB = new double[nrClass * (nrClass - 1) / 2];
+					for (i = 0; i < nrClass * (nrClass - 1) / 2; i++){
 						model.probA[i] = probA[i];
 						model.probB[i] = probB[i];
 					}
@@ -782,7 +775,7 @@ namespace NumPluginSvm.Svm{
 				for (i = 0; i < nrFold; i++){
 					foldCount[i] = 0;
 					for (int c = 0; c < nrClass; c++){
-						foldCount[i] += (i + 1)*count[c]/nrFold - i*count[c]/nrFold;
+						foldCount[i] += (i + 1) * count[c] / nrFold - i * count[c] / nrFold;
 					}
 				}
 				foldStart[0] = 0;
@@ -791,8 +784,8 @@ namespace NumPluginSvm.Svm{
 				}
 				for (int c = 0; c < nrClass; c++){
 					for (i = 0; i < nrFold; i++){
-						int begin = start[c] + i*count[c]/nrFold;
-						int end = start[c] + (i + 1)*count[c]/nrFold;
+						int begin = start[c] + i * count[c] / nrFold;
+						int end = start[c] + (i + 1) * count[c] / nrFold;
 						for (int j = begin; j < end; j++){
 							perm[foldStart[i]] = index[j];
 							foldStart[i]++;
@@ -816,7 +809,7 @@ namespace NumPluginSvm.Svm{
 					} while (false);
 				}
 				for (i = 0; i <= nrFold; i++){
-					foldStart[i] = i*l/nrFold;
+					foldStart[i] = i * l / nrFold;
 				}
 			}
 			for (i = 0; i < nrFold; i++){
@@ -849,7 +842,6 @@ namespace NumPluginSvm.Svm{
 				}
 			}
 		}
-
 		public static void SvmGetLabels(SvmModel model, int[] label){
 			if (model.label != null){
 				for (int i = 0; i < model.nrClass; i++){
@@ -857,25 +849,24 @@ namespace NumPluginSvm.Svm{
 				}
 			}
 		}
-
 		public static double SvmGetSvrProbability(SvmModel model){
-			if ((model.param.svmType == SvmType.EpsilonSvr || model.param.svmType == SvmType.NuSvr) && model.probA != null){
+			if ((model.param.svmType == SvmType.EpsilonSvr || model.param.svmType == SvmType.NuSvr) &&
+			    model.probA != null){
 				return model.probA[0];
 			}
 			Info("Model doesn't contain information for SVR probability inference\n");
 			return 0;
 		}
-
 		public static double SvmPredictValues(SvmModel model, BaseVector x, double[] decValues){
 			if (model.l == 0){
 				return double.NaN;
 			}
 			if (model.param.svmType == SvmType.OneClass || model.param.svmType == SvmType.EpsilonSvr ||
-				model.param.svmType == SvmType.NuSvr){
+			    model.param.svmType == SvmType.NuSvr){
 				double[] svCoef = model.svCoef[0];
 				double sum = 0;
 				for (int i = 0; i < model.l; i++){
-					sum += svCoef[i]*KFunction(x, model.sv[i], model.param);
+					sum += svCoef[i] * KFunction(x, model.sv[i], model.param);
 				}
 				sum -= model.rho[0];
 				decValues[0] = sum;
@@ -911,10 +902,10 @@ namespace NumPluginSvm.Svm{
 					double[] coef1 = model.svCoef[j - 1];
 					double[] coef2 = model.svCoef[i];
 					for (k = 0; k < ci; k++){
-						sum += coef1[si + k]*kvalue[si + k];
+						sum += coef1[si + k] * kvalue[si + k];
 					}
 					for (k = 0; k < cj; k++){
-						sum += coef2[sj + k]*kvalue[sj + k];
+						sum += coef2[sj + k] * kvalue[sj + k];
 					}
 					sum -= model.rho[p];
 					decValues[p] = sum;
@@ -934,7 +925,6 @@ namespace NumPluginSvm.Svm{
 			}
 			return model.label[voteMaxIdx];
 		}
-
 		public static double KFunction(BaseVector x, BaseVector y, SvmParameter param){
 			IKernelFunction kf = param.kernelFunction;
 			double sx = double.NaN;
@@ -945,25 +935,23 @@ namespace NumPluginSvm.Svm{
 			}
 			return kf.Evaluate(x, y, sx, sy);
 		}
-
 		public static double SvmPredict(SvmModel model, BaseVector x){
 			int nrClass = model.nrClass;
 			double[] decValues;
 			if (model.param.svmType == SvmType.OneClass || model.param.svmType == SvmType.EpsilonSvr ||
-				model.param.svmType == SvmType.NuSvr){
+			    model.param.svmType == SvmType.NuSvr){
 				decValues = new double[1];
 			} else{
-				decValues = new double[nrClass*(nrClass - 1)/2];
+				decValues = new double[nrClass * (nrClass - 1) / 2];
 			}
 			double predResult = SvmPredictValues(model, x, decValues);
 			return predResult;
 		}
-
 		public static double SvmPredictProbability(SvmModel model, BaseVector x, double[] probEstimates){
 			if ((model.param.svmType == SvmType.CSvc || model.param.svmType == SvmType.NuSvc) && model.probA != null &&
-				model.probB != null){
+			    model.probB != null){
 				int nrClass = model.nrClass;
-				double[] decValues = new double[nrClass*(nrClass - 1)/2];
+				double[] decValues = new double[nrClass * (nrClass - 1) / 2];
 				SvmPredictValues(model, x, decValues);
 				const double minProb = 1e-7;
 				double[][] pairwiseProb = new double[nrClass][];
@@ -973,13 +961,14 @@ namespace NumPluginSvm.Svm{
 				int k = 0;
 				for (int i = 0; i < nrClass; i++){
 					for (int j = i + 1; j < nrClass; j++){
-						pairwiseProb[i][j] = Math.Min(Math.Max(SigmoidPredict(decValues[k], model.probA[k], model.probB[k]), minProb),
+						pairwiseProb[i][j] = Math.Min(
+							Math.Max(SigmoidPredict(decValues[k], model.probA[k], model.probB[k]), minProb),
 							1 - minProb);
 						pairwiseProb[j][i] = 1 - pairwiseProb[i][j];
 						k++;
 					}
 				}
-				MulticlassProbability(nrClass, pairwiseProb, probEstimates);
+				MultiClassProbability(nrClass, pairwiseProb, probEstimates);
 				int probMaxIdx = 0;
 				for (int i = 1; i < nrClass; i++){
 					if (probEstimates[i] > probEstimates[probMaxIdx]){
@@ -990,8 +979,7 @@ namespace NumPluginSvm.Svm{
 			}
 			return SvmPredict(model, x);
 		}
-
-		public static string SvmCheckParameter(SvmProblem prob, SvmParameter param){
+		public static string SvmCheckParameter(SvmProblem problem, SvmParameter param){
 			SvmType svmType = param.svmType;
 			// cache_size,eps,C,nu,p,shrinking
 			if (param.cacheSize <= 0){
@@ -1020,14 +1008,14 @@ namespace NumPluginSvm.Svm{
 			}
 			// check whether nu-svc is feasible
 			if (svmType == SvmType.NuSvc){
-				int l = prob.Count;
+				int l = problem.Count;
 				int maxNrClass = 16;
 				int nrClass = 0;
 				int[] label = new int[maxNrClass];
 				int[] count = new int[maxNrClass];
 				int i;
 				for (i = 0; i < l; i++){
-					int thisLabel = (int) prob.y[i];
+					int thisLabel = (int) problem.y[i];
 					int j;
 					for (j = 0; j < nrClass; j++){
 						if (thisLabel == label[j]){
@@ -1054,7 +1042,7 @@ namespace NumPluginSvm.Svm{
 					int n1 = count[i];
 					for (int j = i + 1; j < nrClass; j++){
 						int n2 = count[j];
-						if (param.nu*(n1 + n2)/2 > Math.Min(n1, n2)){
+						if (param.nu * (n1 + n2) / 2 > Math.Min(n1, n2)){
 							return "specified nu is infeasible";
 						}
 					}
@@ -1062,11 +1050,11 @@ namespace NumPluginSvm.Svm{
 			}
 			return null;
 		}
-
 		public static int SvmCheckProbabilityModel(SvmModel model){
 			if (((model.param.svmType == SvmType.CSvc || model.param.svmType == SvmType.NuSvc) && model.probA != null &&
-				model.probB != null) ||
-				((model.param.svmType == SvmType.EpsilonSvr || model.param.svmType == SvmType.NuSvr) && model.probA != null)){
+			     model.probB != null) ||
+			    ((model.param.svmType == SvmType.EpsilonSvr || model.param.svmType == SvmType.NuSvr) &&
+			     model.probA != null)){
 				return 1;
 			}
 			return 0;

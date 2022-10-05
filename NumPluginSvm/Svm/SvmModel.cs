@@ -2,7 +2,6 @@
 using System.IO;
 using BaseLibS.Num.Vector;
 using BaseLibS.Util;
-
 namespace NumPluginSvm.Svm{
 	[Serializable]
 	public class SvmModel{
@@ -13,18 +12,14 @@ namespace NumPluginSvm.Svm{
 		public double[][] svCoef; // coefficients for SVs in decision functions (svCoef[k-1][l])
 		public double[] rho; // constants in decision functions (rho[k*(k-1)/2])
 		public double[] probA; // pairwise probability information
-
 		public double[] probB;
 
 		// for classification only
 		public int[] label; // label of each class (label[k])
-
 		public int[] nSv; // number of SVs for each class (nSV[k])
 		// nSV[0] + nSV[1] + ... + nSV[k-1] = l
-
 		public SvmModel(){
 		}
-
 		public SvmModel(BinaryReader reader){
 			param = new SvmParameter(reader);
 			nrClass = reader.ReadInt32();
@@ -32,7 +27,7 @@ namespace NumPluginSvm.Svm{
 			int len = reader.ReadInt32();
 			sv = new BaseVector[len];
 			for (int i = 0; i < len; i++){
-				VectorType vt = (VectorType)reader.ReadInt32();
+				VectorType vt = (VectorType) reader.ReadInt32();
 				sv[i] = BaseVector.ReadbaseVector(vt, reader);
 			}
 			svCoef = FileUtils.Read2DDoubleArray(reader);
@@ -42,7 +37,6 @@ namespace NumPluginSvm.Svm{
 			label = FileUtils.ReadInt32Array(reader);
 			nSv = FileUtils.ReadInt32Array(reader);
 		}
-
 		public void Write(BinaryWriter writer){
 			param.Write(writer);
 			writer.Write(nrClass);
@@ -59,7 +53,6 @@ namespace NumPluginSvm.Svm{
 			FileUtils.Write(label ?? new int[0], writer);
 			FileUtils.Write(nSv ?? new int[0], writer);
 		}
-
 		public double[] ComputeBinaryClassifierWeights(int nFeatures){
 			double[] weights = new double[nFeatures];
 			const int nc = 2;

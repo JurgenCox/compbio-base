@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace NumPluginSvm.Svm{
 	/// <summary>
 	/// Kernel Cache
@@ -9,17 +8,14 @@ namespace NumPluginSvm.Svm{
 	/// </summary>
 	internal class SvmCache{
 		private long size;
-
 		private class HeadT{
 			internal HeadT prev; // a cicular list
 			internal HeadT next; // a cicular list
 			internal float[] data;
 			internal int len; // data[0,len) is cached in this entry
 		}
-
 		private readonly HeadT[] head;
 		private readonly HeadT lruHead;
-
 		internal SvmCache(int l1, long size1){
 			int l = l1;
 			size = size1;
@@ -28,18 +24,16 @@ namespace NumPluginSvm.Svm{
 				head[i] = new HeadT();
 			}
 			size /= 4;
-			size -= l*(16/4); // sizeof(head_t) == 16
-			size = Math.Max(size, 2*(long) l); // cache must be large enough for two columns
+			size -= l * (16 / 4); // sizeof(head_t) == 16
+			size = Math.Max(size, 2 * (long) l); // cache must be large enough for two columns
 			lruHead = new HeadT();
 			lruHead.next = lruHead.prev = lruHead;
 		}
-
 		private static void LruDelete(HeadT h){
 			// delete from current location
 			h.prev.next = h.next;
 			h.next.prev = h.prev;
 		}
-
 		private void LruInsert(HeadT h){
 			// insert to last position
 			h.next = lruHead;
@@ -84,7 +78,6 @@ namespace NumPluginSvm.Svm{
 			data[0] = h.data;
 			return len;
 		}
-
 		internal void SwapIndex(int i, int j){
 			if (i == j){
 				return;

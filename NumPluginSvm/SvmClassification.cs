@@ -59,7 +59,7 @@ namespace NumPluginSvm {
 			return null;
 		}
 
-		private static SvmProblem[] CreateProblems(IList<BaseVector> x, IList<int[]> y, int ngroups, out bool[] invert) {
+		private static SvmProblem[] CreateProblems(BaseVector[] x, IList<int[]> y, int ngroups, out bool[] invert) {
 			if (ngroups == 2) {
 				invert = new bool[1];
 				return new[] {CreateProblem(x, y, 0, out invert[0])};
@@ -72,7 +72,7 @@ namespace NumPluginSvm {
 			return result;
 		}
 
-		private static SvmProblem CreateProblem(IList<BaseVector> x, IList<int[]> y, int index, out bool invert) {
+		private static SvmProblem CreateProblem(BaseVector[] x, IList<int[]> y, int index, out bool invert) {
 			double[] y1 = new double[y.Count];
 			for (int i = 0; i < y.Count; i++) {
 				if (Array.BinarySearch(y[i], index) >= 0) {
