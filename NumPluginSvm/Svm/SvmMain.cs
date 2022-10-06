@@ -289,7 +289,7 @@ namespace NumPluginSvm.Svm{
 						fval = newf;
 						break;
 					}
-					stepsize = stepsize / 2.0;
+					stepsize /= 2.0;
 				}
 				if (stepsize < minStep){
 					Info("Line search fails in two-class probability estimates\n");
@@ -376,12 +376,8 @@ namespace NumPluginSvm.Svm{
 				perm[i] = i;
 			}
 			for (i = 0; i < problem.Count; i++){
-				int j = i + rand.Next(problem.Count - i);
-				do{
-					int _ = perm[i];
-					perm[i] = perm[j];
-					perm[j] = _;
-				} while (false);
+				int j = i + rand.Next(problem.Count - i); 
+				(perm[i], perm[j]) = (perm[j], perm[i]);
 			}
 			for (i = 0; i < nrFold; i++){
 				int begin = i * problem.Count / nrFold;
@@ -477,17 +473,16 @@ namespace NumPluginSvm.Svm{
 
 		// label: label name, start: begin of each class, count: #data of classes, perm: indices to the original data
 		// perm, length l, must be allocated before calling this subroutine
-		private static void SvmGroupClasses(SvmProblem prob, int[] nrClassRet, int[][] labelRet,
-			int[][] startRet, int[][] countRet, int[] perm){
-			int l = prob.Count;
+		private static void SvmGroupClasses(SvmProblem problem, out int nrClassRet, out int[] labelRet,
+			out int[] startRet, out int[] countRet, int[] perm){
+			int l = problem.Count;
 			int maxNrClass = 16;
 			int nrClass = 0;
 			int[] label = new int[maxNrClass];
 			int[] count = new int[maxNrClass];
 			int[] dataLabel = new int[l];
-			int i;
-			for (i = 0; i < l; i++){
-				int thisLabel = (int) (prob.y[i]);
+			for (int i = 0; i < l; i++){
+				int thisLabel = (int) problem.y[i];
 				int j;
 				for (j = 0; j < nrClass; j++){
 					if (thisLabel == label[j]){
@@ -513,27 +508,24 @@ namespace NumPluginSvm.Svm{
 			}
 			int[] start = new int[nrClass];
 			start[0] = 0;
-			for (i = 1; i < nrClass; i++){
+			for (int i = 1; i < nrClass; i++){
 				start[i] = start[i - 1] + count[i - 1];
 			}
-			for (i = 0; i < l; i++){
+			for (int i = 0; i < l; i++){
 				perm[start[dataLabel[i]]] = i;
 				++start[dataLabel[i]];
 			}
 			start[0] = 0;
-			for (i = 1; i < nrClass; i++){
+			for (int i = 1; i < nrClass; i++){
 				start[i] = start[i - 1] + count[i - 1];
 			}
-			nrClassRet[0] = nrClass;
-			labelRet[0] = label;
-			startRet[0] = start;
-			countRet[0] = count;
+			nrClassRet = nrClass;
+			labelRet = label;
+			startRet = start;
+			countRet = count;
 		}
 
-		//
-		// Interface functions
-		//
-		public static SvmModel SvmTrain(SvmProblem prob, SvmParameter param){
+		public static SvmModel SvmTrain(SvmProblem problem, SvmParameter param){
 			SvmModel model = new SvmModel(){param = param};
 			if (param.svmType == SvmType.OneClass || param.svmType == SvmType.EpsilonSvr ||
 			    param.svmType == SvmType.NuSvr){
@@ -546,14 +538,14 @@ namespace NumPluginSvm.Svm{
 				model.svCoef = new double[1][];
 				if (param.probability && (param.svmType == SvmType.EpsilonSvr || param.svmType == SvmType.NuSvr)){
 					model.probA = new double[1];
-					model.probA[0] = SvmSvrProbability(prob, param);
+					model.probA[0] = SvmSvrProbability(problem, param);
 				}
-				DecisionFunction f = SvmTrainOne(prob, param, 0, 0);
+				DecisionFunction f = SvmTrainOne(problem, param, 0, 0);
 				model.rho = new double[1];
 				model.rho[0] = f.rho;
 				int nSv = 0;
 				int i;
-				for (i = 0; i < prob.Count; i++){
+				for (i = 0; i < problem.Count; i++){
 					if (Math.Abs(f.alpha[i]) > 0){
 						++nSv;
 					}
@@ -562,41 +554,32 @@ namespace NumPluginSvm.Svm{
 				model.sv = new BaseVector[nSv];
 				model.svCoef[0] = new double[nSv];
 				int j = 0;
-				for (i = 0; i < prob.Count; i++){
+				for (i = 0; i < problem.Count; i++){
 					if (Math.Abs(f.alpha[i]) > 0){
-						model.sv[j] = prob.x[i];
+						model.sv[j] = problem.x[i];
 						model.svCoef[0][j] = f.alpha[i];
 						++j;
 					}
 				}
 			} else{
 				// classification
-				int l = prob.Count;
-				int[] tmpNrClass = new int[1];
-				int[][] tmpLabel = new int[1][];
-				int[][] tmpStart = new int[1][];
-				int[][] tmpCount = new int[1][];
+				int l = problem.Count;
 				int[] perm = new int[l];
-				// group training data of the same class
-				SvmGroupClasses(prob, tmpNrClass, tmpLabel, tmpStart, tmpCount, perm);
-				int nrClass = tmpNrClass[0];
-				int[] label = tmpLabel[0];
-				int[] start = tmpStart[0];
-				int[] count = tmpCount[0];
+				// group training data by class
+				SvmGroupClasses(problem, out int nrClass, out int[] label, out int[] start, out int[] count, perm);
 				if (nrClass == 1){
 					Info("WARNING: training data in only one class. See README for details.\n");
 				}
 				BaseVector[] x = new BaseVector[l];
-				int i;
-				for (i = 0; i < l; i++){
-					x[i] = prob.x[perm[i]];
+				for (int i = 0; i < l; i++){
+					x[i] = problem.x[perm[i]];
 				}
 				// calculate weighted C
 				double[] weightedC = new double[nrClass];
-				for (i = 0; i < nrClass; i++){
+				for (int i = 0; i < nrClass; i++){
 					weightedC[i] = param.c;
 				}
-				for (i = 0; i < param.nrWeight; i++){
+				for (int i = 0; i < param.nrWeight; i++){
 					int j;
 					for (j = 0; j < nrClass; j++){
 						if (param.weightLabel[i] == label[j]){
@@ -611,7 +594,7 @@ namespace NumPluginSvm.Svm{
 				}
 				// train k*(k-1)/2 models
 				bool[] nonzero = new bool[l];
-				for (i = 0; i < l; i++){
+				for (int i = 0; i < l; i++){
 					nonzero[i] = false;
 				}
 				DecisionFunction[] f = new DecisionFunction[nrClass * (nrClass - 1) / 2];
@@ -621,7 +604,7 @@ namespace NumPluginSvm.Svm{
 					probB = new double[nrClass * (nrClass - 1) / 2];
 				}
 				int p = 0;
-				for (i = 0; i < nrClass; i++){
+				for (int i = 0; i < nrClass; i++){
 					for (int j = i + 1; j < nrClass; j++){
 						int si = start[i], sj = start[j];
 						int ci = count[i], cj = count[j];
@@ -659,17 +642,17 @@ namespace NumPluginSvm.Svm{
 				// build output
 				model.nrClass = nrClass;
 				model.label = new int[nrClass];
-				for (i = 0; i < nrClass; i++){
+				for (int i = 0; i < nrClass; i++){
 					model.label[i] = label[i];
 				}
 				model.rho = new double[nrClass * (nrClass - 1) / 2];
-				for (i = 0; i < nrClass * (nrClass - 1) / 2; i++){
+				for (int i = 0; i < nrClass * (nrClass - 1) / 2; i++){
 					model.rho[i] = f[i].rho;
 				}
 				if (param.probability){
 					model.probA = new double[nrClass * (nrClass - 1) / 2];
 					model.probB = new double[nrClass * (nrClass - 1) / 2];
-					for (i = 0; i < nrClass * (nrClass - 1) / 2; i++){
+					for (int i = 0; i < nrClass * (nrClass - 1) / 2; i++){
 						model.probA[i] = probA[i];
 						model.probB[i] = probB[i];
 					}
@@ -680,7 +663,7 @@ namespace NumPluginSvm.Svm{
 				int nnz = 0;
 				int[] nzCount = new int[nrClass];
 				model.nSv = new int[nrClass];
-				for (i = 0; i < nrClass; i++){
+				for (int i = 0; i < nrClass; i++){
 					int nSv = 0;
 					for (int j = 0; j < count[i]; j++){
 						if (nonzero[start[i] + j]){
@@ -695,22 +678,22 @@ namespace NumPluginSvm.Svm{
 				model.l = nnz;
 				model.sv = new BaseVector[nnz];
 				p = 0;
-				for (i = 0; i < l; i++){
+				for (int i = 0; i < l; i++){
 					if (nonzero[i]){
 						model.sv[p++] = x[i];
 					}
 				}
 				int[] nzStart = new int[nrClass];
 				nzStart[0] = 0;
-				for (i = 1; i < nrClass; i++){
+				for (int i = 1; i < nrClass; i++){
 					nzStart[i] = nzStart[i - 1] + nzCount[i - 1];
 				}
 				model.svCoef = new double[nrClass - 1][];
-				for (i = 0; i < nrClass - 1; i++){
+				for (int i = 0; i < nrClass - 1; i++){
 					model.svCoef[i] = new double[nnz];
 				}
 				p = 0;
-				for (i = 0; i < nrClass; i++){
+				for (int i = 0; i < nrClass; i++){
 					for (int j = i + 1; j < nrClass; j++){
 						// classifier (i,j): coefficients with
 						// i are in sv_coef[j-1][nz_start[i]...],
@@ -748,14 +731,7 @@ namespace NumPluginSvm.Svm{
 			// stratified cv may not give leave-one-out rate
 			// Each class to l folds -> some folds may have zero elements
 			if ((param.svmType == SvmType.CSvc || param.svmType == SvmType.NuSvc) && nrFold < l){
-				int[] tmpNrClass = new int[1];
-				int[][] tmpLabel = new int[1][];
-				int[][] tmpStart = new int[1][];
-				int[][] tmpCount = new int[1][];
-				SvmGroupClasses(prob, tmpNrClass, tmpLabel, tmpStart, tmpCount, perm);
-				int nrClass = tmpNrClass[0];
-				int[] start = tmpStart[0];
-				int[] count = tmpCount[0];
+				SvmGroupClasses(prob, out int nrClass, out int[] label, out int[] start, out int[] count, perm);
 				// random shuffle and then data grouped by fold using the array perm
 				int[] foldCount = new int[nrFold];
 				int[] index = new int[l];
@@ -764,12 +740,8 @@ namespace NumPluginSvm.Svm{
 				}
 				for (int c = 0; c < nrClass; c++){
 					for (i = 0; i < count[c]; i++){
-						int j = i + rand.Next(count[c] - i);
-						do{
-							int _ = index[start[c] + j];
-							index[start[c] + j] = index[start[c] + i];
-							index[start[c] + i] = _;
-						} while (false);
+						int j = i + rand.Next(count[c] - i); 
+						(index[start[c] + j], index[start[c] + i]) = (index[start[c] + i], index[start[c] + j]);
 					}
 				}
 				for (i = 0; i < nrFold; i++){
@@ -801,12 +773,8 @@ namespace NumPluginSvm.Svm{
 					perm[i] = i;
 				}
 				for (i = 0; i < l; i++){
-					int j = i + rand.Next(l - i);
-					do{
-						int _ = perm[i];
-						perm[i] = perm[j];
-						perm[j] = _;
-					} while (false);
+					int j = i + rand.Next(l - i); 
+					(perm[i], perm[j]) = (perm[j], perm[i]);
 				}
 				for (i = 0; i <= nrFold; i++){
 					foldStart[i] = i * l / nrFold;
