@@ -24,11 +24,9 @@ namespace NumPluginSvm {
 				throw new Exception(err);
 			}
 			ParameterWithSubParams<int> kernelParam = param.GetParamWithSubParams<int>("Kernel");
-			SvmParameter sp = new SvmParameter {
-				kernelFunction = KernelFunctions.GetKernelFunction(kernelParam.Value, kernelParam.GetSubParameters()),
-				svmType = SvmType.CSvc,
-				c = param.GetParam<double>("C").Value
-			};
+			IKernelFunction kf = KernelFunctions.GetKernelFunction(kernelParam.Value, kernelParam.GetSubParameters());
+			double c = param.GetParam<double>("C").Value;
+			SvmParameter sp = new SvmParameter {kernelFunction = kf, svmType = SvmType.CSvc, c = c};
 			SvmProblem[] problems = CreateProblems(x, y, ngroups, out bool[] invert);
 			SvmModel[] models = new SvmModel[problems.Length];
 			ThreadDistributor td =
