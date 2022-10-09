@@ -76,7 +76,7 @@ namespace BaseLibS.Ms.Instrument{
 		public double DiaTransferQvalueDefault => 0.3;
 		public bool CutPeaksDefault => true;
 		public int GapScansDefault => 1;
-
+		public bool DiaAdaptiveMlScoringDefault => false;
 		public abstract float[] SmoothIntensityProfile(float[] origProfile);
 
 		public override string ToString(){
