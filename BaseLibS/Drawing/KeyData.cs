@@ -91,11 +91,18 @@ namespace BaseLibS.Drawing{
 					return ' ';
 				default:
 					switch (keyboardId){
-						case 0x00000407:
+						case 0x00000407://German
+						case 0x00010407://German (IBM)
+						case 0x00000410://Italian
 							return GetCharLocaleGerman(keyData);
 						default:
 							return GetCharLocaleUnitedStatesEnglish(keyData);
 					}
+					//0x0000040a Spanish 	
+					//0x0001040a Spanish Variation 	
+					//0x00000419 Russian
+					//0x00010419 Russian (Typewriter)
+					//0x0000040c French
 			}
 		}
 
@@ -197,7 +204,5 @@ namespace BaseLibS.Drawing{
 					return (char)0;
 			}
 		}
-
-
 	}
 }
