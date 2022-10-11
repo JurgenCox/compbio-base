@@ -95,6 +95,8 @@ namespace BaseLibS.Drawing{
 						case 0x00010407://German (IBM)
 						case 0x00000410://Italian
 							return GetCharLocaleGerman(keyData);
+						case 0x00000419:	//Russian
+                            return GetCharLocaleRussian(keyData);
 						default:
 							return GetCharLocaleUnitedStatesEnglish(keyData);
 					}
@@ -204,5 +206,61 @@ namespace BaseLibS.Drawing{
 					return (char)0;
 			}
 		}
+
+        public static char GetCharLocaleRussian(Keys2 keyData) {
+            switch (keyData)
+            {
+                case Keys2.D1 | Keys2.Shift:
+                    return '!';
+                case Keys2.D2 | Keys2.Shift:
+                    return '"';
+                case Keys2.D3 | Keys2.Shift:
+                    return '№';
+                case Keys2.D4 | Keys2.Shift:
+                    return ';';
+                case Keys2.D5 | Keys2.Shift:
+                    return '%';
+                case Keys2.D6 | Keys2.Shift:
+                    return ':';
+                case Keys2.D7 | Keys2.Shift:
+                    return '?';
+                case Keys2.D8 | Keys2.Shift:
+                    return '*';
+                case Keys2.D9 | Keys2.Shift:
+                    return '(';
+                case Keys2.D0 | Keys2.Shift:
+                    return ')';
+                case Keys2.Oemplus:
+                    return '=';
+                case Keys2.Oemplus | Keys2.Shift:
+                    return '+';
+                case Keys2.OemMinus:
+                    return '-';
+                case Keys2.OemMinus | Keys2.Shift:
+                    return '_';
+                case Keys2.OemPeriod:
+                    return 'ю';
+                case Keys2.OemPeriod | Keys2.Shift:
+                    return 'Ю';
+                case Keys2.Oemcomma:
+                    return 'б';
+                case Keys2.Oemcomma | Keys2.Shift:
+                    return 'Б';
+                case Keys2.OemQuestion:
+                    return '.';
+                case Keys2.OemQuestion | Keys2.Shift:
+                    return ',';
+                case Keys2.OemBackslash:
+                    return '\\';
+                case Keys2.OemBackslash | Keys2.Shift:
+                    return '/';
+                case Keys2.Oemtilde:
+                    return 'ё';
+                case Keys2.Oemtilde | Keys2.Shift:
+                    return 'Ё';
+                default:
+                    return (char)0;
+            }
+        }
 	}
 }
