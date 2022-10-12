@@ -7,10 +7,6 @@ namespace BaseLibS.Ms.Instrument{
 		public sealed override double TheorIsotopeCorrelationDefault => 0.6;
 		public sealed override bool IntensityDependentCalibrationDefault => true;
 
-		public sealed override double GetCentroidMatchTolDefault(MsDataType dataType){
-			return 10;
-		}
-
 		public sealed override double GetIsotopeMatchTolDefault(MsDataType dataType){
 			switch (dataType){
 				case MsDataType.Peptides:

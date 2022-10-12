@@ -23,6 +23,9 @@ namespace BaseLibS.Ms.Instrument{
 					throw new Exception("Never get here.");
 			}
 		}
+		public override double GetCentroidMatchTolDefault(MsDataType dataType) {
+			return 10;
+		}
 
 		public override int GetMinPeakLengthDefault(MsDataType dataType){
 			switch (dataType){

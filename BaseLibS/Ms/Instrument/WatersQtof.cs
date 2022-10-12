@@ -28,6 +28,9 @@ namespace BaseLibS.Ms.Instrument{
 				default: throw new Exception("Never get here.");
 			}
 		}
+		public override double GetCentroidMatchTolDefault(MsDataType dataType) {
+			return 10;
+		}
 
 		public override float[] SmoothIntensityProfile(float[] origProfile){
 			return ArrayUtils.SmoothMean(origProfile, 1);
