@@ -90,8 +90,8 @@ namespace BaseLib.Forms{
 					"TMTpro16plex-Nter128C", "TMTpro16plex-Nter129N", "TMTpro16plex-Nter129C", "TMTpro16plex-Nter130N",
 					"TMTpro16plex-Nter130C", "TMTpro16plex-Nter131N", "TMTpro16plex-Nter131C", "TMTpro16plex-Nter132N",
 					"TMTpro16plex-Nter132C", "TMTpro16plex-Nter133N", "TMTpro16plex-Nter133C", "TMTpro16plex-Nter134N",
-					"TMTpro18plex-Lys134C", "TMTpro18plex-Lys135N"
-				}),
+                    "TMTpro18plex-Nter134C", "TMTpro18plex-Nter135N"
+                }),
 			new IsobaricLabelingDefault("iodo6plexTMT",
 				new[]{
 					"iodoTMT6plex-Cys126", "iodoTMT6plex-Cys127", "iodoTMT6plex-Cys128", "iodoTMT6plex-Cys129",
