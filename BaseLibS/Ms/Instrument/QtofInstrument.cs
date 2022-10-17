@@ -72,7 +72,7 @@ namespace BaseLibS.Ms.Instrument{
 				case MsDataType.Peptides:
 				case MsDataType.Metabolites:
 				case MsDataType.Proteins:
-					return IntensityDetermination.SumSmoothFwhm;
+					return IntensityDetermination.SumTotal;
 				default:
 					throw new Exception("Never get here.");
 			}
