@@ -914,7 +914,7 @@ namespace BaseLibS.Util{
 			"dn complete score", "dn combined score", "dn isomer score", "dn number of steps", "match m/z difference", 
 			"match k0 difference", "fragment overlap", "intensity correlation", "precursor num scans", 
 			"fragment median num scans", "number of fragments", "mass difference to range min", "mass difference to range max",
-			"sample 1/k0 - library 1/k0", "ml score", "tag length"
+			"sample 1/k0 - library 1/k0", "ml score", "tag length", "theor. isotope correlation", "time correlation"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
