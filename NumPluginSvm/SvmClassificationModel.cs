@@ -56,5 +56,9 @@ namespace NumPluginSvm{
 			}
 			return result1;
 		}
+
+		public double[] GetBinaryClassifierWeights(int nfeatures) {
+			return models[0].ComputeBinaryClassifierWeights(nfeatures);
+		}
 	}
 }
