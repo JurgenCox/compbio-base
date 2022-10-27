@@ -62,6 +62,7 @@ namespace BaseLibS.Ms.Instrument{
 		public int DiaMinFragmentOverlapScoreDefault => 1;
 		public double DiaMinPrecursorScoreDefault => 0.0;
 		public bool DiaUseProfileCorrelationDefault => true;
+		public bool DiaHardRtFilterDefault => true;
 		public double DiaMinPrecProfileCorrelationDefault => 0;
 		public double DiaMinFragProfileCorrelationDefault => 0;
 		public double DiaXgBoostBaseScoreDefault => 0.4;
