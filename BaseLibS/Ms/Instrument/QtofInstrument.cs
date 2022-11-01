@@ -67,6 +67,8 @@ namespace BaseLibS.Ms.Instrument{
 			return true;
 		}
 
+		public override bool DiaChargeNormalizationLibraryDefault => false;
+		public override bool DiaChargeNormalizationSampleDefault => false;
 		public sealed override IntensityDetermination GetIntensityDeterminationDefault(MsDataType dataType){
 			switch (dataType){
 				case MsDataType.Peptides:

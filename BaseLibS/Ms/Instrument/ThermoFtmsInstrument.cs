@@ -142,5 +142,7 @@ namespace BaseLibS.Ms.Instrument{
 		public override double DiaBackgroundSubtractionQuantileDefault => 0.5;
 		public override double DiaBackgroundSubtractionFactorDefault => 4;
 		public override LfqRatioType DiaLfqRatioTypeDefault => LfqRatioType.Median;
+		public override bool DiaChargeNormalizationLibraryDefault => true;
+		public override bool DiaChargeNormalizationSampleDefault => true;
 	}
 }

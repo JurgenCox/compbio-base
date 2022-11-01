@@ -64,6 +64,8 @@ namespace BaseLibS.Ms.Instrument{
 		public bool DiaUseProfileCorrelationDefault => true;
 		public bool DiaHardRtFilterDefault => true;
 		public bool DiaConvertLibraryCharge2FragmentsDefault => false;
+		public abstract bool DiaChargeNormalizationLibraryDefault { get; }
+		public abstract bool DiaChargeNormalizationSampleDefault { get; }
 		public double DiaMinPrecProfileCorrelationDefault => 0;
 		public double DiaMinFragProfileCorrelationDefault => 0;
 		public double DiaXgBoostBaseScoreDefault => 0.4;
