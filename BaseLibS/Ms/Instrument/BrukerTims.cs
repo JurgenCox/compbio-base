@@ -5,8 +5,8 @@ namespace BaseLibS.Ms.Instrument{
 	public class BrukerTims : QtofInstrument{
 		public BrukerTims(int index) : base(index){ }
 		public override string Name => "Bruker TIMS";
-		public override double IntensityThresholdMs1Default => 30;
-		public override double IntensityThresholdMs2Default => 15;
+		public override double IntensityThresholdMs1Default => 17;
+		public override double IntensityThresholdMs2Default => 11;
 		public override bool UseMs1CentroidsDefault => false;
 		public override bool UseMs2CentroidsDefault => false;
 		public override double DiaMinMsmsIntensityForQuantDefault => 30;
