@@ -7,7 +7,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override string Name => "Orbitrap";
 		public override double IsotopeTimeCorrelationDefault => 0.6;
 		public override double TheorIsotopeCorrelationDefault => 0.6;
-		public override double IntensityThresholdMs1Default => 0;
+		public override double IntensityThresholdMs1DdaDefault => 0;
+		public override double IntensityThresholdMs1DiaDefault => 0;
 		public override double IntensityThresholdMs2Default => 0;
 		public override bool IntensityDependentCalibrationDefault => false;
 		public override bool IsotopeMatchTolInPpmDefault => true;

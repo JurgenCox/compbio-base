@@ -16,7 +16,8 @@ namespace BaseLibS.Ms.Instrument{
 		public abstract double GetCentroidMatchTolDefault(MsDataType dataType);
 		public abstract double GetValleyFactorDefault(MsDataType dataType);
 		public abstract double GetIsotopeValleyFactorDefault(MsDataType dataType);
-		public abstract double IntensityThresholdMs1Default { get; }
+		public abstract double IntensityThresholdMs1DdaDefault { get; }
+		public abstract double IntensityThresholdMs1DiaDefault { get; }
 		public abstract double IntensityThresholdMs2Default { get; }
 		public abstract bool IntensityDependentCalibrationDefault{ get; }
 		public abstract double PrecursorToleranceFirstSearchDefault{ get; }
