@@ -13,6 +13,12 @@ namespace BaseLibS.Num {
 
 		public BayesianInversion1D(IList<double> xdata, IList<bool> correct, bool debug) {
 			Invert(xdata, correct, out xout, out zout, debug, out forward, out reverse);
+			if (xout == null){
+				xout = new[] { 0.0 };
+				zout = new[] { 0.0 };
+				forward = new[] { 0.0 };
+				reverse = new[] { 0.0 };
+			}
 		}
 
 		public BayesianInversion1D(BinaryReader reader){
