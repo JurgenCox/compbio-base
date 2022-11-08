@@ -149,7 +149,7 @@ namespace BaseLibS.Num {
 			double cov = ArrayUtils.CalcCovariance(trueData);
 			double fact = Math.Pow(n, 1.0 / 5.0);
 			double hinv = fact / Math.Sqrt(cov);
-			if (hinv == 0) {
+			if (hinv == 0 || cov == 0) {
 				xRes = null;
 				zRes = null;
 				forwardOut = null;
