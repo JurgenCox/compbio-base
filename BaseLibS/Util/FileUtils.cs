@@ -779,7 +779,36 @@ namespace BaseLibS.Util{
 				}
 			}
 		}
-
+		public static void Write(float[,,] x, BinaryWriter writer) {
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
+		public static void Write(ushort[,,] x, BinaryWriter writer) {
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
 		public static void Write(IList<int[]> x, BinaryWriter writer){
 			writer.Write(x.Count);
 			foreach (int[] t in x){
@@ -1026,13 +1055,43 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
-		public static float[,] Read2DFloatArray2(BinaryReader reader){
+		public static float[,] Read2DFloatArray2(BinaryReader reader) {
 			int n1 = reader.ReadInt32();
 			int n2 = reader.ReadInt32();
 			float[,] result = new float[n1, n2];
-			for (int i = 0; i < n1; i++){
-				for (int j = 0; j < n2; j++){
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
 					result[i, j] = reader.ReadSingle();
+				}
+			}
+			return result;
+		}
+
+		public static float[,,] Read3DFloatArray(BinaryReader reader) {
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			float[,,] result = new float[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadSingle();
+					}
+				}
+			}
+			return result;
+		}
+
+		public static ushort[,,] Read3DUshortArray(BinaryReader reader) {
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			ushort[,,] result = new ushort[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadUInt16();
+					}
 				}
 			}
 			return result;

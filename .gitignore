@@ -166,3 +166,5 @@ pip-log.txt
 /.vs
 /BaseLibS/Mol/.vs
 /BaseLibS/Mol/.vs
+/upgrade-assistant.clef
+/AnalysisReport.sarif
