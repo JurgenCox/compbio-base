@@ -228,5 +228,13 @@ namespace BaseLibS.Mol {
 			}
 			return result;
 		}
+
+		public static Modification[][] FromStrings(string[][] modNames){
+			Modification[][] result = new Modification[modNames.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = FromStrings(modNames[i]);
+			}
+			return result;
+		}
 	}
 }
