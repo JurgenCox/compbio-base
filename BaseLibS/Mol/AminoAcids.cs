@@ -173,7 +173,7 @@ namespace BaseLibS.Mol{
 
 		public static bool ValidSequence(string sequence){
 			foreach (char x in sequence){
-				if (SingleLetterAas.IndexOf(x) < 0){
+				if (StandardSingleLetterAas.IndexOf(x) < 0){
 					return false;
 				}
 			}
