@@ -127,7 +127,7 @@ namespace BaseLib.Forms{
 				}
 			}
 			// For more than 3 label states, number them.
-			return "Labels-" + i;
+			return "Labels-" + (i + 1);
 		}
 
 		public string[] GetLabels(int ind){
