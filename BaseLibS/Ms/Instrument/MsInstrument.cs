@@ -83,7 +83,7 @@ namespace BaseLibS.Ms.Instrument{
 		public int GapScansDefault => 1;
 		public bool DiaAdaptiveMlScoringDefault => false;
 		public abstract float[] SmoothIntensityProfile(float[] origProfile);
-		public bool DiaDeleteIntermediateResultsDefault => false;
+		public bool DiaDeleteIntermediateResultsDefault => true;
 
 		public override string ToString(){
 			return Name;
