@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using BaseLibS.Mol;
 using BaseLibS.Ms.Data.Protein;
@@ -82,7 +83,28 @@ namespace BaseLibS.Ms.Search{
 			return true;
 		}
 
-		internal static void Digest(Protein p, EnzymeMode enzymeMode, int minPepLen, int maxPepLen, int missedCleavages,
+		public static string[] DigestToArray(string proteinSequence, string proteinAccession, EnzymeMode enzymeMode, int minPepLen,
+			int maxPepLen, int missedCleavages, Enzyme[] enzymes) {
+			List<string> peptides = new List<string>();
+			Digest(proteinSequence, proteinAccession, enzymeMode, minPepLen,
+				maxPepLen, missedCleavages, enzymes, (pepSeq, nterm, cterm) => { peptides.Add(pepSeq); });
+			return peptides.ToArray();
+		}
+		public static void DigestToFile(string proteinSequence, string proteinAccession, EnzymeMode enzymeMode, int minPepLen,
+			int maxPepLen, int missedCleavages, Enzyme[] enzymes, StreamWriter writer) {
+			List<string> peptides = new List<string>();
+			Digest(proteinSequence, proteinAccession, enzymeMode, minPepLen,
+				maxPepLen, missedCleavages, enzymes, (pepSeq, nterm, cterm) => { writer.WriteLine(pepSeq); });
+		}
+		public static void Digest(string proteinSequence, string proteinAccession, EnzymeMode enzymeMode, int minPepLen,
+			int maxPepLen, int missedCleavages, Enzyme[] enzymes, Action<string, bool, bool> addPeptide) {
+			Protein p = new Protein(proteinSequence, proteinAccession, "", "", false, false,
+				"", "", false, false);
+			Digest(p, enzymeMode, minPepLen, maxPepLen, missedCleavages, enzymes, false,
+				(pepSeq, isNterm, isCterm, arg1, arg2, arg3) => addPeptide(pepSeq, isNterm, isCterm),
+				VariationMode.None, null, 0, 0, false);
+		}
+		public static void Digest(Protein p, EnzymeMode enzymeMode, int minPepLen, int maxPepLen, int missedCleavages,
 			Enzyme[] enzymes, bool independentEnzymes, Action<string, bool, bool, byte, string[], string> addPeptide,
 			VariationMode variationMode, string variationGroupParseRule, int maxSubstitutions, int maxCombiMutations,
 			bool mutationNames){
