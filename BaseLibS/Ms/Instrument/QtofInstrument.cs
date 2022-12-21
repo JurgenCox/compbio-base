@@ -67,6 +67,7 @@ namespace BaseLibS.Ms.Instrument{
 			return true;
 		}
 
+		public override int DiaNumNonleadingMatchesDefault => 1;
 		public override bool DiaChargeNormalizationLibraryDefault => false;
 		public override bool DiaChargeNormalizationSampleDefault => false;
 		public sealed override IntensityDetermination GetIntensityDeterminationDefault(MsDataType dataType){

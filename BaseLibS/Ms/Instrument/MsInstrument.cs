@@ -84,6 +84,7 @@ namespace BaseLibS.Ms.Instrument{
 		public bool DiaAdaptiveMlScoringDefault => false;
 		public abstract float[] SmoothIntensityProfile(float[] origProfile);
 		public bool DiaDeleteIntermediateResultsDefault => true;
+		public abstract int DiaNumNonleadingMatchesDefault { get; }
 
 		public override string ToString(){
 			return Name;
