@@ -2316,11 +2316,31 @@ namespace BaseLibS.Num{
 			}
 			return sum;
 		}
-		public static double Sum(float[,] x){
+		public static double Sum(float[,] x) {
 			double sum = 0;
-			for (int i0 = 0; i0 < x.GetLength(0); i0++){
-				for (int i1 = 0; i1 < x.GetLength(1); i1++){
+			for (int i0 = 0; i0 < x.GetLength(0); i0++) {
+				for (int i1 = 0; i1 < x.GetLength(1); i1++) {
 					sum += x[i0, i1];
+				}
+			}
+			return sum;
+		}
+		public static double Sum(double[,] x) {
+			double sum = 0;
+			for (int i0 = 0; i0 < x.GetLength(0); i0++) {
+				for (int i1 = 0; i1 < x.GetLength(1); i1++) {
+					sum += x[i0, i1];
+				}
+			}
+			return sum;
+		}
+		public static double Sum(double[,,] x) {
+			double sum = 0;
+			for (int i0 = 0; i0 < x.GetLength(0); i0++) {
+				for (int i1 = 0; i1 < x.GetLength(1); i1++) {
+					for (int i2 = 0; i2 < x.GetLength(2); i2++) {
+						sum += x[i0, i1, i2];
+					}
 				}
 			}
 			return sum;
