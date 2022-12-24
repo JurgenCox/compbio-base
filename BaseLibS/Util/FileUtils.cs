@@ -794,6 +794,21 @@ namespace BaseLibS.Util{
 				}
 			}
 		}
+		public static void Write(double[,,] x, BinaryWriter writer) {
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
 		public static void Write(ushort[,,] x, BinaryWriter writer) {
 			int n1 = x.GetLength(0);
 			int n2 = x.GetLength(1);
@@ -1072,6 +1087,20 @@ namespace BaseLibS.Util{
 			int n2 = reader.ReadInt32();
 			int n3 = reader.ReadInt32();
 			float[,,] result = new float[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadSingle();
+					}
+				}
+			}
+			return result;
+		}
+		public static double[,,] Read3DDoubleArray1(BinaryReader reader) {
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			double[,,] result = new double[n1, n2, n3];
 			for (int i = 0; i < n1; i++) {
 				for (int j = 0; j < n2; j++) {
 					for (int k = 0; k < n3; k++) {
