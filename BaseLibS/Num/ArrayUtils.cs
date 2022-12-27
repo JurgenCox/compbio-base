@@ -305,11 +305,21 @@ namespace BaseLibS.Num{
 			}
 			return ind;
 		}
-		public static int[] MaxInds(this IList<int> x){
+		public static int[] MaxInds(this IList<int> x) {
 			int maxVal = Max(x);
 			List<int> inds = new List<int>();
-			for (int i = 0; i < x.Count; i++){
-				if (x[i] == maxVal){
+			for (int i = 0; i < x.Count; i++) {
+				if (x[i] == maxVal) {
+					inds.Add(i);
+				}
+			}
+			return inds.ToArray();
+		}
+		public static int[] MaxInds(this IList<double> x) {
+			double maxVal = Max(x);
+			List<int> inds = new List<int>();
+			for (int i = 0; i < x.Count; i++) {
+				if (x[i] == maxVal) {
 					inds.Add(i);
 				}
 			}
