@@ -1104,7 +1104,7 @@ namespace BaseLibS.Util{
 			for (int i = 0; i < n1; i++) {
 				for (int j = 0; j < n2; j++) {
 					for (int k = 0; k < n3; k++) {
-						result[i, j, k] = reader.ReadSingle();
+						result[i, j, k] = reader.ReadDouble();
 					}
 				}
 			}
