@@ -6,7 +6,7 @@ namespace BaseLibS.Ms.Instrument{
 		public BrukerTims(int index) : base(index){ }
 		public override string Name => "Bruker TIMS";
 		public override double IntensityThresholdMs1DdaDefault => 30;
-		public override double IntensityThresholdMs1DiaDefault => 50;
+		public override double IntensityThresholdMs1DiaDefault => 70;
 		public override double IntensityThresholdMs2Default => 30;
 		public override bool UseMs1CentroidsDefault => false;
 		public override bool UseMs2CentroidsDefault => false;
