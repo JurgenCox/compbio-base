@@ -232,12 +232,15 @@ namespace BaseLibS.Graph {
 				return;
 			}
 			string currentLine = lines[selectionStartLine];
+			if (string.IsNullOrEmpty(currentLine)){
+				return;
+			}
 			if (lastEditedLine == -1) {
 				undoBuffer = currentLine;
 				lastEditedLine = selectionEndLine;
 			}
 			int ind1 = Math.Min(selectionStartChar, selectionEndChar);
-			if (ind1 <= 0){
+			if (ind1 <= 0 || ind1 > currentLine.Length){
 				return;
 			}
 			string before = currentLine.Substring(0, ind1);
