@@ -629,9 +629,16 @@ namespace BaseLibS.Num{
 			}
 			return result;
 		}
-		public static string[] ToStrings(IList<char> x){
+		public static string[] ToStrings(IList<char> x) {
 			string[] result = new string[x.Count];
-			for (int i = 0; i < result.Length; i++){
+			for (int i = 0; i < result.Length; i++) {
+				result[i] = "" + x[i];
+			}
+			return result;
+		}
+		public static string[] ToStrings(IList<int> x) {
+			string[] result = new string[x.Count];
+			for (int i = 0; i < result.Length; i++) {
 				result[i] = "" + x[i];
 			}
 			return result;
