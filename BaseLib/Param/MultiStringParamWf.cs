@@ -36,12 +36,12 @@ namespace BaseLib.Param{
 			if (control == null || control.IsDisposed){
 				return;
 			}
-			control.Text = StringUtils.Concat("\n", Value);
+			control.Text = StringUtils.Concat("\r\n", Value);
 		}
 
 		public override object CreateControl(){
 			return control = new TextBox{
-				Text = StringUtils.Concat("\n", Value), AcceptsReturn = true, Multiline = true
+				Text = StringUtils.Concat("\r\n", Value), AcceptsReturn = true, Multiline = true
 			};
 		}
 
