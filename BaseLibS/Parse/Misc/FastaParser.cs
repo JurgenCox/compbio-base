@@ -28,18 +28,16 @@ namespace BaseLibS.Parse.Misc{
 				}
 				if (line.StartsWith(">")){
 					if (header != null){
-						bool stop = process(header, sequence.ToString());
-						if (stop){
-							break;
-						}
-					}
+						process(header, sequence.ToString());
+                    }
 					header = removeGreaterSign ? line.Substring(1) : line;
 					sequence = new StringBuilder();
 				} else{
 					sequence.Append(StringUtils.RemoveWhitespace(line.Trim()));
 				}
 			}
-			if (header != null){
+			if (header != null)
+			{
 				process(header, sequence.ToString());
 			}
 			reader.Close();
