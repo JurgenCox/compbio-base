@@ -142,8 +142,12 @@ namespace BaseLib.Graphic {
 			gc.DrawPath(GetPen(pen), GetGraphicsPath(path));
 		}
 
-		public void DrawLines(Pen2 pen, Point2[] points) {
-			gc.DrawLines(GetPen(pen), ToPointsF(points));
+		public void DrawLines(Pen2 pen, Point2[] points){
+			PointF[] ps = ToPointsF(points);
+			try{
+				gc.DrawLines(GetPen(pen), ps);
+			} catch (Exception){
+			}
 		}
 
 		public void DrawEllipse(Pen2 pen, float x, float y, float width, float height) {
