@@ -27,12 +27,15 @@ namespace BaseLibS.Parse.Misc{
 					continue;
 				}
 				if (line.StartsWith(">")){
-					if (header != null){
-						process(header, sequence.ToString());
-                    }
+					if (header != null) {
+						bool stop = process(header, sequence.ToString());
+						if (stop) {
+							break;
+						}
+					}
 					header = removeGreaterSign ? line.Substring(1) : line;
 					sequence = new StringBuilder();
-				} else{
+				} else {
 					sequence.Append(StringUtils.RemoveWhitespace(line.Trim()));
 				}
 			}
