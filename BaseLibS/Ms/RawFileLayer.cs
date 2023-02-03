@@ -46,7 +46,7 @@ namespace BaseLibS.Ms{
 		public double[] Ms2Mz{ get; protected internal set; }
 		public double[] Ms2IsolationMzMin{ get; protected internal set; }
 		public double[] Ms2IsolationMzMax{ get; protected internal set; }
-		public FragmentationTypeEnum[] ms2FragmentationTypes;
+		private FragmentationTypeEnum[] ms2FragmentationTypes;
 		public double[] Ms2IonInjectionTimes{ get; protected internal set; }
 		public double[] Ms2BasepeakIntensities{ get; protected internal set; }
 		public double[] Ms2ElapsedTimes{ get; protected internal set; }
@@ -251,16 +251,6 @@ namespace BaseLibS.Ms{
 		public double EndTimeMs2 =>
 			Ms2Rt.Length < 1 ? 1 : 1.5f * GetMs2Time(Ms2Count - 1) - 0.5f * GetMs2Time(Ms2Count - 2);
 
-		public int[] Ms2FragTypes{
-			get{
-				int[] result = new int[ms2FragmentationTypes.Length];
-				for (int i = 0; i < result.Length; i++){
-					result[i] = RawFileUtils.FragmentationTypeEnumToInt(ms2FragmentationTypes[i]);
-				}
-				return result;
-			}
-		}
-
 		public int[] Ms2MassAnalyzers{
 			get{
 				int[] result = new int[ms2Analyzer.Length];
@@ -273,7 +263,7 @@ namespace BaseLibS.Ms{
 
 		public int[] Ms2ScanEventNumbers{
 			get{
-				int[] result = new int[ms2FragmentationTypes.Length];
+				int[] result = new int[ms2Analyzer.Length];
 				for (int i = 0; i < result.Length; i++){
 					result[i] = GetScanEventNumberForMs2Ind(i);
 				}
