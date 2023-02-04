@@ -653,7 +653,10 @@ namespace BaseLibS.Ms{
 			maxMass = ms2MaxMass[index];
 		}
 
-		public FragmentationTypeEnum GetMs2FragmentationType(int index){
+		public FragmentationTypeEnum GetMs2FragmentationType(int index, bool overridden, FragmentationTypeEnum d) {
+			if (overridden){
+				return d;
+			}
 			if (index >= ms2FragmentationTypes.Length || index < 0){
 				return FragmentationTypeEnum.Unknown;
 			}
