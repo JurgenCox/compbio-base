@@ -344,7 +344,9 @@ namespace BaseLibS.Graph {
 				}
 			};
 			control.OnMouseIsDownMainView = args => {
+				Console.WriteLine("rce3s ");
 				(int row, int col) = GetPlotPos(args.X, args.Y);
+				Console.WriteLine("rc " + row + " " + col);
 				switch (SelectionMode){
 					case TextFieldSelectionMode.Chars:
 						if (row >= 0) {
@@ -357,8 +359,10 @@ namespace BaseLibS.Graph {
 					case TextFieldSelectionMode.SingleLines:
 						if (row >= 0 && row < lines.Count){
 							SelectedLine = row;
-							SelectionChanged?.Invoke(this, EventArgs.Empty);
+						} else{
+							SelectedLine = -1;
 						}
+						SelectionChanged?.Invoke(this, EventArgs.Empty);
 						break;
 				}
 			};
@@ -377,10 +381,10 @@ namespace BaseLibS.Graph {
 			g.DrawLine(Pens2.Black, width - 1, 0, width - 1, height);
 		}
 		private (int, int) GetPlotPos(int x, int y) {
-			int row = ((y - OffsetY) / LineHeight);
+			int row = (y - OffsetY) / LineHeight;
 			row = Math.Min(row, lines.Count - 1);
 			row = Math.Max(row, 0);
-			if(lines.Count ==0 && row ==0){
+			if(lines.Count == 0 && row == 0){
 				lines.Add("");
 			}
 			string line = lines[row];

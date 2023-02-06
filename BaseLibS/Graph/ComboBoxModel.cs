@@ -34,15 +34,16 @@ namespace BaseLibS.Graph{
 				ReadOnly = true,
 				SelectionMode = TextFieldSelectionMode.SingleLines,
 				Font = new Font2("Microsoft Sans Serif", 7.1f),
-				SelectedLine = SelectedIndex
+				SelectedLine = SelectedIndex,
+				HasBoundingBox = true
 			};
 			tfm.SelectionChanged += (sender, args) => {
 				SelectedIndex = tfm.SelectedLine;
 				SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
 				tfm.CloseMe();
 			};
-			(int, int) p = screenCoords.Invoke();
-			launchQuery?.Invoke(p.Item1, p.Item2 + e.Height, e.Width, Values.Length * tfm.LineHeight, tfm);
+			(int, int) p = screenCoords();
+			launchQuery?.Invoke(p.Item1, p.Item2 + e.Height, getWidth(), Values.Length * tfm.LineHeight + 4, tfm);
 		}
 		public override void OnMouseEnter(EventArgs e){
 			BackColor = Color2.FromArgb(229, 241, 251);

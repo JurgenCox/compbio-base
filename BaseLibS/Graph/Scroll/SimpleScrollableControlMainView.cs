@@ -60,34 +60,38 @@ namespace BaseLibS.Graph.Scroll{
 			main.OnMouseDoubleClickMainView?.Invoke(e.Scale(main.ZoomFactor));
 		}
 		public override void OnMouseIsDown(BasicMouseEventArgs e){
-			Size2 overview = GraphUtil.CalcOverviewSize(e.Width, e.Height, main.TotalWidth(), main.TotalHeight());
-			if (e.X < overview.Width && e.Y > e.Height - overview.Height){
-				OnMouseIsDownOverview(e.X, (int) (e.Y - e.Height + overview.Height), e.Width, e.Height);
-				return;
+			if (main.HasOverview){
+				Size2 overview = GraphUtil.CalcOverviewSize(e.Width, e.Height, main.TotalWidth(), main.TotalHeight());
+				if (e.X < overview.Width && e.Y > e.Height - overview.Height) {
+					OnMouseIsDownOverview(e.X, (int)(e.Y - e.Height + overview.Height), e.Width, e.Height);
+					return;
+				}
 			}
-			ZoomButtonState newState = GraphUtil.GetNewZoomButtonState(e.X, e.Y, e.Width, e.Height, true);
-			switch (newState){
-				case ZoomButtonState.PressMinus:
-					main.ZoomFactor /= GraphUtil.zoomStep;
-					invalidate();
-					main.InvalidateScrollbars();
-					main.UpdateZoom();
-					break;
-				case ZoomButtonState.PressPlus:
-					main.ZoomFactor *= GraphUtil.zoomStep;
-					invalidate();
-					main.InvalidateScrollbars();
-					main.UpdateZoom();
-					break;
-				default:
-					if (newState != state){
+			if (main.HasZoomButtons){
+				ZoomButtonState newState = GraphUtil.GetNewZoomButtonState(e.X, e.Y, e.Width, e.Height, true);
+				switch (newState) {
+					case ZoomButtonState.PressMinus:
+						main.ZoomFactor /= GraphUtil.zoomStep;
 						invalidate();
-					}
-					break;
-			}
-			state = newState;
-			if (newState == ZoomButtonState.PressMinus || newState == ZoomButtonState.PressPlus){
-				return;
+						main.InvalidateScrollbars();
+						main.UpdateZoom();
+						break;
+					case ZoomButtonState.PressPlus:
+						main.ZoomFactor *= GraphUtil.zoomStep;
+						invalidate();
+						main.InvalidateScrollbars();
+						main.UpdateZoom();
+						break;
+					default:
+						if (newState != state) {
+							invalidate();
+						}
+						break;
+				}
+				state = newState;
+				if (newState == ZoomButtonState.PressMinus || newState == ZoomButtonState.PressPlus) {
+					return;
+				}
 			}
 			main.OnMouseIsDownMainView?.Invoke(e.Scale(main.ZoomFactor));
 		}

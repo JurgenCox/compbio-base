@@ -59,10 +59,13 @@ namespace BaseLib.Forms.Base{
 				ControlBox = false,
 				SizeGripStyle = SizeGripStyle.Hide,
 				FormBorderStyle = FormBorderStyle.FixedToolWindow,
-				ShowInTaskbar = false
+				ShowInTaskbar = false,
+				Dock = DockStyle.Fill,
+				
 			};
 			visual.Close += (sender, args) => { f.Close(); };
 			Control c = FormUtil.GetControl(visual);
+			c.Dock = DockStyle.Fill;
 			f.Controls.Add(c);
 			f.ShowDialog(this);
 		}
