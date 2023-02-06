@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 using BaseLibS.Util;
@@ -19,11 +20,13 @@ namespace BaseLibS.Graph {
 		private string undoBuffer;
 		private readonly Brush2 textBrush = Brushes2.Black;
 		private readonly Brush2 selectionBrush = Brushes2.LightBlue;
+		private readonly Brush2 hoverBrush = Brushes2.LightGray;
 		private readonly Pen2 cursorPen = Pens2.BlueViolet;
 		public Font2 Font{ get; set; } = new Font2("Courier New", 10F);
 		private int cursorPosLine;
 		private int cursorPosChar;
 		public int SelectedLine { get; set; }
+		public int HoverLine{ get; set; } = -1;
 		private bool[] lineIsSelected;
 		private int selectionStartLine = -1;
 		private int selectionStartChar = -1;
@@ -334,6 +337,7 @@ namespace BaseLibS.Graph {
 				return w + OffsetX;
 			};
 			control.OnPaintMainView = (g, x, y, width, height, isOverview) => {
+				PaintHover(g, x, y, width);
 				PaintSelection(g, x, y, width);
 				PaintText(g, x, y);
 				if (!ReadOnly) {
@@ -344,9 +348,7 @@ namespace BaseLibS.Graph {
 				}
 			};
 			control.OnMouseIsDownMainView = args => {
-				Console.WriteLine("rce3s ");
 				(int row, int col) = GetPlotPos(args.X, args.Y);
-				Console.WriteLine("rc " + row + " " + col);
 				switch (SelectionMode){
 					case TextFieldSelectionMode.Chars:
 						if (row >= 0) {
@@ -371,6 +373,22 @@ namespace BaseLibS.Graph {
 				if (row >= 0) {
 					selectionEndLine = row;
 					selectionEndChar = col;
+				}
+			};
+			control.OnMouseMoveMainView = args => {
+				if (SelectionMode != TextFieldSelectionMode.SingleLines) {
+					return;
+				}
+				(int row, int _) = GetPlotPos(args.X, args.Y);
+				int newHoverLine;
+				if (row >= 0 && row < lines.Count) {
+					newHoverLine = row;
+				} else {
+					newHoverLine = -1;
+				}
+				if (newHoverLine != HoverLine){
+					HoverLine = newHoverLine;
+					control?.Invalidate(true);
 				}
 			};
 		}
@@ -432,6 +450,16 @@ namespace BaseLibS.Graph {
 							g.FillRectangle(selectionBrush, OffsetX, OffsetY + lineHeight * i - y, 199, lineHeight);
 						}
 					}
+					break;
+			}
+		}
+		public void PaintHover(IGraphics g, int x, int y, int width) {
+			switch (SelectionMode) {
+				case TextFieldSelectionMode.SingleLines:
+					if (HoverLine == -1) {
+						return;
+					}
+					g.FillRectangle(hoverBrush, OffsetX, OffsetY + lineHeight * HoverLine - y, width, lineHeight);
 					break;
 			}
 		}
