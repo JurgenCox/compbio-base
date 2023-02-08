@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using BaseLibS.Drawing;
 using BaseLibS.Graph.Scroll;
 using BaseLibS.Util;
