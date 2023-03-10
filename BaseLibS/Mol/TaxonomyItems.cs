@@ -190,5 +190,21 @@ namespace BaseLibS.Mol{
 			TaxonomyItem item = taxId2Item[id];
 			return "" + item.TaxId;
 		}
+
+		public static string GetScientificName(int id) {
+			TaxonomyItems x = GetTaxonomyItems();
+			if (x.taxId2Item.ContainsKey(id)) {
+				string n = x.taxId2Item[id].GetScientificName();
+				return n;
+			}
+			return "";
+		}
+		public static string[] GetScientificNames(int[] id) {
+			string[] result = new string[id.Length];
+			for (int i = 0; i < id.Length; i++){
+				result[i] = GetScientificName(id[i]);
+			}
+			return result;
+		}
 	}
 }
