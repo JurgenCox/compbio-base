@@ -27,7 +27,11 @@ namespace BaseLibS.Graph{
 			}
 			g.DrawString(Values[SelectedIndex], Font, textBrush, OffsetX, OffsetY);
 		}
+		private bool isShowing;
 		public override void OnMouseIsDown(BasicMouseEventArgs e){
+			if (isShowing){
+				return;
+			}
 			TextFieldModel tfm = new TextFieldModel(Values){
 				Multiline = true,
 				Selectable = true,
@@ -41,9 +45,14 @@ namespace BaseLibS.Graph{
 				SelectedIndex = tfm.SelectedLine;
 				SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
 				tfm.CloseMe();
+				isShowing = false;
 			};
 			(int, int) p = screenCoords();
-			launchQuery?.Invoke(p.Item1, p.Item2 + e.Height, getWidth(), Values.Length * tfm.LineHeight + 4, tfm);
+			launchQuery?.Invoke(p.Item1, p.Item2 + e.Height, getWidth(), Values.Length * tfm.LineHeight + 4, tfm,
+				() => {
+					isShowing = false;
+				});
+			isShowing = true;
 		}
 		public override void OnMouseEnter(EventArgs e){
 			BackColor = Color2.FromArgb(229, 241, 251);

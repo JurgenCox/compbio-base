@@ -48,7 +48,7 @@ namespace BaseLib.Forms.Base{
 			Point p = PointToScreen(new Point(0, 0));
 			return (p.X, p.Y);
 		}
-		private void LaunchQuery(int x, int y, int width, int height, IControlModel visual){
+		private void LaunchQuery(int x, int y, int width, int height, IControlModel visual, Action onClose){
 			Form f = new Form{
 				StartPosition = FormStartPosition.Manual,
 				Location = new Point(x, y),
@@ -61,14 +61,24 @@ namespace BaseLib.Forms.Base{
 				FormBorderStyle = FormBorderStyle.FixedToolWindow,
 				ShowInTaskbar = false,
 				Dock = DockStyle.Fill,
-				
 			};
 			visual.Close += (sender, args) => { f.Close(); };
 			Control c = FormUtil.GetControl(visual);
 			c.Dock = DockStyle.Fill;
 			f.Controls.Add(c);
-			f.ShowDialog(this);
+			f.Show(this);
+			t = DateTime.Now;
+			Click += (sender, args) => {
+				TimeSpan d = DateTime.Now - t;
+				if (d.TotalMilliseconds > 120){
+					f.Close();
+					if (onClose != null){
+						onClose();
+					}
+				}
+			};
 		}
+		private DateTime t;
 		public void Print(IGraphics g){
 			view?.OnPaint(g, Width, Height);
 		}

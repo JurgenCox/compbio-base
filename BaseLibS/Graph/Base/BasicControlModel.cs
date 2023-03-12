@@ -17,7 +17,7 @@ namespace BaseLibS.Graph.Base{
 		public Action invalidate;
 		public Action resetCursor;
 		public Action<Cursors2> setCursor;
-		public Action<int, int, int, int, IControlModel> launchQuery;
+		public Action<int, int, int, int, IControlModel, Action> launchQuery;
 		public Func<(int, int)> screenCoords;
 		public Action<string> setToolTipText;
 		public Action hideToolTip;
@@ -55,8 +55,8 @@ namespace BaseLibS.Graph.Base{
 		public Cursors2 Cursor{
 			set => setCursor?.Invoke(value);
 		}
-		public void LaunchQuery(int x, int y, int width, int height, IControlModel model){
-			launchQuery?.Invoke(x, y, width, height, model);
+		public void LaunchQuery(int x, int y, int width, int height, IControlModel model, Action onClose) {
+			launchQuery?.Invoke(x, y, width, height, model, onClose);
 		}
 		public (int, int) ScreenCoords() {
 			return screenCoords();
