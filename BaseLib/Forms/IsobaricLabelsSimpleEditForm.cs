@@ -4,8 +4,8 @@ using System.Windows.Forms;
 using BaseLibS.Mol;
 
 namespace BaseLib.Forms{
-	public partial class IsobaricLabelsEditForm : Form{
-		public IsobaricLabelsEditForm(IsobaricLabelInfo info){
+	public partial class IsobaricLabelsSimpleEditForm : Form{
+		public IsobaricLabelsSimpleEditForm(IsobaricLabelInfoSimple info){
 			InitializeComponent();
 			cancelButton.Click += CancelButtonOnClick;
 			okButton.Click += OkButtonOnClick;
@@ -46,8 +46,8 @@ namespace BaseLib.Forms{
 			Close();
 		}
 
-		internal IsobaricLabelInfo Info =>
-			new IsobaricLabelInfo(InternalLabel, TerminalLabel, CorrectionFactorM2, CorrectionFactorM1,
+		internal IsobaricLabelInfoSimple Info =>
+			new IsobaricLabelInfoSimple(InternalLabel, TerminalLabel, CorrectionFactorM2, CorrectionFactorM1,
 				CorrectionFactorP1, CorrectionFactorP2, TmtLike);
 
 		private string InternalLabel =>

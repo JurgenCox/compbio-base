@@ -12,7 +12,7 @@ namespace BaseLib.Forms{
 		private readonly IsobaricLabelingDefault[] defaults = {
 			new IsobaricLabelingDefault("4plex iTRAQ",
 				new[]{"iTRAQ4plex-Lys114", "iTRAQ4plex-Lys115", "iTRAQ4plex-Lys116", "iTRAQ4plex-Lys117"},
-				new[]{"iTRAQ4plex-Nter114", "iTRAQ4plex-Nter115", "iTRAQ4plex-Nter116", "iTRAQ4plex-Nter117"}),
+				new[]{"iTRAQ4plex-Nter114", "iTRAQ4plex-Nter115", "iTRAQ4plex-Nter116", "iTRAQ4plex-Nter117"}, false),
 			new IsobaricLabelingDefault("8plex iTRAQ",
 				new[]{
 					"iTRAQ8plex-Lys113", "iTRAQ8plex-Lys114", "iTRAQ8plex-Lys115", "iTRAQ8plex-Lys116",
@@ -21,9 +21,9 @@ namespace BaseLib.Forms{
 				new[]{
 					"iTRAQ8plex-Nter113", "iTRAQ8plex-Nter114", "iTRAQ8plex-Nter115", "iTRAQ8plex-Nter116",
 					"iTRAQ8plex-Nter117", "iTRAQ8plex-Nter118", "iTRAQ8plex-Nter119", "iTRAQ8plex-Nter121"
-				}),
+				}, false),
 			new IsobaricLabelingDefault("2plex TMT", new[]{"TMT2plex-Lys126", "TMT2plex-Lys127"},
-				new[]{"TMT2plex-Nter126", "TMT2plex-Nter127"}),
+				new[]{"TMT2plex-Nter126", "TMT2plex-Nter127"}, false),
 			new IsobaricLabelingDefault("6plex TMT",
 				new[]{
 					"TMT6plex-Lys126", "TMT6plex-Lys127", "TMT6plex-Lys128", "TMT6plex-Lys129", "TMT6plex-Lys130",
@@ -32,7 +32,7 @@ namespace BaseLib.Forms{
 				new[]{
 					"TMT6plex-Nter126", "TMT6plex-Nter127", "TMT6plex-Nter128", "TMT6plex-Nter129", "TMT6plex-Nter130",
 					"TMT6plex-Nter131"
-				}),
+				}, false),
 			new IsobaricLabelingDefault("8plex TMT",
 				new[]{
 					"TMT8plex-Lys126C", "TMT8plex-Lys127N", "TMT8plex-Lys127C", "TMT8plex-Lys128C", "TMT8plex-Lys129N",
@@ -41,7 +41,7 @@ namespace BaseLib.Forms{
 				new[]{
 					"TMT8plex-Nter126C", "TMT8plex-Nter127N", "TMT8plex-Nter127C", "TMT8plex-Nter128C",
 					"TMT8plex-Nter129N", "TMT8plex-Nter129C", "TMT8plex-Nter130C", "TMT8plex-Nter131N"
-				}),
+				}, false),
 			new IsobaricLabelingDefault("10plex TMT",
 				new[]{
 					"TMT10plex-Lys126C", "TMT10plex-Lys127N", "TMT10plex-Lys127C", "TMT10plex-Lys128N",
@@ -52,7 +52,7 @@ namespace BaseLib.Forms{
 					"TMT10plex-Nter126C", "TMT10plex-Nter127N", "TMT10plex-Nter127C", "TMT10plex-Nter128N",
 					"TMT10plex-Nter128C", "TMT10plex-Nter129N", "TMT10plex-Nter129C", "TMT10plex-Nter130N",
 					"TMT10plex-Nter130C", "TMT10plex-Nter131N"
-				}),
+				}, false),
 			new IsobaricLabelingDefault("11plex TMT",
 				new[]{
 					"TMT10plex-Lys126C", "TMT10plex-Lys127N", "TMT10plex-Lys127C", "TMT10plex-Lys128N",
@@ -63,7 +63,7 @@ namespace BaseLib.Forms{
 					"TMT10plex-Nter126C", "TMT10plex-Nter127N", "TMT10plex-Nter127C", "TMT10plex-Nter128N",
 					"TMT10plex-Nter128C", "TMT10plex-Nter129N", "TMT10plex-Nter129C", "TMT10plex-Nter130N",
 					"TMT10plex-Nter130C", "TMT10plex-Nter131N", "TMT11plex-Nter131C"
-				}),
+				}, false),
 			new IsobaricLabelingDefault("16plex TMTpro",
 				new[]{
 					"TMTpro16plex-Lys126C", "TMTpro16plex-Lys127N", "TMTpro16plex-Lys127C", "TMTpro16plex-Lys128N",
@@ -76,7 +76,7 @@ namespace BaseLib.Forms{
 					"TMTpro16plex-Nter128C", "TMTpro16plex-Nter129N", "TMTpro16plex-Nter129C", "TMTpro16plex-Nter130N",
 					"TMTpro16plex-Nter130C", "TMTpro16plex-Nter131N", "TMTpro16plex-Nter131C", "TMTpro16plex-Nter132N",
 					"TMTpro16plex-Nter132C", "TMTpro16plex-Nter133N", "TMTpro16plex-Nter133C", "TMTpro16plex-Nter134N"
-				}),
+				}, true),
 						new IsobaricLabelingDefault("18plex TMTpro",
 				new[]{
 					"TMTpro16plex-Lys126C", "TMTpro16plex-Lys127N", "TMTpro16plex-Lys127C", "TMTpro16plex-Lys128N",
@@ -91,35 +91,39 @@ namespace BaseLib.Forms{
 					"TMTpro16plex-Nter130C", "TMTpro16plex-Nter131N", "TMTpro16plex-Nter131C", "TMTpro16plex-Nter132N",
 					"TMTpro16plex-Nter132C", "TMTpro16plex-Nter133N", "TMTpro16plex-Nter133C", "TMTpro16plex-Nter134N",
                     "TMTpro18plex-Nter134C", "TMTpro18plex-Nter135N"
-                }),
+                }, true),
 			new IsobaricLabelingDefault("iodo6plexTMT",
 				new[]{
 					"iodoTMT6plex-Cys126", "iodoTMT6plex-Cys127", "iodoTMT6plex-Cys128", "iodoTMT6plex-Cys129",
 					"iodoTMT6plex-Cys130", "iodoTMT6plex-Cys131"
-				}, new string[]{ }),
+				}, new string[]{ }, false),
 		};
-		private DataTable2 table;
+		private DataTable2 tableSimple;
 
 		public IsobaricLabelsParamControl(){
 			InitializeComponent();
 			InitializeComponent2();
 		}
 
-		private static readonly string[] header = {
-			"Internal label", "Terminal label", "Correction factor -2 [%]", "Correction factor -1 [%]",
-			"Correction factor +1 [%]", "Correction factor +2 [%]", "TMT like"
+		private static readonly string[] headerSimple = {
+			"Internal label", "Terminal label", "CF -2 [%]", "CF -1 [%]", "CF +1 [%]", "CF +2 [%]", "TMT-like"
+		};
+
+		private static readonly string[] headerComplex = {
+			"Internal label", "Terminal label", "CF -2x13C [%]", "CF -13C-15N [%]", "CF -13C [%]", "CF -15N [%]", 
+			"CF +15N [%]", "CF +13C [%]", "CF +15N+13C [%]", "CF +2x13C [%]", "TMT-like"
 		};
 
 		private void AddButtonOnClick(object sender, EventArgs eventArgs){
-			DataRow2 row = table.NewRow();
-			row[header[0]] = "";
-			row[header[1]] = "";
-			row[header[2]] = 0d;
-			row[header[3]] = 0d;
-			row[header[4]] = 0d;
-			row[header[5]] = 0d;
-			row[header[6]] = true;
-			table.AddRow(row);
+			DataRow2 row = tableSimple.NewRow();
+			row[headerSimple[0]] = "";
+			row[headerSimple[1]] = "";
+			row[headerSimple[2]] = 0d;
+			row[headerSimple[3]] = 0d;
+			row[headerSimple[4]] = 0d;
+			row[headerSimple[5]] = 0d;
+			row[headerSimple[6]] = true;
+			tableSimple.AddRow(row);
 			tableView1.Invalidate(true);
 		}
 
@@ -129,7 +133,7 @@ namespace BaseLib.Forms{
 				MessageBox.Show(Loc.PleaseSelectSomeRows);
 				return;
 			}
-			table.RemoveRows(sel);
+			tableSimple.RemoveRows(sel);
 			tableView1.Invalidate(true);
 		}
 
@@ -150,18 +154,18 @@ namespace BaseLib.Forms{
 				string line = sr.ReadLine();
 				if (string.IsNullOrEmpty(line)) return;
 				string[] hh = line.Split('\t');
-				if (hh.Length != header.Length) return;
-				for (int i = 0; i < header.Length; i++){
-					if (hh[i] != header[i]) return;
+				if (hh.Length != headerSimple.Length) return;
+				for (int i = 0; i < headerSimple.Length; i++){
+					if (hh[i] != headerSimple[i]) return;
 				}
 				List<string[]> buf = new List<string[]>();
 				while (!string.IsNullOrEmpty(line = sr.ReadLine())){
 					string[] ll = line.Split('\t');
-					if (ll.Length != header.Length) return;
+					if (ll.Length != headerSimple.Length) return;
 					buf.Add(ll);
 				}
 				if (buf.Count == 0) return;
-				table.Clear();
+				tableSimple.Clear();
 				foreach (string[] b in buf){
 					AddLabel(b[0], b[1], b[2], b[3], b[4], b[5], b[6]);
 				}
@@ -169,20 +173,23 @@ namespace BaseLib.Forms{
 			tableView1.Invalidate(true);
 		}
 
-		private void ExportButtonOnClick(object sender, EventArgs eventArgs){
-			SaveFileDialog sfd = new SaveFileDialog(){
+		private void ExportButtonOnClick(object sender, EventArgs eventArgs) {
+			SaveFileDialog sfd = new SaveFileDialog() {
 				Title = @"Save a isobaric label tab-separated file", Filter = @"Text file (*.txt)|*.txt"
 			};
-			if (sfd.ShowDialog() == DialogResult.OK){
+			if (sfd.ShowDialog() == DialogResult.OK) {
 				if (File.Exists(sfd.FileName)) File.Delete(sfd.FileName);
 				ExportLabelFile(sfd.FileName);
 			}
 		}
 
+		private void TableTypeButtonOnClick(object sender, EventArgs eventArgs) {
+		}
+
 		private void ExportLabelFile(string fileName){
 			string[][] value = Value;
 			using (StreamWriter sw = new StreamWriter(fileName)){
-				sw.WriteLine(string.Join("\t", header));
+				sw.WriteLine(string.Join("\t", headerSimple));
 				foreach (string[] t in value){
 					sw.WriteLine(string.Join("\t", t));
 				}
@@ -195,14 +202,14 @@ namespace BaseLib.Forms{
 				MessageBox.Show("Please select exactly one row.");
 				return;
 			}
-			DataRow2 row = table.GetRow(sel[0]);
-			IsobaricLabelsEditForm f = new IsobaricLabelsEditForm(new IsobaricLabelInfo((string) row[0],
+			DataRow2 row = tableSimple.GetRow(sel[0]);
+			IsobaricLabelsSimpleEditForm f = new IsobaricLabelsSimpleEditForm(new IsobaricLabelInfoSimple((string) row[0],
 				(string) row[1], (double) row[2], (double) row[3], (double) row[4], (double) row[5], (bool) row[6]));
 			f.ShowDialog();
 			if (f.DialogResult != DialogResult.OK){
 				return;
 			}
-			IsobaricLabelInfo info = f.Info;
+			IsobaricLabelInfoSimple info = f.Info;
 			row[0] = info.internalLabel;
 			row[1] = info.terminalLabel;
 			row[2] = info.correctionFactorM2;
@@ -221,12 +228,13 @@ namespace BaseLib.Forms{
 			Button editButton = new Button();
 			Button importButton = new Button();
 			Button exportButton = new Button();
+			Button tableTypeButton = new Button();
 			tableLayoutPanel2.SuspendLayout();
 			tableLayoutPanel3.SuspendLayout();
 			tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
 			tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
 			int firstRowButtons = 2;
-			int nbuttons2 = 5 + firstRowButtons;
+			int nbuttons2 = 6 + firstRowButtons;
 			int nbuttons3 = defaults.Length - firstRowButtons;
 			tableLayoutPanel2.ColumnCount = 2 * nbuttons2;
 			tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
@@ -240,8 +248,9 @@ namespace BaseLib.Forms{
 			tableLayoutPanel2.Controls.Add(editButton, 4, 0);
 			tableLayoutPanel2.Controls.Add(importButton, 6, 0);
 			tableLayoutPanel2.Controls.Add(exportButton, 8, 0);
+			tableLayoutPanel2.Controls.Add(tableTypeButton, 10, 0);
 			for (int i = 0; i < firstRowButtons; i++){
-				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 10 + 2 * i, 0);
+				tableLayoutPanel2.Controls.Add(CreateDefaultButton(defaults[i]), 12 + 2 * i, 0);
 			}
 			tableLayoutPanel3.ColumnCount = 2 * nbuttons3;
 			tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
@@ -324,6 +333,17 @@ namespace BaseLib.Forms{
 			exportButton.TabIndex = 0;
 			exportButton.Text = @"Export";
 			exportButton.UseVisualStyleBackColor = true;
+			// 
+			// tableTypeButton
+			// 
+			tableTypeButton.Dock = DockStyle.Fill;
+			tableTypeButton.Location = new System.Drawing.Point(920, 0);
+			tableTypeButton.Margin = new Padding(0);
+			tableTypeButton.Name = "tableTypeButton";
+			tableTypeButton.Size = new System.Drawing.Size(220, 50);
+			tableTypeButton.TabIndex = 0;
+			tableTypeButton.Text = @"Change type";
+			tableTypeButton.UseVisualStyleBackColor = true;
 			tableLayoutPanel2.ResumeLayout(false);
 			tableLayoutPanel3.ResumeLayout(false);
 			tableView1.TableModel = CreateTable();
@@ -332,6 +352,7 @@ namespace BaseLib.Forms{
 			editButton.Click += EditButtonOnClick;
 			importButton.Click += ImportButtonOnClick;
 			exportButton.Click += ExportButtonOnClick;
+			tableTypeButton.Click += TableTypeButtonOnClick;
 		}
 
 		private Control CreateDefaultButton(IsobaricLabelingDefault def){
@@ -350,9 +371,9 @@ namespace BaseLib.Forms{
 		}
 
 		private void SetDefaults(IsobaricLabelingDefault def){
-			table.Clear();
+			tableSimple.Clear();
 			for (int i = 0; i < def.Count; i++){
-				DataRow2 row = table.NewRow();
+				DataRow2 row = tableSimple.NewRow();
 				row[0] = def.GetInternalLabel(i);
 				row[1] = def.GetTerminalLabel(i);
 				row[2] = 0d;
@@ -360,40 +381,40 @@ namespace BaseLib.Forms{
 				row[4] = 0d;
 				row[5] = 0d;
 				row[6] = def.IsLikelyTmtLike(i);
-				table.AddRow(row);
+				tableSimple.AddRow(row);
 			}
 			tableView1.Invalidate(true);
 		}
 
 		private DataTable2 CreateTable(){
-			table = new DataTable2("isobaric labels table");
-			table.AddColumn(header[0], 130, ColumnType.Text, "");
-			table.AddColumn(header[1], 130, ColumnType.Text, "");
-			table.AddColumn(header[2], 80, ColumnType.Numeric);
-			table.AddColumn(header[3], 80, ColumnType.Numeric);
-			table.AddColumn(header[4], 80, ColumnType.Numeric);
-			table.AddColumn(header[5], 80, ColumnType.Numeric);
-			table.AddColumn(header[6], 60, ColumnType.Boolean);
-			return table;
+			tableSimple = new DataTable2("isobaric labels table");
+			tableSimple.AddColumn(headerSimple[0], 130, ColumnType.Text, "");
+			tableSimple.AddColumn(headerSimple[1], 130, ColumnType.Text, "");
+			tableSimple.AddColumn(headerSimple[2], 80, ColumnType.Numeric);
+			tableSimple.AddColumn(headerSimple[3], 80, ColumnType.Numeric);
+			tableSimple.AddColumn(headerSimple[4], 80, ColumnType.Numeric);
+			tableSimple.AddColumn(headerSimple[5], 80, ColumnType.Numeric);
+			tableSimple.AddColumn(headerSimple[6], 60, ColumnType.Boolean);
+			return tableSimple;
 		}
 
 		public string[][] Value{
 			get{
-				string[][] result = new string[table.RowCount][];
+				string[][] result = new string[tableSimple.RowCount][];
 				for (int i = 0; i < result.Length; i++){
 					result[i] = new[]{
-						(string) table.GetEntry(i, header[0]), (string) table.GetEntry(i, header[1]),
-						((double) table.GetEntry(i, header[2])).ToString(CultureInfo.InvariantCulture),
-						((double) table.GetEntry(i, header[3])).ToString(CultureInfo.InvariantCulture),
-						((double) table.GetEntry(i, header[4])).ToString(CultureInfo.InvariantCulture),
-						((double) table.GetEntry(i, header[5])).ToString(CultureInfo.InvariantCulture),
-						((bool) table.GetEntry(i, header[6])).ToString()
+						(string) tableSimple.GetEntry(i, headerSimple[0]), (string) tableSimple.GetEntry(i, headerSimple[1]),
+						((double) tableSimple.GetEntry(i, headerSimple[2])).ToString(CultureInfo.InvariantCulture),
+						((double) tableSimple.GetEntry(i, headerSimple[3])).ToString(CultureInfo.InvariantCulture),
+						((double) tableSimple.GetEntry(i, headerSimple[4])).ToString(CultureInfo.InvariantCulture),
+						((double) tableSimple.GetEntry(i, headerSimple[5])).ToString(CultureInfo.InvariantCulture),
+						((bool) tableSimple.GetEntry(i, headerSimple[6])).ToString()
 					};
 				}
 				return result;
 			}
 			set{
-				table.Clear();
+				tableSimple.Clear();
 				foreach (string[] t in value){
 					AddLabel(t[0], t[1], t[2], t[3], t[4], t[5], t[6]);
 				}
@@ -402,7 +423,7 @@ namespace BaseLib.Forms{
 
 		private void AddLabel(string internalLabel, string terminalLabel, string correctionFactorM2,
 			string correctionFactorM1, string correctionFactorP1, string correctionFactorP2, string tmtLike){
-			DataRow2 row = table.NewRow();
+			DataRow2 row = tableSimple.NewRow();
 			row[0] = internalLabel;
 			row[1] = terminalLabel;
 			row[2] = Parser.Double(correctionFactorM2);
@@ -410,7 +431,7 @@ namespace BaseLib.Forms{
 			row[4] = Parser.Double(correctionFactorP1);
 			row[5] = Parser.Double(correctionFactorP2);
 			row[6] = Parser.Bool(tmtLike);
-			table.AddRow(row);
+			tableSimple.AddRow(row);
 		}
 	}
 }

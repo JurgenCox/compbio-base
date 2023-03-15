@@ -2,11 +2,13 @@
 	public class IsobaricLabelingDefault {
 		private readonly string[] internalLabels;
 		private readonly string[] terminalLabels;
+		private readonly bool advancedCorrections;
 
-		public IsobaricLabelingDefault(string name, string[] internalLabels, string[] terminalLabels) {
+		public IsobaricLabelingDefault(string name, string[] internalLabels, string[] terminalLabels, bool advancedCorrections) {
 			Name = name;
 			this.internalLabels = internalLabels;
 			this.terminalLabels = terminalLabels;
+			this.advancedCorrections = advancedCorrections;
 		}
 
 		public string Name { get; }

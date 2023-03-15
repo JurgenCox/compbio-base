@@ -8,13 +8,6 @@ namespace BaseLibS.Mol {
 		private double deltaMass = double.NaN;
 		private ModificationSite[] sites = new ModificationSite[0];
 		private Dictionary<char, ModificationSite> sitesMap;
-		[XmlAttribute("reporterCorrectionM2")] public double ReporterCorrectionM2 { get; set; }
-		[XmlAttribute("reporterCorrectionM1")] public double ReporterCorrectionM1 { get; set; }
-		[XmlAttribute("reporterCorrectionP1")] public double ReporterCorrectionP1 { get; set; }
-		[XmlAttribute("reporterCorrectionP2")] public double ReporterCorrectionP2 { get; set; }
-
-		[XmlAttribute("reporterCorrectionType")]
-		public bool ReporterCorrectionType { get; set; }
 
 		/// <summary>
 		/// Monoisotopic mass

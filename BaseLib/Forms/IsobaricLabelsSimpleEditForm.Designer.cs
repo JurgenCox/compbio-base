@@ -1,5 +1,5 @@
 ﻿namespace BaseLib.Forms {
-	partial class IsobaricLabelsEditForm {
+	partial class IsobaricLabelsSimpleEditForm {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -23,7 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IsobaricLabelsEditForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IsobaricLabelsSimpleEditForm));
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.cancelButton = new System.Windows.Forms.Button();
