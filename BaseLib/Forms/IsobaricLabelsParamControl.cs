@@ -12,7 +12,8 @@ namespace BaseLib.Forms{
 		private readonly IsobaricLabelingDefault[] defaults = {
 			new IsobaricLabelingDefault("4plex iTRAQ",
 				new[]{"iTRAQ4plex-Lys114", "iTRAQ4plex-Lys115", "iTRAQ4plex-Lys116", "iTRAQ4plex-Lys117"},
-				new[]{"iTRAQ4plex-Nter114", "iTRAQ4plex-Nter115", "iTRAQ4plex-Nter116", "iTRAQ4plex-Nter117"}, false),
+				new[]{"iTRAQ4plex-Nter114", "iTRAQ4plex-Nter115", "iTRAQ4plex-Nter116", "iTRAQ4plex-Nter117"}, 
+				false),
 			new IsobaricLabelingDefault("8plex iTRAQ",
 				new[]{
 					"iTRAQ8plex-Lys113", "iTRAQ8plex-Lys114", "iTRAQ8plex-Lys115", "iTRAQ8plex-Lys116",
@@ -98,10 +99,16 @@ namespace BaseLib.Forms{
 					"iodoTMT6plex-Cys130", "iodoTMT6plex-Cys131"
 				}, new string[]{ }, false),
 		};
+		private TableLayoutPanel tableLayoutPanel1;
+		private Table.TableView tableViewSimple;
+		private Table.TableView tableViewComplex;
 		private DataTable2 tableSimple;
+		private DataTable2 tableComplex;
+		public bool ComplexTableIsVisible => false;
 
 		public IsobaricLabelsParamControl(){
 			InitializeComponent();
+			InitializeComponent1();
 			InitializeComponent2();
 		}
 
@@ -115,26 +122,53 @@ namespace BaseLib.Forms{
 		};
 
 		private void AddButtonOnClick(object sender, EventArgs eventArgs){
-			DataRow2 row = tableSimple.NewRow();
-			row[headerSimple[0]] = "";
-			row[headerSimple[1]] = "";
-			row[headerSimple[2]] = 0d;
-			row[headerSimple[3]] = 0d;
-			row[headerSimple[4]] = 0d;
-			row[headerSimple[5]] = 0d;
-			row[headerSimple[6]] = true;
-			tableSimple.AddRow(row);
-			tableView1.Invalidate(true);
+			if (ComplexTableIsVisible){
+				DataRow2 row = tableComplex.NewRow();
+				row[headerComplex[0]] = "";
+				row[headerComplex[1]] = "";
+				row[headerComplex[2]] = 0d;
+				row[headerComplex[3]] = 0d;
+				row[headerComplex[4]] = 0d;
+				row[headerComplex[5]] = 0d;
+				row[headerComplex[6]] = 0d;
+				row[headerComplex[7]] = 0d;
+				row[headerComplex[8]] = 0d;
+				row[headerComplex[9]] = 0d;
+				row[headerComplex[10]] = true;
+				tableComplex.AddRow(row);
+				tableViewComplex.Invalidate(true);
+			} else {
+				DataRow2 row = tableSimple.NewRow();
+				row[headerSimple[0]] = "";
+				row[headerSimple[1]] = "";
+				row[headerSimple[2]] = 0d;
+				row[headerSimple[3]] = 0d;
+				row[headerSimple[4]] = 0d;
+				row[headerSimple[5]] = 0d;
+				row[headerSimple[6]] = true;
+				tableSimple.AddRow(row);
+				tableViewSimple.Invalidate(true);
+			}
 		}
 
 		private void RemoveButtonOnClick(object sender, EventArgs eventArgs){
-			int[] sel = tableView1.GetSelectedRows();
-			if (sel.Length == 0){
-				MessageBox.Show(Loc.PleaseSelectSomeRows);
-				return;
+			if (ComplexTableIsVisible){
+				int[] sel = tableViewComplex.GetSelectedRows();
+				if (sel.Length == 0) {
+					MessageBox.Show(Loc.PleaseSelectSomeRows);
+					return;
+				}
+				tableComplex.RemoveRows(sel);
+				tableViewComplex.Invalidate(true);
+			} else {
+				int[] sel = tableViewSimple.GetSelectedRows();
+				if (sel.Length == 0) {
+					MessageBox.Show(Loc.PleaseSelectSomeRows);
+					return;
+				}
+				tableSimple.RemoveRows(sel);
+				tableViewSimple.Invalidate(true);
 			}
-			tableSimple.RemoveRows(sel);
-			tableView1.Invalidate(true);
 		}
 
 		private void ImportButtonOnClick(object sender, EventArgs eventArgs){
@@ -154,31 +188,69 @@ namespace BaseLib.Forms{
 				string line = sr.ReadLine();
 				if (string.IsNullOrEmpty(line)) return;
 				string[] hh = line.Split('\t');
-				if (hh.Length != headerSimple.Length) return;
-				for (int i = 0; i < headerSimple.Length; i++){
-					if (hh[i] != headerSimple[i]) return;
+				if (hh.Length != headerSimple.Length && hh.Length != headerComplex.Length) {
+					return;
+				}
+				bool isSimple = hh.Length == headerSimple.Length;
+				if (isSimple){
+					for (int i = 0; i < headerSimple.Length; i++) {
+						if (!hh[i].Equals(headerSimple[i]) ) {
+							return;
+						}
+					}
+				} else {
+					for (int i = 0; i < headerComplex.Length; i++) {
+						if (!hh[i].Equals(headerComplex[i])) {
+							return;
+						}
+					}
 				}
 				List<string[]> buf = new List<string[]>();
 				while (!string.IsNullOrEmpty(line = sr.ReadLine())){
 					string[] ll = line.Split('\t');
-					if (ll.Length != headerSimple.Length) return;
+					if ((isSimple && ll.Length != headerSimple.Length) || (!isSimple && ll.Length != headerComplex.Length)) {
+						return;
+					}
 					buf.Add(ll);
 				}
-				if (buf.Count == 0) return;
-				tableSimple.Clear();
+				if (buf.Count == 0){
+					return;
+				}
+				if (isSimple == ComplexTableIsVisible){
+					FlipTable();
+				}
+				ClearVisibleTable();
 				foreach (string[] b in buf){
-					AddLabel(b[0], b[1], b[2], b[3], b[4], b[5], b[6]);
+					AddLabel(b);
 				}
 			}
-			tableView1.Invalidate(true);
+			InvalidateVisibleTable();
 		}
-
+		private void ClearVisibleTable() {
+			if (ComplexTableIsVisible) {
+				tableComplex.Clear();
+			} else {
+				tableSimple.Clear();
+			}
+		}
+		private void InvalidateVisibleTable() {
+			if (ComplexTableIsVisible) {
+				tableViewComplex.Invalidate(true);
+			} else {
+				tableViewSimple.Invalidate(true);
+			}
+		}
+		private void FlipTable(){
+			//TODO
+		}
 		private void ExportButtonOnClick(object sender, EventArgs eventArgs) {
-			SaveFileDialog sfd = new SaveFileDialog() {
+			SaveFileDialog sfd = new SaveFileDialog {
 				Title = @"Save a isobaric label tab-separated file", Filter = @"Text file (*.txt)|*.txt"
 			};
 			if (sfd.ShowDialog() == DialogResult.OK) {
-				if (File.Exists(sfd.FileName)) File.Delete(sfd.FileName);
+				if (File.Exists(sfd.FileName)){
+					File.Delete(sfd.FileName);
+				}
 				ExportLabelFile(sfd.FileName);
 			}
 		}
@@ -196,17 +268,25 @@ namespace BaseLib.Forms{
 			}
 		}
 
-		private void EditButtonOnClick(object sender, EventArgs eventArgs){
-			int[] sel = tableView1.GetSelectedRows();
-			if (sel.Length != 1){
+		private void EditButtonOnClick(object sender, EventArgs eventArgs) {
+			if (ComplexTableIsVisible){
+				EditComplex();
+			} else {
+				EditSimple();
+			}
+		}
+
+		private void EditSimple() {
+			int[] sel = tableViewSimple.GetSelectedRows();
+			if (sel.Length != 1) {
 				MessageBox.Show("Please select exactly one row.");
 				return;
 			}
 			DataRow2 row = tableSimple.GetRow(sel[0]);
-			IsobaricLabelsSimpleEditForm f = new IsobaricLabelsSimpleEditForm(new IsobaricLabelInfoSimple((string) row[0],
-				(string) row[1], (double) row[2], (double) row[3], (double) row[4], (double) row[5], (bool) row[6]));
+			IsobaricLabelsSimpleEditForm f = new IsobaricLabelsSimpleEditForm(new IsobaricLabelInfoSimple((string)row[0],
+				(string)row[1], (double)row[2], (double)row[3], (double)row[4], (double)row[5], (bool)row[6]));
 			f.ShowDialog();
-			if (f.DialogResult != DialogResult.OK){
+			if (f.DialogResult != DialogResult.OK) {
 				return;
 			}
 			IsobaricLabelInfoSimple info = f.Info;
@@ -217,7 +297,83 @@ namespace BaseLib.Forms{
 			row[4] = info.correctionFactorP1;
 			row[5] = info.correctionFactorP2;
 			row[6] = info.tmtLike;
-			tableView1.Invalidate(true);
+			tableViewSimple.Invalidate(true);
+		}
+
+		private void EditComplex() {
+			int[] sel = tableViewComplex.GetSelectedRows();
+			if (sel.Length != 1) {
+				MessageBox.Show("Please select exactly one row.");
+				return;
+			}
+			DataRow2 row = tableComplex.GetRow(sel[0]);
+
+
+
+			IsobaricLabelsSimpleEditForm f = new IsobaricLabelsSimpleEditForm(new IsobaricLabelInfoSimple((string)row[0],
+				(string)row[1], (double)row[2], (double)row[3], (double)row[4], (double)row[5], (bool)row[6]));
+			f.ShowDialog();
+			if (f.DialogResult != DialogResult.OK) {
+				return;
+			}
+			IsobaricLabelInfoSimple info = f.Info;
+			row[0] = info.internalLabel;
+			row[1] = info.terminalLabel;
+			row[2] = info.correctionFactorM2;
+			row[3] = info.correctionFactorM1;
+			row[4] = info.correctionFactorP1;
+			row[5] = info.correctionFactorP2;
+			row[6] = info.tmtLike;
+			tableViewSimple.Invalidate(true);
+		}
+
+		private void InitializeComponent1() {
+			tableLayoutPanel1 = new TableLayoutPanel();
+			tableViewSimple = new Table.TableView();
+			tableLayoutPanel1.SuspendLayout();
+			SuspendLayout();
+			// 
+			// tableLayoutPanel1
+			// 
+			tableLayoutPanel1.ColumnCount = 1;
+			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+			tableLayoutPanel1.Controls.Add(tableViewSimple, 0, 2);
+			tableLayoutPanel1.Dock = DockStyle.Fill;
+			tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			tableLayoutPanel1.Margin = new Padding(0);
+			tableLayoutPanel1.Name = "tableLayoutPanel1";
+			tableLayoutPanel1.RowCount = 3;
+			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 21F));
+			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 21F));
+			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+			tableLayoutPanel1.Size = new System.Drawing.Size(801, 326);
+			tableLayoutPanel1.TabIndex = 0;
+			// 
+			// tableViewSimple
+			// 
+			tableViewSimple.ColumnHeaderHeight = 26;
+			tableViewSimple.Dock = DockStyle.Fill;
+			tableViewSimple.Location = new System.Drawing.Point(0, 42);
+			tableViewSimple.Margin = new Padding(0);
+			tableViewSimple.MultiSelect = true;
+			tableViewSimple.Name = "tableViewSimple";
+			tableViewSimple.RowHeaderWidth = 70;
+			tableViewSimple.Size = new System.Drawing.Size(801, 284);
+			tableViewSimple.Sortable = true;
+			tableViewSimple.TabIndex = 0;
+			tableViewSimple.TableModel = null;
+			// 
+			// IsobaricLabelsParamControl
+			// 
+			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			Controls.Add(tableLayoutPanel1);
+			Margin = new Padding(1, 1, 1, 1);
+			Name = "IsobaricLabelsParamControl";
+			Size = new System.Drawing.Size(801, 326);
+			tableLayoutPanel1.ResumeLayout(false);
+			ResumeLayout(false);
+
 		}
 
 		private void InitializeComponent2(){
@@ -346,7 +502,7 @@ namespace BaseLib.Forms{
 			tableTypeButton.UseVisualStyleBackColor = true;
 			tableLayoutPanel2.ResumeLayout(false);
 			tableLayoutPanel3.ResumeLayout(false);
-			tableView1.TableModel = CreateTable();
+			tableViewSimple.TableModel = CreateTable();
 			addButton.Click += AddButtonOnClick;
 			removeButton.Click += RemoveButtonOnClick;
 			editButton.Click += EditButtonOnClick;
@@ -383,7 +539,7 @@ namespace BaseLib.Forms{
 				row[6] = def.IsLikelyTmtLike(i);
 				tableSimple.AddRow(row);
 			}
-			tableView1.Invalidate(true);
+			tableViewSimple.Invalidate(true);
 		}
 
 		private DataTable2 CreateTable(){
@@ -414,24 +570,44 @@ namespace BaseLib.Forms{
 				return result;
 			}
 			set{
-				tableSimple.Clear();
+				ClearVisibleTable();
 				foreach (string[] t in value){
-					AddLabel(t[0], t[1], t[2], t[3], t[4], t[5], t[6]);
+					AddLabel(t);
 				}
 			}
 		}
-
-		private void AddLabel(string internalLabel, string terminalLabel, string correctionFactorM2,
-			string correctionFactorM1, string correctionFactorP1, string correctionFactorP2, string tmtLike){
+		private void AddLabel(string[] t) {
+			if (t.Length == headerSimple.Length){
+				AddLabelSimple(t);
+			} else{
+				AddLabelComplex(t);
+			}
+		}
+		private void AddLabelSimple(string[] t) {
 			DataRow2 row = tableSimple.NewRow();
-			row[0] = internalLabel;
-			row[1] = terminalLabel;
-			row[2] = Parser.Double(correctionFactorM2);
-			row[3] = Parser.Double(correctionFactorM1);
-			row[4] = Parser.Double(correctionFactorP1);
-			row[5] = Parser.Double(correctionFactorP2);
-			row[6] = Parser.Bool(tmtLike);
+			row[0] = t[0];
+			row[1] = t[1];
+			row[2] = Parser.Double(t[2]);
+			row[3] = Parser.Double(t[3]);
+			row[4] = Parser.Double(t[4]);
+			row[5] = Parser.Double(t[5]);
+			row[6] = Parser.Bool(t[6]);
 			tableSimple.AddRow(row);
+		}
+		private void AddLabelComplex(string[] t) {
+			DataRow2 row = tableComplex.NewRow();
+			row[0] = t[0];
+			row[1] = t[1];
+			row[2] = Parser.Double(t[2]);
+			row[3] = Parser.Double(t[3]);
+			row[4] = Parser.Double(t[4]);
+			row[5] = Parser.Double(t[5]);
+			row[6] = Parser.Double(t[6]);
+			row[7] = Parser.Double(t[7]);
+			row[8] = Parser.Double(t[8]);
+			row[9] = Parser.Double(t[9]);
+			row[10] = Parser.Bool(t[10]);
+			tableComplex.AddRow(row);
 		}
 	}
 }
