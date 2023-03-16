@@ -96,18 +96,6 @@
     </Compile>
     <Compile Include="Forms\ColorStripView.cs" />
     <Compile Include="Forms\ConfigurableType.cs" />
-    <Compile Include="Forms\CorrectionFactorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\CorrectionFactorControl.Designer.cs">
-      <DependentUpon>CorrectionFactorControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CorrectionFactorControl2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\CorrectionFactorControl2.Designer.cs">
-      <DependentUpon>CorrectionFactorControl2.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\DictionaryIntValueControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -163,6 +151,12 @@
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\IsobaricLabelingDefault.cs" />
+    <Compile Include="Forms\IsobaricLabelsComplexEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IsobaricLabelsComplexEditForm.Designer.cs">
+      <DependentUpon>IsobaricLabelsComplexEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\IsobaricLabelsSimpleEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -434,12 +428,6 @@
       <DependentUpon>ColorsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CorrectionFactorControl.resx">
-      <DependentUpon>CorrectionFactorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CorrectionFactorControl2.resx">
-      <DependentUpon>CorrectionFactorControl2.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DictionaryIntValueControl.resx">
       <DependentUpon>DictionaryIntValueControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -466,6 +454,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FolderParameterControl.resx">
       <DependentUpon>FolderParameterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IsobaricLabelsComplexEditForm.resx">
+      <DependentUpon>IsobaricLabelsComplexEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\IsobaricLabelsSimpleEditForm.resx">
       <DependentUpon>IsobaricLabelsSimpleEditForm.cs</DependentUpon>

@@ -307,11 +307,11 @@ namespace BaseLib.Forms{
 				return;
 			}
 			DataRow2 row = tableComplex.GetRow(sel[0]);
-
-
-
-			IsobaricLabelsSimpleEditForm f = new IsobaricLabelsSimpleEditForm(new IsobaricLabelInfoSimple((string)row[0],
-				(string)row[1], (double)row[2], (double)row[3], (double)row[4], (double)row[5], (bool)row[6]));
+			IsobaricLabelsComplexEditForm f = new IsobaricLabelsComplexEditForm(
+				new IsobaricLabelInfoComplex((string)row[0], (string)row[1], (double)row[2], 
+					(double)row[3], (double)row[4], (double)row[5],
+					(double)row[6], (double)row[7], (double)row[8], 
+					(double)row[9], (bool)row[10]));
 			f.ShowDialog();
 			if (f.DialogResult != DialogResult.OK) {
 				return;

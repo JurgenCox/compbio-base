@@ -3,10 +3,9 @@ using System.Linq;
 using System.Windows.Forms;
 using BaseLibS.Mol;
 using BaseLibS.Util;
-
 namespace BaseLib.Forms{
-	public partial class IsobaricLabelsSimpleEditForm : Form{
-		public IsobaricLabelsSimpleEditForm(IsobaricLabelInfoSimple info){
+	public partial class IsobaricLabelsComplexEditForm : Form{
+		public IsobaricLabelsComplexEditForm(IsobaricLabelInfoComplex info){
 			InitializeComponent();
 			cancelButton.Click += CancelButtonOnClick;
 			okButton.Click += OkButtonOnClick;
@@ -30,10 +29,10 @@ namespace BaseLib.Forms{
 			} else{
 				terminalLabelComboBox.SelectedIndex = 0;
 			}
-			CorrectionFactorM2 = info.correctionFactorM2;
-			CorrectionFactorM1 = info.correctionFactorM1;
-			CorrectionFactorP1 = info.correctionFactorP1;
-			CorrectionFactorP2 = info.correctionFactorP2;
+			//CorrectionFactorM2 = info.correctionFactorM2;
+			//CorrectionFactorM1 = info.correctionFactorM1;
+			//CorrectionFactorP1 = info.correctionFactorP1;
+			//CorrectionFactorP2 = info.correctionFactorP2;
 			tmtLikeCheckBox.Checked = info.tmtLike;
 		}
 
@@ -58,10 +57,10 @@ namespace BaseLib.Forms{
 			terminalLabelComboBox.SelectedIndex <= 0 ? "" : terminalLabelComboBox.SelectedItem.ToString();
 
 		private double CorrectionFactorM2 {
-			get{
+			get {
 				bool ok = Parser.TryDouble(correctionFactorControlM2.Text, out double val);
 				return ok ? val : 0;
-			} 
+			}
 			set => correctionFactorControlM2.Text = Parser.ToString(value);
 		}
 
