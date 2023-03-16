@@ -262,7 +262,7 @@ namespace BaseLib.Forms {
 			this.correctionFactorControlM2.Location = new System.Drawing.Point(400, 137);
 			this.correctionFactorControlM2.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
 			this.correctionFactorControlM2.Name = "correctionFactorControlM2";
-			this.correctionFactorControlM2.Size = new System.Drawing.Size(870, 26);
+			this.correctionFactorControlM2.Size = new System.Drawing.Size(870, 38);
 			this.correctionFactorControlM2.TabIndex = 20;
 			// 
 			// correctionFactorControlM1
@@ -271,7 +271,7 @@ namespace BaseLib.Forms {
 			this.correctionFactorControlM1.Location = new System.Drawing.Point(400, 197);
 			this.correctionFactorControlM1.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
 			this.correctionFactorControlM1.Name = "correctionFactorControlM1";
-			this.correctionFactorControlM1.Size = new System.Drawing.Size(870, 26);
+			this.correctionFactorControlM1.Size = new System.Drawing.Size(870, 38);
 			this.correctionFactorControlM1.TabIndex = 21;
 			// 
 			// correctionFactorControlP1
@@ -280,7 +280,7 @@ namespace BaseLib.Forms {
 			this.correctionFactorControlP1.Location = new System.Drawing.Point(400, 257);
 			this.correctionFactorControlP1.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
 			this.correctionFactorControlP1.Name = "correctionFactorControlP1";
-			this.correctionFactorControlP1.Size = new System.Drawing.Size(870, 26);
+			this.correctionFactorControlP1.Size = new System.Drawing.Size(870, 38);
 			this.correctionFactorControlP1.TabIndex = 22;
 			// 
 			// correctionFactorControlP2
@@ -289,7 +289,7 @@ namespace BaseLib.Forms {
 			this.correctionFactorControlP2.Location = new System.Drawing.Point(400, 317);
 			this.correctionFactorControlP2.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
 			this.correctionFactorControlP2.Name = "correctionFactorControlP2";
-			this.correctionFactorControlP2.Size = new System.Drawing.Size(870, 26);
+			this.correctionFactorControlP2.Size = new System.Drawing.Size(870, 38);
 			this.correctionFactorControlP2.TabIndex = 23;
 			// 
 			// IsobaricLabelsComplexEditForm
@@ -298,6 +298,7 @@ namespace BaseLib.Forms {
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1307, 525);
 			this.Controls.Add(this.tableLayoutPanel1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
 			this.Name = "IsobaricLabelsComplexEditForm";
 			this.Text = "Define isobaric label";
