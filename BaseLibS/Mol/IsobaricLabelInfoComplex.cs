@@ -2,19 +2,6 @@
 using BaseLibS.Util;
 namespace BaseLibS.Mol{
 	public class IsobaricLabelInfoComplex : IsobaricLabelInfo{
-		public readonly List<InputParameter> vals = new List<InputParameter>{
-			new InputParameter<string>("internalLabel", "internalLabel"),
-			new InputParameter<string>("terminalLabel", "terminalLabel"),
-			new InputParameter<double>("correctionFactorM2X13C", "correctionFactorM2X13C"),
-			new InputParameter<double>("correctionFactorM13C15N", "correctionFactorM13C15N"),
-			new InputParameter<double>("correctionFactorM13C", "correctionFactorM13C"),
-			new InputParameter<double>("correctionFactorM15N", "correctionFactorM15N"),
-			new InputParameter<double>("correctionFactorP15N", "correctionFactorP15N"),
-			new InputParameter<double>("correctionFactorP13C", "correctionFactorP13C"),
-			new InputParameter<double>("correctionFactorP15N13C", "correctionFactorP15N13C"),
-			new InputParameter<double>("correctionFactorP2X13C", "correctionFactorP2X13C"),
-			new InputParameter<bool>("tmtLike", "tmtLike")
-		};
 		public double correctionFactorM2X13C;
 		public double correctionFactorM13C15N;
 		public double correctionFactorM13C;
@@ -36,6 +23,19 @@ namespace BaseLibS.Mol{
 			double correctionFactorM13C15N, double correctionFactorM13C, double correctionFactorM15N,
 			double correctionFactorP15N, double correctionFactorP13C, double correctionFactorP15N13C, 
 			double correctionFactorP2X13C, bool tmtLike) : base(internalLabel, terminalLabel, tmtLike){
+			vals = new List<InputParameter>{
+				new InputParameter<string>("internalLabel", "internalLabel"),
+				new InputParameter<string>("terminalLabel", "terminalLabel"),
+				new InputParameter<double>("correctionFactorM2X13C", "correctionFactorM2X13C"),
+				new InputParameter<double>("correctionFactorM13C15N", "correctionFactorM13C15N"),
+				new InputParameter<double>("correctionFactorM13C", "correctionFactorM13C"),
+				new InputParameter<double>("correctionFactorM15N", "correctionFactorM15N"),
+				new InputParameter<double>("correctionFactorP15N", "correctionFactorP15N"),
+				new InputParameter<double>("correctionFactorP13C", "correctionFactorP13C"),
+				new InputParameter<double>("correctionFactorP15N13C", "correctionFactorP15N13C"),
+				new InputParameter<double>("correctionFactorP2X13C", "correctionFactorP2X13C"),
+				new InputParameter<bool>("tmtLike", "tmtLike")
+			};
 			foreach (InputParameter val in vals){
 				map.Add(val.Name, val);
 			}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace BaseLibS.Mol {
 	public class IsobaricLabelInfo {
+		public List<InputParameter> vals;
 		public readonly Dictionary<string, InputParameter> map;
 		public string internalLabel;
 		public string terminalLabel;

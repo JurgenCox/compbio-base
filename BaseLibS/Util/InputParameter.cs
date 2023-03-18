@@ -49,7 +49,7 @@ namespace BaseLibS.Util {
 				if (t == typeof(FastaFileInfo)) {
 					return "FastaFileInfo";
 				}
-				if (t == typeof(IsobaricLabelInfoSimple)) {
+				if (t == typeof(IsobaricLabelInfo)) {
 					return "IsobaricLabelInfo";
 				}
 				throw new Exception("Unknown type: " + t);
@@ -59,9 +59,9 @@ namespace BaseLibS.Util {
 		public override bool IsIsobaricLabelInfo {
 			get {
 				if (IsArray) {
-					return Type.GetElementType() == typeof(IsobaricLabelInfoSimple);
+					return Type.GetElementType() == typeof(IsobaricLabelInfo);
 				}
-				return Type == typeof(IsobaricLabelInfoSimple);
+				return Type == typeof(IsobaricLabelInfo);
 			}
 		}
 

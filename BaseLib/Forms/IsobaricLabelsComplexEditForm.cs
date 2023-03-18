@@ -29,65 +29,88 @@ namespace BaseLib.Forms{
 			} else{
 				terminalLabelComboBox.SelectedIndex = 0;
 			}
-			//CorrectionFactorM2 = info.correctionFactorM2;
-			//CorrectionFactorM1 = info.correctionFactorM1;
-			//CorrectionFactorP1 = info.correctionFactorP1;
-			//CorrectionFactorP2 = info.correctionFactorP2;
+			CorrectionFactorM2X13C = info.correctionFactorM2X13C;
+			CorrectionFactorM13C15N = info.correctionFactorM13C15N;
+			CorrectionFactorM13C = info.correctionFactorM13C;
+			CorrectionFactorM15N = info.correctionFactorM15N;
+			CorrectionFactorP15N = info.correctionFactorP15N;
+			CorrectionFactorP13C = info.correctionFactorP13C;
+			CorrectionFactorP15N13C = info.correctionFactorP15N13C;
+			CorrectionFactorP2X13C = info.correctionFactorP2X13C;
 			tmtLikeCheckBox.Checked = info.tmtLike;
 		}
-
 		private void OkButtonOnClick(object sender, EventArgs eventArgs){
 			DialogResult = DialogResult.OK;
 			Close();
 		}
-
 		private void CancelButtonOnClick(object sender, EventArgs eventArgs){
 			DialogResult = DialogResult.Cancel;
 			Close();
 		}
-
-		internal IsobaricLabelInfoSimple Info =>
-			new IsobaricLabelInfoSimple(InternalLabel, TerminalLabel, CorrectionFactorM2, CorrectionFactorM1,
-				CorrectionFactorP1, CorrectionFactorP2, TmtLike);
-
+		internal IsobaricLabelInfoComplex Info =>
+			new IsobaricLabelInfoComplex(InternalLabel, TerminalLabel, CorrectionFactorM2X13C, 
+				CorrectionFactorM13C15N, CorrectionFactorM13C, CorrectionFactorM15N, CorrectionFactorP15N, 
+				CorrectionFactorP13C, CorrectionFactorP15N13C, CorrectionFactorP2X13C, TmtLike);
 		private string InternalLabel =>
 			internalLabelComboBox.SelectedIndex <= 0 ? "" : internalLabelComboBox.SelectedItem.ToString();
-
 		private string TerminalLabel =>
 			terminalLabelComboBox.SelectedIndex <= 0 ? "" : terminalLabelComboBox.SelectedItem.ToString();
-
-		private double CorrectionFactorM2 {
-			get {
-				bool ok = Parser.TryDouble(correctionFactorControlM2.Text, out double val);
+		private double CorrectionFactorM2X13C{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlM2X13C.Text, out double val);
 				return ok ? val : 0;
 			}
-			set => correctionFactorControlM2.Text = Parser.ToString(value);
+			set => correctionFactorControlM2X13C.Text = Parser.ToString(value);
 		}
-
-		private double CorrectionFactorM1 {
-			get {
-				bool ok = Parser.TryDouble(correctionFactorControlM1.Text, out double val);
+		private double CorrectionFactorM13C15N{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlM13C15N.Text, out double val);
 				return ok ? val : 0;
 			}
-			set => correctionFactorControlM1.Text = Parser.ToString(value);
+			set => correctionFactorControlM13C15N.Text = Parser.ToString(value);
 		}
-
-		private double CorrectionFactorP1 {
-			get {
-				bool ok = Parser.TryDouble(correctionFactorControlP1.Text, out double val);
+		private double CorrectionFactorM13C{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlM13C.Text, out double val);
 				return ok ? val : 0;
 			}
-			set => correctionFactorControlP1.Text = Parser.ToString(value);
+			set => correctionFactorControlM13C.Text = Parser.ToString(value);
 		}
-
-		private double CorrectionFactorP2 {
-			get {
-				bool ok = Parser.TryDouble(correctionFactorControlP2.Text, out double val);
+		private double CorrectionFactorM15N{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlM15N.Text, out double val);
 				return ok ? val : 0;
 			}
-			set => correctionFactorControlP2.Text = Parser.ToString(value);
+			set => correctionFactorControlM15N.Text = Parser.ToString(value);
 		}
-
+		private double CorrectionFactorP15N{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlP15N.Text, out double val);
+				return ok ? val : 0;
+			}
+			set => correctionFactorControlP15N.Text = Parser.ToString(value);
+		}
+		private double CorrectionFactorP13C{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlP13C.Text, out double val);
+				return ok ? val : 0;
+			}
+			set => correctionFactorControlP13C.Text = Parser.ToString(value);
+		}
+		private double CorrectionFactorP15N13C{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlP15N13C.Text, out double val);
+				return ok ? val : 0;
+			}
+			set => correctionFactorControlP15N13C.Text = Parser.ToString(value);
+		}
+		private double CorrectionFactorP2X13C{
+			get{
+				bool ok = Parser.TryDouble(correctionFactorControlP2X13C.Text, out double val);
+				return ok ? val : 0;
+			}
+			set => correctionFactorControlP2X13C.Text = Parser.ToString(value);
+		}
 		public bool TmtLike => tmtLikeCheckBox.Checked;
 	}
 }

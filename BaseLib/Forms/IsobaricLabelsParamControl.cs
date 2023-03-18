@@ -105,7 +105,7 @@ namespace BaseLib.Forms{
 		private Table.TableView tableViewComplex;
 		private DataTable2 tableSimple;
 		private DataTable2 tableComplex;
-		public bool ComplexTableIsVisible => false;
+		public bool ComplexTableIsVisible{ get; set; }
 
 		public IsobaricLabelsParamControl(){
 			InitializeComponent();
@@ -242,7 +242,15 @@ namespace BaseLib.Forms{
 			}
 		}
 		private void FlipTable(){
-			//TODO
+			if (ComplexTableIsVisible){
+				tableLayoutPanel1.Controls.Remove(tableViewComplex);
+				tableLayoutPanel1.Controls.Add(tableViewSimple, 0, 2);
+				ComplexTableIsVisible = false;
+			} else {
+				tableLayoutPanel1.Controls.Remove(tableViewSimple);
+				tableLayoutPanel1.Controls.Add(tableViewComplex, 0, 2);
+				ComplexTableIsVisible = true;
+			}
 		}
 		private void ExportButtonOnClick(object sender, EventArgs eventArgs) {
 			SaveFileDialog sfd = new SaveFileDialog {
@@ -257,6 +265,7 @@ namespace BaseLib.Forms{
 		}
 
 		private void TableTypeButtonOnClick(object sender, EventArgs eventArgs) {
+			FlipTable();
 		}
 
 		private void ExportLabelFile(string fileName){
@@ -286,7 +295,8 @@ namespace BaseLib.Forms{
 			DataRow2 row = tableSimple.GetRow(sel[0]);
 			Point p = tableLayoutPanel1.PointToScreen(new Point(0, 0));
 			IsobaricLabelsSimpleEditForm f = new IsobaricLabelsSimpleEditForm(new IsobaricLabelInfoSimple((string)row[0],
-				(string)row[1], (double)row[2], (double)row[3], (double)row[4], (double)row[5], (bool)row[6])){
+				(string)row[1], (double)row[2], (double)row[3], (double)row[4], 
+				(double)row[5], (bool)row[6])){
 				Top = p.Y,
 				Left = p.X - 7,
 			};
@@ -325,20 +335,25 @@ namespace BaseLib.Forms{
 			if (f.DialogResult != DialogResult.OK) {
 				return;
 			}
-			IsobaricLabelInfoSimple info = f.Info;
+			IsobaricLabelInfoComplex info = f.Info;
 			row[0] = info.internalLabel;
 			row[1] = info.terminalLabel;
-			row[2] = info.correctionFactorM2;
-			row[3] = info.correctionFactorM1;
-			row[4] = info.correctionFactorP1;
-			row[5] = info.correctionFactorP2;
-			row[6] = info.tmtLike;
-			tableViewSimple.Invalidate(true);
+			row[2] = info.correctionFactorM2X13C;
+			row[3] = info.correctionFactorM13C15N;
+			row[4] = info.correctionFactorM13C;
+			row[5] = info.correctionFactorM15N;
+			row[6] = info.correctionFactorP15N;
+			row[7] = info.correctionFactorP13C;
+			row[8] = info.correctionFactorP15N13C;
+			row[9] = info.correctionFactorP2X13C;
+			row[10] = info.tmtLike;
+			tableViewComplex.Invalidate(true);
 		}
 
 		private void InitializeComponent1() {
 			tableLayoutPanel1 = new TableLayoutPanel();
 			tableViewSimple = new Table.TableView();
+			tableViewComplex = new Table.TableView();
 			tableLayoutPanel1.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -348,41 +363,54 @@ namespace BaseLib.Forms{
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 			tableLayoutPanel1.Controls.Add(tableViewSimple, 0, 2);
 			tableLayoutPanel1.Dock = DockStyle.Fill;
-			tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			tableLayoutPanel1.Location = new Point(0, 0);
 			tableLayoutPanel1.Margin = new Padding(0);
 			tableLayoutPanel1.Name = "tableLayoutPanel1";
 			tableLayoutPanel1.RowCount = 3;
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 21F));
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 21F));
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel1.Size = new System.Drawing.Size(801, 326);
+			tableLayoutPanel1.Size = new Size(801, 326);
 			tableLayoutPanel1.TabIndex = 0;
 			// 
 			// tableViewSimple
 			// 
 			tableViewSimple.ColumnHeaderHeight = 26;
 			tableViewSimple.Dock = DockStyle.Fill;
-			tableViewSimple.Location = new System.Drawing.Point(0, 42);
+			tableViewSimple.Location = new Point(0, 42);
 			tableViewSimple.Margin = new Padding(0);
 			tableViewSimple.MultiSelect = true;
 			tableViewSimple.Name = "tableViewSimple";
 			tableViewSimple.RowHeaderWidth = 70;
-			tableViewSimple.Size = new System.Drawing.Size(801, 284);
+			tableViewSimple.Size = new Size(801, 284);
 			tableViewSimple.Sortable = true;
 			tableViewSimple.TabIndex = 0;
 			tableViewSimple.TableModel = null;
 			// 
+			// tableViewComplex
+			// 
+			tableViewComplex.ColumnHeaderHeight = 26;
+			tableViewComplex.Dock = DockStyle.Fill;
+			tableViewComplex.Location = new Point(0, 42);
+			tableViewComplex.Margin = new Padding(0);
+			tableViewComplex.MultiSelect = true;
+			tableViewComplex.Name = "tableViewComplex";
+			tableViewComplex.RowHeaderWidth = 70;
+			tableViewComplex.Size = new Size(801, 284);
+			tableViewComplex.Sortable = true;
+			tableViewComplex.TabIndex = 0;
+			tableViewComplex.TableModel = null;
+			// 
 			// IsobaricLabelsParamControl
 			// 
-			AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			AutoScaleDimensions = new SizeF(6F, 13F);
 			AutoScaleMode = AutoScaleMode.Font;
 			Controls.Add(tableLayoutPanel1);
 			Margin = new Padding(1, 1, 1, 1);
 			Name = "IsobaricLabelsParamControl";
-			Size = new System.Drawing.Size(801, 326);
+			Size = new Size(801, 326);
 			tableLayoutPanel1.ResumeLayout(false);
 			ResumeLayout(false);
-
 		}
 
 		private void InitializeComponent2(){
@@ -428,29 +456,29 @@ namespace BaseLib.Forms{
 				tableLayoutPanel3.Controls.Add(CreateDefaultButton(defaults[i]), 2 * (i - firstRowButtons), 0);
 			}
 			tableLayoutPanel2.Dock = DockStyle.Fill;
-			tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+			tableLayoutPanel2.Location = new Point(0, 0);
 			tableLayoutPanel2.Margin = new Padding(0);
 			tableLayoutPanel2.Name = "tableLayoutPanel2";
 			tableLayoutPanel2.RowCount = 1;
 			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel2.Size = new System.Drawing.Size(2135, 50);
+			tableLayoutPanel2.Size = new Size(2135, 50);
 			tableLayoutPanel2.TabIndex = 2;
 			tableLayoutPanel3.Dock = DockStyle.Fill;
-			tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+			tableLayoutPanel3.Location = new Point(0, 0);
 			tableLayoutPanel3.Margin = new Padding(0);
 			tableLayoutPanel3.Name = "tableLayoutPanel2";
 			tableLayoutPanel3.RowCount = 1;
 			tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-			tableLayoutPanel3.Size = new System.Drawing.Size(2135, 50);
+			tableLayoutPanel3.Size = new Size(2135, 50);
 			tableLayoutPanel3.TabIndex = 2;
 			// 
 			// addButton
 			// 
 			addButton.Dock = DockStyle.Fill;
-			addButton.Location = new System.Drawing.Point(0, 0);
+			addButton.Location = new Point(0, 0);
 			addButton.Margin = new Padding(0);
 			addButton.Name = "addButton";
-			addButton.Size = new System.Drawing.Size(220, 50);
+			addButton.Size = new Size(220, 50);
 			addButton.TabIndex = 0;
 			addButton.Text = @"Add";
 			addButton.UseVisualStyleBackColor = true;
@@ -458,10 +486,10 @@ namespace BaseLib.Forms{
 			// removeButton
 			// 
 			removeButton.Dock = DockStyle.Fill;
-			removeButton.Location = new System.Drawing.Point(230, 0);
+			removeButton.Location = new Point(230, 0);
 			removeButton.Margin = new Padding(0);
 			removeButton.Name = "removeButton";
-			removeButton.Size = new System.Drawing.Size(220, 50);
+			removeButton.Size = new Size(220, 50);
 			removeButton.TabIndex = 1;
 			removeButton.Text = @"Remove";
 			removeButton.UseVisualStyleBackColor = true;
@@ -469,10 +497,10 @@ namespace BaseLib.Forms{
 			// editButton
 			// 
 			editButton.Dock = DockStyle.Fill;
-			editButton.Location = new System.Drawing.Point(460, 0);
+			editButton.Location = new Point(460, 0);
 			editButton.Margin = new Padding(0);
 			editButton.Name = "editButton";
-			editButton.Size = new System.Drawing.Size(220, 50);
+			editButton.Size = new Size(220, 50);
 			editButton.TabIndex = 1;
 			editButton.Text = @"Edit";
 			editButton.UseVisualStyleBackColor = true;
@@ -480,10 +508,10 @@ namespace BaseLib.Forms{
 			// importButton
 			// 
 			importButton.Dock = DockStyle.Fill;
-			importButton.Location = new System.Drawing.Point(690, 0);
+			importButton.Location = new Point(690, 0);
 			importButton.Margin = new Padding(0);
 			importButton.Name = "importButton";
-			importButton.Size = new System.Drawing.Size(220, 50);
+			importButton.Size = new Size(220, 50);
 			importButton.TabIndex = 0;
 			importButton.Text = @"Import";
 			importButton.UseVisualStyleBackColor = true;
@@ -491,10 +519,10 @@ namespace BaseLib.Forms{
 			// exportButton
 			// 
 			exportButton.Dock = DockStyle.Fill;
-			exportButton.Location = new System.Drawing.Point(920, 0);
+			exportButton.Location = new Point(920, 0);
 			exportButton.Margin = new Padding(0);
 			exportButton.Name = "exportButton";
-			exportButton.Size = new System.Drawing.Size(220, 50);
+			exportButton.Size = new Size(220, 50);
 			exportButton.TabIndex = 0;
 			exportButton.Text = @"Export";
 			exportButton.UseVisualStyleBackColor = true;
@@ -502,16 +530,17 @@ namespace BaseLib.Forms{
 			// tableTypeButton
 			// 
 			tableTypeButton.Dock = DockStyle.Fill;
-			tableTypeButton.Location = new System.Drawing.Point(920, 0);
+			tableTypeButton.Location = new Point(920, 0);
 			tableTypeButton.Margin = new Padding(0);
 			tableTypeButton.Name = "tableTypeButton";
-			tableTypeButton.Size = new System.Drawing.Size(220, 50);
+			tableTypeButton.Size = new Size(220, 50);
 			tableTypeButton.TabIndex = 0;
 			tableTypeButton.Text = @"Change type";
 			tableTypeButton.UseVisualStyleBackColor = true;
 			tableLayoutPanel2.ResumeLayout(false);
 			tableLayoutPanel3.ResumeLayout(false);
-			tableViewSimple.TableModel = CreateTable();
+			tableViewSimple.TableModel = CreateTableSimple();
+			tableViewComplex.TableModel = CreateTableComplex();
 			addButton.Click += AddButtonOnClick;
 			removeButton.Click += RemoveButtonOnClick;
 			editButton.Click += EditButtonOnClick;
@@ -523,10 +552,10 @@ namespace BaseLib.Forms{
 		private Control CreateDefaultButton(IsobaricLabelingDefault def){
 			Button button = new Button{
 				Dock = DockStyle.Fill,
-				Location = new System.Drawing.Point(230, 0),
+				Location = new Point(230, 0),
 				Margin = new Padding(0),
 				Name = "button",
-				Size = new System.Drawing.Size(220, 50),
+				Size = new Size(220, 50),
 				TabIndex = 1,
 				Text = def.Name,
 				UseVisualStyleBackColor = true
@@ -536,22 +565,48 @@ namespace BaseLib.Forms{
 		}
 
 		private void SetDefaults(IsobaricLabelingDefault def){
-			tableSimple.Clear();
-			for (int i = 0; i < def.Count; i++){
-				DataRow2 row = tableSimple.NewRow();
-				row[0] = def.GetInternalLabel(i);
-				row[1] = def.GetTerminalLabel(i);
-				row[2] = 0d;
-				row[3] = 0d;
-				row[4] = 0d;
-				row[5] = 0d;
-				row[6] = def.IsLikelyTmtLike(i);
-				tableSimple.AddRow(row);
+			if (def.AdvancedCorrections){
+				if (!ComplexTableIsVisible){
+					FlipTable();
+				}
+				tableComplex.Clear();
+				for (int i = 0; i < def.Count; i++) {
+					DataRow2 row = tableComplex.NewRow();
+					row[0] = def.GetInternalLabel(i);
+					row[1] = def.GetTerminalLabel(i);
+					row[2] = 0d;
+					row[3] = 0d;
+					row[4] = 0d;
+					row[5] = 0d;
+					row[6] = 0d;
+					row[7] = 0d;
+					row[8] = 0d;
+					row[9] = 0d;
+					row[10] = def.IsLikelyTmtLike(i);
+					tableComplex.AddRow(row);
+				}
+				tableViewComplex.Invalidate(true);
+			} else {
+				if (ComplexTableIsVisible) {
+					FlipTable();
+				}
+				tableSimple.Clear();
+				for (int i = 0; i < def.Count; i++) {
+					DataRow2 row = tableSimple.NewRow();
+					row[0] = def.GetInternalLabel(i);
+					row[1] = def.GetTerminalLabel(i);
+					row[2] = 0d;
+					row[3] = 0d;
+					row[4] = 0d;
+					row[5] = 0d;
+					row[6] = def.IsLikelyTmtLike(i);
+					tableSimple.AddRow(row);
+				}
+				tableViewSimple.Invalidate(true);
 			}
-			tableViewSimple.Invalidate(true);
 		}
 
-		private DataTable2 CreateTable(){
+		private DataTable2 CreateTableSimple() {
 			tableSimple = new DataTable2("isobaric labels table");
 			tableSimple.AddColumn(headerSimple[0], 130, ColumnType.Text, "");
 			tableSimple.AddColumn(headerSimple[1], 130, ColumnType.Text, "");
@@ -562,21 +617,55 @@ namespace BaseLib.Forms{
 			tableSimple.AddColumn(headerSimple[6], 60, ColumnType.Boolean);
 			return tableSimple;
 		}
+		private DataTable2 CreateTableComplex() {
+			tableComplex = new DataTable2("isobaric labels table");
+			tableComplex.AddColumn(headerComplex[0], 130, ColumnType.Text, "");
+			tableComplex.AddColumn(headerComplex[1], 130, ColumnType.Text, "");
+			tableComplex.AddColumn(headerComplex[2], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[3], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[4], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[5], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[6], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[7], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[8], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[9], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[10], 60, ColumnType.Boolean);
+			return tableComplex;
+		}
 
 		public string[][] Value{
 			get{
-				string[][] result = new string[tableSimple.RowCount][];
-				for (int i = 0; i < result.Length; i++){
-					result[i] = new[]{
-						(string) tableSimple.GetEntry(i, headerSimple[0]), (string) tableSimple.GetEntry(i, headerSimple[1]),
-						((double) tableSimple.GetEntry(i, headerSimple[2])).ToString(CultureInfo.InvariantCulture),
-						((double) tableSimple.GetEntry(i, headerSimple[3])).ToString(CultureInfo.InvariantCulture),
-						((double) tableSimple.GetEntry(i, headerSimple[4])).ToString(CultureInfo.InvariantCulture),
-						((double) tableSimple.GetEntry(i, headerSimple[5])).ToString(CultureInfo.InvariantCulture),
-						((bool) tableSimple.GetEntry(i, headerSimple[6])).ToString()
-					};
+				if (ComplexTableIsVisible){
+					string[][] result = new string[tableComplex.RowCount][];
+					for (int i = 0; i < result.Length; i++) {
+						result[i] = new[]{
+							(string) tableComplex.GetEntry(i, headerComplex[0]), (string) tableComplex.GetEntry(i, headerComplex[1]),
+							((double) tableComplex.GetEntry(i, headerComplex[2])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[3])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[4])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[5])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[6])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[7])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[8])).ToString(CultureInfo.InvariantCulture),
+							((double) tableComplex.GetEntry(i, headerComplex[9])).ToString(CultureInfo.InvariantCulture),
+							((bool) tableComplex.GetEntry(i, headerComplex[10])).ToString()
+						};
+					}
+					return result;
+				} else {
+					string[][] result = new string[tableSimple.RowCount][];
+					for (int i = 0; i < result.Length; i++) {
+						result[i] = new[]{
+							(string) tableSimple.GetEntry(i, headerSimple[0]), (string) tableSimple.GetEntry(i, headerSimple[1]),
+							((double) tableSimple.GetEntry(i, headerSimple[2])).ToString(CultureInfo.InvariantCulture),
+							((double) tableSimple.GetEntry(i, headerSimple[3])).ToString(CultureInfo.InvariantCulture),
+							((double) tableSimple.GetEntry(i, headerSimple[4])).ToString(CultureInfo.InvariantCulture),
+							((double) tableSimple.GetEntry(i, headerSimple[5])).ToString(CultureInfo.InvariantCulture),
+							((bool) tableSimple.GetEntry(i, headerSimple[6])).ToString()
+						};
+					}
+					return result;
 				}
-				return result;
 			}
 			set{
 				ClearVisibleTable();
@@ -587,8 +676,14 @@ namespace BaseLib.Forms{
 		}
 		private void AddLabel(string[] t) {
 			if (t.Length == headerSimple.Length){
+				if (ComplexTableIsVisible){
+					FlipTable();
+				}
 				AddLabelSimple(t);
 			} else{
+				if (!ComplexTableIsVisible) {
+					FlipTable();
+				}
 				AddLabelComplex(t);
 			}
 		}

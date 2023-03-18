@@ -37,13 +37,21 @@ namespace BaseLib.Forms {
 			this.helpLabel5 = new BaseLib.Forms.Table.HelpLabel();
 			this.helpLabel3 = new BaseLib.Forms.Table.HelpLabel();
 			this.helpLabel1 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel14 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel15 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel16 = new BaseLib.Forms.Table.HelpLabel();
+			this.helpLabel17 = new BaseLib.Forms.Table.HelpLabel();
 			this.tmtLikeCheckBox = new System.Windows.Forms.CheckBox();
 			this.internalLabelComboBox = new System.Windows.Forms.ComboBox();
 			this.terminalLabelComboBox = new System.Windows.Forms.ComboBox();
-			this.correctionFactorControlM2 = new System.Windows.Forms.TextBox();
-			this.correctionFactorControlM1 = new System.Windows.Forms.TextBox();
-			this.correctionFactorControlP1 = new System.Windows.Forms.TextBox();
-			this.correctionFactorControlP2 = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlM2X13C = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlM13C15N = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlM13C = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlM15N = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlP15N = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlP13C = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlP15N13C = new System.Windows.Forms.TextBox();
+			this.correctionFactorControlP2X13C = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
@@ -64,7 +72,7 @@ namespace BaseLib.Forms {
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(1307, 525);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1307, 791);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// tableLayoutPanel2
@@ -76,7 +84,7 @@ namespace BaseLib.Forms {
 			this.tableLayoutPanel2.Controls.Add(this.cancelButton, 0, 0);
 			this.tableLayoutPanel2.Controls.Add(this.okButton, 2, 0);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 465);
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 731);
 			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 			this.tableLayoutPanel2.RowCount = 1;
@@ -110,25 +118,37 @@ namespace BaseLib.Forms {
 			this.tableLayoutPanel3.ColumnCount = 2;
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 379F));
 			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.Controls.Add(this.helpLabel13, 0, 6);
+			this.tableLayoutPanel3.Controls.Add(this.helpLabel13, 0, 10);
+			this.tableLayoutPanel3.Controls.Add(this.helpLabel17, 0, 9);
+			this.tableLayoutPanel3.Controls.Add(this.helpLabel16, 0, 8);
+			this.tableLayoutPanel3.Controls.Add(this.helpLabel15, 0, 7);
+			this.tableLayoutPanel3.Controls.Add(this.helpLabel14, 0, 6);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel11, 0, 5);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel9, 0, 4);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel7, 0, 3);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel5, 0, 2);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel3, 0, 1);
 			this.tableLayoutPanel3.Controls.Add(this.helpLabel1, 0, 0);
-			this.tableLayoutPanel3.Controls.Add(this.tmtLikeCheckBox, 1, 6);
+			this.tableLayoutPanel3.Controls.Add(this.tmtLikeCheckBox, 1, 10);
 			this.tableLayoutPanel3.Controls.Add(this.internalLabelComboBox, 1, 0);
 			this.tableLayoutPanel3.Controls.Add(this.terminalLabelComboBox, 1, 1);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM2, 1, 2);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM1, 1, 3);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP1, 1, 4);
-			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP2, 1, 5);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM2X13C, 1, 2);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM13C15N, 1, 3);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM13C, 1, 4);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlM15N, 1, 5);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP15N, 1, 6);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP13C, 1, 7);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP15N13C, 1, 8);
+			this.tableLayoutPanel3.Controls.Add(this.correctionFactorControlP2X13C, 1, 9);
 			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel3.Location = new System.Drawing.Point(8, 7);
 			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-			this.tableLayoutPanel3.RowCount = 8;
+			this.tableLayoutPanel3.RowCount = 12;
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -137,7 +157,7 @@ namespace BaseLib.Forms {
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(1291, 451);
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(1291, 717);
 			this.tableLayoutPanel3.TabIndex = 1;
 			// 
 			// helpLabel13
@@ -145,12 +165,60 @@ namespace BaseLib.Forms {
 			this.helpLabel13.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.helpLabel13.HelpText = "Text";
 			this.helpLabel13.HelpTitle = "Title";
-			this.helpLabel13.Location = new System.Drawing.Point(8, 367);
+			this.helpLabel13.Location = new System.Drawing.Point(8, 607);
 			this.helpLabel13.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
 			this.helpLabel13.Name = "helpLabel13";
 			this.helpLabel13.Size = new System.Drawing.Size(363, 46);
 			this.helpLabel13.TabIndex = 12;
 			this.helpLabel13.Text = "TMT-like";
+			// 
+			// helpLabel11
+			// 
+			this.helpLabel17.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel17.HelpText = "Text";
+			this.helpLabel17.HelpTitle = "Title";
+			this.helpLabel17.Location = new System.Drawing.Point(8, 307);
+			this.helpLabel17.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+			this.helpLabel17.Name = "helpLabel17";
+			this.helpLabel17.Size = new System.Drawing.Size(363, 46);
+			this.helpLabel17.TabIndex = 10;
+			this.helpLabel17.Text = "CF +2x13C [%]";
+			// 
+			// helpLabel16
+			// 
+			this.helpLabel16.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel16.HelpText = "Text";
+			this.helpLabel16.HelpTitle = "Title";
+			this.helpLabel16.Location = new System.Drawing.Point(8, 307);
+			this.helpLabel16.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+			this.helpLabel16.Name = "helpLabel16";
+			this.helpLabel16.Size = new System.Drawing.Size(363, 46);
+			this.helpLabel16.TabIndex = 10;
+			this.helpLabel16.Text = "CF +15N+13C [%]";
+			// 
+			// helpLabel15
+			// 
+			this.helpLabel15.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel15.HelpText = "Text";
+			this.helpLabel15.HelpTitle = "Title";
+			this.helpLabel15.Location = new System.Drawing.Point(8, 307);
+			this.helpLabel15.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+			this.helpLabel15.Name = "helpLabel15";
+			this.helpLabel15.Size = new System.Drawing.Size(363, 46);
+			this.helpLabel15.TabIndex = 10;
+			this.helpLabel15.Text = "CF +13C [%]";
+			// 
+			// helpLabel14
+			// 
+			this.helpLabel14.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.helpLabel14.HelpText = "Text";
+			this.helpLabel14.HelpTitle = "Title";
+			this.helpLabel14.Location = new System.Drawing.Point(8, 307);
+			this.helpLabel14.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+			this.helpLabel14.Name = "helpLabel14";
+			this.helpLabel14.Size = new System.Drawing.Size(363, 46);
+			this.helpLabel14.TabIndex = 10;
+			this.helpLabel14.Text = "CF +15N [%]";
 			// 
 			// helpLabel11
 			// 
@@ -162,7 +230,7 @@ namespace BaseLib.Forms {
 			this.helpLabel11.Name = "helpLabel11";
 			this.helpLabel11.Size = new System.Drawing.Size(363, 46);
 			this.helpLabel11.TabIndex = 10;
-			this.helpLabel11.Text = "Correction factor +2 [%]";
+			this.helpLabel11.Text = "CF -15N [%]";
 			// 
 			// helpLabel9
 			// 
@@ -174,7 +242,7 @@ namespace BaseLib.Forms {
 			this.helpLabel9.Name = "helpLabel9";
 			this.helpLabel9.Size = new System.Drawing.Size(363, 46);
 			this.helpLabel9.TabIndex = 8;
-			this.helpLabel9.Text = "Correction factor +1 [%]";
+			this.helpLabel9.Text = "CF -13C [%]";
 			// 
 			// helpLabel7
 			// 
@@ -186,7 +254,7 @@ namespace BaseLib.Forms {
 			this.helpLabel7.Name = "helpLabel7";
 			this.helpLabel7.Size = new System.Drawing.Size(363, 46);
 			this.helpLabel7.TabIndex = 6;
-			this.helpLabel7.Text = "Correction factor -1 [%]";
+			this.helpLabel7.Text = "CF -13C-15N [%]";
 			// 
 			// helpLabel5
 			// 
@@ -198,7 +266,7 @@ namespace BaseLib.Forms {
 			this.helpLabel5.Name = "helpLabel5";
 			this.helpLabel5.Size = new System.Drawing.Size(363, 46);
 			this.helpLabel5.TabIndex = 4;
-			this.helpLabel5.Text = "Correction factor -2 [%]";
+			this.helpLabel5.Text = "CF -2x13C [%]";
 			// 
 			// helpLabel3
 			// 
@@ -227,7 +295,7 @@ namespace BaseLib.Forms {
 			// tmtLikeCheckBox
 			// 
 			this.tmtLikeCheckBox.AutoSize = true;
-			this.tmtLikeCheckBox.Location = new System.Drawing.Point(387, 367);
+			this.tmtLikeCheckBox.Location = new System.Drawing.Point(387, 607);
 			this.tmtLikeCheckBox.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
 			this.tmtLikeCheckBox.Name = "tmtLikeCheckBox";
 			this.tmtLikeCheckBox.Size = new System.Drawing.Size(34, 33);
@@ -256,47 +324,83 @@ namespace BaseLib.Forms {
 			this.terminalLabelComboBox.Size = new System.Drawing.Size(896, 39);
 			this.terminalLabelComboBox.TabIndex = 19;
 			// 
-			// correctionFactorControlM2
+			// correctionFactorControlM2X13C
 			// 
-			this.correctionFactorControlM2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorControlM2.Location = new System.Drawing.Point(400, 137);
-			this.correctionFactorControlM2.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
-			this.correctionFactorControlM2.Name = "correctionFactorControlM2";
-			this.correctionFactorControlM2.Size = new System.Drawing.Size(870, 38);
-			this.correctionFactorControlM2.TabIndex = 20;
+			this.correctionFactorControlM2X13C.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlM2X13C.Location = new System.Drawing.Point(400, 137);
+			this.correctionFactorControlM2X13C.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlM2X13C.Name = "correctionFactorControlM2X13C";
+			this.correctionFactorControlM2X13C.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlM2X13C.TabIndex = 20;
 			// 
-			// correctionFactorControlM1
+			// correctionFactorControlM13C15N
 			// 
-			this.correctionFactorControlM1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorControlM1.Location = new System.Drawing.Point(400, 197);
-			this.correctionFactorControlM1.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
-			this.correctionFactorControlM1.Name = "correctionFactorControlM1";
-			this.correctionFactorControlM1.Size = new System.Drawing.Size(870, 38);
-			this.correctionFactorControlM1.TabIndex = 21;
+			this.correctionFactorControlM13C15N.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlM13C15N.Location = new System.Drawing.Point(400, 197);
+			this.correctionFactorControlM13C15N.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlM13C15N.Name = "correctionFactorControlM13C15N";
+			this.correctionFactorControlM13C15N.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlM13C15N.TabIndex = 21;
 			// 
-			// correctionFactorControlP1
+			// correctionFactorControlM13C
 			// 
-			this.correctionFactorControlP1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorControlP1.Location = new System.Drawing.Point(400, 257);
-			this.correctionFactorControlP1.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
-			this.correctionFactorControlP1.Name = "correctionFactorControlP1";
-			this.correctionFactorControlP1.Size = new System.Drawing.Size(870, 38);
-			this.correctionFactorControlP1.TabIndex = 22;
+			this.correctionFactorControlM13C.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlM13C.Location = new System.Drawing.Point(400, 257);
+			this.correctionFactorControlM13C.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlM13C.Name = "correctionFactorControlM13C";
+			this.correctionFactorControlM13C.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlM13C.TabIndex = 22;
 			// 
-			// correctionFactorControlP2
+			// correctionFactorControlM15N
 			// 
-			this.correctionFactorControlP2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.correctionFactorControlP2.Location = new System.Drawing.Point(400, 317);
-			this.correctionFactorControlP2.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
-			this.correctionFactorControlP2.Name = "correctionFactorControlP2";
-			this.correctionFactorControlP2.Size = new System.Drawing.Size(870, 38);
-			this.correctionFactorControlP2.TabIndex = 23;
+			this.correctionFactorControlM15N.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlM15N.Location = new System.Drawing.Point(400, 317);
+			this.correctionFactorControlM15N.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlM15N.Name = "correctionFactorControlM15N";
+			this.correctionFactorControlM15N.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlM15N.TabIndex = 23;
+			// 
+			// correctionFactorControlP15N
+			// 
+			this.correctionFactorControlP15N.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlP15N.Location = new System.Drawing.Point(400, 377);
+			this.correctionFactorControlP15N.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlP15N.Name = "correctionFactorControlP15N";
+			this.correctionFactorControlP15N.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlP15N.TabIndex = 23;
+			// 
+			// correctionFactorControlP13C
+			// 
+			this.correctionFactorControlP13C.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlP13C.Location = new System.Drawing.Point(400, 437);
+			this.correctionFactorControlP13C.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlP13C.Name = "correctionFactorControlP13C";
+			this.correctionFactorControlP13C.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlP13C.TabIndex = 22;
+			// 
+			// correctionFactorControlP15N13C
+			// 
+			this.correctionFactorControlP15N13C.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlP15N13C.Location = new System.Drawing.Point(400, 497);
+			this.correctionFactorControlP15N13C.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlP15N13C.Name = "correctionFactorControlP15N13C";
+			this.correctionFactorControlP15N13C.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlP15N13C.TabIndex = 21;
+			// 
+			// correctionFactorControlP2X13C
+			// 
+			this.correctionFactorControlP2X13C.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.correctionFactorControlP2X13C.Location = new System.Drawing.Point(400, 557);
+			this.correctionFactorControlP2X13C.Margin = new System.Windows.Forms.Padding(21, 17, 21, 17);
+			this.correctionFactorControlP2X13C.Name = "correctionFactorControlP2X13C";
+			this.correctionFactorControlP2X13C.Size = new System.Drawing.Size(870, 38);
+			this.correctionFactorControlP2X13C.TabIndex = 20;
 			// 
 			// IsobaricLabelsComplexEditForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1307, 525);
+			this.ClientSize = new System.Drawing.Size(1307, 791);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
@@ -324,12 +428,20 @@ namespace BaseLib.Forms {
 		private Table.HelpLabel helpLabel7;
 		private Table.HelpLabel helpLabel5;
 		private Table.HelpLabel helpLabel3;
+		private Table.HelpLabel helpLabel14;
+		private Table.HelpLabel helpLabel15;
+		private Table.HelpLabel helpLabel16;
+		private Table.HelpLabel helpLabel17;
 		private System.Windows.Forms.CheckBox tmtLikeCheckBox;
 		private System.Windows.Forms.ComboBox internalLabelComboBox;
 		private System.Windows.Forms.ComboBox terminalLabelComboBox;
-		private System.Windows.Forms.TextBox correctionFactorControlM2;
-		private System.Windows.Forms.TextBox correctionFactorControlM1;
-		private System.Windows.Forms.TextBox correctionFactorControlP1;
-		private System.Windows.Forms.TextBox correctionFactorControlP2;
+		private System.Windows.Forms.TextBox correctionFactorControlM2X13C;
+		private System.Windows.Forms.TextBox correctionFactorControlM13C15N;
+		private System.Windows.Forms.TextBox correctionFactorControlM13C;
+		private System.Windows.Forms.TextBox correctionFactorControlM15N;
+		private System.Windows.Forms.TextBox correctionFactorControlP15N;
+		private System.Windows.Forms.TextBox correctionFactorControlP13C;
+		private System.Windows.Forms.TextBox correctionFactorControlP15N13C;
+		private System.Windows.Forms.TextBox correctionFactorControlP2X13C;
 	}
 }

@@ -2,15 +2,6 @@
 using BaseLibS.Util;
 namespace BaseLibS.Mol{
 	public class IsobaricLabelInfoSimple : IsobaricLabelInfo{
-		public readonly List<InputParameter> vals = new List<InputParameter>{
-			new InputParameter<string>("internalLabel", "internalLabel"),
-			new InputParameter<string>("terminalLabel", "terminalLabel"),
-			new InputParameter<double>("correctionFactorM2", "correctionFactorM2"),
-			new InputParameter<double>("correctionFactorM1", "correctionFactorM1"),
-			new InputParameter<double>("correctionFactorP1", "correctionFactorP1"),
-			new InputParameter<double>("correctionFactorP2", "correctionFactorP2"),
-			new InputParameter<bool>("tmtLike", "tmtLike")
-		};
 		public double correctionFactorM2;
 		public double correctionFactorM1;
 		public double correctionFactorP1;
@@ -23,6 +14,15 @@ namespace BaseLibS.Mol{
 		public IsobaricLabelInfoSimple(string internalLabel, string terminalLabel, double correctionFactorM2,
 			double correctionFactorM1, double correctionFactorP1, double correctionFactorP2, bool tmtLike) : base(
 			internalLabel, terminalLabel, tmtLike){
+			vals = new List<InputParameter>{
+				new InputParameter<string>("internalLabel", "internalLabel"),
+				new InputParameter<string>("terminalLabel", "terminalLabel"),
+				new InputParameter<double>("correctionFactorM2", "correctionFactorM2"),
+				new InputParameter<double>("correctionFactorM1", "correctionFactorM1"),
+				new InputParameter<double>("correctionFactorP1", "correctionFactorP1"),
+				new InputParameter<double>("correctionFactorP2", "correctionFactorP2"),
+				new InputParameter<bool>("tmtLike", "tmtLike")
+			};
 			foreach (InputParameter val in vals){
 				map.Add(val.Name, val);
 			}

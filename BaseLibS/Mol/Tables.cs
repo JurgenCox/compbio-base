@@ -420,9 +420,9 @@ namespace BaseLibS.Mol{
 			return result;
 		}
 
-		public static Modification[] ToModifications(IList<IsobaricLabelInfoSimple> info){
+		public static Modification[] ToModifications(IList<IsobaricLabelInfo> info){
 			List<string> modNames = new List<string>();
-			foreach (IsobaricLabelInfoSimple x in info){
+			foreach (IsobaricLabelInfo x in info){
 				if (!string.IsNullOrEmpty(x.internalLabel)){
 					modNames.Add(x.internalLabel);
 				}
