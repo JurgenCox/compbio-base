@@ -621,14 +621,14 @@ namespace BaseLib.Forms{
 			tableComplex = new DataTable2("isobaric labels table");
 			tableComplex.AddColumn(headerComplex[0], 130, ColumnType.Text, "");
 			tableComplex.AddColumn(headerComplex[1], 130, ColumnType.Text, "");
-			tableComplex.AddColumn(headerComplex[2], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[3], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[4], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[5], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[6], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[7], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[8], 99, ColumnType.Numeric);
-			tableComplex.AddColumn(headerComplex[9], 99, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[2], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[3], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[4], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[5], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[6], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[7], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[8], 103, ColumnType.Numeric);
+			tableComplex.AddColumn(headerComplex[9], 103, ColumnType.Numeric);
 			tableComplex.AddColumn(headerComplex[10], 60, ColumnType.Boolean);
 			return tableComplex;
 		}
