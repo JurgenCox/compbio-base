@@ -36,9 +36,7 @@ namespace BaseLibS.Num.Matrix{
 
 		public void TransposeInPlace(){
 			if (isConstant){
-				int tmp = nrows;
-				nrows = ncols;
-				ncols = tmp;
+				(nrows, ncols) = (ncols, nrows);
 				return;
 			}
 			vals = ArrayUtils.Transpose(vals);
@@ -111,7 +109,7 @@ namespace BaseLibS.Num.Matrix{
 		public int ColumnCount => isConstant ? ncols : vals?.GetLength(1) ?? 0;
 
 		public bool this[int i, int j]{
-			get => isConstant ? constVal : vals[i, j];
+			get => (isConstant || vals == null) ? constVal : vals[i, j];
 			set{
 				if (isConstant && value != constVal){
 					vals = new bool[nrows,ncols];
