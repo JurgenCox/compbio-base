@@ -1328,6 +1328,9 @@ namespace BaseLibS.Ms{
 			int[][] inds = RawFile.GetDiaMs2Indices(Ms2IsolationMzMin, Ms2PrevMs1Index, Ms1Count, Ms2ScanNumbers.Length - 1);
 			mzMin = new double[inds.Length];
 			mzMax = new double[inds.Length];
+			if (inds.Length == 0) {
+				return;
+			}
 			int ind = inds[0].Length / 2;
 			for (int i = 0; i < inds.Length; i++){
 				mzMin[i] = Ms2IsolationMzMin[inds[i][ind]];
