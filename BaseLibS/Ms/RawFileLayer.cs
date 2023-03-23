@@ -1343,15 +1343,22 @@ namespace BaseLibS.Ms{
 		}
 
 		private bool? isDia;
+		private bool? isFaims;
 
-		public bool CheckIfDia(){
-            if (isDia == null) {
-                isDia = RawFile.CheckForRepeatingMs2Windows(Ms2IsolationMzMin);
-            }
-			return (bool) isDia;
+		public bool CheckIfDia() {
+			if (isDia == null) {
+				isDia = RawFile.CheckForRepeatingMs2Windows(Ms2IsolationMzMin);
+			}
+			return (bool)isDia;
+		}
+		public bool CheckIfFaims() {
+			if (isFaims == null){
+				isFaims = FaimsVoltageCount > 1;
+			}
+			return (bool)isFaims;
 		}
 
-        public int GetDiaNumMs1Scans() {
+		public int GetDiaNumMs1Scans() {
             if (!CheckIfDia()) {
                 return 1;
             }
