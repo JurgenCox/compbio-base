@@ -25,6 +25,7 @@ namespace PluginRawMzMl{
 	/// and spectra are read from file on demand.
 	/// </remarks>
 	public class MzMLRawFile : RawFile{
+		private const bool hasSpecialOffset = false;
 		private const float nsigma = 3;
 		private MzGrid mzGrid;
 		private OffsetType[] offset;
@@ -77,6 +78,9 @@ namespace PluginRawMzMl{
 			PreInitOffset();
 			reader.DiscardBufferedData();
 			reader.BaseStream.Seek(0, SeekOrigin.Begin);
+			if (hasSpecialOffset){
+				reader.ReadLine();
+			}
 			using (XmlReader xml = XmlReader.Create(reader)){
 				// This might take longer than expected if <instrumentConfigurationList> is at the end of file rather than beginning.
 				xml.ReadToDescendant(Xml.InstrumentConfigurationListElementName);
@@ -344,7 +348,7 @@ namespace PluginRawMzMl{
 			}
 			mzGrid.SmoothIntensities(massesIn, intensitiesIn, out masses, out intensities);
 		}
-
+		
 		public override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin, int[] imsIndexMax,
 			bool readCentroids){
 			throw new NotImplementedException();
@@ -360,7 +364,7 @@ namespace PluginRawMzMl{
 
 		private SpectrumType DeserializeSpectrum(OffsetType offset){
 			reader.DiscardBufferedData();
-			reader.BaseStream.Seek(offset.Value, SeekOrigin.Begin);
+			reader.BaseStream.Seek(offset.Value + (hasSpecialOffset ? 1 : 0), SeekOrigin.Begin);
 			using (XmlReader xml = MzmlXmlReader(reader)){
 				xml.Read();
 				SpectrumType spectrum = (SpectrumType) Xml.SpectrumSerializer.Deserialize(xml);
@@ -541,17 +545,21 @@ namespace PluginRawMzMl{
 		private MassAnalyzerEnum MassAnalyzer(int scanNumber, ScanType scan){
 			string instrumentConfigurationRef = scan.instrumentConfigurationRef ?? defaultInstrumentConfigurationRef;
 			InstrumentConfigurationType instrumentConfiguration = instrumentConfigurations[instrumentConfigurationRef];
-			AnalyzerComponentType analyzerComponent = instrumentConfiguration.componentList.analyzer.Last();
-			Dictionary<string, string> analyzerParameters = Parameters(analyzerComponent);
-			MassAnalyzerEnum analyzer;
+			ComponentListType cl = instrumentConfiguration.componentList;
+			Dictionary<string, string> analyzerParameters = null;
+			if (cl != null){
+				AnalyzerComponentType analyzerComponent = cl.analyzer.Last();
+				analyzerParameters = Parameters(analyzerComponent);
+			} else{
+				analyzerParameters = new Dictionary<string, string>();
+			}
+			MassAnalyzerEnum analyzer = MassAnalyzerEnum.Tof;
 			if (analyzerParameters.ContainsKey(CV.FOURIER_TRANSFORM_ION_CYCLOTRON_RESONANCE_MASS_SPECTROMETER)){
 				analyzer = MassAnalyzerEnum.Ftms;
 			} else if (analyzerParameters.ContainsKey(CV.RADIAL_EJECTION_LINEAR_ION_TRAP)){
 				analyzer = MassAnalyzerEnum.Itms;
 			} else if (analyzerParameters.ContainsKey(CV.TIME_OF_FLIGHT)){
 				analyzer = MassAnalyzerEnum.Tof;
-			} else{
-				throw new ArgumentException($"Could not identify mass analyzer for spectrum {scanNumber}.");
 			}
 			return analyzer;
 		}
