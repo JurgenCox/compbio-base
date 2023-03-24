@@ -161,14 +161,13 @@ namespace PluginRawMzMl{
 						if (spectrum.precursorList != null){
 							PrecursorType precursor = spectrum.precursorList.precursor.Single();
 							Dictionary<string, string> isolationWindowParameters = Parameters(precursor.isolationWindow);
-							double ms2ParentMz =
-								Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
-							ms2IsolationMins.Add(ms2ParentMz -
-							                     Convert.ToDouble(
-								                     isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]));
-							ms2IsolationMaxs.Add(ms2ParentMz +
-							                     Convert.ToDouble(
-								                     isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]));
+							double ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
+							double dm = isolationWindowParameters.ContainsKey(CV.ISOLATION_WINDOW_LOWER_OFFSET) ? 
+								Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]) : 1.5;
+							ms2IsolationMins.Add(ms2ParentMz - dm);
+							double dp = isolationWindowParameters.ContainsKey(CV.ISOLATION_WINDOW_UPPER_OFFSET) ? 
+								Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]) : 1.5;
+							ms2IsolationMaxs.Add(ms2ParentMz + dp);
 						}
 						break;
 					case BaseLibS.Ms.MsLevel.Ms3:

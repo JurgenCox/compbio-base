@@ -80,6 +80,9 @@ namespace PluginRawMzMl{
 			double mzMin = massesIn[0] * (1 - Nsigma / 2 / Resolution);
 			double mzMax = massesIn[massesIn.Length - 1] * (1 + Nsigma / 2 / Resolution);
 			int gridIndexMin = ClosestIndex(mzMin);
+			if (gridIndexMin == 0){
+				gridIndexMin = 1;
+			}
 			int gridIndexMax = ClosestIndex(mzMax) + 1;
 			int curIndex = 0;
 			intensitiesOut = new float[gridIndexMax - gridIndexMin + 3];
@@ -93,7 +96,7 @@ namespace PluginRawMzMl{
 					intensityMin = intensitiesIn[i];
 				}
 			}
-			if (intensityMin == Double.MaxValue) intensityMin = 0;
+			if (intensityMin == double.MaxValue) intensityMin = 0;
 			for (int i = 0; i < massesIn.Length; i++){
 				double mz = massesIn[i];
 				double intensity = intensitiesIn[i] <= intensityMin ? 0 : intensitiesIn[i];
@@ -131,8 +134,8 @@ namespace PluginRawMzMl{
 			}
 			massesOut[curIndex] = _grid[gridIndexMax];
 			curIndex += 1;
-			massesOut = ArrayUtils.SubArray(massesOut, curIndex);
-			intensitiesOut = ArrayUtils.SubArray(intensitiesOut, curIndex);
+			massesOut = massesOut.SubArray(curIndex);
+			intensitiesOut = intensitiesOut.SubArray(curIndex);
 		}
 	}
 }
