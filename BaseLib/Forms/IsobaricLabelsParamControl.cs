@@ -271,7 +271,7 @@ namespace BaseLib.Forms{
 		private void ExportLabelFile(string fileName){
 			string[][] value = Value;
 			using (StreamWriter sw = new StreamWriter(fileName)){
-				sw.WriteLine(string.Join("\t", headerSimple));
+				sw.WriteLine(string.Join("\t", ComplexTableIsVisible ? headerComplex : headerSimple));
 				foreach (string[] t in value){
 					sw.WriteLine(string.Join("\t", t));
 				}
