@@ -48,7 +48,8 @@ namespace BaseLibS.Graph{
 				isShowing = false;
 			};
 			(int, int) p = screenCoords();
-			launchQuery?.Invoke(p.Item1, p.Item2 + e.Height, getWidth(), Values.Length * tfm.LineHeight + 4, tfm,
+			launchQuery?.Invoke(p.Item1, p.Item2 + e.Height, getWidth?.Invoke() ?? e.Width, 
+				Values.Length * tfm.LineHeight + 4, tfm,
 				() => {
 					isShowing = false;
 				});
