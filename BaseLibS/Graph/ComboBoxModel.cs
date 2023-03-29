@@ -29,7 +29,7 @@ namespace BaseLibS.Graph{
 		}
 		private bool isShowing;
 		public override void OnMouseIsDown(BasicMouseEventArgs e){
-			if (isShowing){
+			if (isShowing || Values == null){
 				return;
 			}
 			TextFieldModel tfm = new TextFieldModel(Values){

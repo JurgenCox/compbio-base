@@ -70,7 +70,7 @@ namespace BaseLib.Forms.Base{
 			t = DateTime.Now;
 			Click += (sender, args) => {
 				TimeSpan d = DateTime.Now - t;
-				if (d.TotalMilliseconds > 200){
+				if (d.TotalMilliseconds > 500){
 					f.Close();
 					if (onClose != null){
 						onClose();
