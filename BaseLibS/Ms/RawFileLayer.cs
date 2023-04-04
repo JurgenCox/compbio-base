@@ -1341,6 +1341,16 @@ namespace BaseLibS.Ms{
 		public int[][] GetDiaMs2Indices() {
 			return RawFile.GetDiaMs2Indices(Ms2IsolationMzMin, Ms2PrevMs1Index, Ms1Count, Ms2ScanNumbers.Length - 1);
 		}
+		public int[][] GetDiaMs2Indices(int faimsInd) {
+			int[] fi = FaimsVoltageMs2Inds[faimsInd];
+			int[][] x = RawFile.GetDiaMs2Indices(Ms2IsolationMzMin.SubArray(fi), Ms2PrevMs1Index.SubArray(fi), 
+				FaimsVoltageMs2Inds[faimsInd].Length, fi.Length - 1);
+			int[][] result = new int[x.Length][];
+			for (int i = 0; i < result.Length; i++){
+				result[i] = fi.SubArray(x[i]);
+			}
+			return result;
+		}
 
 		private bool? isDia;
 		private bool? isFaims;
