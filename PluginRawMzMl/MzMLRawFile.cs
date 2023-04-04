@@ -338,14 +338,14 @@ namespace PluginRawMzMl{
 			double[] intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 			resolution = 30000;
 			if (mzGrid == null){
-				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma);
+				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma, 0.5);
 			} else{
-				if (mzGrid.Resolution != resolution){
+				if (mzGrid.resolution != resolution){
 					throw new Exception($"Invalid grid resolution: {resolution}, " +
-					                    $"grid is already initialized with resolution: {mzGrid.Resolution}");
+					                    $"grid is already initialized with resolution: {mzGrid.resolution}");
 				}
 			}
-			mzGrid.SmoothIntensities(massesIn, intensitiesIn, out masses, out intensities);
+			mzGrid.SmoothIntensities(massesIn, ArrayUtils.ToFloats(intensitiesIn) , out masses, out intensities);
 		}
 		
 		public override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin, int[] imsIndexMax,
