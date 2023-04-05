@@ -12,11 +12,11 @@ namespace BaseLibS.Ms.Instrument{
 		public static readonly MsInstrument shimadzuTof = new ShimadzuQtof(6);
 
 		private static readonly MsInstrument[] allInstrumentsRestricted = {
-			thermoOrbi, brukerTof, sciexTof, agilentTof, brukerTims
+			thermoOrbi, brukerTof, sciexTof, agilentTof, brukerTims, watersTof
 		};
 
 		private static readonly MsInstrument[] allInstrumentsExtended =
-			ArrayUtils.Concat(allInstrumentsRestricted, new[]{watersTof, shimadzuTof});
+			ArrayUtils.Concat(allInstrumentsRestricted, new[]{shimadzuTof});
 
 		public static MsInstrument[] GetAllInstruments(bool extended){
 			return extended ? allInstrumentsExtended : allInstrumentsRestricted;

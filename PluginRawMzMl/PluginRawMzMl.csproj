@@ -11,4 +11,9 @@
   <ItemGroup>
     <ProjectReference Include="..\BaseLibS\BaseLibS.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

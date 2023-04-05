@@ -316,7 +316,7 @@ namespace PluginRawMzMl{
 			}
 			return indexListOffset;
 		}
-
+		private static readonly bool isSpecial = false;
 		public override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
 			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
 			double mzMax, bool isMs1){
@@ -335,7 +335,12 @@ namespace PluginRawMzMl{
 			BinaryDataArrayType[] binary = spectrum.binaryDataArrayList.binaryDataArray;
 			List<Dictionary<string, string>> binaryParameters = binary.Select(Parameters).ToList();
 			double[] massesIn = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
-			double[] intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
+			double[] intensitiesIn;
+			if (isSpecial){
+				intensitiesIn = FromBinaryArrayIntensities(CV.INTENSITY_ARRAY, binary, binaryParameters);
+			} else {
+				intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
+			}
 			resolution = 30000;
 			if (mzGrid == null){
 				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma, 0.5);
@@ -380,33 +385,42 @@ namespace PluginRawMzMl{
 			compressionType = CV.NUMPRESS_ALL.SingleOrDefault(parameters.ContainsKey);
 			return !string.IsNullOrEmpty(compressionType);
 		}
-
 		/// <summary>
 		/// Decompress binary array with the given name using the appropriate compression algorithm.
 		/// </summary>
 		private static double[] FromBinaryArray(string name, BinaryDataArrayType[] binary,
-			List<Dictionary<string, string>> binaryParameters){
+			List<Dictionary<string, string>> binaryParameters) {
 			int index = binaryParameters.FindIndex(parameters => parameters.ContainsKey(name));
-			if (index < 0){
+			if (index < 0) {
 				throw new ArgumentException(
 					$"Could not find matching {nameof(BinaryDataArrayType)} with name '{name}'.");
 			}
 			byte[] binaryArray = binary[index].binary;
 			Dictionary<string, string> mzParameters = binaryParameters[index];
 			bool isNumpress = TryGetNumpressCompressionType(mzParameters, out string numpressCompressionType);
-			if (isNumpress){
+			if (isNumpress) {
 				return MsNumpress.Decode(numpressCompressionType, binaryArray, binaryArray.Length);
 			}
 			bool isZlib = mzParameters.ContainsKey(CV.ZLIB_COMPRESSION);
-			if (isZlib){
+			if (isZlib) {
 				byte[] deflated = DecompressZlib(binaryArray);
 				return FromUncompressedByteArray(mzParameters, deflated);
 			}
 			bool isNoCompression = mzParameters.ContainsKey(CV.NO_COMPRESSION);
-			if (isNoCompression){
+			if (isNoCompression) {
 				return FromUncompressedByteArray(mzParameters, binaryArray);
 			}
 			throw new Exception($"Could not identify compression type of {name}.");
+		}
+		private static double[] FromBinaryArrayIntensities(string name, BinaryDataArrayType[] binary,
+			List<Dictionary<string, string>> binaryParameters) {
+			int index = binaryParameters.FindIndex(parameters => parameters.ContainsKey(name));
+			if (index < 0) {
+				throw new ArgumentException(
+					$"Could not find matching {nameof(BinaryDataArrayType)} with name '{name}'.");
+			}
+			byte[] binaryArray = binary[index].binary;
+			return ArrayUtils.ToDoubles(MzMlReader.ReadBinaryArray(binaryArray, false, 32));
 		}
 
 		/// <summary>
