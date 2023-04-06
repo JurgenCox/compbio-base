@@ -123,7 +123,8 @@ namespace PluginRawMzMl{
 					throw new Exception(
 						$"mzML rawfile {System.IO.Path.GetFileNameWithoutExtension(Path)} did not contain {nameof(IndexTypeName.spectrum)} index.");
 				}
-				offset = FilterOffset(preOffset);
+				offset = preOffset;
+				//offset = FilterOffset(preOffset);
 				using (StreamWriter sw = new StreamWriter(offsetIndexFile.OpenWrite())){
 					Xml.IndexTypeSerializer.Serialize(sw,
 						new IndexType(){name = IndexTypeName.spectrum, offset = offset});
@@ -528,12 +529,14 @@ namespace PluginRawMzMl{
 				Dictionary<string, string> isolationWindowParameters = Parameters(precursor.isolationWindow);
 				scanInfo.ms2MonoMz = double.NaN; // TODO taken from internal SciexWiffRawFile implementation
 				scanInfo.ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
-				scanInfo.ms2IsolationMin = scanInfo.ms2ParentMz -
-				                           Convert.ToDouble(
-					                           isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]);
-				scanInfo.ms2IsolationMax = scanInfo.ms2ParentMz +
-				                           Convert.ToDouble(
-					                           isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]);
+				double dm = isolationWindowParameters.ContainsKey(CV.ISOLATION_WINDOW_LOWER_OFFSET)
+					? Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET])
+					: 1.5;
+				scanInfo.ms2IsolationMin = scanInfo.ms2ParentMz - dm;
+				double dp = isolationWindowParameters.ContainsKey(CV.ISOLATION_WINDOW_UPPER_OFFSET)
+					? Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET])
+					: 1.5;
+				scanInfo.ms2IsolationMax = scanInfo.ms2ParentMz + dp;
 			}
 			return scanInfo;
 		}
