@@ -25,7 +25,6 @@ namespace PluginRawMzMl{
 	/// and spectra are read from file on demand.
 	/// </remarks>
 	public class MzMLRawFile : RawFile{
-		private const bool hasSpecialOffset = false;
 		private const float nsigma = 3;
 		private MzGrid mzGrid;
 		private OffsetType[] offset;
@@ -43,7 +42,7 @@ namespace PluginRawMzMl{
 		public override string Name => "mzML";
 		public override bool NeedsIsolationWindow => false;
 		public override bool NeedsBackgroundSubtraction => false;
-		public override MsInstrument DefaultInstrument{ get; }
+		public override MsInstrument DefaultInstrument => MsInstruments.watersTof;
 		public override bool IsInstalled => true;
 		public override bool NeedsGrid => false;
 		public override bool HasIms => false;
@@ -78,9 +77,6 @@ namespace PluginRawMzMl{
 			PreInitOffset();
 			reader.DiscardBufferedData();
 			reader.BaseStream.Seek(0, SeekOrigin.Begin);
-			if (hasSpecialOffset){
-				reader.ReadLine();
-			}
 			using (XmlReader xml = XmlReader.Create(reader)){
 				// This might take longer than expected if <instrumentConfigurationList> is at the end of file rather than beginning.
 				xml.ReadToDescendant(Xml.InstrumentConfigurationListElementName);
@@ -341,7 +337,7 @@ namespace PluginRawMzMl{
 			} else {
 				intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 			}
-			resolution = 30000;
+			resolution = 25000;
 			if (mzGrid == null){
 				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma, 0.5);
 			} else{
@@ -368,7 +364,7 @@ namespace PluginRawMzMl{
 
 		private SpectrumType DeserializeSpectrum(OffsetType offset){
 			reader.DiscardBufferedData();
-			reader.BaseStream.Seek(offset.Value + (hasSpecialOffset ? 1 : 0), SeekOrigin.Begin);
+			reader.BaseStream.Seek(offset.Value, SeekOrigin.Begin);
 			using (XmlReader xml = MzmlXmlReader(reader)){
 				xml.Read();
 				SpectrumType spectrum = (SpectrumType) Xml.SpectrumSerializer.Deserialize(xml);
