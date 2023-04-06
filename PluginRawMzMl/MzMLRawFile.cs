@@ -339,6 +339,11 @@ namespace PluginRawMzMl{
 				intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 			}
 			resolution = 25000;
+			if (massesIn.Length == 0){
+				masses = new double[0];
+				intensities = new float[0];
+				return;
+			}
 			if (mzGrid == null){
 				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma, 0.5);
 			} else{
