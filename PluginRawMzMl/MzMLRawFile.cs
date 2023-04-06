@@ -316,7 +316,7 @@ namespace PluginRawMzMl{
 			}
 			return indexListOffset;
 		}
-		private static readonly bool isSpecial = false;
+		private static readonly bool isSpecial = true;
 		public override void GetSpectrum(int scanNumberMin, int scanNumberMax, int imsIndexMin, int imsIndexMax,
 			bool readCentroids, out double[] masses, out float[] intensities, double resolution, double gridSpacing, double mzMin,
 			double mzMax, bool isMs1){
@@ -491,8 +491,10 @@ namespace PluginRawMzMl{
 				msLevel = msLevel,
 				basepeakIntensity = Convert.ToDouble(parameters[CV.BASE_PEAK_INTENSITY]),
 				tic = Convert.ToDouble(parameters[CV.TOTAL_ION_CURRENT]),
-				hasProfile = parameters.ContainsKey(CV.PROFILE_SPECTRUM),
-				hasCentroid = parameters.ContainsKey(CV.CENTROID_SPECTRUM),
+				//hasProfile = parameters.ContainsKey(CV.PROFILE_SPECTRUM),
+				//hasCentroid = parameters.ContainsKey(CV.CENTROID_SPECTRUM),
+				hasProfile = true,
+				hasCentroid = false,
 				analyzer = analyzer,
 				min = GetParameterOrNaN(CV.LOWEST_OBSERVED_M_Z, parameters),
 				max = GetParameterOrNaN(CV.HIGHEST_OBSERVED_M_Z, parameters),
