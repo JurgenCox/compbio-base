@@ -1428,12 +1428,21 @@ namespace BaseLibS.Ms{
 			return result;
 		}
 		public bool Ms1IndFitsFaimsInd(int ms2Ind, int faimsInd) {
+			if (FaimsVoltageMs1Inds.Length == 0){
+				return true;
+			}
 			return Array.BinarySearch(FaimsVoltageMs1Inds[faimsInd], ms2Ind) >= 0;
 		}
 		public bool Ms2IndFitsFaimsInd(int ms2Ind, int faimsInd) {
+			if (FaimsVoltageMs2Inds.Length == 0) {
+				return true;
+			}
 			return Array.BinarySearch(FaimsVoltageMs2Inds[faimsInd], ms2Ind) >= 0;
 		}
 		public bool Ms3IndFitsFaimsInd(int ms2Ind, int faimsInd) {
+			if (FaimsVoltageMs3Inds.Length == 0) {
+				return true;
+			}
 			return Array.BinarySearch(FaimsVoltageMs3Inds[faimsInd], ms2Ind) >= 0;
 		}
 
