@@ -48,6 +48,7 @@ namespace BaseLibS.Ms.Instrument{
 		public abstract LfqRatioType DiaLfqRatioTypeDefault { get; }
 		public double DiaPrecTolPpmFeatureClusteringDefault => 2;
 		public int DiaScoreNDefault => 12;
+		public int DiaScoreNAdditionalDefault => 12;
 		public int DiaMaxTrainInstancesDefault => 1000000;
 		public double DiaFragTolPpmFeatureClusteringDefault => 2;
 		public double DiaMinScoreDefault => 1.99;
