@@ -923,7 +923,7 @@ namespace BaseLibS.Util{
 			"translated.quality", "ms1.translated", "quantity.quality", "rt", "rt.start", "rt.stop", "irt", 
 			"predicted.rt", "predicted.irt", "lib.q.value", "lib.pg.q.value", "ms1.profile.corr", "ms1.area",
 			"evidence", "spectrum.similarity", "averagine", "mass.evidence", "cscore", "decoy.evidence", "decoy.cscore",
-			"ms2.scan", "im", "iim","predicted.im", "predicted.iim"
+			"ms2.scan", "im", "iim","predicted.im", "predicted.iim", "first score"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
