@@ -831,7 +831,8 @@ namespace BaseLibS.Util{
 			"majority library index", "library indices", "species", "matched", "crosslink type", "crosslinkingtype",
 			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files", "dn extended",
 			"dn complete", "dn agrees with andromeda", "dn agrees with andromeda complete", "dn any agrees",
-			"dn is dominantly y", "precursor found", "precursor has isotope pattern", "taxonomy ids"
+			"dn is dominantly y", "precursor found", "precursor has isotope pattern", "taxonomy ids", "precursor.charge",
+			"proteotypic"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -850,7 +851,8 @@ namespace BaseLibS.Util{
 			"aa_intralink2b", "pro_unsaturated1", "pep_unsaturated1", "aa_unsaturated1", "pro_unsaturated2",
 			"pep_unsaturated2", "aa_unsaturated2", "annotation", "deamidation (nq) probabilities",
 			"oxidation (m) probabilities", "phospho (sty) probabilities", "dn extension sequence", "dn all sequences",
-			"dn all scores", "dn all agrees"
+			"dn all scores", "dn all agrees", "file.name", "run", "protein.group", "protein.ids", "protein.names",
+			"genes", "modified.sequence", "stripped.sequence", "precursor.id", "first.protein.description"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[]{
@@ -915,11 +917,18 @@ namespace BaseLibS.Util{
 			"match k0 difference", "fragment overlap", "intensity correlation", "precursor num scans", 
 			"fragment median num scans", "number of fragments", "mass difference to range min", "mass difference to range max",
 			"sample 1/k0 - library 1/k0", "ml score", "tag length", "theor. isotope correlation", "time correlation",
-			"delta ml score"
+			"delta ml score", "pg.quantity", "pg.normalised", "pg.maxlfq", "genes.quantity", "genes.normalised", "genes.maxlfq", 
+			"genes.maxlfq.unique", "q.value", "pep", "global.q.value", "protein.q.value", "pg.q.value", "global.pg.q.value", 
+			"gg.q.value", "translated.q.value", "precursor.quantity", "precursor.normalised", "precursor.translated", 
+			"translated.quality", "ms1.translated", "quantity.quality", "rt", "rt.start", "rt.stop", "irt", 
+			"predicted.rt", "predicted.irt", "lib.q.value", "lib.pg.q.value", "ms1.profile.corr", "ms1.area",
+			"evidence", "spectrum.similarity", "averagine", "mass.evidence", "cscore", "decoy.evidence", "decoy.cscore",
+			"ms2.scan", "im", "iim","predicted.im", "predicted.iim"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
-			"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)"
+			"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)", "fragment.quant.raw", 
+			"fragment.quant.corrected", "fragment.correlations"
 		});
 	}
 }
