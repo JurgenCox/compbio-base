@@ -26,8 +26,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override int GetDiaMinPeakLengthDefault(MsDataType dataType){
 			switch (dataType){
 				case MsDataType.Proteins:
-				case MsDataType.Peptides: return 2;
-				case MsDataType.Metabolites: return 3;
+				case MsDataType.Peptides: return 1;
+				case MsDataType.Metabolites: return 2;
 				default: throw new Exception("Never get here.");
 			}
 		}

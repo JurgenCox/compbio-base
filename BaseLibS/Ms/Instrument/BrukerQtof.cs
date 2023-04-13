@@ -32,9 +32,9 @@ namespace BaseLibS.Ms.Instrument{
 			switch (dataType){
 				case MsDataType.Proteins:
 				case MsDataType.Peptides:
-					return 2;
+					return 1;
 				case MsDataType.Metabolites:
-					return 5;
+					return 2;
 				default:
 					throw new Exception("Never get here.");
 			}
