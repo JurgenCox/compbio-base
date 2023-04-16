@@ -61,7 +61,7 @@ namespace BaseLibS.Ms.Instrument{
 		public DiaXgBoostLearningObjective DiaXgBoostLearningObjectiveDefault =>
 			DiaXgBoostLearningObjective.Binarylogisticraw;
 
-		public int DiaMinFragmentOverlapScoreDefault => 1;
+		public int DiaMinFragmentOverlapScoreDefault => 0;
 		public double DiaMinPrecursorScoreDefault => 0.0;
 		public bool DiaUseProfileCorrelationDefault => true;
 		public bool DiaHardRtFilterDefault => true;
