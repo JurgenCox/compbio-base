@@ -57,6 +57,28 @@ namespace BaseLibS.Ms.Instrument{
 					throw new Exception("Never get here.");
 			}
 		}
+		public override int GetMinPeakLengthDefault(MsDataType dataType) {
+			switch (dataType) {
+				case MsDataType.Peptides:
+				case MsDataType.Proteins:
+				case MsDataType.Metabolites:
+					return 2;
+				default:
+					throw new Exception("Never get here.");
+			}
+		}
+
+		public override int GetDiaMinPeakLengthDefault(MsDataType dataType) {
+			switch (dataType) {
+				case MsDataType.Peptides:
+				case MsDataType.Proteins:
+				case MsDataType.Metabolites:
+					return 1;
+				default:
+					throw new Exception("Never get here.");
+			}
+		}
+
 
 		public sealed override double PrecursorToleranceFirstSearchDefault => 20;
 		public sealed override double PrecursorToleranceMainSearchDefault => 10;

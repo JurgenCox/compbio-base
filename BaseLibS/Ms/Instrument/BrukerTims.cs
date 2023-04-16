@@ -14,27 +14,6 @@ namespace BaseLibS.Ms.Instrument{
 		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 
 		public override int DiaTopNFragmentsForQuantDefault => 4;
-		public override int GetMinPeakLengthDefault(MsDataType dataType){
-			switch (dataType){
-				case MsDataType.Peptides:
-				case MsDataType.Proteins:
-				case MsDataType.Metabolites:
-					return 2;
-				default:
-					throw new Exception("Never get here.");
-			}
-		}
-
-		public override int GetDiaMinPeakLengthDefault(MsDataType dataType){
-			switch (dataType){
-				case MsDataType.Peptides:
-				case MsDataType.Proteins:
-				case MsDataType.Metabolites:
-					return 1;
-				default:
-					throw new Exception("Never get here.");
-			}
-		}
 		public override double GetCentroidMatchTolDefault(MsDataType dataType) {
 			return 10;
 		}

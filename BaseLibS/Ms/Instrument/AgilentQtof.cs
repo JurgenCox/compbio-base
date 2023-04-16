@@ -13,31 +13,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override double DiaMinMsmsIntensityForQuantDefault => 0;
 		public override double DiaTopMsmsIntensityQuantileForQuantDefault => 0.85;
 
-		public override int GetDiaMinPeakLengthDefault(MsDataType dataType){
-			switch (dataType){
-				case MsDataType.Peptides:
-				case MsDataType.Proteins:
-					return 2;
-				case MsDataType.Metabolites:
-					return 5;
-				default:
-					throw new Exception("Never get here.");
-			}
-		}
 		public override double GetCentroidMatchTolDefault(MsDataType dataType) {
 			return 10;
-		}
-
-		public override int GetMinPeakLengthDefault(MsDataType dataType){
-			switch (dataType){
-				case MsDataType.Peptides:
-				case MsDataType.Proteins:
-					return 3;
-				case MsDataType.Metabolites:
-					return 5;
-				default:
-					throw new Exception("Never get here.");
-			}
 		}
 
 		public override float[] SmoothIntensityProfile(float[] origProfile){

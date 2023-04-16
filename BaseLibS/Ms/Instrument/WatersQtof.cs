@@ -11,23 +11,6 @@ namespace BaseLibS.Ms.Instrument{
 		public override bool UseMs1CentroidsDefault => false;
 		public override bool UseMs2CentroidsDefault => false;
 
-		public override int GetMinPeakLengthDefault(MsDataType dataType){
-			switch (dataType){
-				case MsDataType.Peptides:
-				case MsDataType.Proteins: return 2;
-				case MsDataType.Metabolites: return 3;
-				default: throw new Exception("Never get here.");
-			}
-		}
-
-		public override int GetDiaMinPeakLengthDefault(MsDataType dataType){
-			switch (dataType){
-				case MsDataType.Peptides:
-				case MsDataType.Proteins: return 1;
-				case MsDataType.Metabolites: return 2;
-				default: throw new Exception("Never get here.");
-			}
-		}
 		public override double GetCentroidMatchTolDefault(MsDataType dataType) {
 			return 10;
 		}

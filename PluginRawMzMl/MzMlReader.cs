@@ -10,9 +10,9 @@ namespace PluginRawMzMl{
 				return new float[0];
 			}
 			if (useZlibDecompression) {
-				using (var output = new MemoryStream())
-				using (var compressed = new MemoryStream(bytes, false))
-				using (var inflator = new InflaterInputStream(compressed, new Inflater(false))) {
+				using (MemoryStream output = new MemoryStream())
+				using (MemoryStream compressed = new MemoryStream(bytes, false))
+				using (InflaterInputStream inflator = new InflaterInputStream(compressed, new Inflater(false))) {
 					inflator.CopyTo(output);
 					bytes = output.ToArray();
 				}
@@ -29,8 +29,8 @@ namespace PluginRawMzMl{
 			return ReadBinaryArray(bytes, useZlibDecompression, precision);
 		}
 		private static float[] ConvertArray(byte[] data, Func<byte[], int, float> convert, int bytesPerElement){
-			var arraySize = data.Length / bytesPerElement;
-			var array = new float[arraySize];
+			int arraySize = data.Length / bytesPerElement;
+			float[] array = new float[arraySize];
 			for (int i = 0; i < array.Length; ++i){
 				array[i] = convert(data, i * bytesPerElement);
 			}

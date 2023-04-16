@@ -133,107 +133,6 @@ namespace PluginRawMzMl{
 		}
 
 		/// <summary>
-		/// Align DIA ranges
-		/// TODO this is temporary solution
-		/// </summary>
-		/// <param name="preOffset"></param>
-		/// <returns></returns>
-		private OffsetType[] FilterOffset(OffsetType[] preOffset){
-			List<int> ms1Scans = new List<int>();
-			List<int> ms2Scans = new List<int>();
-			List<int> ms2Toms1 = new List<int>();
-			List<double> ms2IsolationMins = new List<double>();
-			List<double> ms2IsolationMaxs = new List<double>();
-			for (int i = 0; i < preOffset.Length; i++){
-				SpectrumType spectrum = DeserializeSpectrum(preOffset[i]);
-				Dictionary<string, string> parameters = Parameters(spectrum);
-				MsLevel msLevel = MsLevel(parameters);
-				switch (msLevel){
-					case BaseLibS.Ms.MsLevel.Ms1:
-						ms1Scans.Add(i);
-						break;
-					case BaseLibS.Ms.MsLevel.Ms2:
-						ms2Scans.Add(i);
-						ms2Toms1.Add(ms1Scans.Count - 1);
-						if (spectrum.precursorList != null){
-							PrecursorType precursor = spectrum.precursorList.precursor.Single();
-							Dictionary<string, string> isolationWindowParameters = Parameters(precursor.isolationWindow);
-							double ms2ParentMz = Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_TARGET_M_Z]);
-							double dm = isolationWindowParameters.ContainsKey(CV.ISOLATION_WINDOW_LOWER_OFFSET) ? 
-								Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_LOWER_OFFSET]) : 1.5;
-							ms2IsolationMins.Add(ms2ParentMz - dm);
-							double dp = isolationWindowParameters.ContainsKey(CV.ISOLATION_WINDOW_UPPER_OFFSET) ? 
-								Convert.ToDouble(isolationWindowParameters[CV.ISOLATION_WINDOW_UPPER_OFFSET]) : 1.5;
-							ms2IsolationMaxs.Add(ms2ParentMz + dp);
-						}
-						break;
-					case BaseLibS.Ms.MsLevel.Ms3:
-						throw new NotImplementedException();
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
-			}
-			Dictionary<Tuple<double, double>, int> cnt = new Dictionary<Tuple<double, double>, int>();
-			for (int i = 0; i < ms2Scans.Count; i++){
-				Tuple<double, double> key = new Tuple<double, double>(ms2IsolationMins[i], ms2IsolationMaxs[i]);
-				if (cnt.ContainsKey(key)){
-					cnt[key]++;
-				} else{
-					cnt.Add(key, 1);
-				}
-			}
-			int n = ms1Scans.Count;
-			int m = 0;
-			Dictionary<Tuple<double, double>, int> rangeIndex = new Dictionary<Tuple<double, double>, int>();
-			foreach (KeyValuePair<Tuple<double, double>, int> kv in cnt.OrderBy(x => x.Key)){
-				if (kv.Value >= ms1Scans.Count){
-					rangeIndex[kv.Key] = m++;
-				}
-			}
-			int[,] indexes = new int[n, m];
-			for (int i = 0; i < ms2Scans.Count; i++){
-				Tuple<double, double> key = new Tuple<double, double>(ms2IsolationMins[i], ms2IsolationMaxs[i]);
-				if (cnt[key] >= ms1Scans.Count){
-					indexes[ms2Toms1[i], rangeIndex[key]] = ms2Scans[i];
-				}
-			}
-
-			// If one is missing, we are copying the fake one from neighbor
-			// This is the best from worst decision!
-			for (int i = 0; i < n; i++){
-				for (int j = 0; j < m; j++){
-					if (indexes[i, j] == 0){
-						int d = 1;
-						while (i - d >= 0 || i + d < n){
-							if (i - d >= 0 && indexes[i - d, j] != 0){
-								indexes[i, j] = indexes[i - d, j];
-								break;
-							}
-							if (i + d < n && indexes[i + d, j] != 0){
-								indexes[i, j] = indexes[i + d, j];
-								break;
-							}
-							d++;
-						}
-						if (i - d < 0 && i + d >= n)
-							throw new Exception("Hopeless data - no way to patch it");
-					}
-				}
-			}
-			OffsetType[] offset1 = new OffsetType[n * m + ms1Scans.Count];
-			int ims1 = 0;
-			int ims2 = 0;
-			while ((ims1 + ims2) != offset1.Length){
-				offset1[ims1 + ims2] = preOffset[ms1Scans[ims1]];
-				ims1++;
-				for (int i = 0; i < m; i++, ims2++){
-					offset1[ims1 + ims2] = preOffset[indexes[ims1 - 1, i]];
-				}
-			}
-			return offset1;
-		}
-
-		/// <summary>
 		/// Seek the location of the indexList according to the offset and deserialize the list.
 		/// </summary>
 		private IndexListType ReadIndexList(long indexListOffset){
@@ -331,11 +230,13 @@ namespace PluginRawMzMl{
 			}
 			BinaryDataArrayType[] binary = spectrum.binaryDataArrayList.binaryDataArray;
 			List<Dictionary<string, string>> binaryParameters = binary.Select(Parameters).ToList();
-			double[] massesIn = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
+			double[] massesIn;
 			double[] intensitiesIn;
 			if (isSpecial){
-				intensitiesIn = FromBinaryArrayIntensities(CV.INTENSITY_ARRAY, binary, binaryParameters);
+				massesIn = FromBinaryArraySpecial(CV.M_Z_ARRAY, binary, binaryParameters, 64);
+				intensitiesIn = FromBinaryArraySpecial(CV.INTENSITY_ARRAY, binary, binaryParameters, 32);
 			} else {
+				massesIn = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
 				intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 			}
 			resolution = 25000;
@@ -414,15 +315,17 @@ namespace PluginRawMzMl{
 			}
 			throw new Exception($"Could not identify compression type of {name}.");
 		}
-		private static double[] FromBinaryArrayIntensities(string name, BinaryDataArrayType[] binary,
-			List<Dictionary<string, string>> binaryParameters) {
+		private static double[] FromBinaryArraySpecial(string name, BinaryDataArrayType[] binary,
+			List<Dictionary<string, string>> binaryParameters, int precision) {
 			int index = binaryParameters.FindIndex(parameters => parameters.ContainsKey(name));
 			if (index < 0) {
 				throw new ArgumentException(
 					$"Could not find matching {nameof(BinaryDataArrayType)} with name '{name}'.");
 			}
+			Dictionary<string, string> mzParameters = binaryParameters[index];
+			bool isZlib = mzParameters.ContainsKey(CV.ZLIB_COMPRESSION);
 			byte[] binaryArray = binary[index].binary;
-			return ArrayUtils.ToDoubles(MzMlReader.ReadBinaryArray(binaryArray, false, 32));
+			return ArrayUtils.ToDoubles(MzMlReader.ReadBinaryArray(binaryArray, isZlib, precision));
 		}
 
 		/// <summary>
