@@ -1363,7 +1363,7 @@ namespace BaseLibS.Ms{
 		}
 		public bool CheckIfFaims() {
 			if (isFaims == null){
-				isFaims = FaimsVoltageCount > 1;
+				isFaims = FaimsVoltageCount > 0;
 			}
 			return (bool)isFaims;
 		}
