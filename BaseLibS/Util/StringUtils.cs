@@ -491,7 +491,7 @@ namespace BaseLibS.Util{
 			new HashSet<char>(new[]{'\\', '/', ':', '*', '?', '\"', '<', '>', '|'});
 
 		/// <summary>
-		/// Replaces occurence of characters that are problematic in file names or paths with an underscore.
+		/// Replaces occurrence of characters that are problematic in file names or paths with an underscore.
 		/// </summary>
 		public static string ReplaceCharactersForFilename(string str){
 			return ReplaceCharactersForFilename(str, '_');
@@ -553,7 +553,7 @@ namespace BaseLibS.Util{
 		};
 
 		/// <summary>
-		/// Replaces the occurence in the given string of the chs[][0] vector with the chs[][1]. Predefined
+		/// Replaces the occurrence in the given string of the chs[][0] vector with the chs[][1]. Predefined
 		/// values can be found in <see cref="invalidR"/> and <see cref="notInFilenames"/>.
 		/// </summary>
 		/// <param name="str">The string to be converted</param>
@@ -832,7 +832,7 @@ namespace BaseLibS.Util{
 			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files", "dn extended",
 			"dn complete", "dn agrees with andromeda", "dn agrees with andromeda complete", "dn any agrees",
 			"dn is dominantly y", "precursor found", "precursor has isotope pattern", "taxonomy ids", "precursor.charge",
-			"proteotypic"
+			"proteotypic", "taxonomy names"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
