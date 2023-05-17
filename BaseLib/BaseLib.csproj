@@ -277,37 +277,6 @@
       <DependentUpon>TestParseRuleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UnsafeBitmap.cs" />
-    <Compile Include="Functions\LogarithmicTransform.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Functions\LogarithmicTransform.Designer.cs">
-      <DependentUpon>LogarithmicTransform.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Functions\Transform.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Functions\Transform.Designer.cs">
-      <DependentUpon>Transform.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Functions\HyperLogTransform.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Functions\HyperLogTransform.Designer.cs">
-      <DependentUpon>HyperLogTransform.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Functions\ArcSinhTransform.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Functions\ArcSinhTransform.Designer.cs">
-      <DependentUpon>ArcSinhTransform.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Functions\CyTOFfunctions.cs" />
-    <Compile Include="Functions\BiexTransform.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Functions\BiexTransform.Designer.cs">
-      <DependentUpon>BiexTransform.cs</DependentUpon>
-    </Compile>
     <Compile Include="Graphic\BaseDrawControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -513,21 +482,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TestParseRuleForm.resx">
       <DependentUpon>TestParseRuleForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Functions\LogarithmicTransform.resx">
-      <DependentUpon>LogarithmicTransform.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Functions\Transform.resx">
-      <DependentUpon>Transform.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Functions\HyperLogTransform.resx">
-      <DependentUpon>HyperLogTransform.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Functions\ArcSinhTransform.resx">
-      <DependentUpon>ArcSinhTransform.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Functions\BiexTransform.resx">
-      <DependentUpon>BiexTransform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Param\ParameterForm.resx">
       <DependentUpon>ParameterForm.cs</DependentUpon>
