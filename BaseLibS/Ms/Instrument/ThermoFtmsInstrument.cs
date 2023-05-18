@@ -33,7 +33,6 @@ namespace BaseLibS.Ms.Instrument{
 		public override bool UseMs2CentroidsDefault => false;
 		public override double MinScoreForCalibrationDefault => 70;
 		public override bool CheckMassDeficitDefault => true;
-		public override int DiaTopNFragmentsForQuantDefault => 10;
 
 		public override bool GetAdvancedPeakSplittingDefault(MsDataType dataType){
 			switch (dataType){

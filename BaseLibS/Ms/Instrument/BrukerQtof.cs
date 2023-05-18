@@ -11,6 +11,5 @@ namespace BaseLibS.Ms.Instrument{
 		public override bool UseMs1CentroidsDefault => true;
 		public override bool UseMs2CentroidsDefault => true;
 		public override double DiaMinMsmsIntensityForQuantDefault => 30;
-		public override int DiaTopNFragmentsForQuantDefault => 4;
 	}
 }
