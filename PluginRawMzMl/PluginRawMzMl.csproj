@@ -13,7 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\DLLs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
