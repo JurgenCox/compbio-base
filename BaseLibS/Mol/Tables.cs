@@ -207,25 +207,30 @@ namespace BaseLibS.Mol{
 			List<string> result2 = new List<string>();
 			List<string> result3 = new List<string>();
 			List<string> result4 = new List<string>();
+			List<string> result5 = new List<string>();
 			foreach (string m in Modifications.Keys){
-				if (Modifications[m].ModificationType == ModificationType.Standard){
+				if (Modifications[m].ModificationType == ModificationType.Standard) {
 					result1.Add(m);
 				}
-				if (Modifications[m].ModificationType == ModificationType.Glycan){
+				if (Modifications[m].ModificationType == ModificationType.SequenceBasedModifier) {
 					result2.Add(m);
 				}
-				if (Modifications[m].ModificationType == ModificationType.CleavedCrosslink){
+				if (Modifications[m].ModificationType == ModificationType.Glycan){
 					result3.Add(m);
 				}
-				if (Modifications[m].ModificationType == ModificationType.AaSubstitution){
+				if (Modifications[m].ModificationType == ModificationType.CleavedCrosslink){
 					result4.Add(m);
+				}
+				if (Modifications[m].ModificationType == ModificationType.AaSubstitution){
+					result5.Add(m);
 				}
 			}
 			result1.Sort();
 			result2.Sort();
 			result3.Sort();
 			result4.Sort();
-			return ArrayUtils.Concat(ArrayUtils.Concat(ArrayUtils.Concat(result1, result2), result3), result4);
+			result5.Sort();
+			return ArrayUtils.Concat(ArrayUtils.Concat(ArrayUtils.Concat(ArrayUtils.Concat(result1, result2), result3), result4), result5);
 		}
 
 		public static string[] GetCleavedCrosslinkModifications(){
