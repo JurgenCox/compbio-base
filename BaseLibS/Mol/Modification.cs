@@ -56,9 +56,6 @@ namespace BaseLibS.Mol {
 		[XmlElement("type", typeof(ModificationType))]
 		public ModificationType ModificationType { get; set; } = ModificationType.Standard;
 
-		[XmlElement("terminus_type", typeof(NewTerminusType))]
-		public NewTerminusType NewTerminusType { get; set; } = NewTerminusType.none;
-
 		public int AaCount => sites.Length;
 		public string Abbreviation => Name.Substring(0, 2).ToLower();
 		public bool IsPhosphorylation => Math.Abs(deltaMass - 79.96633) < 0.0001;
