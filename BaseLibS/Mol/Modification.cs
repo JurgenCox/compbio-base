@@ -16,7 +16,7 @@ namespace BaseLibS.Mol {
 		public double DeltaMass {
 			get {
 				if (double.IsNaN(deltaMass)) {
-					deltaMass = ChemElements.GetMassFromComposition(Composition);
+					deltaMass = ChemElements.GetMassFromComposition(GetComposition());
 				}
 				return deltaMass;
 			}
@@ -24,6 +24,10 @@ namespace BaseLibS.Mol {
 		}
 
 		[XmlAttribute("composition")] public string Composition { get; set; }
+		public string GetComposition(){
+			return ModificationType == ModificationType.SequenceBasedModifier ? 
+				SequenceBasedModifiers.GetCompositionFromSequence(Composition) : Composition;
+		}
 		[XmlAttribute("filename"), XmlIgnore] public string Filename { get; set; }
 
 		/// <summary>
@@ -139,7 +143,7 @@ namespace BaseLibS.Mol {
 		}
 
 		public string GetFormula() {
-			string formula = Composition;
+			string formula = GetComposition();
 			formula = formula.Replace("(", "");
 			formula = formula.Replace(")", "");
 			formula = formula.Replace(" ", "");
