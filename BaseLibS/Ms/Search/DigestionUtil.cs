@@ -92,7 +92,6 @@ namespace BaseLibS.Ms.Search{
 		}
 		public static void DigestToFile(string proteinSequence, string proteinAccession, EnzymeMode enzymeMode, int minPepLen,
 			int maxPepLen, int missedCleavages, Enzyme[] enzymes, StreamWriter writer) {
-			List<string> peptides = new List<string>();
 			Digest(proteinSequence, proteinAccession, enzymeMode, minPepLen,
 				maxPepLen, missedCleavages, enzymes, (pepSeq, nterm, cterm) => { writer.WriteLine(pepSeq); });
 		}
