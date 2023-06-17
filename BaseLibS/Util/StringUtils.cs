@@ -832,7 +832,8 @@ namespace BaseLibS.Util{
 			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files", "dn extended",
 			"dn complete", "dn agrees with andromeda", "dn agrees with andromeda complete", "dn any agrees",
 			"dn is dominantly y", "precursor found", "precursor has isotope pattern", "taxonomy ids", "precursor.charge",
-			"proteotypic", "taxonomy names", "dia evidence type"
+			"proteotypic", "taxonomy names", "dia evidence type", "precursorcharge",
+			"nterm", "cterm", "fragmenttype", "fragmentcharge", "fragmentseriesnumber", "fragmentlosstype", "excludefromassay"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -852,7 +853,9 @@ namespace BaseLibS.Util{
 			"pep_unsaturated2", "aa_unsaturated2", "annotation", "deamidation (nq) probabilities",
 			"oxidation (m) probabilities", "phospho (sty) probabilities", "dn extension sequence", "dn all sequences",
 			"dn all scores", "dn all agrees", "file.name", "run", "protein.group", "protein.ids", "protein.names",
-			"genes", "modified.sequence", "stripped.sequence", "precursor.id", "first.protein.description"
+			"genes", "modified.sequence", "stripped.sequence", "precursor.id", "first.protein.description",
+			"transition_name", "peptidesequence", "proteingroup", "fullunimodpeptidename", "modifiedpeptide",
+			"peptidegrouplabel", "uniprotid", 
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[]{
@@ -923,7 +926,8 @@ namespace BaseLibS.Util{
 			"translated.quality", "ms1.translated", "quantity.quality", "rt", "rt.start", "rt.stop", "irt", 
 			"predicted.rt", "predicted.irt", "lib.q.value", "lib.pg.q.value", "ms1.profile.corr", "ms1.area",
 			"evidence", "spectrum.similarity", "averagine", "mass.evidence", "cscore", "decoy.evidence", "decoy.cscore",
-			"ms2.scan", "im", "iim","predicted.im", "predicted.iim", "first score"
+			"ms2.scan", "im", "iim","predicted.im", "predicted.iim", "first score", "precursormz", "productmz", 
+			"tr_recalibrated", "ionmobility", "libraryintensity", "qvalue", "pgqvalue", "ms1profilecorr"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
