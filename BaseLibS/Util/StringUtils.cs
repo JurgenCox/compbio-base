@@ -833,7 +833,7 @@ namespace BaseLibS.Util{
 			"dn complete", "dn agrees with andromeda", "dn agrees with andromeda complete", "dn any agrees",
 			"dn is dominantly y", "precursor found", "precursor has isotope pattern", "taxonomy ids", "precursor.charge",
 			"proteotypic", "taxonomy names", "dia evidence type", "precursorcharge",
-			"nterm", "cterm", "fragmenttype", "fragmentcharge", "fragmentseriesnumber", "fragmentlosstype", "excludefromassay"
+			"nterm", "cterm", "fragmenttype", "fragmentcharge", "fragmentlosstype", "excludefromassay"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -927,7 +927,8 @@ namespace BaseLibS.Util{
 			"predicted.rt", "predicted.irt", "lib.q.value", "lib.pg.q.value", "ms1.profile.corr", "ms1.area",
 			"evidence", "spectrum.similarity", "averagine", "mass.evidence", "cscore", "decoy.evidence", "decoy.cscore",
 			"ms2.scan", "im", "iim","predicted.im", "predicted.iim", "first score", "precursormz", "productmz", 
-			"tr_recalibrated", "ionmobility", "libraryintensity", "qvalue", "pgqvalue", "ms1profilecorr"
+			"tr_recalibrated", "ionmobility", "libraryintensity", "qvalue", "pgqvalue", "ms1profilecorr", 
+			"fragmentseriesnumber"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
