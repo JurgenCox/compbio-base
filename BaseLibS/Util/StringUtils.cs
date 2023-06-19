@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using BaseLibS.Mol;
 namespace BaseLibS.Util{
 	public static class StringUtils{
 		/// <summary>
@@ -832,8 +832,9 @@ namespace BaseLibS.Util{
 			"missed cleavages", "library index", "rank", "evidence id", "protein group ids", "raw files", "dn extended",
 			"dn complete", "dn agrees with andromeda", "dn agrees with andromeda complete", "dn any agrees",
 			"dn is dominantly y", "precursor found", "precursor has isotope pattern", "taxonomy ids", "precursor.charge",
-			"proteotypic", "taxonomy names", "dia evidence type", "precursorcharge",
-			"nterm", "cterm", "fragmenttype", "fragmentcharge", "fragmentlosstype", "excludefromassay"
+			"proteotypic", "taxonomy names", "dia evidence type", "precursorcharge", "nterm", "cterm", "fragmenttype", 
+			"fragmentcharge", "fragmentlosstype", "excludefromassay", "splicing type", "splicing form", "precursor charge",
+			"proteolytic enzyme", "activation", "cell line"
 		});
 
 		public static readonly HashSet<string> textualColDefaultNames = new HashSet<string>(new[]{
@@ -855,7 +856,7 @@ namespace BaseLibS.Util{
 			"dn all scores", "dn all agrees", "file.name", "run", "protein.group", "protein.ids", "protein.names",
 			"genes", "modified.sequence", "stripped.sequence", "precursor.id", "first.protein.description",
 			"transition_name", "peptidesequence", "proteingroup", "fullunimodpeptidename", "modifiedpeptide",
-			"peptidegrouplabel", "uniprotid", 
+			"peptidegrouplabel", "uniprotid", "gene name", "peptide sequence"
 		});
 
 		public static readonly HashSet<string> numericColDefaultNames = new HashSet<string>(new[]{
@@ -928,7 +929,7 @@ namespace BaseLibS.Util{
 			"evidence", "spectrum.similarity", "averagine", "mass.evidence", "cscore", "decoy.evidence", "decoy.cscore",
 			"ms2.scan", "im", "iim","predicted.im", "predicted.iim", "first score", "precursormz", "productmz", 
 			"tr_recalibrated", "ionmobility", "libraryintensity", "qvalue", "pgqvalue", "ms1profilecorr", 
-			"fragmentseriesnumber"
+			"fragmentseriesnumber", "precursor <i>m/z</i>", "precursor rt (mins)"
 		});
 
 		public static readonly HashSet<string> multiNumericColDefaultNames = new HashSet<string>(new[]{
