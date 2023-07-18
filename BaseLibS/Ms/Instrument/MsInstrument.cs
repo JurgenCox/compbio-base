@@ -54,7 +54,8 @@ namespace BaseLibS.Ms.Instrument{
 		public double DiaMinScoreDefault => 1.99;
 		public DiaQuantMethod DiaQuantMethodDefault => DiaQuantMethod.MixedLfqSplit;
 		public DiaFeatureQuantMethod DiaFeatureQuantMethodDefault => DiaFeatureQuantMethod.Sum;
-		public int DiaTopNFragmentsForQuantDefault => 10;
+		public int DiaTopNFragmentsForQuantDefault => 12;
+		public int DiaTopNCorrelationForQuantDefault => 7;
 		public abstract double DiaMinMsmsIntensityForQuantDefault { get; }
 		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault { get; }
 
