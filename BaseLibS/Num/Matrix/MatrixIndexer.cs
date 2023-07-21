@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Num.Vector;
 
 namespace BaseLibS.Num.Matrix {
@@ -51,6 +52,7 @@ namespace BaseLibS.Num.Matrix {
 
 		public abstract object Clone();
 		public abstract void Dispose();
+		public abstract void Write(BinaryWriter writer);
 
 		public bool Equals(MatrixIndexer other) {
 			if (other == null) {

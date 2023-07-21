@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Num.Vector;
-
+using BaseLibS.Util;
 namespace BaseLibS.Num.Matrix{
 	[Serializable]
 	public class FloatMatrixIndexer : MatrixIndexer{
 		private float[][,] vals;
 		private bool isConstant;
-		private readonly float constVal;
+		private float constVal;
 		private int nrows;
 		private int ncols;
 		public FloatMatrixIndexer(){ }
@@ -27,6 +28,20 @@ namespace BaseLibS.Num.Matrix{
 			this.ncols = ncols;
 		}
 
+		public FloatMatrixIndexer(BinaryReader reader){
+			vals = FileUtils.Read3DFloatArray2(reader);
+			isConstant = reader.ReadBoolean();
+			constVal = reader.ReadSingle();
+			nrows = reader.ReadInt32();
+			ncols = reader.ReadInt32();
+		}
+		public override void Write(BinaryWriter writer){
+			FileUtils.Write(vals, writer);
+			writer.Write(isConstant);
+			writer.Write(constVal);
+			writer.Write(nrows);
+			writer.Write(ncols);
+		}
 		internal const int maxArraySize = int.MaxValue / 4;
 
 		public override void Init(int nrows1, int ncols1){
@@ -44,9 +59,7 @@ namespace BaseLibS.Num.Matrix{
 
 		public void TransposeInPlace(){
 			if (isConstant){
-				int tmp = nrows;
-				nrows = ncols;
-				ncols = tmp;
+				(nrows, ncols) = (ncols, nrows);
 				return;
 			}
 			if (vals != null){

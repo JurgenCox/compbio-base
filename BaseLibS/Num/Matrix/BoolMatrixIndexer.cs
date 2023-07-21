@@ -1,11 +1,12 @@
 ﻿using System;
-
+using System.IO;
+using BaseLibS.Util;
 namespace BaseLibS.Num.Matrix{
 	[Serializable]
 	public class BoolMatrixIndexer : IBoolMatrixIndexer{
 		private bool[,] vals;
 		private bool isConstant;
-		private readonly bool constVal;
+		private bool constVal;
 		private int nrows;
 		private int ncols;
 
@@ -20,7 +21,21 @@ namespace BaseLibS.Num.Matrix{
 			this.ncols = ncols;
 		}
 
-		public BoolMatrixIndexer(){ }
+		public BoolMatrixIndexer() { }
+		public BoolMatrixIndexer(BinaryReader reader){
+			vals = FileUtils.Read2DBooleanArray2(reader);
+			isConstant = reader.ReadBoolean();
+			constVal = reader.ReadBoolean();
+			nrows = reader.ReadInt32();
+			ncols = reader.ReadInt32();
+		}
+		public void Write(BinaryWriter writer){
+			FileUtils.Write(vals, writer);
+			writer.Write(isConstant);
+			writer.Write(constVal);
+			writer.Write(nrows);
+			writer.Write(ncols);
+		}
 
 		public void Init(int nrows1, int ncols1){
 			isConstant = false;
@@ -135,7 +150,7 @@ namespace BaseLibS.Num.Matrix{
 			if (isConstant){
 				return new BoolMatrixIndexer(constVal, nrows, ncols);
 			}
-			return vals == null ? new BoolMatrixIndexer(null) : new BoolMatrixIndexer((bool[,]) vals.Clone());
+			return vals == null ? new BoolMatrixIndexer((bool[,])null) : new BoolMatrixIndexer((bool[,]) vals.Clone());
 		}
 
 		public bool Equals(IBoolMatrixIndexer other){

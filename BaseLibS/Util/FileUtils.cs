@@ -768,13 +768,24 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static void Write(double[,] x, BinaryWriter writer){
+		public static void Write(double[,] x, BinaryWriter writer) {
 			int n1 = x.GetLength(0);
 			int n2 = x.GetLength(1);
 			writer.Write(n1);
 			writer.Write(n2);
-			for (int i = 0; i < n1; i++){
-				for (int j = 0; j < n2; j++){
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static void Write(bool[,] x, BinaryWriter writer) {
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
 					writer.Write(x[i, j]);
 				}
 			}
@@ -1058,13 +1069,25 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
-		public static double[,] Read2DDoubleArray2(BinaryReader reader){
+		public static double[,] Read2DDoubleArray2(BinaryReader reader) {
 			int n1 = reader.ReadInt32();
 			int n2 = reader.ReadInt32();
 			double[,] result = new double[n1, n2];
-			for (int i = 0; i < n1; i++){
-				for (int j = 0; j < n2; j++){
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
 					result[i, j] = reader.ReadDouble();
+				}
+			}
+			return result;
+		}
+
+		public static bool[,] Read2DBooleanArray2(BinaryReader reader) {
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			bool[,] result = new bool[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadBoolean();
 				}
 			}
 			return result;

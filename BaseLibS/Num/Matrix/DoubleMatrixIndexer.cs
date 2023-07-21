@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Num.Vector;
-
+using BaseLibS.Util;
 namespace BaseLibS.Num.Matrix {
 	[Serializable]
 	public class DoubleMatrixIndexer : MatrixIndexer {
@@ -123,7 +124,9 @@ namespace BaseLibS.Num.Matrix {
 		public override void Dispose() {
 			vals = null;
 		}
-
+		public override void Write(BinaryWriter writer){
+			FileUtils.Write(vals, writer);
+		}
 		public override object Clone() {
 			return vals == null ? new DoubleMatrixIndexer(null) : new DoubleMatrixIndexer((double[,])vals.Clone());
 		}

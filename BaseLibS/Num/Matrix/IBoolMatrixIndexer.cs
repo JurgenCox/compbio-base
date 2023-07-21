@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 namespace BaseLibS.Num.Matrix {
 	public interface IBoolMatrixIndexer : ICloneable, IDisposable, IEquatable<IBoolMatrixIndexer> {
 		void Init(int nrows, int ncols);
@@ -16,5 +16,6 @@ namespace BaseLibS.Num.Matrix {
 		void ExtractColumnsInPlace(int[] columns);
 		IBoolMatrixIndexer Transpose();
 		void TransposeInPlace();
+		void Write(BinaryWriter writer);
 	}
 }

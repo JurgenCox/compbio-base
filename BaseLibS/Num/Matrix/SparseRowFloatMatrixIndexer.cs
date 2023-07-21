@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Num.Vector;
 
 namespace BaseLibS.Num.Matrix{
@@ -14,6 +15,13 @@ namespace BaseLibS.Num.Matrix{
 		}
 
 		private SparseRowFloatMatrixIndexer(){}
+		public override void Write(BinaryWriter writer) {
+			writer.Write(ncolumns);
+			writer.Write(vals.Length);
+			foreach (SparseFloatVector val in vals) {
+				val.Write(writer);
+			}
+		}
 
 		public override void Init(int nrows, int ncolumns1){
 			ncolumns = ncolumns1;
