@@ -56,6 +56,7 @@ namespace BaseLibS.Ms.Instrument{
 		public DiaFeatureQuantMethod DiaFeatureQuantMethodDefault => DiaFeatureQuantMethod.Sum;
 		public int DiaTopNFragmentsForQuantDefault => 12;
 		public int DiaTopNCorrelationForQuantDefault => 7;
+		public double DiaFragmentCorrelationForQuantDefault => 0.5;
 		public abstract double DiaMinMsmsIntensityForQuantDefault { get; }
 		public abstract double DiaTopMsmsIntensityQuantileForQuantDefault { get; }
 
