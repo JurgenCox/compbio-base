@@ -218,6 +218,10 @@ namespace BaseLibS.Parse.Uniprot {
 		public static DbReferenceType phibase = new DbReferenceType("phi-base");
 		public static DbReferenceType ABCD = new DbReferenceType("abcd");
 		public static DbReferenceType NIAGADS = new DbReferenceType("niagads");
+        public static DbReferenceType AlphaFoldDB = new DbReferenceType("AlphaFoldDB");
+        public static DbReferenceType SASBDB = new DbReferenceType("SASBDB ");
+        public static DbReferenceType interactions = new DbReferenceType("interactions");
+        public static DbReferenceType GlyGen = new DbReferenceType("GlyGen");
 
 		public static string[] allDbReferenceTypeStrings;
 		public static DbReferenceType[] allDbReferenceTypes = CreateDbReferenceTypeList();
@@ -436,7 +440,11 @@ namespace BaseLibS.Parse.Uniprot {
 				PlantReactome,
 				MassIVE,
 				Pharos,
-				Antibodypedia
+				Antibodypedia,
+                AlphaFoldDB,
+                SASBDB,
+                interactions,
+                GlyGen
 			};
 
 			allDbReferenceTypeStrings = new string[ft.Count];
