@@ -82,6 +82,7 @@ namespace BaseLibS.Ms.Instrument{
 
 		public bool DiaGlobalMlDefault => true;
 		public double DiaTransferQvalueDefault => 0.3;
+		public double DiaTransferQvalueBetweenLabelsDefault => 0.01;
 		public bool CutPeaksDefault => true;
 		public int GapScansDefault => 1;
 		public bool DiaAdaptiveMlScoringDefault => false;
