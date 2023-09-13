@@ -239,21 +239,9 @@ namespace PluginRawMzMl{
 				massesIn = FromBinaryArray(CV.M_Z_ARRAY, binary, binaryParameters);
 				intensitiesIn = FromBinaryArray(CV.INTENSITY_ARRAY, binary, binaryParameters);
 			}
-			resolution = 25000;
-			if (massesIn.Length == 0){
-				masses = new double[0];
-				intensities = new float[0];
-				return;
-			}
-			if (mzGrid == null){
-				mzGrid = new MzGrid(massesIn.Min() - 1, massesIn.Max() + 1, resolution, nsigma, 0.5);
-			} else{
-				if (mzGrid.resolution != resolution){
-					throw new Exception($"Invalid grid resolution: {resolution}, " +
-					                    $"grid is already initialized with resolution: {mzGrid.resolution}");
-				}
-			}
-			mzGrid.SmoothIntensities(massesIn, ArrayUtils.ToFloats(intensitiesIn) , out masses, out intensities);
+			masses = massesIn;
+			intensities = ArrayUtils.ToFloats(intensitiesIn);
+			return;
 		}
 		
 		public override IntSpectrum[] GetSpectrum(int scanNumberMin, int scanNumberMax, int[] imsIndexMin, int[] imsIndexMax,

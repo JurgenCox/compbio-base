@@ -7,8 +7,8 @@ namespace BaseLibS.Ms.Instrument{
 		public override double IntensityThresholdMs1DdaDefault => 15;
 		public override double IntensityThresholdMs1DiaDefault => 15;
 		public override double IntensityThresholdMs2Default => 10;
-		public override bool UseMs1CentroidsDefault => false;
-		public override bool UseMs2CentroidsDefault => false;
+		public override bool UseMs1CentroidsDefault => true;
+		public override bool UseMs2CentroidsDefault => true;
 		public override double DiaMinMsmsIntensityForQuantDefault => 0;
 	}
 }
