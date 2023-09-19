@@ -16,13 +16,21 @@ namespace BaseLibS.Mol{
 			return specificity.Contains("" + c1 + c2);
 		}
 
-		public bool CleavesAnyCterm(char c){
-			foreach (string s in specificity){
-				if (s[0] == c){
+		public bool CleavesAnyCterm(char c) {
+			foreach (string s in specificity) {
+				if (s[0] == c) {
 					return true;
 				}
 			}
 			return false;
+		}
+
+		public HashSet<char> Sites0() {
+			HashSet<char> result = new HashSet<char>();
+			foreach (string s in specificity){
+				result.Add(s[0]);
+			}
+			return result;
 		}
 
 		public bool CleavesAnyNterm(char c){
