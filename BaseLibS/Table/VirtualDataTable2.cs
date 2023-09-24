@@ -1,22 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-
+using BaseLibS.Util;
 namespace BaseLibS.Table{
 	[Serializable]
 	public sealed class VirtualDataTable2 : TableModelImpl, ITable{
 		public Func<int, object[]> GetRowData { private get; set; }
-		private long rowInUse = -1;
-		private object[] rowDataInUse;
 		private readonly int rowCount;
 		private List<int> persistentColInds;
 		private DataTable2 persistentTable;
+		//transient
+		private long rowInUse = -1;
+		private object[] rowDataInUse;
 
 		public VirtualDataTable2(string name, string description, int rowCount) : base(name, description){
 			this.rowCount = rowCount;
 		}
 
+		//TODO
+		public VirtualDataTable2(BinaryReader reader, Func<int, object[]> getRowData): base(reader){
+			GetRowData = getRowData;
+			rowCount = reader.ReadInt32();
+			persistentColInds = new List<int>(FileUtils.ReadInt32Array(reader));
+
+		}
 		private VirtualDataTable2(SerializationInfo info, StreamingContext context) : base(info, context){
 			GetRowData = (Func<int, object[]>) info.GetValue("GetRowData", typeof (Func<int, object[]>));
 			rowCount = info.GetInt32("rowCount");

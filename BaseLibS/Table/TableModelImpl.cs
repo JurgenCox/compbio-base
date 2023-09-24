@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -28,6 +29,9 @@ namespace BaseLibS.Table{
 			Description = description;
 		}
 
+		protected TableModelImpl(BinaryReader reader){
+
+		}
 		protected TableModelImpl(SerializationInfo info, StreamingContext ctxt){
 			Name = info.GetString("Name");
 			Description = info.GetString("Description");
