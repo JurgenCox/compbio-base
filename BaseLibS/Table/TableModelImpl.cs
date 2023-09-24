@@ -156,32 +156,5 @@ namespace BaseLibS.Table{
 			columnTypes.Add(columnType);
 			columnDescriptions.Add(description);
 		}
-
-		public static string ColumnTypeToString(ColumnType ct){
-			switch (ct){
-				case ColumnType.Boolean:
-					return "C";
-				case ColumnType.Categorical:
-					return "C";
-				case ColumnType.Color:
-					return "C";
-				case ColumnType.DateTime:
-					return "T";
-				case ColumnType.DashStyle:
-					return "C";
-				case ColumnType.Integer:
-					return "N";
-				case ColumnType.MultiInteger:
-					return "M";
-				case ColumnType.MultiNumeric:
-					return "M";
-				case ColumnType.Numeric:
-					return "N";
-				case ColumnType.Text:
-					return "T";
-				default:
-					return "T";
-			}
-		}
 	}
 }
