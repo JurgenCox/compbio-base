@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-
+using BaseLibS.Util;
 namespace BaseLibS.Table{
 	/// <summary>
 	/// Partial implementation of <code>ITableModel</code>, implementing all functionality that is shared 
@@ -30,6 +30,18 @@ namespace BaseLibS.Table{
 		}
 
 		protected TableModelImpl(BinaryReader reader){
+			Name = reader.ReadString();
+			Description = reader.ReadString();
+			columnNames = new List<string>(FileUtils.ReadStringArray(reader));
+			columnWidths = new List<int>(FileUtils.ReadInt32Array(reader));
+			columnTypes = new List<ColumnType>();
+			int n = reader.ReadInt32();
+			for (int i = 0; i < n; i++){
+				columnTypes.Add((ColumnType)reader.ReadInt32());
+			}
+
+
+
 
 		}
 		protected TableModelImpl(SerializationInfo info, StreamingContext ctxt){
