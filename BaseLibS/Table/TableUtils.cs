@@ -1,6 +1,8 @@
 ﻿using BaseLibS.Util;
 using System.IO;
 using System;
+using BaseLibS.Drawing;
+using BaseLibS.Symbol;
 
 namespace BaseLibS.Table {
 	public static class TableUtils {
@@ -123,6 +125,27 @@ namespace BaseLibS.Table {
 					throw new Exception("Not implemented.");
 				default:
 					throw new Exception("Never get here.");
+			}
+		}
+		//TODO
+		public static RenderTableCell GetCellRenderer(ColumnType type){
+			switch (type){
+				case ColumnType.SymbolType:
+					return (g1, selected, o, width, x1, y1) => {
+						IGraphics g = g1;
+						int index = (int)o;
+						if (index < 0) {
+							return;
+						}
+						SymbolType stype = SymbolType.allSymbols[index];
+						if (selected) {
+							stype.Draw(13, x1 + 9, y1 + 11, g, Pens2.White, Brushes2.White);
+						} else {
+							stype.Draw(13, x1 + 9, y1 + 11, g, Pens2.Red, Brushes2.Red);
+						}
+					};
+				default:
+					return null;
 			}
 		}
 	}

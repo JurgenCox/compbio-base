@@ -9,6 +9,7 @@
 		Boolean,
 		DateTime,
 		Color,
-		DashStyle
+		DashStyle,
+		SymbolType
 	}
 }

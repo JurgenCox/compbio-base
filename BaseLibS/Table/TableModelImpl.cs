@@ -17,7 +17,6 @@ namespace BaseLibS.Table{
 		protected readonly List<string> columnNames = new List<string>();
 		private readonly List<int> columnWidths = new List<int>();
 		protected readonly List<ColumnType> columnTypes = new List<ColumnType>();
-		private readonly List<RenderTableCell> cellRenderers = new List<RenderTableCell>();
 		private readonly List<string> columnDescriptions = new List<string>();
 		private readonly List<string> annotationRowNames = new List<string>();
 		private readonly List<string> annotationRowDescriptions = new List<string>();
@@ -50,7 +49,6 @@ namespace BaseLibS.Table{
 			columnNames = (List<string>) info.GetValue("columnNames", typeof (List<string>));
 			columnWidths = (List<int>) info.GetValue("columnWidths", typeof (List<int>));
 			columnTypes = (List<ColumnType>) info.GetValue("columnTypes", typeof (List<ColumnType>));
-			cellRenderers = (List<RenderTableCell>) info.GetValue("cellRenderers", typeof (List<RenderTableCell>));
 			columnDescriptions = (List<string>) info.GetValue("columnDescriptions", typeof (List<string>));
 			annotationRowNames = (List<string>) info.GetValue("annotationRowNames", typeof (List<string>));
 			annotationRowDescriptions = (List<string>) info.GetValue("annotationRowDescriptions", typeof (List<string>));
@@ -66,16 +64,11 @@ namespace BaseLibS.Table{
 			info.AddValue("columnNames", columnNames, typeof (List<string>));
 			info.AddValue("columnWidths", columnWidths, typeof (List<int>));
 			info.AddValue("columnTypes", columnTypes, typeof (List<ColumnType>));
-			info.AddValue("cellRenderers", cellRenderers, typeof (List<RenderTableCell>));
 			info.AddValue("columnDescriptions", columnDescriptions, typeof (List<string>));
 			info.AddValue("annotationRowNames", annotationRowNames, typeof (List<string>));
 			info.AddValue("annotationRowDescriptions", annotationRowDescriptions, typeof (List<string>));
 			info.AddValue("annotationRows", annotationRows, typeof (Collection<DataAnnotationRow>));
 			info.AddValue("nameMapping", nameMapping, typeof (Dictionary<string, int>));
-		}
-
-		public RenderTableCell GetColumnRenderer(int col){
-			return cellRenderers[col];
 		}
 
 		public int ColumnCount => columnNames.Count;
@@ -149,15 +142,11 @@ namespace BaseLibS.Table{
 			return GetAnnotationRowValue(index, GetColumnIndex(colname));
 		}
 
-		public void AddColumn(string colName, int width, ColumnType columnType, string description) {
-			AddColumn(colName, width, columnType, description, null);
-		}
-
 		public void AddColumn(string colName, int width, ColumnType columnType) {
-			AddColumn(colName, width, columnType, null, null);
+			AddColumn(colName, width, columnType, null);
 		}
 
-		public void AddColumn(string colName, int width, ColumnType columnType, string description, RenderTableCell renderer){
+		public void AddColumn(string colName, int width, ColumnType columnType, string description){
 			if (nameMapping.ContainsKey(colName)){
 				return;
 			}
@@ -166,7 +155,6 @@ namespace BaseLibS.Table{
 			columnWidths.Add(width);
 			columnTypes.Add(columnType);
 			columnDescriptions.Add(description);
-			cellRenderers.Add(renderer);
 		}
 
 		public static string ColumnTypeToString(ColumnType ct){

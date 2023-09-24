@@ -13,10 +13,6 @@ namespace BaseLibS.Table{
 			this.columns = columns;
 		}
 
-		public RenderTableCell GetColumnRenderer(int column){
-			return baseModel.GetColumnRenderer(columns?[column] ?? column);
-		}
-
 		public long RowCount => rows.Length;
 		public int ColumnCount => columns?.Length ?? baseModel.ColumnCount;
 		public string Name => baseModel.Name;

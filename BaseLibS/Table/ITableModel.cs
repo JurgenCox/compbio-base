@@ -13,7 +13,6 @@ namespace BaseLibS.Table{
 		string GetColumnDescription(int column);
 		ColumnType GetColumnType(int column);
 		int GetColumnWidth(int column);
-		RenderTableCell GetColumnRenderer(int column);
 		object GetEntry(long row, int column);
 		object GetEntry(long row, string colname);
 		int GetColumnIndex(string columnName);

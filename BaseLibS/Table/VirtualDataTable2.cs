@@ -45,25 +45,16 @@ namespace BaseLibS.Table{
 		public void AddColumn(string colName, int width, ColumnType columnType, string description, bool persistent){
 			AddColumn(colName, width, columnType, description);
 			if (persistent){
-				AddPersistentColumn(colName, width, columnType, description, null);
+				AddPersistentColumn(colName, width, columnType, description);
 			}
 		}
 
-		public void AddColumn(string colName, int width, ColumnType columnType, string description, RenderTableCell renderer,
-			bool persistent){
-			AddColumn(colName, width, columnType, description, renderer);
-			if (persistent){
-				AddPersistentColumn(colName, width, columnType, description, renderer);
-			}
-		}
-
-		private void AddPersistentColumn(string colName, int width, ColumnType columnType, string description,
-			RenderTableCell renderer){
+		private void AddPersistentColumn(string colName, int width, ColumnType columnType, string description){
 			if (persistentTable == null){
 				persistentTable = new DataTable2(Name, Description);
 				persistentColInds = new List<int>();
 			}
-			persistentTable.AddColumn(colName, width, columnType, description, renderer);
+			persistentTable.AddColumn(colName, width, columnType, description);
 			persistentColInds.Add(columnNames.Count - 1);
 			persistentColInds.Sort();
 		}

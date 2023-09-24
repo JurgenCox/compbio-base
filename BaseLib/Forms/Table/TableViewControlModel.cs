@@ -1335,12 +1335,12 @@ namespace BaseLib.Forms.Table{
 
 		private void RenderCell(IGraphics g, bool selected, int row, int col, int width, int x1, int y1){
 			object o = model.GetEntry(row, col);
-			RenderTableCell render = model.GetColumnRenderer(col);
+			ColumnType type = model.GetColumnType(col);
+			RenderTableCell render = TableUtils.GetCellRenderer(type);
 			if (render != null){
 				render(g, selected, o, width, x1, y1);
 				return;
 			}
-			ColumnType type = model.GetColumnType(col);
 			switch (type){
 				case ColumnType.Color:
 					RenderCellColor(g, selected, o, x1, y1);
