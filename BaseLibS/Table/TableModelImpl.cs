@@ -28,21 +28,6 @@ namespace BaseLibS.Table{
 			Description = description;
 		}
 
-		protected TableModelImpl(BinaryReader reader){
-			Name = reader.ReadString();
-			Description = reader.ReadString();
-			columnNames = new List<string>(FileUtils.ReadStringArray(reader));
-			columnWidths = new List<int>(FileUtils.ReadInt32Array(reader));
-			columnTypes = new List<ColumnType>();
-			int n = reader.ReadInt32();
-			for (int i = 0; i < n; i++){
-				columnTypes.Add((ColumnType)reader.ReadInt32());
-			}
-
-
-
-
-		}
 		protected TableModelImpl(SerializationInfo info, StreamingContext ctxt){
 			Name = info.GetString("Name");
 			Description = info.GetString("Description");
@@ -55,6 +40,54 @@ namespace BaseLibS.Table{
 			annotationRows =
 				(Collection<DataAnnotationRow>) info.GetValue("annotationRows", typeof (Collection<DataAnnotationRow>));
 			nameMapping = (Dictionary<string, int>) info.GetValue("nameMapping", typeof (Dictionary<string, int>));
+		}
+		protected TableModelImpl(BinaryReader reader) {
+			Name = reader.ReadString();
+			Description = reader.ReadString();
+			columnNames = new List<string>(FileUtils.ReadStringArray(reader));
+			columnWidths = new List<int>(FileUtils.ReadInt32Array(reader));
+			columnTypes = new List<ColumnType>();
+			int n = reader.ReadInt32();
+			for (int i = 0; i < n; i++) {
+				columnTypes.Add((ColumnType)reader.ReadInt32());
+			}
+			columnDescriptions = new List<string>(FileUtils.ReadStringArray(reader));
+			annotationRowNames = new List<string>(FileUtils.ReadStringArray(reader));
+			annotationRowDescriptions = new List<string>(FileUtils.ReadStringArray(reader));
+			annotationRows = new Collection<DataAnnotationRow>();
+			n = reader.ReadInt32();
+			for (int i = 0; i < n; i++) {
+				annotationRows.Add(new DataAnnotationRow(reader, columnTypes));
+			}
+			nameMapping = new Dictionary<string, int>();
+			n = reader.ReadInt32();
+			for (int i = 0; i < n; i++) {
+				string key = reader.ReadString();
+				int value = reader.ReadInt32();
+				nameMapping.Add(key, value);
+			}
+		}
+		protected void Write1(BinaryWriter writer) {
+			writer.Write(Name);
+			writer.Write(Description);
+			FileUtils.Write(columnNames, writer);
+			FileUtils.Write(columnWidths, writer);
+			writer.Write(columnTypes.Count);
+			foreach (ColumnType type in columnTypes){
+				writer.Write((int)type);				
+			}
+			FileUtils.Write(columnDescriptions, writer);
+			FileUtils.Write(annotationRowNames, writer);
+			FileUtils.Write(annotationRowDescriptions, writer);
+			writer.Write(annotationRows.Count);
+			foreach (DataAnnotationRow row in annotationRows) {
+				row.Write(writer, columnTypes);
+			}
+			writer.Write(nameMapping.Count);
+			foreach (KeyValuePair<string, int> pair in nameMapping) {
+				writer.Write(pair.Key);
+				writer.Write(pair.Value);
+			}
 		}
 
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]

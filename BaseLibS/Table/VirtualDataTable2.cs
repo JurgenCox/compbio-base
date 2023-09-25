@@ -14,23 +14,27 @@ namespace BaseLibS.Table{
 		//transient
 		private long rowInUse = -1;
 		private object[] rowDataInUse;
-
 		public VirtualDataTable2(string name, string description, int rowCount) : base(name, description){
 			this.rowCount = rowCount;
 		}
 
-		//TODO
-		public VirtualDataTable2(BinaryReader reader, Func<int, object[]> getRowData): base(reader){
-			GetRowData = getRowData;
-			rowCount = reader.ReadInt32();
-			persistentColInds = new List<int>(FileUtils.ReadInt32Array(reader));
-
-		}
 		private VirtualDataTable2(SerializationInfo info, StreamingContext context) : base(info, context){
 			GetRowData = (Func<int, object[]>) info.GetValue("GetRowData", typeof (Func<int, object[]>));
 			rowCount = info.GetInt32("rowCount");
 			persistentColInds = (List<int>) info.GetValue("persistentColInds", typeof (List<int>));
 			persistentTable = (DataTable2) info.GetValue("persistentTable", typeof (DataTable2));
+		}
+		public VirtualDataTable2(BinaryReader reader, Func<int, object[]> getRowData) : base(reader) {
+			GetRowData = getRowData;
+			rowCount = reader.ReadInt32();
+			persistentColInds = new List<int>(FileUtils.ReadInt32Array(reader));
+			persistentTable = new DataTable2(reader);
+		}
+		public void Write(BinaryWriter writer){
+			base.Write1(writer);
+			writer.Write(rowCount);
+			FileUtils.Write(persistentColInds, writer);
+			persistentTable.Write(writer);
 		}
 
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]

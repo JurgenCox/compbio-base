@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -18,7 +19,21 @@ namespace BaseLibS.Table{
 			DataTable2Ser s = (DataTable2Ser)info.GetValue("Rows", typeof(DataTable2Ser));
 			Rows = s.GetData();
 		}
+		public DataTable2(BinaryReader reader): base(reader){
+			Rows =new Collection<DataRow2>();
+			int n = reader.ReadInt32();
+			for (int i = 0; i < n; i++){
+				Rows.Add(new DataRow2(reader, columnTypes));
+			}
+		}
 
+		public void Write(BinaryWriter writer) {
+			base.Write1(writer);
+			writer.Write(Rows.Count);
+			foreach (DataRow2 row in Rows){
+				row.Write(writer, columnTypes);	
+			}
+		}
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
 		public override void GetObjectData(SerializationInfo info, StreamingContext context){
 			base.GetObjectData(info, context);
