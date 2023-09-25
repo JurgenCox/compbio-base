@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using BaseLibS.Graph;
 using BaseLibS.Num.Space;
 namespace BaseLibS.Drawing{
 	[Serializable, DebuggerDisplay("{NameAndArgbValue}")]

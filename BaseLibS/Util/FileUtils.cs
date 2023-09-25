@@ -340,6 +340,16 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
+		public static HashSet<string> ReadHashSetString(BinaryReader reader) {
+			int len = reader.ReadInt32();
+			HashSet<string> result = new HashSet<string>();
+			for (int i = 0; i < len; i++) {
+				string key = reader.ReadString();
+				result.Add(key);
+			}
+			return result;
+		}
+
 		/// <summary>
 		/// Removes all files and folders recursively in the specified folder 
 		/// and the specified folder itself.
@@ -911,6 +921,13 @@ namespace BaseLibS.Util{
 		public static void Write(HashSet<int> x, BinaryWriter writer) {
 			writer.Write(x.Count);
 			foreach (int key in x) {
+				writer.Write(key);
+			}
+		}
+
+		public static void Write(HashSet<string> x, BinaryWriter writer) {
+			writer.Write(x.Count);
+			foreach (string key in x) {
 				writer.Write(key);
 			}
 		}
