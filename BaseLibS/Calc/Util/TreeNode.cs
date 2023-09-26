@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Calc.Func;
 
 namespace BaseLibS.Calc.Util{
@@ -8,6 +9,22 @@ namespace BaseLibS.Calc.Util{
 	internal class TreeNode{
 		internal GenericFunc Func { get; set; }
 		internal TreeNode[] arguments;
+		public TreeNode() { }
+		public TreeNode(BinaryReader reader){
+			Func = FuncFactory.Create(reader.ReadString());
+			int n = reader.ReadInt32();
+			arguments = new TreeNode[n];
+			for (int i = 0; i < n; i++){
+				arguments[i] = new TreeNode(reader);
+			}
+		}
+		public void Write(BinaryWriter writer) {
+			writer.Write(Func.Encode());
+			writer.Write(arguments.Length);
+			foreach (TreeNode node in arguments){
+				node.Write(writer);
+			}
+		}
 		internal ReturnType ReturnType{
 			get{
 				if (Func is Variable){

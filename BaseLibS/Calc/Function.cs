@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Calc.Util;
-
+using BaseLibS.Util;
 namespace BaseLibS.Calc{
 	[Serializable]
 	public class Function{
@@ -13,6 +14,16 @@ namespace BaseLibS.Calc{
 			this.realVariableNames = realVariableNames;
 			this.intVariableNames = intVariableNames;
 			this.root = root;
+		}
+		public Function(BinaryReader reader){
+			root = new TreeNode(reader);
+			realVariableNames = FileUtils.ReadStringArray(reader);
+			intVariableNames = FileUtils.ReadStringArray(reader);
+		}
+		public void Write(BinaryWriter writer){
+			root.Write(writer);
+			FileUtils.Write(realVariableNames, writer);
+			FileUtils.Write(intVariableNames, writer);
 		}
 
 		public double NumEvaluateDouble(double value){
