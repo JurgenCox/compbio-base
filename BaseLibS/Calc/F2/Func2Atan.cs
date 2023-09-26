@@ -6,7 +6,7 @@ using BaseLibS.Util;
 namespace BaseLibS.Calc.F2{
 	[Serializable]
 	internal class Func2Atan : Func2{
-		internal override string ShortName => "atan";
+		internal override string ShortName => "atan2";
 		internal override string Name => throw new NotImplementedException();
 		internal override string Description => throw new NotImplementedException();
 		internal override DocumentType DescriptionType => throw new NotImplementedException();

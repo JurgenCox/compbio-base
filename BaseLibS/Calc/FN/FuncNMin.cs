@@ -20,7 +20,7 @@ namespace BaseLibS.Calc.FN{
 			return ReturnType.Integer;
 		}
 
-		internal override string ShortName => "min";
+		internal override string ShortName => "Min";
 
 		internal override TreeNode Derivative(int index, TreeNode[] args){
 			throw new NotImplementedException();

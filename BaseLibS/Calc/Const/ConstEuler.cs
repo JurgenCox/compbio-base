@@ -10,7 +10,7 @@ namespace BaseLibS.Calc.Const {
 		internal override double NumEvaluateDouble => value;
 		internal override string ShortName => "euler";
 		internal override ReturnType ReturnType => ReturnType.Real;
-		internal override string Name => "euler mascheroni constant (gamma)";
+		internal override string Name => "Euler Mascheroni constant (gamma)";
 		internal override string Description => "";
 		internal override DocumentType DescriptionType => DocumentType.PlainText;
 		internal override Topic Topic => Topic.Unknown;

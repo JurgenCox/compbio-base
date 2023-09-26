@@ -13,12 +13,15 @@ namespace BaseLibS.Calc.Const{
 			number = BigInteger.Parse(text);
 		}
 
-		internal override string ShortName => null;
+		internal override string ShortName => "constInt";
 		internal override double NumEvaluateDouble => Parser.Double(number.ToString());
 		internal override ReturnType ReturnType => ReturnType.Integer;
 		internal override string Name => "";
 		internal override string Description => "";
 		internal override DocumentType DescriptionType => DocumentType.PlainText;
 		internal override Topic Topic => Topic.Unknown;
+		internal override string Encode(){
+			return ShortName + sep + number.ToString();
+		}
 	}
 }

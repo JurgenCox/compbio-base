@@ -11,6 +11,7 @@ using BaseLibS.Util;
 namespace BaseLibS.Calc.Func{
 	[Serializable]
 	internal abstract class GenericFunc{
+		internal const char sep = ';';
 		internal static readonly Constant minusOneConst = new ConstInteger("-1");
 		internal static readonly Constant zeroConst = new ConstInteger("0");
 		internal static readonly Constant oneConst = new ConstInteger("1");
@@ -247,5 +248,8 @@ namespace BaseLibS.Calc.Func{
 		internal abstract TreeNode Derivative(int index, TreeNode[] args);
 		internal abstract TreeNode NthDerivative(int realVar, int intVar, TreeNode[] args);
 		internal abstract TreeNode IndefiniteIntegral(int index, TreeNode[] args);
+		internal virtual string Encode(){
+			return ShortName;
+		}
 	}
 }

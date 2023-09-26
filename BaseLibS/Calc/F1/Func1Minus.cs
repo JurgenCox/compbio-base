@@ -43,7 +43,7 @@ namespace BaseLibS.Calc.F1{
 
 		internal override TreeNode DomainMin => negInfinity;
 		internal override TreeNode DomainMax => posInfinity;
-		internal override string ShortName => null;
+		internal override string ShortName => "minus";
 		internal override string Name => "";
 		internal override string Description => "";
 		internal override DocumentType DescriptionType => DocumentType.PlainText;

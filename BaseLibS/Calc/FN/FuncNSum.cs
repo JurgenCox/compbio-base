@@ -46,7 +46,7 @@ namespace BaseLibS.Calc.FN{
 		}
 
 		internal override string ShortName => "sum";
-		internal override string Name => "sum";
+		internal override string Name => "Sum";
 		internal override string Description => "";
 		internal override DocumentType DescriptionType => DocumentType.PlainText;
 		internal override Topic Topic => Topic.Unknown;

@@ -43,7 +43,7 @@ namespace BaseLibS.Calc.F1{
 
 		internal override TreeNode DomainMin => throw new CannotCalculateDomainException();
 		internal override TreeNode DomainMax => throw new CannotCalculateDomainException();
-		internal override string ShortName => "asinh";
+		internal override string ShortName => "atanh";
 		internal override string Name => "";
 		internal override string Description => "";
 		internal override DocumentType DescriptionType => DocumentType.PlainText;

@@ -20,7 +20,7 @@ namespace BaseLibS.Calc.FN{
 			return ReturnType.Integer;
 		}
 
-		internal override string ShortName => "max";
+		internal override string ShortName => "Max";
 
 		internal override TreeNode Derivative(int index, TreeNode[] args){
 			throw new System.NotImplementedException();

@@ -21,7 +21,7 @@ namespace BaseLibS.Calc.FN{
 			return ReturnType.Integer;
 		}
 
-		internal override string ShortName => null;
+		internal override string ShortName => "Times";
 
 		internal override TreeNode Derivative(int index, TreeNode[] args){
 			List<TreeNode> result = new List<TreeNode>();

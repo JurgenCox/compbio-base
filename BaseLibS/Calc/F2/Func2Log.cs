@@ -29,7 +29,7 @@ namespace BaseLibS.Calc.F2{
 			throw new NotImplementedException();
 		}
 
-		internal override string ShortName => "log";
+		internal override string ShortName => "Log";
 		internal override string Name => "";
 		internal override string Description => "";
 		internal override DocumentType DescriptionType => DocumentType.PlainText;

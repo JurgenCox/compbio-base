@@ -17,7 +17,7 @@ namespace BaseLibS.Calc.F2{
 			return ReturnType.Real;
 		}
 
-		internal override string ShortName => null;
+		internal override string ShortName => "sum";
 
 		internal override TreeNode NthDerivative(int realVar, int intVar, TreeNode arg1, TreeNode arg2){
 			if (arg1.DependsOnRealVar(realVar)){
