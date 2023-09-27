@@ -745,9 +745,15 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static void Write(IList<double[]> x, BinaryWriter writer){
+		public static void Write(IList<double[]> x, BinaryWriter writer) {
 			writer.Write(x.Count);
-			foreach (double[] t in x){
+			foreach (double[] t in x) {
+				Write(t, writer);
+			}
+		}
+		public static void Write(IList<bool[]> x, BinaryWriter writer) {
+			writer.Write(x.Count);
+			foreach (bool[] t in x) {
 				Write(t, writer);
 			}
 		}
@@ -1059,11 +1065,20 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
-		public static double[][] Read2DDoubleArray(BinaryReader reader){
+		public static double[][] Read2DDoubleArray(BinaryReader reader) {
 			int n = reader.ReadInt32();
 			double[][] result = new double[n][];
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				result[i] = ReadDoubleArray(reader);
+			}
+			return result;
+		}
+
+		public static bool[][] Read2DBooleanArray(BinaryReader reader) {
+			int n = reader.ReadInt32();
+			bool[][] result = new bool[n][];
+			for (int i = 0; i < n; i++) {
+				result[i] = ReadBooleanArray(reader);
 			}
 			return result;
 		}
