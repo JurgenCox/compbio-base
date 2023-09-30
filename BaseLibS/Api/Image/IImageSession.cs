@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 namespace BaseLibS.Api.Image{
 	public interface IImageSession : ICloneable{
 		string Name { get; }
@@ -16,5 +16,6 @@ namespace BaseLibS.Api.Image{
 		void AddFunc(IImageSeries func);
 		void AddDwi(IImageSeries dwi);
 		void AddParMap(IImageSeries parMap);
+		void Write(BinaryWriter writer);
 	}
 }

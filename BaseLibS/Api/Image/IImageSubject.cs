@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace BaseLibS.Api.Image{
 	public interface IImageSubject : ICloneable{
@@ -10,5 +11,6 @@ namespace BaseLibS.Api.Image{
 		int GetTotalDwiCount();
 		int GetTotalParMapCount();
 		void AddSession(string name);
+		void Write(BinaryWriter writer);
 	}
 }

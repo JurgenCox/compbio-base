@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 namespace BaseLibS.Api.Image{
 	public interface IImageSeries : ICloneable{
 		int LengthT{ get; }
@@ -34,5 +34,6 @@ namespace BaseLibS.Api.Image{
 		float VoxelSizeXmm { get; }
 		float VoxelSizeYmm { get; }
 		float VoxelSizeZmm { get; }
+		void Write(BinaryWriter writer);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace BaseLibS.Api.Image{
 	public interface IImageMetadata : ICloneable{
@@ -6,5 +7,6 @@ namespace BaseLibS.Api.Image{
 		string[,] Events{ get; set; }
 		float[,][,,] DeformationField { get; set; }
 		string GetBIDSEntity(string entityName);
+		void Write(BinaryWriter writer);
 	}
 }
