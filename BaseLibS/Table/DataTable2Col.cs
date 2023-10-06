@@ -45,6 +45,7 @@ namespace BaseLibS.Table{
 				case ColumnType.Categorical:
 				case ColumnType.Text:
 				case ColumnType.DateTime:
+				case ColumnType.SymbolType:
 					this.data = data;
 					break;
 				default:
@@ -86,6 +87,7 @@ namespace BaseLibS.Table{
 					case ColumnType.Categorical:
 					case ColumnType.Text:
 					case ColumnType.DateTime:
+					case ColumnType.SymbolType:
 						return (object[]) data;
 					default:
 						throw new ArgumentOutOfRangeException();
