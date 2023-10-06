@@ -283,6 +283,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Category\" />
     <Folder Include="Num\NdArray\Slice\" />
     <Folder Include="Num\Perform\" />
   </ItemGroup>
