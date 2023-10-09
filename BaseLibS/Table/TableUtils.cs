@@ -45,6 +45,14 @@ namespace BaseLibS.Table {
 						long x = (long)o;
 						int y = (int)x;
 						writer.Write(y);
+					} else if (o is double) {
+						double x = (double)o;
+						int y = (int)Math.Round(x);
+						writer.Write(y);
+					} else if (o is float) {
+						float x = (float)o;
+						int y = (int)Math.Round(x);
+						writer.Write(y);
 					} else {
 						writer.Write((int)o);
 					}
