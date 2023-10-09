@@ -33,6 +33,10 @@ namespace BaseLibS.Table {
 						UInt16 x = (UInt16)o;
 						int y = x;
 						writer.Write(y);
+					} else if (o is Int16) {
+						Int16 x = (Int16)o;
+						int y = x;
+						writer.Write(y);
 					} else if (o is byte) {
 						byte x = (byte)o;
 						int y = x;
