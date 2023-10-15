@@ -703,9 +703,16 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static void Write(IList<ushort> x, BinaryWriter writer){
+		public static void Write(IList<ushort> x, BinaryWriter writer) {
 			writer.Write(x.Count);
-			foreach (ushort t in x){
+			foreach (ushort t in x) {
+				writer.Write(t);
+			}
+		}
+
+		public static void Write(IList<short> x, BinaryWriter writer) {
+			writer.Write(x.Count);
+			foreach (short t in x) {
 				writer.Write(t);
 			}
 		}
@@ -1048,11 +1055,19 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
-		public static int[] ReadInt32Array(BinaryReader reader){
+		public static int[] ReadInt32Array(BinaryReader reader) {
 			int n = reader.ReadInt32();
 			int[] result = new int[n];
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				result[i] = reader.ReadInt32();
+			}
+			return result;
+		}
+		public static short[] ReadInt16Array(BinaryReader reader) {
+			int n = reader.ReadInt32();
+			short[] result = new short[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadInt16();
 			}
 			return result;
 		}
