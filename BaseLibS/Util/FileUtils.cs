@@ -675,9 +675,30 @@ namespace BaseLibS.Util{
 			return !IsNet45OrNewer() ? ".NET 4.5 framework is not installed." : null;
 		}
 
-		public static void Write(IList<double> x, BinaryWriter writer){
+		public static void Write(bool? x, BinaryWriter writer) {
+			bool nonNull = x != null;
+			writer.Write(nonNull);
+			if (nonNull) {
+				writer.Write(x.Value);
+			}
+		}
+		public static void Write(int? x, BinaryWriter writer) {
+			bool nonNull = x != null;
+			writer.Write(nonNull);
+			if (nonNull) {
+				writer.Write(x.Value);
+			}
+		}
+		public static void Write(double? x, BinaryWriter writer) {
+			bool nonNull = x != null;
+			writer.Write(nonNull);
+			if (nonNull) {
+				writer.Write(x.Value);
+			}
+		}
+		public static void Write(IList<double> x, BinaryWriter writer) {
 			writer.Write(x.Count);
-			foreach (double t in x){
+			foreach (double t in x) {
 				writer.Write(t);
 			}
 		}
@@ -785,6 +806,17 @@ namespace BaseLibS.Util{
 				Write(t, writer);
 			}
 		}
+		public static void Write(float[,][,,] x, BinaryWriter writer) {
+			int n0 = x.GetLength(0);
+			int n1 = x.GetLength(1);
+			writer.Write(n0);
+			writer.Write(n1);
+			for (int i = 0; i < n0; i++) {
+				for (int j = 0; j < n1; j++) {
+					Write(x[i, j], writer);
+				}
+			}
+		}
 
 		public static void Write(IList<bool[,,]> x, BinaryWriter writer) {
 			writer.Write(x.Count);
@@ -817,6 +849,17 @@ namespace BaseLibS.Util{
 			}
 		}
 		public static void Write(bool[,] x, BinaryWriter writer) {
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static void Write(string[,] x, BinaryWriter writer) {
 			int n1 = x.GetLength(0);
 			int n2 = x.GetLength(1);
 			writer.Write(n1);
@@ -974,11 +1017,37 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static double[] ReadDoubleArray(BinaryReader reader){
+		public static double[] ReadDoubleArray(BinaryReader reader) {
 			int n = reader.ReadInt32();
 			double[] result = new double[n];
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				result[i] = reader.ReadDouble();
+			}
+			return result;
+		}
+		public static bool? ReadNullableBoolean(BinaryReader reader) {
+			bool? result = null;
+			bool nonNull = reader.ReadBoolean();
+			if (nonNull) {
+				result = reader.ReadBoolean();
+			}
+			return result;
+		}
+
+		public static double? ReadNullableDouble(BinaryReader reader) {
+			double? result = null;
+			bool nonNull = reader.ReadBoolean();
+			if (nonNull) {
+				result = reader.ReadDouble();
+			}
+			return result;
+		}
+
+		public static int? ReadNullableInt32(BinaryReader reader) {
+			int? result = null;
+			bool nonNull = reader.ReadBoolean();
+			if (nonNull) {
+				result = reader.ReadInt32();
 			}
 			return result;
 		}
@@ -1163,6 +1232,18 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
+		public static float[,][,,] Read5DFloatArray2(BinaryReader reader) {
+			int n0 = reader.ReadInt32();
+			int n1 = reader.ReadInt32();
+			float[,][,,] result = new float[n0, n1][,,];
+			for (int i0 = 0; i0 < n0; i0++) {
+				for (int i1 = 0; i1 < n1; i1++) {
+					result[i0, i1] = Read3DFloatArray(reader);
+				}
+			}
+			return result;
+		}
+
 		public static double[,] Read2DDoubleArray2(BinaryReader reader) {
 			int n1 = reader.ReadInt32();
 			int n2 = reader.ReadInt32();
@@ -1170,6 +1251,18 @@ namespace BaseLibS.Util{
 			for (int i = 0; i < n1; i++) {
 				for (int j = 0; j < n2; j++) {
 					result[i, j] = reader.ReadDouble();
+				}
+			}
+			return result;
+		}
+
+		public static string[,] Read2DStringArray2(BinaryReader reader) {
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			string[,] result = new string[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadString();
 				}
 			}
 			return result;
