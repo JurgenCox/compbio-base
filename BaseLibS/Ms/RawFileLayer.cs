@@ -861,7 +861,7 @@ namespace BaseLibS.Ms{
 
 		public int GetClosestMs1IndForMs2Ind(int i){
 			int prevInd = Ms2PrevMs1Index[i];
-			if (prevInd == Ms1Count - 1){
+			if (prevInd >= Ms1Count - 1){
 				return prevInd;
 			}
 			int nextInd = prevInd + 1;
