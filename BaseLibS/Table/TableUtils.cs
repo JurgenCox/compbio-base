@@ -33,6 +33,10 @@ namespace BaseLibS.Table {
 						UInt16 x = (UInt16)o;
 						int y = x;
 						writer.Write(y);
+					} else if (o is UInt32) {
+						UInt32 x = (UInt32)o;
+						int y = (int)x;
+						writer.Write(y);
 					} else if (o is Int16) {
 						Int16 x = (Int16)o;
 						int y = x;
@@ -72,6 +76,30 @@ namespace BaseLibS.Table {
 						float x = (float)o;
 						double d = x;
 						writer.Write(d);
+					} else if (o is UInt16) {
+						UInt16 x = (UInt16)o;
+						double y = x;
+						writer.Write(y);
+					} else if (o is UInt32) {
+						UInt32 x = (UInt32)o;
+						double y = (double)x;
+						writer.Write(y);
+					} else if (o is Int16) {
+						Int16 x = (Int16)o;
+						double y = x;
+						writer.Write(y);
+					} else if (o is byte) {
+						byte x = (byte)o;
+						double y = x;
+						writer.Write(y);
+					} else if (o is UInt64) {
+						ulong x = (ulong)o;
+						double y = (int)x;
+						writer.Write(y);
+					} else if (o is Int64) {
+						long x = (long)o;
+						double y = (int)x;
+						writer.Write(y);
 					} else {
 						writer.Write((double)o);
 					}
