@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-
+using BaseLibS.Drawing;
 namespace BaseLibS.Param{
 	[Serializable]
 	public class Parameters : IXmlSerializable, ICloneable{
-		private readonly List<ParameterGroup> paramGroups = new List<ParameterGroup>();
+		private List<ParameterGroup> paramGroups = new List<ParameterGroup>();
 
 		public Parameters(IList<Parameter> param, string name){
 			AddParameterGroup(param, name, false);
@@ -20,7 +21,19 @@ namespace BaseLibS.Param{
 		public Parameters(string name, params Parameter[] param) : this(param, name){ }
 		public Parameters(IList<Parameter> param) : this(param, null){ }
 		public Parameters(){ }
-
+		public Parameters(BinaryReader reader){
+			paramGroups = new List<ParameterGroup>();
+			int n = reader.ReadInt32();
+			for (int i = 0; i < n; i++){
+				paramGroups.Add(new ParameterGroup(reader));
+			}
+		}
+		public void Write(BinaryWriter writer){
+			writer.Write(paramGroups.Count);
+			foreach (ParameterGroup group in paramGroups){
+				group.Write(writer);
+			}
+		}
 		public void Convert(Func<Parameter, Parameter> map){
 			foreach (ParameterGroup t in paramGroups){
 				t.Convert(map);

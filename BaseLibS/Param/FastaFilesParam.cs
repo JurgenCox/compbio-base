@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BaseLibS.Num;
 using BaseLibS.Util;
 
@@ -28,6 +29,16 @@ namespace BaseLibS.Param{
 			default1){
 			HasVariationData = hasVariationData;
 			HasModifications = hasModifications;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = FileUtils.Read2DStringArray(reader);
+			Default = FileUtils.Read2DStringArray(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			FileUtils.Write(Value, writer);
+			FileUtils.Write(Default, writer);
 		}
 
 		public bool HasVariationData{ get; set; }

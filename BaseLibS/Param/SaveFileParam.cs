@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace BaseLibS.Param{
 	[Serializable]
@@ -25,6 +26,21 @@ namespace BaseLibS.Param{
 			FileName = fileName;
 			Filter = filter;
 			WriteAction = writeAction;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = reader.ReadString();
+			Default = reader.ReadString();
+			FileName = reader.ReadString();
+			Filter = reader.ReadString();
+			WriteAction = s => { };
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			writer.Write(Value);
+			writer.Write(Default);
+			writer.Write(FileName);
+			writer.Write(Filter);
 		}
 
 		public override string StringValue{

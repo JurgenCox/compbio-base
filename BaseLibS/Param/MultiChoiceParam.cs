@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using BaseLibS.Num;
 using BaseLibS.Util;
@@ -37,6 +38,30 @@ namespace BaseLibS.Param{
 			Values = values;
 			DefaultSelectionNames = defaultSelectionNames;
 			DefaultSelections = defaultSelections;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = FileUtils.ReadInt32Array(reader);
+			Default = FileUtils.ReadInt32Array(reader);
+			Repeats = reader.ReadBoolean();
+			Values = FileUtils.ReadStringArray(reader);
+			DefaultSelectionNames = new List<string>(FileUtils.ReadStringArray(reader));
+			int n = reader.ReadInt32();
+			DefaultSelections = new List<string[]>();
+			for (int i = 0; i < n; i++){
+				DefaultSelections.Add(FileUtils.ReadStringArray(reader));
+			}
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			FileUtils.Write(Value, writer);
+			FileUtils.Write(Default, writer);
+			writer.Write(Repeats);
+			FileUtils.Write(DefaultSelectionNames.ToArray(), writer);
+			writer.Write(DefaultSelections.Count);
+			foreach (string[] strings in DefaultSelections){
+				FileUtils.Write(strings, writer);
+			}
 		}
 
 		public override string StringValue{

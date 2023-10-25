@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BaseLibS.Num;
 using BaseLibS.Util;
 
@@ -22,6 +23,16 @@ namespace BaseLibS.Param{
 
 		protected MultiStringParam(string name, string help, string url, bool visible, string[] value,
 			string[] default1) : base(name, help, url, visible, value, default1){ }
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = FileUtils.ReadStringArray(reader);
+			Default = FileUtils.ReadStringArray(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			FileUtils.Write(Value, writer);
+			FileUtils.Write(Default, writer);
+		}
 
 		public override string StringValue{
 			get => StringUtils.Concat(",", Value);

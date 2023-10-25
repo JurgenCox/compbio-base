@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using BaseLibS.Util;
@@ -34,6 +35,16 @@ namespace BaseLibS.Param{
 			name, help, url, visible, value, default1){
 			Keys = keys;
 			DefaultValue = defaultValue;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = FileUtils.ReadDictionaryStringInt(reader);
+			Default = FileUtils.ReadDictionaryStringInt(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			FileUtils.Write(Value, writer);
+			FileUtils.Write(Default, writer);
 		}
 
 		public override string StringValue{

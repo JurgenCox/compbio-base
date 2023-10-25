@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
@@ -25,6 +26,18 @@ namespace BaseLibS.Param{
 			Help = help;
 			Url = url;
 			Visible = visible;
+		}
+		public virtual void Read(BinaryReader reader){
+			Name = reader.ReadString();
+			Help = reader.ReadString();
+			Url = reader.ReadString();
+			Visible = reader.ReadBoolean();
+		}
+		public virtual void Write(BinaryWriter writer) {
+			writer.Write(Name);
+			writer.Write(Help);
+			writer.Write(Url);
+			writer.Write(Visible);
 		}
 
 		public virtual void SetValueFromControl(){ }

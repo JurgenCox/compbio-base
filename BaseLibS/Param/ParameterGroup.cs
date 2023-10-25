@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -22,6 +24,30 @@ namespace BaseLibS.Param{
 			this(new List<Parameter>(), name, collapsedDefault){ }
 
 		private ParameterGroup(){ }
+		public ParameterGroup(BinaryReader reader) {
+			int n = reader.ReadInt32();
+			parameters = new List<Parameter>();
+			for (int i = 0; i < n; i++){
+				string typeName = reader.ReadString();
+				Type type = Type.GetType(typeName);
+				Assembly ass = Assembly.GetAssembly(type);
+				Parameter p = (Parameter)ass.CreateInstance(typeName, false);
+				p.Read(reader);
+				parameters.Add(p);
+			}
+			name = reader.ReadString();
+			collapsedDefault = reader.ReadBoolean();
+		}
+		public void Write(BinaryWriter writer) {
+			writer.Write(parameters.Count);
+			foreach (Parameter parameter in parameters){
+				Type t = parameter.GetType();
+				writer.Write(t.Name);
+				parameter.Write(writer);
+			}
+			writer.Write(name);
+			writer.Write(collapsedDefault);
+		}
 
 		public void Convert(Func<Parameter, Parameter> map){
 			for (int i = 0; i < parameters.Count; i++){

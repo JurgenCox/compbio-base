@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Schema;
@@ -28,7 +29,25 @@ namespace BaseLibS.Param{
 			Tuple<Regex, string> default1, List<string> previews) : base(name, help, url, visible, value, default1){
 			Previews = previews;
 		}
-
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = ReadImpl(reader);
+			Default = ReadImpl(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			WriteImpl(Value, writer);
+			WriteImpl(Default, writer);
+		}
+		private Tuple<Regex, string> ReadImpl(BinaryReader reader){
+			Regex r = new Regex(reader.ReadString());
+			string s = reader.ReadString();
+			return new Tuple<Regex, string>(r, s);
+		}
+		private void WriteImpl(Tuple<Regex, string> value, BinaryWriter writer){
+			writer.Write(value.Item1.ToString());
+			writer.Write(value.Item2);
+		}
 		public override void Clear(){
 			Value = Default;
 			Previews = new List<string>();

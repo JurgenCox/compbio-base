@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using BaseLibS.Util;
 
 namespace BaseLibS.Param{
@@ -16,6 +17,16 @@ namespace BaseLibS.Param{
 
 		protected DoubleParam(string name, string help, string url, bool visible, double value, double default1) : base(
 			name, help, url, visible, value, default1){ }
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = reader.ReadDouble();
+			Default = reader.ReadDouble();
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			writer.Write(Value);
+			writer.Write(Default);
+		}
 
 		public override string StringValue{
 			get => Parser.ToString(Value);

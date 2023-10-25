@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using BaseLibS.Util;
@@ -28,6 +29,20 @@ namespace BaseLibS.Param{
 		protected BoolWithSubParams(string name, string help, string url, bool visible, bool value, bool default1,
 			float paramNameWidth, float totalWidth) : base(name, help, url, visible, value, default1, paramNameWidth,
 			totalWidth){ }
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = reader.ReadBoolean();
+			Default = reader.ReadBoolean();
+			SubParamsFalse = new Parameters(reader);
+			SubParamsTrue = new Parameters(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			writer.Write(Value);
+			writer.Write(Default);
+			SubParamsFalse.Write(writer);
+			SubParamsTrue.Write(writer);
+		}
 
 		public override string StringValue{
 			get => Parser.ToString(Value);

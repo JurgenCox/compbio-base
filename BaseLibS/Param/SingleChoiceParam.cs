@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
-
+using BaseLibS.Util;
 namespace BaseLibS.Param{
 	[Serializable]
 	public class SingleChoiceParam : Parameter<int>{
@@ -23,6 +24,18 @@ namespace BaseLibS.Param{
 		protected SingleChoiceParam(string name, string help, string url, bool visible, int value, int default1,
 			IList<string> values) : base(name, help, url, visible, value, default1){
 			Values = values;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = reader.ReadInt32();
+			Default = reader.ReadInt32();
+			Values = FileUtils.ReadStringArray(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			writer.Write(Value);
+			writer.Write(Default);
+			FileUtils.Write(Values, writer);
 		}
 
 		public override string StringValue{

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 
@@ -22,6 +23,16 @@ namespace BaseLibS.Param{
 		protected RegexMatchParam(string name, string help, string url, bool visible, Regex value, Regex default1,
 			List<string> previews) : base(name, help, url, visible, value, default1){
 			Previews = previews;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = new Regex(reader.ReadString());
+			Default = new Regex(reader.ReadString());
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			writer.Write(Value.ToString());
+			writer.Write(Default.ToString());
 		}
 
 		public override void Clear(){

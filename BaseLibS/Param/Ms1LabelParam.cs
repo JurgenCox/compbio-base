@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using BaseLibS.Num;
@@ -25,6 +26,16 @@ namespace BaseLibS.Param{
 			int multiplicity, string[] values) : base(name, help, url, visible, value, default1){
 			Multiplicity = multiplicity;
 			Values = values;
+		}
+		public override void Read(BinaryReader reader) {
+			base.Read(reader);
+			Value = FileUtils.Read2DInt32Array(reader);
+			Default = FileUtils.Read2DInt32Array(reader);
+		}
+		public override void Write(BinaryWriter writer) {
+			base.Write(writer);
+			FileUtils.Write(Value, writer);
+			FileUtils.Write(Default, writer);
 		}
 
 		public override ParamType Type => ParamType.Server;
