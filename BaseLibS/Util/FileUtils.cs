@@ -786,9 +786,16 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static void Write(IList<double[,]> x, BinaryWriter writer){
+		public static void Write(IList<double[,]> x, BinaryWriter writer) {
 			writer.Write(x.Count);
-			foreach (double[,] t in x){
+			foreach (double[,] t in x) {
+				Write(t, writer);
+			}
+		}
+
+		public static void Write(IList<int[][]> x, BinaryWriter writer) {
+			writer.Write(x.Count);
+			foreach (int[][] t in x) {
 				Write(t, writer);
 			}
 		}
@@ -860,6 +867,17 @@ namespace BaseLibS.Util{
 			}
 		}
 		public static void Write(string[,] x, BinaryWriter writer) {
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static void Write(int[,] x, BinaryWriter writer) {
 			int n1 = x.GetLength(0);
 			int n2 = x.GetLength(1);
 			writer.Write(n1);
@@ -1196,11 +1214,20 @@ namespace BaseLibS.Util{
 			return result;
 		}
 
-		public static double[][,] Read3DDoubleArray2(BinaryReader reader){
+		public static double[][,] Read3DDoubleArray2(BinaryReader reader) {
 			int n = reader.ReadInt32();
 			double[][,] result = new double[n][,];
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				result[i] = Read2DDoubleArray2(reader);
+			}
+			return result;
+		}
+
+		public static int[][][] Read3DIntArray2(BinaryReader reader) {
+			int n = reader.ReadInt32();
+			int[][][] result = new int[n][][];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read2DInt32Array(reader);
 			}
 			return result;
 		}
@@ -1251,6 +1278,17 @@ namespace BaseLibS.Util{
 			for (int i = 0; i < n1; i++) {
 				for (int j = 0; j < n2; j++) {
 					result[i, j] = reader.ReadDouble();
+				}
+			}
+			return result;
+		}
+		public static int[,] Read2DInntArray2(BinaryReader reader) {
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int[,] result = new int[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadInt32();
 				}
 			}
 			return result;

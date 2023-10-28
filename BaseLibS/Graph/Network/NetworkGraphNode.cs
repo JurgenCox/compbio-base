@@ -1,11 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Network{
 	[Serializable]
 	public abstract class NetworkGraphNode{
 		public float X { get; set; }
 		public float Y { get; set; }
+		//transient
+		public int index;
+		protected NetworkGraphNode() {
+		}
+		protected NetworkGraphNode(BinaryReader reader) {
+			X = reader.ReadSingle();
+			Y = reader.ReadSingle();
+		}
+		public virtual void Write(BinaryWriter writer){
+			writer.Write(X);
+			writer.Write(Y);
+		}
 		public abstract int Width { get; }
 		public abstract int Height { get; }
 		public virtual bool Hits(int x1, int y1){
@@ -25,6 +38,10 @@ namespace BaseLibS.Graph.Network{
 	public abstract class NetworkGraphNode<Te, Ti> : NetworkGraphNode where Te : NetworkGraphEdge where Ti : IDrawOptions{
 		public List<Te> inputEdges = new List<Te>();
 		public List<List<Te>> outputEdges = new List<List<Te>>();
+		protected NetworkGraphNode() : base(){
+		}
+		protected NetworkGraphNode(BinaryReader reader) : base(reader){
+		}
 		public abstract void Paint(IGraphics g, float x1, float y1, Ti options);
 		public abstract void PaintSelected(IGraphics g, float x1, float y1);
 		public abstract int InputCount { get; }

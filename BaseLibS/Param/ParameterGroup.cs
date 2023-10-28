@@ -11,7 +11,7 @@ namespace BaseLibS.Param{
 	[Serializable]
 	public class ParameterGroup : IXmlSerializable, ICloneable{
 		private readonly List<Parameter> parameters = new List<Parameter>();
-		private string name;
+		private string name = "";
 		private bool collapsedDefault;
 
 		public ParameterGroup(IList<Parameter> parameters, string name, bool collapsedDefault){
@@ -45,7 +45,7 @@ namespace BaseLibS.Param{
 				writer.Write(t.Name);
 				parameter.Write(writer);
 			}
-			writer.Write(name);
+			writer.Write(name ?? "");
 			writer.Write(collapsedDefault);
 		}
 

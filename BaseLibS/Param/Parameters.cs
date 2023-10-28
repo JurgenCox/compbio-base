@@ -5,7 +5,6 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using BaseLibS.Drawing;
 namespace BaseLibS.Param{
 	[Serializable]
 	public class Parameters : IXmlSerializable, ICloneable{

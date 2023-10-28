@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BaseLibS.Drawing;
 namespace BaseLibS.Graph.Network{
 	[Serializable]
@@ -6,10 +7,24 @@ namespace BaseLibS.Graph.Network{
 		public int X { get; set; }
 		public int Y { get; set; }
 		public int Z { get; set; }
-		public abstract int Width { get; }
+		public int Width { get; set; }
+		public int Height { get; set; }
+		protected NetworkGraphContainer(BinaryReader reader) {
+			X = reader.ReadInt32();
+			Y = reader.ReadInt32();
+			Z = reader.ReadInt32();
+			Width = reader.ReadInt32();
+			Height = reader.ReadInt32();
+		}
+		public virtual void Write(BinaryWriter writer) {
+			writer.Write(X);
+			writer.Write(Y);
+			writer.Write(Z);
+			writer.Write(Width);
+			writer.Write(Height);
+		}
 		public abstract void Paint(IGraphics g, int x1, int y1);
 		public abstract void PaintSelected(IGraphics g, int x1, int y1);
-		public abstract int Height { get; }
 		public virtual bool Hits(int x1, int y1){
 			return x1 >= X && x1 <= X + Width && y1 >= Y && y1 <= Y + Height;
 		}

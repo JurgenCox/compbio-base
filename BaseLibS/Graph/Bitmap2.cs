@@ -7,18 +7,12 @@ namespace BaseLibS.Graph{
 	[Serializable]
 	public class Bitmap2{
 		/// <summary>
-		/// Matrix with argb values of pixels which are assumed to be represented as int containing 
-		/// one byte for a, r, g and b each.
-		/// </summary>
-		private readonly int[,] data;
-
-		/// <summary>
 		/// Initializes a new instance of the <code>Bitmap2</code> class with the specified size.
 		/// </summary>
 		/// <param name="width">The width in pixels.</param>
 		/// <param name="height">The height in pixels.</param>
 		public Bitmap2(int width, int height){
-			data = new int[width, height];
+			Data = new int[width, height];
 		}
 
 		/// <summary>
@@ -36,25 +30,33 @@ namespace BaseLibS.Graph{
 				throw new ArgumentNullException();
 			}
 			Image2 im = new Image2(stream);
-			data = new int[im.Height, im.Width];
+			Data = new int[im.Height, im.Width];
 			for (int i = 0; i < im.Pixels.Length; i++){
 				Color2 c = im.Pixels[i];
 				SetPixel(i % im.Width, i / im.Width, Color2.FromArgb(c.A, c.R, c.G, c.B));
 			}
 		}
+		public Bitmap2(int[,] data) {
+			Data = data;
+		}
 
-		public int Width => data.GetLength(0);
-		public int Height => data.GetLength(1);
+		/// <summary>
+		/// Matrix with argb values of pixels which are assumed to be represented as int containing 
+		/// one byte for a, r, g and b each.
+		/// </summary>
+		public int[,] Data{ get; }
+		public int Width => Data.GetLength(0);
+		public int Height => Data.GetLength(1);
 
 		public void Overlay(Bitmap2 b){
-			for (int i = 0; i < data.GetLength(0); i++){
-				for (int j = 0; j < data.GetLength(1); j++){
-					int c1 = b.data[i, j];
+			for (int i = 0; i < Data.GetLength(0); i++){
+				for (int j = 0; j < Data.GetLength(1); j++){
+					int c1 = b.Data[i, j];
 					float a1 = Color2.GetA(c1) / 255f;
 					float r1 = Color2.GetR(c1) / 255f;
 					float g1 = Color2.GetG(c1) / 255f;
 					float b1 = Color2.GetB(c1) / 255f;
-					int c2 = data[i, j];
+					int c2 = Data[i, j];
 					float a2 = Color2.GetA(c2) / 255f;
 					float r2 = Color2.GetR(c2) / 255f;
 					float g2 = Color2.GetG(c2) / 255f;
@@ -63,7 +65,7 @@ namespace BaseLibS.Graph{
 					float r0 = (r1 * a1 + r2 * a2 * (1 - a1)) / a0;
 					float g0 = (g1 * a1 + g2 * a2 * (1 - a1)) / a0;
 					float b0 = (b1 * a1 + b2 * a2 * (1 - a1)) / a0;
-					data[i, j] = Color2.FromArgb(a0, r0, g0, b0).Value;
+					Data[i, j] = Color2.FromArgb(a0, r0, g0, b0).Value;
 				}
 			}
 		}
@@ -72,10 +74,10 @@ namespace BaseLibS.Graph{
 			if (i < 0 || j < 0){
 				return;
 			}
-			if (i >= data.GetLength(0) || j >= data.GetLength(1)){
+			if (i >= Data.GetLength(0) || j >= Data.GetLength(1)){
 				return;
 			}
-			data[i, j] = argb;
+			Data[i, j] = argb;
 		}
 
 		public void SetPixel(int i, int j, Color2 c){
@@ -83,7 +85,7 @@ namespace BaseLibS.Graph{
 		}
 
 		public int GetPixel(int i, int j){
-			return data[i, j];
+			return Data[i, j];
 		}
 
 		public void MirrorY(){
