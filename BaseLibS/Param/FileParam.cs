@@ -11,7 +11,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private FileParam() : this(""){ }
+		public FileParam() : this(""){ }
 
 		public FileParam(string name) : this(name, ""){ }
 

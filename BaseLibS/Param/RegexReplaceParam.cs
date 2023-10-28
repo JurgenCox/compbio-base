@@ -14,7 +14,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private RegexReplaceParam() : this("", Tuple.Create(new Regex("(.*)"), "$1"), new List<string>()){ }
+		public RegexReplaceParam() : this("", Tuple.Create(new Regex("(.*)"), "$1"), new List<string>()){ }
 
 		public RegexReplaceParam(string name, Regex regex, string replace, List<string> previews) : this(name,
 			Tuple.Create(regex, replace), previews){ }

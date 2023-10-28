@@ -8,7 +8,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// only for xml serialization
 		/// </summary>
-		private IntParam() : this("", 0){ }
+		public IntParam() : this("", 0){ }
 
 		public IntParam(string name, int value) : base(name){
 			Value = value;

@@ -13,7 +13,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private BoolWithSubParams() : this("", false){ }
+		public BoolWithSubParams() : this("", false){ }
 
 		public BoolWithSubParams(string name) : this(name, false){ }
 

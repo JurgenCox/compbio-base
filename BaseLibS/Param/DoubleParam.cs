@@ -8,7 +8,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// only for xml serialization
 		/// </summary>
-		private DoubleParam() : this("", 0.0){ }
+		public DoubleParam() : this("", 0.0){ }
 
 		public DoubleParam(string name, double value) : base(name){
 			Value = value;

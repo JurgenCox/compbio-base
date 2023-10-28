@@ -4,7 +4,9 @@ namespace BaseLibS.Param{
 	[Serializable]
 	public class BoolParamWf : BoolParam{
 		[NonSerialized] private CheckBoxModel control;
-		public BoolParamWf(string name) : base(name){
+		public BoolParamWf() : base() {
+		}
+		public BoolParamWf(string name) : base(name) {
 		}
 		public BoolParamWf(string name, bool value) : base(name, value){
 		}

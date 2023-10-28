@@ -5,7 +5,9 @@ namespace BaseLibS.Param{
 	[Serializable]
 	public class IntParamWf : IntParam{
 		[NonSerialized] private TextFieldModel textField;
-		public IntParamWf(string name, int value) : base(name, value){
+		public IntParamWf() : this("", 0) {
+		}
+		public IntParamWf(string name, int value) : base(name, value) {
 		}
 		public IntParamWf(string name, string help, string url, bool visible, int value, int default1) : base(name,
 			help, url, visible, value, default1){

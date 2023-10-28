@@ -12,7 +12,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private MultiFileParam() : this(""){ }
+		public MultiFileParam() : this(""){ }
 
 		public MultiFileParam(string name) : this(name, new string[0]){ }
 

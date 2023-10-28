@@ -7,7 +7,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private FolderParam() : this(""){ }
+		public FolderParam() : this(""){ }
 
 		public FolderParam(string name) : this(name, ""){ }
 

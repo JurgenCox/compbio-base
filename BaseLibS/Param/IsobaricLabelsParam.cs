@@ -9,7 +9,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private IsobaricLabelsParam() : this(""){ }
+		public  IsobaricLabelsParam() : this(""){ }
 
 		public IsobaricLabelsParam(string name) : this(name, new string[0][]){ }
 

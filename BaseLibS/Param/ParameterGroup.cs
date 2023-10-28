@@ -29,14 +29,83 @@ namespace BaseLibS.Param{
 			parameters = new List<Parameter>();
 			for (int i = 0; i < n; i++){
 				string typeName = reader.ReadString();
-				Type type = Type.GetType(typeName);
-				Assembly ass = Assembly.GetAssembly(type);
-				Parameter p = (Parameter)ass.CreateInstance(typeName, false);
+				if (typeName.EndsWith("Wf")){
+					typeName = typeName.Substring(0, typeName.Length - 2);
+				}
+				Parameter p = GetParameter(typeName);
 				p.Read(reader);
 				parameters.Add(p);
 			}
 			name = reader.ReadString();
 			collapsedDefault = reader.ReadBoolean();
+		}
+		public Parameter GetParameter(string typeName){
+			switch (typeName){
+				case "BoolParam":
+					return new BoolParam();
+				case "BoolParamWf":
+					return new BoolParamWf();
+				case "BoolWithSubParams":
+					return new BoolWithSubParams();
+				case "CheckedFileParam":
+					return new CheckedFileParam();
+				case "DictionaryIntValueParam":
+					return new DictionaryIntValueParam();
+				case "DictionaryStringValueParam":
+					return new DictionaryStringValueParam();
+				case "DoubleParam":
+					return new DoubleParam();
+				case "DoubleParamWf":
+					return new DoubleParamWf();
+				case "EmptyParam":
+					return new EmptyParam();
+				case "FastaFilesParam":
+					return new FastaFilesParam();
+				case "FileParam":
+					return new FileParam();
+				case "FolderParam":
+					return new FolderParam();
+				case "IntParam":
+					return new IntParam();
+				case "IntParamWf":
+					return new IntParamWf();
+				case "IsobaricLabelsParam":
+					return new IsobaricLabelsParam();
+				case "LabelParam":
+					return new LabelParam();
+				case "Ms1LabelParam":
+					return new Ms1LabelParam();
+				case "MultiChoiceMultiBinParam":
+					return new MultiChoiceMultiBinParam();
+				case "MultiChoiceParam":
+					return new MultiChoiceParam();
+				case "MultiDoubleParam":
+					return new MultiDoubleParam();
+				case "MultiFileParam":
+					return new MultiFileParam();
+				case "MultiShapeParam":
+					return new MultiShapeParam();
+				case "MultiStringParam":
+					return new MultiStringParam();
+				case "RegexMatchParam":
+					return new RegexMatchParam();
+				case "RegexReplaceParam":
+					return new RegexReplaceParam();
+				case "SaveFileParam":
+					return new SaveFileParam();
+				case "SaveFolderParam":
+					return new SaveFolderParam();
+				case "ShapeParam":
+					return new ShapeParam();
+				case "SingleChoiceParam":
+					return new SingleChoiceParam();
+				case "SingleChoiceWithSubParams":
+					return new SingleChoiceWithSubParams();
+				case "StringParam":
+					return new StringParam();
+				default:
+					throw new Exception("Ubknown type: " + typeName);
+	}
 		}
 		public void Write(BinaryWriter writer) {
 			writer.Write(parameters.Count);

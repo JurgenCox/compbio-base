@@ -17,7 +17,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private MultiChoiceParam() : this("", new int[0]){ }
+		public MultiChoiceParam() : this("", new int[0]){ }
 
 		public MultiChoiceParam(string name, int[] value) : base(name){
 			Value = value;

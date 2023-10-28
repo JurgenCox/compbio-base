@@ -5,7 +5,9 @@ namespace BaseLibS.Param{
 	[Serializable]
 	public class DoubleParamWf : DoubleParam{
 		[NonSerialized] private TextFieldModel textField;
-		public DoubleParamWf(string name, double value) : base(name, value){
+		public DoubleParamWf() : base("", double.NaN) {
+		}
+		public DoubleParamWf(string name, double value) : base(name, value) {
 		}
 		public DoubleParamWf(string name, string help, string url, bool visible, double value, double default1) :
 			base(name, help, url, visible, value, default1){

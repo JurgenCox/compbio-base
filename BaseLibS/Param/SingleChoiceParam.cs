@@ -11,7 +11,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// only for xml serialization
 		/// </summary>
-		private SingleChoiceParam() : this(""){ }
+		public SingleChoiceParam() : this(""){ }
 
 		public SingleChoiceParam(string name) : this(name, 0){ }
 

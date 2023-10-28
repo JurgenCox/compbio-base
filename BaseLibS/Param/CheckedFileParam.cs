@@ -5,7 +5,7 @@ namespace BaseLibS.Param{
 	public class CheckedFileParam : FileParam{
 		public Func<string, Tuple<string, bool>> checkFileName;
 
-		private CheckedFileParam() : this("", null) { }
+		public CheckedFileParam() : this("", null) { }
 		public CheckedFileParam(string name, Func<string, Tuple<string, bool>> checkFileName) : this(name, "",
 			checkFileName){ }
 

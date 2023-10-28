@@ -5,7 +5,7 @@ namespace BaseLibS.Param{
 	[Serializable]
 	public class SaveFolderParam : Parameter<string>{
 		public Action<string> WriteAction{ get; set; }
-		private SaveFolderParam() : this(""){ }
+		public SaveFolderParam() : this(""){ }
 
 		public SaveFolderParam(string name) : this(name, "", s => { }){ }
 

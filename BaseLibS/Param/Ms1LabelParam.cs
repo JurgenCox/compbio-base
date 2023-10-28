@@ -15,7 +15,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private Ms1LabelParam() : this("", new int[0][]){ }
+		public Ms1LabelParam() : this("", new int[0][]){ }
 
 		public Ms1LabelParam(string name, int[][] value) : base(name){
 			Value = value;

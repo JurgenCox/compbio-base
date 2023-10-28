@@ -11,7 +11,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private DictionaryStringValueParam() : this("", new Dictionary<string, string>()){ }
+		public DictionaryStringValueParam() : this("", new Dictionary<string, string>()){ }
 
 		public DictionaryStringValueParam(string name, Dictionary<string, string> value) : base(name){
 			Value = value;

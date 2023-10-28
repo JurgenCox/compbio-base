@@ -9,7 +9,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private FastaFilesParam() : this(""){ }
+		public FastaFilesParam() : this(""){ }
 
 		public FastaFilesParam(string name) : this(name, new string[0][]){ }
 

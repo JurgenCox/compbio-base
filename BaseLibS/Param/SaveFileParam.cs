@@ -7,7 +7,7 @@ namespace BaseLibS.Param{
 		public string FileName{ get; set; }
 		public string Filter{ get; set; }
 		public Action<string> WriteAction{ get; set; }
-		private SaveFileParam() : this(""){ }
+		public SaveFileParam() : this(""){ }
 
 		public SaveFileParam(string name) : this(name, "", "", "", s => { }){ }
 

@@ -10,7 +10,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private RegexMatchParam() : this("", new Regex(".*"), new List<string>()){ }
+		public RegexMatchParam() : this("", new Regex(".*"), new List<string>()){ }
 
 		public List<string> Previews{ get; set; }
 

@@ -9,7 +9,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private MultiStringParam() : this(""){ }
+		public MultiStringParam() : this(""){ }
 
 		public MultiStringParam(string name) : this(name, new string[0]){ }
 

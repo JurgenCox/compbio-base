@@ -7,7 +7,7 @@ namespace BaseLibS.Param{
 		/// <summary>
 		/// only for xml serialization
 		/// </summary>
-		private ShapeParam() : this(""){ }
+		public ShapeParam() : this(""){ }
 
 		public ShapeParam(string name) : this(name, ""){ }
 
