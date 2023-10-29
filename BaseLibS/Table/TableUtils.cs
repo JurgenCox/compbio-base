@@ -132,11 +132,14 @@ namespace BaseLibS.Table {
 					}
 					break;
 				case ColumnType.DateTime:
-					throw new Exception("Not implemented.");
+					writer.Write(((DateTime)o).Ticks);
+					break;
 				case ColumnType.Color:
-					throw new Exception("Not implemented.");
+					writer.Write(((Color2)o).Value);
+					break;
 				case ColumnType.DashStyle:
-					throw new Exception("Not implemented.");
+					writer.Write((int)o);
+					break;
 				default:
 					throw new Exception("Never get here.");
 			}
@@ -158,11 +161,11 @@ namespace BaseLibS.Table {
 				case ColumnType.MultiInteger:
 					return reader.ReadString();
 				case ColumnType.DateTime:
-					throw new Exception("Not implemented.");
+					return new DateTime(reader.ReadInt64());
 				case ColumnType.Color:
-					throw new Exception("Not implemented.");
+					return Color2.FromArgb(reader.ReadInt32());
 				case ColumnType.DashStyle:
-					throw new Exception("Not implemented.");
+					return reader.ReadInt32();
 				default:
 					throw new Exception("Never get here.");
 			}
