@@ -22,8 +22,12 @@ namespace BaseLibS.Table {
 						writer.Write("");
 					} else if (o is char) {
 						writer.Write("" + (char)o);
-					} else {
+					} else if (o is int) {
+						writer.Write("" + (int)o);
+					} else if (o is string) {
 						writer.Write((string)o);
+					} else{
+						writer.Write(o.ToString());
 					}
 					break;
 				case ColumnType.Integer:
