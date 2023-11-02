@@ -144,21 +144,35 @@ namespace BaseLibS.Util{
 		/// <param name="filenames">File names with wild-cards</param>
 		/// <param name="onlyActive">Check if <code>INamedListItem.IsActive</code> is set</param>
 		/// <returns></returns>
-		public static T[] GetPlugins<T>(string[] filenames, bool onlyActive) where T : INamedListItem{
+		public static T[] GetPlugins<T>(string[] filenames, bool onlyActive) where T : INamedListItem {
 			IEnumerable<string> pluginFiles = GetPluginFiles(filenames);
 			List<T> result = new List<T>();
-			foreach (string pluginFile in pluginFiles){
+			foreach (string pluginFile in pluginFiles) {
 				string name = Path.GetFileNameWithoutExtension(pluginFile);
 				Assembly ass = Assembly.Load(name);
 				IEnumerable<T> types = GetLoadableTypes(ass)
 					.Where(type => typeof(T).IsAssignableFrom(type) && type.GetConstructor(Type.EmptyTypes) != null)
-					.Select(type => (T) Activator.CreateInstance(type));
-				if (onlyActive){
+					.Select(type => (T)Activator.CreateInstance(type));
+				if (onlyActive) {
 					types = types.Where(obj => obj.IsActive);
 				}
 				result.AddRange(types);
 			}
 			return Sort(result.ToArray());
+		}
+
+		public static T[] GetPlugins2<T>(string[] filenames) {
+			IEnumerable<string> pluginFiles = GetPluginFiles(filenames);
+			List<T> result = new List<T>();
+			foreach (string pluginFile in pluginFiles) {
+				string name = Path.GetFileNameWithoutExtension(pluginFile);
+				Assembly ass = Assembly.Load(name);
+				IEnumerable<T> types = GetLoadableTypes(ass)
+					.Where(type => typeof(T).IsAssignableFrom(type) && type.GetConstructor(Type.EmptyTypes) != null)
+					.Select(type => (T)Activator.CreateInstance(type));
+				result.AddRange(types);
+			}
+			return result.ToArray();
 		}
 
 		public static IEnumerable<Type> GetLoadableTypes(Assembly assembly){
