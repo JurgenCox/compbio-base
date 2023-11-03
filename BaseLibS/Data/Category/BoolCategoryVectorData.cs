@@ -6,8 +6,8 @@ namespace BaseLibS.Data.Category{
 	[Serializable]
 	internal class BoolCategoryVectorData : ICategoryVectorData{
 		private bool[] vector;
-		private string value;
-		private string falseValue;
+		private string value = "";
+		private string falseValue = "";
 		internal BoolCategoryVectorData(Array[] vals, string value){
 			this.value = value;
 			vector = new bool[vals.Length];
