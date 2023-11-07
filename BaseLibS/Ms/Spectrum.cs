@@ -20,7 +20,7 @@ namespace BaseLibS.Ms{
 
 		public Spectrum(BinaryReader reader){
 			Masses = FileUtils.ReadDoubleArray(reader);
-			Intensities = FileUtils.ReadSingleArray(reader);
+			Intensities = FileUtils.ReadFloatArray(reader);
 		}
 
 		public void Write(BinaryWriter writer){

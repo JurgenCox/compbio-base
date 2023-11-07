@@ -216,7 +216,7 @@ namespace BaseLibS.Num.Vector{
 
 		public override void Read(BinaryReader reader){
 			indices = FileUtils.ReadInt32Array(reader);
-			values = FileUtils.ReadSingleArray(reader);
+			values = FileUtils.ReadFloatArray(reader);
 			length = reader.ReadInt32();
 		}
 

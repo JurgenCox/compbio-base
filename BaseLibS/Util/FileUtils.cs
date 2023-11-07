@@ -696,12 +696,28 @@ namespace BaseLibS.Util{
 				writer.Write(x.Value);
 			}
 		}
+		public static bool? ReadNullableBoolean(BinaryReader reader) {
+			bool? result = null;
+			bool nonNull = reader.ReadBoolean();
+			if (nonNull) {
+				result = reader.ReadBoolean();
+			}
+			return result;
+		}
 		public static void Write(int? x, BinaryWriter writer) {
 			bool nonNull = x != null;
 			writer.Write(nonNull);
 			if (nonNull) {
 				writer.Write(x.Value);
 			}
+		}
+		public static int? ReadNullableInt32(BinaryReader reader) {
+			int? result = null;
+			bool nonNull = reader.ReadBoolean();
+			if (nonNull) {
+				result = reader.ReadInt32();
+			}
+			return result;
 		}
 		public static void Write(double? x, BinaryWriter writer) {
 			bool nonNull = x != null;
@@ -710,124 +726,835 @@ namespace BaseLibS.Util{
 				writer.Write(x.Value);
 			}
 		}
+		public static double? ReadNullableDouble(BinaryReader reader) {
+			double? result = null;
+			bool nonNull = reader.ReadBoolean();
+			if (nonNull) {
+				result = reader.ReadDouble();
+			}
+			return result;
+		}
 		public static void Write(IList<double> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull){
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (double t in x) {
 				writer.Write(t);
 			}
 		}
-
+		public static double[] ReadDoubleArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			double[] result = new double[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadDouble();
+			}
+			return result;
+		}
+		public static List<double> ReadDoubleList(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			List<double> result = new List<double>();
+			for (int i = 0; i < n; i++) {
+				result.Add(reader.ReadDouble());
+			}
+			return result;
+		}
 		public static void Write(IList<float> x, BinaryWriter writer){
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (float t in x){
 				writer.Write(t);
 			}
 		}
-
+		public static float[] ReadFloatArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			float[] result = new float[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadSingle();
+			}
+			return result;
+		}
 		public static void Write(IList<int> x, BinaryWriter writer){
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (int t in x){
 				writer.Write(t);
 			}
 		}
-
+		public static int[] ReadInt32Array(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			int[] result = new int[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadInt32();
+			}
+			return result;
+		}
+		public static List<int> ReadInt32List(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			List<int> result = new List<int>();
+			for (int i = 0; i < n; i++) {
+				result.Add(reader.ReadInt32());
+			}
+			return result;
+		}
 		public static void Write(IList<uint> x, BinaryWriter writer){
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (uint t in x){
 				writer.Write(t);
 			}
 		}
-
+		public static uint[] ReadUintArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			uint[] result = new uint[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadUInt32();
+			}
+			return result;
+		}
 		public static void Write(IList<ushort> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (ushort t in x) {
 				writer.Write(t);
 			}
 		}
-
+		public static ushort[] ReadUshortArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			ushort[] result = new ushort[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadUInt16();
+			}
+			return result;
+		}
 		public static void Write(IList<short> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (short t in x) {
 				writer.Write(t);
 			}
 		}
-
-		public static void Write(IList<long> x, BinaryWriter writer){
-			writer.Write(x.Count);
-			foreach (long t in x){
-				writer.Write(t);
+		public static short[] ReadInt16Array(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
 			}
+			int n = reader.ReadInt32();
+			short[] result = new short[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadInt16();
+			}
+			return result;
 		}
-
 		public static void Write(IList<string> x, BinaryWriter writer){
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (string t in x){
 				writer.Write(t);
 			}
 		}
-
+		public static string[] ReadStringArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			string[] result = new string[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadString();
+			}
+			return result;
+		}
+		public static void Write(IList<bool> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			writer.Write(x.Count);
+			foreach (bool t in x) {
+				writer.Write(t);
+			}
+		}
+		public static bool[] ReadBooleanArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			bool[] result = new bool[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadBoolean();
+			}
+			return result;
+		}
 		public static void Write(IList<byte> x, BinaryWriter writer){
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (byte t in x){
 				writer.Write(t);
 			}
 		}
-
-		public static void Write(IList<bool> x, BinaryWriter writer){
+		public static byte[] ReadByteArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			byte[] result = new byte[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadByte();
+			}
+			return result;
+		}
+		public static void Write(IList<long> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
-			foreach (bool t in x){
+			foreach (long t in x) {
 				writer.Write(t);
 			}
 		}
-
-		public static void Write(IList<string[]> x, BinaryWriter writer){
-			writer.Write(x.Count);
-			foreach (string[] t in x){
-				Write(t, writer);
+		public static long[] ReadInt64Array(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
 			}
+			int n = reader.ReadInt32();
+			long[] result = new long[n];
+			for (int i = 0; i < n; i++) {
+				result[i] = reader.ReadInt64();
+			}
+			return result;
 		}
-
 		public static void Write(IList<double[]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (double[] t in x) {
 				Write(t, writer);
 			}
 		}
 		public static void Write(IList<bool[]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (bool[] t in x) {
 				Write(t, writer);
 			}
 		}
-
+		public static double[][] Read2DDoubleArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			double[][] result = new double[n][];
+			for (int i = 0; i < n; i++) {
+				result[i] = ReadDoubleArray(reader);
+			}
+			return result;
+		}
+		public static void Write(double[,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static double[,] Read2DDoubleArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			double[,] result = new double[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadDouble();
+				}
+			}
+			return result;
+		}
+		public static void Write(IList<string[]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			writer.Write(x.Count);
+			foreach (string[] t in x) {
+				Write(t, writer);
+			}
+		}
+		public static bool[][] Read2DBooleanArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			bool[][] result = new bool[n][];
+			for (int i = 0; i < n; i++) {
+				result[i] = ReadBooleanArray(reader);
+			}
+			return result;
+		}
+		public static void Write(bool[,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static bool[,] Read2DBooleanArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			bool[,] result = new bool[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadBoolean();
+				}
+			}
+			return result;
+		}
+		public static string[][] Read2DStringArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			string[][] result = new string[n][];
+			for (int i = 0; i < n; i++) {
+				result[i] = ReadStringArray(reader);
+			}
+			return result;
+		}
+		public static void Write(string[,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static string[,] Read2DStringArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			string[,] result = new string[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadString();
+				}
+			}
+			return result;
+		}
+		public static void Write(IList<int[]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			writer.Write(x.Count);
+			foreach (int[] t in x) {
+				Write(t, writer);
+			}
+		}
+		public static int[][] Read2DInt32Array(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			int[][] result = new int[n][];
+			for (int i = 0; i < n; i++) {
+				result[i] = ReadInt32Array(reader);
+			}
+			return result;
+		}
+		public static void Write(int[,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static int[,] Read2DIntArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int[,] result = new int[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadInt32();
+				}
+			}
+			return result;
+		}
+		public static void Write(IList<float[]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			writer.Write(x.Count);
+			foreach (float[] t in x) {
+				Write(t, writer);
+			}
+		}
+		public static float[][] Read2DFloatArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			float[][] result = new float[n][];
+			for (int i = 0; i < n; i++) {
+				result[i] = ReadFloatArray(reader);
+			}
+			return result;
+		}
+		public static void Write(float[,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			writer.Write(n1);
+			writer.Write(n2);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					writer.Write(x[i, j]);
+				}
+			}
+		}
+		public static float[,] Read2DFloatArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			float[,] result = new float[n1, n2];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					result[i, j] = reader.ReadSingle();
+				}
+			}
+			return result;
+		}
+		public static void Write(ushort[,,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
+		public static ushort[,,] Read3DUshortArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			ushort[,,] result = new ushort[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadUInt16();
+					}
+				}
+			}
+			return result;
+		}
+		public static void Write(float[,,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
+		public static float[,,] Read3DFloatArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			float[,,] result = new float[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadSingle();
+					}
+				}
+			}
+			return result;
+		}
+		public static void Write(bool[,,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
+		public static bool[,,] Read3DBooleanArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			bool[,,] result = new bool[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadBoolean();
+					}
+				}
+			}
+			return result;
+		}
+		public static void Write(double[,,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			int n1 = x.GetLength(0);
+			int n2 = x.GetLength(1);
+			int n3 = x.GetLength(2);
+			writer.Write(n1);
+			writer.Write(n2);
+			writer.Write(n3);
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						writer.Write(x[i, j, k]);
+					}
+				}
+			}
+		}
+		public static double[,,] Read3DDoubleArray1(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n1 = reader.ReadInt32();
+			int n2 = reader.ReadInt32();
+			int n3 = reader.ReadInt32();
+			double[,,] result = new double[n1, n2, n3];
+			for (int i = 0; i < n1; i++) {
+				for (int j = 0; j < n2; j++) {
+					for (int k = 0; k < n3; k++) {
+						result[i, j, k] = reader.ReadDouble();
+					}
+				}
+			}
+			return result;
+		}
 		public static void Write(IList<double[,]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (double[,] t in x) {
 				Write(t, writer);
 			}
 		}
-
+		public static double[][,] Read3DDoubleArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			double[][,] result = new double[n][,];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read2DDoubleArray2(reader);
+			}
+			return result;
+		}
 		public static void Write(IList<int[][]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (int[][] t in x) {
 				Write(t, writer);
 			}
 		}
-
+		public static int[][][] Read3DIntArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			int[][][] result = new int[n][][];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read2DInt32Array(reader);
+			}
+			return result;
+		}
 		public static void Write(IList<float[,]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (float[,] t in x) {
 				Write(t, writer);
 			}
 		}
-
+		public static float[][,] Read3DFloatArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			float[][,] result = new float[n][,];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read2DFloatArray2(reader);
+			}
+			return result;
+		}
+		public static void Write(IList<double[][]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			writer.Write(x.Count);
+			foreach (double[][] t in x) {
+				Write(t, writer);
+			}
+		}
+		public static double[][][] Read3DDoubleArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			double[][][] result = new double[n][][];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read2DDoubleArray(reader);
+			}
+			return result;
+		}
 		public static void Write(IList<float[,,]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (float[,,] t in x) {
 				Write(t, writer);
 			}
 		}
+		public static float[][,,] Read4DFloatArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			float[][,,] result = new float[n][,,];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read3DFloatArray(reader);
+			}
+			return result;
+		}
+		public static void Write(IList<bool[,,]> x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
+			writer.Write(x.Count);
+			foreach (bool[,,] t in x) {
+				Write(t, writer);
+			}
+		}
+
+		public static bool[][,,] Read4DBooleabArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
+			}
+			int n = reader.ReadInt32();
+			bool[][,,] result = new bool[n][,,];
+			for (int i = 0; i < n; i++) {
+				result[i] = Read3DBooleanArray(reader);
+			}
+			return result;
+		}
 		public static void Write(float[,][,,] x, BinaryWriter writer) {
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			int n0 = x.GetLength(0);
 			int n1 = x.GetLength(1);
 			writer.Write(n0);
@@ -838,162 +1565,65 @@ namespace BaseLibS.Util{
 				}
 			}
 		}
-
-		public static void Write(IList<bool[,,]> x, BinaryWriter writer) {
-			writer.Write(x.Count);
-			foreach (bool[,,] t in x) {
-				Write(t, writer);
+		public static float[,][,,] Read5DFloatArray2(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
 			}
-		}
-
-		public static void Write(float[,] x, BinaryWriter writer){
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			writer.Write(n1);
-			writer.Write(n2);
-			for (int i = 0; i < n1; i++){
-				for (int j = 0; j < n2; j++){
-					writer.Write(x[i, j]);
+			int n0 = reader.ReadInt32();
+			int n1 = reader.ReadInt32();
+			float[,][,,] result = new float[n0, n1][,,];
+			for (int i0 = 0; i0 < n0; i0++) {
+				for (int i1 = 0; i1 < n1; i1++) {
+					result[i0, i1] = Read3DFloatArray(reader);
 				}
 			}
+			return result;
 		}
-
-		public static void Write(double[,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			writer.Write(n1);
-			writer.Write(n2);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					writer.Write(x[i, j]);
-				}
-			}
-		}
-		public static void Write(bool[,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			writer.Write(n1);
-			writer.Write(n2);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					writer.Write(x[i, j]);
-				}
-			}
-		}
-		public static void Write(string[,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			writer.Write(n1);
-			writer.Write(n2);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					writer.Write(x[i, j]);
-				}
-			}
-		}
-		public static void Write(int[,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			writer.Write(n1);
-			writer.Write(n2);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					writer.Write(x[i, j]);
-				}
-			}
-		}
-		public static void Write(float[,,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			int n3 = x.GetLength(2);
-			writer.Write(n1);
-			writer.Write(n2);
-			writer.Write(n3);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						writer.Write(x[i, j, k]);
-					}
-				}
-			}
-		}
-		public static void Write(bool[,,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			int n3 = x.GetLength(2);
-			writer.Write(n1);
-			writer.Write(n2);
-			writer.Write(n3);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						writer.Write(x[i, j, k]);
-					}
-				}
-			}
-		}
-		public static void Write(double[,,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			int n3 = x.GetLength(2);
-			writer.Write(n1);
-			writer.Write(n2);
-			writer.Write(n3);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						writer.Write(x[i, j, k]);
-					}
-				}
-			}
-		}
-		public static void Write(ushort[,,] x, BinaryWriter writer) {
-			int n1 = x.GetLength(0);
-			int n2 = x.GetLength(1);
-			int n3 = x.GetLength(2);
-			writer.Write(n1);
-			writer.Write(n2);
-			writer.Write(n3);
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						writer.Write(x[i, j, k]);
-					}
-				}
-			}
-		}
-		public static void Write(IList<int[]> x, BinaryWriter writer){
-			writer.Write(x.Count);
-			foreach (int[] t in x){
-				Write(t, writer);
-			}
-		}
-
-		public static void Write(IList<float[]> x, BinaryWriter writer){
-			writer.Write(x.Count);
-			foreach (float[] t in x){
-				Write(t, writer);
-			}
-		}
-
 		public static void Write(IList<BaseVector> x, BinaryWriter writer){
+			bool isNull = x == null;
+			writer.Write(isNull);
+			if (isNull) {
+				return;
+			}
 			writer.Write(x.Count);
 			foreach (BaseVector t in x){
 				Write(t, writer);
 			}
 		}
 
-		public static void Write(BaseVector x, BinaryWriter writer){
+		private static void Write(BaseVector x, BinaryWriter writer){
 			writer.Write((int) x.GetVectorType());
 			x.Write(writer);
 		}
-
-		public static void Write(IList<double[][]> x, BinaryWriter writer){
-			writer.Write(x.Count);
-			foreach (double[][] t in x){
-				Write(t, writer);
+		public static BaseVector[] ReadBaseVectorArray(BinaryReader reader) {
+			bool isNull = reader.ReadBoolean();
+			if (isNull) {
+				return null;
 			}
+			int len = reader.ReadInt32();
+			BaseVector[] result = new BaseVector[len];
+			for (int i = 0; i < len; i++) {
+				VectorType type = (VectorType)reader.ReadInt32();
+				result[i] = BaseVector.ReadbaseVector(type, reader);
+			}
+			return result;
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		public static void Write(IDictionary<string, int> x, BinaryWriter writer){
 			writer.Write(x.Count);
@@ -1049,385 +1679,15 @@ namespace BaseLibS.Util{
 			}
 		}
 
-		public static double[] ReadDoubleArray(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			double[] result = new double[n];
-			for (int i = 0; i < n; i++) {
-				result[i] = reader.ReadDouble();
-			}
-			return result;
-		}
-		public static bool? ReadNullableBoolean(BinaryReader reader) {
-			bool? result = null;
-			bool nonNull = reader.ReadBoolean();
-			if (nonNull) {
-				result = reader.ReadBoolean();
-			}
-			return result;
-		}
 
-		public static double? ReadNullableDouble(BinaryReader reader) {
-			double? result = null;
-			bool nonNull = reader.ReadBoolean();
-			if (nonNull) {
-				result = reader.ReadDouble();
-			}
-			return result;
-		}
 
-		public static int? ReadNullableInt32(BinaryReader reader) {
-			int? result = null;
-			bool nonNull = reader.ReadBoolean();
-			if (nonNull) {
-				result = reader.ReadInt32();
-			}
-			return result;
-		}
 
-		public static List<double> ReadDoubleList(BinaryReader reader){
-			int n = reader.ReadInt32();
-			List<double> result = new List<double>();
-			for (int i = 0; i < n; i++){
-				result.Add(reader.ReadDouble());
-			}
-			return result;
-		}
 
-		public static float[] ReadFloatArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			float[] result = new float[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadSingle();
-			}
-			return result;
-		}
 
-		public static ushort[] ReadUshortArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			ushort[] result = new ushort[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadUInt16();
-			}
-			return result;
-		}
 
-		public static uint[] ReadUintArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			uint[] result = new uint[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadUInt32();
-			}
-			return result;
-		}
 
-		public static bool[] ReadBooleanArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			bool[] result = new bool[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadBoolean();
-			}
-			return result;
-		}
 
-		public static string[] ReadStringArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			string[] result = new string[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadString();
-			}
-			return result;
-		}
 
-		public static byte[] ReadByteArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			byte[] result = new byte[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadByte();
-			}
-			return result;
-		}
-
-		public static float[] ReadSingleArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			float[] result = new float[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadSingle();
-			}
-			return result;
-		}
-
-		public static int[] ReadInt32Array(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			int[] result = new int[n];
-			for (int i = 0; i < n; i++) {
-				result[i] = reader.ReadInt32();
-			}
-			return result;
-		}
-		public static short[] ReadInt16Array(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			short[] result = new short[n];
-			for (int i = 0; i < n; i++) {
-				result[i] = reader.ReadInt16();
-			}
-			return result;
-		}
-
-		public static BaseVector[] ReadBaseVectorArray(BinaryReader reader){
-			int len = reader.ReadInt32();
-			BaseVector[] result = new BaseVector[len];
-			for (int i = 0; i < len; i++){
-				VectorType type = (VectorType) reader.ReadInt32();
-				result[i] = BaseVector.ReadbaseVector(type, reader);
-			}
-			return result;
-		}
-
-		public static List<int> ReadInt32List(BinaryReader reader){
-			int n = reader.ReadInt32();
-			List<int> result = new List<int>();
-			for (int i = 0; i < n; i++){
-				result.Add(reader.ReadInt32());
-			}
-			return result;
-		}
-
-		public static long[] ReadInt64Array(BinaryReader reader){
-			int n = reader.ReadInt32();
-			long[] result = new long[n];
-			for (int i = 0; i < n; i++){
-				result[i] = reader.ReadInt64();
-			}
-			return result;
-		}
-
-		public static double[][][] Read3DDoubleArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			double[][][] result = new double[n][][];
-			for (int i = 0; i < n; i++){
-				result[i] = Read2DDoubleArray(reader);
-			}
-			return result;
-		}
-
-		public static double[][] Read2DDoubleArray(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			double[][] result = new double[n][];
-			for (int i = 0; i < n; i++) {
-				result[i] = ReadDoubleArray(reader);
-			}
-			return result;
-		}
-
-		public static bool[][] Read2DBooleanArray(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			bool[][] result = new bool[n][];
-			for (int i = 0; i < n; i++) {
-				result[i] = ReadBooleanArray(reader);
-			}
-			return result;
-		}
-
-		public static double[][,] Read3DDoubleArray2(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			double[][,] result = new double[n][,];
-			for (int i = 0; i < n; i++) {
-				result[i] = Read2DDoubleArray2(reader);
-			}
-			return result;
-		}
-
-		public static int[][][] Read3DIntArray2(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			int[][][] result = new int[n][][];
-			for (int i = 0; i < n; i++) {
-				result[i] = Read2DInt32Array(reader);
-			}
-			return result;
-		}
-
-		public static float[][,] Read3DFloatArray2(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			float[][,] result = new float[n][,];
-			for (int i = 0; i < n; i++) {
-				result[i] = Read2DFloatArray2(reader);
-			}
-			return result;
-		}
-
-		public static float[][,,] Read4DFloatArray2(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			float[][,,] result = new float[n][,,];
-			for (int i = 0; i < n; i++) {
-				result[i] = Read3DFloatArray(reader);
-			}
-			return result;
-		}
-
-		public static bool[][,,] Read4DBooleabArray2(BinaryReader reader) {
-			int n = reader.ReadInt32();
-			bool[][,,] result = new bool[n][,,];
-			for (int i = 0; i < n; i++) {
-				result[i] = Read3DBooleanArray(reader);
-			}
-			return result;
-		}
-
-		public static float[,][,,] Read5DFloatArray2(BinaryReader reader) {
-			int n0 = reader.ReadInt32();
-			int n1 = reader.ReadInt32();
-			float[,][,,] result = new float[n0, n1][,,];
-			for (int i0 = 0; i0 < n0; i0++) {
-				for (int i1 = 0; i1 < n1; i1++) {
-					result[i0, i1] = Read3DFloatArray(reader);
-				}
-			}
-			return result;
-		}
-
-		public static double[,] Read2DDoubleArray2(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			double[,] result = new double[n1, n2];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					result[i, j] = reader.ReadDouble();
-				}
-			}
-			return result;
-		}
-		public static int[,] Read2DInntArray2(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			int[,] result = new int[n1, n2];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					result[i, j] = reader.ReadInt32();
-				}
-			}
-			return result;
-		}
-
-		public static string[,] Read2DStringArray2(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			string[,] result = new string[n1, n2];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					result[i, j] = reader.ReadString();
-				}
-			}
-			return result;
-		}
-
-		public static bool[,] Read2DBooleanArray2(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			bool[,] result = new bool[n1, n2];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					result[i, j] = reader.ReadBoolean();
-				}
-			}
-			return result;
-		}
-
-		public static float[,] Read2DFloatArray2(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			float[,] result = new float[n1, n2];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					result[i, j] = reader.ReadSingle();
-				}
-			}
-			return result;
-		}
-
-		public static float[,,] Read3DFloatArray(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			int n3 = reader.ReadInt32();
-			float[,,] result = new float[n1, n2, n3];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						result[i, j, k] = reader.ReadSingle();
-					}
-				}
-			}
-			return result;
-		}
-		public static bool[,,] Read3DBooleanArray(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			int n3 = reader.ReadInt32();
-			bool[,,] result = new bool[n1, n2, n3];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						result[i, j, k] = reader.ReadBoolean();
-					}
-				}
-			}
-			return result;
-		}
-		public static double[,,] Read3DDoubleArray1(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			int n3 = reader.ReadInt32();
-			double[,,] result = new double[n1, n2, n3];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						result[i, j, k] = reader.ReadDouble();
-					}
-				}
-			}
-			return result;
-		}
-
-		public static ushort[,,] Read3DUshortArray(BinaryReader reader) {
-			int n1 = reader.ReadInt32();
-			int n2 = reader.ReadInt32();
-			int n3 = reader.ReadInt32();
-			ushort[,,] result = new ushort[n1, n2, n3];
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
-					for (int k = 0; k < n3; k++) {
-						result[i, j, k] = reader.ReadUInt16();
-					}
-				}
-			}
-			return result;
-		}
-
-		public static string[][] Read2DStringArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			string[][] result = new string[n][];
-			for (int i = 0; i < n; i++){
-				result[i] = ReadStringArray(reader);
-			}
-			return result;
-		}
-
-		public static int[][] Read2DInt32Array(BinaryReader reader){
-			int n = reader.ReadInt32();
-			int[][] result = new int[n][];
-			for (int i = 0; i < n; i++){
-				result[i] = ReadInt32Array(reader);
-			}
-			return result;
-		}
-
-		public static float[][] Read2DFloatArray(BinaryReader reader){
-			int n = reader.ReadInt32();
-			float[][] result = new float[n][];
-			for (int i = 0; i < n; i++){
-				result[i] = ReadFloatArray(reader);
-			}
-			return result;
-		}
 
 		public static bool IsUnix(){
 			OperatingSystem os = Environment.OSVersion;
