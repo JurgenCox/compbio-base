@@ -3462,5 +3462,25 @@ namespace BaseLibS.Num{
 			}
 			d[key].Add(value);
 		}
+		public static void Shuffle<T>(T[] indexes, Random rnd) {
+			int n = indexes.Length;
+			while (n > 1) {
+				int k = rnd.Next(n--);
+				(indexes[n], indexes[k]) = (indexes[k], indexes[n]);
+			}
+		}
+
+		public static void Shuffle(int n, Random rnd, out int[] indexes) {
+			indexes = Range(n);
+			Shuffle(indexes, rnd);
+		}
+
+		public static int[] Range(int n) {
+			int[] indexes = new int[n];
+			for (int i = 0; i < n; i++) {
+				indexes[i] = i;
+			}
+			return indexes;
+		}
 	}
 }
