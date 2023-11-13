@@ -31,7 +31,7 @@ namespace BaseLibS.Table {
 					}
 					break;
 				case ColumnType.Integer:
-					if (o is DBNull) {
+					if (o == null || o is DBNull) {
 						writer.Write(int.MaxValue);
 					} else if (o is UInt16) {
 						UInt16 x = (UInt16)o;
@@ -70,7 +70,7 @@ namespace BaseLibS.Table {
 					}
 					break;
 				case ColumnType.Numeric:
-					if (o is DBNull) {
+					if (o == null || o is DBNull) {
 						writer.Write(double.NaN);
 					} else if (o is int) {
 						int x = (int)o;
@@ -109,7 +109,7 @@ namespace BaseLibS.Table {
 					}
 					break;
 				case ColumnType.Categorical:
-					if (o is DBNull) {
+					if (o == null || o is DBNull) {
 						writer.Write("");
 					} else if (o is Boolean) {
 						bool x = (bool)o;
@@ -144,6 +144,10 @@ namespace BaseLibS.Table {
 				case ColumnType.DashStyle:
 					writer.Write((int)o);
 					break;
+				case ColumnType.SymbolType:
+					int w = (int)o;
+					writer.Write(w);
+					break;
 				default:
 					throw new Exception("Never get here.");
 			}
@@ -169,6 +173,8 @@ namespace BaseLibS.Table {
 				case ColumnType.Color:
 					return Color2.FromArgb(reader.ReadInt32());
 				case ColumnType.DashStyle:
+					return reader.ReadInt32();
+				case ColumnType.SymbolType:
 					return reader.ReadInt32();
 				default:
 					throw new Exception("Never get here.");
