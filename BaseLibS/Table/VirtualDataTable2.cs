@@ -27,14 +27,24 @@ namespace BaseLibS.Table{
 		public VirtualDataTable2(BinaryReader reader, Func<int, object[]> getRowData) : base(reader) {
 			GetRowData = getRowData;
 			rowCount = reader.ReadInt32();
-			persistentColInds = new List<int>(FileUtils.ReadInt32Array(reader));
-			persistentTable = new DataTable2(reader);
+			int[] x = FileUtils.ReadInt32Array(reader);
+			if (x != null){
+				persistentColInds = new List<int>(x);
+			}
+			bool isNull = reader.ReadBoolean();
+			if (!isNull){
+				persistentTable = new DataTable2(reader);
+			}
 		}
 		public void Write(BinaryWriter writer){
 			base.Write1(writer);
 			writer.Write(rowCount);
 			FileUtils.Write(persistentColInds, writer);
-			persistentTable.Write(writer);
+			bool isNull = persistentTable == null;
+			writer.Write(isNull);
+			if (!isNull){
+				persistentTable.Write(writer);
+			}
 		}
 
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
