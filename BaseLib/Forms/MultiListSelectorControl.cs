@@ -104,12 +104,15 @@ namespace BaseLib.Forms{
 		}
 
 		private HashSet<string> GetSubSelection(int selectorInd){
+			if (selectorInd >= subSelection.Length){
+				return new HashSet<string>();
+			}
 			return new HashSet<string>(subSelection[selectorInd].SelectedStrings);
 		}
 
 		public void SetSelected(int selectorInd, int itemInd, bool b){
 			HashSet<string> x = GetSubSelection(selectorInd);
-			if (x.Contains(items[itemInd])){
+			if (itemInd >= items.Count || x.Contains(items[itemInd])){
 				return;
 			}
 			if (!AllListBox.Items.Contains(items[itemInd])){

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BaseLibS.Drawing;
 using BaseLibS.Graph;
-
+using BaseLibS.Util;
 namespace BaseLibS.Num.Cluster{
 	/// <summary>
 	/// Contains all information on a row/column clustering.
@@ -49,6 +50,49 @@ namespace BaseLibS.Num.Cluster{
 
 		public HierarchicalClusterData(HierarchicalClusterNode[] nodes) : this(nodes, new int[0][],
 			new Dictionary<string, Color2>()){ }
+		public HierarchicalClusterData(BinaryReader reader){
+			int n = reader.ReadInt32();
+			nodes = new HierarchicalClusterNode[n];
+			for (int i = 0; i < n; i++){
+				nodes[i] = new HierarchicalClusterNode(reader);
+			}
+			itemOrder = FileUtils.ReadInt32Array(reader);
+			itemOrderInv = FileUtils.ReadInt32Array(reader);
+			sizes = FileUtils.ReadInt32Array(reader);
+			start = FileUtils.ReadInt32Array(reader);
+			end = FileUtils.ReadInt32Array(reader);
+			n = reader.ReadInt32();
+			cluster2Color = new Dictionary<string, Color2>();
+			for (int i = 0; i < n; i++) {
+				string s = reader.ReadString();
+				Color2 c = Color2.FromArgb(reader.ReadInt32());
+				cluster2Color.Add(s, c);
+			}
+			clusters = FileUtils.Read2DInt32Array(reader);
+			drawHang = reader.ReadBoolean();
+			colorBarSize = reader.ReadInt32();
+			treeLineWidth = reader.ReadInt32();
+		}
+		public void Write(BinaryWriter writer){
+			writer.Write(nodes.Length);
+			foreach (HierarchicalClusterNode node in nodes){
+				node.Write(writer);
+			}
+			FileUtils.Write(itemOrder, writer);
+			FileUtils.Write(itemOrderInv, writer);
+			FileUtils.Write(sizes, writer);
+			FileUtils.Write(start, writer);
+			FileUtils.Write(end, writer);
+			writer.Write(cluster2Color.Count);
+			foreach (KeyValuePair<string, Color2> pair in cluster2Color){
+				writer.Write(pair.Key);
+				writer.Write(pair.Value.Value);
+			}
+			FileUtils.Write(clusters, writer);
+			writer.Write(drawHang);
+			writer.Write(colorBarSize);
+			writer.Write(treeLineWidth);
+		}
 
 		public static string ToString(int[] ids){
 			return string.Join(";", ids);
