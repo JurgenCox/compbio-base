@@ -57,6 +57,7 @@ namespace BaseLibS.Param{
 			FileUtils.Write(Value, writer);
 			FileUtils.Write(Default, writer);
 			writer.Write(Repeats);
+			FileUtils.Write(Values, writer);
 			FileUtils.Write(DefaultSelectionNames.ToArray(), writer);
 			writer.Write(DefaultSelections.Count);
 			foreach (string[] strings in DefaultSelections){
