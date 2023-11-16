@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -103,6 +102,8 @@ namespace BaseLibS.Param{
 					return new SingleChoiceWithSubParams();
 				case "StringParam":
 					return new StringParam();
+				case "PerseusLoadMatrixParam":
+					return new PerseusLoadMatrixParam();
 				default:
 					throw new Exception("Ubknown type: " + typeName);
 	}

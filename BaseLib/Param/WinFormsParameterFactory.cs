@@ -266,6 +266,16 @@ namespace BaseLib.Param{
 				}
 				return b;
 			}
+			if (p is PerseusLoadMatrixParam) {
+				PerseusLoadMatrixParam q = (PerseusLoadMatrixParam)p;
+				PerseusLoadMatrixParamWf b = new PerseusLoadMatrixParamWf(q.Name) {
+					Help = q.Help, Visible = q.Visible, Default = q.Default, Url = q.Url, Value = q.Value
+				};
+				foreach (ValueChangedHandler act in q.GetPropertyChangedHandlers()) {
+					b.ValueChanged += act;
+				}
+				return b;
+			}
 			if (p is MultiDoubleParam) {
 				MultiDoubleParam q = (MultiDoubleParam)p;
 				MultiDoubleParamWf b = new MultiDoubleParamWf(q.Name, q.Value) {

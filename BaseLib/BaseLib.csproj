@@ -297,7 +297,7 @@
     <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
     <Compile Include="Param\CheckedFileParamWf.cs" />
-    <Compile Include="Param\PerseusLoadMatrixParam.cs" />
+    <Compile Include="Param\PerseusLoadMatrixParamWf.cs" />
     <Compile Include="Param\SaveFolderParamWf.cs" />
     <Compile Include="Param\SaveFileParamWf.cs" />
     <Compile Include="Param\DictionaryStringValueParamWf.cs" />

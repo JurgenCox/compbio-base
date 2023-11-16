@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using BaseLib.Forms;
 using BaseLibS.Num;
-using BaseLibS.Param;
 using BaseLibS.Util;
-namespace BaseLib.Param{
+namespace BaseLibS.Param{
 	/// <summary>
 	/// Parameter value format: 8 item string array
 	/// [0] file name: string
@@ -17,7 +15,6 @@ namespace BaseLib.Param{
 	[Serializable]
 	public class PerseusLoadMatrixParam : Parameter<string[]>{
 		public string Filter{ get; set; }
-		[NonSerialized] private PerseusLoadMatrixControl control;
 
 		/// <summary>
 		/// Puts thresholds on parameters that are used for filtering rows on upload.
@@ -28,7 +25,7 @@ namespace BaseLib.Param{
 		/// <summary>
 		/// for xml serialization only
 		/// </summary>
-		private PerseusLoadMatrixParam() : this(""){ }
+		public PerseusLoadMatrixParam() : this(""){ }
 
 		public PerseusLoadMatrixParam(string name) : base(name){
 			Value = new string[8];
@@ -53,19 +50,6 @@ namespace BaseLib.Param{
 
 		public override bool IsDropTarget => true;
 
-		public override void Drop(string x){
-			UpdateFile(x);
-		}
-
-		public override void SetValueFromControl(){
-			Value = control.Value;
-			FilterParameterValues = control.GetSubParameterValues();
-		}
-
-		public override void UpdateControlFromValue(){
-			control.Value = Value;
-		}
-
 		public override void Clear(){
 			Value = new string[8];
 			for (int i = 0; i < 8; i++){
@@ -73,17 +57,8 @@ namespace BaseLib.Param{
 			}
 		}
 
-		private void UpdateFile(string filename){
-			control?.UpdateFile(filename);
-		}
-
 		public override float Height => 790;
 
-		public override object CreateControl(){
-			string[] items = Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
-			control = new PerseusLoadMatrixControl(items){Filter = Filter, Value = Value};
-			return control;
-		}
 
 		public string Filename => Value[0];
 		public string[] Items => Value[1].Length > 0 ? Value[1].Split(';') : new string[0];
@@ -154,5 +129,6 @@ namespace BaseLib.Param{
 			reader.ReadEndElement();
 			reader.ReadEndElement();
 		}
+		public override ParamType Type => ParamType.Server;
 	}
 }
