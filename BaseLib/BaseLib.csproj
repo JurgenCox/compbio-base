@@ -200,6 +200,12 @@
       <DependentUpon>NumericAxisPropertiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\NumericAxisView.cs" />
+    <Compile Include="Forms\PerseusLoadMatrixControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\PerseusLoadMatrixControl.Designer.cs">
+      <DependentUpon>PerseusLoadMatrixControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PlanePropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -291,6 +297,7 @@
     <Compile Include="Graphic\SvgGraphics2.cs" />
     <Compile Include="Graphic\WindowsBasedGraphics.cs" />
     <Compile Include="Param\CheckedFileParamWf.cs" />
+    <Compile Include="Param\PerseusLoadMatrixParam.cs" />
     <Compile Include="Param\SaveFolderParamWf.cs" />
     <Compile Include="Param\SaveFileParamWf.cs" />
     <Compile Include="Param\DictionaryStringValueParamWf.cs" />
@@ -442,6 +449,9 @@
     <EmbeddedResource Include="Forms\NumericAxisPropertiesForm.resx">
       <DependentUpon>NumericAxisPropertiesForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PerseusLoadMatrixControl.resx">
+      <DependentUpon>PerseusLoadMatrixControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PlanePropertiesForm.resx">
       <DependentUpon>PlanePropertiesForm.cs</DependentUpon>

@@ -936,5 +936,8 @@ namespace BaseLibS.Util{
 			"mass deviations [da]", "mass deviations [ppm]", "number of phospho (sty)", "fragment.quant.raw", 
 			"fragment.quant.corrected", "fragment.correlations"
 		});
+		public static readonly HashSet<string> commentPrefix = new HashSet<string>(new[] { "#", "!" });
+		public static readonly HashSet<string> commentPrefixExceptions = new HashSet<string>(new[] { "#N/A", "#n/a" });
+
 	}
 }
