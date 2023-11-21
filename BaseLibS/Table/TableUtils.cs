@@ -65,6 +65,13 @@ namespace BaseLibS.Table {
 						float x = (float)o;
 						int y = (int)Math.Round(x);
 						writer.Write(y);
+					} else if (o is string) {
+						string x = (string)o;
+						bool success = Parser.TryInt(x, out int y);
+						if (!success){
+							y = 0;
+						}
+						writer.Write(y);
 					} else {
 						writer.Write((int)o);
 					}

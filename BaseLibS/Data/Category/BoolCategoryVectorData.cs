@@ -40,7 +40,13 @@ namespace BaseLibS.Data.Category{
 		}
 		public void Write(BinaryWriter writer) {
 			FileUtils.Write(vector, writer);
+			if (value == null){
+				value = "";
+			}
 			writer.Write(value);
+			if (falseValue == null) {
+				falseValue = "";
+			}
 			writer.Write(falseValue);
 		}
 
