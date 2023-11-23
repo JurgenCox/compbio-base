@@ -11,6 +11,13 @@ namespace BaseLibS.Table {
 				case ColumnType.Boolean:
 					if (o is DBNull) {
 						writer.Write(false);
+					} else if (o is string) {
+						string x = (string)o;
+						bool success = Parser.TryBool(x, out bool y);
+						if (!success) {
+							y = false;
+						}
+						writer.Write(y);
 					} else {
 						writer.Write((bool)o);
 					}
@@ -110,6 +117,13 @@ namespace BaseLibS.Table {
 					} else if (o is Int64) {
 						long x = (long)o;
 						double y = (int)x;
+						writer.Write(y);
+					} else if (o is string) {
+						string x = (string)o;
+						bool success = Parser.TryDouble(x, out double y);
+						if (!success) {
+							y = double.NaN;
+						}
 						writer.Write(y);
 					} else {
 						writer.Write((double)o);
