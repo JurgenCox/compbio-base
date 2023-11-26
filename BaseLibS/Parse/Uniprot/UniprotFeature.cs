@@ -13,6 +13,7 @@ namespace BaseLibS.Parse.Uniprot{
 		public string FeatureEnd { get; set; }
 		public readonly List<string> originals = new List<string>();
 		public readonly List<string> variations = new List<string>();
+		public readonly List<string> ligands = new List<string>();
 
 		public UniprotFeature(string featureDescription, string featureStatus, string featureId){
 			FeatureDescription = featureDescription;
@@ -129,8 +130,11 @@ namespace BaseLibS.Parse.Uniprot{
 			FeatureEnd = featureEnd1;
 		}
 
-		public void AddFeatureVariation(string variation){
+		public void AddFeatureVariation(string variation) {
 			variations.Add(variation);
+		}
+		public void AddFeatureLigand(string ligand) {
+			ligands.Add(ligand);
 		}
 
 		public void AddFeatureOriginal(string original){

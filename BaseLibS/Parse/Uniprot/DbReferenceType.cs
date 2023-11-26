@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using BaseLibS.Num;
-
-namespace BaseLibS.Parse.Uniprot {
-    [Serializable]
+namespace BaseLibS.Parse.Uniprot{
+	[Serializable]
 	public class DbReferenceType{
 		public static DbReferenceType go = new DbReferenceType("go");
 		public static DbReferenceType kegg = new DbReferenceType("kegg");
@@ -198,9 +197,9 @@ namespace BaseLibS.Parse.Uniprot {
 		public static DbReferenceType WBParaSite = new DbReferenceType("wbparasite");
 		public static DbReferenceType IMGTGENEDB = new DbReferenceType("imgt_gene-db");
 		public static DbReferenceType SAM = new DbReferenceType("sam");
-	    public static DbReferenceType ProteomicsDB = new DbReferenceType("proteomicsdb");
-	    public static DbReferenceType VGNC = new DbReferenceType("vgnc");
-	    public static DbReferenceType CarbonylDB = new DbReferenceType("carbonyldb");
+		public static DbReferenceType ProteomicsDB = new DbReferenceType("proteomicsdb");
+		public static DbReferenceType VGNC = new DbReferenceType("vgnc");
+		public static DbReferenceType CarbonylDB = new DbReferenceType("carbonyldb");
 		public static DbReferenceType GlyConnect = new DbReferenceType("glyconnect");
 		public static DbReferenceType ComplexPortal = new DbReferenceType("complexportal");
 		public static DbReferenceType MoonDB = new DbReferenceType("moondb");
@@ -218,14 +217,29 @@ namespace BaseLibS.Parse.Uniprot {
 		public static DbReferenceType phibase = new DbReferenceType("phi-base");
 		public static DbReferenceType ABCD = new DbReferenceType("abcd");
 		public static DbReferenceType NIAGADS = new DbReferenceType("niagads");
-        public static DbReferenceType AlphaFoldDB = new DbReferenceType("AlphaFoldDB");
-        public static DbReferenceType SASBDB = new DbReferenceType("SASBDB ");
-        public static DbReferenceType interactions = new DbReferenceType("interactions");
-        public static DbReferenceType GlyGen = new DbReferenceType("GlyGen");
+		public static DbReferenceType AlphaFoldDB = new DbReferenceType("alphafolddb");
+		public static DbReferenceType SASBDB = new DbReferenceType("SASBDB");
+		public static DbReferenceType interactions = new DbReferenceType("interactions");
+		public static DbReferenceType GlyGen = new DbReferenceType("glygen");
+		public static DbReferenceType Pumba = new DbReferenceType("pumba");
+		public static DbReferenceType MANESelect = new DbReferenceType("mane-select");
+		public static DbReferenceType AGR = new DbReferenceType("agr");
+		public static DbReferenceType VEuPathDB = new DbReferenceType("veupathdb");
+		public static DbReferenceType PathwayCommons = new DbReferenceType("pathwaycommons");
+		public static DbReferenceType BioGRIDORCS = new DbReferenceType("BioGRID-ORCS");
+		public static DbReferenceType CPTC = new DbReferenceType("CPTC");
+		public static DbReferenceType IDEAL = new DbReferenceType("IDEAL");
+		public static DbReferenceType BMRB = new DbReferenceType("BMRB");
+		public static DbReferenceType GlyCosmos = new DbReferenceType("GlyCosmos");
+		public static DbReferenceType NCBIfam = new DbReferenceType("NCBIfam");
+		public static DbReferenceType PCDDB = new DbReferenceType("PCDDB");
+		public static DbReferenceType ARBA = new DbReferenceType("ARBA");
+		public static DbReferenceType Google = new DbReferenceType("Google");
+		public static DbReferenceType CLAE = new DbReferenceType("CLAE");
 
+		
 		public static string[] allDbReferenceTypeStrings;
 		public static DbReferenceType[] allDbReferenceTypes = CreateDbReferenceTypeList();
-
 		private static DbReferenceType[] CreateDbReferenceTypeList(){
 			List<DbReferenceType> ft = new List<DbReferenceType>{
 				go,
@@ -399,36 +413,36 @@ namespace BaseLibS.Parse.Uniprot {
 				chEbi,
 				depod,
 				moonProt,
-                SwissPalm,
-                iPTMnet,
-                PhosphoSitePlus,
-                TopDownProteomics,
-                Genevisible,
-                CORUM,
-                ELM,
-                EPD,
-                DisGeNET,
-                MalaCards,
-                OpenTargets,
-                SIGNOR,
-                Araport,
-                CDD,
-                SFLD,
-                ESTHER,
-                SwissLipids,
-                GeneDB,
-                CollecTF,
-                WBParaSite,
-			    IMGTGENEDB,
-                SAM,
+				SwissPalm,
+				iPTMnet,
+				PhosphoSitePlus,
+				TopDownProteomics,
+				Genevisible,
+				CORUM,
+				ELM,
+				EPD,
+				DisGeNET,
+				MalaCards,
+				OpenTargets,
+				SIGNOR,
+				Araport,
+				CDD,
+				SFLD,
+				ESTHER,
+				SwissLipids,
+				GeneDB,
+				CollecTF,
+				WBParaSite,
+				IMGTGENEDB,
+				SAM,
 				ProteomicsDB,
 				VGNC,
 				CarbonylDB,
 				GlyConnect,
 				ComplexPortal,
 				MoonDB,
-			    Rhea,
-                jPOST,
+				Rhea,
+				jPOST,
 				UniLectin,
 				NIAGADS,
 				ABCD,
@@ -441,16 +455,30 @@ namespace BaseLibS.Parse.Uniprot {
 				MassIVE,
 				Pharos,
 				Antibodypedia,
-                AlphaFoldDB,
-                SASBDB,
-                interactions,
-                GlyGen
+				AlphaFoldDB,
+				SASBDB,
+				interactions,
+				GlyGen,
+				Pumba,
+				MANESelect, 
+				AGR,
+				VEuPathDB,
+				PathwayCommons,
+				BioGRIDORCS,
+				CPTC,
+				IDEAL,
+				BMRB,
+				GlyCosmos,
+				NCBIfam,
+				PCDDB,
+				ARBA,
+				Google,
+				CLAE
 			};
-
 			allDbReferenceTypeStrings = new string[ft.Count];
 			for (int i = 0; i < allDbReferenceTypeStrings.Length; i++){
 				allDbReferenceTypeStrings[i] = ft[i].UniprotName;
-            }
+			}
 			int[] o = ArrayUtils.Order(allDbReferenceTypeStrings);
 			allDbReferenceTypeStrings = ArrayUtils.SubArray(allDbReferenceTypeStrings, o);
 			DbReferenceType[] result = new DbReferenceType[ft.Count];
@@ -460,20 +488,18 @@ namespace BaseLibS.Parse.Uniprot {
 			}
 			return result;
 		}
-
 		public static DbReferenceType GetDbReferenceType(string s){
 			string q = s.ToLower();
-		    
-            int index = Array.BinarySearch(allDbReferenceTypeStrings, q);
-            if (index < 0)
-            {
-                throw new Exception("Unknown DbReference type: " + s);
-            }
-            return allDbReferenceTypes[index];
-		} 
-
-		public string UniprotName { get; set; }
-		public int Index { get; set; }
-		public DbReferenceType(string uniprotName) { UniprotName = uniprotName; }
+			int index = Array.BinarySearch(allDbReferenceTypeStrings, q);
+			if (index < 0){
+				throw new Exception("Unknown DbReference type: " + s);
+			}
+			return allDbReferenceTypes[index];
+		}
+		public string UniprotName{ get; set; }
+		public int Index{ get; set; }
+		public DbReferenceType(string uniprotName){
+			UniprotName = uniprotName.ToLower();
+		}
 	}
 }

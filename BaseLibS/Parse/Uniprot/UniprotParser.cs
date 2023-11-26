@@ -45,6 +45,8 @@ namespace BaseLibS.Parse.Uniprot{
 		private string featureEnd;
 		private bool inOrganism;
 		private bool inOrganismHost;
+		private bool inLigand;
+		private bool inLigandPart;
 		private int level;
 		private readonly Dictionary<FeatureType, long> featureCounts = new Dictionary<FeatureType, long>();
 		private string gnameType;
@@ -56,13 +58,16 @@ namespace BaseLibS.Parse.Uniprot{
         private StringBuilder molecule;
         private readonly bool resolveIsoforms;
 
-		public UniprotParser(string swissprotFileName, string tremblFileName, bool includeTrembl, HandleUniprotEntry handle, bool resolveIsos){
+		public UniprotParser(string swissprotFileName, string tremblFileName, bool includeTrembl, HandleUniprotEntry handle, 
+			bool resolveIsos){
 		    resolveIsoforms = resolveIsos;
 			if (swissprotFileName != null){
 				this.swissprotFileName = swissprotFileName;
 			}
-			if (tremblFileName != null){
+			if (!string.IsNullOrEmpty(tremblFileName)){
 				this.tremblFileName = tremblFileName;
+			} else{
+				includeTrembl = false;
 			}
 			Parse(this.swissprotFileName, handle, false);
 			if (includeTrembl){
@@ -102,7 +107,25 @@ namespace BaseLibS.Parse.Uniprot{
 
 		private void StartElement(IEquatable<string> qName, IDictionary<string, string> attrs){
 			if (inFeature){
-				if (qName.Equals("location")){
+				if (inLigand){
+					if (qName.Equals("name")){
+						//TODO
+					} else if (qName.Equals("dbReference")) {
+						//TODO
+					} else if (qName.Equals("note")) {
+						//TODO
+					} else if (qName.Equals("label")) {
+						//TODO
+					} else {
+						throw new Exception("Unknown qname: " + qName);
+					}
+				} else if (inLigandPart) {
+					if (qName.Equals("name")) {
+						//TODO
+					} else if (qName.Equals("dbReference")) {
+						//TODO
+					}
+				} else if(qName.Equals("location")){
 					//inFeatureLocation = true;
 				} else if (qName.Equals("position")){
 					string position = attrs["position"];
@@ -116,9 +139,13 @@ namespace BaseLibS.Parse.Uniprot{
 					featureEnd = position;
 				} else if (qName.Equals("original")){
 					original = new StringBuilder();
-				} else if (qName.Equals("variation")){
+				} else if (qName.Equals("variation")) {
 					variation = new StringBuilder();
-				}else{
+				} else if (qName.Equals("ligand")) {
+					inLigand = true;
+				} else if (qName.Equals("ligandPart")) {
+					inLigandPart = true;
+				} else {
 					throw new Exception("Unknown qname: " + qName);
 				}
 			}
@@ -251,11 +278,15 @@ namespace BaseLibS.Parse.Uniprot{
 					//inFeatureLocation = false;
 					entry.AddFeatureLocation(featureBegin, featureEnd);
 				}
-			} else if (qName.Equals("variation")){
-				if (inFeature){
+			} else if (qName.Equals("variation")) {
+				if (inFeature) {
 					entry.AddFeatureVariation(StringUtils.RemoveWhitespace(variation.ToString()));
 					variation = null;
 				}
+			} else if (qName.Equals("ligand")) {
+				inLigand = false;
+			} else if (qName.Equals("ligandPart")) {
+				inLigandPart = false;
 			} else if (qName.Equals("original")){
 				if (inFeature){
 					entry.AddFeatureOriginal(StringUtils.RemoveWhitespace(original.ToString()));
