@@ -7,7 +7,9 @@ using BaseLibS.Util;
 namespace NumPluginBase.RegressionRank{
 	public static class RegressionFeatureRankingMethods{
 		private static readonly RegressionFeatureRankingMethod[] allMethods = InitRankingMethods();
-		private static RegressionFeatureRankingMethod[] InitRankingMethods() { return FileUtils.GetPlugins<RegressionFeatureRankingMethod>(NumPluginUtils.pluginNames, true); }
+		private static RegressionFeatureRankingMethod[] InitRankingMethods(){
+			return FileUtils.GetPlugins<RegressionFeatureRankingMethod>(NumPluginUtils.pluginNames, true);
+		}
 
 		public static string[] GetAllNames(){
 			string[] result = new string[allMethods.Length];
