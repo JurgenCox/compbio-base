@@ -1,29 +1,24 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 
-namespace BaseLibS.Util{
+namespace BaseLibS.Util
+{
 	public static class Parser{
+
 		public static double Double(string s){
-			return double.Parse(s, NumberStyles.Any,
-				s.Contains(",") ? Thread.CurrentThread.CurrentCulture : CultureInfo.InvariantCulture);
+			return double.Parse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
 
 		public static bool TryDouble(string s, out double x){
-			return s.Contains(",")
-				? double.TryParse(s, NumberStyles.Any, Thread.CurrentThread.CurrentCulture, out x)
-				: double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+			return double.TryParse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
 		public static float Float(string s){
-			return float.Parse(s, NumberStyles.Any,
-				s.Contains(",") ? Thread.CurrentThread.CurrentCulture : CultureInfo.InvariantCulture);
+			return float.Parse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture);
 		}
 
 		public static bool TryFloat(string s, out float x){
-			return s.Contains(",")
-				? float.TryParse(s, NumberStyles.Any, Thread.CurrentThread.CurrentCulture, out x)
-				: float.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out x);
+			return float.TryParse(StringUtils.RemoveCultureSpecificSeparators(s), NumberStyles.Any, CultureInfo.InvariantCulture, out x);
 		}
 
 		public static int Int(string s){
